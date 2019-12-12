@@ -19,7 +19,7 @@
 		<java.version>1.8</java.version>
 
 		<commons.io.version>2.6</commons.io.version>
-        <commons-compress.version>1.19</commons-compress.version>
+        	<commons-compress.version>1.19</commons-compress.version>
 
 		<maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
 		<maven-source-plugin.version>2.2.1</maven-source-plugin.version>
@@ -39,9 +39,9 @@
 	</licenses>
 
 	<scm>
-		<connection>scm:git:git@github.com:selcukes/selcukes.git</connection>
-		<developerConnection>scm:git:git@github.com:selcukes/selcukes.git</developerConnection>
-		<url>scm:git:git@github.com:selcukes/selcukes.git</url>
+		<connection>scm:git:git@github.com:selcukes/driver-pool.git</connection>
+		<developerConnection>scm:git:git@github.com:selcukes/driver-pool.git</developerConnection>
+		<url>scm:git:git@github.com:selcukes/driver-pool.git</url>
 	</scm>
 
 	<developers>
@@ -56,7 +56,7 @@
 	</developers>
 
 	<issueManagement>
-		<url>https://github.com/selcukes/selcukes/issues</url>
+		<url>https://github.com/selcukes/driver-pool/issues</url>
 		<system>GitHub Issues</system>
 	</issueManagement>
 
