@@ -1,4 +1,6 @@
 # Driver Pool
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.selcukes/driver-pool.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.selcukes%22%20AND%20a:%22driver-pool%22)
+[![Build Status](https://travis-ci.org/selcukes/driver-pool.svg?branch=master)](https://travis-ci.org/selcukes/driver-pool)
 
 Driver Pool automatically downloads and configures the binary drivers (e.g. chromedriver, geckodriver, etc.) required by Selenium WebDriver.
 
