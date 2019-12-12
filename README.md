@@ -1,4 +1,4 @@
-# DriverPool
+# Driver Pool
 Driver Pool automatically downloads and configures the binary drivers (e.g. chromedriver, geckodriver, etc.) required by Selenium WebDriver.
 
 To use add the `driver-pool` dependency to your pom.xml:
@@ -23,13 +23,21 @@ DriverPool.chromedriver().setup();
 DriverPool.firefoxDriver().setup();
 DriverPool.iedriver().setup();
 ```
-DriverPool allows you to download binary files with specify details as follows
-<ul>
-<li>custom download location - targetPath("downloadLocation")</li>
-<li>Specific architecture - arch64()/arch32()</li>
-<li>Specific release - version("v0.26.0")</li>
-</ul>
+Download binaries for specific architecture
 
 ```java
-DriverPool.firefoxDriver().arch64().targetPath("temp").version("v0.26.0").setup();
+DriverPool.chromedriver().arch64().setup();
+DriverPool.firefoxDriver().arch32().setup();
+```
+
+Download binaries by specifying custom download location
+
+```java
+DriverPool.chromedriver().targetPath("temp").setup();
+DriverPool.firefoxDriver().targetPath("downloadLocation").setup();
+```
+
+Download binaries for a specific release version
+```java
+DriverPool.firefoxDriver().version("v0.26.0").setup();
 ```
