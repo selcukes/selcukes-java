@@ -23,11 +23,11 @@ DriverPool.chromedriver().setup();
 DriverPool.firefoxDriver().setup();
 DriverPool.iedriver().setup();
 ```
+DriverPool allows you to download binary files with specify details as follows
 <ul>
-  DriverPool allow to download binary with specify details as follows
 <li>custom download location - targetPath("downloadLocation")</li>
-<li>specific architecture - arch64()/arch32()</li>
-<li>Version Number- version("v0.26.0")</li>
+<li>Specific architecture - arch64()/arch32()</li>
+<li>Specific release - version("v0.26.0")</li>
 </ul>
 
 ```java
