@@ -1,12 +1,6 @@
 language: java
 sudo: false
 
-addons:
-  sonarcloud:
-    organization: "selcukes"
-    token:
-      secure: "0d8b8dded5d5f28f9a714435e888724105084230"
-
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
