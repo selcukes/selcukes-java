@@ -2,7 +2,6 @@ package io.github.selcukes.dp.core.factory;
 
 import io.github.selcukes.dp.core.Environment;
 import io.github.selcukes.dp.enums.DownloaderType;
-import io.github.selcukes.dp.enums.TargetArch;
 
 import java.io.File;
 import java.net.URL;

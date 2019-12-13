@@ -62,7 +62,7 @@ public class GeckoBinary implements BinaryFactory {
 
     @Override
     public Environment getBinaryEnvironment() {
-        return targetArch.isPresent() ? Environment.create(targetArch.get().getValue()) : Environment.create();
+        return targetArch.map(arch -> Environment.create(arch.getValue())).orElseGet(Environment::create);
     }
 
     @Override

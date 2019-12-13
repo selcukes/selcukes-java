@@ -50,11 +50,9 @@ public class ChromeBinary implements BinaryFactory {
         final Environment environment = Environment.create();
 
 
-        return targetArch.isPresent()
-                ? Environment.create(targetArch.get().getValue())
-                : environment.getOSType().equals(OSType.WIN)
+        return targetArch.map(arch -> Environment.create(arch.getValue())).orElseGet(() -> environment.getOSType().equals(OSType.WIN)
                 ? Environment.create(TargetArch.X32.getValue())
-                : environment;
+                : environment);
     }
 
     @Override
