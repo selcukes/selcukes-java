@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import static java.lang.System.setProperty;
 
 public class DriverPoolUtil {
     private final Logger logger = Logger.getLogger(DriverPoolUtil.class.getName());
@@ -103,19 +102,8 @@ public class DriverPoolUtil {
     }
 
     private void configureBinary(DriverType driverType) {
-        switch (driverType) {
-            case CHROME: {
-                setProperty("webdriver.chrome.driver", getWebDriverBinary().getAbsolutePath());
-                break;
-            }
-            case FIREFOX: {
-                setProperty("webdriver.gecko.driver", getWebDriverBinary().getAbsolutePath());
-                break;
-            }
-            case IEXPLORER: {
-                setProperty("webdriver.ie.driver", getWebDriverBinary().getAbsolutePath());
-                break;
-            }
-        }
+
+        System.setProperty("webdriver." + driverType.getName() + ".driver", getWebDriverBinary().getAbsolutePath());
+        logger.info("Property set " + System.getProperty("webdriver." + driverType.getName() + ".driver"));
     }
 }
