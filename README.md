@@ -1,6 +1,7 @@
 # Driver Pool
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.selcukes/driver-pool.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.selcukes%22%20AND%20a:%22driver-pool%22)
 [![Build Status](https://travis-ci.org/selcukes/driver-pool.svg?branch=master)](https://travis-ci.org/selcukes/driver-pool)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/79fbd725ee664ff985fb66d4ae2a7527)](https://www.codacy.com/manual/selcukes/driver-pool?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=selcukes/driver-pool&amp;utm_campaign=Badge_Grade)
 [![badge-jdk](https://img.shields.io/badge/jdk-8-green.svg)](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 [![License badge](https://img.shields.io/badge/license-Apache2-green.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
