@@ -19,7 +19,7 @@
 		<java.version>1.8</java.version>
 
 		<commons.io.version>2.6</commons.io.version>
-        	<commons-compress.version>1.19</commons-compress.version>
+		<commons-compress.version>1.19</commons-compress.version>
 
 		<maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
 		<maven-source-plugin.version>2.2.1</maven-source-plugin.version>
@@ -73,16 +73,16 @@
 
 	<dependencies>
 		<!-- Libraries for testing -->
-		 <dependency>
-		            <groupId>commons-io</groupId>
-		            <artifactId>commons-io</artifactId>
-		            <version>${commons.io.version}</version>
-		        </dependency>
-		        <dependency>
-		            <groupId>org.apache.commons</groupId>
-		            <artifactId>commons-compress</artifactId>
-		            <version>${commons-compress.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons.io.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-compress</artifactId>
+			<version>${commons-compress.version}</version>
+		</dependency>
 
 
 	</dependencies>

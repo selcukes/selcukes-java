@@ -19,57 +19,32 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.function.Function;
 
-/**
- * The type Explorer binary properties.
- */
-public class IExplorerBinaryProperties implements BinaryProperties {
+public class IExplorerBinary implements BinaryFactory {
     private final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/IEDriverServer_%s_%s.0.zip";
-    private String release;
+    private Optional<String> release;
     private TargetArch targetArch;
     private Function<Environment, String> osArc = (osEnvironment) -> osEnvironment.getArchitecture() == 32 ? "Win32" : "x64";
 
-    private IExplorerBinaryProperties() {
-        release = getLatestRelease();
+    public IExplorerBinary(Optional<String>  release) {
 
-        if (release.length() == 0) {
-            throw new DriverPoolException("Unable to read the latest IEDriver release from: " + URLLookup.IEDRIVER_LATEST_RELEASE_URL);
-        }
-    }
-
-    private IExplorerBinaryProperties(String release) {
         this.release = release;
+        if(!this.release.isPresent())
+            this.release=Optional.of(getLatestRelease());
     }
 
-    /**
-     * For latest release explorer binary properties.
-     *
-     * @return the explorer binary properties
-     */
-    public static IExplorerBinaryProperties forLatestRelease() {
-        return new IExplorerBinaryProperties();
-    }
-
-    /**
-     * For previous release explorer binary properties.
-     *
-     * @param release the release
-     * @return the explorer binary properties
-     */
-    public static IExplorerBinaryProperties forPreviousRelease(String release) {
-        return new IExplorerBinaryProperties(release);
-    }
 
     @Override
-    public URL getDownloadURL() {
+    public Optional<URL> getDownloadURL() {
         try {
-            return new URL(String.format(
+            return Optional.of(new URL(String.format(
                     BINARY_DOWNLOAD_URL_PATTERN,
                     URLLookup.IEDRIVER_URL,
-                    release,
+                    release.get(),
                     osArc.apply(getBinaryEnvironment()),
-                    release));
+                    release.get())));
 
         } catch (MalformedURLException e) {
             throw new DriverPoolException(e);
@@ -83,7 +58,7 @@ public class IExplorerBinaryProperties implements BinaryProperties {
 
     @Override
     public File getCompressedBinaryFile() {
-        return new File(String.format("%s/iedriver_%s.zip", TempFileUtil.getTempDirectory(), release));
+        return new File(String.format("%s/iedriver_%s.zip", TempFileUtil.getTempDirectory(), release.get()));
     }
 
     @Override
@@ -92,12 +67,13 @@ public class IExplorerBinaryProperties implements BinaryProperties {
     }
 
     @Override
-    public String getBinaryFilename() {
+    public String getBinaryFileName() {
         return "IEDriverServer.exe";
     }
 
     public String getBinaryDirectory() {
-        return release != null ? "iedriver_" + release : "iedriver";
+
+        return "iedriver_" + release.orElse("");
     }
 
     @Override
@@ -107,7 +83,7 @@ public class IExplorerBinaryProperties implements BinaryProperties {
 
     @Override
     public String getBinaryVersion() {
-        return release;
+        return release.get();
     }
 
     @Override

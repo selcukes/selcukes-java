@@ -1,10 +1,10 @@
 package io.github.selcukes.dp.util;
 
 import io.github.selcukes.dp.core.BinaryInfo;
-import io.github.selcukes.dp.core.factory.BinaryProperties;
-import io.github.selcukes.dp.core.factory.ChromeBinaryProperties;
-import io.github.selcukes.dp.core.factory.GeckoBinaryProperties;
-import io.github.selcukes.dp.core.factory.IExplorerBinaryProperties;
+import io.github.selcukes.dp.core.factory.BinaryFactory;
+import io.github.selcukes.dp.core.factory.ChromeBinary;
+import io.github.selcukes.dp.core.factory.GeckoBinary;
+import io.github.selcukes.dp.core.factory.IExplorerBinary;
 import io.github.selcukes.dp.enums.DriverType;
 import io.github.selcukes.dp.enums.TargetArch;
 import io.github.selcukes.dp.exception.DriverPoolException;
@@ -16,9 +16,6 @@ import java.util.logging.Logger;
 
 import static java.lang.System.setProperty;
 
-/**
- * The type Driver pool util.
- */
 public class DriverPoolUtil {
     private final Logger logger = Logger.getLogger(DriverPoolUtil.class.getName());
 
@@ -26,16 +23,8 @@ public class DriverPoolUtil {
     private Optional<String> release;
     private Optional<TargetArch> targetArch;
     private File binaryDownloadDirectory;
-    private BinaryProperties binaryProperties;
+    private BinaryFactory binaryFactory;
 
-    /**
-     * Instantiates a new Driver pool util.
-     *
-     * @param driverType       the driver type
-     * @param release          the release
-     * @param targetArch       the target arch
-     * @param downloadLocation the download location
-     */
     public DriverPoolUtil(DriverType driverType, String release, TargetArch targetArch, String downloadLocation) {
         this.driverType = driverType;
         this.release = Optional.ofNullable(release);
@@ -54,60 +43,58 @@ public class DriverPoolUtil {
         return binaryDownloadDirectory;
     }
 
-    /**
-     * Download and setup binary path.
-     */
     public void downloadAndSetupBinaryPath() {
         switch (driverType) {
             case CHROME:
 
-                this.binaryProperties = this.release.map(ChromeBinaryProperties::forPreviousRelease).orElseGet(ChromeBinaryProperties::forLatestRelease);
+                this.binaryFactory = new ChromeBinary(release);
                 break;
 
             case FIREFOX:
-                this.binaryProperties = this.release.map(GeckoBinaryProperties::forPreviousRelease).orElseGet(GeckoBinaryProperties::forLatestRelease);
+                this.binaryFactory = new GeckoBinary(release);
                 break;
 
             case IEXPLORER:
-                this.binaryProperties = this.release.map(IExplorerBinaryProperties::forPreviousRelease).orElseGet(IExplorerBinaryProperties::forLatestRelease);
+                this.binaryFactory = new IExplorerBinary(release);
                 break;
             default:
                 throw new DriverPoolException(String.format("Currently %s not supported", driverType.toString()));
         }
-        targetArch.ifPresent(arch -> this.binaryProperties.setBinaryArchitecture(arch));
+        targetArch.ifPresent(arch -> this.binaryFactory.setBinaryArchitecture(arch));
         downloadBinaryAndConfigure();
     }
 
     private File getWebDriverBinary() {
         return new File(binaryDownloadDirectory.getAbsolutePath() +
                 File.separator +
-                binaryProperties.getBinaryDirectory() +
+                binaryFactory.getBinaryDirectory() +
                 File.separator +
-                binaryProperties.getBinaryFilename());
+                binaryFactory.getBinaryFileName());
     }
 
     private BinaryInfo downloadBinaryAndConfigure() {
         if (getWebDriverBinary().exists()) {
             logger.info("Re-using an existing driver binary found at: " + getWebDriverBinary().getParent());
         } else {
-            BinaryDownloadUtil.downloadBinary(binaryProperties.getDownloadURL(), binaryProperties.getCompressedBinaryFile());
 
-            logger.info(() -> String.format("%s successfully downloaded to: %s", binaryProperties.getBinaryDriverName(), getWebDriverBinary().getParent()));
+            BinaryDownloadUtil.downloadBinary(binaryFactory.getDownloadURL().get(), binaryFactory.getCompressedBinaryFile());
+
+            logger.info(() -> String.format("%s successfully downloaded to: %s", binaryFactory.getBinaryDriverName(), getWebDriverBinary().getParent()));
 
             decompressBinary();
         }
         configureBinary(driverType);
 
-        return new BinaryInfo(binaryProperties.getBinaryDriverName(), binaryProperties.getBinaryVersion(), getWebDriverBinary().getAbsolutePath());
+        return new BinaryInfo(binaryFactory.getBinaryDriverName(), binaryFactory.getBinaryVersion(), getWebDriverBinary().getAbsolutePath());
     }
 
     private File decompressBinary() {
         final File decompressedBinary = FileExtractUtil.extractFile(
-                binaryProperties.getCompressedBinaryFile(),
-                new File(binaryDownloadDirectory + File.separator + binaryProperties.getBinaryDirectory()),
-                binaryProperties.getCompressedBinaryType());
+                binaryFactory.getCompressedBinaryFile(),
+                new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()),
+                binaryFactory.getCompressedBinaryType());
 
-        switch (binaryProperties.getBinaryEnvironment().getOsType()) {
+        switch (binaryFactory.getBinaryEnvironment().getOSType()) {
             case MAC:
             case LINUX:
                 FileHelper.setFileExecutable(decompressedBinary.getAbsolutePath());

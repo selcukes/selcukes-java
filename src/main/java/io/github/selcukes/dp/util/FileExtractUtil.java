@@ -13,22 +13,11 @@ import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-/**
- * The type File extract util.
- */
 public final class FileExtractUtil {
 
     private static final Logger logger=Logger.getLogger(FileExtractUtil.class.getName());
     private static final int BUF_SIZE = 4096;
 
-    /**
-     * Extract file file.
-     *
-     * @param source               the source
-     * @param destination          the destination
-     * @param compressedBinaryType the compressed binary type
-     * @return the file
-     */
     public static File extractFile(File source, File destination, DownloaderType compressedBinaryType) {
         createDestinationDirectory(destination);
 

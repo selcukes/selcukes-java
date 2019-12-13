@@ -8,9 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.function.Function;
 
-/**
- * The type Http utils.
- */
 public final class HttpUtils {
 
     private static Function<String, HttpURLConnection> connection = (endpoint) -> {
@@ -31,22 +28,10 @@ public final class HttpUtils {
         }
     };
 
-    /**
-     * Gets location.
-     *
-     * @param endpoint the endpoint
-     * @return the location
-     */
     public static String getLocation(String endpoint) {
         return extract(connection.apply(endpoint), t -> t.getHeaderField("Location"));
     }
 
-    /**
-     * Gets response input stream.
-     *
-     * @param endpoint the endpoint
-     * @return the response input stream
-     */
     public static InputStream getResponseInputStream(String endpoint) {
         return extract(connection.apply(endpoint), t -> {
             try {

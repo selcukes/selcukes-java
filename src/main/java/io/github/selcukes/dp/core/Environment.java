@@ -1,11 +1,8 @@
 package io.github.selcukes.dp.core;
 
-import io.github.selcukes.dp.enums.OsType;
-import io.github.selcukes.dp.util.OsUtil;
+import io.github.selcukes.dp.enums.OSType;
+import io.github.selcukes.dp.util.OSUtil;
 
-/**
- * The type Environment.
- */
 public class Environment {
     private int archType;
 
@@ -16,49 +13,23 @@ public class Environment {
         this.archType = archType;
     }
 
-    /**
-     * Create environment.
-     *
-     * @return the environment
-     */
     public static Environment create() {
         return new Environment();
     }
 
-    /**
-     * Create environment.
-     *
-     * @param archType the arch type
-     * @return the environment
-     */
     public static Environment create(int archType) {
         return new Environment(archType);
     }
 
-    /**
-     * Gets os type.
-     *
-     * @return the os type
-     */
-    public OsType getOsType() {
-        return OsUtil.getOsType();
+    public OSType getOSType() {
+        return OSUtil.getOSType();
     }
 
-    /**
-     * Gets architecture.
-     *
-     * @return the architecture
-     */
     public int getArchitecture() {
-        return archType != 0 ? archType : OsUtil.getOsArch();
+        return archType != 0 ? archType : OSUtil.getOsArch();
     }
 
-    /**
-     * Gets os name and arch.
-     *
-     * @return the os name and arch
-     */
     public String getOsNameAndArch() {
-        return (getOsType().name() + getArchitecture()).toLowerCase();
+        return (getOSType().name() + getArchitecture()).toLowerCase();
     }
 }
