@@ -24,6 +24,5 @@ public interface BinaryFactory {
     String getBinaryDriverName();
 
     String getBinaryVersion();
-
-    void setBinaryArchitecture(TargetArch targetArch);
+  
 }

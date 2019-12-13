@@ -19,7 +19,7 @@ public class GeckoBinary implements BinaryFactory {
     private final String BINARY_DOWNLOAD_URL_TAR_PATTERN = "%s/%s/geckodriver-%s-%s.tar.gz";
     private final String BINARY_DOWNLOAD_URL_ZIP_PATTERN = "%s/%s/geckodriver-%s-%s.zip";
     private Optional<String> release;
-    private TargetArch targetArch;
+    private Optional<TargetArch> targetArch;
     private Function<Environment, String> binaryDownloadPattern = (osEnvironment) -> {
         if (osEnvironment.getOSType().equals(OSType.WIN)) {
             return BINARY_DOWNLOAD_URL_ZIP_PATTERN;
@@ -37,10 +37,11 @@ public class GeckoBinary implements BinaryFactory {
     private Function<Environment, String> compressedBinaryExt = (osEnvironment) -> osEnvironment.getOSType().equals(OSType.WIN) ? "zip" : "tar.gz";
 
 
-    public GeckoBinary( Optional<String> release) {
+    public GeckoBinary(Optional<String> release, Optional<TargetArch> targetArch) {
         this.release = release;
         if(!this.release.isPresent())
             this.release=Optional.of(getLatestRelease());
+        this.targetArch=targetArch;
     }
 
 
@@ -61,7 +62,7 @@ public class GeckoBinary implements BinaryFactory {
 
     @Override
     public Environment getBinaryEnvironment() {
-        return targetArch != null ? Environment.create(targetArch.getValue()) : Environment.create();
+        return targetArch.isPresent() ? Environment.create(targetArch.get().getValue()) : Environment.create();
     }
 
     @Override
@@ -96,10 +97,6 @@ public class GeckoBinary implements BinaryFactory {
         return release.get();
     }
 
-    @Override
-    public void setBinaryArchitecture(TargetArch targetArch) {
-        this.targetArch = targetArch;
-    }
 
     private String getLatestRelease() {
         final String releaseLocation = HttpUtils.getLocation(URLLookup.GECKODRIVER_LATEST_RELEASE_URL);

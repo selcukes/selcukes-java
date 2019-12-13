@@ -25,14 +25,15 @@ import java.util.function.Function;
 public class IExplorerBinary implements BinaryFactory {
     private final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/IEDriverServer_%s_%s.0.zip";
     private Optional<String> release;
-    private TargetArch targetArch;
+    private Optional<TargetArch> targetArch;
     private Function<Environment, String> osArc = (osEnvironment) -> osEnvironment.getArchitecture() == 32 ? "Win32" : "x64";
 
-    public IExplorerBinary(Optional<String>  release) {
+    public IExplorerBinary(Optional<String> release, Optional<TargetArch> targetArch) {
 
         this.release = release;
-        if(!this.release.isPresent())
-            this.release=Optional.of(getLatestRelease());
+        if (!this.release.isPresent())
+            this.release = Optional.of(getLatestRelease());
+        this.targetArch = targetArch;
     }
 
 
@@ -53,7 +54,7 @@ public class IExplorerBinary implements BinaryFactory {
 
     @Override
     public Environment getBinaryEnvironment() {
-        return targetArch != null ? Environment.create(targetArch.getValue()) : Environment.create();
+        return targetArch.isPresent() ? Environment.create(targetArch.get().getValue()) : Environment.create();
     }
 
     @Override
@@ -86,10 +87,6 @@ public class IExplorerBinary implements BinaryFactory {
         return release.get();
     }
 
-    @Override
-    public void setBinaryArchitecture(TargetArch targetArch) {
-        this.targetArch = targetArch;
-    }
 
     private String getLatestRelease() {
         final InputStream downloadStream = HttpUtils.getResponseInputStream(URLLookup.IEDRIVER_LATEST_RELEASE_URL);

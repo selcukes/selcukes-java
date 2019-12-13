@@ -19,15 +19,15 @@ public class ChromeBinary implements BinaryFactory {
     private Logger logger=Logger.getLogger(ChromeBinary.class.getName());
     private final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/chromedriver_%s.zip";
     private Optional<String> release;
-    private TargetArch targetArch;
+    private Optional<TargetArch> targetArch;
 
 
-    public ChromeBinary(Optional<String> release) {
+    public ChromeBinary(Optional<String> release, Optional<TargetArch> targetArch) {
 
         this.release = release;
         if(!this.release.isPresent())
             this.release=Optional.of(getLatestRelease());
-
+            this.targetArch=targetArch;
     }
 
 
@@ -49,8 +49,9 @@ public class ChromeBinary implements BinaryFactory {
     public Environment getBinaryEnvironment() {
         final Environment environment = Environment.create();
 
-        return targetArch != null
-                ? Environment.create(targetArch.getValue())
+
+        return targetArch.isPresent()
+                ? Environment.create(targetArch.get().getValue())
                 : environment.getOSType().equals(OSType.WIN)
                 ? Environment.create(TargetArch.X32.getValue())
                 : environment;
@@ -86,10 +87,6 @@ public class ChromeBinary implements BinaryFactory {
         return release.get();
     }
 
-    @Override
-    public void setBinaryArchitecture(TargetArch targetArch) {
-        this.targetArch = targetArch;
-    }
 
     private String getLatestRelease() {
         try {

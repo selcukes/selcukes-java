@@ -46,20 +46,20 @@ public class DriverPoolUtil {
         switch (driverType) {
             case CHROME:
 
-                this.binaryFactory = new ChromeBinary(release);
+                this.binaryFactory = new ChromeBinary(release, targetArch);
                 break;
 
             case FIREFOX:
-                this.binaryFactory = new GeckoBinary(release);
+                this.binaryFactory = new GeckoBinary(release, targetArch);
                 break;
 
             case IEXPLORER:
-                this.binaryFactory = new IExplorerBinary(release);
+                this.binaryFactory = new IExplorerBinary(release, targetArch);
                 break;
             default:
                 throw new DriverPoolException(String.format("Currently %s not supported", driverType.toString()));
         }
-        targetArch.ifPresent(arch -> this.binaryFactory.setBinaryArchitecture(arch));
+
         downloadBinaryAndConfigure();
     }
 
@@ -102,8 +102,8 @@ public class DriverPoolUtil {
     }
 
     private void configureBinary(DriverType driverType) {
-
-        System.setProperty("webdriver." + driverType.getName() + ".driver", getWebDriverBinary().getAbsolutePath());
-        logger.info("Property set " + System.getProperty("webdriver." + driverType.getName() + ".driver"));
+        String propertyName = "webdriver." + driverType.getName() + ".driver";
+        System.setProperty(propertyName, getWebDriverBinary().getAbsolutePath());
+        logger.info("Property set " + System.getProperty(propertyName));
     }
 }
