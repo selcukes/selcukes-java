@@ -11,29 +11,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 
-/**
- * The type Binary download util.
- */
 public final class BinaryDownloadUtil {
 
     private static final Logger logger = Logger.getLogger(BinaryDownloadUtil.class.getName());
 
-    /**
-     * Download binary.
-     *
-     * @param downloadURL the download url
-     * @param downloadTo  the download to
-     */
     public static void downloadBinary(URL downloadURL, File downloadTo) {
         download(downloadURL, downloadTo, false);
     }
 
-    /**
-     * Download and read file string.
-     *
-     * @param downloadURL the download url
-     * @return the string
-     */
     public static String downloadAndReadFile(URL downloadURL) {
         File destinationFile = TempFileUtil.createTempFileAndDeleteOnExit();
 

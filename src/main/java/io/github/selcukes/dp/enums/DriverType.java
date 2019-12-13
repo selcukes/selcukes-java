@@ -1,19 +1,17 @@
 package io.github.selcukes.dp.enums;
 
-/**
- * The enum Driver type.
- */
 public enum DriverType {
-    /**
-     * Chrome driver type.
-     */
-    CHROME,
-    /**
-     * Firefox driver type.
-     */
-    FIREFOX,
-    /**
-     * Iexplorer driver type.
-     */
-    IEXPLORER
+    CHROME("chrome"),
+    FIREFOX("gecko"),
+    IEXPLORER("ie");
+    String name;
+
+    DriverType(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
 }

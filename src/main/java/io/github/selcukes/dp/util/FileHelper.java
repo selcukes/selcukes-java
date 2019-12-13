@@ -10,15 +10,7 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.Set;
 
-/**
- * The type File helper.
- */
 public class FileHelper {
-    /**
-     * Sets file executable.
-     *
-     * @param fileName the file name
-     */
     public static void setFileExecutable(String fileName) {
         try {
             final Path filepath = Paths.get(fileName);
@@ -30,24 +22,12 @@ public class FileHelper {
         }
     }
 
-    /**
-     * Gets driver binary file name.
-     *
-     * @param browserName the browser name
-     * @return the driver binary file name
-     */
     public static String getDriverBinaryFileName(String browserName) {
         String arch = System.getProperty("os.arch").contains("64") ? "64" : "32";
         String os = System.getProperty("os.name").toLowerCase().contains("win") ? "win.exe" : "linux";
         return browserName + "driver-" + arch + "-" + os;
     }
 
-    /**
-     * Create directory.
-     *
-     * @param dirName the dir name
-     * @throws IOException the io exception
-     */
     public static void createDirectory(File dirName) throws IOException {
         if (!dirName.exists()) {
             dirName.mkdirs();
