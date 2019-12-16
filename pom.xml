@@ -6,7 +6,7 @@
 
 	<groupId>io.github.selcukes</groupId>
 	<artifactId>driver-pool</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 
 	<name>driver-pool</name>
 	<description>Automatically download and setup Selenium Webdriver binary files</description>

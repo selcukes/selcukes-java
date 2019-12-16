@@ -1,7 +1,7 @@
 package io.github.selcukes.dp.core.factory;
 
 import io.github.selcukes.dp.core.Environment;
-import io.github.selcukes.dp.core.URLLookup;
+import io.github.selcukes.dp.core.MirrorUrlHelper;
 import io.github.selcukes.dp.enums.DownloaderType;
 import io.github.selcukes.dp.enums.OSType;
 import io.github.selcukes.dp.enums.TargetArch;
@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 public class ChromeBinary implements BinaryFactory {
-    private Logger logger=Logger.getLogger(ChromeBinary.class.getName());
+    private Logger logger = Logger.getLogger(ChromeBinary.class.getName());
     private final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/chromedriver_%s.zip";
     private Optional<String> release;
     private Optional<TargetArch> targetArch;
@@ -25,9 +25,9 @@ public class ChromeBinary implements BinaryFactory {
     public ChromeBinary(Optional<String> release, Optional<TargetArch> targetArch) {
 
         this.release = release;
-        if(!this.release.isPresent())
-            this.release=Optional.of(getLatestRelease());
-            this.targetArch=targetArch;
+        if (!this.release.isPresent())
+            this.release = Optional.of(getLatestRelease());
+        this.targetArch = targetArch;
     }
 
 
@@ -36,7 +36,7 @@ public class ChromeBinary implements BinaryFactory {
         try {
             return Optional.of(new URL(String.format(
                     BINARY_DOWNLOAD_URL_PATTERN,
-                    URLLookup.CHROMEDRIVER_URL,
+                    MirrorUrlHelper.CHROMEDRIVER_URL,
                     release.get(),
                     getBinaryEnvironment().getOsNameAndArch())));
 
@@ -49,12 +49,9 @@ public class ChromeBinary implements BinaryFactory {
     public Environment getBinaryEnvironment() {
         final Environment environment = Environment.create();
 
-
-        return targetArch.isPresent()
-                ? Environment.create(targetArch.get().getValue())
-                : environment.getOSType().equals(OSType.WIN)
+        return targetArch.map(arch -> Environment.create(arch.getValue())).orElseGet(() -> environment.getOSType().equals(OSType.WIN)
                 ? Environment.create(TargetArch.X32.getValue())
-                : environment;
+                : environment);
     }
 
     @Override
@@ -74,7 +71,7 @@ public class ChromeBinary implements BinaryFactory {
 
     public String getBinaryDirectory() {
 
-        return "chromedriver_"+release.orElse("");
+        return "chromedriver_" + release.orElse("");
     }
 
     @Override
@@ -90,7 +87,7 @@ public class ChromeBinary implements BinaryFactory {
 
     private String getLatestRelease() {
         try {
-            return BinaryDownloadUtil.downloadAndReadFile(new URL(URLLookup.CHROMEDRIVER_LATEST_RELEASE_URL));
+            return BinaryDownloadUtil.downloadAndReadFile(new URL(MirrorUrlHelper.CHROMEDRIVER_LATEST_RELEASE_URL));
         } catch (MalformedURLException e) {
             throw new DriverPoolException(e);
         }

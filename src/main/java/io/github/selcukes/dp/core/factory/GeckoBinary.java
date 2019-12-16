@@ -1,7 +1,7 @@
 package io.github.selcukes.dp.core.factory;
 
 import io.github.selcukes.dp.core.Environment;
-import io.github.selcukes.dp.core.URLLookup;
+import io.github.selcukes.dp.core.MirrorUrlHelper;
 import io.github.selcukes.dp.enums.DownloaderType;
 import io.github.selcukes.dp.enums.OSType;
 import io.github.selcukes.dp.enums.TargetArch;
@@ -50,7 +50,7 @@ public class GeckoBinary implements BinaryFactory {
         try {
             return Optional.of(new URL(String.format(
                     binaryDownloadPattern.apply(getBinaryEnvironment()),
-                    URLLookup.GECKODRIVER_URL,
+                    MirrorUrlHelper.GECKODRIVER_URL,
                     release.get(),
                     release.get(),
                     osNameAndArc.apply(getBinaryEnvironment()))));
@@ -62,7 +62,7 @@ public class GeckoBinary implements BinaryFactory {
 
     @Override
     public Environment getBinaryEnvironment() {
-        return targetArch.isPresent() ? Environment.create(targetArch.get().getValue()) : Environment.create();
+        return targetArch.map(arch -> Environment.create(arch.getValue())).orElseGet(Environment::create);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class GeckoBinary implements BinaryFactory {
 
 
     private String getLatestRelease() {
-        final String releaseLocation = HttpUtils.getLocation(URLLookup.GECKODRIVER_LATEST_RELEASE_URL);
+        final String releaseLocation = HttpUtils.getLocation(MirrorUrlHelper.GECKODRIVER_LATEST_RELEASE_URL);
 
         if (releaseLocation == null || releaseLocation.length() < 2 || !releaseLocation.contains("/")) {
             return "";
