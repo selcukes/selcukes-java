@@ -1,7 +1,7 @@
 package io.github.selcukes.dp.core.factory;
 
 import io.github.selcukes.dp.core.Environment;
-import io.github.selcukes.dp.core.MirrorUrlHelper;
+import io.github.selcukes.dp.core.MirrorUrls;
 import io.github.selcukes.dp.enums.DownloaderType;
 import io.github.selcukes.dp.enums.OSType;
 import io.github.selcukes.dp.enums.TargetArch;
@@ -13,20 +13,18 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
-import java.util.logging.Logger;
+
+import static io.github.selcukes.dp.util.OptionalUtil.*;
 
 public class ChromeBinary implements BinaryFactory {
-    private Logger logger = Logger.getLogger(ChromeBinary.class.getName());
-    private final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/chromedriver_%s.zip";
+    private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/chromedriver_%s.zip";
     private Optional<String> release;
     private Optional<TargetArch> targetArch;
 
 
     public ChromeBinary(Optional<String> release, Optional<TargetArch> targetArch) {
 
-        this.release = release;
-        if (!this.release.isPresent())
-            this.release = Optional.of(getLatestRelease());
+        this.release = OrElse(release,getLatestRelease());
         this.targetArch = targetArch;
     }
 
@@ -36,8 +34,8 @@ public class ChromeBinary implements BinaryFactory {
         try {
             return Optional.of(new URL(String.format(
                     BINARY_DOWNLOAD_URL_PATTERN,
-                    MirrorUrlHelper.CHROMEDRIVER_URL,
-                    release.get(),
+                    MirrorUrls.CHROMEDRIVER_URL,
+                    getBinaryVersion(),
                     getBinaryEnvironment().getOsNameAndArch())));
 
         } catch (MalformedURLException e) {
@@ -56,7 +54,7 @@ public class ChromeBinary implements BinaryFactory {
 
     @Override
     public File getCompressedBinaryFile() {
-        return new File(String.format("%s/chromedriver_%s.zip", TempFileUtil.getTempDirectory(), release.get()));
+        return new File(String.format("%s/chromedriver_%s.zip", TempFileUtil.getTempDirectory(), unwrap(release)));
     }
 
     @Override
@@ -81,13 +79,13 @@ public class ChromeBinary implements BinaryFactory {
 
     @Override
     public String getBinaryVersion() {
-        return release.get();
+        return unwrap(release);
     }
 
 
     private String getLatestRelease() {
         try {
-            return BinaryDownloadUtil.downloadAndReadFile(new URL(MirrorUrlHelper.CHROMEDRIVER_LATEST_RELEASE_URL));
+            return BinaryDownloadUtil.downloadAndReadFile(new URL(MirrorUrls.CHROMEDRIVER_LATEST_RELEASE_URL));
         } catch (MalformedURLException e) {
             throw new DriverPoolException(e);
         }

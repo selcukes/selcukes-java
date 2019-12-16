@@ -5,6 +5,10 @@ import java.util.UUID;
 
 public final class TempFileUtil {
 
+    private TempFileUtil() {
+
+    }
+
     public static File createTempFile() {
         return new File(getTempDirectory() + UUID.randomUUID().toString());
     }

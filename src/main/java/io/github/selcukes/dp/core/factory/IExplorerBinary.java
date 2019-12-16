@@ -1,7 +1,7 @@
 package io.github.selcukes.dp.core.factory;
 
 import io.github.selcukes.dp.core.Environment;
-import io.github.selcukes.dp.core.MirrorUrlHelper;
+import io.github.selcukes.dp.core.MirrorUrls;
 import io.github.selcukes.dp.enums.DownloaderType;
 import io.github.selcukes.dp.enums.TargetArch;
 import io.github.selcukes.dp.exception.DriverPoolException;
@@ -22,17 +22,17 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.function.Function;
 
+import static io.github.selcukes.dp.util.OptionalUtil.OrElse;
+import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
+
 public class IExplorerBinary implements BinaryFactory {
-    private final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/IEDriverServer_%s_%s.0.zip";
+    private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/IEDriverServer_%s_%s.0.zip";
     private Optional<String> release;
     private Optional<TargetArch> targetArch;
-    private Function<Environment, String> osArc = (osEnvironment) -> osEnvironment.getArchitecture() == 32 ? "Win32" : "x64";
+    private Function<Environment, String> osArc = osEnvironment -> osEnvironment.getArchitecture() == 32 ? "Win32" : "x64";
 
     public IExplorerBinary(Optional<String> release, Optional<TargetArch> targetArch) {
-
-        this.release = release;
-        if (!this.release.isPresent())
-            this.release = Optional.of(getLatestRelease());
+        this.release = OrElse(release,getLatestRelease());
         this.targetArch = targetArch;
     }
 
@@ -42,10 +42,10 @@ public class IExplorerBinary implements BinaryFactory {
         try {
             return Optional.of(new URL(String.format(
                     BINARY_DOWNLOAD_URL_PATTERN,
-                    MirrorUrlHelper.IEDRIVER_URL,
-                    release.get(),
+                    MirrorUrls.IEDRIVER_URL,
+                    getBinaryVersion(),
                     osArc.apply(getBinaryEnvironment()),
-                    release.get())));
+                    getBinaryVersion())));
 
         } catch (MalformedURLException e) {
             throw new DriverPoolException(e);
@@ -59,7 +59,7 @@ public class IExplorerBinary implements BinaryFactory {
 
     @Override
     public File getCompressedBinaryFile() {
-        return new File(String.format("%s/iedriver_%s.zip", TempFileUtil.getTempDirectory(), release.get()));
+        return new File(String.format("%s/iedriver_%s.zip", TempFileUtil.getTempDirectory(), unwrap(release)));
     }
 
     @Override
@@ -84,12 +84,12 @@ public class IExplorerBinary implements BinaryFactory {
 
     @Override
     public String getBinaryVersion() {
-        return release.get();
+        return unwrap(release);
     }
 
 
     private String getLatestRelease() {
-        final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrlHelper.IEDRIVER_LATEST_RELEASE_URL);
+        final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.IEDRIVER_LATEST_RELEASE_URL);
 
         try {
             final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -105,8 +105,8 @@ public class IExplorerBinary implements BinaryFactory {
                 return "";
             }
 
-            final String release = element.getTextContent();
-            return release.substring(0, release.indexOf("/"));
+            final String textContent = element.getTextContent();
+            return textContent.substring(0, textContent.indexOf('/'));
 
         } catch (Exception e) {
             throw new DriverPoolException(e);

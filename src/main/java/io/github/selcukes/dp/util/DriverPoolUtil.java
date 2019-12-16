@@ -1,11 +1,11 @@
 package io.github.selcukes.dp.util;
 
-import io.github.selcukes.dp.core.BinaryInfo;
 import io.github.selcukes.dp.core.factory.BinaryFactory;
 import io.github.selcukes.dp.core.factory.ChromeBinary;
 import io.github.selcukes.dp.core.factory.GeckoBinary;
 import io.github.selcukes.dp.core.factory.IExplorerBinary;
 import io.github.selcukes.dp.enums.DriverType;
+import io.github.selcukes.dp.enums.OSType;
 import io.github.selcukes.dp.enums.TargetArch;
 import io.github.selcukes.dp.exception.DriverPoolException;
 
@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
 
 public class DriverPoolUtil {
     private final Logger logger = Logger.getLogger(DriverPoolUtil.class.getName());
@@ -23,6 +24,7 @@ public class DriverPoolUtil {
     private Optional<TargetArch> targetArch;
     private File binaryDownloadDirectory;
     private BinaryFactory binaryFactory;
+    private static String webdrivers = "webdrivers";
 
     public DriverPoolUtil(DriverType driverType, String release, TargetArch targetArch, String downloadLocation) {
         this.driverType = driverType;
@@ -32,7 +34,7 @@ public class DriverPoolUtil {
     }
 
     private File getBinaryDownloadDirectory(String downloadLocation) {
-        binaryDownloadDirectory = new File(downloadLocation + File.separator + "webdrivers" + File.separator);
+        binaryDownloadDirectory = new File(downloadLocation + File.separator + webdrivers + File.separator);
         try {
 
             FileHelper.createDirectory(binaryDownloadDirectory);
@@ -71,12 +73,12 @@ public class DriverPoolUtil {
                 binaryFactory.getBinaryFileName());
     }
 
-    private BinaryInfo downloadBinaryAndConfigure() {
+    private void downloadBinaryAndConfigure() {
         if (getWebDriverBinary().exists()) {
             logger.info("Re-using an existing driver binary found at: " + getWebDriverBinary().getParent());
         } else {
 
-            BinaryDownloadUtil.downloadBinary(binaryFactory.getDownloadURL().get(), binaryFactory.getCompressedBinaryFile());
+            BinaryDownloadUtil.downloadBinary(unwrap(binaryFactory.getDownloadURL()), binaryFactory.getCompressedBinaryFile());
 
             logger.info(() -> String.format("%s successfully downloaded to: %s", binaryFactory.getBinaryDriverName(), getWebDriverBinary().getParent()));
 
@@ -84,26 +86,27 @@ public class DriverPoolUtil {
         }
         configureBinary(driverType);
 
-        return new BinaryInfo(binaryFactory.getBinaryDriverName(), binaryFactory.getBinaryVersion(), getWebDriverBinary().getAbsolutePath());
+
     }
 
-    private File decompressBinary() {
+    private void decompressBinary() {
         final File decompressedBinary = FileExtractUtil.extractFile(
                 binaryFactory.getCompressedBinaryFile(),
                 new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()),
                 binaryFactory.getCompressedBinaryType());
-
-        switch (binaryFactory.getBinaryEnvironment().getOSType()) {
-            case MAC:
-            case LINUX:
-                FileHelper.setFileExecutable(decompressedBinary.getAbsolutePath());
-        }
-        return decompressedBinary;
+        if (binaryFactory.getBinaryEnvironment().getOSType().equals(OSType.LINUX))
+            FileHelper.setFileExecutable(decompressedBinary.getAbsolutePath());
     }
 
     private void configureBinary(DriverType driverType) {
-        String propertyName = "webdriver." + driverType.getName() + ".driver";
-        System.setProperty(propertyName, getWebDriverBinary().getAbsolutePath());
-        logger.info("Property set " + System.getProperty(propertyName));
+        StringBuilder binaryPropertyName = new StringBuilder();
+
+        binaryPropertyName.append(webdrivers)
+                .append(".")
+                .append(driverType.getName())
+                .append(".driver");
+
+        System.setProperty(binaryPropertyName.toString(), getWebDriverBinary().getAbsolutePath());
+        logger.info("Property set " + System.getProperty(binaryPropertyName.toString()));
     }
 }

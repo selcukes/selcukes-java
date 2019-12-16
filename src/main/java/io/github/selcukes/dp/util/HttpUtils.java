@@ -9,18 +9,21 @@ import java.net.URL;
 import java.util.function.Function;
 
 public final class HttpUtils {
+    private HttpUtils() {
 
-    private static Function<String, HttpURLConnection> connection = (endpoint) -> {
+    }
+
+    private static Function<String, HttpURLConnection> connection = endpoint -> {
         HttpURLConnection.setFollowRedirects(false);
 
-        final HttpURLConnection connection;
+        final HttpURLConnection httpURLConnection;
 
         try {
             URL url = new URL(endpoint);
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            return connection;
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setDoInput(true);
+            httpURLConnection.connect();
+            return httpURLConnection;
         } catch (Exception e) {
             throw new DriverPoolException(e);
         } finally {

@@ -1,7 +1,7 @@
 package io.github.selcukes.dp.core.factory;
 
 import io.github.selcukes.dp.core.Environment;
-import io.github.selcukes.dp.core.MirrorUrlHelper;
+import io.github.selcukes.dp.core.MirrorUrls;
 import io.github.selcukes.dp.enums.DownloaderType;
 import io.github.selcukes.dp.enums.OSType;
 import io.github.selcukes.dp.enums.TargetArch;
@@ -15,33 +15,34 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.function.Function;
 
+import static io.github.selcukes.dp.util.OptionalUtil.OrElse;
+import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
+
 public class GeckoBinary implements BinaryFactory {
-    private final String BINARY_DOWNLOAD_URL_TAR_PATTERN = "%s/%s/geckodriver-%s-%s.tar.gz";
-    private final String BINARY_DOWNLOAD_URL_ZIP_PATTERN = "%s/%s/geckodriver-%s-%s.zip";
+    private static final String BINARY_DOWNLOAD_URL_TAR_PATTERN = "%s/%s/geckodriver-%s-%s.tar.gz";
+    private static final String BINARY_DOWNLOAD_URL_ZIP_PATTERN = "%s/%s/geckodriver-%s-%s.zip";
     private Optional<String> release;
     private Optional<TargetArch> targetArch;
-    private Function<Environment, String> binaryDownloadPattern = (osEnvironment) -> {
+    private Function<Environment, String> binaryDownloadPattern = osEnvironment -> {
         if (osEnvironment.getOSType().equals(OSType.WIN)) {
             return BINARY_DOWNLOAD_URL_ZIP_PATTERN;
         } else {
             return BINARY_DOWNLOAD_URL_TAR_PATTERN;
         }
     };
-    private Function<Environment, String> osNameAndArc = (osEnvironment) -> {
+    private Function<Environment, String> osNameAndArc = osEnvironment -> {
         if (osEnvironment.getOSType().equals(OSType.MAC)) {
             return "macos";
         } else {
             return osEnvironment.getOsNameAndArch();
         }
     };
-    private Function<Environment, String> compressedBinaryExt = (osEnvironment) -> osEnvironment.getOSType().equals(OSType.WIN) ? "zip" : "tar.gz";
+    private Function<Environment, String> compressedBinaryExt = osEnvironment -> osEnvironment.getOSType().equals(OSType.WIN) ? "zip" : "tar.gz";
 
 
     public GeckoBinary(Optional<String> release, Optional<TargetArch> targetArch) {
-        this.release = release;
-        if(!this.release.isPresent())
-            this.release=Optional.of(getLatestRelease());
-        this.targetArch=targetArch;
+        this.release = OrElse(release,getLatestRelease());
+        this.targetArch = targetArch;
     }
 
 
@@ -50,9 +51,9 @@ public class GeckoBinary implements BinaryFactory {
         try {
             return Optional.of(new URL(String.format(
                     binaryDownloadPattern.apply(getBinaryEnvironment()),
-                    MirrorUrlHelper.GECKODRIVER_URL,
-                    release.get(),
-                    release.get(),
+                    MirrorUrls.GECKODRIVER_URL,
+                    unwrap(release),
+                    getBinaryVersion(),
                     osNameAndArc.apply(getBinaryEnvironment()))));
 
         } catch (MalformedURLException e) {
@@ -69,7 +70,7 @@ public class GeckoBinary implements BinaryFactory {
     public File getCompressedBinaryFile() {
         return new File(String.format("%s/geckodriver_%s.%s",
                 TempFileUtil.getTempDirectory(),
-                release.get(),
+                unwrap(release),
                 compressedBinaryExt.apply(getBinaryEnvironment())));
     }
 
@@ -94,16 +95,16 @@ public class GeckoBinary implements BinaryFactory {
 
     @Override
     public String getBinaryVersion() {
-        return release.get();
+        return unwrap(release);
     }
 
 
     private String getLatestRelease() {
-        final String releaseLocation = HttpUtils.getLocation(MirrorUrlHelper.GECKODRIVER_LATEST_RELEASE_URL);
+        final String releaseLocation = HttpUtils.getLocation(MirrorUrls.GECKODRIVER_LATEST_RELEASE_URL);
 
         if (releaseLocation == null || releaseLocation.length() < 2 || !releaseLocation.contains("/")) {
             return "";
         }
-        return releaseLocation.substring(releaseLocation.lastIndexOf("/") + 1);
+        return releaseLocation.substring(releaseLocation.lastIndexOf('/') + 1);
     }
 }
