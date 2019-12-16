@@ -1,7 +1,7 @@
 package io.github.selcukes.dp.core;
 
 import io.github.selcukes.dp.enums.OSType;
-import io.github.selcukes.dp.util.OSUtil;
+import io.github.selcukes.dp.util.Platform;
 
 public class Environment {
     private int archType;
@@ -22,11 +22,11 @@ public class Environment {
     }
 
     public OSType getOSType() {
-        return OSUtil.getOSType();
+        return Platform.getPlatformType();
     }
 
     public int getArchitecture() {
-        return archType != 0 ? archType : OSUtil.getOsArch();
+        return archType != 0 ? archType : Platform.getPlatformArch();
     }
 
     public String getOsNameAndArch() {

@@ -27,9 +27,8 @@ public class FileHelper {
     }
 
     public static String getDriverBinaryFileName(String browserName) {
-        String arch = System.getProperty("os.arch").contains("64") ? "64" : "32";
-        String os = System.getProperty("os.name").toLowerCase().contains("win") ? "win.exe" : "linux";
-        return browserName + "driver-" + arch + "-" + os;
+
+        return browserName + "driver-" + Platform.getPlatformArch() + "-" + Platform.getPlatformType();
     }
 
     public static void createDirectory(File dirName) throws IOException {

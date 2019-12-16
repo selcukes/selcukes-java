@@ -14,7 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
 
-import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
+import static io.github.selcukes.dp.util.OptionalUtil.*;
 
 public class ChromeBinary implements BinaryFactory {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/chromedriver_%s.zip";
@@ -24,9 +24,7 @@ public class ChromeBinary implements BinaryFactory {
 
     public ChromeBinary(Optional<String> release, Optional<TargetArch> targetArch) {
 
-        this.release = release;
-        if (!this.release.isPresent())
-            this.release = Optional.of(getLatestRelease());
+        this.release = OrElse(release,getLatestRelease());
         this.targetArch = targetArch;
     }
 
