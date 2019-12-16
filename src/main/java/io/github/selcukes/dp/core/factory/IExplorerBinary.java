@@ -59,7 +59,7 @@ public class IExplorerBinary implements BinaryFactory {
 
     @Override
     public File getCompressedBinaryFile() {
-        return new File(String.format("%s/iedriver_%s.zip", TempFileUtil.getTempDirectory(), unwrap(release)));
+        return new File(String.format("%s/iedriver_%s.zip", TempFileUtil.getTempDirectory(), getBinaryVersion()));
     }
 
     @Override

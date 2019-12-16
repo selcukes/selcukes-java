@@ -70,7 +70,7 @@ public class GeckoBinary implements BinaryFactory {
     public File getCompressedBinaryFile() {
         return new File(String.format("%s/geckodriver_%s.%s",
                 TempFileUtil.getTempDirectory(),
-                unwrap(release),
+                getBinaryVersion(),
                 compressedBinaryExt.apply(getBinaryEnvironment())));
     }
 

@@ -54,7 +54,7 @@ public class ChromeBinary implements BinaryFactory {
 
     @Override
     public File getCompressedBinaryFile() {
-        return new File(String.format("%s/chromedriver_%s.zip", TempFileUtil.getTempDirectory(), unwrap(release)));
+        return new File(String.format("%s/chromedriver_%s.zip", TempFileUtil.getTempDirectory(), getBinaryVersion()));
     }
 
     @Override
