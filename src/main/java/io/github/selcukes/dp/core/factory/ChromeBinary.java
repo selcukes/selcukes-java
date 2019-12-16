@@ -35,7 +35,7 @@ public class ChromeBinary implements BinaryFactory {
             return Optional.of(new URL(String.format(
                     BINARY_DOWNLOAD_URL_PATTERN,
                     MirrorUrls.CHROMEDRIVER_URL,
-                    unwrap(release),
+                    getBinaryVersion(),
                     getBinaryEnvironment().getOsNameAndArch())));
 
         } catch (MalformedURLException e) {

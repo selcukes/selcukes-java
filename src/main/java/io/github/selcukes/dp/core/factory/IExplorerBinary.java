@@ -22,6 +22,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.function.Function;
 
+import static io.github.selcukes.dp.util.OptionalUtil.OrElse;
 import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
 
 public class IExplorerBinary implements BinaryFactory {
@@ -31,10 +32,7 @@ public class IExplorerBinary implements BinaryFactory {
     private Function<Environment, String> osArc = osEnvironment -> osEnvironment.getArchitecture() == 32 ? "Win32" : "x64";
 
     public IExplorerBinary(Optional<String> release, Optional<TargetArch> targetArch) {
-
-        this.release = release;
-        if (!this.release.isPresent())
-            this.release = Optional.of(getLatestRelease());
+        this.release = OrElse(release,getLatestRelease());
         this.targetArch = targetArch;
     }
 
@@ -45,9 +43,9 @@ public class IExplorerBinary implements BinaryFactory {
             return Optional.of(new URL(String.format(
                     BINARY_DOWNLOAD_URL_PATTERN,
                     MirrorUrls.IEDRIVER_URL,
-                    unwrap(release),
+                    getBinaryVersion(),
                     osArc.apply(getBinaryEnvironment()),
-                    unwrap(release))));
+                    getBinaryVersion())));
 
         } catch (MalformedURLException e) {
             throw new DriverPoolException(e);

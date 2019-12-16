@@ -15,6 +15,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.function.Function;
 
+import static io.github.selcukes.dp.util.OptionalUtil.OrElse;
 import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
 
 public class GeckoBinary implements BinaryFactory {
@@ -40,9 +41,7 @@ public class GeckoBinary implements BinaryFactory {
 
 
     public GeckoBinary(Optional<String> release, Optional<TargetArch> targetArch) {
-        this.release = release;
-        if (!this.release.isPresent())
-            this.release = Optional.of(getLatestRelease());
+        this.release = OrElse(release,getLatestRelease());
         this.targetArch = targetArch;
     }
 
@@ -54,7 +53,7 @@ public class GeckoBinary implements BinaryFactory {
                     binaryDownloadPattern.apply(getBinaryEnvironment()),
                     MirrorUrls.GECKODRIVER_URL,
                     unwrap(release),
-                    unwrap(release),
+                    getBinaryVersion(),
                     osNameAndArc.apply(getBinaryEnvironment()))));
 
         } catch (MalformedURLException e) {
