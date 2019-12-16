@@ -7,9 +7,7 @@ import io.github.selcukes.dp.enums.OSType;
 import io.github.selcukes.dp.enums.TargetArch;
 import io.github.selcukes.dp.exception.DriverPoolException;
 import io.github.selcukes.dp.util.HttpUtils;
-import io.github.selcukes.dp.util.TempFileUtil;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
@@ -37,8 +35,6 @@ public class GeckoBinary implements BinaryFactory {
             return osEnvironment.getOsNameAndArch();
         }
     };
-    private Function<Environment, String> compressedBinaryExt = osEnvironment -> osEnvironment.getOSType().equals(OSType.WIN) ? "zip" : "tar.gz";
-
 
     public GeckoBinary(Optional<String> release, Optional<TargetArch> targetArch) {
         this.release = OrElse(release, getLatestRelease());
@@ -52,7 +48,7 @@ public class GeckoBinary implements BinaryFactory {
             return Optional.of(new URL(String.format(
                     binaryDownloadPattern.apply(getBinaryEnvironment()),
                     MirrorUrls.GECKODRIVER_URL,
-                    unwrap(release),
+                    getBinaryVersion(),
                     getBinaryVersion(),
                     osNameAndArc.apply(getBinaryEnvironment()))));
 
@@ -64,14 +60,6 @@ public class GeckoBinary implements BinaryFactory {
     @Override
     public Environment getBinaryEnvironment() {
         return targetArch.map(arch -> Environment.create(arch.getValue())).orElseGet(Environment::create);
-    }
-
-    @Override
-    public File getCompressedBinaryFile() {
-        return new File(String.format("%s/geckodriver_%s.%s",
-                TempFileUtil.getTempDirectory(),
-                getBinaryVersion(),
-                compressedBinaryExt.apply(getBinaryEnvironment())));
     }
 
     @Override
