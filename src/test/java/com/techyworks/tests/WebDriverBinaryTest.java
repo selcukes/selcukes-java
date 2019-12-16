@@ -5,8 +5,7 @@ import io.github.selcukes.dp.DriverPool;
 public class WebDriverBinaryTest {
     public static void main(String[] args) {
 
-        DriverPool.ieDriver().targetPath("temp").setup();
-     
+        DriverPool.chromeDriver().targetPath("temp").arch64().setup();
 
     }
 }

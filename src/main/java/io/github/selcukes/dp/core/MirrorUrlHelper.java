@@ -1,6 +1,6 @@
 package io.github.selcukes.dp.core;
 
-public class URLLookup {
+public class MirrorUrlHelper {
     public static String CHROMEDRIVER_URL = "https://chromedriver.storage.googleapis.com";
     public static String CHROMEDRIVER_LATEST_RELEASE_URL = "https://chromedriver.storage.googleapis.com/LATEST_RELEASE";
 

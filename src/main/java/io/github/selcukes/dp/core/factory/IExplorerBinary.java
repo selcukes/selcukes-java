@@ -1,7 +1,7 @@
 package io.github.selcukes.dp.core.factory;
 
 import io.github.selcukes.dp.core.Environment;
-import io.github.selcukes.dp.core.URLLookup;
+import io.github.selcukes.dp.core.MirrorUrlHelper;
 import io.github.selcukes.dp.enums.DownloaderType;
 import io.github.selcukes.dp.enums.TargetArch;
 import io.github.selcukes.dp.exception.DriverPoolException;
@@ -42,7 +42,7 @@ public class IExplorerBinary implements BinaryFactory {
         try {
             return Optional.of(new URL(String.format(
                     BINARY_DOWNLOAD_URL_PATTERN,
-                    URLLookup.IEDRIVER_URL,
+                    MirrorUrlHelper.IEDRIVER_URL,
                     release.get(),
                     osArc.apply(getBinaryEnvironment()),
                     release.get())));
@@ -89,7 +89,7 @@ public class IExplorerBinary implements BinaryFactory {
 
 
     private String getLatestRelease() {
-        final InputStream downloadStream = HttpUtils.getResponseInputStream(URLLookup.IEDRIVER_LATEST_RELEASE_URL);
+        final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrlHelper.IEDRIVER_LATEST_RELEASE_URL);
 
         try {
             final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();

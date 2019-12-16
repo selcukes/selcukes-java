@@ -3,6 +3,8 @@ package io.github.selcukes.dp.core;
 
 public class BinaryInfo {
     private String binaryName;
+    private String binaryVersion;
+    private String binaryLocation;
 
     public BinaryInfo(String binaryName, String binaryVersion, String binaryLocation) {
         this.binaryName = binaryName;
@@ -10,8 +12,6 @@ public class BinaryInfo {
         this.binaryLocation = binaryLocation;
     }
 
-    private String binaryVersion;
-    private String binaryLocation;
 
     public String getBinaryName() {
         return binaryName;
@@ -36,7 +36,6 @@ public class BinaryInfo {
     public void setBinaryLocation(String binaryLocation) {
         this.binaryLocation = binaryLocation;
     }
-
 
 
 }
