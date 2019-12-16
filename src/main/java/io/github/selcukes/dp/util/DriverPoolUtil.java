@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
+
 public class DriverPoolUtil {
     private final Logger logger = Logger.getLogger(DriverPoolUtil.class.getName());
 
@@ -76,7 +78,7 @@ public class DriverPoolUtil {
             logger.info("Re-using an existing driver binary found at: " + getWebDriverBinary().getParent());
         } else {
 
-            BinaryDownloadUtil.downloadBinary(binaryFactory.getDownloadURL().get(), binaryFactory.getCompressedBinaryFile());
+            BinaryDownloadUtil.downloadBinary(unwrap(binaryFactory.getDownloadURL()), binaryFactory.getCompressedBinaryFile());
 
             logger.info(() -> String.format("%s successfully downloaded to: %s", binaryFactory.getBinaryDriverName(), getWebDriverBinary().getParent()));
 
@@ -87,14 +89,13 @@ public class DriverPoolUtil {
 
     }
 
-    private File decompressBinary() {
+    private void decompressBinary() {
         final File decompressedBinary = FileExtractUtil.extractFile(
                 binaryFactory.getCompressedBinaryFile(),
                 new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()),
                 binaryFactory.getCompressedBinaryType());
         if (binaryFactory.getBinaryEnvironment().getOSType().equals(OSType.LINUX))
             FileHelper.setFileExecutable(decompressedBinary.getAbsolutePath());
-        return decompressedBinary;
     }
 
     private void configureBinary(DriverType driverType) {

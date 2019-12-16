@@ -6,9 +6,12 @@ import java.util.function.BiPredicate;
 import java.util.function.Function;
 
 public final class OSUtil {
+    private OSUtil() {
+
+    }
 
     private static BiPredicate<String, String> osNameTest = (osName, criteria) -> osName.toLowerCase().contains(criteria);
-    private static Function<String, Integer> osArchFunc = (osArch) -> (osArch.contains("86") && !osArch.contains("64")) ? 32 : 64;
+    private static Function<String, Integer> osArchFunc = osArch -> (osArch.contains("86") && !osArch.contains("64")) ? 32 : 64;
 
     public static OSType getOSType() {
         final String osName = System.getProperty("os.name");

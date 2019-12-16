@@ -13,7 +13,12 @@ import java.util.logging.Logger;
 
 public final class BinaryDownloadUtil {
 
+
     private static final Logger logger = Logger.getLogger(BinaryDownloadUtil.class.getName());
+
+    private BinaryDownloadUtil() {
+
+    }
 
     public static void downloadBinary(URL downloadURL, File downloadTo) {
         download(downloadURL, downloadTo, false);
@@ -47,7 +52,7 @@ public final class BinaryDownloadUtil {
             long downloadEndTime = System.nanoTime() - downloadStartTime;
 
             if (!silentDownload) {
-                logger.info(" -> " + String.format("%d min, %d sec", TimeUnit.NANOSECONDS.toHours(downloadEndTime), TimeUnit.NANOSECONDS.toSeconds(downloadEndTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.NANOSECONDS.toMinutes(downloadEndTime))));
+                logger.info(String.format("%d min, %d sec", TimeUnit.NANOSECONDS.toHours(downloadEndTime), TimeUnit.NANOSECONDS.toSeconds(downloadEndTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.NANOSECONDS.toMinutes(downloadEndTime))));
             }
         } catch (IOException e) {
             throw new DriverPoolException(e);

@@ -15,8 +15,12 @@ import java.util.zip.ZipInputStream;
 
 public final class FileExtractUtil {
 
-    private static final Logger logger=Logger.getLogger(FileExtractUtil.class.getName());
+    private static final Logger logger = Logger.getLogger(FileExtractUtil.class.getName());
     private static final int BUF_SIZE = 4096;
+
+    private FileExtractUtil() {
+
+    }
 
     public static File extractFile(File source, File destination, DownloaderType compressedBinaryType) {
         createDestinationDirectory(destination);
@@ -45,7 +49,7 @@ public final class FileExtractUtil {
                 String fileName = zipEntry.getName();
                 long size = zipEntry.getSize();
                 long compressedSize = zipEntry.getCompressedSize();
-                logger.severe(()->String.format("Unzipping {%s} (size: {%d} KB, compressed size: {%d} KB)",
+                logger.severe(() -> String.format("Unzipping {%s} (size: {%d} KB, compressed size: {%d} KB)",
                         fileName, size, compressedSize));
                 unZippedFile = new File(destination.getAbsolutePath() + File.separator + fileName);
 
@@ -79,7 +83,7 @@ public final class FileExtractUtil {
                 String fileName = tarEntry.getName();
                 long size = tarEntry.getSize();
                 long compressedSize = tarEntry.getSize();
-                logger.severe(()->String.format("Untarring {%s} (size: {%d} KB, compressed size: {%d} KB)",
+                logger.severe(() -> String.format("Untarring {%s} (size: {%d} KB, compressed size: {%d} KB)",
                         fileName, size, compressedSize));
                 unTaredFile = new File(destination.getAbsolutePath() + File.separator + fileName);
 

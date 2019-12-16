@@ -11,6 +11,10 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.util.Set;
 
 public class FileHelper {
+    private FileHelper() {
+
+    }
+
     public static void setFileExecutable(String fileName) {
         try {
             final Path filepath = Paths.get(fileName);
