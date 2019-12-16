@@ -58,21 +58,6 @@ public class ChromeBinary implements BinaryFactory {
     }
 
     @Override
-    public DownloaderType getCompressedBinaryType() {
-        return DownloaderType.ZIP;
-    }
-
-    @Override
-    public String getBinaryFileName() {
-        return getBinaryEnvironment().getOSType().equals(OSType.WIN) ? "chromedriver.exe" : "chromedriver";
-    }
-
-    public String getBinaryDirectory() {
-
-        return "chromedriver_" + release.orElse("");
-    }
-
-    @Override
     public String getBinaryDriverName() {
         return "ChromeDriver";
     }

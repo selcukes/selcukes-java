@@ -62,20 +62,6 @@ public class IExplorerBinary implements BinaryFactory {
         return new File(String.format("%s/iedriver_%s.zip", TempFileUtil.getTempDirectory(), getBinaryVersion()));
     }
 
-    @Override
-    public DownloaderType getCompressedBinaryType() {
-        return DownloaderType.ZIP;
-    }
-
-    @Override
-    public String getBinaryFileName() {
-        return "IEDriverServer.exe";
-    }
-
-    public String getBinaryDirectory() {
-
-        return "iedriver_" + release.orElse("");
-    }
 
     @Override
     public String getBinaryDriverName() {

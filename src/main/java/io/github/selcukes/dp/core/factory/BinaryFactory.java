@@ -2,6 +2,7 @@ package io.github.selcukes.dp.core.factory;
 
 import io.github.selcukes.dp.core.Environment;
 import io.github.selcukes.dp.enums.DownloaderType;
+import io.github.selcukes.dp.enums.OSType;
 
 import java.io.File;
 import java.net.URL;
@@ -14,14 +15,20 @@ public interface BinaryFactory {
 
     File getCompressedBinaryFile();
 
-    DownloaderType getCompressedBinaryType();
+    default DownloaderType getCompressedBinaryType(){
+        return  DownloaderType.ZIP;
+    }
 
-    String getBinaryFileName();
+    default String getBinaryFileName() {
+        return getBinaryEnvironment().getOSType().equals(OSType.WIN) ? getBinaryDriverName().toLowerCase() + ".exe" : getBinaryDriverName().toLowerCase();
+    }
 
-    String getBinaryDirectory();
+    default String getBinaryDirectory(){
+        return getBinaryDriverName().toLowerCase()+"_" + getBinaryVersion();
+    }
 
     String getBinaryDriverName();
 
     String getBinaryVersion();
-  
+
 }

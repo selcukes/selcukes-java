@@ -41,7 +41,7 @@ public class GeckoBinary implements BinaryFactory {
 
 
     public GeckoBinary(Optional<String> release, Optional<TargetArch> targetArch) {
-        this.release = OrElse(release,getLatestRelease());
+        this.release = OrElse(release, getLatestRelease());
         this.targetArch = targetArch;
     }
 
@@ -77,15 +77,6 @@ public class GeckoBinary implements BinaryFactory {
     @Override
     public DownloaderType getCompressedBinaryType() {
         return getBinaryEnvironment().getOSType().equals(OSType.WIN) ? DownloaderType.ZIP : DownloaderType.TAR;
-    }
-
-    @Override
-    public String getBinaryFileName() {
-        return getBinaryEnvironment().getOSType().equals(OSType.WIN) ? "geckodriver.exe" : "geckodriver";
-    }
-
-    public String getBinaryDirectory() {
-        return "geckodriver_" + release.orElse("");
     }
 
     @Override
