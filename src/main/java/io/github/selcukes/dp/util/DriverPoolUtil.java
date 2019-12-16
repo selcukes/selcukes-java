@@ -6,6 +6,7 @@ import io.github.selcukes.dp.core.factory.ChromeBinary;
 import io.github.selcukes.dp.core.factory.GeckoBinary;
 import io.github.selcukes.dp.core.factory.IExplorerBinary;
 import io.github.selcukes.dp.enums.DriverType;
+import io.github.selcukes.dp.enums.OSType;
 import io.github.selcukes.dp.enums.TargetArch;
 import io.github.selcukes.dp.exception.DriverPoolException;
 
@@ -92,12 +93,8 @@ public class DriverPoolUtil {
                 binaryFactory.getCompressedBinaryFile(),
                 new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()),
                 binaryFactory.getCompressedBinaryType());
-
-        switch (binaryFactory.getBinaryEnvironment().getOSType()) {
-            case MAC:
-            case LINUX:
-                FileHelper.setFileExecutable(decompressedBinary.getAbsolutePath());
-        }
+        if (binaryFactory.getBinaryEnvironment().getOSType().equals(OSType.LINUX))
+            FileHelper.setFileExecutable(decompressedBinary.getAbsolutePath());
         return decompressedBinary;
     }
 
