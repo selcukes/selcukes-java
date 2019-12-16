@@ -7,9 +7,7 @@ import io.github.selcukes.dp.enums.OSType;
 import io.github.selcukes.dp.enums.TargetArch;
 import io.github.selcukes.dp.exception.DriverPoolException;
 import io.github.selcukes.dp.util.HttpUtils;
-import io.github.selcukes.dp.util.TempFileUtil;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
@@ -37,11 +35,9 @@ public class GeckoBinary implements BinaryFactory {
             return osEnvironment.getOsNameAndArch();
         }
     };
-    private Function<Environment, String> compressedBinaryExt = osEnvironment -> osEnvironment.getOSType().equals(OSType.WIN) ? "zip" : "tar.gz";
-
 
     public GeckoBinary(Optional<String> release, Optional<TargetArch> targetArch) {
-        this.release = OrElse(release,getLatestRelease());
+        this.release = OrElse(release, getLatestRelease());
         this.targetArch = targetArch;
     }
 
@@ -52,7 +48,7 @@ public class GeckoBinary implements BinaryFactory {
             return Optional.of(new URL(String.format(
                     binaryDownloadPattern.apply(getBinaryEnvironment()),
                     MirrorUrls.GECKODRIVER_URL,
-                    unwrap(release),
+                    getBinaryVersion(),
                     getBinaryVersion(),
                     osNameAndArc.apply(getBinaryEnvironment()))));
 
@@ -67,25 +63,8 @@ public class GeckoBinary implements BinaryFactory {
     }
 
     @Override
-    public File getCompressedBinaryFile() {
-        return new File(String.format("%s/geckodriver_%s.%s",
-                TempFileUtil.getTempDirectory(),
-                unwrap(release),
-                compressedBinaryExt.apply(getBinaryEnvironment())));
-    }
-
-    @Override
     public DownloaderType getCompressedBinaryType() {
         return getBinaryEnvironment().getOSType().equals(OSType.WIN) ? DownloaderType.ZIP : DownloaderType.TAR;
-    }
-
-    @Override
-    public String getBinaryFileName() {
-        return getBinaryEnvironment().getOSType().equals(OSType.WIN) ? "geckodriver.exe" : "geckodriver";
-    }
-
-    public String getBinaryDirectory() {
-        return "geckodriver_" + release.orElse("");
     }
 
     @Override

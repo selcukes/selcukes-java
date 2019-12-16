@@ -2,11 +2,9 @@ package io.github.selcukes.dp.core.factory;
 
 import io.github.selcukes.dp.core.Environment;
 import io.github.selcukes.dp.core.MirrorUrls;
-import io.github.selcukes.dp.enums.DownloaderType;
 import io.github.selcukes.dp.enums.TargetArch;
 import io.github.selcukes.dp.exception.DriverPoolException;
 import io.github.selcukes.dp.util.HttpUtils;
-import io.github.selcukes.dp.util.TempFileUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -15,7 +13,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
-import java.io.File;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -32,7 +29,7 @@ public class IExplorerBinary implements BinaryFactory {
     private Function<Environment, String> osArc = osEnvironment -> osEnvironment.getArchitecture() == 32 ? "Win32" : "x64";
 
     public IExplorerBinary(Optional<String> release, Optional<TargetArch> targetArch) {
-        this.release = OrElse(release,getLatestRelease());
+        this.release = OrElse(release, getLatestRelease());
         this.targetArch = targetArch;
     }
 
@@ -55,26 +52,6 @@ public class IExplorerBinary implements BinaryFactory {
     @Override
     public Environment getBinaryEnvironment() {
         return targetArch.map(arch -> Environment.create(arch.getValue())).orElseGet(Environment::create);
-    }
-
-    @Override
-    public File getCompressedBinaryFile() {
-        return new File(String.format("%s/iedriver_%s.zip", TempFileUtil.getTempDirectory(), unwrap(release)));
-    }
-
-    @Override
-    public DownloaderType getCompressedBinaryType() {
-        return DownloaderType.ZIP;
-    }
-
-    @Override
-    public String getBinaryFileName() {
-        return "IEDriverServer.exe";
-    }
-
-    public String getBinaryDirectory() {
-
-        return "iedriver_" + release.orElse("");
     }
 
     @Override
