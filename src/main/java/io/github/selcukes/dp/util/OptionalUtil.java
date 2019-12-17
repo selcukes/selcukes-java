@@ -8,7 +8,7 @@ public class OptionalUtil {
         return optional.orElse(null);
     }
 
-    public static <T> Optional<T> OrElse(Optional<T> optional, T fallbackValue) {
+    public static <T> Optional<T> orElse(Optional<T> optional, T fallbackValue) {
 
         if (optional.isPresent())
             return optional;

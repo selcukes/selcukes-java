@@ -19,7 +19,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static io.github.selcukes.dp.util.OptionalUtil.OrElse;
+import static io.github.selcukes.dp.util.OptionalUtil.orElse;
 import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
 
 public class IExplorerBinary implements BinaryFactory {
@@ -29,7 +29,7 @@ public class IExplorerBinary implements BinaryFactory {
     private Function<Environment, String> osArc = osEnvironment -> osEnvironment.getArchitecture() == 32 ? "Win32" : "x64";
 
     public IExplorerBinary(Optional<String> release, Optional<TargetArch> targetArch) {
-        this.release = OrElse(release, getLatestRelease());
+        this.release = orElse(release, getLatestRelease());
         this.targetArch = targetArch;
     }
 
