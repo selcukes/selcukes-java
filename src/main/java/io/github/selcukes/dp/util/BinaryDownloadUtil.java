@@ -52,13 +52,16 @@ public final class BinaryDownloadUtil {
             long downloadEndTime = System.nanoTime() - downloadStartTime;
 
             if (!silentDownload) {
-                logger.info(String.format("%d min, %d sec", TimeUnit.NANOSECONDS.toHours(downloadEndTime), TimeUnit.NANOSECONDS.toSeconds(downloadEndTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.NANOSECONDS.toMinutes(downloadEndTime))));
+                logger.info(()->(TimeUnit.NANOSECONDS.toHours(downloadEndTime)+" min "+getSeconds(downloadEndTime)+" secs"));
             }
         } catch (IOException e) {
             throw new DriverPoolException(e);
         }
     }
-
+    private static long getSeconds(long downloadEndTime)
+    {
+        return TimeUnit.NANOSECONDS.toSeconds(downloadEndTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.NANOSECONDS.toMinutes(downloadEndTime));
+    }
     private static String getAbsoluteURL(URL url) {
         return url.getProtocol() + "://" + url.getHost() + url.getPath();
     }

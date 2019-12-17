@@ -4,6 +4,10 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 public class OptionalUtil {
+    private OptionalUtil() {
+
+    }
+
     public static <T> T unwrap(Optional<T> optional) {
         return optional.orElse(null);
     }
