@@ -24,7 +24,7 @@ public final class FileExtractUtil {
 
         final File extractedFile = compressedBinaryType.equals(DownloaderType.ZIP) ? unZipFile(source, destination) : unTarFile(source, destination);
 
-        final File[] directoryContents = extractedFile.listFiles();
+        final File[] directoryContents = (extractedFile!=null)?extractedFile.listFiles(): new File[0];
 
         if (directoryContents != null && directoryContents.length == 0) {
             throw new DriverPoolException("The file unpacking failed for: " + source.getAbsolutePath());
@@ -64,7 +64,7 @@ public final class FileExtractUtil {
                 String fileName = tarEntry.getName();
                 long size = tarEntry.getSize();
                 long compressedSize = tarEntry.getSize();
-                logger.severe(() -> String.format("Untarring {%s} (size: {%d} KB, compressed size: {%d} KB)",
+                logger.severe(() -> String.format("Uncompressing {%s} (size: {%d} KB, compressed size: {%d} KB)",
                         fileName, size, compressedSize));
                 unTaredFile = new File(destination.getAbsolutePath() + File.separator + fileName);
 
