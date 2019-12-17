@@ -11,7 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
 
-import static io.github.selcukes.dp.util.OptionalUtil.OrElse;
+import static io.github.selcukes.dp.util.OptionalUtil.orElse;
 import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
 
 public class ChromeBinary implements BinaryFactory {
@@ -22,7 +22,7 @@ public class ChromeBinary implements BinaryFactory {
 
     public ChromeBinary(Optional<String> release, Optional<TargetArch> targetArch) {
 
-        this.release = OrElse(release, getLatestRelease());
+        this.release = orElse(release, getLatestRelease());
         this.targetArch = targetArch;
     }
 

@@ -4,11 +4,15 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 public class OptionalUtil {
+    private OptionalUtil() {
+
+    }
+
     public static <T> T unwrap(Optional<T> optional) {
         return optional.orElse(null);
     }
 
-    public static <T> Optional<T> OrElse(Optional<T> optional, T fallbackValue) {
+    public static <T> Optional<T> orElse(Optional<T> optional, T fallbackValue) {
 
         if (optional.isPresent())
             return optional;

@@ -5,10 +5,7 @@ import io.github.selcukes.dp.exception.DriverPoolException;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -38,13 +35,8 @@ public final class FileExtractUtil {
     private static File unZipFile(File source, File destination) {
         File unZippedFile = null;
 
-        try {
-            byte[] buffer = new byte[BUF_SIZE];
-
-            final ZipInputStream inputStream = new ZipInputStream(new FileInputStream(source.toString()));
-
+        try (final ZipInputStream inputStream = new ZipInputStream(new FileInputStream(source.toString()))) {
             ZipEntry zipEntry = inputStream.getNextEntry();
-
             while (zipEntry != null) {
                 String fileName = zipEntry.getName();
                 long size = zipEntry.getSize();
@@ -52,17 +44,10 @@ public final class FileExtractUtil {
                 logger.severe(() -> String.format("Unzipping {%s} (size: {%d} KB, compressed size: {%d} KB)",
                         fileName, size, compressedSize));
                 unZippedFile = new File(destination.getAbsolutePath() + File.separator + fileName);
-
-                FileOutputStream fos = new FileOutputStream(unZippedFile);
-                int len;
-                while ((len = inputStream.read(buffer)) > 0) {
-                    fos.write(buffer, 0, len);
-                }
-                fos.close();
+                processFile(inputStream, unZippedFile);
                 zipEntry = inputStream.getNextEntry();
             }
             inputStream.closeEntry();
-            inputStream.close();
         } catch (IOException ex) {
             throw new DriverPoolException(ex);
         }
@@ -72,11 +57,7 @@ public final class FileExtractUtil {
     private static File unTarFile(File source, File destination) {
         File unTaredFile = null;
 
-        try {
-            byte[] buffer = new byte[BUF_SIZE];
-
-            final TarArchiveInputStream inputStream = new TarArchiveInputStream(new FileInputStream(source.toString()));
-
+        try (final TarArchiveInputStream inputStream = new TarArchiveInputStream(new FileInputStream(source.toString()))) {
             TarArchiveEntry tarEntry = inputStream.getNextTarEntry();
 
             while (tarEntry != null) {
@@ -87,20 +68,30 @@ public final class FileExtractUtil {
                         fileName, size, compressedSize));
                 unTaredFile = new File(destination.getAbsolutePath() + File.separator + fileName);
 
-                FileOutputStream fos = new FileOutputStream(unTaredFile);
-                int len;
-                while ((len = inputStream.read(buffer)) > 0) {
-                    fos.write(buffer, 0, len);
-                }
-                fos.close();
+                processFile(inputStream, unTaredFile);
                 tarEntry = inputStream.getNextTarEntry();
             }
             inputStream.getCurrentEntry();
-            inputStream.close();
         } catch (IOException ex) {
             throw new DriverPoolException(ex);
         }
         return unTaredFile;
+    }
+
+    private static void processFile(InputStream inputStream, File outDir) {
+
+        byte[] buffer = new byte[BUF_SIZE];
+
+        try (FileOutputStream fos = new FileOutputStream(outDir)) {
+            int len;
+            while ((len = inputStream.read(buffer)) > 0) {
+                fos.write(buffer, 0, len);
+            }
+
+        } catch (IOException ex) {
+            logger.severe("Unable to uncompress File: " + ex.getMessage());
+        }
+
     }
 
     private static void createDestinationDirectory(File destination) {

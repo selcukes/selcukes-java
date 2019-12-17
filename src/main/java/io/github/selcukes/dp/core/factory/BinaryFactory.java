@@ -15,14 +15,13 @@ public interface BinaryFactory {
     Environment getBinaryEnvironment();
 
     default File getCompressedBinaryFile() {
-        StringBuilder file = new StringBuilder();
-        file.append(TempFileUtil.getTempDirectory())
-                .append("/")
-                .append(getBinaryDriverName().toLowerCase())
-                .append("_")
-                .append(getBinaryVersion())
-                .append(getCompressedBinaryType().name());
-        return new File(file.toString());
+        String file = TempFileUtil.getTempDirectory() +
+                "/" +
+                getBinaryDriverName().toLowerCase() +
+                "_" +
+                getBinaryVersion() +
+                getCompressedBinaryType().name();
+        return new File(file);
     }
 
     default DownloaderType getCompressedBinaryType() {

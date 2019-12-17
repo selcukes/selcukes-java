@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.function.Function;
 
-import static io.github.selcukes.dp.util.OptionalUtil.OrElse;
+import static io.github.selcukes.dp.util.OptionalUtil.orElse;
 import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
 
 public class GeckoBinary implements BinaryFactory {
@@ -37,7 +37,7 @@ public class GeckoBinary implements BinaryFactory {
     };
 
     public GeckoBinary(Optional<String> release, Optional<TargetArch> targetArch) {
-        this.release = OrElse(release, getLatestRelease());
+        this.release = orElse(release, getLatestRelease());
         this.targetArch = targetArch;
     }
 
