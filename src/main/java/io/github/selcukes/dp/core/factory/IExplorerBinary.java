@@ -54,7 +54,7 @@ public class IExplorerBinary implements BinaryFactory {
 
     @Override
     public String getBinaryDriverName() {
-        return "IEDriver";
+        return "IEDriverServer";
     }
 
     @Override

@@ -83,8 +83,6 @@
 			<artifactId>commons-compress</artifactId>
 			<version>${commons-compress.version}</version>
 		</dependency>
-
-
 	</dependencies>
 
 	<profiles>

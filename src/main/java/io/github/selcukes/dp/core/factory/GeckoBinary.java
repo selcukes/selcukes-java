@@ -69,7 +69,7 @@ public class GeckoBinary implements BinaryFactory {
 
     @Override
     public String getBinaryDriverName() {
-        return "GeckoDriver";
+        return "geckodriver";
     }
 
     @Override

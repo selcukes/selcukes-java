@@ -52,7 +52,7 @@ public class ChromeBinary implements BinaryFactory {
 
     @Override
     public String getBinaryDriverName() {
-        return "ChromeDriver";
+        return "chromedriver";
     }
 
     @Override

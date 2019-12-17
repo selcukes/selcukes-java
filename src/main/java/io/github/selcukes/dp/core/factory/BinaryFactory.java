@@ -29,7 +29,7 @@ public interface BinaryFactory {
     }
 
     default String getBinaryFileName() {
-        return getBinaryEnvironment().getOSType().equals(OSType.WIN) ? getBinaryDriverName().toLowerCase() + ".exe" : getBinaryDriverName().toLowerCase();
+        return getBinaryEnvironment().getOSType().equals(OSType.WIN) ? getBinaryDriverName()+ ".exe" : getBinaryDriverName();
     }
 
     default String getBinaryDirectory() {
