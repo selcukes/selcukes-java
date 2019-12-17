@@ -17,7 +17,6 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
-import java.util.function.Function;
 
 import static io.github.selcukes.dp.util.OptionalUtil.orElse;
 import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
@@ -26,7 +25,6 @@ public class IExplorerBinary implements BinaryFactory {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/IEDriverServer_%s_%s.0.zip";
     private Optional<String> release;
     private Optional<TargetArch> targetArch;
-    private Function<Environment, String> osArc = osEnvironment -> osEnvironment.getArchitecture() == 32 ? "Win32" : "x64";
 
     public IExplorerBinary(Optional<String> release, Optional<TargetArch> targetArch) {
         this.release = orElse(release, getLatestRelease());
@@ -41,7 +39,7 @@ public class IExplorerBinary implements BinaryFactory {
                     BINARY_DOWNLOAD_URL_PATTERN,
                     MirrorUrls.IEDRIVER_URL,
                     getBinaryVersion(),
-                    osArc.apply(getBinaryEnvironment()),
+                    getBinaryEnvironment().getArchitecture() == 64 ? "x64" : "Win32",
                     getBinaryVersion())));
 
         } catch (MalformedURLException e) {
@@ -70,6 +68,8 @@ public class IExplorerBinary implements BinaryFactory {
 
         try {
             final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl",
+                    true);
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(downloadStream);
             doc.getDocumentElement().normalize();
