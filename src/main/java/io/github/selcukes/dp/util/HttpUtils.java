@@ -20,7 +20,7 @@ public final class HttpUtils {
 
         try {
             URL url = new URL(endpoint);
-            httpURLConnection = (HttpURLConnection) url.openConnection(OptionalUtil.unwrap(createProxy("https://127.0.0.1:0:8080")));
+            httpURLConnection = (HttpURLConnection) url.openConnection(OptionalUtil.unwrap(createProxy("https://127.0.0.1:0")));
             httpURLConnection.setDoInput(true);
             httpURLConnection.connect();
             return httpURLConnection;
