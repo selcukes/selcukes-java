@@ -51,8 +51,8 @@ public class DriverPool {
             return this;
         }
 
-        public void setup() {
-            new DriverPoolUtil(DriverPool.this.driverType,
+        public String setup() {
+            return new DriverPoolUtil(DriverPool.this.driverType,
                     DriverPool.this.release,
                     DriverPool.this.targetArch,
                     DriverPool.this.downloadLocation).downloadAndSetupBinaryPath();

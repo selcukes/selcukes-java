@@ -44,7 +44,7 @@ public class DriverPoolUtil {
         return binaryDownloadDirectory;
     }
 
-    public void downloadAndSetupBinaryPath() {
+    public String downloadAndSetupBinaryPath() {
         switch (driverType) {
             case CHROME:
 
@@ -62,7 +62,7 @@ public class DriverPoolUtil {
                 throw new DriverPoolException(String.format("Currently %s not supported", driverType.toString()));
         }
 
-        downloadBinaryAndConfigure();
+        return downloadBinaryAndConfigure();
     }
 
     private File getWebDriverBinary() {
@@ -73,7 +73,7 @@ public class DriverPoolUtil {
                 binaryFactory.getBinaryFileName());
     }
 
-    private void downloadBinaryAndConfigure() {
+    private String downloadBinaryAndConfigure() {
         if (getWebDriverBinary().exists()) {
             logger.info("Re-using an existing driver binary found at: " + getWebDriverBinary().getParent());
         } else {
@@ -84,7 +84,7 @@ public class DriverPoolUtil {
 
             decompressBinary();
         }
-        configureBinary(driverType);
+        return configureBinary(driverType);
 
 
     }
@@ -98,7 +98,7 @@ public class DriverPoolUtil {
             FileHelper.setFileExecutable(decompressedBinary.getAbsolutePath());
     }
 
-    private void configureBinary(DriverType driverType) {
+    private String configureBinary(DriverType driverType) {
         StringBuilder binaryPropertyName = new StringBuilder();
 
         binaryPropertyName.append(webdrivers)
@@ -107,6 +107,6 @@ public class DriverPoolUtil {
                 .append(".driver");
 
         System.setProperty(binaryPropertyName.toString(), getWebDriverBinary().getAbsolutePath());
-        logger.info("Property set " + System.getProperty(binaryPropertyName.toString()));
+        return binaryPropertyName.toString();
     }
 }
