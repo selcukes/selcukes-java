@@ -10,7 +10,6 @@ import io.github.selcukes.dp.enums.TargetArch;
 import io.github.selcukes.dp.exception.DriverPoolException;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -35,12 +34,7 @@ public class DriverPoolUtil {
 
     private File getBinaryDownloadDirectory(String downloadLocation) {
         binaryDownloadDirectory = new File(downloadLocation + File.separator + webdrivers + File.separator);
-        try {
-
-            FileHelper.createDirectory(binaryDownloadDirectory);
-        } catch (IOException e) {
-            logger.severe(e.getMessage());
-        }
+        FileHelper.createDirectory(binaryDownloadDirectory);
         return binaryDownloadDirectory;
     }
 
