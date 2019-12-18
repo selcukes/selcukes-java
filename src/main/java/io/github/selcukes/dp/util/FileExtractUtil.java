@@ -7,6 +7,7 @@ import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 
 import java.io.*;
 import java.util.logging.Logger;
+import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -24,7 +25,7 @@ public final class FileExtractUtil {
 
         final File extractedFile = compressedBinaryType.equals(DownloaderType.ZIP) ? unZipFile(source, destination) : unTarFile(source, destination);
 
-        final File[] directoryContents = (extractedFile!=null)?extractedFile.listFiles(): new File[0];
+        final File[] directoryContents = (extractedFile != null) ? extractedFile.listFiles() : new File[0];
 
         if (directoryContents != null && directoryContents.length == 0) {
             throw new DriverPoolException("The file unpacking failed for: " + source.getAbsolutePath());
@@ -55,9 +56,11 @@ public final class FileExtractUtil {
     }
 
     private static File unTarFile(File source, File destination) {
-        File unTaredFile = null;
+        String outputFile = getFileName(source, destination.getAbsolutePath());
 
-        try (final TarArchiveInputStream inputStream = new TarArchiveInputStream(new FileInputStream(source.toString()))) {
+        File tarFile = deCompressGZipFile(source, new File(outputFile));
+
+        try (final TarArchiveInputStream inputStream = new TarArchiveInputStream(new FileInputStream(tarFile))) {
             TarArchiveEntry tarEntry = inputStream.getNextTarEntry();
 
             while (tarEntry != null) {
@@ -66,16 +69,27 @@ public final class FileExtractUtil {
                 long compressedSize = tarEntry.getSize();
                 logger.severe(() -> String.format("Uncompressing {%s} (size: {%d} KB, compressed size: {%d} KB)",
                         fileName, size, compressedSize));
-                unTaredFile = new File(destination.getAbsolutePath() + File.separator + fileName);
+                tarFile = new File(destination.getAbsolutePath() + File.separator + fileName);
 
-                processFile(inputStream, unTaredFile);
+                processFile(inputStream, tarFile);
                 tarEntry = inputStream.getNextTarEntry();
             }
             inputStream.getCurrentEntry();
         } catch (IOException ex) {
             throw new DriverPoolException(ex);
         }
-        return unTaredFile;
+        return tarFile;
+    }
+
+    private static File deCompressGZipFile(File gZippedFile, File tarFile) {
+        try (FileInputStream fis = new FileInputStream(gZippedFile);
+             GZIPInputStream gZIPInputStream = new GZIPInputStream(fis);) {
+            processFile(gZIPInputStream, tarFile);
+        } catch (IOException e) {
+            logger.severe(e.getMessage());
+        }
+        return tarFile;
+
     }
 
     private static void processFile(InputStream inputStream, File outDir) {
@@ -92,6 +106,11 @@ public final class FileExtractUtil {
             logger.severe("Unable to uncompress File: " + ex.getMessage());
         }
 
+    }
+
+    private static String getFileName(File inputFile, String outputFolder) {
+        return outputFolder + File.separator +
+                inputFile.getName().substring(0, inputFile.getName().lastIndexOf('.'));
     }
 
     private static void createDestinationDirectory(File destination) {
