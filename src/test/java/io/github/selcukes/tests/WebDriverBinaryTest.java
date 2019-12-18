@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 
 public class WebDriverBinaryTest {
-    Logger logger = Logger.getLogger(WebDriverBinaryTest.class.getName());
+    private Logger logger = Logger.getLogger(WebDriverBinaryTest.class.getName());
 
     @Test
     public void downloadBinaryTest() {
