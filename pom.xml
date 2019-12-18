@@ -20,6 +20,7 @@
 
 		<commons.io.version>2.6</commons.io.version>
 		<commons-compress.version>1.19</commons-compress.version>
+		<junit.version>4.12</junit.version>
 
 		<maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
 		<maven-source-plugin.version>2.2.1</maven-source-plugin.version>
@@ -82,6 +83,11 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-compress</artifactId>
 			<version>${commons-compress.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
 		</dependency>
 	</dependencies>
 
