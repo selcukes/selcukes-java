@@ -64,7 +64,7 @@ public class IExplorerBinary implements BinaryFactory {
 
 
     private String getLatestRelease() {
-        final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.IEDRIVER_LATEST_RELEASE_URL);
+        final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.IEDRIVER_LATEST_RELEASE_URL,getProxy());
 
         try {
             final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
