@@ -1,9 +1,6 @@
 package io.github.selcukes.dp.util;
 
-import io.github.selcukes.dp.core.factory.BinaryFactory;
-import io.github.selcukes.dp.core.factory.ChromeBinary;
-import io.github.selcukes.dp.core.factory.GeckoBinary;
-import io.github.selcukes.dp.core.factory.IExplorerBinary;
+import io.github.selcukes.dp.core.factory.*;
 import io.github.selcukes.dp.enums.DriverType;
 import io.github.selcukes.dp.enums.OSType;
 import io.github.selcukes.dp.enums.TargetArch;
@@ -51,6 +48,9 @@ public class DriverPoolUtil {
 
             case IEXPLORER:
                 this.binaryFactory = new IExplorerBinary(release, targetArch);
+                break;
+            case EDGE:
+                this.binaryFactory = new EdgeBinary(release, targetArch);
                 break;
             default:
                 throw new DriverPoolException(String.format("Currently %s not supported", driverType.toString()));

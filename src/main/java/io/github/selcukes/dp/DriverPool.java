@@ -22,6 +22,9 @@ public class DriverPool {
     public static Builder ieDriver() {
         return new DriverPool().new Builder(DriverType.IEXPLORER);
     }
+    public static Builder edgeDriver() {
+        return new DriverPool().new Builder(DriverType.EDGE);
+    }
 
 
     public class Builder {
