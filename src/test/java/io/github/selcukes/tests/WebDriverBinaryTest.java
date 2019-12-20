@@ -27,8 +27,8 @@ public class WebDriverBinaryTest {
         assertEquals("webdrivers.gecko.driver", binProp);
         logger.info("Path set for the Property { " + binProp + "} from the location {" + getProperty(binProp) + "}");
 
-        binProp = DriverPool.edgeDriver().version("81.0.368.0").targetPath("temp").setup();
-        String binaryDownloadedPath = getProperty(binProp);
+        binProp = DriverPool.edgeDriver().targetPath("temp").setup();
+        assertEquals("webdrivers.edge.driver", binProp);
         logger.info("Path set for the Property { " + binProp + "} from the location {" + getProperty(binProp) + "}");
     }
 

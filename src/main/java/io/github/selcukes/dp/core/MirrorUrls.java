@@ -1,10 +1,6 @@
 package io.github.selcukes.dp.core;
 
 public class MirrorUrls {
-    private MirrorUrls() {
-
-    }
-
     public static final String CHROMEDRIVER_URL = "https://chromedriver.storage.googleapis.com";
     public static final String CHROMEDRIVER_LATEST_RELEASE_URL = "https://chromedriver.storage.googleapis.com/LATEST_RELEASE";
 
@@ -16,4 +12,8 @@ public class MirrorUrls {
 
     public static final String EDGE_DRIVER_URL = "https://msedgedriver.azureedge.net";
     public static final String EDGE_DRIVER_LATEST_RELEASE_URL = "https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/#downloads";
+
+    private MirrorUrls() {
+
+    }
 }
