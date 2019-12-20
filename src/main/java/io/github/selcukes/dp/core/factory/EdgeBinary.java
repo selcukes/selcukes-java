@@ -4,14 +4,21 @@ import io.github.selcukes.dp.core.Environment;
 import io.github.selcukes.dp.core.MirrorUrls;
 import io.github.selcukes.dp.enums.TargetArch;
 import io.github.selcukes.dp.exception.DriverPoolException;
-import io.github.selcukes.dp.util.BinaryDownloadUtil;
+import io.github.selcukes.dp.util.HttpUtils;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static io.github.selcukes.dp.util.OptionalUtil.orElse;
 import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
+import static org.jsoup.Jsoup.parse;
 
 public class EdgeBinary implements BinaryFactory {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/edgedriver_%s.zip";
@@ -56,10 +63,27 @@ public class EdgeBinary implements BinaryFactory {
 
 
     private String getLatestRelease() {
+        List<String> versionNumbers = new ArrayList<>();
+        String latestVersion = null;
+        final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.EDGE_DRIVER_LATEST_RELEASE_URL);
         try {
-            return BinaryDownloadUtil.downloadAndReadFile(new URL(MirrorUrls.EDGE_DRIVER_LATEST_RELEASE_URL));
-        } catch (MalformedURLException e) {
+            Document doc = parse(downloadStream, null, "");
+
+            Elements versionParagraph = doc.select(
+                    "ul.driver-downloads li.driver-download p.driver-download__meta");
+
+            for (Element element : versionParagraph) {
+                if (element.text().toLowerCase().startsWith("version")) {
+                    String[] version = element.text().split(" ");
+                    versionNumbers.add(version[1]);
+                }
+            }
+
+            latestVersion = versionNumbers.get(0);
+
+        } catch (Exception e) {
             throw new DriverPoolException(e);
         }
+        return latestVersion;
     }
 }

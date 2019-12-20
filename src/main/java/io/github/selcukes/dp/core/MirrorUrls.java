@@ -15,5 +15,5 @@ public class MirrorUrls {
     public static final String IEDRIVER_LATEST_RELEASE_URL = "http://selenium-release.storage.googleapis.com";
 
     public static final String EDGE_DRIVER_URL = "https://msedgedriver.azureedge.net";
-    public static final String EDGE_DRIVER_LATEST_RELEASE_URL = "https://msedgedriver.azureedge.net";
+    public static final String EDGE_DRIVER_LATEST_RELEASE_URL = "https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/#downloads";
 }
