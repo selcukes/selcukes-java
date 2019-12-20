@@ -30,7 +30,7 @@ public class FileHelper {
 
     public static String getDriverBinaryFileName(String browserName) {
 
-        return browserName + "driver-" + Platform.getPlatformArch() + "-" + Platform.getPlatformType();
+        return browserName + "driver-" + Platform.getPlatformArch() + "-" + Platform.getPlatform();
     }
 
     public static void createDirectory(File dirName) {

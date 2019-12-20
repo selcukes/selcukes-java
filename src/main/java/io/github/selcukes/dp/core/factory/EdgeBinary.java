@@ -2,6 +2,7 @@ package io.github.selcukes.dp.core.factory;
 
 import io.github.selcukes.dp.core.Environment;
 import io.github.selcukes.dp.core.MirrorUrls;
+import io.github.selcukes.dp.enums.OSType;
 import io.github.selcukes.dp.enums.TargetArch;
 import io.github.selcukes.dp.exception.DriverPoolException;
 import io.github.selcukes.dp.util.HttpUtils;
@@ -38,7 +39,7 @@ public class EdgeBinary implements BinaryFactory {
                     BINARY_DOWNLOAD_URL_PATTERN,
                     MirrorUrls.EDGE_DRIVER_URL,
                     getBinaryVersion(),
-                    getBinaryEnvironment().getOsNameAndArch()
+                    getBinaryEnvironment().getOSType().equals(OSType.LINUX) ? "win" + getBinaryEnvironment().getArchitecture() : getBinaryEnvironment().getOsNameAndArch()
             )));
 
         } catch (MalformedURLException e) {

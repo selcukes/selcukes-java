@@ -14,7 +14,7 @@ public final class Platform {
         return System.getProperty("os.arch").contains("64") ? 64 : 32;
     }
 
-    public static OSType getPlatformType() {
+    public static OSType getPlatform() {
         String osName = System.getProperty("os.name").toLowerCase();
         if (osName.startsWith("windows"))
             return OSType.WIN;
