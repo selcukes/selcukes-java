@@ -22,7 +22,7 @@
         <commons-compress.version>1.19</commons-compress.version>
         <junit.version>4.12</junit.version>
         <jsoup.version>1.12.1</jsoup.version>
-        
+
         <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>

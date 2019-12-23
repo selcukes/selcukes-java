@@ -36,10 +36,10 @@ public class EdgeBinary implements BinaryFactory {
     public Optional<URL> getDownloadURL() {
         try {
             return Optional.of(new URL(String.format(
-                    BINARY_DOWNLOAD_URL_PATTERN,
-                    MirrorUrls.EDGE_DRIVER_URL,
-                    getBinaryVersion(),
-                    getBinaryEnvironment().getOSType().equals(OSType.LINUX) ? "win" + getBinaryEnvironment().getArchitecture() : getBinaryEnvironment().getOsNameAndArch()
+                BINARY_DOWNLOAD_URL_PATTERN,
+                MirrorUrls.EDGE_DRIVER_URL,
+                getBinaryVersion(),
+                getBinaryEnvironment().getOSType().equals(OSType.LINUX) ? "win" + getBinaryEnvironment().getArchitecture() : getBinaryEnvironment().getOsNameAndArch()
             )));
 
         } catch (MalformedURLException e) {
@@ -66,12 +66,12 @@ public class EdgeBinary implements BinaryFactory {
     private String getLatestRelease() {
         List<String> versionNumbers = new ArrayList<>();
         String latestVersion = null;
-        final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.EDGE_DRIVER_LATEST_RELEASE_URL);
+        final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.EDGE_DRIVER_LATEST_RELEASE_URL, getProxy());
         try {
             Document doc = parse(downloadStream, null, "");
 
             Elements versionParagraph = doc.select(
-                    "ul.driver-downloads li.driver-download p.driver-download__meta");
+                "ul.driver-downloads li.driver-download p.driver-download__meta");
 
             for (Element element : versionParagraph) {
                 if (element.text().toLowerCase().startsWith("version")) {
