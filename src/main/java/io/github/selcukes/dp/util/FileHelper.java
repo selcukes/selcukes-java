@@ -3,14 +3,16 @@ package io.github.selcukes.dp.util;
 import io.github.selcukes.dp.exception.DriverPoolException;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.Set;
+import java.util.logging.Logger;
 
 public class FileHelper {
+    private static Logger logger = Logger.getLogger(FileHelper.class.getName());
+
     private FileHelper() {
 
     }
@@ -28,14 +30,17 @@ public class FileHelper {
 
     public static String getDriverBinaryFileName(String browserName) {
 
-        return browserName + "driver-" + Platform.getPlatformArch() + "-" + Platform.getPlatformType();
+        return browserName + "driver-" + Platform.getPlatformArch() + "-" + Platform.getPlatform();
     }
 
-    public static void createDirectory(File dirName) throws IOException {
-        if (!dirName.exists()) {
-            dirName.mkdirs();
-        } else if (!dirName.isDirectory()) {
-            throw new IOException("\"" + dirName + "\" is not a directory or a file.");
+    public static void createDirectory(File dirName) {
+        boolean dirExists = dirName.exists();
+        if (!dirExists) {
+            logger.info("Creating directory: " + dirName.getName());
+            dirExists = dirName.mkdirs();
+            if (dirExists) {
+                logger.info(dirName.getName()+ " directory created...");
+            }
         }
     }
 }

@@ -21,8 +21,7 @@ public final class FileExtractUtil {
     }
 
     public static File extractFile(File source, File destination, DownloaderType compressedBinaryType) {
-        createDestinationDirectory(destination);
-
+        FileHelper.createDirectory(destination);
         final File extractedFile = compressedBinaryType.equals(DownloaderType.ZIP) ? unZipFile(source, destination) : unTarFile(source, destination);
 
         final File[] directoryContents = (extractedFile != null) ? extractedFile.listFiles() : new File[0];
@@ -83,7 +82,7 @@ public final class FileExtractUtil {
 
     private static File deCompressGZipFile(File gZippedFile, File tarFile) {
         try (FileInputStream fis = new FileInputStream(gZippedFile);
-             GZIPInputStream gZIPInputStream = new GZIPInputStream(fis);) {
+             GZIPInputStream gZIPInputStream = new GZIPInputStream(fis)) {
             processFile(gZIPInputStream, tarFile);
         } catch (IOException e) {
             logger.severe(e.getMessage());
@@ -113,9 +112,4 @@ public final class FileExtractUtil {
                 inputFile.getName().substring(0, inputFile.getName().lastIndexOf('.'));
     }
 
-    private static void createDestinationDirectory(File destination) {
-        if (!destination.exists()) {
-            destination.mkdir();
-        }
-    }
 }

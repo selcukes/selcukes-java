@@ -1,16 +1,12 @@
 package io.github.selcukes.dp.util;
 
-import io.github.selcukes.dp.core.factory.BinaryFactory;
-import io.github.selcukes.dp.core.factory.ChromeBinary;
-import io.github.selcukes.dp.core.factory.GeckoBinary;
-import io.github.selcukes.dp.core.factory.IExplorerBinary;
+import io.github.selcukes.dp.core.factory.*;
 import io.github.selcukes.dp.enums.DriverType;
 import io.github.selcukes.dp.enums.OSType;
 import io.github.selcukes.dp.enums.TargetArch;
 import io.github.selcukes.dp.exception.DriverPoolException;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -35,12 +31,7 @@ public class DriverPoolUtil {
 
     private File getBinaryDownloadDirectory(String downloadLocation) {
         binaryDownloadDirectory = new File(downloadLocation + File.separator + webdrivers + File.separator);
-        try {
-
-            FileHelper.createDirectory(binaryDownloadDirectory);
-        } catch (IOException e) {
-            logger.severe(e.getMessage());
-        }
+        FileHelper.createDirectory(binaryDownloadDirectory);
         return binaryDownloadDirectory;
     }
 
@@ -57,6 +48,9 @@ public class DriverPoolUtil {
 
             case IEXPLORER:
                 this.binaryFactory = new IExplorerBinary(release, targetArch);
+                break;
+            case EDGE:
+                this.binaryFactory = new EdgeBinary(release, targetArch);
                 break;
             default:
                 throw new DriverPoolException(String.format("Currently %s not supported", driverType.toString()));

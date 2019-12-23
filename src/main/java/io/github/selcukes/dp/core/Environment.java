@@ -22,7 +22,7 @@ public class Environment {
     }
 
     public OSType getOSType() {
-        return Platform.getPlatformType();
+        return Platform.getPlatform();
     }
 
     public int getArchitecture() {

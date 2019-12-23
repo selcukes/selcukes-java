@@ -11,46 +11,30 @@ import io.github.selcukes.dp.util.HttpUtils;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
-import java.util.function.Function;
 
 import static io.github.selcukes.dp.util.OptionalUtil.orElse;
 import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
 
 public class GeckoBinary implements BinaryFactory {
-    private static final String BINARY_DOWNLOAD_URL_TAR_PATTERN = "%s/%s/geckodriver-%s-%s.tar.gz";
-    private static final String BINARY_DOWNLOAD_URL_ZIP_PATTERN = "%s/%s/geckodriver-%s-%s.zip";
+    private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/geckodriver-%s-%s.%s";
     private Optional<String> release;
     private Optional<TargetArch> targetArch;
-    private Function<Environment, String> binaryDownloadPattern = osEnvironment -> {
-        if (osEnvironment.getOSType().equals(OSType.WIN)) {
-            return BINARY_DOWNLOAD_URL_ZIP_PATTERN;
-        } else {
-            return BINARY_DOWNLOAD_URL_TAR_PATTERN;
-        }
-    };
-    private Function<Environment, String> osNameAndArc = osEnvironment -> {
-        if (osEnvironment.getOSType().equals(OSType.MAC)) {
-            return "macos";
-        } else {
-            return osEnvironment.getOsNameAndArch();
-        }
-    };
 
     public GeckoBinary(Optional<String> release, Optional<TargetArch> targetArch) {
         this.release = orElse(release, getLatestRelease());
         this.targetArch = targetArch;
     }
 
-
     @Override
     public Optional<URL> getDownloadURL() {
         try {
             return Optional.of(new URL(String.format(
-                    binaryDownloadPattern.apply(getBinaryEnvironment()),
+                    BINARY_DOWNLOAD_URL_PATTERN,
                     MirrorUrls.GECKODRIVER_URL,
                     getBinaryVersion(),
                     getBinaryVersion(),
-                    osNameAndArc.apply(getBinaryEnvironment()))));
+                    getBinaryEnvironment().getOsNameAndArch(),
+                    getBinaryEnvironment().getOSType().equals(OSType.WIN) ? DownloaderType.ZIP.getName() : DownloaderType.TAR.getName())));
 
         } catch (MalformedURLException e) {
             throw new DriverPoolException(e);
