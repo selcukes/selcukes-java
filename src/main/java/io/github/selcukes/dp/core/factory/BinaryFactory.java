@@ -16,11 +16,11 @@ public interface BinaryFactory {
 
     default File getCompressedBinaryFile() {
         String file = TempFileUtil.getTempDirectory() +
-                "/" +
-                getBinaryDriverName().toLowerCase() +
-                "_" +
-                getBinaryVersion() +
-                getCompressedBinaryType().name();
+            "/" +
+            getBinaryDriverName().toLowerCase() +
+            "_" +
+            getBinaryVersion() +
+            getCompressedBinaryType().name();
         return new File(file);
     }
 
@@ -29,7 +29,7 @@ public interface BinaryFactory {
     }
 
     default String getBinaryFileName() {
-        return getBinaryEnvironment().getOSType().equals(OSType.WIN) ? getBinaryDriverName()+ ".exe" : getBinaryDriverName();
+        return getBinaryEnvironment().getOSType().equals(OSType.WIN) ? getBinaryDriverName() + ".exe" : getBinaryDriverName();
     }
 
     default String getBinaryDirectory() {
@@ -39,5 +39,11 @@ public interface BinaryFactory {
     String getBinaryDriverName();
 
     String getBinaryVersion();
+
+    default String getProxy() {
+      //  "https://127.0.0.1:8080"
+        return null;
+    }
+
 
 }
