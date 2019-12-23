@@ -5,14 +5,10 @@ import io.github.selcukes.dp.core.MirrorUrls;
 import io.github.selcukes.dp.enums.TargetArch;
 import io.github.selcukes.dp.exception.DriverPoolException;
 import io.github.selcukes.dp.util.HttpUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathFactory;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,6 +16,7 @@ import java.util.Optional;
 
 import static io.github.selcukes.dp.util.OptionalUtil.orElse;
 import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
+import static org.jsoup.Jsoup.parse;
 
 public class IExplorerBinary implements BinaryFactory {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/IEDriverServer_%s_%s.0.zip";
@@ -36,11 +33,11 @@ public class IExplorerBinary implements BinaryFactory {
     public Optional<URL> getDownloadURL() {
         try {
             return Optional.of(new URL(String.format(
-                    BINARY_DOWNLOAD_URL_PATTERN,
-                    MirrorUrls.IEDRIVER_URL,
-                    getBinaryVersion(),
-                    getBinaryEnvironment().getArchitecture() == 64 ? "x64" : "Win32",
-                    getBinaryVersion())));
+                BINARY_DOWNLOAD_URL_PATTERN,
+                MirrorUrls.IEDRIVER_URL,
+                getBinaryVersion(),
+                getBinaryEnvironment().getArchitecture() == 64 ? "x64" : "Win32",
+                getBinaryVersion())));
 
         } catch (MalformedURLException e) {
             throw new DriverPoolException(e);
@@ -64,25 +61,15 @@ public class IExplorerBinary implements BinaryFactory {
 
 
     private String getLatestRelease() {
-        final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.IEDRIVER_LATEST_RELEASE_URL,getProxy());
+        final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.IEDRIVER_LATEST_RELEASE_URL, getProxy());
 
         try {
-            final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl",
-                    true);
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(downloadStream);
-            doc.getDocumentElement().normalize();
 
-            final XPathFactory xpathFactory = XPathFactory.newInstance();
-            XPath xpath = xpathFactory.newXPath();
-            Element element = (Element) xpath.evaluate("(//Contents/Key[contains(.,'/IEDriverServer')])[last()]", doc, XPathConstants.NODE);
-
-            if (element == null) {
-                return "";
-            }
-
-            final String textContent = element.getTextContent();
+            Document doc = parse(downloadStream, null, "");
+            Elements elements = doc.select(
+                "Key:contains(IEDriverServer)");
+            Element element = elements.get(elements.size() - 1);
+            final String textContent = element.text();
             return textContent.substring(0, textContent.indexOf('/'));
 
         } catch (Exception e) {
