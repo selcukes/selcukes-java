@@ -7,7 +7,6 @@ import io.github.selcukes.dp.exception.DriverPoolException;
 import io.github.selcukes.dp.util.HttpUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -59,18 +58,15 @@ public class IExplorerBinary implements BinaryFactory {
         return unwrap(release);
     }
 
-
     private String getLatestRelease() {
         final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.IEDRIVER_LATEST_RELEASE_URL, getProxy());
 
         try {
-
             Document doc = parse(downloadStream, null, "");
-            Elements elements = doc.select(
-                "Key:contains(IEDriverServer)");
-            Element element = elements.get(elements.size() - 1);
-            final String textContent = element.text();
-            return textContent.substring(0, textContent.indexOf('/'));
+            Element element = doc.select(
+                "Key:contains(IEDriverServer)").last();
+            final String elementText = element.text();
+            return elementText.substring(0, elementText.indexOf('/'));
 
         } catch (Exception e) {
             throw new DriverPoolException(e);

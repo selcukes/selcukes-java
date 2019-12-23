@@ -62,7 +62,6 @@ public class EdgeBinary implements BinaryFactory {
         return unwrap(release);
     }
 
-
     private String getLatestRelease() {
         List<String> versionNumbers = new ArrayList<>();
         String latestVersion = null;
