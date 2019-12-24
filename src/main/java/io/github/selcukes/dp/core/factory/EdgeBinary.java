@@ -17,16 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static io.github.selcukes.dp.util.OptionalUtil.orElse;
 import static org.jsoup.Jsoup.parse;
 
-public class EdgeBinary implements BinaryFactory {
+public class EdgeBinary extends AbstractBinary implements BinaryFactory {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/edgedriver_%s.zip";
-    private Optional<String> release;
     private Optional<TargetArch> targetArch;
 
     public EdgeBinary(Optional<String> release, Optional<TargetArch> targetArch) {
-        this.release = release;
+        super(release, targetArch);
         this.targetArch = targetArch;
     }
 
@@ -57,11 +55,7 @@ public class EdgeBinary implements BinaryFactory {
     }
 
     @Override
-    public String getBinaryVersion() {
-        return orElse(release, getLatestRelease());
-    }
-
-    private String getLatestRelease() {
+    String getLatestRelease() {
         List<String> versionNumbers = new ArrayList<>();
         String latestVersion = null;
         final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.EDGE_DRIVER_LATEST_RELEASE_URL, getProxy());

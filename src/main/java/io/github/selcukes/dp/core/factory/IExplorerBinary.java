@@ -13,16 +13,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
 
-import static io.github.selcukes.dp.util.OptionalUtil.orElse;
 import static org.jsoup.Jsoup.parse;
 
-public class IExplorerBinary implements BinaryFactory {
+public class IExplorerBinary extends AbstractBinary {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/IEDriverServer_%s_%s.0.zip";
-    private Optional<String> release;
     private Optional<TargetArch> targetArch;
 
     public IExplorerBinary(Optional<String> release, Optional<TargetArch> targetArch) {
-        this.release = release;
+        super(release, targetArch);
         this.targetArch = targetArch;
     }
 
@@ -53,11 +51,7 @@ public class IExplorerBinary implements BinaryFactory {
     }
 
     @Override
-    public String getBinaryVersion() {
-        return orElse(release, getLatestRelease());
-    }
-
-    private String getLatestRelease() {
+    String getLatestRelease() {
         final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.IEDRIVER_LATEST_RELEASE_URL, getProxy());
 
         try {
