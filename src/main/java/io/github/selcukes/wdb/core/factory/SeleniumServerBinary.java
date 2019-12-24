@@ -38,10 +38,15 @@ public class SeleniumServerBinary extends AbstractBinary {
         }
     }
 
- /*   @Override
+    @Override
+    public String getBinaryFileName() {
+        return getBinaryDriverName() + ".jar";
+    }
+
+    @Override
     public DownloaderType getCompressedBinaryType() {
         return DownloaderType.UNKNOWN;
-    }*/
+    }
 
     @Override
     public String getBinaryDriverName() {
