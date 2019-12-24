@@ -1,19 +1,12 @@
 package io.github.selcukes.wdb.core.factory;
 
 import io.github.selcukes.wdb.core.Environment;
-import io.github.selcukes.wdb.core.MirrorUrls;
 import io.github.selcukes.wdb.enums.TargetArch;
-import io.github.selcukes.wdb.exception.DriverPoolException;
-import io.github.selcukes.wdb.util.HttpUtils;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
-import java.io.InputStream;
 import java.util.Optional;
 
 import static io.github.selcukes.wdb.util.OptionalUtil.orElse;
 import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
-import static org.jsoup.Jsoup.parse;
 
 abstract class AbstractBinary implements BinaryFactory {
     private Optional<String> release;
@@ -38,10 +31,9 @@ abstract class AbstractBinary implements BinaryFactory {
     }
 
 
-    abstract protected String getLatestRelease();
+    protected abstract String getLatestRelease();
 
     protected String getProxy() {
-
         return unwrap(proxyUrl);
     }
 }

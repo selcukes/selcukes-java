@@ -1,12 +1,15 @@
 package io.github.selcukes.wdb.util;
 
 import io.github.selcukes.wdb.core.factory.*;
+import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.enums.OSType;
 import io.github.selcukes.wdb.enums.TargetArch;
-import io.github.selcukes.wdb.exception.DriverPoolException;
+import io.github.selcukes.wdb.exception.WebDriverBinaryException;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
@@ -40,24 +43,24 @@ public class WebDriverBinaryUtil {
         switch (driverType) {
             case CHROME:
 
-                this.binaryFactory = new ChromeBinary(release, targetArch,proxyUrl);
+                this.binaryFactory = new ChromeBinary(release, targetArch, proxyUrl);
                 break;
 
             case FIREFOX:
-                this.binaryFactory = new GeckoBinary(release, targetArch,proxyUrl);
+                this.binaryFactory = new GeckoBinary(release, targetArch, proxyUrl);
                 break;
 
             case IEXPLORER:
-                this.binaryFactory = new IExplorerBinary(release, targetArch,proxyUrl);
+                this.binaryFactory = new IExplorerBinary(release, targetArch, proxyUrl);
                 break;
             case EDGE:
-                this.binaryFactory = new EdgeBinary(release, targetArch,proxyUrl);
+                this.binaryFactory = new EdgeBinary(release, targetArch, proxyUrl);
                 break;
             case GRID:
-                this.binaryFactory = new SeleniumServerBinary(release, targetArch,proxyUrl);
+                this.binaryFactory = new SeleniumServerBinary(release, targetArch, proxyUrl);
                 break;
             default:
-                throw new DriverPoolException(String.format("Currently %s not supported", driverType.toString()));
+                throw new WebDriverBinaryException(String.format("Currently %s not supported", driverType.toString()));
         }
 
         return downloadBinaryAndConfigure();
@@ -79,8 +82,14 @@ public class WebDriverBinaryUtil {
             BinaryDownloadUtil.downloadBinary(unwrap(binaryFactory.getDownloadURL()), binaryFactory.getCompressedBinaryFile());
 
             logger.info(() -> String.format("%s successfully downloaded to: %s", binaryFactory.getBinaryDriverName(), getWebDriverBinary().getParent()));
-
-            decompressBinary();
+            if (binaryFactory.getCompressedBinaryType().equals(DownloaderType.JAR)) {
+                FileHelper.createDirectory(new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()));
+                try {
+                    FileUtils.copyFile(binaryFactory.getCompressedBinaryFile(), getWebDriverBinary());
+                } catch (IOException e) {
+                    throw new WebDriverBinaryException(e);
+                }
+            } else decompressBinary();
         }
         return configureBinary(driverType);
 

@@ -5,7 +5,7 @@ import io.github.selcukes.wdb.core.MirrorUrls;
 import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.OSType;
 import io.github.selcukes.wdb.enums.TargetArch;
-import io.github.selcukes.wdb.exception.DriverPoolException;
+import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.util.HttpUtils;
 
 import java.net.MalformedURLException;
@@ -33,7 +33,7 @@ public class GeckoBinary extends AbstractBinary {
                 getBinaryEnvironment().getOSType().equals(OSType.WIN) ? DownloaderType.ZIP.getName() : DownloaderType.TAR.getName())));
 
         } catch (MalformedURLException e) {
-            throw new DriverPoolException(e);
+            throw new WebDriverBinaryException(e);
         }
     }
 

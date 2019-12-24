@@ -2,7 +2,7 @@ package io.github.selcukes.wdb.core.factory;
 
 import io.github.selcukes.wdb.core.MirrorUrls;
 import io.github.selcukes.wdb.enums.TargetArch;
-import io.github.selcukes.wdb.exception.DriverPoolException;
+import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.util.HttpUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -32,7 +32,7 @@ public class IExplorerBinary extends AbstractBinary {
                 getBinaryVersion())));
 
         } catch (MalformedURLException e) {
-            throw new DriverPoolException(e);
+            throw new WebDriverBinaryException(e);
         }
     }
 
@@ -53,7 +53,7 @@ public class IExplorerBinary extends AbstractBinary {
             return elementText.substring(0, elementText.indexOf('/'));
 
         } catch (Exception e) {
-            throw new DriverPoolException(e);
+            throw new WebDriverBinaryException(e);
         }
     }
 

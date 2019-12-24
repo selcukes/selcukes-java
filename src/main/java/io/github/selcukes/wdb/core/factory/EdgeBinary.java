@@ -3,7 +3,7 @@ package io.github.selcukes.wdb.core.factory;
 import io.github.selcukes.wdb.core.MirrorUrls;
 import io.github.selcukes.wdb.enums.OSType;
 import io.github.selcukes.wdb.enums.TargetArch;
-import io.github.selcukes.wdb.exception.DriverPoolException;
+import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.util.HttpUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -37,7 +37,7 @@ public class EdgeBinary extends AbstractBinary implements BinaryFactory {
             )));
 
         } catch (MalformedURLException e) {
-            throw new DriverPoolException(e);
+            throw new WebDriverBinaryException(e);
         }
     }
 
@@ -49,7 +49,7 @@ public class EdgeBinary extends AbstractBinary implements BinaryFactory {
     @Override
     protected String getLatestRelease() {
         List<String> versionNumbers = new ArrayList<>();
-        String latestVersion = null;
+        String latestVersion;
         final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.EDGE_DRIVER_LATEST_RELEASE_URL, getProxy());
         try {
             Document doc = parse(downloadStream, null, "");
@@ -67,7 +67,7 @@ public class EdgeBinary extends AbstractBinary implements BinaryFactory {
             latestVersion = versionNumbers.get(0);
 
         } catch (Exception e) {
-            throw new DriverPoolException(e);
+            throw new WebDriverBinaryException(e);
         }
         return latestVersion;
     }

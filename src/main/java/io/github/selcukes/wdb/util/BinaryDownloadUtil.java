@@ -1,6 +1,6 @@
 package io.github.selcukes.wdb.util;
 
-import io.github.selcukes.wdb.exception.DriverPoolException;
+import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -33,10 +33,10 @@ public final class BinaryDownloadUtil {
             try {
                 return FileUtils.readFileToString(destinationFile, Charset.defaultCharset()).trim();
             } catch (IOException e) {
-                throw new DriverPoolException(e);
+                throw new WebDriverBinaryException(e);
             }
         }
-        throw new DriverPoolException("Unable to download file from: " + getAbsoluteURL(downloadURL));
+        throw new WebDriverBinaryException("Unable to download file from: " + getAbsoluteURL(downloadURL));
     }
 
     private static void download(URL downloadURL, File downloadTo, boolean silentDownload) {
@@ -55,7 +55,7 @@ public final class BinaryDownloadUtil {
                 logger.info(()->(TimeUnit.NANOSECONDS.toHours(downloadEndTime)+" min "+getSeconds(downloadEndTime)+" secs"));
             }
         } catch (IOException e) {
-            throw new DriverPoolException(e);
+            throw new WebDriverBinaryException(e);
         }
     }
     private static long getSeconds(long downloadEndTime)

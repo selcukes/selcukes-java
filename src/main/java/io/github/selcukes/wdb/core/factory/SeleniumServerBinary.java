@@ -3,7 +3,7 @@ package io.github.selcukes.wdb.core.factory;
 import io.github.selcukes.wdb.core.MirrorUrls;
 import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.TargetArch;
-import io.github.selcukes.wdb.exception.DriverPoolException;
+import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.util.HttpUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,6 +19,7 @@ import static org.jsoup.Jsoup.parse;
 
 public class SeleniumServerBinary extends AbstractBinary {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/selenium-server-%s.jar";
+    private String latestVersion;
 
     public SeleniumServerBinary(String release, TargetArch targetArch, String proxyUrl) {
         super(release, targetArch, proxyUrl);
@@ -30,11 +31,11 @@ public class SeleniumServerBinary extends AbstractBinary {
             return Optional.of(new URL(String.format(
                 BINARY_DOWNLOAD_URL_PATTERN,
                 MirrorUrls.IEDRIVER_URL,
-                getBinaryVersion().contains("alpha") ? getBinaryVersion().substring(0, 3) + "-alpha" : getBinaryVersion(),
+                getBinaryVersion().contains("alpha") ? latestVersion : getBinaryVersion(),
                 getBinaryVersion())));
 
         } catch (MalformedURLException e) {
-            throw new DriverPoolException(e);
+            throw new WebDriverBinaryException(e);
         }
     }
 
@@ -45,7 +46,7 @@ public class SeleniumServerBinary extends AbstractBinary {
 
     @Override
     public DownloaderType getCompressedBinaryType() {
-        return DownloaderType.UNKNOWN;
+        return DownloaderType.JAR;
     }
 
     @Override
@@ -72,7 +73,7 @@ public class SeleniumServerBinary extends AbstractBinary {
             List<String> sortedList = list.stream().sorted().collect(Collectors.toList());
 
 
-            String latestVersion = version.stream().sorted().collect(Collectors.toList()).get(version.size() - 1);
+            latestVersion = version.stream().sorted().collect(Collectors.toList()).get(version.size() - 1);
             String filterString = "selenium-server-" + latestVersion.substring(0, 3);
 
             sortedList.removeIf(check -> !check.contains(filterString));
@@ -81,7 +82,7 @@ public class SeleniumServerBinary extends AbstractBinary {
             return temp.substring(temp.indexOf(latestVersion.charAt(0)), temp.length() - 4);
 
         } catch (Exception e) {
-            throw new DriverPoolException(e);
+            throw new WebDriverBinaryException(e);
         }
     }
 

@@ -1,6 +1,6 @@
 package io.github.selcukes.wdb.util;
 
-import io.github.selcukes.wdb.exception.DriverPoolException;
+import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -24,7 +24,7 @@ public class FileHelper {
             permissions.add(PosixFilePermission.OWNER_EXECUTE);
             Files.setPosixFilePermissions(filepath, permissions);
         } catch (Exception e) {
-            throw new DriverPoolException("Unable to set WebDriver Binary file as executable :" + e);
+            throw new WebDriverBinaryException("Unable to set WebDriver Binary file as executable :" + e);
         }
     }
 
