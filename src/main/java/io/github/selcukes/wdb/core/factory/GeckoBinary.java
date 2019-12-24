@@ -1,6 +1,5 @@
 package io.github.selcukes.wdb.core.factory;
 
-import io.github.selcukes.wdb.core.Environment;
 import io.github.selcukes.wdb.core.MirrorUrls;
 import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.OSType;
@@ -14,11 +13,10 @@ import java.util.Optional;
 
 public class GeckoBinary extends AbstractBinary {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/geckodriver-%s-%s.%s";
-    private Optional<TargetArch> targetArch;
+
 
     public GeckoBinary(String release, TargetArch targetArch, String proxyUrl) {
         super(release, targetArch, proxyUrl);
-        this.targetArch = Optional.ofNullable(targetArch);
     }
 
     @Override
@@ -35,11 +33,6 @@ public class GeckoBinary extends AbstractBinary {
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);
         }
-    }
-
-    @Override
-    public Environment getBinaryEnvironment() {
-        return targetArch.map(arch -> Environment.create(arch.getValue())).orElseGet(Environment::create);
     }
 
     @Override
