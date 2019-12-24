@@ -1,6 +1,6 @@
 package io.github.selcukes.wdb.util;
 
-import io.github.selcukes.wdb.exception.DriverPoolException;
+import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +31,7 @@ public final class HttpUtils {
             httpURLConnection.connect();
             return httpURLConnection;
         } catch (Exception e) {
-            throw new DriverPoolException(e);
+            throw new WebDriverBinaryException(e);
         } finally {
             HttpURLConnection.setFollowRedirects(true);
         }
@@ -48,7 +48,7 @@ public final class HttpUtils {
             try {
                 return t.getInputStream();
             } catch (IOException e) {
-                throw new DriverPoolException(e);
+                throw new WebDriverBinaryException(e);
             }
         });
     }

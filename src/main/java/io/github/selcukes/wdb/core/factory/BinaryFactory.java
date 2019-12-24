@@ -20,7 +20,7 @@ public interface BinaryFactory {
             getBinaryDriverName().toLowerCase() +
             "_" +
             getBinaryVersion() +
-            getCompressedBinaryType().name();
+            "." + getCompressedBinaryType().getName();
         return new File(file);
     }
 

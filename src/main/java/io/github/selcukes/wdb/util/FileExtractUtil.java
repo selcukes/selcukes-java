@@ -1,7 +1,7 @@
 package io.github.selcukes.wdb.util;
 
 import io.github.selcukes.wdb.enums.DownloaderType;
-import io.github.selcukes.wdb.exception.DriverPoolException;
+import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 
@@ -27,7 +27,7 @@ public final class FileExtractUtil {
         final File[] directoryContents = (extractedFile != null) ? extractedFile.listFiles() : new File[0];
 
         if (directoryContents != null && directoryContents.length == 0) {
-            throw new DriverPoolException("The file unpacking failed for: " + source.getAbsolutePath());
+            throw new WebDriverBinaryException("The file unpacking failed for: " + source.getAbsolutePath());
         }
         return extractedFile;
     }
@@ -49,7 +49,7 @@ public final class FileExtractUtil {
             }
             inputStream.closeEntry();
         } catch (IOException ex) {
-            throw new DriverPoolException(ex);
+            throw new WebDriverBinaryException(ex);
         }
         return unZippedFile;
     }
@@ -75,7 +75,7 @@ public final class FileExtractUtil {
             }
             inputStream.getCurrentEntry();
         } catch (IOException ex) {
-            throw new DriverPoolException(ex);
+            throw new WebDriverBinaryException(ex);
         }
         return tarFile;
     }

@@ -4,7 +4,7 @@ import io.github.selcukes.wdb.core.Environment;
 import io.github.selcukes.wdb.core.MirrorUrls;
 import io.github.selcukes.wdb.enums.OSType;
 import io.github.selcukes.wdb.enums.TargetArch;
-import io.github.selcukes.wdb.exception.DriverPoolException;
+import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.util.BinaryDownloadUtil;
 
 import java.net.MalformedURLException;
@@ -33,7 +33,7 @@ public class ChromeBinary extends AbstractBinary {
                 getBinaryEnvironment().getOsNameAndArch())));
 
         } catch (MalformedURLException e) {
-            throw new DriverPoolException(e);
+            throw new WebDriverBinaryException(e);
         }
     }
 
@@ -56,7 +56,7 @@ public class ChromeBinary extends AbstractBinary {
         try {
             return BinaryDownloadUtil.downloadAndReadFile(new URL(MirrorUrls.CHROMEDRIVER_LATEST_RELEASE_URL));
         } catch (MalformedURLException e) {
-            throw new DriverPoolException(e);
+            throw new WebDriverBinaryException(e);
         }
     }
 }
