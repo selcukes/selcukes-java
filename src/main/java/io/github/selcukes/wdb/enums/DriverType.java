@@ -5,7 +5,7 @@ public enum DriverType {
     FIREFOX("gecko"),
     IEXPLORER("ie"),
     EDGE("edge"),
-    GRID("selenium-server");
+    GRID("grid");
 
     String name;
 
