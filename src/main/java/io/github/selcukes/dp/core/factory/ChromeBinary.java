@@ -17,9 +17,9 @@ public class ChromeBinary extends AbstractBinary {
     private Optional<TargetArch> targetArch;
 
 
-    public ChromeBinary(Optional<String> release, Optional<TargetArch> targetArch) {
-        super(release, targetArch);
-        this.targetArch = targetArch;
+    public ChromeBinary(String release, TargetArch targetArch, String proxyUrl) {
+        super(release, targetArch, proxyUrl);
+        this.targetArch = Optional.ofNullable(targetArch);
     }
 
 

@@ -7,7 +7,6 @@ import io.github.selcukes.dp.enums.TargetArch;
 import io.github.selcukes.dp.exception.DriverPoolException;
 
 import java.io.File;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
@@ -16,17 +15,19 @@ public class DriverPoolUtil {
     private final Logger logger = Logger.getLogger(DriverPoolUtil.class.getName());
 
     private DriverType driverType;
-    private Optional<String> release;
-    private Optional<TargetArch> targetArch;
+    private String release;
+    private TargetArch targetArch;
+    String proxyUrl;
     private File binaryDownloadDirectory;
     private BinaryFactory binaryFactory;
     private static String webdrivers = "webdrivers";
 
-    public DriverPoolUtil(DriverType driverType, String release, TargetArch targetArch, String downloadLocation) {
+    public DriverPoolUtil(DriverType driverType, String release, TargetArch targetArch, String downloadLocation, String proxyUrl) {
         this.driverType = driverType;
-        this.release = Optional.ofNullable(release);
-        this.targetArch = Optional.ofNullable(targetArch);
+        this.release = release;
+        this.targetArch = targetArch;
         this.binaryDownloadDirectory = getBinaryDownloadDirectory(downloadLocation);
+        this.proxyUrl = proxyUrl;
     }
 
     private File getBinaryDownloadDirectory(String downloadLocation) {
@@ -39,18 +40,18 @@ public class DriverPoolUtil {
         switch (driverType) {
             case CHROME:
 
-                this.binaryFactory = new ChromeBinary(release, targetArch);
+                this.binaryFactory = new ChromeBinary(release, targetArch,proxyUrl);
                 break;
 
             case FIREFOX:
-                this.binaryFactory = new GeckoBinary(release, targetArch);
+                this.binaryFactory = new GeckoBinary(release, targetArch,proxyUrl);
                 break;
 
             case IEXPLORER:
-                this.binaryFactory = new IExplorerBinary(release, targetArch);
+                this.binaryFactory = new IExplorerBinary(release, targetArch,proxyUrl);
                 break;
             case EDGE:
-                this.binaryFactory = new EdgeBinary(release, targetArch);
+                this.binaryFactory = new EdgeBinary(release, targetArch,proxyUrl);
                 break;
             default:
                 throw new DriverPoolException(String.format("Currently %s not supported", driverType.toString()));
@@ -61,10 +62,10 @@ public class DriverPoolUtil {
 
     private File getWebDriverBinary() {
         return new File(binaryDownloadDirectory.getAbsolutePath() +
-                File.separator +
-                binaryFactory.getBinaryDirectory() +
-                File.separator +
-                binaryFactory.getBinaryFileName());
+            File.separator +
+            binaryFactory.getBinaryDirectory() +
+            File.separator +
+            binaryFactory.getBinaryFileName());
     }
 
     private String downloadBinaryAndConfigure() {
@@ -85,9 +86,9 @@ public class DriverPoolUtil {
 
     private void decompressBinary() {
         final File decompressedBinary = FileExtractUtil.extractFile(
-                binaryFactory.getCompressedBinaryFile(),
-                new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()),
-                binaryFactory.getCompressedBinaryType());
+            binaryFactory.getCompressedBinaryFile(),
+            new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()),
+            binaryFactory.getCompressedBinaryType());
         if (binaryFactory.getBinaryEnvironment().getOSType().equals(OSType.LINUX))
             FileHelper.setFileExecutable(decompressedBinary.getAbsolutePath());
     }
@@ -96,9 +97,9 @@ public class DriverPoolUtil {
         StringBuilder binaryPropertyName = new StringBuilder();
 
         binaryPropertyName.append(webdrivers)
-                .append(".")
-                .append(driverType.getName())
-                .append(".driver");
+            .append(".")
+            .append(driverType.getName())
+            .append(".driver");
 
         System.setProperty(binaryPropertyName.toString(), getWebDriverBinary().getAbsolutePath());
         return binaryPropertyName.toString();

@@ -10,6 +10,7 @@ public class DriverPool {
     private String release;
     private TargetArch targetArch;
     private String downloadLocation = TempFileUtil.getTempDirectory();
+    private String proxyUrl;
 
     public static Builder chromeDriver() {
         return new DriverPool().new Builder(DriverType.CHROME);
@@ -22,6 +23,7 @@ public class DriverPool {
     public static Builder ieDriver() {
         return new DriverPool().new Builder(DriverType.IEXPLORER);
     }
+
     public static Builder edgeDriver() {
         return new DriverPool().new Builder(DriverType.EDGE);
     }
@@ -54,11 +56,17 @@ public class DriverPool {
             return this;
         }
 
+        public Builder proxy(String proxy) {
+            DriverPool.this.proxyUrl = proxy;
+            return this;
+        }
+
         public String setup() {
             return new DriverPoolUtil(DriverPool.this.driverType,
-                    DriverPool.this.release,
-                    DriverPool.this.targetArch,
-                    DriverPool.this.downloadLocation).downloadAndSetupBinaryPath();
+                DriverPool.this.release,
+                DriverPool.this.targetArch,
+                DriverPool.this.downloadLocation,
+                DriverPool.this.proxyUrl).downloadAndSetupBinaryPath();
         }
     }
 

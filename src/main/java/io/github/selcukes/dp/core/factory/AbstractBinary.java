@@ -6,15 +6,18 @@ import io.github.selcukes.dp.enums.TargetArch;
 import java.util.Optional;
 
 import static io.github.selcukes.dp.util.OptionalUtil.orElse;
+import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
 
 abstract class AbstractBinary implements BinaryFactory {
     private Optional<String> release;
     private Optional<TargetArch> targetArch;
+    private Optional<String> proxyUrl;
 
-    public AbstractBinary(Optional<String> release, Optional<TargetArch> targetArch) {
+    public AbstractBinary(String release, TargetArch targetArch, String proxyUrl) {
 
-        this.release = release;
-        this.targetArch = targetArch;
+        this.release = Optional.ofNullable(release);
+        this.targetArch = Optional.ofNullable(targetArch);
+        this.release = Optional.ofNullable(proxyUrl);
     }
 
     @Override
@@ -28,4 +31,9 @@ abstract class AbstractBinary implements BinaryFactory {
     }
 
     abstract String getLatestRelease();
+
+    String getProxy() {
+
+        return unwrap(proxyUrl);
+    }
 }

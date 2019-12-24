@@ -16,9 +16,9 @@ public class GeckoBinary extends AbstractBinary {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/geckodriver-%s-%s.%s";
     private Optional<TargetArch> targetArch;
 
-    public GeckoBinary(Optional<String> release, Optional<TargetArch> targetArch) {
-        super(release, targetArch);
-        this.targetArch = targetArch;
+    public GeckoBinary(String release, TargetArch targetArch, String proxyUrl) {
+        super(release, targetArch, proxyUrl);
+        this.targetArch = Optional.ofNullable(targetArch);
     }
 
     @Override

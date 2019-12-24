@@ -17,8 +17,8 @@ import static org.jsoup.Jsoup.parse;
 public class IExplorerBinary extends AbstractBinary {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/IEDriverServer_%s_%s.0.zip";
 
-    public IExplorerBinary(Optional<String> release, Optional<TargetArch> targetArch) {
-        super(release, targetArch);
+    public IExplorerBinary(String release, TargetArch targetArch, String proxyUrl) {
+        super(release, targetArch, proxyUrl);
     }
 
     @Override
