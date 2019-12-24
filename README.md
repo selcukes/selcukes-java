@@ -27,25 +27,25 @@ To use add the `webdriver-binaries` dependency to your pom.xml:
 ## Usage
 Download the latest binary
 ```java
-WebDriverBinaries.chromedriver().setup();
-WebDriverBinaries.firefoxDriver().setup();
-WebDriverBinaries.iedriver().setup();
+WebDriverBinary.chromedriver().setup();
+WebDriverBinary.firefoxDriver().setup();
+WebDriverBinary.iedriver().setup();
 ```
 Download binaries for specific architecture
 
 ```java
-WebDriverBinaries.chromedriver().arch64().setup();
-WebDriverBinaries.firefoxDriver().arch32().setup();
+WebDriverBinary.chromedriver().arch64().setup();
+WebDriverBinary.firefoxDriver().arch32().setup();
 ```
 
 Download binaries by specifying custom download location
 
 ```java
-WebDriverBinaries.chromedriver().targetPath("temp").setup();
-WebDriverBinaries.firefoxDriver().targetPath("downloadLocation").setup();
+WebDriverBinary.chromedriver().targetPath("temp").setup();
+WebDriverBinary.firefoxDriver().targetPath("downloadLocation").setup();
 ```
 
 Download binaries for a specific release version
 ```java
-WebDriverBinaries.firefoxDriver().version("v0.26.0").setup();
+WebDriverBinary.firefoxDriver().version("v0.26.0").setup();
 ```
