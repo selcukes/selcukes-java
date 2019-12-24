@@ -2,10 +2,10 @@ package io.github.selcukes.dp;
 
 import io.github.selcukes.dp.enums.DriverType;
 import io.github.selcukes.dp.enums.TargetArch;
-import io.github.selcukes.dp.util.WebDriverBinariesUtil;
+import io.github.selcukes.dp.util.WebDriverBinaryUtil;
 import io.github.selcukes.dp.util.TempFileUtil;
 
-public class WebDriverBinaries {
+public class WebDriverBinary {
     private DriverType driverType;
     private String release;
     private TargetArch targetArch;
@@ -13,60 +13,60 @@ public class WebDriverBinaries {
     private String proxyUrl;
 
     public static Builder chromeDriver() {
-        return new WebDriverBinaries().new Builder(DriverType.CHROME);
+        return new WebDriverBinary().new Builder(DriverType.CHROME);
     }
 
     public static Builder firefoxDriver() {
-        return new WebDriverBinaries().new Builder(DriverType.FIREFOX);
+        return new WebDriverBinary().new Builder(DriverType.FIREFOX);
     }
 
     public static Builder ieDriver() {
-        return new WebDriverBinaries().new Builder(DriverType.IEXPLORER);
+        return new WebDriverBinary().new Builder(DriverType.IEXPLORER);
     }
 
     public static Builder edgeDriver() {
-        return new WebDriverBinaries().new Builder(DriverType.EDGE);
+        return new WebDriverBinary().new Builder(DriverType.EDGE);
     }
 
 
     public class Builder {
         public Builder(DriverType driverType) {
-            WebDriverBinaries.this.driverType = driverType;
+            WebDriverBinary.this.driverType = driverType;
         }
 
 
         public Builder version(String version) {
-            WebDriverBinaries.this.release = version;
+            WebDriverBinary.this.release = version;
             return this;
         }
 
         public Builder arch64() {
-            WebDriverBinaries.this.targetArch = TargetArch.X64;
+            WebDriverBinary.this.targetArch = TargetArch.X64;
             return this;
         }
 
         public Builder arch32() {
-            WebDriverBinaries.this.targetArch = TargetArch.X32;
+            WebDriverBinary.this.targetArch = TargetArch.X32;
             return this;
         }
 
 
         public Builder targetPath(String targetPath) {
-            WebDriverBinaries.this.downloadLocation = targetPath;
+            WebDriverBinary.this.downloadLocation = targetPath;
             return this;
         }
 
         public Builder proxy(String proxy) {
-            WebDriverBinaries.this.proxyUrl = proxy;
+            WebDriverBinary.this.proxyUrl = proxy;
             return this;
         }
 
         public String setup() {
-            return new WebDriverBinariesUtil(WebDriverBinaries.this.driverType,
-                WebDriverBinaries.this.release,
-                WebDriverBinaries.this.targetArch,
-                WebDriverBinaries.this.downloadLocation,
-                WebDriverBinaries.this.proxyUrl).downloadAndSetupBinaryPath();
+            return new WebDriverBinaryUtil(WebDriverBinary.this.driverType,
+                WebDriverBinary.this.release,
+                WebDriverBinary.this.targetArch,
+                WebDriverBinary.this.downloadLocation,
+                WebDriverBinary.this.proxyUrl).downloadAndSetupBinaryPath();
         }
     }
 
