@@ -30,9 +30,9 @@ abstract class AbstractBinary implements BinaryFactory {
         return orElse(release, getLatestRelease());
     }
 
-    abstract String getLatestRelease();
+    protected abstract String getLatestRelease();
 
-    String getProxy() {
+    protected String getProxy() {
 
         return unwrap(proxyUrl);
     }

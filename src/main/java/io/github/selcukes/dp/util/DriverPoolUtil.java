@@ -17,7 +17,7 @@ public class DriverPoolUtil {
     private DriverType driverType;
     private String release;
     private TargetArch targetArch;
-    String proxyUrl;
+    private String proxyUrl;
     private File binaryDownloadDirectory;
     private BinaryFactory binaryFactory;
     private static String webdrivers = "webdrivers";
