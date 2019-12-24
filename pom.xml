@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.selcukes</groupId>
-    <artifactId>driver-pool</artifactId>
+    <artifactId>webdriver-binaries</artifactId>
     <version>0.0.2-SNAPSHOT</version>
 
-    <name>driver-pool</name>
+    <name>webdriver-binaries</name>
     <description>Automatically download and setup Selenium Webdriver binary files</description>
-    <url>https://github.com/selcukes/driver-pool</url>
+    <url>https://github.com/selcukes/webdriver-binaries</url>
     <inceptionYear>2019</inceptionYear>
 
     <properties>
@@ -41,9 +41,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:git@github.com:selcukes/driver-pool.git</connection>
-        <developerConnection>scm:git:git@github.com:selcukes/driver-pool.git</developerConnection>
-        <url>scm:git:git@github.com:selcukes/driver-pool.git</url>
+        <connection>scm:git:git@github.com:selcukes/webdriver-binaries.git</connection>
+        <developerConnection>scm:git:git@github.com:selcukes/webdriver-binaries.git</developerConnection>
+        <url>scm:git:git@github.com:selcukes/webdriver-binaries.git</url>
     </scm>
 
     <developers>
@@ -58,7 +58,7 @@
     </developers>
 
     <issueManagement>
-        <url>https://github.com/selcukes/driver-pool/issues</url>
+        <url>https://github.com/selcukes/webdriver-binaries/issues</url>
         <system>GitHub Issues</system>
     </issueManagement>
 

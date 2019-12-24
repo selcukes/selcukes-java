@@ -11,8 +11,8 @@ import java.util.logging.Logger;
 
 import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
 
-public class DriverPoolUtil {
-    private final Logger logger = Logger.getLogger(DriverPoolUtil.class.getName());
+public class WebDriverBinariesUtil {
+    private final Logger logger = Logger.getLogger(WebDriverBinariesUtil.class.getName());
 
     private DriverType driverType;
     private String release;
@@ -22,7 +22,7 @@ public class DriverPoolUtil {
     private BinaryFactory binaryFactory;
     private static String webdrivers = "webdrivers";
 
-    public DriverPoolUtil(DriverType driverType, String release, TargetArch targetArch, String downloadLocation, String proxyUrl) {
+    public WebDriverBinariesUtil(DriverType driverType, String release, TargetArch targetArch, String downloadLocation, String proxyUrl) {
         this.driverType = driverType;
         this.release = release;
         this.targetArch = targetArch;

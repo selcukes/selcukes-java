@@ -1,7 +1,7 @@
 package io.github.selcukes.tests;
 
 
-import io.github.selcukes.dp.DriverPool;
+import io.github.selcukes.dp.WebDriverBinaries;
 import org.junit.Test;
 
 import java.util.logging.Logger;
@@ -15,30 +15,30 @@ public class WebDriverBinaryTest {
 
     @Test
     public void downloadBinaryTest() {
-        String binProp = DriverPool.chromeDriver().targetPath("temp").setup();
+        String binProp = WebDriverBinaries.chromeDriver().targetPath("temp").setup();
         assertEquals("webdrivers.chrome.driver", binProp);
         logger.info("Path set for the Property { " + binProp + "} from the location {" + getProperty(binProp) + "}");
 
-        binProp = DriverPool.ieDriver().targetPath("temp").arch32().setup();
+        binProp = WebDriverBinaries.ieDriver().targetPath("temp").arch32().setup();
         assertEquals("webdrivers.ie.driver", binProp);
         logger.info("Path set for the Property { " + binProp + "} from the location {" + getProperty(binProp) + "}");
 
-        binProp = DriverPool.firefoxDriver().targetPath("temp").version("v0.26.0").arch64().setup();
+        binProp = WebDriverBinaries.firefoxDriver().targetPath("temp").version("v0.26.0").arch64().setup();
         assertEquals("webdrivers.gecko.driver", binProp);
         logger.info("Path set for the Property { " + binProp + "} from the location {" + getProperty(binProp) + "}");
 
-        binProp = DriverPool.edgeDriver().targetPath("temp").setup();
+        binProp = WebDriverBinaries.edgeDriver().targetPath("temp").setup();
         assertEquals("webdrivers.edge.driver", binProp);
         logger.info("Path set for the Property { " + binProp + "} from the location {" + getProperty(binProp) + "}");
     }
 
     @Test
     public void reuseDownloadedBinaryTest() {
-        String binProp = DriverPool.chromeDriver().setup();
+        String binProp = WebDriverBinaries.chromeDriver().setup();
         String binaryDownloadedPath = getProperty(binProp);
         logger.info("Path set for the Property { " + binProp + "} from the location {" + binaryDownloadedPath + "}");
 
-        String binProp1 = DriverPool.chromeDriver().setup();
+        String binProp1 = WebDriverBinaries.chromeDriver().setup();
         String binaryDownloadedPath1 = getProperty(binProp1);
         logger.info("Path set for the Property { " + binProp + "} from the location {" + binaryDownloadedPath1 + "}");
 
