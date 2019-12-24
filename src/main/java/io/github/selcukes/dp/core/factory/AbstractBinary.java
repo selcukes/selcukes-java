@@ -17,7 +17,7 @@ abstract class AbstractBinary implements BinaryFactory {
 
         this.release = Optional.ofNullable(release);
         this.targetArch = Optional.ofNullable(targetArch);
-        this.release = Optional.ofNullable(proxyUrl);
+        this.proxyUrl = Optional.ofNullable(proxyUrl);
     }
 
     @Override
