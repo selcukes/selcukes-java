@@ -2,7 +2,8 @@ package io.github.selcukes.wdb.enums;
 
 public enum DownloaderType {
     ZIP("zip"),
-    TAR("tar.gz");
+    TAR("tar.gz"),
+    UNKNOWN("");
     String name;
 
     DownloaderType(String name) {

@@ -22,8 +22,18 @@ public final class FileExtractUtil {
 
     public static File extractFile(File source, File destination, DownloaderType compressedBinaryType) {
         FileHelper.createDirectory(destination);
-        final File extractedFile = compressedBinaryType.equals(DownloaderType.ZIP) ? unZipFile(source, destination) : unTarFile(source, destination);
-
+        File extractedFile = source;
+        if (compressedBinaryType.equals(DownloaderType.ZIP))
+            extractedFile = unZipFile(source, destination);
+        else if (compressedBinaryType.equals(DownloaderType.TAR))
+            extractedFile = unTarFile(source, destination);
+        else {
+            try {
+                processFile(new FileInputStream(source.toString()), destination);
+            } catch (IOException e) {
+                throw new DriverPoolException(e);
+            }
+        }
         final File[] directoryContents = (extractedFile != null) ? extractedFile.listFiles() : new File[0];
 
         if (directoryContents != null && directoryContents.length == 0) {
@@ -42,7 +52,7 @@ public final class FileExtractUtil {
                 long size = zipEntry.getSize();
                 long compressedSize = zipEntry.getCompressedSize();
                 logger.severe(() -> String.format("Unzipping {%s} (size: {%d} KB, compressed size: {%d} KB)",
-                        fileName, size, compressedSize));
+                    fileName, size, compressedSize));
                 unZippedFile = new File(destination.getAbsolutePath() + File.separator + fileName);
                 processFile(inputStream, unZippedFile);
                 zipEntry = inputStream.getNextEntry();
@@ -67,7 +77,7 @@ public final class FileExtractUtil {
                 long size = tarEntry.getSize();
                 long compressedSize = tarEntry.getSize();
                 logger.severe(() -> String.format("Uncompressing {%s} (size: {%d} KB, compressed size: {%d} KB)",
-                        fileName, size, compressedSize));
+                    fileName, size, compressedSize));
                 tarFile = new File(destination.getAbsolutePath() + File.separator + fileName);
 
                 processFile(inputStream, tarFile);
@@ -109,7 +119,7 @@ public final class FileExtractUtil {
 
     private static String getFileName(File inputFile, String outputFolder) {
         return outputFolder + File.separator +
-                inputFile.getName().substring(0, inputFile.getName().lastIndexOf('.'));
+            inputFile.getName().substring(0, inputFile.getName().lastIndexOf('.'));
     }
 
 }

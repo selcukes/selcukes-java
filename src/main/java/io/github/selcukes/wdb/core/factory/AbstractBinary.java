@@ -38,20 +38,7 @@ abstract class AbstractBinary implements BinaryFactory {
     }
 
 
-    protected String getLatestRelease() {
-        final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.IEDRIVER_LATEST_RELEASE_URL, getProxy());
-
-        try {
-            Document doc = parse(downloadStream, null, "");
-            Element element = doc.select(
-                "Key:contains("+getBinaryDriverName()+")").last();
-            final String elementText = element.text();
-            return elementText.substring(0, elementText.indexOf('/'));
-
-        } catch (Exception e) {
-            throw new DriverPoolException(e);
-        }
-    }
+    abstract protected String getLatestRelease();
 
     protected String getProxy() {
 
