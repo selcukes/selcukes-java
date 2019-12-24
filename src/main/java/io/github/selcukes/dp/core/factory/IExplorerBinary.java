@@ -1,6 +1,5 @@
 package io.github.selcukes.dp.core.factory;
 
-import io.github.selcukes.dp.core.Environment;
 import io.github.selcukes.dp.core.MirrorUrls;
 import io.github.selcukes.dp.enums.TargetArch;
 import io.github.selcukes.dp.exception.DriverPoolException;
@@ -13,19 +12,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
 
-import static io.github.selcukes.dp.util.OptionalUtil.orElse;
 import static org.jsoup.Jsoup.parse;
 
-public class IExplorerBinary implements BinaryFactory {
+public class IExplorerBinary extends AbstractBinary {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/IEDriverServer_%s_%s.0.zip";
-    private Optional<String> release;
-    private Optional<TargetArch> targetArch;
 
-    public IExplorerBinary(Optional<String> release, Optional<TargetArch> targetArch) {
-        this.release = release;
-        this.targetArch = targetArch;
+    public IExplorerBinary(String release, TargetArch targetArch, String proxyUrl) {
+        super(release, targetArch, proxyUrl);
     }
-
 
     @Override
     public Optional<URL> getDownloadURL() {
@@ -43,21 +37,12 @@ public class IExplorerBinary implements BinaryFactory {
     }
 
     @Override
-    public Environment getBinaryEnvironment() {
-        return targetArch.map(arch -> Environment.create(arch.getValue())).orElseGet(Environment::create);
-    }
-
-    @Override
     public String getBinaryDriverName() {
         return "IEDriverServer";
     }
 
     @Override
-    public String getBinaryVersion() {
-        return orElse(release, getLatestRelease());
-    }
-
-    private String getLatestRelease() {
+    protected String getLatestRelease() {
         final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.IEDRIVER_LATEST_RELEASE_URL, getProxy());
 
         try {

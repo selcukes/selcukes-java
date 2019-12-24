@@ -1,6 +1,5 @@
 package io.github.selcukes.dp.core.factory;
 
-import io.github.selcukes.dp.core.Environment;
 import io.github.selcukes.dp.core.MirrorUrls;
 import io.github.selcukes.dp.enums.OSType;
 import io.github.selcukes.dp.enums.TargetArch;
@@ -17,19 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static io.github.selcukes.dp.util.OptionalUtil.orElse;
 import static org.jsoup.Jsoup.parse;
 
-public class EdgeBinary implements BinaryFactory {
+public class EdgeBinary extends AbstractBinary implements BinaryFactory {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/edgedriver_%s.zip";
-    private Optional<String> release;
-    private Optional<TargetArch> targetArch;
 
-    public EdgeBinary(Optional<String> release, Optional<TargetArch> targetArch) {
-        this.release = release;
-        this.targetArch = targetArch;
+    public EdgeBinary(String release, TargetArch targetArch, String proxyUrl) {
+        super(release, targetArch, proxyUrl);
+
     }
-
 
     @Override
     public Optional<URL> getDownloadURL() {
@@ -47,21 +42,12 @@ public class EdgeBinary implements BinaryFactory {
     }
 
     @Override
-    public Environment getBinaryEnvironment() {
-        return targetArch.map(arch -> Environment.create(arch.getValue())).orElseGet(Environment::create);
-    }
-
-    @Override
     public String getBinaryDriverName() {
         return "msedgedriver";
     }
 
     @Override
-    public String getBinaryVersion() {
-        return orElse(release, getLatestRelease());
-    }
-
-    private String getLatestRelease() {
+    protected String getLatestRelease() {
         List<String> versionNumbers = new ArrayList<>();
         String latestVersion = null;
         final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.EDGE_DRIVER_LATEST_RELEASE_URL, getProxy());
