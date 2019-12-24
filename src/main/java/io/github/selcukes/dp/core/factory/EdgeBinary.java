@@ -1,6 +1,5 @@
 package io.github.selcukes.dp.core.factory;
 
-import io.github.selcukes.dp.core.Environment;
 import io.github.selcukes.dp.core.MirrorUrls;
 import io.github.selcukes.dp.enums.OSType;
 import io.github.selcukes.dp.enums.TargetArch;
@@ -21,13 +20,11 @@ import static org.jsoup.Jsoup.parse;
 
 public class EdgeBinary extends AbstractBinary implements BinaryFactory {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/edgedriver_%s.zip";
-    private Optional<TargetArch> targetArch;
 
     public EdgeBinary(Optional<String> release, Optional<TargetArch> targetArch) {
         super(release, targetArch);
-        this.targetArch = targetArch;
-    }
 
+    }
 
     @Override
     public Optional<URL> getDownloadURL() {
@@ -42,11 +39,6 @@ public class EdgeBinary extends AbstractBinary implements BinaryFactory {
         } catch (MalformedURLException e) {
             throw new DriverPoolException(e);
         }
-    }
-
-    @Override
-    public Environment getBinaryEnvironment() {
-        return targetArch.map(arch -> Environment.create(arch.getValue())).orElseGet(Environment::create);
     }
 
     @Override

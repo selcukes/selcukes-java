@@ -1,6 +1,5 @@
 package io.github.selcukes.dp.core.factory;
 
-import io.github.selcukes.dp.core.Environment;
 import io.github.selcukes.dp.core.MirrorUrls;
 import io.github.selcukes.dp.enums.TargetArch;
 import io.github.selcukes.dp.exception.DriverPoolException;
@@ -17,13 +16,10 @@ import static org.jsoup.Jsoup.parse;
 
 public class IExplorerBinary extends AbstractBinary {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/IEDriverServer_%s_%s.0.zip";
-    private Optional<TargetArch> targetArch;
 
     public IExplorerBinary(Optional<String> release, Optional<TargetArch> targetArch) {
         super(release, targetArch);
-        this.targetArch = targetArch;
     }
-
 
     @Override
     public Optional<URL> getDownloadURL() {
@@ -38,11 +34,6 @@ public class IExplorerBinary extends AbstractBinary {
         } catch (MalformedURLException e) {
             throw new DriverPoolException(e);
         }
-    }
-
-    @Override
-    public Environment getBinaryEnvironment() {
-        return targetArch.map(arch -> Environment.create(arch.getValue())).orElseGet(Environment::create);
     }
 
     @Override
