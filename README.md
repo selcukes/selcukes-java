@@ -7,7 +7,7 @@
 [![badge-jdk](https://img.shields.io/badge/jdk-8-green.svg)](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 [![License badge](https://img.shields.io/badge/license-Apache2-green.svg?label=License)](http://www.apache.org/licenses/LICENSE-2.0)
 
-Driver Pool automatically downloads and configures the binary drivers (e.g. chromedriver, geckodriver, etc.) required by Selenium WebDriver.
+WebDriver Binaries automatically downloads and configures the binary drivers (e.g. chromedriver, geckodriver, etc.) required by Selenium WebDriver.
 
 To use add the `webdriver-binaries` dependency to your pom.xml:
 
