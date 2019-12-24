@@ -52,7 +52,7 @@ public class ChromeBinary extends AbstractBinary {
     }
 
     @Override
-    String getLatestRelease() {
+    protected String getLatestRelease() {
         try {
             return BinaryDownloadUtil.downloadAndReadFile(new URL(MirrorUrls.CHROMEDRIVER_LATEST_RELEASE_URL));
         } catch (MalformedURLException e) {

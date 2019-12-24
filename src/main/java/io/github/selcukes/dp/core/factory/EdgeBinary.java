@@ -47,7 +47,7 @@ public class EdgeBinary extends AbstractBinary implements BinaryFactory {
     }
 
     @Override
-    String getLatestRelease() {
+    protected String getLatestRelease() {
         List<String> versionNumbers = new ArrayList<>();
         String latestVersion = null;
         final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.EDGE_DRIVER_LATEST_RELEASE_URL, getProxy());

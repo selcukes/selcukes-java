@@ -42,7 +42,7 @@ public class IExplorerBinary extends AbstractBinary {
     }
 
     @Override
-    String getLatestRelease() {
+    protected String getLatestRelease() {
         final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.IEDRIVER_LATEST_RELEASE_URL, getProxy());
 
         try {
