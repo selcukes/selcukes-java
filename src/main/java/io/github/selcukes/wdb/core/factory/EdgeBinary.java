@@ -1,10 +1,10 @@
-package io.github.selcukes.dp.core.factory;
+package io.github.selcukes.wdb.core.factory;
 
-import io.github.selcukes.dp.core.MirrorUrls;
-import io.github.selcukes.dp.enums.OSType;
-import io.github.selcukes.dp.enums.TargetArch;
-import io.github.selcukes.dp.exception.DriverPoolException;
-import io.github.selcukes.dp.util.HttpUtils;
+import io.github.selcukes.wdb.core.MirrorUrls;
+import io.github.selcukes.wdb.enums.OSType;
+import io.github.selcukes.wdb.enums.TargetArch;
+import io.github.selcukes.wdb.exception.DriverPoolException;
+import io.github.selcukes.wdb.util.HttpUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;

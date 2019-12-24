@@ -1,6 +1,6 @@
-package io.github.selcukes.dp.util;
+package io.github.selcukes.wdb.util;
 
-import io.github.selcukes.dp.exception.DriverPoolException;
+import io.github.selcukes.wdb.exception.DriverPoolException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.logging.Logger;
 
-import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
+import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
 
 public final class HttpUtils {
     private static final Logger logger = Logger.getLogger(HttpUtils.class.getName());

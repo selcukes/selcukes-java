@@ -1,4 +1,4 @@
-package io.github.selcukes.dp.core;
+package io.github.selcukes.wdb.core;
 
 public class MirrorUrls {
     public static final String CHROMEDRIVER_URL = "https://chromedriver.storage.googleapis.com";

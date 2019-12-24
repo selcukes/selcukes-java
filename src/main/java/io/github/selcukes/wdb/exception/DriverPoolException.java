@@ -1,4 +1,4 @@
-package io.github.selcukes.dp.exception;
+package io.github.selcukes.wdb.exception;
 
 
 public class DriverPoolException extends RuntimeException {

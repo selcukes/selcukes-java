@@ -1,6 +1,6 @@
-package io.github.selcukes.dp.util;
+package io.github.selcukes.wdb.util;
 
-import io.github.selcukes.dp.exception.DriverPoolException;
+import io.github.selcukes.wdb.exception.DriverPoolException;
 
 import java.io.File;
 import java.nio.file.Files;

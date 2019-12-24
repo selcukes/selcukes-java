@@ -1,9 +1,9 @@
-package io.github.selcukes.dp.core.factory;
+package io.github.selcukes.wdb.core.factory;
 
-import io.github.selcukes.dp.core.Environment;
-import io.github.selcukes.dp.enums.DownloaderType;
-import io.github.selcukes.dp.enums.OSType;
-import io.github.selcukes.dp.util.TempFileUtil;
+import io.github.selcukes.wdb.core.Environment;
+import io.github.selcukes.wdb.enums.DownloaderType;
+import io.github.selcukes.wdb.enums.OSType;
+import io.github.selcukes.wdb.util.TempFileUtil;
 
 import java.io.File;
 import java.net.URL;

@@ -1,4 +1,4 @@
-package io.github.selcukes.dp.util;
+package io.github.selcukes.wdb.util;
 
 import java.io.File;
 import java.util.UUID;

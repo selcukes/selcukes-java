@@ -1,9 +1,10 @@
-package io.github.selcukes.dp.core.factory;
+package io.github.selcukes.wdb.core.factory;
 
-import io.github.selcukes.dp.core.MirrorUrls;
-import io.github.selcukes.dp.enums.TargetArch;
-import io.github.selcukes.dp.exception.DriverPoolException;
-import io.github.selcukes.dp.util.HttpUtils;
+import io.github.selcukes.wdb.core.Environment;
+import io.github.selcukes.wdb.core.MirrorUrls;
+import io.github.selcukes.wdb.enums.TargetArch;
+import io.github.selcukes.wdb.exception.DriverPoolException;
+import io.github.selcukes.wdb.util.HttpUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
@@ -14,10 +15,9 @@ import java.util.Optional;
 
 import static org.jsoup.Jsoup.parse;
 
-public class IExplorerBinary extends AbstractBinary {
-    private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/IEDriverServer_%s_%s.0.zip";
-
-    public IExplorerBinary(String release, TargetArch targetArch, String proxyUrl) {
+public class SeleniumServerBinary extends AbstractBinary {
+    private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/selenium-server_%s.zip";
+    public SeleniumServerBinary(String release, TargetArch targetArch, String proxyUrl) {
         super(release, targetArch, proxyUrl);
     }
 
@@ -28,7 +28,6 @@ public class IExplorerBinary extends AbstractBinary {
                 BINARY_DOWNLOAD_URL_PATTERN,
                 MirrorUrls.IEDRIVER_URL,
                 getBinaryVersion(),
-                getBinaryEnvironment().getArchitecture() == 64 ? "x64" : "Win32",
                 getBinaryVersion())));
 
         } catch (MalformedURLException e) {
@@ -38,7 +37,7 @@ public class IExplorerBinary extends AbstractBinary {
 
     @Override
     public String getBinaryDriverName() {
-        return "IEDriverServer";
+        return "selenium-server";
     }
 
     @Override
@@ -48,7 +47,7 @@ public class IExplorerBinary extends AbstractBinary {
         try {
             Document doc = parse(downloadStream, null, "");
             Element element = doc.select(
-                "Key:contains(IEDriverServer)").last();
+                "Key:contains(selenium-server)").last();
             final String elementText = element.text();
             return elementText.substring(0, elementText.indexOf('/'));
 
@@ -56,4 +55,5 @@ public class IExplorerBinary extends AbstractBinary {
             throw new DriverPoolException(e);
         }
     }
+
 }

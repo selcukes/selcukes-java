@@ -1,15 +1,15 @@
-package io.github.selcukes.dp.util;
+package io.github.selcukes.wdb.util;
 
-import io.github.selcukes.dp.core.factory.*;
-import io.github.selcukes.dp.enums.DriverType;
-import io.github.selcukes.dp.enums.OSType;
-import io.github.selcukes.dp.enums.TargetArch;
-import io.github.selcukes.dp.exception.DriverPoolException;
+import io.github.selcukes.wdb.core.factory.*;
+import io.github.selcukes.wdb.enums.DriverType;
+import io.github.selcukes.wdb.enums.OSType;
+import io.github.selcukes.wdb.enums.TargetArch;
+import io.github.selcukes.wdb.exception.DriverPoolException;
 
 import java.io.File;
 import java.util.logging.Logger;
 
-import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
+import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
 
 public class WebDriverBinaryUtil {
     private final Logger logger = Logger.getLogger(WebDriverBinaryUtil.class.getName());
@@ -52,6 +52,9 @@ public class WebDriverBinaryUtil {
                 break;
             case EDGE:
                 this.binaryFactory = new EdgeBinary(release, targetArch,proxyUrl);
+                break;
+            case GRID:
+                this.binaryFactory = new SeleniumServerBinary(release, targetArch,proxyUrl);
                 break;
             default:
                 throw new DriverPoolException(String.format("Currently %s not supported", driverType.toString()));

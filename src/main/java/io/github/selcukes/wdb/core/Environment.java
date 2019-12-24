@@ -1,7 +1,7 @@
-package io.github.selcukes.dp.core;
+package io.github.selcukes.wdb.core;
 
-import io.github.selcukes.dp.enums.OSType;
-import io.github.selcukes.dp.util.Platform;
+import io.github.selcukes.wdb.enums.OSType;
+import io.github.selcukes.wdb.util.Platform;
 
 public class Environment {
     private int archType;

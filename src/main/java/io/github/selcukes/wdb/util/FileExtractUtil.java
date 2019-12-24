@@ -1,7 +1,7 @@
-package io.github.selcukes.dp.util;
+package io.github.selcukes.wdb.util;
 
-import io.github.selcukes.dp.enums.DownloaderType;
-import io.github.selcukes.dp.exception.DriverPoolException;
+import io.github.selcukes.wdb.enums.DownloaderType;
+import io.github.selcukes.wdb.exception.DriverPoolException;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 

@@ -1,7 +1,7 @@
 package io.github.selcukes.tests;
 
 
-import io.github.selcukes.dp.WebDriverBinary;
+import io.github.selcukes.wdb.WebDriverBinary;
 import org.junit.Test;
 
 import java.util.logging.Logger;

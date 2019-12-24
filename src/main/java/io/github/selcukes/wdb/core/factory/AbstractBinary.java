@@ -1,12 +1,12 @@
-package io.github.selcukes.dp.core.factory;
+package io.github.selcukes.wdb.core.factory;
 
-import io.github.selcukes.dp.core.Environment;
-import io.github.selcukes.dp.enums.TargetArch;
+import io.github.selcukes.wdb.core.Environment;
+import io.github.selcukes.wdb.enums.TargetArch;
 
 import java.util.Optional;
 
-import static io.github.selcukes.dp.util.OptionalUtil.orElse;
-import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
+import static io.github.selcukes.wdb.util.OptionalUtil.orElse;
+import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
 
 abstract class AbstractBinary implements BinaryFactory {
     private Optional<String> release;

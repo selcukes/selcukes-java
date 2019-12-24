@@ -1,6 +1,6 @@
-package io.github.selcukes.dp.util;
+package io.github.selcukes.wdb.util;
 
-import io.github.selcukes.dp.enums.OSType;
+import io.github.selcukes.wdb.enums.OSType;
 
 public final class Platform {
 
