@@ -13,7 +13,6 @@ import java.net.URL;
 import java.util.Optional;
 
 import static io.github.selcukes.dp.util.OptionalUtil.orElse;
-import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
 
 public class GeckoBinary implements BinaryFactory {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/geckodriver-%s-%s.%s";
@@ -21,7 +20,7 @@ public class GeckoBinary implements BinaryFactory {
     private Optional<TargetArch> targetArch;
 
     public GeckoBinary(Optional<String> release, Optional<TargetArch> targetArch) {
-        this.release = orElse(release, getLatestRelease());
+        this.release = release;
         this.targetArch = targetArch;
     }
 
@@ -58,7 +57,7 @@ public class GeckoBinary implements BinaryFactory {
 
     @Override
     public String getBinaryVersion() {
-        return unwrap(release);
+        return orElse(release, getLatestRelease());
     }
 
 

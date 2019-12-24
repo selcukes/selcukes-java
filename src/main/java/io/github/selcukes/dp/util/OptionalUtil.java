@@ -19,6 +19,10 @@ public class OptionalUtil {
         else
             return Optional.of(fallbackValue);
     }
+    public static String orElse(Optional<String> optional, String fallbackValue) {
+
+        return optional.orElse(fallbackValue);
+    }
 
     public static <T> Optional<T> unwrap(Optional<T> optional, Supplier<T> fallbackValue) {
         if (optional.isPresent()) {

@@ -12,7 +12,6 @@ import java.net.URL;
 import java.util.Optional;
 
 import static io.github.selcukes.dp.util.OptionalUtil.orElse;
-import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
 
 public class ChromeBinary implements BinaryFactory {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/chromedriver_%s.zip";
@@ -22,7 +21,7 @@ public class ChromeBinary implements BinaryFactory {
 
     public ChromeBinary(Optional<String> release, Optional<TargetArch> targetArch) {
 
-        this.release = orElse(release, getLatestRelease());
+        this.release = release;
         this.targetArch = targetArch;
     }
 
@@ -57,7 +56,7 @@ public class ChromeBinary implements BinaryFactory {
 
     @Override
     public String getBinaryVersion() {
-        return unwrap(release);
+        return orElse(release, getLatestRelease());
     }
 
 

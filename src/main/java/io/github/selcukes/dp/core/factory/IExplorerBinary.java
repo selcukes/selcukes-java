@@ -14,7 +14,6 @@ import java.net.URL;
 import java.util.Optional;
 
 import static io.github.selcukes.dp.util.OptionalUtil.orElse;
-import static io.github.selcukes.dp.util.OptionalUtil.unwrap;
 import static org.jsoup.Jsoup.parse;
 
 public class IExplorerBinary implements BinaryFactory {
@@ -23,7 +22,7 @@ public class IExplorerBinary implements BinaryFactory {
     private Optional<TargetArch> targetArch;
 
     public IExplorerBinary(Optional<String> release, Optional<TargetArch> targetArch) {
-        this.release = orElse(release, getLatestRelease());
+        this.release = release;
         this.targetArch = targetArch;
     }
 
@@ -55,7 +54,7 @@ public class IExplorerBinary implements BinaryFactory {
 
     @Override
     public String getBinaryVersion() {
-        return unwrap(release);
+        return orElse(release, getLatestRelease());
     }
 
     private String getLatestRelease() {
