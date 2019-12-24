@@ -30,10 +30,6 @@ public class WebDriverBinaryTest {
         binProp = WebDriverBinary.edgeDriver().targetPath("temp").setup();
         assertEquals("webdrivers.edge.driver", binProp);
         logger.info("Path set for the Property { " + binProp + "} from the location {" + getProperty(binProp) + "}");
-
-        binProp = WebDriverBinary.grid().targetPath("temp").setup();
-        assertEquals("webdrivers.grid.driver", binProp);
-        logger.info("Path set for the Property { " + binProp + "} from the location {" + getProperty(binProp) + "}");
     }
 
     @Test

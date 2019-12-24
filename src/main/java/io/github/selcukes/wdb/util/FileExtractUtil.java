@@ -22,18 +22,8 @@ public final class FileExtractUtil {
 
     public static File extractFile(File source, File destination, DownloaderType compressedBinaryType) {
         FileHelper.createDirectory(destination);
-        File extractedFile = source;
-        if (compressedBinaryType.equals(DownloaderType.ZIP))
-            extractedFile = unZipFile(source, destination);
-        else if (compressedBinaryType.equals(DownloaderType.TAR))
-            extractedFile = unTarFile(source, destination);
-        else {
-            try {
-                processFile(new FileInputStream(source.toString()), destination);
-            } catch (IOException e) {
-                throw new DriverPoolException(e);
-            }
-        }
+        final File extractedFile = compressedBinaryType.equals(DownloaderType.ZIP) ? unZipFile(source, destination) : unTarFile(source, destination);
+
         final File[] directoryContents = (extractedFile != null) ? extractedFile.listFiles() : new File[0];
 
         if (directoryContents != null && directoryContents.length == 0) {
