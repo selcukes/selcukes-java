@@ -6,7 +6,7 @@
 
     <groupId>io.github.selcukes</groupId>
     <artifactId>webdriver-binaries</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <name>webdriver-binaries</name>
     <description>Automatically download and setup Selenium Webdriver binary files</description>
