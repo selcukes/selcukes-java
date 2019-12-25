@@ -2,7 +2,7 @@ package io.github.selcukes.wdb.util;
 
 import java.util.Comparator;
 
-public class VersionComparator implements Comparator {
+public class VersionComparator implements Comparator<Object> {
     @Override
     public int compare(Object o1, Object o2) {
         String version1 = (String) o1;
@@ -11,10 +11,10 @@ public class VersionComparator implements Comparator {
         VersionTokenizer tokenizer1 = new VersionTokenizer(version1);
         VersionTokenizer tokenizer2 = new VersionTokenizer(version2);
 
-        int number1 = 0;
-        int number2 = 0;
-        String suffix1 = "";
-        String suffix2 = "";
+        int number1;
+        int number2;
+        String suffix1;
+        String suffix2;
 
         while (tokenizer1.moveNext()) {
             if (!tokenizer2.moveNext()) {

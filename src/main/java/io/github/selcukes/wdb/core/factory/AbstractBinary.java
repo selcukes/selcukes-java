@@ -59,7 +59,7 @@ abstract class AbstractBinary implements BinaryFactory {
                 versionMap.put(key, e.text());
                 String temp = e.text().substring(e.text().indexOf('/') + 1).replaceAll(matcher, "");
                 if (temp.contains("standalone")) {
-                    temp = temp.replaceAll("standalone-", "");
+                    temp = temp.replace("standalone-", "");
                 }
                 String versionNum = temp.substring(1, temp.length() - 4);
 
