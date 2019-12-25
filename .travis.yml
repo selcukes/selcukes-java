@@ -1,0 +1,40 @@
+language: java
+sudo: false
+
+cache:
+  directories:
+  - "$HOME/.m2"
+
+jobs:
+  include:
+  # 1.1 Semver check
+  - stage: test
+    jdk: openjdk8
+    script: mvn verify -Pcheck-semantic-version -DskipTests=true
+    env: CHECK_SEMANTIC_VERSION=true
+    
+  # 1.2 Sonar check JDK 8
+  - stage: test
+    jdk: openjdk8
+    script: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=selcukes_selcukes-logger
+
+  # 1.3 Check JDK 8,10,ea
+  - stage: test
+    jdk: openjdk8
+    script: mvn clean verify
+    after_success:
+      - mvn clean jacoco:prepare-agent test jacoco:report coveralls:report
+  - jdk: openjdk10
+    script: mvn -q verify
+    
+
+
+addons:
+  sonarcloud:
+    organization: "selcukes"
+    token:
+      secure: $SONAR_TOKEN
+      
+branches:
+only:
+  - master
