@@ -1,14 +1,15 @@
 package io.github.selcukes.wdb.core.factory;
 
-import io.github.selcukes.wdb.core.Environment;
 import io.github.selcukes.wdb.core.MirrorUrls;
 import io.github.selcukes.wdb.enums.OSType;
 import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.util.BinaryDownloadUtil;
+import io.github.selcukes.wdb.util.Platform;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ChromeBinary extends AbstractBinary {
@@ -38,12 +39,13 @@ public class ChromeBinary extends AbstractBinary {
     }
 
     @Override
-    public Environment getBinaryEnvironment() {
-        final Environment environment = Environment.create();
-
-        return targetArch.map(arch -> Environment.create(arch.getValue())).orElseGet(() -> environment.getOSType().equals(OSType.WIN)
-            ? Environment.create(TargetArch.X32.getValue())
-            : environment);
+    public Platform getBinaryEnvironment() {
+        Platform platform = Platform.getPlatform();
+        if (targetArch.isPresent())
+            platform.setArchitecture(targetArch.get().getValue());
+        else if (Objects.equals(platform.getOSType(), OSType.WIN))
+            platform.setArchitecture(TargetArch.X32.getValue());
+        return platform;
     }
 
     @Override

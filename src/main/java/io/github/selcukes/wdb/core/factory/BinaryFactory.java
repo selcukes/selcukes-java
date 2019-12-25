@@ -1,8 +1,8 @@
 package io.github.selcukes.wdb.core.factory;
 
-import io.github.selcukes.wdb.core.Environment;
 import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.OSType;
+import io.github.selcukes.wdb.util.Platform;
 import io.github.selcukes.wdb.util.TempFileUtil;
 
 import java.io.File;
@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface BinaryFactory {
     Optional<URL> getDownloadURL();
 
-    Environment getBinaryEnvironment();
+    Platform getBinaryEnvironment();
 
     default File getCompressedBinaryFile() {
         String file = TempFileUtil.getTempDirectory() +

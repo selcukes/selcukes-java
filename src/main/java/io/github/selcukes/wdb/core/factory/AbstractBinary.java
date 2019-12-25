@@ -1,7 +1,7 @@
 package io.github.selcukes.wdb.core.factory;
 
-import io.github.selcukes.wdb.core.Environment;
 import io.github.selcukes.wdb.enums.TargetArch;
+import io.github.selcukes.wdb.util.Platform;
 
 import java.util.Optional;
 
@@ -21,8 +21,10 @@ abstract class AbstractBinary implements BinaryFactory {
     }
 
     @Override
-    public Environment getBinaryEnvironment() {
-        return targetArch.map(arch -> Environment.create(arch.getValue())).orElseGet(Environment::create);
+    public Platform getBinaryEnvironment() {
+        Platform platform = Platform.getPlatform();
+        targetArch.ifPresent(arch -> platform.setArchitecture(arch.getValue()));
+        return platform;
     }
 
     @Override
