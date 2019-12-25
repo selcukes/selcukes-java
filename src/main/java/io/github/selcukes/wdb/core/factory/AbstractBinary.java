@@ -10,7 +10,6 @@ import org.jsoup.select.Elements;
 
 import java.io.InputStream;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static io.github.selcukes.wdb.util.OptionalUtil.orElse;
 import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
@@ -50,14 +49,14 @@ abstract class AbstractBinary implements BinaryFactory {
 
     protected String getVersionNumber(InputStream inputStream, String matcher) {
         List<String> versions = new ArrayList<>();
-        Set<String> version = new HashSet<>();
+        Map<String, String> versionMap = new HashMap<>();
         try {
             Document doc = parse(inputStream, null, "");
             Elements element = doc.select(
                 "Key:contains(" + matcher + ")");
             for (Element e : element) {
-
-                version.add(e.text().substring(0, e.text().indexOf('/')));
+                String key = e.text().substring(e.text().indexOf('/'));
+                versionMap.put(key, e.text());
                 String temp = e.text().substring(e.text().indexOf('/') + 1).replaceAll(matcher, "");
                 if (temp.contains("standalone")) {
                     temp = temp.replaceAll("standalone-", "");
@@ -69,10 +68,10 @@ abstract class AbstractBinary implements BinaryFactory {
 
             versions.sort(new VersionComparator());
 
-            latestVersion = version.stream().sorted().collect(Collectors.toList()).get(version.size() - 1);
+            String version = versions.get(versions.size() - 1);
+            latestVersion = unwrap(versionMap.entrySet().stream().filter(map -> map.getValue().contains(version)).findFirst()).getValue();
 
-
-            return versions.get(versions.size() - 1);
+            return version;
 
         } catch (Exception e) {
             throw new WebDriverBinaryException(e);

@@ -12,7 +12,6 @@ import java.net.URL;
 import java.util.Optional;
 
 public class SeleniumServerBinary extends AbstractBinary {
-    private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/selenium-server-%s.jar";
 
     public SeleniumServerBinary(String release, TargetArch targetArch, String proxyUrl) {
         super(release, targetArch, proxyUrl);
@@ -21,11 +20,7 @@ public class SeleniumServerBinary extends AbstractBinary {
     @Override
     public Optional<URL> getDownloadURL() {
         try {
-            return Optional.of(new URL(String.format(
-                BINARY_DOWNLOAD_URL_PATTERN,
-                MirrorUrls.SELENIUM_SERVER_URL,
-                getBinaryVersion().contains("alpha") ? latestVersion : getBinaryVersion(),
-                getBinaryVersion())));
+            return Optional.of(new URL(MirrorUrls.SELENIUM_SERVER_URL + "/" + latestVersion));
 
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);
@@ -50,7 +45,7 @@ public class SeleniumServerBinary extends AbstractBinary {
     @Override
     protected String getLatestRelease() {
         final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.SELENIUM_SERVER_LATEST_RELEASE_URL, null);
-        return getVersionNumber(downloadStream,getBinaryDriverName());
+        return getVersionNumber(downloadStream, getBinaryDriverName());
     }
 
 }

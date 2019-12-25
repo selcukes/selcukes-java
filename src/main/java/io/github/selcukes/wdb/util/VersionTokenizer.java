@@ -1,6 +1,6 @@
 package io.github.selcukes.wdb.util;
 
-class VersionTokenizer {
+public class VersionTokenizer {
     private final String versionString;
     private final int length;
 

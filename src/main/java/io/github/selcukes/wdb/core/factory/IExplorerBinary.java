@@ -11,7 +11,7 @@ import java.net.URL;
 import java.util.Optional;
 
 public class IExplorerBinary extends AbstractBinary {
-    private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/IEDriverServer_%s_%s.zip";
+
 
     public IExplorerBinary(String release, TargetArch targetArch, String proxyUrl) {
         super(release, targetArch, proxyUrl);
@@ -20,12 +20,7 @@ public class IExplorerBinary extends AbstractBinary {
     @Override
     public Optional<URL> getDownloadURL() {
         try {
-            return Optional.of(new URL(String.format(
-                BINARY_DOWNLOAD_URL_PATTERN,
-                MirrorUrls.IEDRIVER_URL,
-                getBinaryVersion(),
-                getBinaryEnvironment().getArchitecture() == 64 ? "x64" : "Win32",
-                getBinaryVersion())));
+            return Optional.of(new URL(MirrorUrls.IEDRIVER_URL + "/" + latestVersion));
 
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);
