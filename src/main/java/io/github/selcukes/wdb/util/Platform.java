@@ -9,15 +9,15 @@ public final class Platform {
     private int archType;
 
 
-
     private int getPlatformArch() {
 
         return System.getProperty("os.arch").contains("64") ? 64 : 32;
     }
-    public static Platform getPlatform()
-    {
+
+    public static Platform getPlatform() {
         return new Platform();
     }
+
     public OSType getOSType() {
         String osName = System.getProperty("os.name").toLowerCase();
         if (osName.startsWith("windows"))
@@ -38,6 +38,7 @@ public final class Platform {
         this.archType = archType;
         return this;
     }
+
     public String getOsNameAndArch() {
         return (Objects.requireNonNull(getOSType()).name() + getArchitecture()).toLowerCase();
     }
