@@ -6,10 +6,10 @@
 
     <groupId>io.github.selcukes</groupId>
     <artifactId>webdriver-binaries</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
 
     <name>webdriver-binaries</name>
-    <description>Automatically download and setup Selenium Webdriver binary files</description>
+    <description>Automatically downloads and configures Selenium Webdriver binary files</description>
     <url>https://github.com/selcukes/webdriver-binaries</url>
     <inceptionYear>2019</inceptionYear>
 
@@ -104,8 +104,7 @@
 
     <profiles>
         <profile>
-            <!-- Activate the profile by running e.g. mvn -DperformRelease=true clean
-                deploy -->
+            <!-- Activate the profile by running e.g. mvn clean deploy -DperformRelease=true -->
             <id>release</id>
             <activation>
                 <property>
