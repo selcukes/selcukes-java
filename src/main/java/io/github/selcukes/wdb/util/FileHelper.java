@@ -28,18 +28,13 @@ public class FileHelper {
         }
     }
 
-    public static String getDriverBinaryFileName(String browserName) {
-
-        return browserName + "driver-" + Platform.getPlatformArch() + "-" + Platform.getPlatform();
-    }
-
     public static void createDirectory(File dirName) {
         boolean dirExists = dirName.exists();
         if (!dirExists) {
             logger.info("Creating directory: " + dirName.getName());
             dirExists = dirName.mkdirs();
             if (dirExists) {
-                logger.info(dirName.getName()+ " directory created...");
+                logger.info(dirName.getName() + " directory created...");
             }
         }
     }
