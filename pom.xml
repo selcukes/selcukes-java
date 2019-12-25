@@ -118,6 +118,9 @@
                         <goals>
                             <goal>jar-no-fork</goal>
                         </goals>
+                         <configuration>
+                            <attach>false</attach>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -136,10 +139,7 @@
                         <id>attach-javadocs</id>
                         <goals>
                             <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <attach>false</attach>
-                        </configuration>
+                        </goals>                       
                     </execution>
                 </executions>
             </plugin>
@@ -155,13 +155,7 @@
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
-
-            <!--  Code coverage reporting -->
-            <plugin>
-                <groupId>org.eluder.coveralls</groupId>
-                <artifactId>coveralls-maven-plugin</artifactId>
-                <version>4.3.0</version>
-            </plugin>
+            
         </plugins>
     </build>
 
