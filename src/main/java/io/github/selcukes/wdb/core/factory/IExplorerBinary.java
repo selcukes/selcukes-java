@@ -11,7 +11,7 @@ import java.net.URL;
 import java.util.Optional;
 
 public class IExplorerBinary extends AbstractBinary {
-    private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/IEDriverServer_%s_%s.0.zip";
+    private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/IEDriverServer_%s_%s.zip";
 
     public IExplorerBinary(String release, TargetArch targetArch, String proxyUrl) {
         super(release, targetArch, proxyUrl);
