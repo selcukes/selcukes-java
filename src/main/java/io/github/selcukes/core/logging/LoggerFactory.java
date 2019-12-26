@@ -34,11 +34,11 @@ public final class LoggerFactory {
 
         private final String name;
 
-        private final java.util.logging.Logger delLogger;
+        private final java.util.logging.Logger julLogger;
 
         DelegatingLogger(String name) {
             this.name = name;
-            this.delLogger = java.util.logging.Logger.getLogger(name);
+            this.julLogger = java.util.logging.Logger.getLogger(name);
         }
 
         @Override
@@ -102,10 +102,10 @@ public final class LoggerFactory {
         }
 
         private void log(Level level, Throwable throwable, Supplier<String> message) {
-            boolean loggable = delLogger.isLoggable(level);
+            boolean loggable = julLogger.isLoggable(level);
             if (loggable || !listeners.isEmpty()) {
                 LogRecord logRecord = createLogRecord(level, throwable, message);
-                delLogger.log(logRecord);
+                julLogger.log(logRecord);
                 for (LogRecordListener listener : listeners) {
                     listener.logRecordSubmitted(logRecord);
                 }
@@ -133,8 +133,8 @@ public final class LoggerFactory {
             logRecord.setThrown(throwable);
             logRecord.setSourceClassName(sourceClassName);
             logRecord.setSourceMethodName(sourceMethodName);
-            logRecord.setResourceBundleName(delLogger.getResourceBundleName());
-            logRecord.setResourceBundle(delLogger.getResourceBundle());
+            logRecord.setResourceBundleName(julLogger.getResourceBundleName());
+            logRecord.setResourceBundle(julLogger.getResourceBundle());
 
             return logRecord;
         }
