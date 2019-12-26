@@ -1,4 +1,4 @@
-# selcukes-logger
+# Selcukes Code
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.selcukes/selcukes-logger.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.selcukes%22%20AND%20a:%22selcukes-logger%22)
 [![Build Status](https://travis-ci.org/selcukes/selcukes-logger.svg?branch=master)](https://travis-ci.org/selcukes/selcukes-logger)
@@ -9,17 +9,17 @@
 [![badge-jdk](https://img.shields.io/badge/jdk-8-green.svg)](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](http://www.opensource.org/licenses/mit-license)
 
-selcukes-logger is a Java wrapper library build on top of java util logger.
+selcukes-core provides components needed to discover, parse files.
 
-To use add the `selcukes-logger` dependency to your pom.xml:
+To use add the `selcukes-core` dependency to your pom.xml:
 
 ```xml
 <dependencies>
   [...]
     <dependency>
         <groupId>io.github.selcukes</groupId>
-        <artifactId>selcukes-logger</artifactId>
-        <version>${selcukes-logger.version}</version>
+        <artifactId>selcukes-core</artifactId>
+        <version>${selcukes-core.version}</version>
     </dependency>
   [...]
 </dependencies>
