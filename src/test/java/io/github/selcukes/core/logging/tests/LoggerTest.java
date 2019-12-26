@@ -1,7 +1,7 @@
-package io.github.selcukes.logging.tests;
+package io.github.selcukes.core.logging.tests;
 
-import io.github.selcukes.logging.Logger;
-import io.github.selcukes.logging.LoggerFactory;
+import io.github.selcukes.core.logging.Logger;
+import io.github.selcukes.core.logging.LoggerFactory;
 
 public class LoggerTest {
     private static Logger logger= LoggerFactory.getLogger(LoggerTest.class);

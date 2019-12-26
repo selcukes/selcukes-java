@@ -1,4 +1,4 @@
-package io.github.selcukes.logging;
+package io.github.selcukes.core.logging;
 
 import java.util.function.Supplier;
 
