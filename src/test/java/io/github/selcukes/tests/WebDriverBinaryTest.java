@@ -2,12 +2,15 @@ package io.github.selcukes.tests;
 
 
 import io.github.selcukes.wdb.WebDriverBinary;
-import org.junit.Test;
+
 
 import java.util.logging.Logger;
 
+import org.testng.annotations.Test;
+
 import static java.lang.System.getProperty;
-import static org.junit.Assert.assertEquals;
+
+import static org.testng.Assert.assertEquals;
 
 
 public class WebDriverBinaryTest {
