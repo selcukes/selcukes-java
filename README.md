@@ -29,21 +29,22 @@ To use add the `webdriver-binaries` dependency to your pom.xml:
 ## Usage
 Download the latest binary
 ```java
-WebDriverBinary.chromedriver().setup();
+WebDriverBinary.chromeDriver().setup();
 WebDriverBinary.firefoxDriver().setup();
-WebDriverBinary.iedriver().setup();
+WebDriverBinary.ieDriver().setup();
+WebDriverBinary.edgeDriver().setup();
 ```
 Download binaries for specific architecture
 
 ```java
-WebDriverBinary.chromedriver().arch64().setup();
+WebDriverBinary.chromeDriver().arch64().setup();
 WebDriverBinary.firefoxDriver().arch32().setup();
 ```
 
 Download binaries by specifying custom download location
 
 ```java
-WebDriverBinary.chromedriver().targetPath("temp").setup();
+WebDriverBinary.chromeDriver().targetPath("temp").setup();
 WebDriverBinary.firefoxDriver().targetPath("downloadLocation").setup();
 ```
 
