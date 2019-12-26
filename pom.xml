@@ -6,7 +6,7 @@
 
 	<groupId>io.github.selcukes</groupId>
 	<artifactId>webdriver-binaries</artifactId>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>1.0.3-SNAPSHOT</version>
 
 	<name>webdriver-binaries</name>
 	<description>Automatically downloads and configures Selenium Webdriver binary files</description>
@@ -21,8 +21,7 @@
 		<commons.io.version>2.6</commons.io.version>
 		<commons-compress.version>1.19</commons-compress.version>
 		<testng.version>7.1.0</testng.version>
-		<jsoup.version>1.12.1</jsoup.version>
-		<selcukes-core.version>0.0.1</selcukes-core.version>
+		<jsoup.version>1.12.1</jsoup.version>		
 
 		<maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
 		<maven-source-plugin.version>2.2.1</maven-source-plugin.version>
@@ -76,6 +75,7 @@
 
 	<dependencies>
 		<!-- Libraries for testing -->
+		
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
@@ -184,8 +184,8 @@
 					<autoReleaseAfterClose>true</autoReleaseAfterClose>
 				</configuration>
 			</plugin>
-			
+
 		</plugins>
-		
+
 	</build>
 </project>
