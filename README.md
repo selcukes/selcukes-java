@@ -1,4 +1,4 @@
-# Selcukes Code
+# Selcukes Core
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.selcukes/selcukes-logger.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.selcukes%22%20AND%20a:%22selcukes-logger%22)
 [![Build Status](https://travis-ci.org/selcukes/selcukes-logger.svg?branch=master)](https://travis-ci.org/selcukes/selcukes-logger)
