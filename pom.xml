@@ -24,7 +24,7 @@
 
         <testng.version>7.1.0</testng.version>
         <selenium.version>4.0.0-alpha-3</selenium.version>
-
+        <selcukes-core.version>0.0.1</selcukes-core.version>
 
         <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
@@ -78,6 +78,12 @@
 
     <dependencies>
         <!-- Libraries for testing -->
+
+        <dependency>
+            <groupId>io.github.selcukes</groupId>
+            <artifactId>selcukes-logger</artifactId>
+            <version>${selcukes-core.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>commons-io</groupId>
