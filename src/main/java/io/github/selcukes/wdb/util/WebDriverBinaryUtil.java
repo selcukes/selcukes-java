@@ -23,7 +23,7 @@ public class WebDriverBinaryUtil {
     private String proxyUrl;
     private File binaryDownloadDirectory;
     private BinaryFactory binaryFactory;
-    private static String webdrivers = "webdrivers";
+    private static String webdriver = "webdriver";
 
     public WebDriverBinaryUtil(DriverType driverType, String release, TargetArch targetArch, String downloadLocation, String proxyUrl) {
         this.driverType = driverType;
@@ -34,7 +34,7 @@ public class WebDriverBinaryUtil {
     }
 
     private File getBinaryDownloadDirectory(String downloadLocation) {
-        binaryDownloadDirectory = new File(downloadLocation + File.separator + webdrivers + File.separator);
+        binaryDownloadDirectory = new File(downloadLocation + File.separator + webdriver + File.separator);
         FileHelper.createDirectory(binaryDownloadDirectory);
         return binaryDownloadDirectory;
     }
@@ -108,7 +108,7 @@ public class WebDriverBinaryUtil {
     private String configureBinary(DriverType driverType) {
         StringBuilder binaryPropertyName = new StringBuilder();
 
-        binaryPropertyName.append(webdrivers)
+        binaryPropertyName.append(webdriver)
             .append(".")
             .append(driverType.getName())
             .append(".driver");

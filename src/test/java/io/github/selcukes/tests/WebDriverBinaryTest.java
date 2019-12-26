@@ -19,23 +19,23 @@ public class WebDriverBinaryTest {
     @Test
     public void downloadBinaryTest() {
         String binProp = WebDriverBinary.chromeDriver().targetPath("temp").setup();
-        assertEquals("webdrivers.chrome.driver", binProp);
+        assertEquals("webdriver.chrome.driver", binProp);
         logger.info("Path set for the Property { " + binProp + "} from the location {" + getProperty(binProp) + "}");
 
         binProp = WebDriverBinary.ieDriver().targetPath("temp").arch32().setup();
-        assertEquals("webdrivers.ie.driver", binProp);
+        assertEquals("webdriver.ie.driver", binProp);
         logger.info("Path set for the Property { " + binProp + "} from the location {" + getProperty(binProp) + "}");
 
         binProp = WebDriverBinary.firefoxDriver().targetPath("temp").version("v0.26.0").arch64().setup();
-        assertEquals("webdrivers.gecko.driver", binProp);
+        assertEquals("webdriver.gecko.driver", binProp);
         logger.info("Path set for the Property { " + binProp + "} from the location {" + getProperty(binProp) + "}");
 
         binProp = WebDriverBinary.edgeDriver().targetPath("temp").setup();
-        assertEquals("webdrivers.edge.driver", binProp);
+        assertEquals("webdriver.edge.driver", binProp);
         logger.info("Path set for the Property { " + binProp + "} from the location {" + getProperty(binProp) + "}");
 
         binProp = WebDriverBinary.grid().targetPath("temp").setup();
-        assertEquals("webdrivers.grid.driver", binProp);
+        assertEquals("webdriver.grid.driver", binProp);
         logger.info("Path set for the Property { " + binProp + "} from the location {" + getProperty(binProp) + "}");
     }
 
