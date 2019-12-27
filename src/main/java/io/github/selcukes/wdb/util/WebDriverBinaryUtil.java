@@ -64,9 +64,12 @@ public class WebDriverBinaryUtil {
                 throw new WebDriverBinaryException(String.format("Currently %s not supported", driverType.toString()));
         }
 
-        return new BinaryInfo(downloadAndExtract().configureBinary(driverType), getWebDriverBinary().getAbsolutePath());
+        return setBinaryInfo(downloadAndExtract().configureBinary(driverType));
     }
-
+    private BinaryInfo setBinaryInfo(String binProp)
+    {
+        return new BinaryInfo(binProp, getWebDriverBinary().getAbsolutePath());
+    }
     private File getWebDriverBinary() {
         return new File(binaryDownloadDirectory.getAbsolutePath() +
             File.separator +

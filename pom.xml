@@ -74,6 +74,7 @@
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+
     </distributionManagement>
 
     <dependencies>
@@ -84,24 +85,20 @@
             <artifactId>selcukes-logger</artifactId>
             <version>${selcukes-core.version}</version>
         </dependency>
-
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons.io.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
             <version>${commons-compress.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>${jsoup.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -115,7 +112,6 @@
             <version>${testng.version}</version>
             <scope>provided</scope>
         </dependency>
-
     </dependencies>
 
     <profiles>

@@ -63,12 +63,11 @@ public class WebDriverBinaryTest {
     public void reuseDownloadedBinaryTest() {
         BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().setup();
         String binProp = binaryInfo.getBinaryProperty();
-        String binaryDownloadedPath = getProperty(binProp);
+        String binaryDownloadedPath = binaryInfo.getBinaryPath();
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + binaryDownloadedPath + "}");
 
         BinaryInfo binaryInfo1 = WebDriverBinary.chromeDriver().setup();
-
-        String binaryDownloadedPath1 = binaryInfo1.getBinaryProperty();
+        String binaryDownloadedPath1 = binaryInfo1.getBinaryPath();
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + binaryDownloadedPath1 + "}");
         assertEquals(binaryDownloadedPath, binaryDownloadedPath1);
 
