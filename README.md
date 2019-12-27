@@ -7,7 +7,7 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=selcukes_selcukes-core&metric=coverage)](https://sonarcloud.io/dashboard?id=selcukes_selcukes-core)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=selcukes_selcukes-core&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=selcukes_selcukes-core)
 [![badge-jdk](https://img.shields.io/badge/jdk-8-green.svg)](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](http://www.opensource.org/licenses/mit-license)
+[![License badge](https://img.shields.io/badge/license-Apache%202.0-blue.svg?label=License)](http://www.apache.org/licenses/LICENSE-2.0)
 
 selcukes-core provides components needed to discover, parse files.
 
