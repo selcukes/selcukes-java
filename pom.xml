@@ -6,7 +6,7 @@
 
     <groupId>io.github.selcukes</groupId>
     <artifactId>selcukes-core</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
 
     <name>selcukes-core</name>
     <description>selcukes-core</description>
@@ -76,7 +76,7 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
-            <scope>test</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -171,6 +171,5 @@
 
         </plugins>
     </build>
-
 
 </project>
