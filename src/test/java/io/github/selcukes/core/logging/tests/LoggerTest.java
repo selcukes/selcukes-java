@@ -1,35 +1,25 @@
 package io.github.selcukes.core.logging.tests;
 
-import io.github.selcukes.core.logging.LogRecordListener;
+import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
-import io.github.selcukes.core.logging.LoggerReporter;
-import org.testng.Assert;
-import org.testng.annotations.*;
-
-import java.util.logging.Level;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class LoggerTest {
     private static final Logger logger = LoggerFactory.getLogger(LoggerTest.class);
     private final Exception exception = new Exception();
-    private LogRecordListener logRecordListener;
+
     @BeforeTest
     public void beforeTest() {
-        LoggerReporter.setLoggerFormat(Level.ALL);
-        logRecordListener = new LogRecordListener();
-        LoggerFactory.addListener(logRecordListener);
-    }
-    @AfterTest
-    public void afterClass()
-    {
-        LoggerFactory.removeListener(logRecordListener);
+        ConfigFactory.loadLoggerProperties();
     }
 
     @Test
     void error() {
         logger.error(() -> "Error");
         logger.error(exception, () -> "Error Exception");
-        //Assert.assertEquals(logRecordListener.getLogRecords().get(1).getMessage(),"Error Exception");
+
     }
 
     @Test

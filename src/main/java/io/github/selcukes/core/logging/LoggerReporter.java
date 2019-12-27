@@ -1,7 +1,5 @@
 package io.github.selcukes.core.logging;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.logging.Logger;
 import java.util.logging.*;
 
@@ -25,14 +23,5 @@ public class LoggerReporter {
             logger.severe(e::getMessage);
         }
     }
-    public static void loadLoggerConfig()
-    {
-        InputStream stream = LoggerReporter.class.getClassLoader().getResourceAsStream("logging.properties");
-        try {
-            LogManager.getLogManager().readConfiguration(stream);
 
-        } catch (IOException e) {
-            logger.severe(e::getMessage);
-        }
-    }
 }
