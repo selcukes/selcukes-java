@@ -1,5 +1,6 @@
 package io.github.selcukes.wdb.util;
 
+import io.github.selcukes.wdb.BinaryInfo;
 import io.github.selcukes.wdb.core.factory.*;
 import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.DriverType;
@@ -39,7 +40,7 @@ public class WebDriverBinaryUtil {
         return binaryDownloadDirectory;
     }
 
-    public String downloadAndSetupBinaryPath() {
+    public BinaryInfo downloadAndSetupBinaryPath() {
         switch (driverType) {
             case CHROME:
 
@@ -63,7 +64,7 @@ public class WebDriverBinaryUtil {
                 throw new WebDriverBinaryException(String.format("Currently %s not supported", driverType.toString()));
         }
 
-        return downloadBinaryAndConfigure();
+        return new BinaryInfo(downloadAndExtract().configureBinary(driverType), getWebDriverBinary().getAbsolutePath());
     }
 
     private File getWebDriverBinary() {
@@ -74,7 +75,7 @@ public class WebDriverBinaryUtil {
             binaryFactory.getBinaryFileName());
     }
 
-    private String downloadBinaryAndConfigure() {
+    private WebDriverBinaryUtil downloadAndExtract() {
         if (getWebDriverBinary().exists()) {
             logger.info("Re-using an existing driver binary found at: " + getWebDriverBinary().getParent());
         } else {
@@ -91,7 +92,7 @@ public class WebDriverBinaryUtil {
                 }
             } else decompressBinary();
         }
-        return configureBinary(driverType);
+        return this;
 
 
     }
