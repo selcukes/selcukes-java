@@ -1,5 +1,7 @@
 package io.github.selcukes.core.logging;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,11 +15,17 @@ public class CustomLoggerFormatter extends Formatter {
 
     public String format(LogRecord record) {
         StringBuilder builder = new StringBuilder(1000);
+        builder.append("[").append(getLevel(record)).append("] - ");
         builder.append(df.format(new Date(record.getMillis()))).append(" - ");
         builder.append("[").append(record.getSourceClassName()).append(".");
         builder.append(record.getSourceMethodName()).append(":").append(getLineNumber(record)).append("] - ");
-        builder.append("[").append(getLevel(record)).append("] - ");
         builder.append(formatMessage(record));
+        Throwable ex = record.getThrown();
+        if (null != ex) {
+            StringWriter sw = new StringWriter();
+            ex.printStackTrace(new PrintWriter(sw));
+            builder.append('\n').append(sw.toString());
+        }
         builder.append("\n");
 
         return builder.toString();
