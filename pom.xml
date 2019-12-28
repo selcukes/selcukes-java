@@ -22,7 +22,7 @@
         <commons-compress.version>1.19</commons-compress.version>
         <jsoup.version>1.12.1</jsoup.version>
 
-        <testng.version>7.1.0</testng.version>
+        <testng.version>7.0.0</testng.version>
         <selenium.version>4.0.0-alpha-3</selenium.version>
         <selcukes-core.version>0.0.1</selcukes-core.version>
 
@@ -82,7 +82,7 @@
 
         <dependency>
             <groupId>io.github.selcukes</groupId>
-            <artifactId>selcukes-logger</artifactId>
+            <artifactId>selcukes-core</artifactId>
             <version>${selcukes-core.version}</version>
         </dependency>
         <dependency>

@@ -1,8 +1,8 @@
 package io.github.selcukes.tests;
 
 
-import io.github.selcukes.logging.Logger;
-import io.github.selcukes.logging.LoggerFactory;
+import io.github.selcukes.core.logging.Logger;
+import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.wdb.BinaryInfo;
 import io.github.selcukes.wdb.WebDriverBinary;
 import org.testng.annotations.Test;

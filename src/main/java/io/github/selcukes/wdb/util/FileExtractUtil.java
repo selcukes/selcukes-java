@@ -1,19 +1,20 @@
 package io.github.selcukes.wdb.util;
 
+import io.github.selcukes.core.logging.Logger;
+import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 
 import java.io.*;
-import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public final class FileExtractUtil {
 
-    private static final Logger logger = Logger.getLogger(FileExtractUtil.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(FileExtractUtil.class);
     private static final int BUF_SIZE = 4096;
 
     private FileExtractUtil() {
@@ -41,7 +42,7 @@ public final class FileExtractUtil {
                 String fileName = zipEntry.getName();
                 long size = zipEntry.getSize();
                 long compressedSize = zipEntry.getCompressedSize();
-                logger.severe(() -> String.format("Unzipping {%s} (size: {%d} KB, compressed size: {%d} KB)",
+                logger.info(() -> String.format("Unzipping {%s} (size: {%d} KB, compressed size: {%d} KB)",
                     fileName, size, compressedSize));
                 unZippedFile = new File(destination.getAbsolutePath() + File.separator + fileName);
                 processFile(inputStream, unZippedFile);
@@ -66,7 +67,7 @@ public final class FileExtractUtil {
                 String fileName = tarEntry.getName();
                 long size = tarEntry.getSize();
                 long compressedSize = tarEntry.getSize();
-                logger.severe(() -> String.format("Uncompressing {%s} (size: {%d} KB, compressed size: {%d} KB)",
+                logger.info(() -> String.format("Uncompressing {%s} (size: {%d} KB, compressed size: {%d} KB)",
                     fileName, size, compressedSize));
                 tarFile = new File(destination.getAbsolutePath() + File.separator + fileName);
 
@@ -85,7 +86,7 @@ public final class FileExtractUtil {
              GZIPInputStream gZIPInputStream = new GZIPInputStream(fis)) {
             processFile(gZIPInputStream, tarFile);
         } catch (IOException e) {
-            logger.severe(e.getMessage());
+            logger.error(e::getMessage);
         }
         return tarFile;
 
@@ -102,7 +103,7 @@ public final class FileExtractUtil {
             }
 
         } catch (IOException ex) {
-            logger.severe("Unable to uncompress File: " + ex.getMessage());
+            logger.error(()->"Unable to uncompress File: " + ex.getMessage());
         }
 
     }

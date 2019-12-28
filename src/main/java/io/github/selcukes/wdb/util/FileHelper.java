@@ -1,5 +1,7 @@
 package io.github.selcukes.wdb.util;
 
+import io.github.selcukes.core.logging.Logger;
+import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 
 import java.io.File;
@@ -8,10 +10,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
 import java.util.Set;
-import java.util.logging.Logger;
+
 
 public class FileHelper {
-    private static Logger logger = Logger.getLogger(FileHelper.class.getName());
+    private static Logger logger = LoggerFactory.getLogger(FileHelper.class);
 
     private FileHelper() {
 
@@ -31,10 +33,10 @@ public class FileHelper {
     public static void createDirectory(File dirName) {
         boolean dirExists = dirName.exists();
         if (!dirExists) {
-            logger.info("Creating directory: " + dirName.getName());
+            logger.info(()->"Creating directory: " + dirName.getName());
             dirExists = dirName.mkdirs();
             if (dirExists) {
-                logger.info(dirName.getName() + " directory created...");
+                logger.info(()->dirName.getName() + " directory created...");
             }
         }
     }

@@ -1,5 +1,7 @@
 package io.github.selcukes.wdb.util;
 
+import io.github.selcukes.core.logging.Logger;
+import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.wdb.BinaryInfo;
 import io.github.selcukes.wdb.core.factory.*;
 import io.github.selcukes.wdb.enums.DownloaderType;
@@ -11,12 +13,12 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Logger;
+
 
 import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
 
 public class WebDriverBinaryUtil {
-    private final Logger logger = Logger.getLogger(WebDriverBinaryUtil.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(WebDriverBinaryUtil.class);
 
     private DriverType driverType;
     private String release;
@@ -80,7 +82,7 @@ public class WebDriverBinaryUtil {
 
     private WebDriverBinaryUtil downloadAndExtract() {
         if (getWebDriverBinary().exists()) {
-            logger.info("Re-using an existing driver binary found at: " + getWebDriverBinary().getParent());
+            logger.info(()->"Re-using an existing driver binary found at: " + getWebDriverBinary().getParent());
         } else {
 
             BinaryDownloadUtil.downloadBinary(unwrap(binaryFactory.getDownloadURL()), binaryFactory.getCompressedBinaryFile());
