@@ -7,7 +7,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 public class LoggerTest {
-    private static final Logger logger = LoggerFactory.getLogger(LoggerTest.class);
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Exception exception = new Exception();
 
     @BeforeTest

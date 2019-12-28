@@ -21,6 +21,7 @@
         <testng.version>7.0.0</testng.version>
         <lombok.version>1.18.10</lombok.version>
         <jackson.version>2.10.1</jackson.version>
+        <apache.httpcomponents.version>4.5.10</apache.httpcomponents.version>
 
         <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
@@ -98,6 +99,11 @@
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>${apache.httpcomponents.version}</version>
         </dependency>
     </dependencies>
 
