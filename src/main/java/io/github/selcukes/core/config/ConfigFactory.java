@@ -44,7 +44,7 @@ public class ConfigFactory {
     private static InputStream getStream() {
         try {
             logger.debug(()->String.format("Attempting to read %s as resource.", CONFIG_LOGGER_FILE));
-            InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(CONFIG_LOGGER_FILE);
+            InputStream stream = ConfigFactory.class.getClassLoader().getResourceAsStream(CONFIG_LOGGER_FILE);
             if (stream == null) {
                 logger.debug(()->String.format("Re-attempting to read %s as a local file.", CONFIG_LOGGER_FILE));
                 return new FileInputStream(new File(CONFIG_LOGGER_FILE));
