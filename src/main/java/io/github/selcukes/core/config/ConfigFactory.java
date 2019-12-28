@@ -17,7 +17,7 @@ import java.util.logging.LogManager;
 public class ConfigFactory {
     private static final Logger logger = LoggerFactory.getLogger(ConfigFactory.class);
     private static final String DEFAULT_CONFIG_FILE = "selcukes.yaml";
-    private static final String CONFIG_LOGGER_FILE = "logging.properties";
+    private static final String LOG_BACK_FILE = "logback.yaml";
     private static final String CONFIG_FILE = "config.properties";
     private ConfigFactory() {
 
@@ -34,7 +34,7 @@ public class ConfigFactory {
     }
 
     public static void loadLoggerProperties() {
-        InputStream stream = ConfigFactory.class.getClassLoader().getResourceAsStream(CONFIG_LOGGER_FILE);
+        InputStream stream = ConfigFactory.class.getClassLoader().getResourceAsStream(LOG_BACK_FILE);
         try {
             LogManager.getLogManager().readConfiguration(stream);
         } catch (IOException e) {
