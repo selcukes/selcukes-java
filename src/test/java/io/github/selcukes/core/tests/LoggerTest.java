@@ -1,4 +1,4 @@
-package io.github.selcukes.core.logging.tests;
+package io.github.selcukes.core.tests;
 
 import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.logging.Logger;
