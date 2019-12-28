@@ -22,7 +22,7 @@
         <commons-compress.version>1.19</commons-compress.version>
         <jsoup.version>1.12.1</jsoup.version>
 
-        <testng.version>7.1.0</testng.version>
+        <testng.version>7.0.0</testng.version>
         <selenium.version>4.0.0-alpha-3</selenium.version>
         <selcukes-core.version>0.0.1</selcukes-core.version>
 
@@ -74,6 +74,7 @@
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
+
     </distributionManagement>
 
     <dependencies>
@@ -81,27 +82,23 @@
 
         <dependency>
             <groupId>io.github.selcukes</groupId>
-            <artifactId>selcukes-logger</artifactId>
+            <artifactId>selcukes-core</artifactId>
             <version>${selcukes-core.version}</version>
         </dependency>
-
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons.io.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
             <version>${commons-compress.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>${jsoup.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -115,7 +112,6 @@
             <version>${testng.version}</version>
             <scope>provided</scope>
         </dependency>
-
     </dependencies>
 
     <profiles>
@@ -173,6 +169,8 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${maven-javadoc-plugin.version}</version>
                 <configuration>
+                    <!-- Javadoc fix for java 11+ -->
+                    <source>8</source>
                     <javadocVersion>${java.version}</javadocVersion>
                     <doclint>none</doclint>
                 </configuration>

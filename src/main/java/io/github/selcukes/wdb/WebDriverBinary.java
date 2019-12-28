@@ -63,7 +63,7 @@ public class WebDriverBinary {
             return this;
         }
 
-        public String setup() {
+        public BinaryInfo setup() {
             return new WebDriverBinaryUtil(WebDriverBinary.this.driverType,
                 WebDriverBinary.this.release,
                 WebDriverBinary.this.targetArch,

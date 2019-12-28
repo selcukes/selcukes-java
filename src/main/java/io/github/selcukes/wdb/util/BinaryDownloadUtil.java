@@ -1,5 +1,7 @@
 package io.github.selcukes.wdb.util;
 
+import io.github.selcukes.core.logging.Logger;
+import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 import org.apache.commons.io.FileUtils;
 
@@ -8,13 +10,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
-
 
 public final class BinaryDownloadUtil {
 
 
-    private static final Logger logger = Logger.getLogger(BinaryDownloadUtil.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(BinaryDownloadUtil.class);
 
     private BinaryDownloadUtil() {
 
@@ -44,7 +44,7 @@ public final class BinaryDownloadUtil {
             long downloadStartTime = System.nanoTime();
 
             if (!silentDownload) {
-                logger.info("Downloading driver binary from: " + getAbsoluteURL(downloadURL));
+                logger.info(()->"Downloading driver binary from: " + getAbsoluteURL(downloadURL));
             }
 
             FileUtils.copyURLToFile(downloadURL, downloadTo);

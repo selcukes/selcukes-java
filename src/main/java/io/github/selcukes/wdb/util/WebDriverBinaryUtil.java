@@ -1,5 +1,8 @@
 package io.github.selcukes.wdb.util;
 
+import io.github.selcukes.core.logging.Logger;
+import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.wdb.BinaryInfo;
 import io.github.selcukes.wdb.core.factory.*;
 import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.DriverType;
@@ -10,12 +13,12 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Logger;
+
 
 import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
 
 public class WebDriverBinaryUtil {
-    private final Logger logger = Logger.getLogger(WebDriverBinaryUtil.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(WebDriverBinaryUtil.class);
 
     private DriverType driverType;
     private String release;
@@ -39,7 +42,7 @@ public class WebDriverBinaryUtil {
         return binaryDownloadDirectory;
     }
 
-    public String downloadAndSetupBinaryPath() {
+    public BinaryInfo downloadAndSetupBinaryPath() {
         switch (driverType) {
             case CHROME:
 
@@ -63,9 +66,12 @@ public class WebDriverBinaryUtil {
                 throw new WebDriverBinaryException(String.format("Currently %s not supported", driverType.toString()));
         }
 
-        return downloadBinaryAndConfigure();
+        return setBinaryInfo(downloadAndExtract().configureBinary(driverType));
     }
-
+    private BinaryInfo setBinaryInfo(String binProp)
+    {
+        return new BinaryInfo(binProp, getWebDriverBinary().getAbsolutePath());
+    }
     private File getWebDriverBinary() {
         return new File(binaryDownloadDirectory.getAbsolutePath() +
             File.separator +
@@ -74,9 +80,9 @@ public class WebDriverBinaryUtil {
             binaryFactory.getBinaryFileName());
     }
 
-    private String downloadBinaryAndConfigure() {
+    private WebDriverBinaryUtil downloadAndExtract() {
         if (getWebDriverBinary().exists()) {
-            logger.info("Re-using an existing driver binary found at: " + getWebDriverBinary().getParent());
+            logger.info(()->"Re-using an existing driver binary found at: " + getWebDriverBinary().getParent());
         } else {
 
             BinaryDownloadUtil.downloadBinary(unwrap(binaryFactory.getDownloadURL()), binaryFactory.getCompressedBinaryFile());
@@ -91,7 +97,7 @@ public class WebDriverBinaryUtil {
                 }
             } else decompressBinary();
         }
-        return configureBinary(driverType);
+        return this;
 
 
     }

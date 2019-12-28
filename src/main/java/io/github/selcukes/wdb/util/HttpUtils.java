@@ -7,12 +7,10 @@ import java.io.InputStream;
 import java.net.*;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.logging.Logger;
 
 import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
 
 public final class HttpUtils {
-    private static final Logger logger = Logger.getLogger(HttpUtils.class.getName());
     private static String proxy;
 
     private HttpUtils() {
@@ -70,13 +68,11 @@ public final class HttpUtils {
     }
 
     public static Optional<URL> getProxyUrl(String proxy) {
-        Optional<URL> proxyUrl = Optional.empty();
         try {
-            proxyUrl = Optional.of(new URL(proxy));
+            return Optional.of(new URL(proxy));
         } catch (MalformedURLException e) {
-            logger.severe(e.getMessage());
+            return Optional.empty();
         }
-        return proxyUrl;
     }
 
 }
