@@ -28,7 +28,7 @@ public class GeckoBinary extends AbstractBinary {
                 getBinaryVersion(),
                 getBinaryVersion(),
                 getBinaryEnvironment().getOsNameAndArch(),
-                getBinaryEnvironment().getOSType().equals(OSType.WIN) ? DownloaderType.ZIP.getName() : DownloaderType.TAR.getName())));
+                getCompressedBinaryType().getName())));
 
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);
