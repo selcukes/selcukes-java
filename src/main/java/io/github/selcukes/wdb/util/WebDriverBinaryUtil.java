@@ -42,14 +42,11 @@ public class WebDriverBinaryUtil {
     public BinaryInfo downloadAndSetupBinaryPath() {
         switch (driverType) {
             case CHROME:
-
                 this.binaryFactory = new ChromeBinary(release, targetArch, proxyUrl);
                 break;
-
             case FIREFOX:
                 this.binaryFactory = new GeckoBinary(release, targetArch, proxyUrl);
                 break;
-
             case IEXPLORER:
                 this.binaryFactory = new IExplorerBinary(release, targetArch, proxyUrl);
                 break;
