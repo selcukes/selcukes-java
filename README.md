@@ -52,3 +52,5 @@ Download binaries for a specific release version
 ```java
 WebDriverBinary.firefoxDriver().version("v0.26.0").setup();
 ```
+## Examples
+Check out <a href="https://github.com/selcukes/webdriver-binaries/wiki/Configure-WebDriverBinary-to-TestNG-Test">Wiki page</a> for sample TestNG Test
