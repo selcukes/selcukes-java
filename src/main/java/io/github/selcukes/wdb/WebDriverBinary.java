@@ -2,8 +2,8 @@ package io.github.selcukes.wdb;
 
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.enums.TargetArch;
-import io.github.selcukes.wdb.util.WebDriverBinaryUtil;
 import io.github.selcukes.wdb.util.TempFileUtil;
+import io.github.selcukes.wdb.util.WebDriverBinaryUtil;
 
 public class WebDriverBinary {
     private DriverType driverType;
@@ -27,6 +27,11 @@ public class WebDriverBinary {
     public static Builder edgeDriver() {
         return new WebDriverBinary().new Builder(DriverType.EDGE);
     }
+
+    public static Builder operaDriver() {
+        return new WebDriverBinary().new Builder(DriverType.OPERA);
+    }
+
     public static Builder grid() {
         return new WebDriverBinary().new Builder(DriverType.GRID);
     }

@@ -48,6 +48,14 @@ public class WebDriverBinaryTest {
         assertEquals("webdriver.edge.driver", binProp);
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
     }
+    @Test
+    public void operaDriverTest() {
+
+        BinaryInfo binaryInfo = WebDriverBinary.operaDriver().targetPath("temp").setup();
+        String binProp = binaryInfo.getBinaryProperty();
+        assertEquals("webdriver.opera.driver", binProp);
+        logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
+    }
 
     @Test
     public void seleniumServerTest() {

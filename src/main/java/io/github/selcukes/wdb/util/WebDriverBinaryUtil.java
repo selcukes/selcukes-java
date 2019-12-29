@@ -14,9 +14,6 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 
-
-import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
-
 public class WebDriverBinaryUtil {
     private final Logger logger = LoggerFactory.getLogger(WebDriverBinaryUtil.class);
 
@@ -59,6 +56,9 @@ public class WebDriverBinaryUtil {
             case EDGE:
                 this.binaryFactory = new EdgeBinary(release, targetArch, proxyUrl);
                 break;
+            case OPERA:
+                this.binaryFactory = new OperaBinary(release, targetArch, proxyUrl);
+                break;
             case GRID:
                 this.binaryFactory = new SeleniumServerBinary(release, targetArch, proxyUrl);
                 break;
@@ -68,10 +68,11 @@ public class WebDriverBinaryUtil {
 
         return setBinaryInfo(downloadAndExtract().configureBinary(driverType));
     }
-    private BinaryInfo setBinaryInfo(String binProp)
-    {
+
+    private BinaryInfo setBinaryInfo(String binProp) {
         return new BinaryInfo(binProp, getWebDriverBinary().getAbsolutePath());
     }
+
     private File getWebDriverBinary() {
         return new File(binaryDownloadDirectory.getAbsolutePath() +
             File.separator +
@@ -82,10 +83,10 @@ public class WebDriverBinaryUtil {
 
     private WebDriverBinaryUtil downloadAndExtract() {
         if (getWebDriverBinary().exists()) {
-            logger.info(()->"Re-using an existing driver binary found at: " + getWebDriverBinary().getParent());
+            logger.info(() -> "Re-using an existing driver binary found at: " + getWebDriverBinary().getParent());
         } else {
 
-            BinaryDownloadUtil.downloadBinary(unwrap(binaryFactory.getDownloadURL()), binaryFactory.getCompressedBinaryFile());
+            BinaryDownloadUtil.downloadBinary(binaryFactory.getDownloadURL(), binaryFactory.getCompressedBinaryFile());
 
             logger.info(() -> String.format("%s successfully downloaded to: %s", binaryFactory.getBinaryDriverName(), getWebDriverBinary().getParent()));
             if (binaryFactory.getCompressedBinaryType().equals(DownloaderType.JAR)) {

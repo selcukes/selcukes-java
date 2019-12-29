@@ -9,7 +9,6 @@ import io.github.selcukes.wdb.util.HttpUtils;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Optional;
 
 public class SeleniumServerBinary extends AbstractBinary {
 
@@ -18,9 +17,9 @@ public class SeleniumServerBinary extends AbstractBinary {
     }
 
     @Override
-    public Optional<URL> getDownloadURL() {
+    public URL getDownloadURL() {
         try {
-            return Optional.of(new URL(MirrorUrls.SELENIUM_SERVER_URL + "/" + latestVersion));
+            return new URL(MirrorUrls.SELENIUM_SERVER_URL + "/" + latestVersion);
 
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);
