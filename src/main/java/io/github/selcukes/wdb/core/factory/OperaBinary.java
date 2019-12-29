@@ -9,7 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class OperaBinary extends AbstractBinary {
-    private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/operadriver-%s.%s";
+    private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/operadriver_%s.%s";
 
 
     public OperaBinary(String release, TargetArch targetArch, String proxyUrl) {
