@@ -20,7 +20,7 @@ abstract class AbstractBinary implements BinaryFactory {
     private Optional<String> release;
     private Optional<TargetArch> targetArch;
     private Optional<String> proxyUrl;
-    protected String latestVersion;
+    protected String latestVersionUrl;
 
     public AbstractBinary(String release, TargetArch targetArch, String proxyUrl) {
 
@@ -47,8 +47,8 @@ abstract class AbstractBinary implements BinaryFactory {
     protected String getProxy() {
         return unwrap(proxyUrl);
     }
-    protected String getVersionNumberFromGit(String binaryDownloadUrl)
-    {
+
+    protected String getVersionNumberFromGit(String binaryDownloadUrl) {
         final String releaseLocation = HttpUtils.getLocation(binaryDownloadUrl, getProxy());
 
         if (releaseLocation == null || releaseLocation.length() < 2 || !releaseLocation.contains("/")) {
@@ -56,10 +56,11 @@ abstract class AbstractBinary implements BinaryFactory {
         }
         return releaseLocation.substring(releaseLocation.lastIndexOf('/') + 1);
     }
+
     protected String getVersionNumberFromXML(String binaryDownloadUrl, String matcher) {
         final InputStream downloadStream = HttpUtils.getResponseInputStream(binaryDownloadUrl, getProxy());
         List<String> versions = new ArrayList<>();
-        Map<String, String> versionMap = new HashMap<>();
+        Map<String, String> versionMap = new TreeMap<>();
         try {
             Document doc = parse(downloadStream, null, "");
             Elements element = doc.select(
@@ -75,7 +76,7 @@ abstract class AbstractBinary implements BinaryFactory {
             versions.sort(new VersionComparator());
 
             String version = versions.get(versions.size() - 1);
-            latestVersion = unwrap(versionMap.entrySet().stream().filter(map -> map.getValue().contains(version)).findFirst()).getValue();
+            latestVersionUrl = unwrap(versionMap.entrySet().stream().filter(map -> map.getValue().contains(version)).findFirst()).getValue();
 
             return version;
 

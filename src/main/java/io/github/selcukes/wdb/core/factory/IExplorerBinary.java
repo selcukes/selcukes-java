@@ -17,7 +17,7 @@ public class IExplorerBinary extends AbstractBinary {
     @Override
     public URL getDownloadURL() {
         try {
-            return new URL(MirrorUrls.IEDRIVER_URL + "/" + latestVersion);
+            return new URL(MirrorUrls.IEDRIVER_URL + "/" + latestVersionUrl);
 
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);

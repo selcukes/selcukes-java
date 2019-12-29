@@ -17,7 +17,7 @@ public class SeleniumServerBinary extends AbstractBinary {
     @Override
     public URL getDownloadURL() {
         try {
-            return new URL(MirrorUrls.SELENIUM_SERVER_URL + "/" + latestVersion);
+            return new URL(MirrorUrls.SELENIUM_SERVER_URL + "/" + latestVersionUrl);
 
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);
