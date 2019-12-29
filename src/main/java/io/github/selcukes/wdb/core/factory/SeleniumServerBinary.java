@@ -44,7 +44,7 @@ public class SeleniumServerBinary extends AbstractBinary {
     @Override
     protected String getLatestRelease() {
         final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.SELENIUM_SERVER_LATEST_RELEASE_URL, null);
-        return getVersionNumber(downloadStream, getBinaryDriverName());
+        return getVersionNumberFromXML(downloadStream, getBinaryDriverName());
     }
 
 }

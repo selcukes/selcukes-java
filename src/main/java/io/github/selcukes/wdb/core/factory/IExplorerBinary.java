@@ -36,7 +36,7 @@ public class IExplorerBinary extends AbstractBinary {
         final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.IEDRIVER_LATEST_RELEASE_URL, getProxy());
         String arch = getBinaryEnvironment().getArchitecture() == 64 ? "x64" : "Win32";
         String matcher = "IEDriverServer" + "_" + arch;
-        return getVersionNumber(downloadStream, matcher);
+        return getVersionNumberFromXML(downloadStream, matcher);
     }
 
 }

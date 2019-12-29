@@ -4,7 +4,6 @@ package io.github.selcukes.wdb.core.factory;
 import io.github.selcukes.wdb.core.MirrorUrls;
 import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
-import io.github.selcukes.wdb.util.HttpUtils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,14 +19,12 @@ public class OperaBinary extends AbstractBinary {
     @Override
     public URL getDownloadURL() {
         try {
-            URL url= new URL(String.format(
+            return new URL(String.format(
                 BINARY_DOWNLOAD_URL_PATTERN,
                 MirrorUrls.OPERA_DRIVER_URL,
                 getBinaryVersion(),
                 getBinaryEnvironment().getOsNameAndArch(),
                 getCompressedBinaryType().getName()));
-            System.out.println(url);
-            return url;
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);
         }
@@ -40,11 +37,6 @@ public class OperaBinary extends AbstractBinary {
 
     @Override
     protected String getLatestRelease() {
-        final String releaseLocation = HttpUtils.getLocation(MirrorUrls.OPERA_DRIVER_LATEST_RELEASE_URL, getProxy());
-        System.out.println(releaseLocation);
-        if (releaseLocation == null || releaseLocation.length() < 2 || !releaseLocation.contains("/")) {
-            return "";
-        }
-        return releaseLocation.substring(releaseLocation.lastIndexOf('/') + 1);
+        return getVersionNumberFromGit(MirrorUrls.OPERA_DRIVER_LATEST_RELEASE_URL);
     }
 }

@@ -5,11 +5,9 @@ import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.OSType;
 import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
-import io.github.selcukes.wdb.util.HttpUtils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Optional;
 
 public class GeckoBinary extends AbstractBinary {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/geckodriver-%s-%s.%s";
@@ -47,11 +45,6 @@ public class GeckoBinary extends AbstractBinary {
 
     @Override
     protected String getLatestRelease() {
-        final String releaseLocation = HttpUtils.getLocation(MirrorUrls.GECKODRIVER_LATEST_RELEASE_URL, getProxy());
-        System.out.println(releaseLocation);
-        if (releaseLocation == null || releaseLocation.length() < 2 || !releaseLocation.contains("/")) {
-            return "";
-        }
-        return releaseLocation.substring(releaseLocation.lastIndexOf('/') + 1);
+        return getVersionNumberFromGit(MirrorUrls.GECKODRIVER_LATEST_RELEASE_URL);
     }
 }
