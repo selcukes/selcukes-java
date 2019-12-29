@@ -10,7 +10,7 @@ import java.net.URL;
 import java.util.Optional;
 
 public interface BinaryFactory {
-    Optional<URL> getDownloadURL();
+    URL getDownloadURL();
 
     Platform getBinaryEnvironment();
 

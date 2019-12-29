@@ -14,7 +14,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.jsoup.Jsoup.parse;
 
@@ -27,14 +26,14 @@ public class EdgeBinary extends AbstractBinary implements BinaryFactory {
     }
 
     @Override
-    public Optional<URL> getDownloadURL() {
+    public URL getDownloadURL() {
         try {
-            return Optional.of(new URL(String.format(
+            return new URL(String.format(
                 BINARY_DOWNLOAD_URL_PATTERN,
                 MirrorUrls.EDGE_DRIVER_URL,
                 getBinaryVersion(),
                 getBinaryEnvironment().getOSType().equals(OSType.LINUX) ? "win" + getBinaryEnvironment().getArchitecture() : getBinaryEnvironment().getOsNameAndArch()
-            )));
+            ));
 
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);

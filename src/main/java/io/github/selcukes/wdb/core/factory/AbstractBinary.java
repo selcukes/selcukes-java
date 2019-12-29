@@ -2,6 +2,7 @@ package io.github.selcukes.wdb.core.factory;
 
 import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
+import io.github.selcukes.wdb.util.HttpUtils;
 import io.github.selcukes.wdb.util.Platform;
 import io.github.selcukes.wdb.util.VersionComparator;
 import org.jsoup.nodes.Document;
@@ -19,7 +20,7 @@ abstract class AbstractBinary implements BinaryFactory {
     private Optional<String> release;
     private Optional<TargetArch> targetArch;
     private Optional<String> proxyUrl;
-    protected String latestVersion;
+    protected String latestVersionUrl;
 
     public AbstractBinary(String release, TargetArch targetArch, String proxyUrl) {
 
@@ -47,29 +48,35 @@ abstract class AbstractBinary implements BinaryFactory {
         return unwrap(proxyUrl);
     }
 
-    protected String getVersionNumber(InputStream inputStream, String matcher) {
+    protected String getVersionNumberFromGit(String binaryDownloadUrl) {
+        final String releaseLocation = HttpUtils.getLocation(binaryDownloadUrl, getProxy());
+
+        if (releaseLocation == null || releaseLocation.length() < 2 || !releaseLocation.contains("/")) {
+            return "";
+        }
+        return releaseLocation.substring(releaseLocation.lastIndexOf('/') + 1);
+    }
+
+    protected String getVersionNumberFromXML(String binaryDownloadUrl, String matcher) {
+        final InputStream downloadStream = HttpUtils.getResponseInputStream(binaryDownloadUrl, getProxy());
         List<String> versions = new ArrayList<>();
-        Map<String, String> versionMap = new HashMap<>();
+        Map<String, String> versionMap = new TreeMap<>();
         try {
-            Document doc = parse(inputStream, null, "");
+            Document doc = parse(downloadStream, null, "");
             Elements element = doc.select(
                 "Key:contains(" + matcher + ")");
             for (Element e : element) {
                 String key = e.text().substring(e.text().indexOf('/'));
                 versionMap.put(key, e.text());
                 String temp = e.text().substring(e.text().indexOf('/') + 1).replaceAll(matcher, "");
-                if (temp.contains("standalone")) {
-                    temp = temp.replace("standalone-", "");
-                }
                 String versionNum = temp.substring(1, temp.length() - 4);
-
                 versions.add(versionNum);
             }
 
             versions.sort(new VersionComparator());
 
             String version = versions.get(versions.size() - 1);
-            latestVersion = unwrap(versionMap.entrySet().stream().filter(map -> map.getValue().contains(version)).findFirst()).getValue();
+            latestVersionUrl = unwrap(versionMap.entrySet().stream().filter(map -> map.getValue().contains(version)).findFirst()).getValue();
 
             return version;
 

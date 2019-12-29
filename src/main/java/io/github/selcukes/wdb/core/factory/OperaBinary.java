@@ -1,5 +1,6 @@
 package io.github.selcukes.wdb.core.factory;
 
+
 import io.github.selcukes.wdb.core.MirrorUrls;
 import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
@@ -7,18 +8,23 @@ import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class IExplorerBinary extends AbstractBinary {
+public class OperaBinary extends AbstractBinary {
+    private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/operadriver_%s.%s";
 
 
-    public IExplorerBinary(String release, TargetArch targetArch, String proxyUrl) {
+    public OperaBinary(String release, TargetArch targetArch, String proxyUrl) {
         super(release, targetArch, proxyUrl);
     }
 
     @Override
     public URL getDownloadURL() {
         try {
-            return new URL(MirrorUrls.IEDRIVER_URL + "/" + latestVersionUrl);
-
+            return new URL(String.format(
+                BINARY_DOWNLOAD_URL_PATTERN,
+                MirrorUrls.OPERA_DRIVER_URL,
+                getBinaryVersion(),
+                getBinaryEnvironment().getOsNameAndArch(),
+                getCompressedBinaryType().getName()));
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);
         }
@@ -26,14 +32,11 @@ public class IExplorerBinary extends AbstractBinary {
 
     @Override
     public String getBinaryDriverName() {
-        return "IEDriverServer";
+        return "operadriver";
     }
 
     @Override
     protected String getLatestRelease() {
-        String arch = getBinaryEnvironment().getArchitecture() == 64 ? "x64" : "Win32";
-        String matcher = "IEDriverServer" + "_" + arch;
-        return getVersionNumberFromXML(MirrorUrls.IEDRIVER_LATEST_RELEASE_URL, matcher);
+        return getVersionNumberFromGit(MirrorUrls.OPERA_DRIVER_LATEST_RELEASE_URL);
     }
-
 }
