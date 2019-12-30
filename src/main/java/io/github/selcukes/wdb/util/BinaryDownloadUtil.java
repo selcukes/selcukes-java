@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.concurrent.TimeUnit;
 
 public final class BinaryDownloadUtil {
 
@@ -41,27 +40,18 @@ public final class BinaryDownloadUtil {
 
     private static void download(URL downloadURL, File downloadTo, boolean silentDownload) {
         try {
-            long downloadStartTime = System.nanoTime();
 
             if (!silentDownload) {
-                logger.info(()->"Downloading driver binary from: " + getAbsoluteURL(downloadURL));
+                logger.info(() -> "Downloading driver binary from: " + getAbsoluteURL(downloadURL));
             }
 
             FileUtils.copyURLToFile(downloadURL, downloadTo);
 
-            long downloadEndTime = System.nanoTime() - downloadStartTime;
-
-            if (!silentDownload) {
-                logger.info(()->(TimeUnit.NANOSECONDS.toHours(downloadEndTime)+" min "+getSeconds(downloadEndTime)+" secs"));
-            }
         } catch (IOException e) {
             throw new WebDriverBinaryException(e);
         }
     }
-    private static long getSeconds(long downloadEndTime)
-    {
-        return TimeUnit.NANOSECONDS.toSeconds(downloadEndTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.NANOSECONDS.toMinutes(downloadEndTime));
-    }
+
     private static String getAbsoluteURL(URL url) {
         return url.getProtocol() + "://" + url.getHost() + url.getPath();
     }

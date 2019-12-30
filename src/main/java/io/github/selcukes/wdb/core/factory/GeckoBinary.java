@@ -2,8 +2,8 @@ package io.github.selcukes.wdb.core.factory;
 
 import io.github.selcukes.wdb.core.MirrorUrls;
 import io.github.selcukes.wdb.enums.DownloaderType;
+import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.enums.OSType;
-import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 
 import java.net.MalformedURLException;
@@ -11,11 +11,6 @@ import java.net.URL;
 
 public class GeckoBinary extends AbstractBinary {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/geckodriver-%s-%s.%s";
-
-
-    public GeckoBinary(String release, TargetArch targetArch, String proxyUrl) {
-        super(release, targetArch, proxyUrl);
-    }
 
     @Override
     public URL getDownloadURL() {
@@ -41,6 +36,11 @@ public class GeckoBinary extends AbstractBinary {
     @Override
     public String getBinaryDriverName() {
         return "geckodriver";
+    }
+
+    @Override
+    public DriverType getDriverType() {
+        return DriverType.FIREFOX;
     }
 
     @Override

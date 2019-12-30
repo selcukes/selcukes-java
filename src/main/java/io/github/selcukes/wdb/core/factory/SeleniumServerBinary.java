@@ -2,17 +2,13 @@ package io.github.selcukes.wdb.core.factory;
 
 import io.github.selcukes.wdb.core.MirrorUrls;
 import io.github.selcukes.wdb.enums.DownloaderType;
-import io.github.selcukes.wdb.enums.TargetArch;
+import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class SeleniumServerBinary extends AbstractBinary {
-
-    public SeleniumServerBinary(String release, TargetArch targetArch, String proxyUrl) {
-        super(release, targetArch, proxyUrl);
-    }
 
     @Override
     public URL getDownloadURL() {
@@ -37,6 +33,11 @@ public class SeleniumServerBinary extends AbstractBinary {
     @Override
     public String getBinaryDriverName() {
         return "selenium-server-standalone";
+    }
+
+    @Override
+    public DriverType getDriverType() {
+        return DriverType.GRID;
     }
 
     @Override

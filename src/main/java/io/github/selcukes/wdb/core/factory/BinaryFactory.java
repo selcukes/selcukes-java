@@ -1,13 +1,14 @@
 package io.github.selcukes.wdb.core.factory;
 
 import io.github.selcukes.wdb.enums.DownloaderType;
+import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.enums.OSType;
+import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.util.Platform;
 import io.github.selcukes.wdb.util.TempFileUtil;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Optional;
 
 public interface BinaryFactory {
     URL getDownloadURL();
@@ -39,5 +40,13 @@ public interface BinaryFactory {
     String getBinaryDriverName();
 
     String getBinaryVersion();
+
+    DriverType getDriverType();
+
+    void setVersion(String version);
+
+    void setTargetArch(TargetArch targetArch);
+
+    void setProxy(String proxy);
 
 }

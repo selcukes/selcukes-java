@@ -26,6 +26,7 @@ public class FileHelper {
             permissions.add(PosixFilePermission.OWNER_EXECUTE);
             Files.setPosixFilePermissions(filepath, permissions);
         } catch (Exception e) {
+            logger.error(e::getMessage);
             throw new WebDriverBinaryException("Unable to set WebDriver Binary file as executable :" + e);
         }
     }
@@ -33,10 +34,10 @@ public class FileHelper {
     public static void createDirectory(File dirName) {
         boolean dirExists = dirName.exists();
         if (!dirExists) {
-            logger.info(()->"Creating directory: " + dirName.getName());
+            logger.debug(()->"Creating directory: " + dirName.getName());
             dirExists = dirName.mkdirs();
             if (dirExists) {
-                logger.info(()->dirName.getName() + " directory created...");
+                logger.debug(()->dirName.getName() + " directory created...");
             }
         }
     }

@@ -1,8 +1,8 @@
 package io.github.selcukes.wdb.core.factory;
 
 import io.github.selcukes.wdb.core.MirrorUrls;
+import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.enums.OSType;
-import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.util.HttpUtils;
 import org.jsoup.nodes.Document;
@@ -17,13 +17,8 @@ import java.util.List;
 
 import static org.jsoup.Jsoup.parse;
 
-public class EdgeBinary extends AbstractBinary implements BinaryFactory {
+public class EdgeBinary extends AbstractBinary{
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/edgedriver_%s.zip";
-
-    public EdgeBinary(String release, TargetArch targetArch, String proxyUrl) {
-        super(release, targetArch, proxyUrl);
-
-    }
 
     @Override
     public URL getDownloadURL() {
@@ -43,6 +38,11 @@ public class EdgeBinary extends AbstractBinary implements BinaryFactory {
     @Override
     public String getBinaryDriverName() {
         return "msedgedriver";
+    }
+
+    @Override
+    public DriverType getDriverType() {
+        return DriverType.EDGE;
     }
 
     @Override

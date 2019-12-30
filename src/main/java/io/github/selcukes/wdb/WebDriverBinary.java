@@ -1,59 +1,57 @@
 package io.github.selcukes.wdb;
 
-import io.github.selcukes.wdb.enums.DriverType;
+import io.github.selcukes.wdb.core.factory.*;
 import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.util.TempFileUtil;
 import io.github.selcukes.wdb.util.WebDriverBinaryUtil;
 
 public class WebDriverBinary {
-    private DriverType driverType;
-    private String release;
-    private TargetArch targetArch;
     private String downloadLocation = TempFileUtil.getTempDirectory();
-    private String proxyUrl;
+    private boolean strictDownload = false;
+    private BinaryFactory binaryFactory;
 
-    public static Builder chromeDriver() {
-        return new WebDriverBinary().new Builder(DriverType.CHROME);
+    public static synchronized Builder chromeDriver() {
+        return new WebDriverBinary().new Builder(new ChromeBinary());
     }
 
-    public static Builder firefoxDriver() {
-        return new WebDriverBinary().new Builder(DriverType.FIREFOX);
+    public static synchronized Builder firefoxDriver() {
+        return new WebDriverBinary().new Builder(new GeckoBinary());
     }
 
-    public static Builder ieDriver() {
-        return new WebDriverBinary().new Builder(DriverType.IEXPLORER);
+    public static synchronized Builder ieDriver() {
+        return new WebDriverBinary().new Builder(new IExplorerBinary());
     }
 
-    public static Builder edgeDriver() {
-        return new WebDriverBinary().new Builder(DriverType.EDGE);
+    public static synchronized Builder edgeDriver() {
+        return new WebDriverBinary().new Builder(new EdgeBinary());
     }
 
-    public static Builder operaDriver() {
-        return new WebDriverBinary().new Builder(DriverType.OPERA);
+    public static synchronized Builder operaDriver() {
+        return new WebDriverBinary().new Builder(new OperaBinary());
     }
 
-    public static Builder grid() {
-        return new WebDriverBinary().new Builder(DriverType.GRID);
+    public static synchronized Builder grid() {
+        return new WebDriverBinary().new Builder(new SeleniumServerBinary());
     }
 
     public class Builder {
-        public Builder(DriverType driverType) {
-            WebDriverBinary.this.driverType = driverType;
+        public Builder(BinaryFactory binaryFactory) {
+            WebDriverBinary.this.binaryFactory = binaryFactory;
         }
 
 
         public Builder version(String version) {
-            WebDriverBinary.this.release = version;
+            binaryFactory.setVersion(version);
             return this;
         }
 
         public Builder arch64() {
-            WebDriverBinary.this.targetArch = TargetArch.X64;
+            binaryFactory.setTargetArch(TargetArch.X64);
             return this;
         }
 
         public Builder arch32() {
-            WebDriverBinary.this.targetArch = TargetArch.X32;
+            binaryFactory.setTargetArch(TargetArch.X32);
             return this;
         }
 
@@ -64,16 +62,19 @@ public class WebDriverBinary {
         }
 
         public Builder proxy(String proxy) {
-            WebDriverBinary.this.proxyUrl = proxy;
+            binaryFactory.setProxy(proxy);
+            return this;
+        }
+
+        public Builder strictDownload() {
+            WebDriverBinary.this.strictDownload = true;
             return this;
         }
 
         public BinaryInfo setup() {
-            return new WebDriverBinaryUtil(WebDriverBinary.this.driverType,
-                WebDriverBinary.this.release,
-                WebDriverBinary.this.targetArch,
+            return new WebDriverBinaryUtil(WebDriverBinary.this.binaryFactory,
                 WebDriverBinary.this.downloadLocation,
-                WebDriverBinary.this.proxyUrl).downloadAndSetupBinaryPath();
+                WebDriverBinary.this.strictDownload).downloadAndSetupBinaryPath();
         }
     }
 

@@ -1,6 +1,7 @@
 package io.github.selcukes.wdb.core.factory;
 
 import io.github.selcukes.wdb.core.MirrorUrls;
+import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.enums.OSType;
 import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
@@ -10,19 +11,11 @@ import io.github.selcukes.wdb.util.Platform;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
-import java.util.Optional;
+
+import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
 
 public class ChromeBinary extends AbstractBinary {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/chromedriver_%s.zip";
-
-    private Optional<TargetArch> targetArch;
-
-
-    public ChromeBinary(String release, TargetArch targetArch, String proxyUrl) {
-        super(release, targetArch, proxyUrl);
-        this.targetArch = Optional.ofNullable(targetArch);
-    }
-
 
     @Override
     public URL getDownloadURL() {
@@ -41,8 +34,8 @@ public class ChromeBinary extends AbstractBinary {
     @Override
     public Platform getBinaryEnvironment() {
         Platform platform = Platform.getPlatform();
-        if (targetArch.isPresent())
-            platform.setArchitecture(targetArch.get().getValue());
+        if (getTargetArch().isPresent())
+            platform.setArchitecture(unwrap(getTargetArch()).getValue());
         else if (Objects.equals(platform.getOSType(), OSType.WIN))
             platform.setArchitecture(TargetArch.X32.getValue());
         return platform;
@@ -51,6 +44,11 @@ public class ChromeBinary extends AbstractBinary {
     @Override
     public String getBinaryDriverName() {
         return "chromedriver";
+    }
+
+    @Override
+    public DriverType getDriverType() {
+        return DriverType.CHROME;
     }
 
     @Override
