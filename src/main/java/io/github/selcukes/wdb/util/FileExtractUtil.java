@@ -17,13 +17,14 @@ import java.util.zip.ZipFile;
 public final class FileExtractUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(FileExtractUtil.class);
+    private static final int BUF_SIZE = 4096;
 
     private FileExtractUtil() {
 
     }
 
     public static File extractFile(File source, File destination, DownloaderType compressedBinaryType) {
-
+        FileHelper.createDirectory(destination);
         final File extractedFile = compressedBinaryType.equals(DownloaderType.ZIP) ? unZipFile(source, destination) : unTarFile(source, destination);
 
         final File[] directoryContents = (extractedFile != null) ? extractedFile.listFiles() : new File[0];
@@ -50,12 +51,13 @@ public final class FileExtractUtil {
                     FileHelper.createDirectory(entryDestination);
                 } else {
                     FileHelper.createDirectory(entryDestination.getParentFile());
-                    InputStream inputStream = zipFile.getInputStream(zipEntry);
-                    copyFile(inputStream, entryDestination);
+                    InputStream in = zipFile.getInputStream(zipEntry);
+                    OutputStream out = new FileOutputStream(entryDestination);
+                    IOUtils.copy(in, out);
+                    out.close();
                 }
             }
         } catch (IOException e) {
-            logger.error(e::getMessage);
             throw new WebDriverBinaryException(e);
         }
         return entryDestination;
@@ -64,9 +66,9 @@ public final class FileExtractUtil {
     private static File unTarFile(File source, File destination) {
         String outputFile = getFileName(source, destination.getAbsolutePath());
 
-        File entryDestination = deCompressGZipFile(source, new File(outputFile));
+        File tarFile = deCompressGZipFile(source, new File(outputFile));
 
-        try (final TarArchiveInputStream inputStream = new TarArchiveInputStream(new FileInputStream(entryDestination))) {
+        try (final TarArchiveInputStream inputStream = new TarArchiveInputStream(new FileInputStream(tarFile))) {
             TarArchiveEntry tarEntry;
 
             while ((tarEntry = inputStream.getNextTarEntry()) != null) {
@@ -75,27 +77,28 @@ public final class FileExtractUtil {
                 long compressedSize = tarEntry.getSize();
                 logger.info(() -> String.format("Uncompressing {%s} (size: {%d} KB, compressed size: {%d} KB)",
                     fileName, size, compressedSize));
-                entryDestination = new File(destination.getAbsolutePath() + File.separator + fileName);
+                File entryDestination = new File(destination.getAbsolutePath() + File.separator + fileName);
                 if (tarEntry.isDirectory()) {
                     if (!entryDestination.exists()) {
                         FileHelper.createDirectory(entryDestination);
                     }
                 } else {
                     FileHelper.createDirectory(entryDestination.getParentFile());
-                    copyFile(inputStream, entryDestination);
+                    FileOutputStream fos = new FileOutputStream(entryDestination);
+                    IOUtils.copy(inputStream, fos);
+                    fos.close();
                 }
             }
-        } catch (IOException e) {
-            logger.error(e::getMessage);
-            throw new WebDriverBinaryException(e);
+        } catch (IOException ex) {
+            throw new WebDriverBinaryException(ex);
         }
-        return entryDestination;
+        return tarFile;
     }
 
     private static File deCompressGZipFile(File gZippedFile, File tarFile) {
         try (FileInputStream fis = new FileInputStream(gZippedFile);
              GZIPInputStream gZIPInputStream = new GZIPInputStream(fis)) {
-            copyFile(gZIPInputStream, tarFile);
+            processFile(gZIPInputStream, tarFile);
         } catch (IOException e) {
             logger.error(e::getMessage);
         }
@@ -103,12 +106,18 @@ public final class FileExtractUtil {
 
     }
 
-    private static void copyFile(InputStream inputStream, File outDir) {
+    private static void processFile(InputStream inputStream, File outDir) {
 
-        try (FileOutputStream outputStream = new FileOutputStream(outDir)) {
-            IOUtils.copy(inputStream, outputStream);
-        } catch (IOException e) {
-            logger.error(() -> "Unable to Copy File: " + e.getMessage());
+        byte[] buffer = new byte[BUF_SIZE];
+
+        try (FileOutputStream fos = new FileOutputStream(outDir)) {
+            int len;
+            while ((len = inputStream.read(buffer)) > 0) {
+                fos.write(buffer, 0, len);
+            }
+
+        } catch (IOException ex) {
+            logger.error(() -> "Unable to uncompress File: " + ex.getMessage());
         }
 
     }
