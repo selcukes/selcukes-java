@@ -11,6 +11,7 @@ public class WebDriverBinary {
     private TargetArch targetArch;
     private String downloadLocation = TempFileUtil.getTempDirectory();
     private String proxyUrl;
+    private boolean strictDownload=false;
 
     public static Builder chromeDriver() {
         return new WebDriverBinary().new Builder(DriverType.CHROME);
@@ -68,12 +69,18 @@ public class WebDriverBinary {
             return this;
         }
 
+        public Builder strictDownload() {
+            WebDriverBinary.this.strictDownload = true;
+            return this;
+        }
+
         public BinaryInfo setup() {
             return new WebDriverBinaryUtil(WebDriverBinary.this.driverType,
                 WebDriverBinary.this.release,
                 WebDriverBinary.this.targetArch,
                 WebDriverBinary.this.downloadLocation,
-                WebDriverBinary.this.proxyUrl).downloadAndSetupBinaryPath();
+                WebDriverBinary.this.proxyUrl,
+                WebDriverBinary.this.strictDownload).downloadAndSetupBinaryPath();
         }
     }
 

@@ -22,15 +22,17 @@ public class WebDriverBinaryUtil {
     private TargetArch targetArch;
     private String proxyUrl;
     private File binaryDownloadDirectory;
+    private boolean strictDownload;
     private BinaryFactory binaryFactory;
     private static String webdriver = "webdriver";
 
-    public WebDriverBinaryUtil(DriverType driverType, String release, TargetArch targetArch, String downloadLocation, String proxyUrl) {
+    public WebDriverBinaryUtil(DriverType driverType, String release, TargetArch targetArch, String downloadLocation, String proxyUrl, boolean strictDownload) {
         this.driverType = driverType;
         this.release = release;
         this.targetArch = targetArch;
         this.binaryDownloadDirectory = getBinaryDownloadDirectory(downloadLocation);
         this.proxyUrl = proxyUrl;
+        this.strictDownload = strictDownload;
     }
 
     private File getBinaryDownloadDirectory(String downloadLocation) {
@@ -79,7 +81,7 @@ public class WebDriverBinaryUtil {
     }
 
     private WebDriverBinaryUtil downloadAndExtract() {
-        if (getWebDriverBinary().exists()) {
+        if (!strictDownload && getWebDriverBinary().exists()) {
             logger.info(() -> "Re-using an existing driver binary found at: " + getWebDriverBinary().getParent());
         } else {
 

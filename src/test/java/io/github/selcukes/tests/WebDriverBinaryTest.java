@@ -80,4 +80,12 @@ public class WebDriverBinaryTest {
         assertEquals(binaryDownloadedPath, binaryDownloadedPath1);
 
     }
+    @Test
+    public void strictDownloadTest()
+    {
+        BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().strictDownload().setup();
+        String binProp = binaryInfo.getBinaryProperty();
+        String binaryDownloadedPath = binaryInfo.getBinaryPath();
+        logger.debug(() -> "Binary path for { " + binProp + "} is {" + binaryDownloadedPath + "}");
+    }
 }
