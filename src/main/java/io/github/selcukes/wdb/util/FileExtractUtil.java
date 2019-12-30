@@ -24,6 +24,7 @@ public final class FileExtractUtil {
     }
 
     public static File extractFile(File source, File destination, DownloaderType compressedBinaryType) {
+        logger.info(() -> String.format("Extracting binary from compressed file %s", source));
         FileHelper.createDirectory(destination);
         final File extractedFile = compressedBinaryType.equals(DownloaderType.ZIP) ? unZipFile(source, destination) : unTarFile(source, destination);
 
