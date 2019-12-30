@@ -5,13 +5,13 @@ import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.wdb.BinaryInfo;
 import io.github.selcukes.wdb.core.factory.BinaryFactory;
 import io.github.selcukes.wdb.enums.DownloaderType;
-import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.enums.OSType;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class WebDriverBinaryUtil {
     private final Logger logger = LoggerFactory.getLogger(WebDriverBinaryUtil.class);
@@ -34,7 +34,7 @@ public class WebDriverBinaryUtil {
     }
 
     public BinaryInfo downloadAndSetupBinaryPath() {
-        return setBinaryInfo(downloadAndExtract().configureBinary(binaryFactory.getDriverType()));
+        return setBinaryInfo(downloadAndExtract().configureBinary());
     }
 
     private BinaryInfo setBinaryInfo(String binProp) {
@@ -55,8 +55,8 @@ public class WebDriverBinaryUtil {
         } else {
 
             BinaryDownloadUtil.downloadBinary(binaryFactory.getDownloadURL(), binaryFactory.getCompressedBinaryFile());
-
             logger.info(() -> String.format("%s successfully downloaded to: %s", binaryFactory.getBinaryDriverName(), getWebDriverBinary().getParent()));
+
             if (binaryFactory.getCompressedBinaryType().equals(DownloaderType.JAR)) {
                 FileHelper.createDirectory(new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()));
                 try {
@@ -74,15 +74,16 @@ public class WebDriverBinaryUtil {
             binaryFactory.getCompressedBinaryFile(),
             new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()),
             binaryFactory.getCompressedBinaryType());
-        if (binaryFactory.getBinaryEnvironment().getOSType().equals(OSType.LINUX))
+        if (Objects.equals(binaryFactory.getBinaryEnvironment().getOSType(), OSType.LINUX))
             FileHelper.setFileExecutable(decompressedBinary.getAbsolutePath());
     }
 
-    private String configureBinary(DriverType driverType) {
+    private String configureBinary() {
         StringBuilder binaryPropertyName = new StringBuilder();
+
         binaryPropertyName.append(webdriver)
             .append(".")
-            .append(driverType.getName())
+            .append(binaryFactory.getDriverType().getName())
             .append(".driver");
 
         System.setProperty(binaryPropertyName.toString(), getWebDriverBinary().getAbsolutePath());
