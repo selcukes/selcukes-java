@@ -19,11 +19,10 @@ public class WebDriverBinaryUtil {
     private boolean strictDownload;
     private BinaryFactory binaryFactory;
     private static String webdriver = "webdriver";
-    private DriverType driverType;
 
-    public WebDriverBinaryUtil(BinaryFactory binaryFactory, DriverType driverType, String downloadLocation, boolean strictDownload) {
+
+    public WebDriverBinaryUtil(BinaryFactory binaryFactory, String downloadLocation, boolean strictDownload) {
         this.binaryFactory = binaryFactory;
-        this.driverType = driverType;
         this.binaryDownloadDirectory = getBinaryDownloadDirectory(downloadLocation);
         this.strictDownload = strictDownload;
     }
@@ -35,7 +34,7 @@ public class WebDriverBinaryUtil {
     }
 
     public BinaryInfo downloadAndSetupBinaryPath() {
-        return setBinaryInfo(downloadAndExtract().configureBinary(driverType));
+        return setBinaryInfo(downloadAndExtract().configureBinary(binaryFactory.getDriverType()));
     }
 
     private BinaryInfo setBinaryInfo(String binProp) {

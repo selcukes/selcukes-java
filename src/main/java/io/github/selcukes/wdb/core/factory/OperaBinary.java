@@ -2,6 +2,7 @@ package io.github.selcukes.wdb.core.factory;
 
 
 import io.github.selcukes.wdb.core.MirrorUrls;
+import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 
 import java.net.MalformedURLException;
@@ -27,6 +28,11 @@ public class OperaBinary extends AbstractBinary {
     @Override
     public String getBinaryDriverName() {
         return "operadriver";
+    }
+
+    @Override
+    public DriverType getDriverType() {
+        return DriverType.OPERA;
     }
 
     @Override

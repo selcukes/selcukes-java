@@ -1,6 +1,7 @@
 package io.github.selcukes.wdb.core.factory;
 
 import io.github.selcukes.wdb.core.MirrorUrls;
+import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.enums.OSType;
 import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
@@ -45,6 +46,11 @@ public class ChromeBinary extends AbstractBinary {
     @Override
     public String getBinaryDriverName() {
         return "chromedriver";
+    }
+
+    @Override
+    public DriverType getDriverType() {
+        return DriverType.CHROME;
     }
 
     @Override

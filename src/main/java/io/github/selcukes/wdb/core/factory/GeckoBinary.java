@@ -2,6 +2,7 @@ package io.github.selcukes.wdb.core.factory;
 
 import io.github.selcukes.wdb.core.MirrorUrls;
 import io.github.selcukes.wdb.enums.DownloaderType;
+import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.enums.OSType;
 import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
@@ -36,6 +37,11 @@ public class GeckoBinary extends AbstractBinary {
     @Override
     public String getBinaryDriverName() {
         return "geckodriver";
+    }
+
+    @Override
+    public DriverType getDriverType() {
+        return DriverType.FIREFOX;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package io.github.selcukes.wdb.core.factory;
 
 import io.github.selcukes.wdb.enums.DownloaderType;
+import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.enums.OSType;
 import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.util.Platform;
@@ -40,8 +41,12 @@ public interface BinaryFactory {
 
     String getBinaryVersion();
 
+    DriverType getDriverType();
+
     void setVersion(String version);
+
     void setTargetArch(TargetArch targetArch);
+
     void setProxy(String proxy);
 
 }
