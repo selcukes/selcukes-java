@@ -33,6 +33,8 @@ public final class FileExtractUtil {
         if (directoryContents != null && directoryContents.length == 0) {
             throw new WebDriverBinaryException("The file unpacking failed for: " + source.getAbsolutePath());
         }
+        logger.debug(() -> "Deleting compressed file:" + source.getAbsolutePath());
+        source.deleteOnExit();
         return extractedFile;
     }
 

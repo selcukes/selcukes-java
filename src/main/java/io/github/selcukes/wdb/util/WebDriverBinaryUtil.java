@@ -75,8 +75,6 @@ public class WebDriverBinaryUtil {
             binaryFactory.getCompressedBinaryFile(),
             new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()),
             binaryFactory.getCompressedBinaryType());
-        logger.debug(() -> "Deleting compressed file:" + binaryFactory.getCompressedBinaryFile().getAbsolutePath());
-        binaryFactory.getCompressedBinaryFile().deleteOnExit();
         if (Objects.equals(binaryFactory.getBinaryEnvironment().getOSType(), OSType.LINUX))
             FileHelper.setFileExecutable(decompressedBinary.getAbsolutePath());
     }
