@@ -6,13 +6,11 @@ import io.github.selcukes.wdb.enums.OSType;
 import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.util.BinaryDownloadUtil;
-import io.github.selcukes.wdb.util.OptionalUtil;
 import io.github.selcukes.wdb.util.Platform;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
-import java.util.Optional;
 
 import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
 
