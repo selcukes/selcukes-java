@@ -61,6 +61,7 @@ public class WebDriverBinaryUtil {
                 FileHelper.createDirectory(new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()));
                 try {
                     FileUtils.copyFile(binaryFactory.getCompressedBinaryFile(), getWebDriverBinary());
+                    binaryFactory.getCompressedBinaryFile().deleteOnExit();
                 } catch (IOException e) {
                     throw new WebDriverBinaryException(e);
                 }

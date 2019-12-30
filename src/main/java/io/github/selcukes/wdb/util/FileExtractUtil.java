@@ -17,7 +17,6 @@ import java.util.zip.ZipFile;
 public final class FileExtractUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(FileExtractUtil.class);
-    private static final int BUF_SIZE = 4096;
 
     private FileExtractUtil() {
 
@@ -66,11 +65,10 @@ public final class FileExtractUtil {
     }
 
     private static File unTarFile(File source, File destination) {
-        String outputFile = getFileName(source, destination.getAbsolutePath());
-
-        File tarFile = deCompressGZipFile(source, new File(outputFile));
-
-        try (final TarArchiveInputStream inputStream = new TarArchiveInputStream(new FileInputStream(tarFile))) {
+        File entryDestination = null;
+        try (FileInputStream fis = new FileInputStream(source);
+             GZIPInputStream gZIPInputStream = new GZIPInputStream(fis);
+             final TarArchiveInputStream inputStream = new TarArchiveInputStream(gZIPInputStream)) {
             TarArchiveEntry tarEntry;
 
             while ((tarEntry = inputStream.getNextTarEntry()) != null) {
@@ -79,7 +77,7 @@ public final class FileExtractUtil {
                 long compressedSize = tarEntry.getSize();
                 logger.info(() -> String.format("Uncompressing {%s} (size: {%d} KB, compressed size: {%d} KB)",
                     fileName, size, compressedSize));
-                File entryDestination = new File(destination.getAbsolutePath() + File.separator + fileName);
+                entryDestination = new File(destination.getAbsolutePath() + File.separator + fileName);
                 if (tarEntry.isDirectory()) {
                     if (!entryDestination.exists()) {
                         FileHelper.createDirectory(entryDestination);
@@ -94,39 +92,6 @@ public final class FileExtractUtil {
         } catch (IOException ex) {
             throw new WebDriverBinaryException(ex);
         }
-        return tarFile;
+        return entryDestination;
     }
-
-    private static File deCompressGZipFile(File gZippedFile, File tarFile) {
-        try (FileInputStream fis = new FileInputStream(gZippedFile);
-             GZIPInputStream gZIPInputStream = new GZIPInputStream(fis)) {
-            processFile(gZIPInputStream, tarFile);
-        } catch (IOException e) {
-            logger.error(e::getMessage);
-        }
-        return tarFile;
-
-    }
-
-    private static void processFile(InputStream inputStream, File outDir) {
-
-        byte[] buffer = new byte[BUF_SIZE];
-
-        try (FileOutputStream fos = new FileOutputStream(outDir)) {
-            int len;
-            while ((len = inputStream.read(buffer)) > 0) {
-                fos.write(buffer, 0, len);
-            }
-
-        } catch (IOException ex) {
-            logger.error(() -> "Unable to uncompress File: " + ex.getMessage());
-        }
-
-    }
-
-    private static String getFileName(File inputFile, String outputFolder) {
-        return outputFolder + File.separator +
-            inputFile.getName().substring(0, inputFile.getName().lastIndexOf('.'));
-    }
-
 }
