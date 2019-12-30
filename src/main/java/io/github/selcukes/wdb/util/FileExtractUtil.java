@@ -109,7 +109,6 @@ public final class FileExtractUtil {
             IOUtils.copy(inputStream, outputStream);
         } catch (IOException e) {
             logger.error(() -> "Unable to Copy File: " + e.getMessage());
-            throw new WebDriverBinaryException(e);
         }
 
     }
