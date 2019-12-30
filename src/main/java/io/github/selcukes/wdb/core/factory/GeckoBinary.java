@@ -12,11 +12,6 @@ import java.net.URL;
 public class GeckoBinary extends AbstractBinary {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/geckodriver-%s-%s.%s";
 
-
-    public GeckoBinary(String release, TargetArch targetArch, String proxyUrl) {
-        super(release, targetArch, proxyUrl);
-    }
-
     @Override
     public URL getDownloadURL() {
         try {

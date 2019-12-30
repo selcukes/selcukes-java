@@ -3,11 +3,10 @@ package io.github.selcukes.wdb.util;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.wdb.BinaryInfo;
-import io.github.selcukes.wdb.core.factory.*;
+import io.github.selcukes.wdb.core.factory.BinaryFactory;
 import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.enums.OSType;
-import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 import org.apache.commons.io.FileUtils;
 
@@ -16,22 +15,16 @@ import java.io.IOException;
 
 public class WebDriverBinaryUtil {
     private final Logger logger = LoggerFactory.getLogger(WebDriverBinaryUtil.class);
-
-    private DriverType driverType;
-    private String release;
-    private TargetArch targetArch;
-    private String proxyUrl;
     private File binaryDownloadDirectory;
     private boolean strictDownload;
     private BinaryFactory binaryFactory;
     private static String webdriver = "webdriver";
+    private DriverType driverType;
 
-    public WebDriverBinaryUtil(DriverType driverType, String release, TargetArch targetArch, String downloadLocation, String proxyUrl, boolean strictDownload) {
+    public WebDriverBinaryUtil(BinaryFactory binaryFactory, DriverType driverType, String downloadLocation, boolean strictDownload) {
+        this.binaryFactory = binaryFactory;
         this.driverType = driverType;
-        this.release = release;
-        this.targetArch = targetArch;
         this.binaryDownloadDirectory = getBinaryDownloadDirectory(downloadLocation);
-        this.proxyUrl = proxyUrl;
         this.strictDownload = strictDownload;
     }
 
@@ -42,29 +35,6 @@ public class WebDriverBinaryUtil {
     }
 
     public BinaryInfo downloadAndSetupBinaryPath() {
-        switch (driverType) {
-            case CHROME:
-                this.binaryFactory = new ChromeBinary(release, targetArch, proxyUrl);
-                break;
-            case FIREFOX:
-                this.binaryFactory = new GeckoBinary(release, targetArch, proxyUrl);
-                break;
-            case IEXPLORER:
-                this.binaryFactory = new IExplorerBinary(release, targetArch, proxyUrl);
-                break;
-            case EDGE:
-                this.binaryFactory = new EdgeBinary(release, targetArch, proxyUrl);
-                break;
-            case OPERA:
-                this.binaryFactory = new OperaBinary(release, targetArch, proxyUrl);
-                break;
-            case GRID:
-                this.binaryFactory = new SeleniumServerBinary(release, targetArch, proxyUrl);
-                break;
-            default:
-                throw new WebDriverBinaryException(String.format("Currently %s not supported", driverType.toString()));
-        }
-
         return setBinaryInfo(downloadAndExtract().configureBinary(driverType));
     }
 
@@ -98,8 +68,6 @@ public class WebDriverBinaryUtil {
             } else decompressBinary();
         }
         return this;
-
-
     }
 
     private void decompressBinary() {
@@ -113,7 +81,6 @@ public class WebDriverBinaryUtil {
 
     private String configureBinary(DriverType driverType) {
         StringBuilder binaryPropertyName = new StringBuilder();
-
         binaryPropertyName.append(webdriver)
             .append(".")
             .append(driverType.getName())

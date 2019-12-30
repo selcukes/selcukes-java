@@ -17,17 +17,10 @@ import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
 import static org.jsoup.Jsoup.parse;
 
 abstract class AbstractBinary implements BinaryFactory {
-    private Optional<String> release;
-    private Optional<TargetArch> targetArch;
-    private Optional<String> proxyUrl;
+    private Optional<String> release=Optional.empty();
+    private Optional<TargetArch> targetArch=Optional.empty();
+    private Optional<String> proxyUrl=Optional.empty();
     protected String latestVersionUrl;
-
-    public AbstractBinary(String release, TargetArch targetArch, String proxyUrl) {
-
-        this.release = Optional.ofNullable(release);
-        this.targetArch = Optional.ofNullable(targetArch);
-        this.proxyUrl = Optional.ofNullable(proxyUrl);
-    }
 
     @Override
     public Platform getBinaryEnvironment() {
@@ -83,5 +76,23 @@ abstract class AbstractBinary implements BinaryFactory {
         } catch (Exception e) {
             throw new WebDriverBinaryException(e);
         }
+    }
+
+    @Override
+    public void setVersion(String version) {
+        this.release = Optional.ofNullable(version);
+    }
+
+    @Override
+    public void setTargetArch(TargetArch targetArch) {
+        this.targetArch = Optional.ofNullable(targetArch);
+    }
+    public Optional<TargetArch> getTargetArch()
+    {
+        return this.targetArch;
+    }
+    @Override
+    public void setProxy(String proxy) {
+        this.proxyUrl = Optional.ofNullable(proxy);
     }
 }

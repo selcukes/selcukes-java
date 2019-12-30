@@ -20,11 +20,6 @@ import static org.jsoup.Jsoup.parse;
 public class EdgeBinary extends AbstractBinary implements BinaryFactory {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/edgedriver_%s.zip";
 
-    public EdgeBinary(String release, TargetArch targetArch, String proxyUrl) {
-        super(release, targetArch, proxyUrl);
-
-    }
-
     @Override
     public URL getDownloadURL() {
         try {
