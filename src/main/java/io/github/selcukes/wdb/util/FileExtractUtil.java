@@ -98,7 +98,6 @@ public final class FileExtractUtil {
             copyFile(gZIPInputStream, tarFile);
         } catch (IOException e) {
             logger.error(e::getMessage);
-            throw new WebDriverBinaryException(e);
         }
         return tarFile;
 
