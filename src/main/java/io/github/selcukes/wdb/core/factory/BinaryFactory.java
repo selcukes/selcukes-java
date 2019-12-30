@@ -7,7 +7,6 @@ import io.github.selcukes.wdb.util.TempFileUtil;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Optional;
 
 public interface BinaryFactory {
     URL getDownloadURL();
