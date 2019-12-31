@@ -6,6 +6,10 @@ import java.util.logging.*;
 public class LoggerReporter {
     private static final Logger logger = Logger.getLogger(LoggerReporter.class.getName());
 
+    private LoggerReporter() {
+
+    }
+
     public static void setLoggerFormat(Level newLevel) {
         LogManager.getLogManager().reset();
         Logger rootLogger = LogManager.getLogManager().getLogger("");

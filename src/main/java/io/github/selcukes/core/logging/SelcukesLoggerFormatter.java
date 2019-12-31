@@ -4,7 +4,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
 import java.util.logging.Formatter;
-import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 import static io.github.selcukes.core.helper.DateHelper.getSimpleDateFormat;
@@ -45,14 +44,6 @@ public class SelcukesLoggerFormatter extends Formatter {
                 break;
         }
         return level;
-    }
-
-    public String getHead(Handler h) {
-        return super.getHead(h);
-    }
-
-    public String getTail(Handler h) {
-        return super.getTail(h);
     }
 
     private StackTraceElement getCallerStackFrame(final String callerName) {

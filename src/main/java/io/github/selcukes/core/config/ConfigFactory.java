@@ -19,6 +19,7 @@ public class ConfigFactory {
     private static final String DEFAULT_CONFIG_FILE = "selcukes.yaml";
     private static final String DEFAULT_LOG_BACK_FILE = "logback.yaml";
     private static final String CONFIG_FILE = "config.properties";
+
     private ConfigFactory() {
 
     }
@@ -34,20 +35,21 @@ public class ConfigFactory {
     }
 
     public static void loadLoggerProperties() {
-        InputStream stream = ConfigFactory.class.getClassLoader().getResourceAsStream(DEFAULT_LOG_BACK_FILE);
+        InputStream inputStream = ConfigFactory.class.getClassLoader().getResourceAsStream(DEFAULT_LOG_BACK_FILE);
         try {
-            LogManager.getLogManager().readConfiguration(stream);
+            if (inputStream != null)
+                LogManager.getLogManager().readConfiguration(inputStream);
         } catch (IOException e) {
             throw new ConfigurationException("Failed loading logger properties: ", e);
         }
     }
 
-    private static InputStream getStream() {
+    public static InputStream getStream() {
         try {
-            logger.debug(()->String.format("Attempting to read %s as resource.", CONFIG_FILE));
+            logger.config(() -> String.format("Attempting to read %s as resource.", CONFIG_FILE));
             InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(CONFIG_FILE);
             if (stream == null) {
-                logger.debug(()->String.format("Re-attempting to read %s as a local file.", CONFIG_FILE));
+                logger.config(() -> String.format("Re-attempting to read %s as a local file.", CONFIG_FILE));
                 return new FileInputStream(new File(CONFIG_FILE));
             }
         } catch (Exception ignored) {
