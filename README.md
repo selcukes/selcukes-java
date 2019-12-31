@@ -33,6 +33,9 @@ WebDriverBinary.chromeDriver().setup();
 WebDriverBinary.firefoxDriver().setup();
 WebDriverBinary.ieDriver().setup();
 WebDriverBinary.edgeDriver().setup();
+WebDriverBinary.edgeDriver().setup();
+WebDriverBinary.operaDriver().setup();
+WebDriverBinary.grid().setup();	//Download Selenium Server Standalone jar
 ```
 Download binaries for specific architecture
 
