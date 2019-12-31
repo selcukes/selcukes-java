@@ -1,13 +1,15 @@
 package io.github.selcukes.reports.video;
 
-import io.github.selcukes.exception.RecorderException;
+import io.github.selcukes.core.exception.RecorderException;
 
 import java.awt.*;
 import java.io.File;
 
-import io.github.selcukes.helper.FileHelper;
+import io.github.selcukes.core.helper.FileHelper;
+import io.github.selcukes.core.logging.Logger;
+import io.github.selcukes.core.logging.LoggerFactory;
 import org.monte.media.Format;
-import java.util.logging.Logger;
+
 
 import org.monte.media.FormatKeys;
 import org.monte.media.math.Rational;
@@ -15,7 +17,7 @@ import org.monte.media.math.Rational;
 import static org.monte.media.VideoFormatKeys.*;
 
 public class VideoRecorder extends Recorder {
-    final Logger logger=Logger.getLogger(VideoRecorder.class.getName());
+    final Logger logger= LoggerFactory.getLogger(VideoRecorder.class);
     private final MonteScreenRecorder screenRecorder;
     private VideoConfig videoConfig;
 
@@ -28,7 +30,7 @@ public class VideoRecorder extends Recorder {
      */
     public void start() {
         screenRecorder.start();
-        logger.info("Recording started");
+        logger.info(()->"Recording started");
     }
     /**
      * This method will stop and save's the recording.
@@ -36,7 +38,7 @@ public class VideoRecorder extends Recorder {
     public File stopAndSave(String filename) {
         File video = writeVideo(filename);
         setLastVideo(video);
-        logger.info("Recording finished to " + video.getAbsolutePath());
+        logger.info(()->"Recording finished to " + video.getAbsolutePath());
         return video;
     }
     /**
@@ -45,9 +47,8 @@ public class VideoRecorder extends Recorder {
     public void stopAndDelete(String filename)
     {
         File video = writeVideo(filename);
-        logger.info("Trying to delete recorded video files...");
-        if(video!=null)
-        FileHelper.deleteFile(video);
+        logger.info(()->"Trying to delete recorded video files...");
+        video.deleteOnExit();
     }
     private File writeVideo(String filename) {
         try {

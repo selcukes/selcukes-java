@@ -1,6 +1,6 @@
 package io.github.selcukes.reports.video;
 
-import io.github.selcukes.exception.RecorderException;
+import io.github.selcukes.core.exception.RecorderException;
 import org.monte.media.Format;
 
 import java.awt.*;

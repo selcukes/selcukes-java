@@ -16,5 +16,4 @@ public enum SlackEnum {
     PROJECT("Project"),
     ENVIRONMENT("Environment");
     String value;
-
 }

@@ -1,6 +1,8 @@
 package io.github.selcukes.reports;
 
-import io.github.selcukes.helper.FileHelper;
+import io.github.selcukes.core.helper.FileHelper;
+import io.github.selcukes.core.logging.Logger;
+import io.github.selcukes.core.logging.LoggerFactory;
 import org.testng.*;
 import org.testng.xml.XmlSuite;
 
@@ -12,14 +14,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.logging.Logger;
+
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
 public class EmailReporter implements IReporter {
-    private static final Logger LOGGER = Logger.getLogger(EmailReporter.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmailReporter.class);
     private static final String REPORT_TEMPLATE_PATH = FileHelper.driversFolder(new File(".").getAbsolutePath()) + File.separator + "reportTemplate.html";
     private static final String ROW_TEMPLATE = "<tr class=\"%s\"><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>";
 
@@ -93,7 +95,7 @@ public class EmailReporter implements IReporter {
             reportTemplate = Files.readAllBytes(Paths.get(REPORT_TEMPLATE_PATH));
             template = new String(reportTemplate, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            LOGGER.info("Problem initializing template" + e);
+            LOGGER.info(()->"Problem initializing template" + e);
         }
         return template;
     }
@@ -106,7 +108,7 @@ public class EmailReporter implements IReporter {
             reportWriter.flush();
             reportWriter.close();
         } catch (IOException e) {
-            LOGGER.info("Problem saving template" + e);
+            LOGGER.info(()->"Problem saving template" + e);
         }
     }
 }

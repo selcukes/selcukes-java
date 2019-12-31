@@ -1,7 +1,7 @@
 package io.github.selcukes.reports.video;
 
-import io.github.selcukes.exception.RecorderException;
-import io.github.selcukes.helper.DateHelper;
+import io.github.selcukes.core.exception.RecorderException;
+import io.github.selcukes.core.helper.DateHelper;
 import org.monte.media.Format;
 import org.monte.media.Registry;
 import org.monte.screenrecorder.ScreenRecorder;

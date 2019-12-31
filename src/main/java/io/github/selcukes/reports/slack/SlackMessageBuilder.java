@@ -1,14 +1,15 @@
 package io.github.selcukes.reports.slack;
 
 import io.github.selcukes.core.config.ConfigFactory;
-import io.github.selcukes.core.runtime.HttpClientUtils;
+import io.github.selcukes.core.logging.Logger;
+import io.github.selcukes.core.logging.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+
 
 public class SlackMessageBuilder {
-    private final Logger logger = Logger.getLogger(SlackMessageBuilder.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(SlackMessageBuilder.class);
 
 
     public void sendMessage(String scenarioTitle, String scenarioStatus, String error, String screenshotPath) {
@@ -57,7 +58,7 @@ public class SlackMessageBuilder {
         SlackMessage slackMessage = SlackMessage.builder()
                 .attachments(attachmentList).build();
 
-        HttpClientUtils webHookClient = SlackClientFactory.createWebHookClient(getSlackWebHookUrl());
+        SlackWebHookClient webHookClient = SlackClientFactory.createWebHookClient(getSlackWebHookUrl());
         webHookClient.post(slackMessage);
         webHookClient.shutdown();
     }

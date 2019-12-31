@@ -4,16 +4,18 @@ package io.github.selcukes.reports.cucumber;
 import io.cucumber.plugin.ConcurrentEventListener;
 import io.cucumber.plugin.event.*;
 import io.github.selcukes.core.config.ConfigFactory;
+import io.github.selcukes.core.logging.Logger;
+import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.reports.slack.Slack;
 import io.github.selcukes.reports.slack.SlackUtils;
 import io.github.selcukes.reports.video.Recorder;
 import io.github.selcukes.reports.video.VideoRecorder;
 
 import java.util.Optional;
-import java.util.logging.Logger;
+
 
 public class Selcukes implements ConcurrentEventListener {
-    private static final Logger logger = Logger.getLogger(Selcukes.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Selcukes.class);
     private final TestSourcesModel testSources = new TestSourcesModel();
     private Recorder recorder;
     private String scenarioName;
@@ -80,7 +82,7 @@ public class Selcukes implements ConcurrentEventListener {
                 stepsReport.append("Cucumber Step Failed : ").append(testStep.getStepText()).append("  [").append(testStep.getStepLine()).append("] ");
                 Optional<StepArgument> stepsArgs = Optional.ofNullable(testStep.getStepArgument());
                 if (stepsArgs.isPresent()) stepsReport.append("Step Argument: [").append(stepsArgs).append("] ");
-                logger.severe(stepsReport.toString());
+                logger.debug(stepsReport::toString);
                 Slack slack = new SlackUtils();
                 slack.pushNotification(scenarioName, "FAILED", stepsReport.toString(), "D:/github/screenshots/error.png");
             }
