@@ -9,7 +9,7 @@ public class LoggerReporter {
     public static void setLoggerFormat(Level newLevel) {
         LogManager.getLogManager().reset();
         Logger rootLogger = LogManager.getLogManager().getLogger("");
-        CustomLoggerFormatter formatter = new CustomLoggerFormatter();
+        SelcukesLoggerFormatter formatter = new SelcukesLoggerFormatter();
         ConsoleHandler handler = new ConsoleHandler();
         handler.setLevel(newLevel);
         handler.setFormatter(formatter);
@@ -23,4 +23,5 @@ public class LoggerReporter {
             logger.severe(e::getMessage);
         }
     }
+
 }
