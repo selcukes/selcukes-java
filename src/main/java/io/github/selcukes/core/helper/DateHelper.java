@@ -25,6 +25,13 @@ public class DateHelper {
         return localDateTime.format(dtf);
     }
 
+    public String getFutureDate(int noOfDays) {
+        return localDate.plusDays(noOfDays).toString();
+    }
+
+    public String getPastDate(int noOfDays) {
+        return localDate.minusDays(noOfDays).toString();
+    }
     public static SimpleDateFormat getSimpleDateFormat() {
         return new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
     }

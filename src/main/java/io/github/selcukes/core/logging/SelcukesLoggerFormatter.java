@@ -41,7 +41,6 @@ public class SelcukesLoggerFormatter extends Formatter {
                 level = "TRACE";
                 break;
             default:
-                break;
         }
         return level;
     }
