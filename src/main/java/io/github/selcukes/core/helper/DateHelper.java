@@ -1,94 +1,31 @@
 package io.github.selcukes.core.helper;
 
-import io.github.selcukes.core.logging.Logger;
-import io.github.selcukes.core.logging.LoggerFactory;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
 
-
+@Getter
+@Setter
+@Builder
 public class DateHelper {
-    Logger logger = LoggerFactory.getLogger(DateHelper.class);
-    private static final String DATE_PATTERN = "MM/dd/yyyy";
-    private DateTimeFormatter dtf;
-    private LocalDate today;
-    private LocalDate date;
-    LocalDateTime dateTime;
+    private static final String DEFAULT_DATE_PATTERN = "ddMMMyyyy-hh-mm-ss";
+    @Builder.Default
+    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern(DEFAULT_DATE_PATTERN);
+    @Builder.Default
+    private LocalDate localDate = LocalDate.now();
+    @Builder.Default
+    private LocalDateTime localDateTime = LocalDateTime.now();
 
-    public DateHelper(String date) {
-        dtf = DateTimeFormatter.ofPattern(DATE_PATTERN);
-        today = LocalDate.parse(date, dtf);
-    }
-
-    public DateHelper() {
-        dtf = DateTimeFormatter.ofPattern(DATE_PATTERN);
-        today = LocalDate.now();
-    }
-
-    public static String formatDate(Date date, String format) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(
-            format);
-        return dateFormat.format(date);
-    }
-
-    private String getDate() {
-        return dtf.format(date);
-    }
-
-    private void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public String getCurrentDate() {
-        this.setDate(today);
-        return getDate();
-    }
-
-    public String getFutureDate(int noOfDays) {
-        this.setDate(today.plus(noOfDays, ChronoUnit.DAYS));
-        return getDate();
-    }
-
-    public String getPastDate(int noOfDays) {
-        this.setDate(today.minusDays(noOfDays));
-        return getDate();
-    }
-
-    // Method checks if this date is after the specified date.
-    public boolean isAfter(String date) {
-        LocalDate date1 = today;
-        LocalDate date2 = new DateHelper(date).today;
-        logger.info(() -> dtf.format(date1) + " is after " + dtf.format(date2) + " : " + date1.isAfter(date2));
-        return date1.isAfter(date2);
-
-    }
-
-    public static String convertDateFormat(String armisticeDateTime) {
-        LocalDate localDate = LocalDate.parse(armisticeDateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
-        return localDate.format(DateTimeFormatter.ofPattern(DATE_PATTERN));
-    }
-
-    public static String getCurrentDateTime() {
-        LocalDateTime currentTime = LocalDateTime.now();
-        return currentTime.format(DateTimeFormatter.ofPattern("ddMMMyyyy-hh-mm-ss"));
-
-    }
-
-    public static String getDateTime(boolean isPast) {
-
-        LocalDateTime currentTime = (isPast) ? LocalDateTime.now().minusDays(5)
-            : LocalDateTime.now().plus(5, ChronoUnit.DAYS);
-        return currentTime.format(DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a"));
-
+    public String getDateTime() {
+        return localDateTime.format(dtf);
     }
 
     public static SimpleDateFormat getSimpleDateFormat() {
         return new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
     }
-
 }

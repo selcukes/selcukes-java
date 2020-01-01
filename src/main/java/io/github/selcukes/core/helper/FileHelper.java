@@ -4,6 +4,7 @@ package io.github.selcukes.core.helper;
 import io.github.selcukes.core.exception.WebDriverBinaryException;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
+import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -16,13 +17,11 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.util.Objects;
 import java.util.Set;
 
+@UtilityClass
 public class FileHelper {
     private static Logger logger = LoggerFactory.getLogger(FileHelper.class);
     protected static final String SUPPORT_FOLDER = "support";
 
-    private FileHelper() {
-
-    }
 
     public static String driversFolder(String path) {
         File file = new File(path);
