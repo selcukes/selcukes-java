@@ -12,8 +12,8 @@ public class SelcukesLoggerFormatter extends Formatter {
 
     public String format(LogRecord record) {
         StringBuilder builder = new StringBuilder(1000);
-        builder.append("[").append(getLevel(record)).append("] - ");
         builder.append(getSimpleDateFormat().format(new Date(record.getMillis()))).append(" - ");
+        builder.append("[").append(getLevel(record)).append("] - ");
         builder.append("[").append(record.getSourceClassName()).append(".");
         builder.append(record.getSourceMethodName()).append(":").append(getLineNumber(record)).append("] - ");
         builder.append(formatMessage(record));
