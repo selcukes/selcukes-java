@@ -21,14 +21,14 @@ import java.util.Set;
 public class FileHelper {
     private static Logger logger = LoggerFactory.getLogger(FileHelper.class);
     protected static final String SUPPORT_FOLDER = "support";
-
+    public static final String RESOURCE_SEPARATOR = "/";
 
     public static String driversFolder(String path) {
         File file = new File(path);
         for (String item : Objects.requireNonNull(file.list())) {
 
             if (SUPPORT_FOLDER.equals(item)) {
-                return file.getAbsolutePath() + "/" + SUPPORT_FOLDER + "/";
+                return file.getAbsolutePath() + RESOURCE_SEPARATOR + SUPPORT_FOLDER + RESOURCE_SEPARATOR;
             }
         }
         return driversFolder(file.getParent());
@@ -47,16 +47,16 @@ public class FileHelper {
     }
 
     public static String systemFilePath(String filePath) {
-        String separator = System.getProperty("file.separator");
+        String fileSeparator = System.getProperty("file.separator");
 
-        if (StringUtils.isNotBlank(separator) && "\\".equals(separator)) {
+        if (StringUtils.isNotBlank(fileSeparator) && "\\".equals(fileSeparator)) {
             int beginIndex = 0;
 
-            if (filePath.startsWith("/")) {
+            if (filePath.startsWith(RESOURCE_SEPARATOR)) {
                 beginIndex = 1;
             }
 
-            return filePath.substring(beginIndex).replace("/", "\\\\");
+            return filePath.substring(beginIndex).replace(RESOURCE_SEPARATOR, "\\");
         }
 
         return filePath;
