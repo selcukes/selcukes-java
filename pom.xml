@@ -11,7 +11,7 @@
     <name>selcukes-reports</name>
     <description>Automatically downloads and configures Selenium Webdriver binary files</description>
     <url>https://github.com/selcukes/selcukes-reports</url>
-    <inceptionYear>2019</inceptionYear>
+    <inceptionYear>2020</inceptionYear>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
