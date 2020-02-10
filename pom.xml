@@ -26,6 +26,7 @@
         <cucumber.version>5.2.0</cucumber.version>
         <poi.version>4.1.1</poi.version>
         <selenium.version>4.0.0-alpha-4</selenium.version>
+        <apache-httpcomponents.version>4.5.11</apache-httpcomponents.version>
 
         <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
@@ -154,6 +155,13 @@
             <version>${selenium.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>${apache-httpcomponents.version}</version>
+        </dependency>
+
     </dependencies>
 
     <profiles>

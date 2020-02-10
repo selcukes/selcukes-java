@@ -9,7 +9,6 @@ import org.monte.screenrecorder.ScreenRecorder;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 
 class MonteScreenRecorder extends ScreenRecorder {
 
@@ -53,7 +52,8 @@ class MonteScreenRecorder extends ScreenRecorder {
     }
 
     private File getDestinationFile(String filename) {
-        String fileName = filename + "_recording_" + DateHelper.formatDate(new Date(), "yyyy_dd_MM_HH_mm_ss");
+        DateHelper dateHelper = DateHelper.builder().build();
+        String fileName = filename + "_recording_" + dateHelper.getDateTime();
         return new File(this.movieFolder + File.separator + fileName + "." + this.currentTempExtension);
 
     }
