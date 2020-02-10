@@ -23,7 +23,7 @@
         <cucumber-reporting.version>5.0.2</cucumber-reporting.version>
         <recorder.version>0.7.7.0</recorder.version>
         <lombok.version>1.18.10</lombok.version>
-        <cucumber.version>5.1.0</cucumber.version>
+        <cucumber.version>5.2.0</cucumber.version>
         <poi.version>4.1.1</poi.version>
         <selenium.version>4.0.0-alpha-4</selenium.version>
 
@@ -120,16 +120,20 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>gherkin</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>net.masterthought</groupId>
             <artifactId>cucumber-reporting</artifactId>
             <version>${cucumber-reporting.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.stephenc.monte</groupId>
             <artifactId>monte-screen-recorder</artifactId>
             <version>${recorder.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -142,13 +146,13 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>${poi.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
