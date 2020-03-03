@@ -20,10 +20,10 @@
 
         <selcukes-core.version>0.0.2</selcukes-core.version>
         <testng.version>7.0.0</testng.version>
-        <cucumber-reporting.version>5.0.2</cucumber-reporting.version>
+        <cucumber-reporting.version>5.1.1</cucumber-reporting.version>
         <recorder.version>0.7.7.0</recorder.version>
         <lombok.version>1.18.10</lombok.version>
-        <cucumber.version>5.2.0</cucumber.version>
+        <cucumber.version>5.4.1</cucumber.version>
         <poi.version>4.1.1</poi.version>
         <selenium.version>4.0.0-alpha-4</selenium.version>
         <apache-httpcomponents.version>4.5.11</apache-httpcomponents.version>
@@ -118,13 +118,6 @@
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-core</artifactId>
             <version>${cucumber.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>gherkin</artifactId>
-            <version>${cucumber.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.masterthought</groupId>

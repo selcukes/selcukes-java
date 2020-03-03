@@ -1,18 +1,11 @@
 package io.github.selcukes.reports.cucumber;
-import gherkin.AstBuilder;
-import gherkin.Parser;
-import gherkin.ParserException;
-import gherkin.TokenMatcher;
-import gherkin.ast.Background;
-import gherkin.ast.Examples;
-import gherkin.ast.Feature;
-import gherkin.ast.GherkinDocument;
-import gherkin.ast.Node;
-import gherkin.ast.ScenarioDefinition;
-import gherkin.ast.ScenarioOutline;
-import gherkin.ast.Step;
-import gherkin.ast.TableRow;
+
 import io.cucumber.core.exception.CucumberException;
+import io.cucumber.core.internal.gherkin.AstBuilder;
+import io.cucumber.core.internal.gherkin.Parser;
+import io.cucumber.core.internal.gherkin.ParserException;
+import io.cucumber.core.internal.gherkin.TokenMatcher;
+import io.cucumber.core.internal.gherkin.ast.*;
 import io.cucumber.plugin.event.TestSourceRead;
 
 import java.io.File;
