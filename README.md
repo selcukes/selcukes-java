@@ -1,4 +1,4 @@
-# Selcukes Core
+# Selcukes Reports
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.selcukes/selcukes-reports.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.selcukes%22%20AND%20a:%22selcukes-reports%22)
 [![Build Status](https://travis-ci.org/selcukes/selcukes-reports.svg?branch=master)](https://travis-ci.org/selcukes/selcukes-reports)
