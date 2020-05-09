@@ -54,6 +54,11 @@ public class OperaBinary extends AbstractBinary {
     }
 
     @Override
+    public String getBrowserVersion() {
+        return null;
+    }
+
+    @Override
     protected String getLatestRelease() {
         return getVersionNumberFromGit(MirrorUrls.OPERA_DRIVER_LATEST_RELEASE_URL);
     }

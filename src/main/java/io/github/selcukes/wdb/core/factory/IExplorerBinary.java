@@ -48,6 +48,11 @@ public class IExplorerBinary extends AbstractBinary {
     }
 
     @Override
+    public String getBrowserVersion() {
+        return null;
+    }
+
+    @Override
     protected String getLatestRelease() {
         String arch = getBinaryEnvironment().getArchitecture() == 64 ? "x64" : "Win32";
         String matcher = "IEDriverServer" + "_" + arch;

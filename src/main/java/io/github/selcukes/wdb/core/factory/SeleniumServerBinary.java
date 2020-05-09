@@ -59,6 +59,11 @@ public class SeleniumServerBinary extends AbstractBinary {
     }
 
     @Override
+    public String getBrowserVersion() {
+        return null;
+    }
+
+    @Override
     protected String getLatestRelease() {
         return getVersionNumberFromXML(MirrorUrls.SELENIUM_SERVER_LATEST_RELEASE_URL, getBinaryDriverName());
     }

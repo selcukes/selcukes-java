@@ -62,6 +62,11 @@ public class GeckoBinary extends AbstractBinary {
     }
 
     @Override
+    public String getBrowserVersion() {
+        return null;
+    }
+
+    @Override
     protected String getLatestRelease() {
         return getVersionNumberFromGit(MirrorUrls.GECKODRIVER_LATEST_RELEASE_URL);
     }
