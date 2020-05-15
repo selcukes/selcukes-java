@@ -79,8 +79,8 @@ public class Selcukes implements ConcurrentEventListener {
             if (event.getTestStep() instanceof PickleStepTestStep) {
                 PickleStepTestStep testStep = (PickleStepTestStep) event.getTestStep();
                 StringBuilder stepsReport = new StringBuilder();
-                stepsReport.append("Cucumber Step Failed : ").append(testStep.getStepText()).append("  [").append(testStep.getStepLine()).append("] ");
-                Optional<StepArgument> stepsArgs = Optional.ofNullable(testStep.getStepArgument());
+                stepsReport.append("Cucumber Step Failed : ").append(testStep.getStep().getText()).append("  [").append(testStep.getStep().getLine()).append("] ");
+                Optional<StepArgument> stepsArgs = Optional.ofNullable(testStep.getStep().getArgument());
                 if (stepsArgs.isPresent()) stepsReport.append("Step Argument: [").append(stepsArgs).append("] ");
                 logger.debug(stepsReport::toString);
                 Slack slack = new SlackUtils();

@@ -78,7 +78,19 @@
     </distributionManagement>
 
     <dependencies>
+
         <!-- Libraries for testing -->
+
+        <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>1.4.9</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.selcukes</groupId>
+            <artifactId>chrome-devtools</artifactId>
+            <version>0.0.1</version>
+        </dependency>
         <dependency>
             <groupId>io.github.selcukes</groupId>
             <artifactId>selcukes-core</artifactId>
