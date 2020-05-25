@@ -12,7 +12,7 @@ import java.awt.*;
 @Builder
 public class VideoConfig extends Environment {
     @Builder.Default
-    String videoFolder="video";
+    String videoFolder="video-report";
     @Builder.Default
     boolean isVideoEnabled=false;
     @Builder.Default

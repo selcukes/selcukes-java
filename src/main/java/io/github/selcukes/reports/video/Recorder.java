@@ -12,7 +12,7 @@ public abstract class Recorder implements IRecorder {
 
     private static File lastVideo;
 
-    protected void setLastVideo(File video) {
+    protected static void setLastVideo(File video) {
         lastVideo = video;
     }
 
