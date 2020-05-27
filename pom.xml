@@ -6,10 +6,10 @@
 
     <groupId>io.github.selcukes</groupId>
     <artifactId>selcukes-reports</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
 
     <name>selcukes-reports</name>
-    <description>Automatically downloads and configures Selenium Webdriver binary files</description>
+    <description>Selcukes Reports</description>
     <url>https://github.com/selcukes/selcukes-reports</url>
     <inceptionYear>2020</inceptionYear>
 

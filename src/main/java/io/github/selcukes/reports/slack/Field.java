@@ -7,8 +7,8 @@ import lombok.*;
 @ToString
 @Builder(builderClassName = "Builder")
 class Field {
-    private String title;
-    private String value;
+    private final String title;
+    private final String value;
     @JsonProperty("short")
-    private Boolean shortValue;
+    private final Boolean shortValue;
 }

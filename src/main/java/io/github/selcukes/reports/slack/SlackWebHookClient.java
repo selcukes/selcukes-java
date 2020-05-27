@@ -2,6 +2,8 @@ package io.github.selcukes.reports.slack;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.cucumber.core.logging.Logger;
+import io.cucumber.core.logging.LoggerFactory;
 import io.github.selcukes.core.exception.SelcukesException;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -13,11 +15,11 @@ import org.apache.http.impl.client.HttpClients;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.logging.Logger;
+
 
 public class SlackWebHookClient {
 
-    private final Logger logger = Logger.getLogger(SlackWebHookClient.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(SlackWebHookClient.class);
 
     private final String webHookUrl;
     private final CloseableHttpClient httpClient;
@@ -70,14 +72,14 @@ public class SlackWebHookClient {
     }
 
     private String execute(CloseableHttpClient httpClient, String url, HttpEntity httpEntity) {
-        logger.warning("url : " + url);
+        logger.warn(()->"url : " + url);
 
         try {
             HttpPost httpPost = new HttpPost(url);
             httpPost.setEntity(httpEntity);
             String retStr = httpClient.execute(httpPost, new StringResponseHandler());
 
-            logger.warning("return : " + retStr);
+            logger.warn(()->"return : " + retStr);
 
             return retStr;
         } catch (IOException e) {
