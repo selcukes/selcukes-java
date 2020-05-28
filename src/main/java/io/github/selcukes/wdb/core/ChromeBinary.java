@@ -18,11 +18,12 @@
 
 package io.github.selcukes.wdb.core;
 
+import io.github.selcukes.core.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.util.UrlHelper;
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.enums.OSType;
 import io.github.selcukes.wdb.enums.TargetArch;
-import io.github.selcukes.wdb.exception.WebDriverBinaryException;
+
 import io.github.selcukes.wdb.util.BinaryDownloadUtil;
 import io.github.selcukes.wdb.util.Platform;
 

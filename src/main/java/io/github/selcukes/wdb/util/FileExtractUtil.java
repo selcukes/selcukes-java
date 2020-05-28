@@ -18,10 +18,10 @@
 
 package io.github.selcukes.wdb.util;
 
+import io.github.selcukes.core.exception.WebDriverBinaryException;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.wdb.enums.DownloaderType;
-import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.io.IOUtils;
