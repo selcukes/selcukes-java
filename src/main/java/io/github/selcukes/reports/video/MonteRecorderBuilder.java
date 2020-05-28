@@ -7,7 +7,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-class MonteScreenRecorderBuilder {
+class MonteRecorderBuilder {
 
     private GraphicsConfiguration cfg;
     private Format fileFormat;
@@ -19,54 +19,54 @@ class MonteScreenRecorderBuilder {
     private String fileName;
 
     public static Builder builder() {
-        return new MonteScreenRecorderBuilder().new Builder();
+        return new MonteRecorderBuilder().new Builder();
     }
 
     public class Builder {
 
         public Builder setGraphicConfig(GraphicsConfiguration cfg) {
-            MonteScreenRecorderBuilder.this.cfg = cfg;
+            MonteRecorderBuilder.this.cfg = cfg;
             return this;
         }
 
         public Builder setFileFormat(Format fileFormat) {
-            MonteScreenRecorderBuilder.this.fileFormat = fileFormat;
+            MonteRecorderBuilder.this.fileFormat = fileFormat;
             return this;
         }
 
         public Builder setScreenFormat(Format screenFormat) {
-            MonteScreenRecorderBuilder.this.screenFormat = screenFormat;
+            MonteRecorderBuilder.this.screenFormat = screenFormat;
             return this;
         }
 
         public Builder setMouseFormat(Format mouseFormat) {
-            MonteScreenRecorderBuilder.this.mouseFormat = mouseFormat;
+            MonteRecorderBuilder.this.mouseFormat = mouseFormat;
             return this;
         }
 
         public Builder setAudioFormat(Format audioFormat) {
-            MonteScreenRecorderBuilder.this.audioFormat = audioFormat;
+            MonteRecorderBuilder.this.audioFormat = audioFormat;
             return this;
         }
 
         public Builder setFolder(File folder) {
-            MonteScreenRecorderBuilder.this.folder = folder;
+            MonteRecorderBuilder.this.folder = folder;
             return this;
         }
 
         public Builder setFileName(String fileName) {
-            MonteScreenRecorderBuilder.this.fileName = fileName;
+            MonteRecorderBuilder.this.fileName = fileName;
             return this;
         }
 
         public Builder setRectangle(Rectangle rectangle) {
-            MonteScreenRecorderBuilder.this.rectangle = rectangle;
+            MonteRecorderBuilder.this.rectangle = rectangle;
             return this;
         }
 
-        public MonteScreenRecorder build() {
+        public MonteRecorder build() {
             try {
-                return new MonteScreenRecorder(cfg,
+                return new MonteRecorder(cfg,
                         rectangle,
                         fileFormat,
                         screenFormat,

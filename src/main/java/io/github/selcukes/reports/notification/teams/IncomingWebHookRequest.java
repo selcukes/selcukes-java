@@ -1,4 +1,4 @@
-package io.github.selcukes.reports.notification;
+package io.github.selcukes.reports.notification.teams;
 
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;

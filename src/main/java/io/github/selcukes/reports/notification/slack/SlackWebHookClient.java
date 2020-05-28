@@ -1,4 +1,4 @@
-package io.github.selcukes.reports.slack;
+package io.github.selcukes.reports.notification.slack;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

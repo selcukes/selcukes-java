@@ -1,4 +1,4 @@
-package io.github.selcukes.reports.slack;
+package io.github.selcukes.reports.notification.slack;
 
 public interface SlackClientFactory {
     static SlackWebHookClient createWebHookClient(String webHookUrl) {

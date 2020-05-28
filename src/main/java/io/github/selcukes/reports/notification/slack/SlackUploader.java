@@ -1,4 +1,4 @@
-package io.github.selcukes.reports.slack;
+package io.github.selcukes.reports.notification.slack;
 
 import io.github.selcukes.core.config.ConfigFactory;
 import org.apache.http.entity.mime.content.FileBody;

@@ -10,27 +10,27 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-class MonteScreenRecorder extends ScreenRecorder {
+class MonteRecorder extends ScreenRecorder {
 
     private String currentTempExtension;
 
-    MonteScreenRecorder(GraphicsConfiguration cfg,
-                        Format fileFormat,
-                        Format screenFormat,
-                        Format mouseFormat,
-                        Format audioFormat,
-                        File folder) throws IOException, AWTException {
+    MonteRecorder(GraphicsConfiguration cfg,
+                  Format fileFormat,
+                  Format screenFormat,
+                  Format mouseFormat,
+                  Format audioFormat,
+                  File folder) throws IOException, AWTException {
         super(cfg, fileFormat, screenFormat, mouseFormat, audioFormat);
         super.movieFolder = folder;
     }
 
-    MonteScreenRecorder(GraphicsConfiguration cfg,
-                        Rectangle rectangle,
-                        Format fileFormat,
-                        Format screenFormat,
-                        Format mouseFormat,
-                        Format audioFormat,
-                        File folder) throws IOException, AWTException {
+    MonteRecorder(GraphicsConfiguration cfg,
+                  Rectangle rectangle,
+                  Format fileFormat,
+                  Format screenFormat,
+                  Format mouseFormat,
+                  Format audioFormat,
+                  File folder) throws IOException, AWTException {
         super(cfg, rectangle, fileFormat, screenFormat, mouseFormat, audioFormat);
         super.movieFolder = folder;
     }

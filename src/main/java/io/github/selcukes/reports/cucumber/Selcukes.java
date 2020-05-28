@@ -6,8 +6,8 @@ import io.cucumber.plugin.event.*;
 import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
-import io.github.selcukes.reports.slack.Slack;
-import io.github.selcukes.reports.slack.SlackUtils;
+import io.github.selcukes.reports.notification.slack.Slack;
+import io.github.selcukes.reports.notification.slack.SlackUtils;
 import io.github.selcukes.reports.video.Recorder;
 import io.github.selcukes.reports.video.VideoRecorder;
 

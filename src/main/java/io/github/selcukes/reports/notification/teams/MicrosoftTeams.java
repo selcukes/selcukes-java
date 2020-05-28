@@ -1,4 +1,4 @@
-package io.github.selcukes.reports.notification;
+package io.github.selcukes.reports.notification.teams;
 
 public class MicrosoftTeams {
     public static IncomingWebHookRequest forUrl(WebHook webhook) {

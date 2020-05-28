@@ -1,5 +1,5 @@
 
-package io.github.selcukes.reports.slack;
+package io.github.selcukes.reports.notification.slack;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

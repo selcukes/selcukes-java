@@ -14,7 +14,7 @@ import static org.monte.media.VideoFormatKeys.*;
 
 public class VideoRecorder extends Recorder {
     final Logger logger = LoggerFactory.getLogger(VideoRecorder.class);
-    private final MonteScreenRecorder screenRecorder;
+    private final MonteRecorder screenRecorder;
     private final VideoConfig videoConfig;
 
     public VideoRecorder() {
@@ -63,7 +63,7 @@ public class VideoRecorder extends Recorder {
             .getDefaultConfiguration();
     }
 
-    private MonteScreenRecorder getScreenRecorder() {
+    private MonteRecorder getScreenRecorder() {
         int frameRate = videoConfig.getFrameRate();
 
         Format fileFormat = new Format(MediaTypeKey, MediaType.VIDEO, MimeTypeKey, FormatKeys.MIME_AVI);
@@ -82,7 +82,7 @@ public class VideoRecorder extends Recorder {
 
         Rectangle captureSize = new Rectangle(0, 0, width, height);
 
-        return MonteScreenRecorderBuilder
+        return MonteRecorderBuilder
             .builder()
             .setGraphicConfig(getGraphicConfig())
             .setRectangle(captureSize)

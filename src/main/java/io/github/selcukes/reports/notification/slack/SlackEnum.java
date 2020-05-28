@@ -1,4 +1,4 @@
-package io.github.selcukes.reports.slack;
+package io.github.selcukes.reports.notification.slack;
 
 import lombok.AllArgsConstructor;
 
