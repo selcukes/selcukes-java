@@ -16,9 +16,9 @@
  *
  */
 
-package io.github.selcukes.wdb.core;
+package io.github.selcukes.wdb.util;
 
-public class MirrorUrls {
+public class UrlHelper {
     public static final String CHROMEDRIVER_URL = "https://chromedriver.storage.googleapis.com";
     public static final String CHROMEDRIVER_LATEST_RELEASE_URL = "https://chromedriver.storage.googleapis.com/LATEST_RELEASE";
 
@@ -37,7 +37,7 @@ public class MirrorUrls {
     public static final String SELENIUM_SERVER_URL = "https://selenium-release.storage.googleapis.com";
     public static final String SELENIUM_SERVER_LATEST_RELEASE_URL = "https://selenium-release.storage.googleapis.com";
 
-    private MirrorUrls() {
+    private UrlHelper() {
 
     }
 }

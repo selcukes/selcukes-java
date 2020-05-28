@@ -17,8 +17,7 @@
  */
 
 package io.github.selcukes.wdb.util;
-
-import io.github.selcukes.wdb.exception.WebDriverBinaryException;
+import io.github.selcukes.core.exception.WebDriverBinaryException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +34,7 @@ public final class HttpUtils {
 
     }
 
-    private static Function<String, HttpURLConnection> connection = endpoint -> {
+    private static final Function<String, HttpURLConnection> connection = endpoint -> {
         HttpURLConnection.setFollowRedirects(false);
 
         final HttpURLConnection httpURLConnection;

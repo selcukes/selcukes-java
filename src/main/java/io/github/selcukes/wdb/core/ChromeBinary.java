@@ -16,30 +16,33 @@
  *
  */
 
-package io.github.selcukes.wdb.core.factory;
+package io.github.selcukes.wdb.core;
 
-import io.github.selcukes.wdb.core.MirrorUrls;
-import io.github.selcukes.wdb.enums.DownloaderType;
+import io.github.selcukes.wdb.util.UrlHelper;
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.enums.OSType;
+import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
+import io.github.selcukes.wdb.util.BinaryDownloadUtil;
+import io.github.selcukes.wdb.util.Platform;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Objects;
 
-public class GeckoBinary extends AbstractBinary {
-    private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/geckodriver-%s-%s.%s";
+import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
+
+public class ChromeBinary extends AbstractBinary {
+    private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/chromedriver_%s.zip";
 
     @Override
     public URL getDownloadURL() {
         try {
             return new URL(String.format(
                 BINARY_DOWNLOAD_URL_PATTERN,
-                MirrorUrls.GECKODRIVER_URL,
+                UrlHelper.CHROMEDRIVER_URL,
                 getBinaryVersion(),
-                getBinaryVersion(),
-                getBinaryEnvironment().getOsNameAndArch(),
-                getCompressedBinaryType().getName()));
+                getBinaryEnvironment().getOsNameAndArch()));
 
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);
@@ -47,27 +50,37 @@ public class GeckoBinary extends AbstractBinary {
     }
 
     @Override
-    public DownloaderType getCompressedBinaryType() {
-        return getBinaryEnvironment().getOSType().equals(OSType.WIN) ? DownloaderType.ZIP : DownloaderType.TAR;
+    public Platform getBinaryEnvironment() {
+        Platform platform = Platform.getPlatform();
+        if (getTargetArch().isPresent())
+            platform.setArchitecture(unwrap(getTargetArch()).getValue());
+        else if (Objects.equals(platform.getOSType(), OSType.WIN))
+            platform.setArchitecture(TargetArch.X32.getValue());
+        return platform;
     }
 
     @Override
     public String getBinaryDriverName() {
-        return "geckodriver";
+        return "chromedriver";
     }
 
     @Override
     public DriverType getDriverType() {
-        return DriverType.FIREFOX;
+        return DriverType.CHROME;
     }
 
     @Override
     public String getBrowserVersion() {
+
         return null;
     }
 
     @Override
     protected String getLatestRelease() {
-        return getVersionNumberFromGit(MirrorUrls.GECKODRIVER_LATEST_RELEASE_URL);
+        try {
+            return BinaryDownloadUtil.downloadAndReadFile(new URL(UrlHelper.CHROMEDRIVER_LATEST_RELEASE_URL));
+        } catch (MalformedURLException e) {
+            throw new WebDriverBinaryException(e);
+        }
     }
 }

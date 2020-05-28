@@ -16,41 +16,46 @@
  *
  */
 
-package io.github.selcukes.wdb.core.factory;
+package io.github.selcukes.wdb.core;
 
-
-import io.github.selcukes.wdb.core.MirrorUrls;
+import io.github.selcukes.wdb.util.UrlHelper;
+import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class OperaBinary extends AbstractBinary {
-    private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/operadriver_%s.%s";
+public class SeleniumServerBinary extends AbstractBinary {
 
     @Override
     public URL getDownloadURL() {
         try {
-            return new URL(String.format(
-                BINARY_DOWNLOAD_URL_PATTERN,
-                MirrorUrls.OPERA_DRIVER_URL,
-                getBinaryVersion(),
-                getBinaryEnvironment().getOsNameAndArch(),
-                getCompressedBinaryType().getName()));
+            return new URL(UrlHelper.SELENIUM_SERVER_URL + "/" + latestVersionUrl);
+
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);
         }
     }
 
     @Override
+    public String getBinaryFileName() {
+        return getBinaryDriverName() + ".jar";
+    }
+
+    @Override
+    public DownloaderType getCompressedBinaryType() {
+        return DownloaderType.JAR;
+    }
+
+    @Override
     public String getBinaryDriverName() {
-        return "operadriver";
+        return "selenium-server-standalone";
     }
 
     @Override
     public DriverType getDriverType() {
-        return DriverType.OPERA;
+        return DriverType.GRID;
     }
 
     @Override
@@ -60,6 +65,7 @@ public class OperaBinary extends AbstractBinary {
 
     @Override
     protected String getLatestRelease() {
-        return getVersionNumberFromGit(MirrorUrls.OPERA_DRIVER_LATEST_RELEASE_URL);
+        return getVersionNumberFromXML(UrlHelper.SELENIUM_SERVER_LATEST_RELEASE_URL, getBinaryDriverName());
     }
+
 }

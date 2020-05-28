@@ -16,22 +16,30 @@
  *
  */
 
-package io.github.selcukes.wdb.core.factory;
+package io.github.selcukes.wdb.core;
 
-import io.github.selcukes.wdb.core.MirrorUrls;
+import io.github.selcukes.core.exception.WebDriverBinaryException;
+import io.github.selcukes.wdb.util.UrlHelper;
 import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.DriverType;
-import io.github.selcukes.wdb.exception.WebDriverBinaryException;
-
+import io.github.selcukes.wdb.enums.OSType;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Objects;
 
-public class SeleniumServerBinary extends AbstractBinary {
+public class GeckoBinary extends AbstractBinary {
+    private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/geckodriver-%s-%s.%s";
 
     @Override
     public URL getDownloadURL() {
         try {
-            return new URL(MirrorUrls.SELENIUM_SERVER_URL + "/" + latestVersionUrl);
+            return new URL(String.format(
+                BINARY_DOWNLOAD_URL_PATTERN,
+                UrlHelper.GECKODRIVER_URL,
+                getBinaryVersion(),
+                getBinaryVersion(),
+                getBinaryEnvironment().getOsNameAndArch(),
+                getCompressedBinaryType().getName()));
 
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);
@@ -39,23 +47,18 @@ public class SeleniumServerBinary extends AbstractBinary {
     }
 
     @Override
-    public String getBinaryFileName() {
-        return getBinaryDriverName() + ".jar";
-    }
-
-    @Override
     public DownloaderType getCompressedBinaryType() {
-        return DownloaderType.JAR;
+        return Objects.equals(getBinaryEnvironment().getOSType(), OSType.WIN) ? DownloaderType.ZIP : DownloaderType.TAR;
     }
 
     @Override
     public String getBinaryDriverName() {
-        return "selenium-server-standalone";
+        return "geckodriver";
     }
 
     @Override
     public DriverType getDriverType() {
-        return DriverType.GRID;
+        return DriverType.FIREFOX;
     }
 
     @Override
@@ -65,7 +68,6 @@ public class SeleniumServerBinary extends AbstractBinary {
 
     @Override
     protected String getLatestRelease() {
-        return getVersionNumberFromXML(MirrorUrls.SELENIUM_SERVER_LATEST_RELEASE_URL, getBinaryDriverName());
+        return getVersionNumberFromGit(UrlHelper.GECKODRIVER_LATEST_RELEASE_URL);
     }
-
 }

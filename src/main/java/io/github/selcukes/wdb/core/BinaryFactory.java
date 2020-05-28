@@ -16,7 +16,7 @@
  *
  */
 
-package io.github.selcukes.wdb.core.factory;
+package io.github.selcukes.wdb.core;
 
 import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.DriverType;
@@ -27,6 +27,7 @@ import io.github.selcukes.wdb.util.TempFileUtil;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Objects;
 
 public interface BinaryFactory {
     URL getDownloadURL();
@@ -48,7 +49,7 @@ public interface BinaryFactory {
     }
 
     default String getBinaryFileName() {
-        return getBinaryEnvironment().getOSType().equals(OSType.WIN) ? getBinaryDriverName() + ".exe" : getBinaryDriverName();
+        return Objects.equals(getBinaryEnvironment().getOSType(), OSType.WIN) ? getBinaryDriverName() + ".exe" : getBinaryDriverName();
     }
 
     default String getBinaryDirectory() {

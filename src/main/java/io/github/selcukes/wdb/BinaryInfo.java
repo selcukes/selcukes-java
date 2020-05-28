@@ -19,8 +19,8 @@
 package io.github.selcukes.wdb;
 
 public class BinaryInfo {
-    private String binaryProperty;
-    private String binaryPath;
+    private final String binaryProperty;
+    private final String binaryPath;
 
     public BinaryInfo(String binaryProperty, String binaryPath) {
         this.binaryProperty = binaryProperty;

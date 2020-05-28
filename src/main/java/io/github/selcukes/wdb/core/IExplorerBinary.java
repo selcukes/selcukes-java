@@ -16,9 +16,9 @@
  *
  */
 
-package io.github.selcukes.wdb.core.factory;
+package io.github.selcukes.wdb.core;
 
-import io.github.selcukes.wdb.core.MirrorUrls;
+import io.github.selcukes.wdb.util.UrlHelper;
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 
@@ -30,7 +30,7 @@ public class IExplorerBinary extends AbstractBinary {
     @Override
     public URL getDownloadURL() {
         try {
-            return new URL(MirrorUrls.IEDRIVER_URL + "/" + latestVersionUrl);
+            return new URL(UrlHelper.IEDRIVER_URL + "/" + latestVersionUrl);
 
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);
@@ -56,7 +56,7 @@ public class IExplorerBinary extends AbstractBinary {
     protected String getLatestRelease() {
         String arch = getBinaryEnvironment().getArchitecture() == 64 ? "x64" : "Win32";
         String matcher = "IEDriverServer" + "_" + arch;
-        return getVersionNumberFromXML(MirrorUrls.IEDRIVER_LATEST_RELEASE_URL, matcher);
+        return getVersionNumberFromXML(UrlHelper.IEDRIVER_LATEST_RELEASE_URL, matcher);
     }
 
 }

@@ -32,7 +32,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class WebDriverBinaryTest {
-    private Logger logger = LoggerFactory.getLogger(WebDriverBinaryTest.class);
+    private final Logger logger = LoggerFactory.getLogger(WebDriverBinaryTest.class);
 
     @Test
     public void chromeDriverTest() {

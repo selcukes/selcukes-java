@@ -16,12 +16,12 @@
  *
  */
 
-package io.github.selcukes.wdb.core.factory;
+package io.github.selcukes.wdb.core;
 
-import io.github.selcukes.wdb.core.MirrorUrls;
+import io.github.selcukes.core.exception.WebDriverBinaryException;
+import io.github.selcukes.wdb.util.UrlHelper;
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.enums.OSType;
-import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.util.HttpUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -32,6 +32,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.jsoup.Jsoup.parse;
 
@@ -43,9 +44,9 @@ public class EdgeBinary extends AbstractBinary{
         try {
             return new URL(String.format(
                 BINARY_DOWNLOAD_URL_PATTERN,
-                MirrorUrls.EDGE_DRIVER_URL,
+                UrlHelper.EDGE_DRIVER_URL,
                 getBinaryVersion(),
-                getBinaryEnvironment().getOSType().equals(OSType.LINUX) ? "win" + getBinaryEnvironment().getArchitecture() : getBinaryEnvironment().getOsNameAndArch()
+                Objects.equals(getBinaryEnvironment().getOSType(), OSType.LINUX) ? "win" + getBinaryEnvironment().getArchitecture() : getBinaryEnvironment().getOsNameAndArch()
             ));
 
         } catch (MalformedURLException e) {
@@ -72,7 +73,7 @@ public class EdgeBinary extends AbstractBinary{
     protected String getLatestRelease() {
         List<String> versionNumbers = new ArrayList<>();
         String latestVersion;
-        final InputStream downloadStream = HttpUtils.getResponseInputStream(MirrorUrls.EDGE_DRIVER_LATEST_RELEASE_URL, getProxy());
+        final InputStream downloadStream = HttpUtils.getResponseInputStream(UrlHelper.EDGE_DRIVER_LATEST_RELEASE_URL, getProxy());
         try {
             Document doc = parse(downloadStream, null, "");
 

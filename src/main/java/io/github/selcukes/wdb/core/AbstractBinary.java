@@ -16,10 +16,10 @@
  *
  */
 
-package io.github.selcukes.wdb.core.factory;
+package io.github.selcukes.wdb.core;
 
+import io.github.selcukes.core.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.enums.TargetArch;
-import io.github.selcukes.wdb.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.util.HttpUtils;
 import io.github.selcukes.wdb.util.Platform;
 import io.github.selcukes.wdb.util.VersionComparator;

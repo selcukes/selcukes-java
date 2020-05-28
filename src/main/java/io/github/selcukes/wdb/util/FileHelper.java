@@ -18,10 +18,9 @@
 
 package io.github.selcukes.wdb.util;
 
+import io.github.selcukes.core.exception.WebDriverBinaryException;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
-import io.github.selcukes.wdb.exception.WebDriverBinaryException;
-
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,7 +30,7 @@ import java.util.Set;
 
 
 public class FileHelper {
-    private static Logger logger = LoggerFactory.getLogger(FileHelper.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileHelper.class);
 
     private FileHelper() {
 

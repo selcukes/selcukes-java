@@ -21,7 +21,7 @@ package io.github.selcukes.wdb.util;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.wdb.BinaryInfo;
-import io.github.selcukes.wdb.core.factory.BinaryFactory;
+import io.github.selcukes.wdb.core.BinaryFactory;
 import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.OSType;
 import io.github.selcukes.wdb.exception.WebDriverBinaryException;
@@ -34,9 +34,9 @@ import java.util.Objects;
 public class WebDriverBinaryUtil {
     private final Logger logger = LoggerFactory.getLogger(WebDriverBinaryUtil.class);
     private File binaryDownloadDirectory;
-    private boolean strictDownload;
-    private BinaryFactory binaryFactory;
-    private static String webdriver = "webdriver";
+    private final boolean strictDownload;
+    private final BinaryFactory binaryFactory;
+    private static final String WEBDRIVER = "webdriver";
 
 
     public WebDriverBinaryUtil(BinaryFactory binaryFactory, String downloadLocation, boolean strictDownload) {
@@ -46,7 +46,7 @@ public class WebDriverBinaryUtil {
     }
 
     private File getBinaryDownloadDirectory(String downloadLocation) {
-        binaryDownloadDirectory = new File(downloadLocation + File.separator + webdriver + File.separator);
+        binaryDownloadDirectory = new File(downloadLocation + File.separator + WEBDRIVER + File.separator);
         FileHelper.createDirectory(binaryDownloadDirectory);
         return binaryDownloadDirectory;
     }
@@ -101,7 +101,7 @@ public class WebDriverBinaryUtil {
     private String configureBinary() {
         StringBuilder binaryPropertyName = new StringBuilder();
 
-        binaryPropertyName.append(webdriver)
+        binaryPropertyName.append(WEBDRIVER)
             .append(".")
             .append(binaryFactory.getDriverType().getName())
             .append(".driver");
