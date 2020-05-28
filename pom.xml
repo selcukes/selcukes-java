@@ -14,25 +14,26 @@
     <inceptionYear>2019</inceptionYear>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
 
+        <selcukes-core.version>0.0.2</selcukes-core.version>
         <commons.io.version>2.6</commons.io.version>
-        <commons-compress.version>1.19</commons-compress.version>
-        <jsoup.version>1.12.1</jsoup.version>
+        <commons-compress.version>1.20</commons-compress.version>
+        <jsoup.version>1.13.1</jsoup.version>
 
         <testng.version>7.0.0</testng.version>
-        <selenium.version>4.0.0-alpha-4</selenium.version>
-        <selcukes-core.version>0.0.2</selcukes-core.version>
+        <selenium.version>4.0.0-alpha-5</selenium.version>
 
         <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     </properties>
 
@@ -78,7 +79,6 @@
     </distributionManagement>
 
     <dependencies>
-        <!-- Libraries for testing -->
 
         <dependency>
             <groupId>io.github.selcukes</groupId>
@@ -110,7 +110,7 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
-            <scope>provided</scope>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
