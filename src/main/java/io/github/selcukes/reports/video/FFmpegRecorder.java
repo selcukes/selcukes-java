@@ -62,21 +62,17 @@ public class FFmpegRecorder {
         return process;
     }
 
+    public String getPid(Process p) {
+        String pid;
+        String first =  process.toString().split(",")[0];
+        pid = first.split("=")[1];
+        logger.info(() -> pid);
+        return pid;
+    }
+
     public void stop() {
-        /*String kill = "SendSignalCtrlC.exe " + process.pid();
-        runCommand(kill);*/
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        if (process != null) {
-            try {
-                process.destroy();
-            } catch (Exception ex) {
-                throw new RecorderException("");
-            }
-        }
+        String kill = "SendSignalCtrlC.exe " + getPid(process);
+        runCommand(kill);
     }
 
 
@@ -84,7 +80,6 @@ public class FFmpegRecorder {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         return dimension.width + "x" + dimension.height;
     }
-
 
 }
 
