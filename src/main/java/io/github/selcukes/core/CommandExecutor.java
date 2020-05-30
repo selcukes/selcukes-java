@@ -6,10 +6,14 @@ import io.github.selcukes.core.logging.LoggerFactory;
 
 import java.io.IOException;
 
-public class ProcessExecutor {
-    final Logger logger = LoggerFactory.getLogger(ProcessExecutor.class);
+public class CommandExecutor {
+    final Logger logger = LoggerFactory.getLogger(CommandExecutor.class);
 
-    public Process runCommand(String command) {
+    public static CommandExecutor getCommandExecutor() {
+        return new CommandExecutor();
+    }
+
+    public Process execute(String command) {
         logger.info(() -> "Trying to execute command : " + command);
         Process process;
         ProcessBuilder pb = new ProcessBuilder().inheritIO().command(command.split("\\s"));
