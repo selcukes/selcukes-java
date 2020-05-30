@@ -95,7 +95,7 @@ class ScreenPlayImpl implements ScreenPlay {
 
 
     private void attach(byte[] objToEmbed, String mediaType) {
-        scenario.embed(objToEmbed, "text/html", scenario.getName());
+        scenario.embed(objToEmbed, mediaType, scenario.getName());
     }
 
 }
