@@ -72,14 +72,14 @@ public class SlackWebHookClient {
     }
 
     private String execute(CloseableHttpClient httpClient, String url, HttpEntity httpEntity) {
-        logger.warn(()->"url : " + url);
+        logger.warn(() -> "url : " + url);
 
         try {
             HttpPost httpPost = new HttpPost(url);
             httpPost.setEntity(httpEntity);
             String retStr = httpClient.execute(httpPost, new StringResponseHandler());
 
-            logger.warn(()->"return : " + retStr);
+            logger.warn(() -> "return : " + retStr);
 
             return retStr;
         } catch (IOException e) {

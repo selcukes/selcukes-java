@@ -6,8 +6,6 @@ import io.cucumber.plugin.event.*;
 import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
-import io.github.selcukes.reports.notification.slack.Slack;
-import io.github.selcukes.reports.notification.slack.SlackUtils;
 import io.github.selcukes.reports.video.Recorder;
 import io.github.selcukes.reports.video.VideoRecorder;
 
@@ -15,10 +13,11 @@ import java.util.Optional;
 
 
 public class Selcukes implements ConcurrentEventListener {
-    private static final Logger logger = LoggerFactory.getLogger(Selcukes.class);
+    private final Logger logger = LoggerFactory.getLogger(Selcukes.class);
     private final TestSourcesModel testSources = new TestSourcesModel();
     private Recorder recorder;
     private String scenarioName;
+
 
     /**
      * Registers an event handler for a specific event.
@@ -83,8 +82,6 @@ public class Selcukes implements ConcurrentEventListener {
                 Optional<StepArgument> stepsArgs = Optional.ofNullable(testStep.getStep().getArgument());
                 if (stepsArgs.isPresent()) stepsReport.append("Step Argument: [").append(stepsArgs).append("] ");
                 logger.debug(stepsReport::toString);
-                Slack slack = new SlackUtils();
-                slack.pushNotification(scenarioName, "FAILED", stepsReport.toString(), "D:/github/screenshots/error.png");
             }
         }
 

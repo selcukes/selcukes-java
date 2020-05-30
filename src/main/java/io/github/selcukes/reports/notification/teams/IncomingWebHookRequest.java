@@ -11,10 +11,10 @@ public class IncomingWebHookRequest {
         this.webhook = webhook;
     }
 
-    public void sendMessage(String text) throws UnirestException {
+    public void sendMessage(String message) throws UnirestException {
         String url = webhook.getUrl();
         JSONObject object = new JSONObject();
-        object.put("text", text);
+        object.put("text", message);
         Unirest.post(url).header("Content-Type", "application/json").body(object).asString();
     }
 }
