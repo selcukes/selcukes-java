@@ -23,11 +23,13 @@ class ScreenPlayImpl implements ScreenPlay {
     WebDriver driver;
     Scenario scenario;
     Recorder recorder;
+    boolean isOldCucumber;
 
     public ScreenPlayImpl(WebDriver driver, Scenario scenario) {
         this.driver = driver;
         this.scenario = scenario;
         recorder = new VideoRecorder();
+        isOldCucumber = false;
     }
 
     @Override
@@ -37,6 +39,18 @@ class ScreenPlayImpl implements ScreenPlay {
         return srcFile.getAbsolutePath();
     }
 
+    /**
+     * scenario.embed(objToEmbed, mediaType);
+     */
+    @Override
+    public void embedScreenshot() {
+        isOldCucumber = true;
+        attachScreenshot();
+    }
+
+    /**
+     * scenario.embed(objToEmbed, mediaType, scenario.getName());
+     */
     @Override
     public void attachScreenshot() {
         ChromeDevToolsService devToolsService = DevToolsService.getDevToolsService(driver);
@@ -49,6 +63,10 @@ class ScreenPlayImpl implements ScreenPlay {
         }
     }
 
+    /**
+     * scenario.embed(objToEmbed, mediaType, scenario.getName());
+     */
+
     @Override
     public void attachVideo() {
         String videoPath = recorder.stopAndSave(scenario.getName().replace(" ", "_")).getAbsolutePath();
@@ -59,6 +77,15 @@ class ScreenPlayImpl implements ScreenPlay {
             "</video>";
         byte[] objToEmbed = htmlToEmbed.getBytes();
         attach(objToEmbed, "text/html");
+    }
+
+    /**
+     * scenario.embed(objToEmbed, mediaType);
+     */
+    @Override
+    public void embedVideo() {
+        isOldCucumber = true;
+        attachVideo();
     }
 
     @Override
@@ -95,7 +122,12 @@ class ScreenPlayImpl implements ScreenPlay {
 
 
     private void attach(byte[] objToEmbed, String mediaType) {
-        scenario.embed(objToEmbed, mediaType, scenario.getName());
+        if (isOldCucumber)
+            scenario.embed(objToEmbed, mediaType);
+        else
+            scenario.embed(objToEmbed, mediaType, scenario.getName());
+
+
     }
 
 }
