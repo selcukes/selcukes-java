@@ -80,12 +80,10 @@
 
     <dependencies>
 
-        <!-- Libraries for testing -->
-
         <dependency>
             <groupId>io.github.selcukes</groupId>
             <artifactId>chrome-devtools</artifactId>
-            <version>LATEST</version>
+            <version>0.0.3</version>
         </dependency>
         <dependency>
             <groupId>io.github.selcukes</groupId>
