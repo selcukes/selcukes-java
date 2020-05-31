@@ -31,7 +31,7 @@ import java.io.IOException;
 
 import static org.monte.media.VideoFormatKeys.*;
 
-public class VideoRecorder extends Recorder {
+public class VideoRecorder extends AbstractRecorder {
     final Logger logger = LoggerFactory.getLogger(VideoRecorder.class);
     private final MonteRecorder screenRecorder;
     private final VideoConfig videoConfig;
@@ -54,7 +54,7 @@ public class VideoRecorder extends Recorder {
      */
     public File stopAndSave(String filename) {
         File video = writeVideo(filename);
-        Recorder.setLastVideo(video);
+        AbstractRecorder.setLastVideo(video);
         logger.info(() -> "Recording finished to " + video.getAbsolutePath());
         return video;
     }

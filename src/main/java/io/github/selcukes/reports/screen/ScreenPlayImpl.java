@@ -144,8 +144,6 @@ class ScreenPlayImpl implements ScreenPlay {
             scenario.embed(objToEmbed, mediaType);
         else
             scenario.embed(objToEmbed, mediaType, scenario.getName());
-
-
     }
 
 }

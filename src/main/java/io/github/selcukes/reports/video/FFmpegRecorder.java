@@ -28,7 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.ProcessBuilder.Redirect;
 
-public class FFmpegRecorder extends Recorder {
+public class FFmpegRecorder extends AbstractRecorder {
     final Logger logger = LoggerFactory.getLogger(FFmpegRecorder.class);
     private Process process;
     private final String FFMPEG = "ffmpeg";
