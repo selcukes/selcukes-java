@@ -20,6 +20,7 @@ package io.github.selcukes.reports.video;
 
 import io.github.selcukes.core.exception.RecorderException;
 import io.github.selcukes.core.helper.DateHelper;
+import lombok.Builder;
 import org.monte.media.Format;
 import org.monte.media.Registry;
 import org.monte.screenrecorder.ScreenRecorder;
@@ -42,6 +43,7 @@ class MonteRecorder extends ScreenRecorder {
         super.movieFolder = folder;
     }
 
+    @Builder
     MonteRecorder(GraphicsConfiguration cfg,
                   Rectangle rectangle,
                   Format fileFormat,

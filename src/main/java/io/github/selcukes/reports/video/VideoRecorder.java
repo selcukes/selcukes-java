@@ -27,6 +27,7 @@ import org.monte.media.math.Rational;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 
 import static org.monte.media.VideoFormatKeys.*;
 
@@ -100,13 +101,18 @@ public class VideoRecorder extends Recorder {
 
         Rectangle captureSize = new Rectangle(0, 0, width, height);
 
-        return MonteRecorderBuilder
-            .builder()
-            .setGraphicConfig(getGraphicConfig())
-            .setRectangle(captureSize)
-            .setFileFormat(fileFormat)
-            .setScreenFormat(screenFormat)
-            .setFolder(new File(videoConfig.getVideoFolder()))
-            .setMouseFormat(mouseFormat).build();
+        try {
+            return MonteRecorder
+                .builder()
+                .cfg(getGraphicConfig())
+                .rectangle(captureSize)
+                .fileFormat(fileFormat)
+                .screenFormat(screenFormat)
+                .folder(new File(videoConfig.getVideoFolder()))
+                .mouseFormat(mouseFormat).build();
+        } catch (IOException | AWTException e) {
+            throw new RecorderException(e);
+
+        }
     }
 }
