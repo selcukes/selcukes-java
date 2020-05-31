@@ -28,37 +28,61 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.ProcessBuilder.Redirect;
 
-public class FFmpegRecorder {
+public class FFmpegRecorder extends Recorder {
     final Logger logger = LoggerFactory.getLogger(FFmpegRecorder.class);
     private Process process;
+    private final String FFMPEG = "ffmpeg";
+    private final VideoConfig videoConfig;
+    private File videoFile;
 
-
-    public String getFilePath() {
-        DateHelper dateHelper = DateHelper.builder().build();
-        return System.getProperty("user.dir") + File.separator + "ffmpeg" + "_recording_" + dateHelper.getDateTime() + ".mp4";
+    public FFmpegRecorder() {
+        this.videoConfig = conf();
     }
 
+
+    /**
+     * This method will start the recording of the execution.
+     */
     public void start() {
 
         String fileName = getFilePath();
-        String pixelFormat = "yuv420p";
-        int frameRate = 24;
-        String ffmpegFormat = "gdigrab";
-        String ffmpegDisplay = "desktop";
         String screenSize = getScreenSize();
 
-        String cmdline = "ffmpeg " + "-y " +
+        String cmdline = FFMPEG + " -y " +
             "-video_size " + screenSize +
-            " -f " + ffmpegFormat +
-            " -i " + ffmpegDisplay +
+            " -f " + videoConfig.getFfmpegFormat() +
+            " -i " + videoConfig.getFfmpegDisplay() +
             " -an " +
-            " -framerate " + frameRate +
-            " -pix_fmt " + pixelFormat + " " +
+            " -framerate " + videoConfig.getFrameRate() +
+            " -pix_fmt " + videoConfig.getPixelFormat() + " " +
             fileName;
 
-        logger.info(() -> "Recording video to " + fileName);
+        logger.info(() -> "Recording video started to " + fileName);
         process = runCommand(cmdline);
-        logger.info(() -> "Started ffmpeg");
+        logger.info(() -> "Started ffmpeg...");
+    }
+
+    /**
+     * This method will stop and save's the recording.
+     */
+    @Override
+    public File stopAndSave(String filename) {
+        String kill = "SendSignalCtrlC.exe " + getPid(process);
+        runCommand(kill);
+        logger.info(() -> "Killing ffmpeg...");
+        videoFile = new File(getFilePath());
+        logger.info(() -> "Recording finished to " + videoFile.getAbsolutePath());
+        return videoFile;
+    }
+
+    /**
+     * This method will delete the recorded file,if the test is pass.
+     */
+    @Override
+    public void stopAndDelete(String filename) {
+        stopAndSave(filename);
+        logger.info(() -> "Trying to delete recorded video files...");
+        videoFile.deleteOnExit();
     }
 
 
@@ -80,23 +104,23 @@ public class FFmpegRecorder {
         return process;
     }
 
-    public String getPid(Process p) {
+    private String getPid(Process p) {
         String pid;
-        String first =  process.toString().split(",")[0];
+        String first = process.toString().split(",")[0];
         pid = first.split("=")[1];
         logger.info(() -> pid);
         return pid;
     }
 
-    public void stop() {
-        String kill = "SendSignalCtrlC.exe " + getPid(process);
-        runCommand(kill);
-    }
-
-
     private String getScreenSize() {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         return dimension.width + "x" + dimension.height;
+    }
+
+    public String getFilePath() {
+        DateHelper dateHelper = DateHelper.builder().build();
+        String fileName = FFMPEG + "_recording_" + dateHelper.getDateTime();
+        return System.getProperty("user.dir") + File.separator + videoConfig.getVideoFolder() + fileName + ".mp4";
     }
 
 }

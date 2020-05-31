@@ -63,11 +63,12 @@ class MonteRecorder extends ScreenRecorder {
 
     public File saveAs(String filename) {
         this.stop();
-
         File tempFile = this.getCreatedMovieFiles().get(0);
-
         File destFile = getDestinationFile(filename);
-        tempFile.renameTo(destFile);
+        if (!tempFile.renameTo(destFile)) {
+            throw new RecorderException("Failed to rename file: " + tempFile + " to " + destFile);
+        }
+
         return destFile;
     }
 

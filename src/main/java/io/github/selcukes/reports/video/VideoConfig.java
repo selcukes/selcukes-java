@@ -37,5 +37,11 @@ public class VideoConfig extends Environment {
     int frameRate=24;
     @Builder.Default
     Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
+    @Builder.Default
+    String ffmpegFormat = "gdigrab";
+    @Builder.Default
+    String ffmpegDisplay = "desktop";
+    @Builder.Default
+    String pixelFormat = "yuv420p";
 
 }
