@@ -18,8 +18,16 @@
 
 package io.github.selcukes.reports.notification.teams;
 
-public class MicrosoftTeams {
-    public static IncomingWebHookRequest forUrl(WebHook webhook) {
-        return new IncomingWebHookRequest(webhook);
+import io.github.selcukes.reports.notification.Notifier;
+
+
+public class MicrosoftTeams implements Notifier {
+
+
+    @Override
+    public Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String screenshotPath) {
+        MicrosoftTeamsBuilder teamsBuilder = new MicrosoftTeamsBuilder();
+        teamsBuilder.pushNotification(scenarioTitle, scenarioStatus, message);
+        return this;
     }
 }

@@ -161,11 +161,6 @@
             <version>${apache-httpcomponents.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.mashape.unirest</groupId>
-            <artifactId>unirest-java</artifactId>
-            <version>${unirest-java.version}</version>
-        </dependency>
     </dependencies>
 
     <profiles>

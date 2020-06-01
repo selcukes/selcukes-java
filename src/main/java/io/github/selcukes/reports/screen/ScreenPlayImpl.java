@@ -18,15 +18,13 @@
 
 package io.github.selcukes.reports.screen;
 
-import com.mashape.unirest.http.exceptions.UnirestException;
 import io.cucumber.java.Scenario;
 import io.github.selcukes.core.exception.RecorderException;
-import io.github.selcukes.core.exception.SelcukesException;
 import io.github.selcukes.devtools.DevToolsService;
 import io.github.selcukes.devtools.core.Screenshot;
 import io.github.selcukes.devtools.services.ChromeDevToolsService;
+import io.github.selcukes.reports.notification.Notifier;
 import io.github.selcukes.reports.notification.slack.Slack;
-import io.github.selcukes.reports.notification.slack.SlackUtils;
 import io.github.selcukes.reports.notification.teams.MicrosoftTeams;
 import io.github.selcukes.reports.video.Recorder;
 import io.github.selcukes.reports.video.VideoRecorder;
@@ -72,7 +70,7 @@ class ScreenPlayImpl implements ScreenPlay {
     @Override
     public void attachScreenshot() {
         ChromeDevToolsService devToolsService = DevToolsService.getDevToolsService(driver);
-        byte[] screenshot = new byte[0];
+        byte[] screenshot;
         try {
             screenshot = Screenshot.captureFullPageAsBytes(devToolsService);
             attach(screenshot, "image/png");
@@ -119,25 +117,18 @@ class ScreenPlayImpl implements ScreenPlay {
     }
 
     @Override
-    public ScreenPlay slackNotification(String step) {
-        Slack slack = new SlackUtils();
-        slack.pushNotification(scenario.getName(), "FAILED", step, takeScreenshot());
+    public ScreenPlay slackNotification(String message) {
+        Notifier slack = new Slack();
+        slack.pushNotification(scenario.getName(), scenario.getStatus().toString(), message, takeScreenshot());
         return this;
     }
 
     @Override
     public ScreenPlay teamsNotification(String message) {
-
-        try {
-            MicrosoftTeams.forUrl(() -> {
-                return System.getProperty("selcukes.teams.hooksUrl");
-            }).sendMessage(message);
-        } catch (UnirestException e) {
-            throw new SelcukesException(e);
-        }
+        Notifier teams = new MicrosoftTeams();
+        teams.pushNotification(scenario.getName(), scenario.getStatus().toString(), message, takeScreenshot());
         return this;
     }
-
 
     private void attach(byte[] objToEmbed, String mediaType) {
         if (isOldCucumber)

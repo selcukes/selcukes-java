@@ -18,6 +18,17 @@
 
 package io.github.selcukes.reports.notification.slack;
 
-public interface Slack {
-    Slack pushNotification(String scenarioTitle, String scenarioStatus, String message, String screenshotPath);
+import io.github.selcukes.reports.notification.Notifier;
+
+public class Slack implements Notifier {
+
+
+    @Override
+    public Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String screenshotPath) {
+        SlackMessageBuilder slackMessageBuilder=new SlackMessageBuilder();
+        slackMessageBuilder.sendMessage(scenarioTitle,scenarioStatus,message,screenshotPath);
+        SlackUploader slackUploader=new SlackUploader();
+        slackUploader.uploadFile(screenshotPath);
+        return this;
+    }
 }

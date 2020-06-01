@@ -16,8 +16,8 @@
  *
  */
 
-package io.github.selcukes.reports.notification.teams;
+package io.github.selcukes.reports.notification;
 
-public interface WebHook {
-    String getUrl();
+public interface Notifier {
+    Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String screenshotPath);
 }

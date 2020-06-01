@@ -16,17 +16,25 @@
  *
  */
 
-package io.github.selcukes.reports.notification.slack;
+package io.github.selcukes.reports.notification;
 
-public class SlackUtils implements Slack{
+import lombok.experimental.UtilityClass;
 
-
-    @Override
-    public Slack pushNotification(String scenarioTitle, String scenarioStatus, String message, String screenshotPath) {
-        SlackMessageBuilder slackMessageBuilder=new SlackMessageBuilder();
-        slackMessageBuilder.sendMessage(scenarioTitle,scenarioStatus,message,screenshotPath);
-        SlackUploader slackUploader=new SlackUploader();
-        slackUploader.uploadFile(screenshotPath);
-        return this;
+@UtilityClass
+public class NotifierHelper {
+    public String getThemeColor(String stepStatus) {
+        String messageColor = null;
+        switch (stepStatus) {
+            case "FAILED":
+                messageColor = "FF0000"; // Red
+                break;
+            case "PASSED":
+                messageColor = "36a64f"; // Green
+                break;
+            case "SKIPPED":
+                messageColor = "FFA500"; // Orange
+                break;
+        }
+        return messageColor;
     }
 }
