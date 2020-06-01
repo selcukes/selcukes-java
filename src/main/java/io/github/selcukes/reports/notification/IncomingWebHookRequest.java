@@ -18,10 +18,10 @@
 
 package io.github.selcukes.reports.notification;
 
-import io.github.selcukes.reports.notification.slack.SlackClient;
+import io.github.selcukes.reports.http.HttpClient;
 
 public interface IncomingWebHookRequest {
-    static SlackClient forUrl(String webHookUrl) {
-        return new SlackClient(webHookUrl);
+    static HttpClient forUrl(String webHookUrl) {
+        return new HttpClient(webHookUrl);
     }
 }

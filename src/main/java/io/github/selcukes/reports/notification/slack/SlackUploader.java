@@ -19,6 +19,7 @@
 package io.github.selcukes.reports.notification.slack;
 
 import io.github.selcukes.core.config.ConfigFactory;
+import io.github.selcukes.reports.http.HttpClient;
 import io.github.selcukes.reports.notification.IncomingWebHookRequest;
 import org.apache.http.entity.mime.content.FileBody;
 
@@ -28,25 +29,25 @@ public class SlackUploader {
 
     public void uploadFile(String filePath) {
         SlackFileUploader slackFileUploader = SlackFileUploader.builder()
-                .channel(ConfigFactory.getConfig().getSlack().get("channel"))
-                .token(ConfigFactory.getConfig().getSlack().get("api-token"))
-                .filePath(filePath)
-                .fileName("Sample")
-                .build();
+            .channel(ConfigFactory.getConfig().getSlack().get("channel"))
+            .token(ConfigFactory.getConfig().getSlack().get("api-token"))
+            .filePath(filePath)
+            .fileName("Sample")
+            .build();
 
         StringBuilder url = new StringBuilder();
         url.append(SlackEnum.SLACK_API_URL.value)
-                .append(slackFileUploader.getToken())
-                .append("&channels=")
-                .append(slackFileUploader.getChannel())
-                .append("&pretty=1");
+            .append(slackFileUploader.getToken())
+            .append("&channels=")
+            .append(slackFileUploader.getChannel())
+            .append("&pretty=1");
 
         File fileToUpload = new File(slackFileUploader.getFilePath());
         FileBody fileBody = new FileBody(fileToUpload);
 
-        SlackClient slackClient = IncomingWebHookRequest.forUrl(url.toString());
-        slackClient.post(fileBody);
-        slackClient.shutdown();
+        HttpClient client = IncomingWebHookRequest.forUrl(url.toString());
+        client.post(fileBody);
+        client.shutdown();
 
     }
 
