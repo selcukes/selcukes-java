@@ -16,10 +16,12 @@
  *
  */
 
-package io.github.selcukes.reports.notification.slack;
+package io.github.selcukes.reports.notification;
 
-public interface SlackClientFactory {
-    static SlackWebHookClient createWebHookClient(String webHookUrl) {
-        return new SlackWebHookClient(webHookUrl);
+import io.github.selcukes.reports.notification.slack.SlackClient;
+
+public interface IncomingWebHookRequest {
+    static SlackClient forUrl(String webHookUrl) {
+        return new SlackClient(webHookUrl);
     }
 }

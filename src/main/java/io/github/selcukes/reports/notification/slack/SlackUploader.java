@@ -19,6 +19,7 @@
 package io.github.selcukes.reports.notification.slack;
 
 import io.github.selcukes.core.config.ConfigFactory;
+import io.github.selcukes.reports.notification.IncomingWebHookRequest;
 import org.apache.http.entity.mime.content.FileBody;
 
 import java.io.File;
@@ -43,9 +44,9 @@ public class SlackUploader {
         File fileToUpload = new File(slackFileUploader.getFilePath());
         FileBody fileBody = new FileBody(fileToUpload);
 
-        SlackWebHookClient webHookClient = SlackClientFactory.createWebHookClient(url.toString());
-        webHookClient.post(fileBody);
-        webHookClient.shutdown();
+        SlackClient slackClient = IncomingWebHookRequest.forUrl(url.toString());
+        slackClient.post(fileBody);
+        slackClient.shutdown();
 
     }
 

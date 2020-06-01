@@ -16,7 +16,7 @@
  *
  */
 
-package io.github.selcukes.reports.notification.slack;
+package io.github.selcukes.reports.http;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,17 +34,14 @@ import org.apache.http.impl.client.HttpClients;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-
-public class SlackWebHookClient {
-
-    private final Logger logger = LoggerFactory.getLogger(SlackWebHookClient.class);
-
-    private final String webHookUrl;
+public class HttpClient {
+    private final Logger logger = LoggerFactory.getLogger(HttpClient.class);
     private final CloseableHttpClient httpClient;
     private final ObjectMapper mapper;
     private HttpEntity httpEntity;
+    private final String webHookUrl;
 
-    public SlackWebHookClient(String webHookUrl) {
+    public HttpClient(String webHookUrl) {
         this.webHookUrl = webHookUrl;
         this.httpClient = createHttpClient();
         this.mapper = new ObjectMapper();
@@ -61,7 +58,7 @@ public class SlackWebHookClient {
         }
     }
 
-    public String post(SlackMessage payload) {
+    public String post(Object payload) {
         String message = null;
         try {
             message = mapper.writeValueAsString(payload);
@@ -105,5 +102,4 @@ public class SlackWebHookClient {
         }
 
     }
-
 }

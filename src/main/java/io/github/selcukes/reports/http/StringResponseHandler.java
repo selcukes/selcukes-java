@@ -16,7 +16,7 @@
  *
  */
 
-package io.github.selcukes.reports.notification.slack;
+package io.github.selcukes.reports.http;
 
 import io.github.selcukes.core.exception.SelcukesException;
 import org.apache.http.HttpEntity;
