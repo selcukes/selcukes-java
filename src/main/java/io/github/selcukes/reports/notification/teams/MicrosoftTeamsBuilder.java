@@ -18,56 +18,28 @@
 
 package io.github.selcukes.reports.notification.teams;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.selcukes.core.http.HttpClient;
+import io.github.selcukes.reports.notification.IncomingWebHookRequest;
 import io.github.selcukes.reports.notification.NotifierHelper;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 public class MicrosoftTeamsBuilder {
-    private static final String APPLICATION_JSON = "application/json";
-    private static final String CONTENT_TYPE = "Content-Type";
-    private static final String METHOD_POST = "POST";
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     protected void pushNotification(String scenarioTitle, String scenarioStatus, String message) {
-        try {
 
-            String webhookUri = System.getProperty("selcukes.teams.hooksUrl");
-            MicrosoftTeamsCard msTeamsCard = new MicrosoftTeamsCard();
-            msTeamsCard.setContext("http://schema.org/extensions");
-            msTeamsCard.setType("MessageCard");
 
-            msTeamsCard.setThemeColor(NotifierHelper.getThemeColor(scenarioStatus));
-            msTeamsCard.setTitle(scenarioTitle);
-            msTeamsCard.setText(message);
+        String webhookUri = System.getProperty("selcukes.teams.hooksUrl");
+        MicrosoftTeamsCard teamsCard = new MicrosoftTeamsCard();
+        teamsCard.setContext("http://schema.org/extensions");
+        teamsCard.setType("MessageCard");
 
-            final byte[] bytes = objectMapper.writeValueAsBytes(msTeamsCard);
+        teamsCard.setThemeColor(NotifierHelper.getThemeColor(scenarioStatus));
+        teamsCard.setTitle(scenarioTitle);
+        teamsCard.setText(message);
+        
+        HttpClient client = IncomingWebHookRequest.forUrl(webhookUri);
+        client.post(teamsCard);
+        client.shutdown();
 
-            postMessage(webhookUri, bytes);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-
-        }
     }
 
-    private void postMessage(String uri, byte[] bytes) throws IOException {
-        final HttpURLConnection conn = (HttpURLConnection) new URL(uri).openConnection();
-        int timeout = 30000;
-        conn.setConnectTimeout(timeout);
-        conn.setReadTimeout(timeout);
-        conn.setDoOutput(true);
-        conn.setRequestMethod(METHOD_POST);
-
-        conn.setFixedLengthStreamingMode(bytes.length);
-        conn.setRequestProperty(CONTENT_TYPE, APPLICATION_JSON);
-
-        final OutputStream os = conn.getOutputStream();
-        os.write(bytes);
-
-        os.flush();
-        os.close();
-    }
 }
