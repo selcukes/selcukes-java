@@ -23,6 +23,7 @@
         <testng.version>7.0.0</testng.version>
         <lombok.version>1.18.10</lombok.version>
         <jackson.version>2.10.1</jackson.version>
+        <apache-httpcomponents.version>4.5.11</apache-httpcomponents.version>
 
         <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
@@ -107,6 +108,13 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>${apache-httpcomponents.version}</version>
+        </dependency>
+
     </dependencies>
 
     <profiles>

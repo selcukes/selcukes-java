@@ -12,10 +12,6 @@ import java.nio.charset.StandardCharsets;
 public class CommandExecutor {
     final Logger logger = LoggerFactory.getLogger(CommandExecutor.class);
 
-    public static CommandExecutor getCommandExecutor() {
-        return new CommandExecutor();
-    }
-
     public Process run(String command) {
         logger.info(() -> "Trying to execute command : " + command);
         Process process;
