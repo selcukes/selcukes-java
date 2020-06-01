@@ -36,6 +36,7 @@ import java.io.UnsupportedEncodingException;
 
 public class HttpClient {
     private final Logger logger = LoggerFactory.getLogger(HttpClient.class);
+    private static final String APPLICATION_JSON = "application/json";
     private final CloseableHttpClient httpClient;
     private final ObjectMapper mapper;
     private HttpEntity httpEntity;
@@ -87,11 +88,11 @@ public class HttpClient {
     }
 
     private String execute(CloseableHttpClient httpClient, String url, HttpEntity httpEntity) {
-        logger.warn(() -> "url : " + url);
-
         try {
             HttpPost httpPost = new HttpPost(url);
             httpPost.setEntity(httpEntity);
+            httpPost.setHeader("Content-type", APPLICATION_JSON);
+
             String retStr = httpClient.execute(httpPost, new StringResponseHandler());
 
             logger.warn(() -> "return : " + retStr);
