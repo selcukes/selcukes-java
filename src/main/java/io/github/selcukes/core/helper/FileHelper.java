@@ -101,6 +101,11 @@ public class FileHelper {
         if (fileName.exists())
             FileUtils.deleteQuietly(fileName);
     }
+    public static void renameFile(File from, File to){
+        if (!from.renameTo(to)) {
+            logger.error(() ->"Failed to rename " + from + " to " + to);
+        }
+    }
 
 }
 
