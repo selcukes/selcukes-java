@@ -22,6 +22,7 @@ import io.github.selcukes.core.config.ConfigFactory;
 
 import io.github.selcukes.core.http.HttpClient;
 import io.github.selcukes.reports.notification.IncomingWebHookRequest;
+import io.github.selcukes.reports.notification.NotifierEnum;
 import org.apache.http.entity.mime.content.FileBody;
 
 import java.io.File;
@@ -37,7 +38,7 @@ public class SlackUploader {
             .build();
 
         StringBuilder url = new StringBuilder();
-        url.append(SlackEnum.SLACK_API_URL.value)
+        url.append(NotifierEnum.SLACK_API_URL.getValue())
             .append(slackFileUploader.getToken())
             .append("&channels=")
             .append(slackFileUploader.getChannel())

@@ -18,16 +18,27 @@
 
 package io.github.selcukes.reports.notification.teams;
 
-import io.github.selcukes.reports.notification.Notifier;
+import lombok.Builder;
+import lombok.Data;
 
+import java.util.List;
 
-public class MicrosoftTeams implements Notifier {
+@Data
+@Builder
+public class Section {
+    @Builder.Default
+    private final boolean markdown = true;
 
+    private final List<Field> facts;
 
-    @Override
-    public Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String screenshotPath) {
-        MicrosoftTeamsBuilder teamsBuilder = new MicrosoftTeamsBuilder();
-        teamsBuilder.sendMessage(scenarioTitle, scenarioStatus, message,screenshotPath);
-        return this;
-    }
+    private final String activityTitle;
+
+    private final String activitySubtitle;
+
+    private final String activityText;
+
+    private final String activityImage;
+
+    private final List<Images> images;
+
 }

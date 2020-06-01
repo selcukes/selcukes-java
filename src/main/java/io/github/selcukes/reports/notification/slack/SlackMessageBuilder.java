@@ -24,6 +24,7 @@ import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.reports.notification.IncomingWebHookRequest;
 import io.github.selcukes.reports.notification.NotifierHelper;
+import io.github.selcukes.reports.notification.NotifierEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,13 +39,13 @@ public class SlackMessageBuilder {
 
         Long startTime = System.currentTimeMillis() / 1000;
         Field field = Field.builder()
-            .title(SlackEnum.PROJECT.value)
+            .title(NotifierEnum.PROJECT.getValue())
             .value(ConfigFactory.getConfig().getProjectName())
             .shortValue(true)
             .build();
 
         Field field1 = Field.builder()
-            .title(SlackEnum.ENVIRONMENT.value)
+            .title(NotifierEnum.ENVIRONMENT.getValue())
             .value(ConfigFactory.getConfig().getEnv())
             .shortValue(true)
             .build();
@@ -54,20 +55,20 @@ public class SlackMessageBuilder {
         fieldList.add(field1);
 
         Attachment attachment = Attachment.builder()
-            .fallback(SlackEnum.PRETEXT.value)
-            .callbackId(SlackEnum.CALL_BACK.value)
+            .fallback(NotifierEnum.PRETEXT.getValue())
+            .callbackId(NotifierEnum.CALL_BACK.getValue())
             .color(NotifierHelper.getThemeColor(scenarioStatus))
-            .pretext(SlackEnum.PRETEXT.value)
-            .authorName(SlackEnum.AUTHOR.value)
-            .authorLink(SlackEnum.TECHYWORKS.value)
-            .authorIcon(SlackEnum.AUTHOR_ICON.value)
+            .pretext(NotifierEnum.PRETEXT.getValue())
+            .authorName(NotifierEnum.AUTHOR.getValue())
+            .authorLink(NotifierEnum.TECHYWORKS.getValue())
+            .authorIcon(NotifierEnum.AUTHOR_ICON.getValue())
             .title(scenarioTitle)
-            .titleLink(SlackEnum.TECHYWORKS.value)
+            .titleLink(NotifierEnum.TECHYWORKS.getValue())
             .text(error)
             .fields(fieldList)
             .imageUrl(screenshotPath)
-            .footer(SlackEnum.FOOTER_TEXT.value)
-            .footerIcon(SlackEnum.FOOTER_ICON.value)
+            .footer(NotifierEnum.FOOTER_TEXT.getValue())
+            .footerIcon(NotifierEnum.FOOTER_ICON.getValue())
             .timeStamp(startTime)
             .build();
 
@@ -86,7 +87,7 @@ public class SlackMessageBuilder {
 
     private String getSlackWebHookUrl() {
         StringBuilder slackWebHookUrl = new StringBuilder();
-        slackWebHookUrl.append(SlackEnum.WEB_HOOKS_URL.value)
+        slackWebHookUrl.append(NotifierEnum.WEB_HOOKS_URL.getValue())
             .append(ConfigFactory.getConfig().getSlack().get("webhook-token"));
 
         return slackWebHookUrl.toString();

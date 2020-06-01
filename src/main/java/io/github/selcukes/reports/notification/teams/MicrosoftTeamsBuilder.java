@@ -18,24 +18,72 @@
 
 package io.github.selcukes.reports.notification.teams;
 
+import io.github.selcukes.core.config.ConfigFactory;
+import io.github.selcukes.core.helper.DateHelper;
 import io.github.selcukes.core.http.HttpClient;
 import io.github.selcukes.reports.notification.IncomingWebHookRequest;
+import io.github.selcukes.reports.notification.NotifierEnum;
 import io.github.selcukes.reports.notification.NotifierHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MicrosoftTeamsBuilder {
 
-    protected void pushNotification(String scenarioTitle, String scenarioStatus, String message) {
+    protected void sendMessage(String scenarioTitle, String scenarioStatus, String message, String screenshotPath) {
 
+        Field field = Field.builder()
+            .name(NotifierEnum.ENVIRONMENT.getValue())
+            .value("QA")
+            .build();
+
+        Field field1 = Field.builder()
+            .name(NotifierEnum.TIME_STAMP.getValue())
+            .value(DateHelper.getSimpleDateFormat() + "")
+            .build();
+
+        Field field2 = Field.builder()
+            .name(NotifierEnum.ATTACHMENT.getValue())
+            .value("[Screenshot.jpg](" + screenshotPath + ")")
+            .build();
+
+        List<Field> fieldList = new ArrayList<>();
+        fieldList.add(field);
+        fieldList.add(field1);
+        fieldList.add(field2);
+
+        Images image = Images.builder()
+            .image(screenshotPath)
+            .build();
+
+        List<Images> imagesList = new ArrayList<>();
+        imagesList.add(image);
+
+        String activityTitle = "Scenario : " + scenarioTitle;
+        String activitySubtitle = "Step : " + message;
+        String activityText = "Status: ";
+        Section section = Section.builder()
+            .activityTitle(activityTitle)
+            .activitySubtitle(activitySubtitle)
+            .activityText(activityText)
+            .activityImage(NotifierEnum.AUTHOR_ICON.getValue())
+            .facts(fieldList)
+            .images(imagesList)
+            .build();
+
+        List<Section> sectionList = new ArrayList<>();
+
+        sectionList.add(section);
 
         String webhookUri = System.getProperty("selcukes.teams.hooksUrl");
-        MicrosoftTeamsCard teamsCard = new MicrosoftTeamsCard();
-        teamsCard.setContext("http://schema.org/extensions");
-        teamsCard.setType("MessageCard");
+        MicrosoftTeamsCard teamsCard = MicrosoftTeamsCard.builder()
+            .type("MessageCard")
+            .themeColor(NotifierHelper.getThemeColor(scenarioStatus))
+            .title(NotifierEnum.PRETEXT.getValue())
+            .text(" ")
+            .sections(sectionList)
+            .build();
 
-        teamsCard.setThemeColor(NotifierHelper.getThemeColor(scenarioStatus));
-        teamsCard.setTitle(scenarioTitle);
-        teamsCard.setText(message);
-        
         HttpClient client = IncomingWebHookRequest.forUrl(webhookUri);
         client.post(teamsCard);
         client.shutdown();
