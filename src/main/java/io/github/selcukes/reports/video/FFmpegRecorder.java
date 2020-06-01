@@ -18,15 +18,13 @@
 
 package io.github.selcukes.reports.video;
 
-import io.github.selcukes.core.exception.RecorderException;
+import io.github.selcukes.core.CommandExecutor;
 import io.github.selcukes.core.helper.DateHelper;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
-import java.lang.ProcessBuilder.Redirect;
 
 public class FFmpegRecorder extends AbstractRecorder {
     final Logger logger = LoggerFactory.getLogger(FFmpegRecorder.class);
@@ -34,8 +32,10 @@ public class FFmpegRecorder extends AbstractRecorder {
     private final String FFMPEG = "ffmpeg";
     private final VideoConfig videoConfig;
     private File videoFile;
+    private final CommandExecutor executor;
 
     public FFmpegRecorder() {
+        executor = new CommandExecutor();
         this.videoConfig = conf();
     }
 
@@ -58,7 +58,7 @@ public class FFmpegRecorder extends AbstractRecorder {
             fileName;
 
         logger.info(() -> "Recording video started to " + fileName);
-        process = runCommand(cmdline);
+        process = executor.run(cmdline);
         logger.info(() -> "Started ffmpeg...");
     }
 
@@ -68,7 +68,7 @@ public class FFmpegRecorder extends AbstractRecorder {
     @Override
     public File stopAndSave(String filename) {
         String kill = "SendSignalCtrlC.exe " + getPid(process);
-        runCommand(kill);
+        executor.run(kill);
         logger.info(() -> "Killing ffmpeg...");
         videoFile = new File(getFilePath());
         logger.info(() -> "Recording finished to " + videoFile.getAbsolutePath());
@@ -85,24 +85,6 @@ public class FFmpegRecorder extends AbstractRecorder {
         videoFile.deleteOnExit();
     }
 
-
-    public Process runCommand(String command) {
-        logger.info(() -> "Trying to execute command : " + command);
-        Process process;
-        ProcessBuilder pb = new ProcessBuilder().inheritIO().command(command.split("\\s"));
-        pb.redirectOutput(Redirect.PIPE);
-        pb.redirectError(Redirect.PIPE);
-        try {
-            synchronized (this) {
-                process = pb.start();
-            }
-
-        } catch (IOException ex) {
-            logger.error(() -> "Unable to execute command: " + command);
-            throw new RecorderException(ex.getMessage());
-        }
-        return process;
-    }
 
     private String getPid(Process p) {
         String pid;

@@ -19,7 +19,8 @@
 package io.github.selcukes.reports.notification.slack;
 
 import io.github.selcukes.core.config.ConfigFactory;
-import io.github.selcukes.reports.http.HttpClient;
+
+import io.github.selcukes.core.http.HttpClient;
 import io.github.selcukes.reports.notification.IncomingWebHookRequest;
 import org.apache.http.entity.mime.content.FileBody;
 

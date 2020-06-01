@@ -18,7 +18,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
-        <selcukes-core.version>0.0.2</selcukes-core.version>
+        <selcukes-core.version>0.0.3-SNAPSHOT</selcukes-core.version>
         <testng.version>7.0.0</testng.version>
         <cucumber-reporting.version>5.2.0</cucumber-reporting.version>
         <recorder.version>0.7.7.0</recorder.version>
@@ -27,7 +27,7 @@
         <poi.version>4.1.2</poi.version>
         <selenium.version>4.0.0-alpha-5</selenium.version>
         <apache-httpcomponents.version>4.5.11</apache-httpcomponents.version>
-        <unirest-java.version>1.4.9</unirest-java.version>
+
 
         <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
