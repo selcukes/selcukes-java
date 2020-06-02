@@ -11,7 +11,7 @@
     <name>webdriver-binaries</name>
     <description>Automatically downloads and configures Selenium Webdriver binary files</description>
     <url>https://github.com/selcukes/webdriver-binaries</url>
-    <inceptionYear>2019</inceptionYear>
+    <inceptionYear>2020</inceptionYear>
 
     <properties>
 

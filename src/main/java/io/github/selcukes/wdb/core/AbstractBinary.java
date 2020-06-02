@@ -115,14 +115,4 @@ abstract class AbstractBinary implements BinaryFactory {
         this.proxyUrl = Optional.ofNullable(proxy);
     }
 
-    protected String getProgramFilesEnv() {
-        return System.getProperty("os.arch").contains("64") ? "PROGRAMFILES"
-            : "PROGRAMFILES(X86)";
-    }
-
-    protected String getOtherProgramFilesEnv() {
-        return System.getProperty("os.arch").contains("64")
-            ? "PROGRAMFILES(X86)"
-            : "PROGRAMFILES";
-    }
 }
