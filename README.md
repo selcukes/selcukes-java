@@ -1,7 +1,7 @@
 # WebDriver Binaries
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.selcukes/webdriver-binaries.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.selcukes%22%20AND%20a:%22webdriver-binaries%22)
 [![Build Status](https://travis-ci.org/selcukes/webdriver-binaries.svg?branch=master)](https://travis-ci.org/selcukes/webdriver-binaries)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/79fbd725ee664ff985fb66d4ae2a7527)](https://www.codacy.com/manual/selcukes/webdriver-binaries?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=selcukes/webdriver-binaries&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d76eca587e514228a7425f5c2a0f7a3c)](https://www.codacy.com/gh/selcukes/webdriver-binaries?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=selcukes/webdriver-binaries&amp;utm_campaign=Badge_Grade)
 [![Vulnerability](https://sonarcloud.io/api/project_badges/measure?project=selcukes_webdriver-binaries&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=selcukes_webdriver-binaries)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=selcukes_webdriver-binaries&metric=coverage)](https://sonarcloud.io/dashboard?id=selcukes_webdriver-binaries)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=selcukes_webdriver-binaries&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=selcukes_webdriver-binaries)
