@@ -34,12 +34,12 @@ public class MicrosoftTeamsBuilder {
 
         Field field = Field.builder()
             .name(NotifierEnum.ENVIRONMENT.getValue())
-            .value("QA")
+            .value(ConfigFactory.getConfig().getEnv())
             .build();
 
         Field field1 = Field.builder()
             .name(NotifierEnum.TIME_STAMP.getValue())
-            .value(DateHelper.getSimpleDateFormat() + "")
+            .value(DateHelper.getSimpleDateFormat().toString())
             .build();
 
         Field field2 = Field.builder()
@@ -86,7 +86,6 @@ public class MicrosoftTeamsBuilder {
 
         HttpClient client = IncomingWebHookRequest.forUrl(webhookUri);
         client.post(teamsCard);
-        client.shutdown();
 
     }
 

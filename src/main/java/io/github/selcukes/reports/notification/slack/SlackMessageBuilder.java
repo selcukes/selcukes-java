@@ -23,8 +23,8 @@ import io.github.selcukes.core.http.HttpClient;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.reports.notification.IncomingWebHookRequest;
-import io.github.selcukes.reports.notification.NotifierHelper;
 import io.github.selcukes.reports.notification.NotifierEnum;
+import io.github.selcukes.reports.notification.NotifierHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +82,6 @@ public class SlackMessageBuilder {
 
         HttpClient client = IncomingWebHookRequest.forUrl(getSlackWebHookUrl());
         client.post(slackMessage);
-        client.shutdown();
     }
 
     private String getSlackWebHookUrl() {

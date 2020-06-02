@@ -49,7 +49,6 @@ public class SlackUploader {
 
         HttpClient client = IncomingWebHookRequest.forUrl(url.toString());
         client.post(fileBody);
-        client.shutdown();
 
     }
 
