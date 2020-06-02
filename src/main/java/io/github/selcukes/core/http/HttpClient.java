@@ -47,7 +47,7 @@ import java.util.Optional;
 public class HttpClient implements Closeable {
     private final Logger logger = LoggerFactory.getLogger(HttpClient.class);
     private static final String APPLICATION_JSON = "application/json";
-    private CloseableHttpClient httpClient;
+    private final CloseableHttpClient httpClient;
     private final ObjectMapper mapper;
     private HttpEntity httpEntity;
     private final String webHookUrl;
@@ -58,12 +58,12 @@ public class HttpClient implements Closeable {
         this.httpClient = createDefaultHttpClient();
         this.mapper = new ObjectMapper();
     }
-
-    public HttpClient(String webHookUrl, String proxy) {
-        this.webHookUrl = webHookUrl;
-        this.httpClient = createDefaultHttpClient();
-        this.mapper = new ObjectMapper();
+    
+    public HttpClient(String url, String proxy) {
+        this.webHookUrl = url;
         this.proxy = proxy;
+        this.httpClient = createHttpClient();
+        this.mapper = new ObjectMapper();
     }
 
     private CloseableHttpClient createDefaultHttpClient() {
@@ -126,8 +126,7 @@ public class HttpClient implements Closeable {
     }
 
     private CloseableHttpClient createHttpClient() {
-        httpClient = createHttpClientBuilder().build();
-        return httpClient;
+        return createHttpClientBuilder().build();
     }
 
     private HttpUriRequest createHttpRequest() {
@@ -144,7 +143,7 @@ public class HttpClient implements Closeable {
 
     private CloseableHttpResponse getHttpResponse() {
         try {
-            return createHttpClient().execute(createHttpRequest());
+            return httpClient.execute(createHttpRequest());
         } catch (IOException e) {
             throw new SelcukesException(e);
         }
