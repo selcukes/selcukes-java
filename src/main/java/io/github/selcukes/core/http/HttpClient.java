@@ -33,13 +33,14 @@ import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.*;
 import java.util.Optional;
 
-public class HttpClient {
+public class HttpClient implements Closeable {
     private final Logger logger = LoggerFactory.getLogger(HttpClient.class);
     private static final String APPLICATION_JSON = "application/json";
     private final CloseableHttpClient httpClient;
@@ -56,13 +57,6 @@ public class HttpClient {
 
     private CloseableHttpClient createHttpClient() {
         return HttpClients.createDefault();
-    }
-
-    public void shutdown() {
-        if (httpClient != null) try {
-            httpClient.close();
-        } catch (Exception ignored) {
-        }
     }
 
     public String post(Object payload) {
@@ -121,11 +115,11 @@ public class HttpClient {
 
     }
 
-    private String getHeaderValue(String headerName) {
+    public String getHeaderValue(String headerName) {
         return getHttpResponse().getFirstHeader(headerName).getValue();
     }
 
-    private InputStream getResponseStream() {
+    public InputStream getResponseStream() {
         InputStream inputStream;
         try {
             this.httpEntity = getHttpResponse().getEntity();
@@ -136,7 +130,7 @@ public class HttpClient {
         return inputStream;
     }
 
-    public Optional<Proxy> isProxy() {
+    private Optional<Proxy> isProxy() {
         Optional<URL> url = getProxyUrl(proxy);
         if (url.isPresent()) {
             String proxyHost = url.get().getHost();
@@ -148,11 +142,16 @@ public class HttpClient {
         return Optional.empty();
     }
 
-    public Optional<URL> getProxyUrl(String proxy) {
+    private Optional<URL> getProxyUrl(String proxy) {
         try {
             return Optional.of(new URL(proxy));
         } catch (MalformedURLException e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public void close() throws IOException {
+        this.httpClient.close();
     }
 }

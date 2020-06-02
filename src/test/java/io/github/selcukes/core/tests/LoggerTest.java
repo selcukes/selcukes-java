@@ -16,38 +16,38 @@ public class LoggerTest {
     }
 
     @Test
-    void error() {
+    private void error() {
         logger.error(() -> "Error");
         logger.error(exception, () -> "Error Exception");
 
     }
 
     @Test
-    void warn() {
+    private void warn() {
         logger.warn(() -> "Warn");
         logger.warn(exception, () -> "Warn Exception");
     }
 
     @Test
-    void info() {
+    private void info() {
         logger.info(() -> "Info");
         logger.info(exception, () -> "Info Exception");
     }
 
     @Test
-    void config() {
+    private void config() {
         logger.config(() -> "Config");
         logger.config(exception, () -> "Config Exception");
     }
 
     @Test
-    void debug() {
+    private void debug() {
         logger.debug(() -> "Debug");
         logger.debug(exception, () -> "Debug Exception");
     }
 
     @Test
-    void trace() {
+    private void trace() {
         logger.trace(() -> "Trace");
         logger.trace(exception, () -> "Trace Exception");
     }
