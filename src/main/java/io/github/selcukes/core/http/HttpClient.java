@@ -24,13 +24,17 @@ import io.github.selcukes.core.exception.SelcukesException;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpHost;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 
 import java.io.Closeable;
@@ -43,7 +47,7 @@ import java.util.Optional;
 public class HttpClient implements Closeable {
     private final Logger logger = LoggerFactory.getLogger(HttpClient.class);
     private static final String APPLICATION_JSON = "application/json";
-    private final CloseableHttpClient httpClient;
+    private CloseableHttpClient httpClient;
     private final ObjectMapper mapper;
     private HttpEntity httpEntity;
     private final String webHookUrl;
@@ -51,11 +55,18 @@ public class HttpClient implements Closeable {
 
     public HttpClient(String webHookUrl) {
         this.webHookUrl = webHookUrl;
-        this.httpClient = createHttpClient();
+        this.httpClient = createDefaultHttpClient();
         this.mapper = new ObjectMapper();
     }
 
-    private CloseableHttpClient createHttpClient() {
+    public HttpClient(String webHookUrl, String proxy) {
+        this.webHookUrl = webHookUrl;
+        this.httpClient = createDefaultHttpClient();
+        this.mapper = new ObjectMapper();
+        this.proxy = proxy;
+    }
+
+    private CloseableHttpClient createDefaultHttpClient() {
         return HttpClients.createDefault();
     }
 
@@ -91,7 +102,7 @@ public class HttpClient implements Closeable {
         try {
             HttpPost httpPost = new HttpPost(url);
             httpPost.setEntity(httpEntity);
-            httpPost.setHeader("Content-type", APPLICATION_JSON);
+            httpPost.setHeader(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON);
 
             String retStr = httpClient.execute(httpPost, new StringResponseHandler());
 
@@ -104,16 +115,42 @@ public class HttpClient implements Closeable {
 
     }
 
-    private HttpResponse getHttpResponse() {
+    private HttpClientBuilder createHttpClientBuilder() {
+        HttpClientBuilder httpClientBuilder = HttpClientBuilder.create().disableRedirectHandling();
+
+        return isProxy().isPresent() ? httpClientBuilder.setProxy(getProxyHost()) : httpClientBuilder;
+    }
+
+    private HttpHost getProxyHost() {
+        return new HttpHost(proxy);
+    }
+
+    private CloseableHttpClient createHttpClient() {
+        httpClient = createHttpClientBuilder().build();
+        return httpClient;
+    }
+
+    private HttpUriRequest createHttpRequest() {
         try {
             URI uri = new URI(webHookUrl);
-            HttpGet request = new HttpGet(uri);
-            return httpClient.execute(request);
-        } catch (IOException | URISyntaxException e) {
+            return RequestBuilder.get()
+                .setUri(uri)
+                .setHeader(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON)
+                .build();
+        } catch (URISyntaxException e) {
+            throw new SelcukesException(e);
+        }
+    }
+
+    private CloseableHttpResponse getHttpResponse() {
+        try {
+            return createHttpClient().execute(createHttpRequest());
+        } catch (IOException e) {
             throw new SelcukesException(e);
         }
 
     }
+
 
     public String getHeaderValue(String headerName) {
         return getHttpResponse().getFirstHeader(headerName).getValue();
