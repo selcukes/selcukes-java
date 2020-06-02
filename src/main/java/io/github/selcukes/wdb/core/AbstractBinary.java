@@ -19,8 +19,8 @@
 package io.github.selcukes.wdb.core;
 
 import io.github.selcukes.core.exception.WebDriverBinaryException;
+import io.github.selcukes.core.http.HttpClient;
 import io.github.selcukes.wdb.enums.TargetArch;
-import io.github.selcukes.wdb.util.HttpUtils;
 import io.github.selcukes.wdb.util.Platform;
 import io.github.selcukes.wdb.util.VersionComparator;
 import org.jsoup.nodes.Document;
@@ -59,8 +59,14 @@ abstract class AbstractBinary implements BinaryFactory {
         return unwrap(proxyUrl);
     }
 
+    protected HttpClient getHttpClient(String binaryDownloadUrl) {
+        return new HttpClient(binaryDownloadUrl, getProxy());
+    }
+
     protected String getVersionNumberFromGit(String binaryDownloadUrl) {
-        final String releaseLocation = HttpUtils.getLocation(binaryDownloadUrl, getProxy());
+
+
+        final String releaseLocation = getHttpClient(binaryDownloadUrl).getHeaderValue("location");
 
         if (releaseLocation == null || releaseLocation.length() < 2 || !releaseLocation.contains("/")) {
             return "";
@@ -69,7 +75,7 @@ abstract class AbstractBinary implements BinaryFactory {
     }
 
     protected String getVersionNumberFromXML(String binaryDownloadUrl, String matcher) {
-        final InputStream downloadStream = HttpUtils.getResponseInputStream(binaryDownloadUrl, getProxy());
+        final InputStream downloadStream = getHttpClient(binaryDownloadUrl).getResponseStream();
         List<String> versions = new ArrayList<>();
         Map<String, String> versionMap = new TreeMap<>();
         try {
