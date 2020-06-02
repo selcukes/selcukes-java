@@ -113,7 +113,7 @@ public class HttpClient {
     private HttpResponse getHttpResponse() {
         try {
             URI uri = new URI(webHookUrl);
-            HttpGet request = new HttpGet(webHookUrl);
+            HttpGet request = new HttpGet(uri);
             return httpClient.execute(request);
         } catch (IOException | URISyntaxException e) {
             throw new SelcukesException(e);
