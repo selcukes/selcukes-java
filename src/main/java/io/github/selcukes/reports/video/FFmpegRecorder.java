@@ -101,7 +101,7 @@ public class FFmpegRecorder extends AbstractRecorder {
 
     public String getFilePath() {
         String fileName = FFMPEG + "_recording_" + DateHelper.get().dateTime();
-        return System.getProperty("user.dir") + File.separator + videoConfig.getVideoFolder() + fileName + ".mp4";
+        return System.getProperty("user.dir") + File.separator + videoConfig.getVideoFolder() + File.separator + fileName + ".mp4";
     }
 
 }

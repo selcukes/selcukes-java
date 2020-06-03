@@ -23,6 +23,8 @@ import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.reports.notification.Notifier;
 import io.github.selcukes.reports.notification.teams.MicrosoftTeams;
+import io.github.selcukes.reports.video.FFmpegRecorder;
+import io.github.selcukes.reports.video.Recorder;
 import io.github.selcukes.wdb.WebDriverBinary;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -35,12 +37,15 @@ import org.testng.annotations.Test;
 public class RecorderTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     WebDriver driver;
+    Recorder recorder;
 
     @BeforeClass
     public void beforeClass() {
         ConfigFactory.loadLoggerProperties();
         WebDriverBinary.chromeDriver().setup();
         driver = new ChromeDriver();
+        recorder = new FFmpegRecorder();
+        recorder.start();
     }
 
     @Test
@@ -51,14 +56,17 @@ public class RecorderTest {
         Assert.assertTrue(driver.findElement(By.xpath("//a[contains(@href,'dictionary.pdf')]")).isDisplayed());
         driver.findElement(By.xpath("//a[contains(@href,'dictionary.pdf')]")).click();
         Assert.assertTrue(driver.getCurrentUrl().contains(".pdf"));
-        
-        Notifier notifier= new MicrosoftTeams();
-        notifier.pushNotification("Test Name", "FAILED", "Test Exception in Step","http://connectorsdemo.azurewebsites.net/images/WIN14_Jan_04.jpg")
+    }
 
+    public void notificationTest() {
+        System.setProperty("selcukes.teams.hooksUrl", "");
+        Notifier notifier = new MicrosoftTeams();
+        notifier.pushNotification("Test Name", "FAILED", "Test Exception in Step", "http://connectorsdemo.azurewebsites.net/images/WIN14_Jan_04.jpg");
     }
 
     @AfterClass
     public void afterClass() {
         driver.quit();
+        recorder.stopAndSave("SampleTest");
     }
 }
