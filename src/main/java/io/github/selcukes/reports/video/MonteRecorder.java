@@ -20,6 +20,7 @@ package io.github.selcukes.reports.video;
 
 import io.github.selcukes.core.exception.RecorderException;
 import io.github.selcukes.core.helper.DateHelper;
+import io.github.selcukes.core.helper.FileHelper;
 import lombok.Builder;
 import org.monte.media.Format;
 import org.monte.media.Registry;
@@ -65,10 +66,7 @@ class MonteRecorder extends ScreenRecorder {
         this.stop();
         File tempFile = this.getCreatedMovieFiles().get(0);
         File destFile = getDestinationFile(filename);
-        if (!tempFile.renameTo(destFile)) {
-            throw new RecorderException("Failed to rename file: " + tempFile + " to " + destFile);
-        }
-
+        FileHelper.renameFile(tempFile, destFile);
         return destFile;
     }
 

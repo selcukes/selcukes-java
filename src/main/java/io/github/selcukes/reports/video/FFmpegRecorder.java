@@ -20,6 +20,7 @@ package io.github.selcukes.reports.video;
 
 import io.github.selcukes.core.CommandExecutor;
 import io.github.selcukes.core.helper.DateHelper;
+import io.github.selcukes.core.helper.FileHelper;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 
@@ -29,10 +30,12 @@ import java.io.File;
 public class FFmpegRecorder extends AbstractRecorder {
     final Logger logger = LoggerFactory.getLogger(FFmpegRecorder.class);
     private Process process;
-    private final String FFMPEG = "ffmpeg";
+    private static final String FFMPEG = "ffmpeg";
+    private static final String EXTENSION = ".mp4";
     private final VideoConfig videoConfig;
     private File videoFile;
     private final CommandExecutor executor;
+    private File tempFile;
 
     public FFmpegRecorder() {
         executor = new CommandExecutor();
@@ -45,7 +48,7 @@ public class FFmpegRecorder extends AbstractRecorder {
      */
     public void start() {
 
-        String fileName = getFilePath();
+        tempFile = getFile("Video");
         String screenSize = getScreenSize();
 
         String cmdline = FFMPEG + " -y " +
@@ -55,9 +58,9 @@ public class FFmpegRecorder extends AbstractRecorder {
             " -an " +
             " -framerate " + videoConfig.getFrameRate() +
             " -pix_fmt " + videoConfig.getPixelFormat() + " " +
-            fileName;
+            tempFile.getAbsolutePath();
 
-        logger.info(() -> "Recording video started to " + fileName);
+        logger.info(() -> "Recording video started to " + tempFile.getAbsolutePath());
         process = executor.run(cmdline);
         logger.info(() -> "Started ffmpeg...");
     }
@@ -70,7 +73,7 @@ public class FFmpegRecorder extends AbstractRecorder {
         String kill = "SendSignalCtrlC.exe " + getPid(process);
         executor.run(kill);
         logger.info(() -> "Killing ffmpeg...");
-        videoFile = new File(getFilePath());
+        videoFile = tempFile;
         logger.info(() -> "Recording finished to " + videoFile.getAbsolutePath());
         return videoFile;
     }
@@ -99,9 +102,16 @@ public class FFmpegRecorder extends AbstractRecorder {
         return dimension.width + "x" + dimension.height;
     }
 
-    public String getFilePath() {
-        String fileName = FFMPEG + "_recording_" + DateHelper.get().dateTime();
-        return System.getProperty("user.dir") + File.separator + videoConfig.getVideoFolder() + File.separator + fileName + ".mp4";
+    private File getFile(String fileName) {
+        File movieFolder = createMovieFolder();
+        String name = fileName + "_recording_" + DateHelper.get().dateTime();
+        return new File(movieFolder + File.separator + name + EXTENSION);
+    }
+
+    private File createMovieFolder() {
+        File movieFolder = new File(videoConfig.getVideoFolder());
+        FileHelper.createDirectory(movieFolder);
+        return movieFolder;
     }
 
 }
