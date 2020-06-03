@@ -73,8 +73,7 @@ class MonteRecorder extends ScreenRecorder {
     }
 
     private File getDestinationFile(String filename) {
-        DateHelper dateHelper = DateHelper.builder().build();
-        String fileName = filename + "_recording_" + dateHelper.getDateTime();
+        String fileName = filename + "_recording_" + DateHelper.get().dateTime();
         return new File(this.movieFolder + File.separator + fileName + "." + this.currentTempExtension);
 
     }

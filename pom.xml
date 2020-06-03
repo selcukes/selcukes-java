@@ -18,7 +18,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
-        <selcukes-core.version>0.0.3-SNAPSHOT</selcukes-core.version>
+        <selcukes-core.version>0.0.3</selcukes-core.version>
         <testng.version>7.0.0</testng.version>
         <cucumber-reporting.version>5.2.0</cucumber-reporting.version>
         <recorder.version>0.7.7.0</recorder.version>
@@ -28,6 +28,7 @@
         <selenium.version>4.0.0-alpha-5</selenium.version>
         <apache-httpcomponents.version>4.5.11</apache-httpcomponents.version>
 
+        <webdriver-binaries.version>1.1.0</webdriver-binaries.version>
 
         <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
@@ -82,14 +83,16 @@
 
         <dependency>
             <groupId>io.github.selcukes</groupId>
-            <artifactId>chrome-devtools</artifactId>
-            <version>0.0.3</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.selcukes</groupId>
             <artifactId>selcukes-core</artifactId>
             <version>${selcukes-core.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.selcukes</groupId>
+            <artifactId>chrome-devtools</artifactId>
+            <version>0.0.3</version>
+        </dependency>
+
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -120,11 +123,7 @@
             <version>${cucumber.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-core</artifactId>
-            <version>${cucumber.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>net.masterthought</groupId>
             <artifactId>cucumber-reporting</artifactId>
@@ -161,6 +160,12 @@
             <version>${apache-httpcomponents.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.github.selcukes</groupId>
+            <artifactId>webdriver-binaries</artifactId>
+            <version>${webdriver-binaries.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <profiles>

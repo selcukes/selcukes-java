@@ -40,7 +40,7 @@ public class MicrosoftTeamsBuilder {
 
         Field field1 = Field.builder()
             .name(NotifierEnum.TIME_STAMP.getValue())
-            .value(DateHelper.builder().build().getDateTime())
+            .value(DateHelper.get().timeStamp())
             .build();
 
         Field field2 = Field.builder()
@@ -59,7 +59,7 @@ public class MicrosoftTeamsBuilder {
 
         String activityTitle = "Scenario : " + scenarioTitle;
         String activitySubtitle = "Step : " + message;
-        String activityText = "Status: "+scenarioStatus;
+        String activityText = "Status: " + scenarioStatus;
         Section section = Section.builder()
             .activityTitle(activityTitle)
             .activitySubtitle(activitySubtitle)
