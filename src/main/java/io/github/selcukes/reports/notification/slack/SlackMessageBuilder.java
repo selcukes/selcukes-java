@@ -27,6 +27,7 @@ import io.github.selcukes.reports.notification.NotifierEnum;
 import io.github.selcukes.reports.notification.NotifierHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -38,6 +39,7 @@ public class SlackMessageBuilder {
 
 
         Long startTime = System.currentTimeMillis() / 1000;
+
         Field field = Field.builder()
             .title(NotifierEnum.PROJECT.getValue())
             .value(ConfigFactory.getConfig().getProjectName())
@@ -72,13 +74,8 @@ public class SlackMessageBuilder {
             .timeStamp(startTime)
             .build();
 
-        List<Attachment> attachmentList = new ArrayList<>();
-
-        attachmentList.add(attachment);
-
-
         SlackMessage slackMessage = SlackMessage.builder()
-            .attachments(attachmentList).build();
+            .attachments(Collections.singletonList(attachment)).build();
 
         HttpClient client = IncomingWebHookRequest.forUrl(getSlackWebHookUrl());
         client.post(slackMessage);

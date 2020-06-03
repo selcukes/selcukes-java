@@ -26,6 +26,7 @@ import io.github.selcukes.reports.notification.NotifierEnum;
 import io.github.selcukes.reports.notification.NotifierHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MicrosoftTeamsBuilder {
@@ -56,9 +57,6 @@ public class MicrosoftTeamsBuilder {
             .image(screenshotPath)
             .build();
 
-        List<Images> imagesList = new ArrayList<>();
-        imagesList.add(image);
-
         String activityTitle = "Scenario : " + scenarioTitle;
         String activitySubtitle = "Step : " + message;
         String activityText = "Status: "+scenarioStatus;
@@ -68,12 +66,8 @@ public class MicrosoftTeamsBuilder {
             .activityText(activityText)
             .activityImage(NotifierEnum.AUTHOR_ICON.getValue())
             .facts(fieldList)
-            .images(imagesList)
+            .images(Collections.singletonList(image))
             .build();
-
-        List<Section> sectionList = new ArrayList<>();
-
-        sectionList.add(section);
 
         String webhookUri = System.getProperty("selcukes.teams.hooksUrl");
         MicrosoftTeamsCard teamsCard = MicrosoftTeamsCard.builder()
@@ -81,7 +75,7 @@ public class MicrosoftTeamsBuilder {
             .themeColor(NotifierHelper.getThemeColor(scenarioStatus))
             .title(NotifierEnum.PRETEXT.getValue())
             .text(" ")
-            .sections(sectionList)
+            .sections(Collections.singletonList(section))
             .build();
 
         HttpClient client = IncomingWebHookRequest.forUrl(webhookUri);
