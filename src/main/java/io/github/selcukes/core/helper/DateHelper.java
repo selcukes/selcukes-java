@@ -16,9 +16,10 @@
 
 package io.github.selcukes.core.helper;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class DateHelper {
@@ -29,7 +30,7 @@ public class DateHelper {
 
     private final LocalDate localDate;
 
-    private LocalDateTime localDateTime;
+    private final LocalDateTime localDateTime;
 
 
     public DateHelper() {
@@ -59,8 +60,18 @@ public class DateHelper {
     }
 
     public String timeStamp(long date) {
-        this.localDateTime = new Timestamp(date).toLocalDateTime();
-        return timeStamp();
+
+        return timeStamp(date, TIMESTAMP_FORMAT);
+    }
+
+    public String timeStamp(long date, String dateFormat) {
+
+        return setTimeStampDateFormat(dateFormat).format(Instant.ofEpochMilli(date));
+    }
+
+    public DateTimeFormatter setTimeStampDateFormat(String dateFormat) {
+        ZoneId zone = ZoneId.systemDefault();
+        return setDateFormat(dateFormat).withZone(zone);
     }
 
     public String futureDate(int noOfDays) {

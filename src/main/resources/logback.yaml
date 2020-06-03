@@ -2,7 +2,7 @@
 handlers: java.util.logging.FileHandler, java.util.logging.ConsoleHandler
 
 #.level: INFO
-.level: ALL
+.level: FINE
 
 # Default file output is in user's home directory.
 java.util.logging.FileHandler.pattern : selcukes.log
@@ -16,6 +16,6 @@ java.util.logging.ConsoleHandler.level : FINE
 #java.util.logging.ConsoleHandler.formatter : java.util.logging.SimpleFormatter
 java.util.logging.ConsoleHandler.formatter : io.github.selcukes.core.logging.SelcukesLoggerFormatter
 
-# For example, set the io.github.selcukes.core logger to only log SEVERE
-com.test.level : INFO
+# For example, set the io.github.selcukes logger to only log SEVERE
+io.github.selcukes.level : SEVERE
 
