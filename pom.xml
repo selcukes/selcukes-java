@@ -6,7 +6,7 @@
 
     <groupId>io.github.selcukes</groupId>
     <artifactId>selcukes-core</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <name>selcukes-core</name>
     <description>selcukes-core</description>
@@ -75,18 +75,13 @@
     </distributionManagement>
 
     <dependencies>
-        <!-- Libraries for testing -->
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons.io.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -115,6 +110,12 @@
             <version>${apache-httpcomponents.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <profiles>
