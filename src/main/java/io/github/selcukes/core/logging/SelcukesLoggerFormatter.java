@@ -16,19 +16,19 @@
 
 package io.github.selcukes.core.logging;
 
+import io.github.selcukes.core.helper.DateHelper;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
-import static io.github.selcukes.core.helper.DateHelper.getSimpleDateFormat;
 
 public class SelcukesLoggerFormatter extends Formatter {
 
     public String format(LogRecord record) {
         StringBuilder builder = new StringBuilder(1000);
-        builder.append(getSimpleDateFormat().format(new Date(record.getMillis()))).append(" - ");
+        builder.append(DateHelper.get().timeStamp(record.getMillis())).append(" - ");
         builder.append("[").append(getLevel(record)).append("] - ");
         builder.append("[").append(record.getSourceClassName()).append(".");
         builder.append(record.getSourceMethodName()).append(":").append(getLineNumber(record)).append("] - ");

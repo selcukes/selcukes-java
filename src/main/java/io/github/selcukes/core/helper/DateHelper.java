@@ -16,39 +16,59 @@
 
 package io.github.selcukes.core.helper;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.text.SimpleDateFormat;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@Getter
-@Setter
-@Builder
 public class DateHelper {
-    private static final String DEFAULT_DATE_PATTERN = "ddMMMyyyy-hh-mm-ss";
-    @Builder.Default
-    private DateTimeFormatter dtf = DateTimeFormatter.ofPattern(DEFAULT_DATE_PATTERN);
-    @Builder.Default
-    private LocalDate localDate = LocalDate.now();
-    @Builder.Default
-    private LocalDateTime localDateTime = LocalDateTime.now();
+    public final String DEFAULT_DATE_PATTERN = "ddMMMyyyy-hh-mm-ss";
+    public final String TIMESTAMP_FORMAT = "dd/MM/yyyy hh:mm:ss.SSS";
 
-    public String getDateTime() {
+    private DateTimeFormatter dtf;
+
+    private final LocalDate localDate;
+
+    private LocalDateTime localDateTime;
+
+
+    public DateHelper() {
+        this.localDateTime = LocalDateTime.now();
+        this.localDate = LocalDate.now();
+        this.dtf = setDateFormat(DEFAULT_DATE_PATTERN);
+    }
+
+    public static DateHelper get() {
+        return new DateHelper();
+    }
+
+    public DateTimeFormatter setDateFormat(String dateFormat) {
+        return DateTimeFormatter.ofPattern(dateFormat);
+    }
+
+    public String dateTime() {
         return localDateTime.format(dtf);
     }
 
-    public String getFutureDate(int noOfDays) {
+    public String date() {
+        return localDate.format(dtf);
+    }
+
+    public String timeStamp() {
+        return localDateTime.format(setDateFormat(TIMESTAMP_FORMAT));
+    }
+
+    public String timeStamp(long date) {
+        this.localDateTime = new Timestamp(date).toLocalDateTime();
+        return timeStamp();
+    }
+
+    public String futureDate(int noOfDays) {
         return localDate.plusDays(noOfDays).toString();
     }
 
-    public String getPastDate(int noOfDays) {
+    public String pastDate(int noOfDays) {
         return localDate.minusDays(noOfDays).toString();
     }
-    public static SimpleDateFormat getSimpleDateFormat() {
-        return new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
-    }
+
 }

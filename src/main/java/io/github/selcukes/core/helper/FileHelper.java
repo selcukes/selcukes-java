@@ -17,6 +17,7 @@
 package io.github.selcukes.core.helper;
 
 
+import io.github.selcukes.core.exception.SelcukesException;
 import io.github.selcukes.core.exception.WebDriverBinaryException;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
@@ -89,11 +90,12 @@ public class FileHelper {
         }
     }
 
-    public static void deleteFilesInDirectory(File dirName) throws IOException {
+    public static void deleteFilesInDirectory(File dirName) {
         try {
             FileUtils.cleanDirectory(dirName);
         } catch (IOException e) {
-            throw new IOException("\"" + dirName + "\" is not a directory or a file to delete.", e);
+            logger.error(e::getMessage);
+            throw new SelcukesException("\"" + dirName + "\" is not a directory or a file to delete.", e);
         }
     }
 
@@ -101,9 +103,10 @@ public class FileHelper {
         if (fileName.exists())
             FileUtils.deleteQuietly(fileName);
     }
-    public static void renameFile(File from, File to){
+
+    public static void renameFile(File from, File to) {
         if (!from.renameTo(to)) {
-            logger.error(() ->"Failed to rename " + from + " to " + to);
+            throw new SelcukesException("Failed to rename " + from + " to " + to);
         }
     }
 
