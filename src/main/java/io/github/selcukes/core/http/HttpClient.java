@@ -58,7 +58,7 @@ public class HttpClient implements Closeable {
         this.httpClient = createDefaultHttpClient();
         this.mapper = new ObjectMapper();
     }
-    
+
     public HttpClient(String url, String proxy) {
         this.webHookUrl = url;
         this.proxy = proxy;

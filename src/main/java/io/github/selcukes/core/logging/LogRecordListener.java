@@ -16,20 +16,26 @@
 
 package io.github.selcukes.core.logging;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.logging.Level;
 import java.util.logging.LogRecord;
+import java.util.stream.Stream;
 
 public final class LogRecordListener {
 
-    private final ConcurrentLinkedDeque<LogRecord> logRecords = new ConcurrentLinkedDeque<>();
+    private final ThreadLocal<List<LogRecord>> logRecords = ThreadLocal.withInitial(ArrayList::new);
+
 
     void logRecordSubmitted(LogRecord logRecord) {
-        logRecords.add(logRecord);
+        this.logRecords.get().add(logRecord);
     }
 
-    public List<LogRecord> getLogRecords() {
-        return Arrays.asList(logRecords.toArray(new LogRecord[0]));
+    public Stream<LogRecord> getLogStream() {
+        return this.logRecords.get().stream();
+    }
+
+    public Stream<LogRecord> getLogStream(Level level) {
+        return getLogStream().filter(logRecord -> logRecord.getLevel() == level);
     }
 }
