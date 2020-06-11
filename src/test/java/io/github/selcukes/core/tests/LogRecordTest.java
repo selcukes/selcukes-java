@@ -51,7 +51,7 @@ public class LogRecordTest {
         logger.config(() -> "Config");
         logger.trace(() -> "Trace");
         logger.warn(() -> "This is sample warn");
-        List<String> warnResult =logRecordListener.getLogStream(Level.SEVERE).map(LogRecord::getMessage).collect(Collectors.toList());
+        List<String> warnResult =logRecordListener.getLogStream(Level.WARNING).map(LogRecord::getMessage).collect(Collectors.toList());
         warnResult.forEach(System.out::println);
 
     }
