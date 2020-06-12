@@ -71,7 +71,7 @@ public class HttpClient implements Closeable {
     }
 
     public String post(Object payload) {
-        String message = null;
+        String message;
         try {
             message = mapper.writeValueAsString(payload);
         } catch (JsonProcessingException e) {

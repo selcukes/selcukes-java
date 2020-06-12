@@ -36,11 +36,11 @@ import java.util.Set;
 
 @UtilityClass
 public class FileHelper {
-    private static Logger logger = LoggerFactory.getLogger(FileHelper.class);
-    protected static final String SUPPORT_FOLDER = "support";
-    public static final String RESOURCE_SEPARATOR = "/";
+    private final Logger logger = LoggerFactory.getLogger(FileHelper.class);
+    protected final String SUPPORT_FOLDER = "support";
+    public final String RESOURCE_SEPARATOR = "/";
 
-    public static String driversFolder(String path) {
+    public String driversFolder(String path) {
         File file = new File(path);
         for (String item : Objects.requireNonNull(file.list())) {
 
@@ -51,7 +51,7 @@ public class FileHelper {
         return driversFolder(file.getParent());
     }
 
-    public static void setFileExecutable(String fileName) {
+    public void setFileExecutable(String fileName) {
         try {
             final Path filepath = Paths.get(fileName);
             final Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(filepath);
@@ -63,7 +63,7 @@ public class FileHelper {
         }
     }
 
-    public static String systemFilePath(String filePath) {
+    public String systemFilePath(String filePath) {
         String fileSeparator = System.getProperty("file.separator");
 
         if (StringUtils.isNotBlank(fileSeparator) && "\\".equals(fileSeparator)) {
@@ -79,7 +79,7 @@ public class FileHelper {
         return filePath;
     }
 
-    public static void createDirectory(File dirName) {
+    public void createDirectory(File dirName) {
         boolean dirExists = dirName.exists();
         if (!dirExists) {
             logger.debug(() -> "Creating directory: " + dirName.getName());
@@ -90,7 +90,7 @@ public class FileHelper {
         }
     }
 
-    public static void deleteFilesInDirectory(File dirName) {
+    public void deleteFilesInDirectory(File dirName) {
         try {
             FileUtils.cleanDirectory(dirName);
         } catch (IOException e) {
@@ -99,12 +99,12 @@ public class FileHelper {
         }
     }
 
-    public static void deleteFile(File fileName) {
+    public void deleteFile(File fileName) {
         if (fileName.exists())
             FileUtils.deleteQuietly(fileName);
     }
 
-    public static void renameFile(File from, File to) {
+    public void renameFile(File from, File to) {
         if (!from.renameTo(to)) {
             throw new SelcukesException("Failed to rename " + from + " to " + to);
         }

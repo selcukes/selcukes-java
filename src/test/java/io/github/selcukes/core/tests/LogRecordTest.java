@@ -17,6 +17,7 @@
 package io.github.selcukes.core.tests;
 
 import io.github.selcukes.core.config.ConfigFactory;
+import io.github.selcukes.core.helper.ExceptionHelper;
 import io.github.selcukes.core.logging.LogRecordListener;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
@@ -65,5 +66,14 @@ public class LogRecordTest {
 
         System.out.println(infoLogs);
 
+    }
+
+    @Test
+    private void exceptionTest() {
+        try {
+            throw new Exception("This is sample exception");
+        } catch (Exception exception) {
+            logger.error(() -> ExceptionHelper.getExceptionTitle(exception));
+        }
     }
 }

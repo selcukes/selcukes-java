@@ -21,6 +21,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.github.selcukes.core.exception.ConfigurationException;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
+import lombok.experimental.UtilityClass;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,18 +30,14 @@ import java.io.InputStream;
 import java.util.Objects;
 import java.util.logging.LogManager;
 
-
+@UtilityClass
 public class ConfigFactory {
-    private static final Logger logger = LoggerFactory.getLogger(ConfigFactory.class);
-    private static final String DEFAULT_CONFIG_FILE = "selcukes.yaml";
-    private static final String DEFAULT_LOG_BACK_FILE = "logback.yaml";
-    private static final String CONFIG_FILE = "config.properties";
+    private final Logger logger = LoggerFactory.getLogger(ConfigFactory.class);
+    private final String DEFAULT_CONFIG_FILE = "selcukes.yaml";
+    private final String DEFAULT_LOG_BACK_FILE = "logback.yaml";
+    private final String CONFIG_FILE = "config.properties";
 
-    private ConfigFactory() {
-
-    }
-
-    public static Environment getConfig() {
+    public Environment getConfig() {
         try {
             ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
             File defaultConfigFile = new File(Objects.requireNonNull(ConfigFactory.class.getClassLoader().getResource(DEFAULT_CONFIG_FILE)).getFile());
@@ -50,7 +47,7 @@ public class ConfigFactory {
         }
     }
 
-    public static void loadLoggerProperties() {
+    public void loadLoggerProperties() {
         InputStream inputStream = ConfigFactory.class.getClassLoader().getResourceAsStream(DEFAULT_LOG_BACK_FILE);
         try {
             if (inputStream != null)
@@ -60,7 +57,7 @@ public class ConfigFactory {
         }
     }
 
-    public static InputStream getStream() {
+    public InputStream getStream() {
         try {
             logger.config(() -> String.format("Attempting to read %s as resource.", CONFIG_FILE));
             InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(CONFIG_FILE);

@@ -17,9 +17,8 @@
 package io.github.selcukes.core.logging;
 
 import io.github.selcukes.core.helper.DateHelper;
+import io.github.selcukes.core.helper.ExceptionHelper;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
@@ -33,11 +32,9 @@ public class SelcukesLoggerFormatter extends Formatter {
         builder.append("[").append(record.getSourceClassName()).append(".");
         builder.append(record.getSourceMethodName()).append(":").append(getLineNumber(record)).append("] - ");
         builder.append(formatMessage(record));
-        Throwable ex = record.getThrown();
-        if (null != ex) {
-            StringWriter sw = new StringWriter();
-            ex.printStackTrace(new PrintWriter(sw));
-            builder.append('\n').append(sw.toString());
+        Throwable throwable = record.getThrown();
+        if (null != throwable) {
+            builder.append('\n').append(ExceptionHelper.getStackTrace(throwable));
         }
         builder.append("\n");
 

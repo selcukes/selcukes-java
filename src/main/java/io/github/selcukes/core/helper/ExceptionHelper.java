@@ -19,16 +19,40 @@ package io.github.selcukes.core.helper;
 
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
+import lombok.experimental.UtilityClass;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+@UtilityClass
 public class ExceptionHelper {
-    private ExceptionHelper()
-    {
 
-    }
-    private static Logger logger = LoggerFactory.getLogger(ExceptionHelper.class);
+    private final Logger logger = LoggerFactory.getLogger(ExceptionHelper.class);
 
-    public static <T> T rethrow(Exception e) {
+    public <T> T rethrow(Exception e) {
         logger.error(() -> "Rethrow exception: " + e.getClass().getName() + e.getMessage());
         throw new IllegalStateException(e);
+    }
+
+    public String getStackTrace(Throwable throwable) {
+        if (throwable == null)
+            return null;
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        throwable.printStackTrace(pw);
+        return sw.toString();
+    }
+
+    public String getExceptionTitle(Throwable throwable) {
+        Pattern pattern = Pattern.compile("([\\w\\.]+)(:.*)?");
+        String stackTrace = getStackTrace(throwable);
+        Matcher matcher = pattern.matcher(stackTrace);
+
+        if (matcher.find())
+            return matcher.group(1);
+
+        return null;
     }
 }

@@ -40,15 +40,14 @@ public class Shell {
             }
 
         } catch (IOException e) {
-            logger.error(() -> "There was a problem executing command : " + command);
-            throw new CommandException(e.getMessage());
+            logger.error(e, () -> "There was a problem executing command : " + command);
+            throw new CommandException(e);
         }
         return process;
     }
 
-    public String getPID() {
-        String firstSubString = process.toString().split(",")[0];
-        String pid = firstSubString.split("=")[1];
+    public String getPid() {
+        String pid = process.toString().split(",")[0].split("=")[1];
         logger.debug(() -> "Process Id: " + pid);
         return pid;
     }

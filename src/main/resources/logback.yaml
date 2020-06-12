@@ -17,5 +17,5 @@ java.util.logging.ConsoleHandler.level : FINE
 java.util.logging.ConsoleHandler.formatter : io.github.selcukes.core.logging.SelcukesLoggerFormatter
 
 # For example, set the io.github.selcukes logger to only log SEVERE
-io.github.selcukes.level : SEVERE
+io.github.selcukes.level : FINE
 
