@@ -24,7 +24,6 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.stream.Collectors;
@@ -41,24 +40,29 @@ public class LogRecordTest {
     }
 
     @AfterTest
-    public void tearDown(){
+    public void tearDown() {
         LoggerFactory.removeListener(logRecordListener);
     }
 
     @Test
-    public void testLogRecords()
-    {
+    public void testLogRecords() {
         logger.info(() -> "Test Started...");
-        logger.warn(() -> "Warn");
+        logger.warn(() -> "This is sample warning!");
         logger.info(() -> "Login Successful...");
-        logger.error(() -> "Error");
-        logger.trace(() -> "Trace");
+        logger.error(() -> "This is sample error message");
+        logger.debug(() -> "This is sample debug statement");
         logger.info(() -> "Test Completed...");
 
-        String allLogs =logRecordListener.getLogStream().map(LogRecord::getMessage).collect(Collectors.joining("\n  --> ", "\n--ALL Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
+        String allLogs = logRecordListener.getLogStream()
+            .map(LogRecord::getMessage)
+            .collect(Collectors.joining("\n  --> ", "\n--ALL Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
+
         System.out.println(allLogs);
 
-        String infoLogs =logRecordListener.getLogStream(Level.INFO).map(LogRecord::getMessage).collect(Collectors.joining("\n  --> ", "\n--Info Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
+        String infoLogs = logRecordListener.getLogStream(Level.INFO)
+            .map(LogRecord::getMessage)
+            .collect(Collectors.joining("\n  --> ", "\n--Info Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
+
         System.out.println(infoLogs);
 
     }
