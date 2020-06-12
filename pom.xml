@@ -176,6 +176,8 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${maven-javadoc-plugin.version}</version>
                 <configuration>
+                    <!-- Javadoc fix for java 11+ -->
+                    <source>8</source>
                     <javadocVersion>${java.version}</javadocVersion>
                     <doclint>none</doclint>
                 </configuration>

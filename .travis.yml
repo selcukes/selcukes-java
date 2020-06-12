@@ -1,9 +1,15 @@
 language: java
-sudo: false
+os: linux
+dist: xenial
 
 cache:
   directories:
-  - "$HOME/.m2"
+    - "$HOME/.m2"
+
+addons:
+  sonarcloud:
+    organization: "selcukes"
+    token: $SONAR_TOKEN
 
 jobs:
   include:
@@ -20,15 +26,3 @@ jobs:
         - mvn clean jacoco:prepare-agent test jacoco:report coveralls:report
     - jdk: openjdk11
       script: mvn -q verify
-    
-
-
-addons:
-  sonarcloud:
-    organization: "selcukes"
-    token:
-      secure: $SONAR_TOKEN
-      
-branches:
-only:
-  - master
