@@ -1,13 +1,22 @@
 language: java
-sudo: false
+os: linux
+dist: xenial
 
 cache:
   directories:
     - "$HOME/.m2"
 
+services:
+  - xvfb
+
+addons:
+  chrome: stable
+  sonarcloud:
+    organization: "selcukes"
+    token: $SONAR_TOKEN
+
 jobs:
   include:
-
     # 1.1 Sonar check JDK 8
     - stage: test
       jdk: openjdk8
@@ -21,13 +30,3 @@ jobs:
         - mvn clean jacoco:prepare-agent test jacoco:report coveralls:report
     - jdk: openjdk11
       script: mvn -q verify
-
-addons:
-  sonarcloud:
-    organization: "selcukes"
-    token:
-      secure: $SONAR_TOKEN
-
-branches:
-only:
-  - master
