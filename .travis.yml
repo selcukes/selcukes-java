@@ -31,7 +31,7 @@ jobs:
 
 addons:
   sonarcloud:
-    organization: "selcukes"
+    organization: "selcukes-java"
     token:
       secure: $SONAR_TOKEN
       
