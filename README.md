@@ -2,7 +2,7 @@
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.selcukes/selcukes-reports.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.selcukes%22%20AND%20a:%22selcukes-reports%22)
 [![Build Status](https://travis-ci.org/selcukes/selcukes-reports.svg?branch=master)](https://travis-ci.org/selcukes/selcukes-reports)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/cdf367218d2045c1a0782d45d63e8187)](https://www.codacy.com/gh/selcukes/selcukes-reports?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=selcukes/selcukes-reports&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/b75cd866e64b4111a5ca7a076b8cca68)](https://www.codacy.com/gh/selcukes/selcukes-reports?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=selcukes/selcukes-reports&amp;utm_campaign=Badge_Grade)
 [![Vulnerability](https://sonarcloud.io/api/project_badges/measure?project=selcukes_selcukes-reports&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=selcukes_selcukes-reports)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=selcukes_selcukes-reports&metric=coverage)](https://sonarcloud.io/dashboard?id=selcukes_selcukes-reports)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=selcukes_selcukes-reports&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=selcukes_selcukes-reports)
