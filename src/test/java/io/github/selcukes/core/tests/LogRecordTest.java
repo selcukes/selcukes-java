@@ -16,6 +16,7 @@
 
 package io.github.selcukes.core.tests;
 
+import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.logging.LogRecordListener;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
@@ -34,6 +35,7 @@ public class LogRecordTest {
 
     @BeforeTest
     public void setup() {
+        ConfigFactory.loadLoggerProperties();
         logRecordListener = new LogRecordListener();
         LoggerFactory.addListener(logRecordListener);
     }
@@ -46,13 +48,18 @@ public class LogRecordTest {
     @Test
     public void testLogRecords()
     {
-        logger.error(() -> "Error");
+        logger.info(() -> "Test Started...");
         logger.warn(() -> "Warn");
-        logger.config(() -> "Config");
+        logger.info(() -> "Login Successful...");
+        logger.error(() -> "Error");
         logger.trace(() -> "Trace");
-        logger.warn(() -> "This is sample warn");
-        List<String> warnResult =logRecordListener.getLogStream(Level.WARNING).map(LogRecord::getMessage).collect(Collectors.toList());
-        warnResult.forEach(System.out::println);
+        logger.info(() -> "Test Completed...");
+
+        String allLogs =logRecordListener.getLogStream().map(LogRecord::getMessage).collect(Collectors.joining("\n  --> ", "\n--ALL Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
+        System.out.println(allLogs);
+
+        String infoLogs =logRecordListener.getLogStream(Level.INFO).map(LogRecord::getMessage).collect(Collectors.joining("\n  --> ", "\n--Info Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
+        System.out.println(infoLogs);
 
     }
 }
