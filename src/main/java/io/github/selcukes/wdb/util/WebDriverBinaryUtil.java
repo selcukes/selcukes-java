@@ -37,14 +37,16 @@ public class WebDriverBinaryUtil {
     private final Logger logger = LoggerFactory.getLogger(WebDriverBinaryUtil.class);
     private File binaryDownloadDirectory;
     private final boolean strictDownload;
+    private final boolean detectBrowser;
     private final BinaryFactory binaryFactory;
     private static final String WEBDRIVER = "webdriver";
 
 
-    public WebDriverBinaryUtil(BinaryFactory binaryFactory, String downloadLocation, boolean strictDownload) {
+    public WebDriverBinaryUtil(BinaryFactory binaryFactory, String downloadLocation, boolean strictDownload,boolean detectBrowser) {
         this.binaryFactory = binaryFactory;
         this.binaryDownloadDirectory = getBinaryDownloadDirectory(downloadLocation);
         this.strictDownload = strictDownload;
+        this.detectBrowser=detectBrowser;
     }
 
     private File getBinaryDownloadDirectory(String downloadLocation) {

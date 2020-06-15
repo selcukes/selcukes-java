@@ -26,6 +26,7 @@ import io.github.selcukes.wdb.util.WebDriverBinaryUtil;
 public class WebDriverBinary {
     private String downloadLocation = TempFileUtil.getTempDirectory();
     private boolean strictDownload = false;
+    private boolean detectBrowser = false;
     private BinaryFactory binaryFactory;
 
     public static synchronized Builder chromeDriver() {
@@ -89,10 +90,16 @@ public class WebDriverBinary {
             return this;
         }
 
+        public Builder detectBrowser() {
+            WebDriverBinary.this.detectBrowser = true;
+            return this;
+        }
+
         public BinaryInfo setup() {
             return new WebDriverBinaryUtil(WebDriverBinary.this.binaryFactory,
                 WebDriverBinary.this.downloadLocation,
-                WebDriverBinary.this.strictDownload).downloadAndSetupBinaryPath();
+                WebDriverBinary.this.strictDownload,
+                WebDriverBinary.this.detectBrowser).downloadAndSetupBinaryPath();
         }
     }
 
