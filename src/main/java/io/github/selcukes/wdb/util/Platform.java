@@ -48,6 +48,14 @@ public final class Platform {
         return null;
     }
 
+    public boolean isWindows() {
+        return getOS().contains("win");
+    }
+
+    public String getOS() {
+        return Objects.requireNonNull(getOSType()).name();
+    }
+
     public int getArchitecture() {
         return archType != 0 ? archType : getPlatformArch();
     }
@@ -58,6 +66,6 @@ public final class Platform {
     }
 
     public String getOsNameAndArch() {
-        return (Objects.requireNonNull(getOSType()).name() + getArchitecture()).toLowerCase();
+        return (getOS() + getArchitecture()).toLowerCase();
     }
 }

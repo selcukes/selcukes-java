@@ -18,17 +18,11 @@
 
 package io.github.selcukes.wdb;
 
-import io.github.selcukes.core.Shell;
 import io.github.selcukes.wdb.core.*;
 import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.util.TempFileUtil;
+import io.github.selcukes.wdb.util.VersionDetector;
 import io.github.selcukes.wdb.util.WebDriverBinaryUtil;
-import org.apache.commons.io.IOUtils;
-
-import java.io.IOException;
-import java.util.List;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class WebDriverBinary {
     private String downloadLocation = TempFileUtil.getTempDirectory();
@@ -97,7 +91,7 @@ public class WebDriverBinary {
         }
 
         public Builder autoDetectBrowserVersion() {
-            String localBrowserVersion = getBrowserVersionFromRegistry("reg query \"HKEY_CURRENT_USER\\Software\\Google\\Chrome\\BLBeacon\" /v version");
+            String localBrowserVersion = new VersionDetector(binaryFactory.getBinaryDriverName()).getVersion();
             binaryFactory.setVersion(localBrowserVersion);
             return this;
         }
@@ -109,22 +103,5 @@ public class WebDriverBinary {
         }
     }
 
-
-    public String getBrowserVersionFromRegistry(String regQuery) {
-        Shell shell = new Shell();
-        Process process = shell.run(regQuery);
-        List<String> lines = null;
-        String versionNumber = null;
-        try {
-            lines = IOUtils.readLines(process.getInputStream(), UTF_8);
-            String[] words = lines.get(2).split(" ");
-            versionNumber = words[words.length - 1];
-            System.out.println("Version Number: " + versionNumber);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return versionNumber;
-    }
 
 }
