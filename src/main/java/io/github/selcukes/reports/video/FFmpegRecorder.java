@@ -18,7 +18,7 @@
 
 package io.github.selcukes.reports.video;
 
-import io.github.selcukes.core.CommandExecutor;
+import io.github.selcukes.core.Shell;
 import io.github.selcukes.core.helper.DateHelper;
 import io.github.selcukes.core.helper.FileHelper;
 import io.github.selcukes.core.logging.Logger;
@@ -26,19 +26,23 @@ import io.github.selcukes.core.logging.LoggerFactory;
 
 import java.awt.*;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.concurrent.TimeUnit;
 
 public class FFmpegRecorder extends AbstractRecorder {
-    final Logger logger = LoggerFactory.getLogger(FFmpegRecorder.class);
+    private static final Logger logger = LoggerFactory.getLogger(FFmpegRecorder.class);
     private Process process;
     private static final String FFMPEG = "ffmpeg";
     private static final String EXTENSION = ".mp4";
     private final VideoConfig videoConfig;
     private File videoFile;
-    private final CommandExecutor executor;
+    private final Shell shell;
     private File tempFile;
 
     public FFmpegRecorder() {
-        executor = new CommandExecutor();
+        shell = new Shell();
         this.videoConfig = conf();
     }
 
@@ -61,7 +65,7 @@ public class FFmpegRecorder extends AbstractRecorder {
             tempFile.getAbsolutePath();
 
         logger.info(() -> "Recording video started to " + tempFile.getAbsolutePath());
-        process = executor.run(cmdline);
+        process = shell.run(cmdline);
         logger.info(() -> "Started ffmpeg...");
     }
 
@@ -71,9 +75,10 @@ public class FFmpegRecorder extends AbstractRecorder {
     @Override
     public File stopAndSave(String filename) {
         String kill = "SendSignalCtrlC.exe " + getPid(process);
-        executor.run(kill);
+        shell.run(kill);
         logger.info(() -> "Killing ffmpeg...");
-        videoFile = tempFile;
+        videoFile = getFile(filename);
+        waitAndRenameFile(tempFile.toPath(),videoFile.toPath(),10);
         logger.info(() -> "Recording finished to " + videoFile.getAbsolutePath());
         return videoFile;
     }
@@ -112,6 +117,21 @@ public class FFmpegRecorder extends AbstractRecorder {
         File movieFolder = new File(videoConfig.getVideoFolder());
         FileHelper.createDirectory(movieFolder);
         return movieFolder;
+    }
+
+    public static void waitAndRenameFile(Path source, Path destination, int maxTimeout) {
+
+        int timeout = 1;
+        do {
+            int finalTimeout = timeout;
+            logger.debug(()->"Waiting for file to be renamed ..." + finalTimeout);
+            try {
+                TimeUnit.SECONDS.sleep(timeout++);
+                Files.move(source, destination, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+            } catch (Exception ignored) {
+
+            }
+        } while (!Files.isReadable(destination) && timeout<=maxTimeout);
     }
 
 }

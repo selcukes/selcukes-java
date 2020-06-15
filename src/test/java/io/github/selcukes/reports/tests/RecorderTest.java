@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- */
+ *//*
+
 
 package io.github.selcukes.reports.tests;
 
@@ -45,29 +46,20 @@ public class RecorderTest {
         WebDriverBinary.chromeDriver().setup();
         driver = new ChromeDriver();
         recorder = new FFmpegRecorder();
-
+        recorder.start();
     }
 
     @Test
     public void loginTest() {
-        recorder.start();
+
         driver.get("http://www.princexml.com/samples/");
         logger.debug(driver::getTitle);
         Assert.assertTrue(driver.findElement(By.xpath("//a[contains(@href,'dictionary.pdf')]")).isDisplayed());
         driver.findElement(By.xpath("//a[contains(@href,'dictionary.pdf')]")).click();
         Assert.assertTrue(driver.getCurrentUrl().contains(".pdf"));
-        recorder.stopAndSave("SampleTest");
+
     }
-    @Test
-    public void loginTest1() {
-        recorder.start();
-        driver.get("http://www.princexml.com/samples/");
-        logger.debug(driver::getTitle);
-        Assert.assertTrue(driver.findElement(By.xpath("//a[contains(@href,'dictionary.pdf')]")).isDisplayed());
-        driver.findElement(By.xpath("//a[contains(@href,'dictionary.pdf')]")).click();
-        Assert.assertTrue(driver.getCurrentUrl().contains(".pdf"));
-        recorder.stopAndSave("SampleTest");
-    }
+
     public void notificationTest() {
         System.setProperty("selcukes.teams.hooksUrl", "");
         Notifier notifier = new MicrosoftTeams();
@@ -77,6 +69,8 @@ public class RecorderTest {
     @AfterClass
     public void afterClass() {
         driver.quit();
+        recorder.stopAndSave("SampleTest");
 
     }
 }
+*/

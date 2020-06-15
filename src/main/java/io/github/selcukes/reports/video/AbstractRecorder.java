@@ -22,10 +22,8 @@ import java.io.File;
 
 public abstract class AbstractRecorder implements Recorder {
     public static VideoConfig conf() {
-
-        VideoConfig vc= VideoConfig.builder()
-                .build();
-        return vc;
+        return VideoConfig.builder()
+            .build();
     }
 
     private static File lastVideo;
