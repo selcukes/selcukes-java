@@ -20,7 +20,6 @@ package io.github.selcukes.reports.notification.teams;
 
 import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.helper.DateHelper;
-import io.github.selcukes.core.http.HttpClient;
 import io.github.selcukes.reports.notification.IncomingWebHookRequest;
 import io.github.selcukes.reports.notification.NotifierEnum;
 import io.github.selcukes.reports.notification.NotifierHelper;
@@ -78,8 +77,8 @@ public class MicrosoftTeamsBuilder {
             .sections(Collections.singletonList(section))
             .build();
 
-        HttpClient client = IncomingWebHookRequest.forUrl(webhookUri);
-        client.post(teamsCard);
+        IncomingWebHookRequest.forUrl(webhookUri)
+            .post(teamsCard);
 
     }
 

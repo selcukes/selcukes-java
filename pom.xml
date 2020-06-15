@@ -18,7 +18,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
-        <selcukes-core.version>0.0.3</selcukes-core.version>
+        <selcukes-core.version>1.0.0</selcukes-core.version>
         <testng.version>7.0.0</testng.version>
         <cucumber-reporting.version>5.2.0</cucumber-reporting.version>
         <recorder.version>0.7.7.0</recorder.version>
@@ -152,12 +152,6 @@
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpmime</artifactId>
-            <version>${apache-httpcomponents.version}</version>
         </dependency>
 
         <dependency>

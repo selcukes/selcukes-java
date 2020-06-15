@@ -19,7 +19,6 @@
 package io.github.selcukes.reports.notification.slack;
 
 import io.github.selcukes.core.config.ConfigFactory;
-import io.github.selcukes.core.http.HttpClient;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.reports.notification.IncomingWebHookRequest;
@@ -77,8 +76,8 @@ public class SlackMessageBuilder {
         SlackMessage slackMessage = SlackMessage.builder()
             .attachments(Collections.singletonList(attachment)).build();
 
-        HttpClient client = IncomingWebHookRequest.forUrl(getSlackWebHookUrl());
-        client.post(slackMessage);
+        IncomingWebHookRequest.forUrl(getSlackWebHookUrl())
+            .post(slackMessage);
     }
 
     private String getSlackWebHookUrl() {
