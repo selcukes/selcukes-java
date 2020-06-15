@@ -53,6 +53,26 @@ abstract class AbstractBinary implements BinaryFactory {
     }
 
 
+    @Override
+    public void setVersion(String version) {
+        this.release = Optional.ofNullable(version);
+    }
+
+    @Override
+    public void setTargetArch(TargetArch targetArch) {
+        this.targetArch = Optional.ofNullable(targetArch);
+    }
+
+    public Optional<TargetArch> getTargetArch() {
+        return this.targetArch;
+    }
+
+    @Override
+    public void setProxy(String proxy) {
+        this.proxyUrl = Optional.ofNullable(proxy);
+    }
+
+
     protected abstract String getLatestRelease();
 
     protected String getProxy() {
@@ -93,32 +113,14 @@ abstract class AbstractBinary implements BinaryFactory {
             versions.sort(new VersionComparator());
 
             String version = versions.get(versions.size() - 1);
-            latestVersionUrl = unwrap(versionMap.entrySet().stream().filter(map -> map.getValue().contains(version)).findFirst()).getValue();
+            latestVersionUrl = unwrap(versionMap.entrySet().stream()
+                .filter(map -> map.getValue().contains(version)).findFirst()).getValue();
 
             return version;
 
         } catch (Exception e) {
             throw new WebDriverBinaryException(e);
         }
-    }
-
-    @Override
-    public void setVersion(String version) {
-        this.release = Optional.ofNullable(version);
-    }
-
-    @Override
-    public void setTargetArch(TargetArch targetArch) {
-        this.targetArch = Optional.ofNullable(targetArch);
-    }
-
-    public Optional<TargetArch> getTargetArch() {
-        return this.targetArch;
-    }
-
-    @Override
-    public void setProxy(String proxy) {
-        this.proxyUrl = Optional.ofNullable(proxy);
     }
 
 }

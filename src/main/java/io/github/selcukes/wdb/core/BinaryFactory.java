@@ -68,6 +68,4 @@ public interface BinaryFactory {
 
     void setProxy(String proxy);
 
-    String getBrowserVersion();
-
 }

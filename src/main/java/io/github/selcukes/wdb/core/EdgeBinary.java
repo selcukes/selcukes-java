@@ -64,11 +64,6 @@ public class EdgeBinary extends AbstractBinary {
     }
 
     @Override
-    public String getBrowserVersion() {
-        return null;
-    }
-
-    @Override
     protected String getLatestRelease() {
         List<String> versionNumbers = new ArrayList<>();
         String latestVersion;

@@ -26,7 +26,6 @@ import io.github.selcukes.wdb.BinaryInfo;
 import io.github.selcukes.wdb.core.BinaryFactory;
 import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.OSType;
-
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -37,16 +36,15 @@ public class WebDriverBinaryUtil {
     private final Logger logger = LoggerFactory.getLogger(WebDriverBinaryUtil.class);
     private File binaryDownloadDirectory;
     private final boolean strictDownload;
-    private final boolean detectBrowser;
     private final BinaryFactory binaryFactory;
     private static final String WEBDRIVER = "webdriver";
 
 
-    public WebDriverBinaryUtil(BinaryFactory binaryFactory, String downloadLocation, boolean strictDownload,boolean detectBrowser) {
+    public WebDriverBinaryUtil(BinaryFactory binaryFactory, String downloadLocation, boolean strictDownload) {
         this.binaryFactory = binaryFactory;
         this.binaryDownloadDirectory = getBinaryDownloadDirectory(downloadLocation);
         this.strictDownload = strictDownload;
-        this.detectBrowser=detectBrowser;
+
     }
 
     private File getBinaryDownloadDirectory(String downloadLocation) {
@@ -113,4 +111,5 @@ public class WebDriverBinaryUtil {
         System.setProperty(binaryPropertyName.toString(), getWebDriverBinary().getAbsolutePath());
         return binaryPropertyName.toString();
     }
+
 }

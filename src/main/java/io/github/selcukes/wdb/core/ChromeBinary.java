@@ -19,13 +19,12 @@
 package io.github.selcukes.wdb.core;
 
 import io.github.selcukes.core.exception.WebDriverBinaryException;
-import io.github.selcukes.wdb.util.UrlHelper;
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.enums.OSType;
 import io.github.selcukes.wdb.enums.TargetArch;
-
 import io.github.selcukes.wdb.util.BinaryDownloadUtil;
 import io.github.selcukes.wdb.util.Platform;
+import io.github.selcukes.wdb.util.UrlHelper;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -68,12 +67,6 @@ public class ChromeBinary extends AbstractBinary {
     @Override
     public DriverType getDriverType() {
         return DriverType.CHROME;
-    }
-
-    @Override
-    public String getBrowserVersion() {
-
-        return null;
     }
 
     @Override
