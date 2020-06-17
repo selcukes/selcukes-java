@@ -47,7 +47,7 @@ import java.util.Optional;
 public class HttpClient implements Closeable {
     private final Logger logger = LoggerFactory.getLogger(HttpClient.class);
     private static final String APPLICATION_JSON = "application/json";
-    private final CloseableHttpClient httpClient;
+    private final CloseableHttpClient client;
     private final ObjectMapper mapper;
     private HttpEntity httpEntity;
     private final String webHookUrl;
@@ -55,14 +55,14 @@ public class HttpClient implements Closeable {
 
     public HttpClient(String webHookUrl) {
         this.webHookUrl = webHookUrl;
-        this.httpClient = createDefaultHttpClient();
+        this.client = createDefaultHttpClient();
         this.mapper = new ObjectMapper();
     }
 
     public HttpClient(String url, String proxy) {
         this.webHookUrl = url;
         this.proxy = proxy;
-        this.httpClient = createHttpClient();
+        this.client = createHttpClient();
         this.mapper = new ObjectMapper();
     }
 
@@ -77,7 +77,7 @@ public class HttpClient implements Closeable {
         } catch (JsonProcessingException e) {
             throw new SelcukesException(e);
         }
-        return execute(httpClient, webHookUrl, createHttpEntity(message));
+        return execute(client, webHookUrl, createHttpEntity(message));
     }
 
     private HttpEntity createHttpEntity(String message) {
@@ -90,7 +90,7 @@ public class HttpClient implements Closeable {
     }
 
     public String post(FileBody fileBody) {
-        return execute(httpClient, webHookUrl, createMultipartEntityBuilder(fileBody));
+        return execute(client, webHookUrl, createMultipartEntityBuilder(fileBody));
     }
 
     private HttpEntity createMultipartEntityBuilder(FileBody fileBody) {
@@ -143,7 +143,7 @@ public class HttpClient implements Closeable {
 
     private CloseableHttpResponse getHttpResponse() {
         try {
-            return httpClient.execute(createHttpRequest());
+            return client.execute(createHttpRequest());
         } catch (IOException e) {
             throw new SelcukesException(e);
         }
@@ -188,6 +188,6 @@ public class HttpClient implements Closeable {
 
     @Override
     public void close() throws IOException {
-        this.httpClient.close();
+        this.client.close();
     }
 }

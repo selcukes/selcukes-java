@@ -50,7 +50,7 @@ public class Platform {
     }
 
     public boolean isLinux() {
-        return (osName.contains("nix") || osName.contains("nux") || osName.indexOf("aix") > 0);
+        return (osName.contains("nix") || osName.contains("nux"));
     }
 
     private int getPlatformArch() {

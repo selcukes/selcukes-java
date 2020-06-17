@@ -23,8 +23,8 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class DateHelper {
-    public final String DEFAULT_DATE_PATTERN = "ddMMMyyyy-hh-mm-ss";
-    public final String TIMESTAMP_FORMAT = "dd/MM/yyyy hh:mm:ss.SSS";
+    public static final String DEFAULT_DATE_PATTERN = "ddMMMyyyy-hh-mm-ss";
+    public static final String TIMESTAMP_FORMAT = "dd/MM/yyyy hh:mm:ss.SSS";
 
     private DateTimeFormatter dtf;
 

@@ -17,6 +17,7 @@
 package io.github.selcukes.core.commons.exec;
 
 import io.github.selcukes.core.exception.CommandException;
+import io.github.selcukes.core.helper.Preconditions;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,8 +25,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
-
-import io.github.selcukes.core.helper.Preconditions;
 
 /**
  * A simple thread based utility that consumes {@link InputStream} and provides the stream contents
@@ -49,8 +48,7 @@ public class StreamGuzzler implements Runnable {
     @Override
     public void run() {
         Preconditions.checkState(stream != null, "Cannot guzzle an empty/null stream.");
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 content.add(line);

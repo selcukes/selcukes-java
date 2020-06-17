@@ -29,7 +29,7 @@ import java.util.concurrent.Executors;
 public class Shell {
     private static final Logger logger = LoggerFactory.getLogger(Shell.class);
 
-    private static String pid;
+    private String pid;
 
     public ExecResults runCommand(String command) {
         ExecResults results;
