@@ -18,12 +18,11 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
-        <commons.io.version>2.6</commons.io.version>
-        <commons.lang>3.9</commons.lang>
+        <commons.io.version>2.7</commons.io.version>
         <testng.version>7.0.0</testng.version>
-        <lombok.version>1.18.10</lombok.version>
-        <jackson.version>2.10.1</jackson.version>
-        <apache-httpcomponents.version>4.5.11</apache-httpcomponents.version>
+        <lombok.version>1.18.12</lombok.version>
+        <jackson.version>2.11.0</jackson.version>
+        <apache-http.version>4.5.12</apache-http.version>
 
         <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
@@ -83,11 +82,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons.lang}</version>
-        </dependency>
-        <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
             <version>${jackson.version}</version>
@@ -107,7 +101,7 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
-            <version>${apache-httpcomponents.version}</version>
+            <version>${apache-http.version}</version>
         </dependency>
 
         <dependency>

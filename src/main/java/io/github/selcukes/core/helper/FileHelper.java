@@ -23,7 +23,6 @@ import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,7 +65,7 @@ public class FileHelper {
     public String systemFilePath(String filePath) {
         String fileSeparator = System.getProperty("file.separator");
 
-        if (StringUtils.isNotBlank(fileSeparator) && "\\".equals(fileSeparator)) {
+        if (!fileSeparator.isEmpty() && "\\".equals(fileSeparator)) {
             int beginIndex = 0;
 
             if (filePath.startsWith(RESOURCE_SEPARATOR)) {
@@ -114,7 +113,7 @@ public class FileHelper {
         try {
             return Files.createTempDirectory(null);
         } catch (IOException e) {
-            throw new SelcukesException("Unable to create temp directory: " , e);
+            throw new SelcukesException("Unable to create temp directory: ", e);
         }
     }
 }
