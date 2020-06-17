@@ -16,8 +16,7 @@
 
 package io.github.selcukes.core.logging;
 
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -26,8 +25,7 @@ import static java.util.Objects.requireNonNull;
 
 public final class LoggerFactory {
 
-    private static final Set<LogRecordListener> listeners = ConcurrentHashMap.newKeySet();
-
+    private static final ConcurrentLinkedDeque<LogRecordListener> listeners = new ConcurrentLinkedDeque<>();
 
     private LoggerFactory() {
 
