@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.core.wait;
+package io.github.selcukes.core.commons;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
@@ -82,20 +79,6 @@ public class Await {
             lock.unlock();
         }
 
-    }
-
-    public void renameFile(Path source, Path destination) {
-
-        int timeout = 1;
-        do {
-            System.out.println("Waiting for file to be renamed ..." + timeout);
-            try {
-                TimeUnit.SECONDS.sleep(timeout++);
-                Files.move(source, destination, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
-            } catch (Exception ignored) {
-
-            }
-        } while (!Files.isReadable(destination) && timeout <= maxTimeout);
     }
 
 }
