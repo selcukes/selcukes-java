@@ -110,5 +110,12 @@ public class FileHelper {
         }
     }
 
+    public Path createTempDirectory() {
+        try {
+            return Files.createTempDirectory(null);
+        } catch (IOException e) {
+            throw new SelcukesException("Unable to create temp directory: " , e);
+        }
+    }
 }
 

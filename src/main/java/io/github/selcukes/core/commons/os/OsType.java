@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.core.common.os;
+package io.github.selcukes.core.commons.os;
 
 public enum OsType {
     WIN,
