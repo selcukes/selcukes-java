@@ -16,6 +16,8 @@
 
 package io.github.selcukes.core.logging;
 
+import io.github.selcukes.core.helper.Preconditions;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -36,6 +38,11 @@ public final class LogRecordListener {
     }
 
     public Stream<LogRecord> getLogStream(Level level) {
+        Preconditions.checkNotNull(level, "Level must not be null");
         return getLogStream().filter(logRecord -> logRecord.getLevel() == level);
+    }
+
+    public void clear() {
+        this.logRecords.get().clear();
     }
 }
