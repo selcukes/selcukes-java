@@ -16,6 +16,7 @@
 
 package io.github.selcukes.core.commons.exec;
 
+import io.github.selcukes.core.commons.Await;
 import io.github.selcukes.core.exception.CommandException;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
@@ -24,7 +25,6 @@ import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class Shell {
     private static final Logger logger = LoggerFactory.getLogger(Shell.class);
@@ -39,7 +39,7 @@ public class Shell {
             process = new ProcessBuilder(command.split("\\s"))
                 .start();
             results = interactWithProcess(process);
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             logger.error(e, () -> "There was a problem executing command : " + command);
             throw new CommandException(e);
         } finally {
@@ -63,7 +63,7 @@ public class Shell {
         runCommand(killCommand);
     }
 
-    private ExecResults interactWithProcess(final Process process) throws InterruptedException {
+    private ExecResults interactWithProcess(final Process process) {
         extractPidOf(process);
         StreamGuzzler output = new StreamGuzzler(process.getInputStream());
         StreamGuzzler error = new StreamGuzzler(process.getErrorStream());
@@ -73,12 +73,13 @@ public class Shell {
         executors.shutdown();
         while (!executors.isTerminated()) {
             //Wait for all the tasks to complete.
-            TimeUnit.SECONDS.sleep(1);
+            Await.until(1);
         }
         return new ExecResults(output.getContent(), error.getContent(), process.exitValue());
     }
 
     public CompletableFuture<ExecResults> runCommandAsync(String command) {
+
         return CompletableFuture.supplyAsync(() -> runCommand(command));
     }
 }

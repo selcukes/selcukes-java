@@ -16,6 +16,8 @@
 
 package io.github.selcukes.core.commons;
 
+import io.github.selcukes.core.helper.ExceptionHelper;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
@@ -79,6 +81,14 @@ public class Await {
             lock.unlock();
         }
 
+    }
+
+    public static void until(int timeoutInSeconds) {
+        try {
+            TimeUnit.SECONDS.sleep(timeoutInSeconds);
+        } catch (InterruptedException e) {
+            ExceptionHelper.rethrow(e);
+        }
     }
 
 }
