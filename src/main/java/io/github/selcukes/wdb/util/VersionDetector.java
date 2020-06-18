@@ -51,18 +51,26 @@ public class VersionDetector {
         Optional<String> regQuery = Optional.empty();
 
         if (Platform.isWindows()) {
-            if (driverName.equalsIgnoreCase("chromedriver"))
-                regQuery = Optional.of("reg query \"HKEY_CURRENT_USER\\Software\\Google\\Chrome\\BLBeacon\" /v version");
-            else if (driverName.equalsIgnoreCase("IEDriverServer"))
-                regQuery = Optional.of("reg query \"HKLM\\Software\\Microsoft\\Internet Explorer\" /v Version");
-            else if (driverName.equalsIgnoreCase("geckodriver"))
-                regQuery = Optional.of("reg query \"HKLM\\Software\\Mozilla\\Mozilla Firefox\" /v CurrentVersion");
-            else
-                logger.error(() -> "Unable to detect Browser Version using Registry Key for " + driverName);
-        } else
-            logger.error(() -> "Unable to detect Browser Version using Registry Key for " + driverName + "and Os :" + Platform.getOsName());
+            regQuery = Optional.of(getRegQuery());
+        }
 
         return regQuery.map(this::getBrowserVersionFromRegistry).orElse(null);
+    }
+
+    private String getRegQuery() {
+        String regQuery = "reg query \"%s\" /v version";
+        String chKey = "HKEY_CURRENT_USER\\Software\\Google\\Chrome\\BLBeacon";
+        String ffKey = "HKLM\\Software\\Mozilla\\Mozilla Firefox";
+        String ieKey = "HKLM\\Software\\Microsoft\\Internet Explorer";
+        String key = null;
+        if (driverName.contains("chrome"))
+            key = chKey;
+        else if (driverName.contains("gecko"))
+            key = ffKey;
+        else if (driverName.contains("IE"))
+            key = ieKey;
+        else return null;
+        return String.format(regQuery, key);
     }
 
     private String getBrowserVersionFromRegistry(String regQuery) {
@@ -100,7 +108,7 @@ public class VersionDetector {
     }
 
     public String getCompatibleBinaryVersion(String browserVersion) {
-        logger.info(() -> "Identifying Compatible Binary Version for Browser " + browserVersion);
+        logger.info(() -> String.format("Identifying Compatible %s version for Chrome Browser [%s] ", driverName, browserVersion));
         List<String> versions = getVersionNumbers(this.binaryDownloadUrl, this.driverName + "_" + this.osNameAndArch);
 
         String browserVersionPrefix = browserVersion.split("\\.")[0];
@@ -113,7 +121,8 @@ public class VersionDetector {
             String nextVersion = versions.get(index + 1);
             version = nextVersion.startsWith(browserVersionPrefix) ? nextVersion : previousVersion;
         } else version = browserVersion;
-        logger.info(() -> String.format("[%s] is the compatible binary version for Chrome Browser [%s] ", version, browserVersion));
+
+        logger.info(() -> String.format("Using %s [%s] for Chrome Browser [%s] ", driverName, version, browserVersion));
         return version;
     }
 

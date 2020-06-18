@@ -19,10 +19,12 @@
 package io.github.selcukes.tests;
 
 
+import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.wdb.BinaryInfo;
 import io.github.selcukes.wdb.WebDriverBinary;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -33,6 +35,11 @@ import static org.testng.Assert.assertTrue;
 
 public class WebDriverBinaryTest {
     private final Logger logger = LoggerFactory.getLogger(WebDriverBinaryTest.class);
+
+    @BeforeTest
+    public void beforeTest() {
+        ConfigFactory.loadLoggerProperties();
+    }
 
     @Test
     public void chromeDriverTest() {
@@ -66,6 +73,7 @@ public class WebDriverBinaryTest {
         assertEquals("webdriver.edge.driver", binProp);
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
     }
+
     @Test
     public void operaDriverTest() {
 
@@ -81,7 +89,7 @@ public class WebDriverBinaryTest {
         String binaryPath = binaryInfo.getBinaryPath();
         File binaryFile = new File(binaryInfo.getBinaryPath());
         logger.debug(() -> "Binary path for selenium-server is {" + binaryPath + "}");
-        assertTrue(binaryFile.exists(), "Binary file not exists in "+binaryPath);
+        assertTrue(binaryFile.exists(), "Binary file not exists in " + binaryPath);
 
     }
 
@@ -98,9 +106,9 @@ public class WebDriverBinaryTest {
         assertEquals(binaryDownloadedPath, binaryDownloadedPath1);
 
     }
+
     @Test
-    public void strictDownloadTest()
-    {
+    public void strictDownloadTest() {
         BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().strictDownload().setup();
         String binProp = binaryInfo.getBinaryProperty();
         String binaryDownloadedPath = binaryInfo.getBinaryPath();
@@ -108,8 +116,7 @@ public class WebDriverBinaryTest {
     }
 
     @Test
-    public void autoDetectBrowserVersionTest()
-    {
+    public void autoDetectBrowserVersionTest() {
         BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().autoDetectBrowserVersion().setup();
         String binProp = binaryInfo.getBinaryProperty();
         String binaryDownloadedPath = binaryInfo.getBinaryPath();
