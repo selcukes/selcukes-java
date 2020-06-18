@@ -23,7 +23,7 @@ import io.github.selcukes.core.commons.os.OsType;
 import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.util.Platform;
-import io.github.selcukes.wdb.util.TempFileUtil;
+import io.github.selcukes.wdb.util.FileUtil;
 
 import java.io.File;
 import java.net.URL;
@@ -35,7 +35,7 @@ public interface BinaryFactory {
     Platform getBinaryEnvironment();
 
     default File getCompressedBinaryFile() {
-        String file = TempFileUtil.getTempDirectory() +
+        String file = FileUtil.getTempDirectory() +
             "/" +
             getBinaryDriverName().toLowerCase() +
             "_" +

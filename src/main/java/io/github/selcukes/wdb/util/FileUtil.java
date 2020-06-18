@@ -18,32 +18,29 @@
 
 package io.github.selcukes.wdb.util;
 
+import io.github.selcukes.core.exception.WebDriverBinaryException;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-public final class TempFileUtil {
+public final class FileUtil {
 
-    private TempFileUtil() {
+    private FileUtil() {
 
     }
 
     public static File createTempFile() {
         try {
-            return File.createTempFile("WDB", ".temp");
+            final File tmpFile = File.createTempFile("WDB", ".temp");
+            tmpFile.deleteOnExit();
+            return tmpFile;
         } catch (IOException e) {
-            return null;
+            throw new WebDriverBinaryException("Unable to create temp file" + e);
         }
     }
 
-    public static File createTempFileAndDeleteOnExit() {
-        final File tmpFile = createTempFile();
-        if (tmpFile != null)
-            tmpFile.deleteOnExit();
-        return tmpFile;
-    }
-
     public static String getTempDirectory() {
-        return Objects.requireNonNull(createTempFileAndDeleteOnExit()).getParent();
+        return Objects.requireNonNull(createTempFile()).getParent();
     }
 }

@@ -20,11 +20,11 @@ package io.github.selcukes.wdb;
 
 import io.github.selcukes.core.commons.os.Architecture;
 import io.github.selcukes.wdb.core.*;
-import io.github.selcukes.wdb.util.TempFileUtil;
+import io.github.selcukes.wdb.util.FileUtil;
 import io.github.selcukes.wdb.util.WebDriverBinaryUtil;
 
 public class WebDriverBinary {
-    private String downloadLocation = TempFileUtil.getTempDirectory();
+    private String downloadLocation = FileUtil.getTempDirectory();
     private boolean strictDownload = false;
     private BinaryFactory binaryFactory;
 
@@ -89,7 +89,7 @@ public class WebDriverBinary {
             return this;
         }
 
-        public Builder autoDetectBrowserVersion() {
+        public Builder autoDetectVersion() {
             binaryFactory.browserVersion(true);
             return this;
         }

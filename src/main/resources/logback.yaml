@@ -2,7 +2,7 @@
 handlers: java.util.logging.FileHandler, java.util.logging.ConsoleHandler
 
 #.level: INFO
-.level: INFO
+.level: SEVERE
 
 # Default file output is in user's home directory.
 java.util.logging.FileHandler.pattern : selcukes.log

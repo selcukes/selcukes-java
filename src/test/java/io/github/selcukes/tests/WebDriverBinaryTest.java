@@ -117,7 +117,7 @@ public class WebDriverBinaryTest {
 
     @Test
     public void autoDetectBrowserVersionTest() {
-        BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().autoDetectBrowserVersion().setup();
+        BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().autoDetectVersion().setup();
         String binProp = binaryInfo.getBinaryProperty();
         String binaryDownloadedPath = binaryInfo.getBinaryPath();
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + binaryDownloadedPath + "}");

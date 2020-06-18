@@ -42,7 +42,7 @@ public final class BinaryDownloadUtil {
     }
 
     public static String downloadAndReadFile(URL downloadURL) {
-        File destinationFile = TempFileUtil.createTempFileAndDeleteOnExit();
+        File destinationFile = FileUtil.createTempFile();
 
         download(downloadURL, destinationFile, true);
 

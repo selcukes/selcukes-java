@@ -51,7 +51,7 @@ public class VersionDetector {
         Optional<String> regQuery = Optional.empty();
 
         if (Platform.isWindows()) {
-            regQuery = Optional.of(getRegQuery());
+            regQuery = Optional.ofNullable(getRegQuery());
         }
 
         return regQuery.map(this::getBrowserVersionFromRegistry).orElse(null);
@@ -71,6 +71,22 @@ public class VersionDetector {
             key = ieKey;
         else return null;
         return String.format(regQuery, key);
+    }
+
+    private String getWMICQuery() {
+        String wmicQuery = "wmic datafile where name='%s' get version";
+        String ffKey = "C:\\\\program files (x86)\\\\Mozilla Firefox\\\\firefox.exe";
+        String chKey = "C:\\\\Program Files (x86)\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe";
+        String ieKey = "C:\\\\Program Files\\\\Internet Explorer\\\\iexplore.exe";
+        String key = null;
+        if (driverName.contains("chrome"))
+            key = chKey;
+        else if (driverName.contains("gecko"))
+            key = ffKey;
+        else if (driverName.contains("IE"))
+            key = ieKey;
+        else return null;
+        return String.format(wmicQuery, key);
     }
 
     private String getBrowserVersionFromRegistry(String regQuery) {
