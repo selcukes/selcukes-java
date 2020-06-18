@@ -15,7 +15,7 @@
 
     <properties>
 
-        <selcukes-core.version>1.0.0</selcukes-core.version>
+        <selcukes-core.version>1.0.1</selcukes-core.version>
         <commons-compress.version>1.20</commons-compress.version>
         <jsoup.version>1.13.1</jsoup.version>
 

@@ -18,10 +18,10 @@
 
 package io.github.selcukes.wdb.core;
 
+import io.github.selcukes.core.commons.os.OsType;
 import io.github.selcukes.core.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.DriverType;
-import io.github.selcukes.wdb.enums.OSType;
 import io.github.selcukes.wdb.util.UrlHelper;
 
 import java.net.MalformedURLException;
@@ -49,7 +49,7 @@ public class GeckoBinary extends AbstractBinary {
 
     @Override
     public DownloaderType getCompressedBinaryType() {
-        return Objects.equals(getBinaryEnvironment().getOSType(), OSType.WIN) ? DownloaderType.ZIP : DownloaderType.TAR;
+        return Objects.equals(getBinaryEnvironment().getOSType(), OsType.WIN) ? DownloaderType.ZIP : DownloaderType.TAR;
     }
 
     @Override

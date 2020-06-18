@@ -18,7 +18,7 @@
 
 package io.github.selcukes.wdb.util;
 
-import io.github.selcukes.wdb.enums.OSType;
+import io.github.selcukes.core.commons.os.OsType;
 
 import java.util.Objects;
 
@@ -36,20 +36,16 @@ public final class Platform {
         return new Platform();
     }
 
-    public OSType getOSType() {
+    public OsType getOSType() {
         String osName = System.getProperty("os.name").toLowerCase();
         if (osName.startsWith("windows"))
-            return OSType.WIN;
+            return OsType.WIN;
         else if (osName.startsWith("mac") || osName.startsWith("darwin")) {
-            return OSType.MAC;
+            return OsType.MAC;
         } else if (osName.contains("linux"))
-            return OSType.LINUX;
+            return OsType.LINUX;
 
         return null;
-    }
-
-    public boolean isWindows() {
-        return getOS().contains("win");
     }
 
     public String getOS() {

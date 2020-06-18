@@ -18,13 +18,14 @@
 
 package io.github.selcukes.wdb.core;
 
+import io.github.selcukes.core.commons.os.Architecture;
+import io.github.selcukes.core.commons.os.OsType;
 import io.github.selcukes.core.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.enums.DriverType;
-import io.github.selcukes.wdb.enums.OSType;
-import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.util.BinaryDownloadUtil;
 import io.github.selcukes.wdb.util.Platform;
 import io.github.selcukes.wdb.util.UrlHelper;
+import io.github.selcukes.wdb.util.VersionDetector;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -54,8 +55,8 @@ public class ChromeBinary extends AbstractBinary {
         Platform platform = Platform.getPlatform();
         if (getTargetArch().isPresent())
             platform.setArchitecture(unwrap(getTargetArch()).getValue());
-        else if (Objects.equals(platform.getOSType(), OSType.WIN))
-            platform.setArchitecture(TargetArch.X32.getValue());
+        else if (Objects.equals(platform.getOSType(), OsType.WIN))
+            platform.setArchitecture(Architecture.X32.getValue());
         return platform;
     }
 
@@ -67,6 +68,15 @@ public class ChromeBinary extends AbstractBinary {
     @Override
     public DriverType getDriverType() {
         return DriverType.CHROME;
+    }
+
+    @Override
+    public void browserVersion(boolean isAutoCheck) {
+        if (isAutoCheck) {
+            String localBrowserVersion = new VersionDetector(getBinaryDriverName(),
+                getBinaryEnvironment().getOsNameAndArch(), UrlHelper.CHROMEDRIVER_URL).getVersion();
+            super.setVersion(localBrowserVersion);
+        }
     }
 
     @Override

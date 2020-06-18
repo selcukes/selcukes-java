@@ -18,10 +18,10 @@
 
 package io.github.selcukes.wdb.core;
 
+import io.github.selcukes.core.commons.os.Architecture;
+import io.github.selcukes.core.commons.os.OsType;
 import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.DriverType;
-import io.github.selcukes.wdb.enums.OSType;
-import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.util.Platform;
 import io.github.selcukes.wdb.util.TempFileUtil;
 
@@ -49,7 +49,7 @@ public interface BinaryFactory {
     }
 
     default String getBinaryFileName() {
-        return Objects.equals(getBinaryEnvironment().getOSType(), OSType.WIN) ? getBinaryDriverName() + ".exe" : getBinaryDriverName();
+        return Objects.equals(getBinaryEnvironment().getOSType(), OsType.WIN) ? getBinaryDriverName() + ".exe" : getBinaryDriverName();
     }
 
     default String getBinaryDirectory() {
@@ -64,8 +64,9 @@ public interface BinaryFactory {
 
     void setVersion(String version);
 
-    void setTargetArch(TargetArch targetArch);
+    void setTargetArch(Architecture targetArch);
 
     void setProxy(String proxy);
 
+    void browserVersion(boolean isAutoCheck);
 }

@@ -19,7 +19,8 @@
 package io.github.selcukes.wdb.util;
 
 import java.io.File;
-import java.util.UUID;
+import java.io.IOException;
+import java.util.Objects;
 
 public final class TempFileUtil {
 
@@ -28,22 +29,21 @@ public final class TempFileUtil {
     }
 
     public static File createTempFile() {
-        return new File(getTempDirectory() + UUID.randomUUID().toString());
+        try {
+            return File.createTempFile("WDB", ".temp");
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     public static File createTempFileAndDeleteOnExit() {
         final File tmpFile = createTempFile();
-        tmpFile.deleteOnExit();
+        if (tmpFile != null)
+            tmpFile.deleteOnExit();
         return tmpFile;
     }
 
     public static String getTempDirectory() {
-        final String fileSeparator = File.separator;
-        final String tmpDir = System.getProperty("java.io.tmpdir");
-
-        if (!tmpDir.endsWith(fileSeparator)) {
-            return tmpDir + fileSeparator;
-        }
-        return tmpDir;
+        return Objects.requireNonNull(createTempFileAndDeleteOnExit()).getParent();
     }
 }

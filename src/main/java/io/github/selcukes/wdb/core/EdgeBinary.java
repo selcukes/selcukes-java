@@ -18,9 +18,9 @@
 
 package io.github.selcukes.wdb.core;
 
+import io.github.selcukes.core.commons.os.OsType;
 import io.github.selcukes.core.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.enums.DriverType;
-import io.github.selcukes.wdb.enums.OSType;
 import io.github.selcukes.wdb.util.UrlHelper;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -45,7 +45,7 @@ public class EdgeBinary extends AbstractBinary {
                 BINARY_DOWNLOAD_URL_PATTERN,
                 UrlHelper.EDGE_DRIVER_URL,
                 getBinaryVersion(),
-                Objects.equals(getBinaryEnvironment().getOSType(), OSType.LINUX) ? "win" + getBinaryEnvironment().getArchitecture() : getBinaryEnvironment().getOsNameAndArch()
+                Objects.equals(getBinaryEnvironment().getOSType(), OsType.LINUX) ? "win" + getBinaryEnvironment().getArchitecture() : getBinaryEnvironment().getOsNameAndArch()
             ));
 
         } catch (MalformedURLException e) {

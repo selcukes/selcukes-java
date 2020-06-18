@@ -18,10 +18,9 @@
 
 package io.github.selcukes.wdb;
 
+import io.github.selcukes.core.commons.os.Architecture;
 import io.github.selcukes.wdb.core.*;
-import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.util.TempFileUtil;
-import io.github.selcukes.wdb.util.VersionDetector;
 import io.github.selcukes.wdb.util.WebDriverBinaryUtil;
 
 public class WebDriverBinary {
@@ -65,12 +64,12 @@ public class WebDriverBinary {
         }
 
         public Builder arch64() {
-            binaryFactory.setTargetArch(TargetArch.X64);
+            binaryFactory.setTargetArch(Architecture.X64);
             return this;
         }
 
         public Builder arch32() {
-            binaryFactory.setTargetArch(TargetArch.X32);
+            binaryFactory.setTargetArch(Architecture.X32);
             return this;
         }
 
@@ -91,8 +90,7 @@ public class WebDriverBinary {
         }
 
         public Builder autoDetectBrowserVersion() {
-            String localBrowserVersion = new VersionDetector(binaryFactory.getBinaryDriverName()).getVersion();
-            binaryFactory.setVersion(localBrowserVersion);
+            binaryFactory.browserVersion(true);
             return this;
         }
 

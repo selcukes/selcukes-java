@@ -18,9 +18,9 @@
 
 package io.github.selcukes.wdb.core;
 
+import io.github.selcukes.core.commons.os.Architecture;
 import io.github.selcukes.core.exception.WebDriverBinaryException;
 import io.github.selcukes.core.http.HttpClient;
-import io.github.selcukes.wdb.enums.TargetArch;
 import io.github.selcukes.wdb.util.Platform;
 import io.github.selcukes.wdb.util.VersionComparator;
 import org.jsoup.nodes.Document;
@@ -36,9 +36,10 @@ import static org.jsoup.Jsoup.parse;
 
 abstract class AbstractBinary implements BinaryFactory {
     private Optional<String> release = Optional.empty();
-    private Optional<TargetArch> targetArch = Optional.empty();
+    private Optional<Architecture> targetArch = Optional.empty();
     private Optional<String> proxyUrl = Optional.empty();
     protected String latestVersionUrl;
+    protected boolean isAutoDetectBrowserVersion;
 
     @Override
     public Platform getBinaryEnvironment() {
@@ -52,18 +53,17 @@ abstract class AbstractBinary implements BinaryFactory {
         return orElse(release, getLatestRelease());
     }
 
-
     @Override
     public void setVersion(String version) {
         this.release = Optional.ofNullable(version);
     }
 
     @Override
-    public void setTargetArch(TargetArch targetArch) {
+    public void setTargetArch(Architecture targetArch) {
         this.targetArch = Optional.ofNullable(targetArch);
     }
 
-    public Optional<TargetArch> getTargetArch() {
+    public Optional<Architecture> getTargetArch() {
         return this.targetArch;
     }
 
@@ -72,6 +72,10 @@ abstract class AbstractBinary implements BinaryFactory {
         this.proxyUrl = Optional.ofNullable(proxy);
     }
 
+    @Override
+    public void browserVersion(boolean isAutoCheck) {
+        isAutoDetectBrowserVersion = isAutoCheck;
+    }
 
     protected abstract String getLatestRelease();
 
