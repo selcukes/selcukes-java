@@ -45,26 +45,27 @@ public class LogRecordTest {
         LoggerFactory.removeListener(logRecordListener);
     }
 
-    @Test
+    @Test(threadPoolSize = 3, invocationCount = 3, timeOut = 1000)
     public void testLogRecords() {
-        logger.info(() -> "Test Started...");
+        long id = Thread.currentThread().getId();
+        logger.info(() -> "Test Started..." + id);
         logger.warn(() -> "This is sample warning!");
-        logger.info(() -> "Login Successful...");
+        logger.info(() -> "Login Successful..." + id);
         logger.error(() -> "This is sample error message");
         logger.debug(() -> "This is sample debug statement");
-        logger.info(() -> "Test Completed...");
+        logger.info(() -> "Test Completed..." + id);
 
-        String allLogs = logRecordListener.getLogStream()
+        String allLogs = logRecordListener.getLogRecords()
             .map(LogRecord::getMessage)
             .collect(Collectors.joining("\n  --> ", "\n--ALL Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
 
-        System.out.println(allLogs);
+        System.out.println("Thread with id: " + id + allLogs);
 
-        String infoLogs = logRecordListener.getLogStream(Level.INFO)
+        String infoLogs = logRecordListener.getLogRecords(Level.INFO)
             .map(LogRecord::getMessage)
             .collect(Collectors.joining("\n  --> ", "\n--Info Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
 
-        System.out.println(infoLogs);
+        System.out.println("Thread with id: " + id + infoLogs);
 
     }
 

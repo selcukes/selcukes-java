@@ -18,25 +18,25 @@ package io.github.selcukes.core.logging;
 
 import io.github.selcukes.core.helper.Preconditions;
 
-import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.stream.Stream;
 
 public final class LogRecordListener {
-
-    private final ConcurrentLinkedDeque<LogRecord> logRecords = new ConcurrentLinkedDeque<>();
+    private final ThreadLocal<List<LogRecord>> logRecords = ThreadLocal.withInitial(ArrayList::new);
 
     void logRecordSubmitted(LogRecord logRecord) {
-        this.logRecords.add(logRecord);
+        this.logRecords.get().add(logRecord);
     }
 
-    public Stream<LogRecord> getLogStream() {
-        return this.logRecords.stream();
+    public Stream<LogRecord> getLogRecords() {
+        return this.logRecords.get().stream();
     }
 
-    public Stream<LogRecord> getLogStream(Level level) {
+    public Stream<LogRecord> getLogRecords(Level level) {
         Preconditions.checkNotNull(level, "Level must not be null");
-        return getLogStream().filter(logRecord -> logRecord.getLevel() == level);
+        return getLogRecords().filter(logRecord -> logRecord.getLevel() == level);
     }
 }
