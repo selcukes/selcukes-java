@@ -36,10 +36,13 @@ public class AwaitTest {
         File file=new File("hello.jpg");
         String s1 = "Hello";
         String s2 = "hello";
+        long startTime=System.currentTimeMillis()/1000;
         Await.await().poll(2)
             .atMax(10)
             .until(file::exists);
-
+        long endTime=System.currentTimeMillis()/1000;
+        long duration=endTime-startTime;
+        System.out.println(duration);
         Await.await().poll(2)
             .atMax(10)
             .until(() -> s1.equalsIgnoreCase(s2));
