@@ -17,22 +17,16 @@
 package io.github.selcukes.core.commons;
 
 import io.github.selcukes.core.helper.ExceptionHelper;
+import io.github.selcukes.core.logging.Logger;
+import io.github.selcukes.core.logging.LoggerFactory;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class Await {
-
-    private final Lock lock = new ReentrantLock();
-
-    private final Condition condition = lock.newCondition();
-
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private long maxTimeout = 1;
     private long pollTimeout = 1;
-    private TimeUnit timeUnit = TimeUnit.SECONDS;
 
     public static Await await() {
 
@@ -49,36 +43,18 @@ public class Await {
         return this;
     }
 
-    public Await timeUnit(TimeUnit timeUnit) {
-        this.timeUnit = timeUnit;
-        return this;
-    }
-
-    /**
-     * Do await until default timeout milliseconds.
-     *
-     * @throws InterruptedException interrupted exception
-     */
-    public void until() throws InterruptedException {
-
-        lock.lock();
-        try {
-            condition.await(maxTimeout, timeUnit);
-        } finally {
-            lock.unlock();
-        }
-    }
-
     public void until(Callable<Boolean> conditionEvaluator) throws Exception {
-
-        lock.lock();
-        try {
-            while (!conditionEvaluator.call())
-                condition.await();
-
-            condition.signal();
-        } finally {
-            lock.unlock();
+        int stopwatch = 1;
+        while (!conditionEvaluator.call() && stopwatch <= maxTimeout) {
+            int finalStopwatch = stopwatch;
+            logger.debug(() -> "Waiting..." + finalStopwatch);
+            TimeUnit.SECONDS.sleep(stopwatch);
+            stopwatch += pollTimeout;
+        }
+        if (stopwatch > maxTimeout) {
+            logger.error(() -> "Condition not successful");
+        } else {
+            logger.info(() -> "Condition successful");
         }
 
     }
