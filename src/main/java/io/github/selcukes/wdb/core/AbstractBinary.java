@@ -19,9 +19,9 @@
 package io.github.selcukes.wdb.core;
 
 import io.github.selcukes.core.commons.os.Architecture;
+import io.github.selcukes.core.commons.os.Platform;
 import io.github.selcukes.core.exception.WebDriverBinaryException;
 import io.github.selcukes.core.http.HttpClient;
-import io.github.selcukes.wdb.util.Platform;
 import io.github.selcukes.wdb.util.VersionComparator;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

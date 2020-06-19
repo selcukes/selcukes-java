@@ -57,9 +57,9 @@ public class VersionDetector {
         {
 
             Shell shell = new Shell();
-           /* ExecResults execResults = shell.runCommand("which google-chrome-stable");
+            ExecResults execResults = shell.runCommand("which google-chrome-stable");
             String chromePath=execResults.getOutput().toString();
-            System.out.println(chromePath);*/
+            System.out.println(chromePath);
             String command="google-chrome --version | grep -iE \"[0-9.]{10,20}\"";
             System.out.println(shell.runCommand(command).getOutput());
         }
@@ -111,7 +111,7 @@ public class VersionDetector {
         return getCompatibleBinaryVersion(browserVersion);
     }
 
-    public List<String> getVersionNumbers(String binaryDownloadUrl, String matcher) {
+    public List<String> getBinaryVersions(String binaryDownloadUrl, String matcher) {
         HttpClient client = new HttpClient(binaryDownloadUrl, null);
         final InputStream downloadStream = client.getResponseStream();
         List<String> versions = new ArrayList<>();
@@ -134,7 +134,7 @@ public class VersionDetector {
 
     public String getCompatibleBinaryVersion(String browserVersion) {
         logger.info(() -> String.format("Identifying Compatible %s version for Chrome Browser [%s] ", driverName, browserVersion));
-        List<String> versions = getVersionNumbers(this.binaryDownloadUrl, this.driverName + "_" + this.osNameAndArch);
+        List<String> versions = getBinaryVersions(this.binaryDownloadUrl, this.driverName + "_" + this.osNameAndArch);
 
         String browserVersionPrefix = browserVersion.split("\\.")[0];
         String compatibleVersion;

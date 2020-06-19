@@ -19,12 +19,12 @@
 package io.github.selcukes.wdb;
 
 import io.github.selcukes.core.commons.os.Architecture;
+import io.github.selcukes.core.helper.FileHelper;
 import io.github.selcukes.wdb.core.*;
-import io.github.selcukes.wdb.util.FileUtil;
 import io.github.selcukes.wdb.util.WebDriverBinaryUtil;
 
 public class WebDriverBinary {
-    private String downloadLocation = FileUtil.getTempDirectory();
+    private String downloadLocation = FileHelper.getTempDir();
     private boolean strictDownload = false;
     private BinaryFactory binaryFactory;
 

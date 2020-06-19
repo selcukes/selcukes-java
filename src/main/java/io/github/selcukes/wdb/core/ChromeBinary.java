@@ -20,10 +20,10 @@ package io.github.selcukes.wdb.core;
 
 import io.github.selcukes.core.commons.os.Architecture;
 import io.github.selcukes.core.commons.os.OsType;
+import io.github.selcukes.core.commons.os.Platform;
 import io.github.selcukes.core.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.util.BinaryDownloadUtil;
-import io.github.selcukes.wdb.util.Platform;
 import io.github.selcukes.wdb.util.UrlHelper;
 import io.github.selcukes.wdb.util.VersionDetector;
 

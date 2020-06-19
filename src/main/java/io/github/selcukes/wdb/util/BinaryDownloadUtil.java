@@ -19,6 +19,7 @@
 package io.github.selcukes.wdb.util;
 
 import io.github.selcukes.core.exception.WebDriverBinaryException;
+import io.github.selcukes.core.helper.FileHelper;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import org.apache.commons.io.FileUtils;
@@ -42,7 +43,7 @@ public final class BinaryDownloadUtil {
     }
 
     public static String downloadAndReadFile(URL downloadURL) {
-        File destinationFile = FileUtil.createTempFile();
+        File destinationFile = FileHelper.createTempFile();
 
         download(downloadURL, destinationFile, true);
 
