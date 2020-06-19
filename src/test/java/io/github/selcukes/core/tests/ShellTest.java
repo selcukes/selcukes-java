@@ -24,6 +24,7 @@ public class ShellTest {
     @Test
     public void shellTest() {
         Shell shell = new Shell();
+        System.out.println("Test started..");
         ExecResults results = shell.runCommand("java -version");
         System.out.println(results.getOutput());
     }
