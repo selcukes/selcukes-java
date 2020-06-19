@@ -52,16 +52,14 @@ public class VersionDetector {
 
         if (Platform.isWindows()) {
             regQuery = Optional.ofNullable(getRegQuery());
-        }
-        else if (Platform.isLinux())
-        {
+        } else if (Platform.isLinux()) {
 
             Shell shell = new Shell();
-            String command="google-chrome --version | grep -iE \"[0-9.]{10,20}\"";
-            String browserVersion=shell.runCommand(command).getOutput().get(0);
+            String command = "google-chrome --version | grep -iE \"[0-9.]{10,20}\"";
+            String queryResult = shell.runCommand(command).getOutput().get(0);
+            String browserVersion = queryResult.replace("Google Chrome ", "").trim();
             logger.info(() -> "Browser Version Number: " + browserVersion);
-            String browserVersion1=browserVersion.replace("Google Chrome ","").trim();
-            logger.debug(() ->browserVersion1);
+            return getCompatibleBinaryVersion(browserVersion);
         }
 
         return regQuery.map(this::getBrowserVersionFromRegistry).orElse(null);
