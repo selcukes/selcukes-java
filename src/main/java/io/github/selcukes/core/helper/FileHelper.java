@@ -113,7 +113,17 @@ public class FileHelper {
         try {
             return Files.createTempDirectory(null);
         } catch (IOException e) {
-            throw new SelcukesException("Unable to create temp directory: ", e);
+            throw new SelcukesException("Unable to create temp directory : ", e);
+        }
+    }
+
+    public File createTempFile() {
+        try {
+            File tempFile = File.createTempFile("", ".temp");
+            tempFile.deleteOnExit();
+            return tempFile;
+        } catch (IOException e) {
+            throw new SelcukesException("Unable to create temp file : ", e);
         }
     }
 }

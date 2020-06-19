@@ -16,6 +16,7 @@
 
 package io.github.selcukes.core.commons;
 
+import io.github.selcukes.core.exception.SelcukesException;
 import io.github.selcukes.core.helper.ExceptionHelper;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
@@ -62,7 +63,7 @@ public class Await {
         try {
             TimeUnit.SECONDS.sleep(timeoutInSeconds);
         } catch (InterruptedException e) {
-            ExceptionHelper.rethrow(e);
+            throw new SelcukesException("Timeout exception : ", e);
         }
     }
 

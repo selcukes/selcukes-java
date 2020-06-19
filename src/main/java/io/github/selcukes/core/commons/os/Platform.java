@@ -16,15 +16,12 @@
 
 package io.github.selcukes.core.commons.os;
 
-import lombok.experimental.UtilityClass;
-
 import java.util.Objects;
 
-@UtilityClass
 public class Platform {
 
     private int arch;
-    private final String osName = System.getProperty("os.name").toLowerCase();
+    private static final String osName = System.getProperty("os.name").toLowerCase();
 
     public OsType getOSType() {
         if (isWindows())
@@ -41,15 +38,15 @@ public class Platform {
         return osName;
     }
 
-    public boolean isWindows() {
+    public static boolean isWindows() {
         return (osName.contains("win"));
     }
 
-    public boolean isMac() {
+    public static boolean isMac() {
         return (osName.contains("mac") || osName.startsWith("darwin"));
     }
 
-    public boolean isLinux() {
+    public static boolean isLinux() {
         return (osName.contains("nix") || osName.contains("nux"));
     }
 

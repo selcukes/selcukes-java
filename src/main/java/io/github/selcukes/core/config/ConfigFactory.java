@@ -48,10 +48,10 @@ public class ConfigFactory {
     }
 
     public void loadLoggerProperties() {
-        InputStream inputStream = ConfigFactory.class.getClassLoader().getResourceAsStream(DEFAULT_LOG_BACK_FILE);
-        try {
+        LogManager logManager = LogManager.getLogManager();
+        try (InputStream inputStream = ConfigFactory.class.getClassLoader().getResourceAsStream(DEFAULT_LOG_BACK_FILE)) {
             if (inputStream != null)
-                LogManager.getLogManager().readConfiguration(inputStream);
+                logManager.readConfiguration(inputStream);
         } catch (IOException e) {
             throw new ConfigurationException("Failed loading logger properties: ", e);
         }
@@ -66,7 +66,7 @@ public class ConfigFactory {
                 return new FileInputStream(new File(CONFIG_FILE));
             }
         } catch (Exception ignored) {
-            //Gobble exception
+
         }
         return null;
     }
