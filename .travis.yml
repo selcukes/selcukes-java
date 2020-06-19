@@ -6,7 +6,10 @@ cache:
   directories:
     - "$HOME/.m2"
 
+install: true
+
 addons:
+  chrome: stable
   sonarcloud:
     organization: "selcukes"
     token: $SONAR_TOKEN

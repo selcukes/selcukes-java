@@ -53,6 +53,16 @@ public class VersionDetector {
         if (Platform.isWindows()) {
             regQuery = Optional.ofNullable(getRegQuery());
         }
+        else if (Platform.isLinux())
+        {
+
+            Shell shell = new Shell();
+            ExecResults execResults = shell.runCommand("which google-chrome-stable");
+            String chromePath=execResults.getOutput().toString();
+            System.out.println(chromePath);
+            String command="google-chrome --version | grep -iE \"[0-9.]{10,20}\"";
+            System.out.println(shell.runCommand(command).getOutput());
+        }
 
         return regQuery.map(this::getBrowserVersionFromRegistry).orElse(null);
     }
@@ -111,7 +121,6 @@ public class VersionDetector {
             Elements element = doc.select(
                 "Key:contains(" + matcher + ")");
             for (Element e : element) {
-                String key = e.text().substring(e.text().indexOf('/'));
                 String versionNum = e.text().substring(0, e.text().indexOf('/'));
                 versions.add(versionNum);
             }
@@ -128,18 +137,18 @@ public class VersionDetector {
         List<String> versions = getVersionNumbers(this.binaryDownloadUrl, this.driverName + "_" + this.osNameAndArch);
 
         String browserVersionPrefix = browserVersion.split("\\.")[0];
-        String version;
+        String compatibleVersion;
         if (!versions.contains(browserVersion)) {
             versions.add(browserVersion);
             versions.sort(new VersionComparator());
             int index = versions.indexOf(browserVersion);
             String previousVersion = versions.get(index - 1);
             String nextVersion = versions.get(index + 1);
-            version = nextVersion.startsWith(browserVersionPrefix) ? nextVersion : previousVersion;
-        } else version = browserVersion;
+            compatibleVersion = nextVersion.startsWith(browserVersionPrefix) ? nextVersion : previousVersion;
+        } else compatibleVersion = browserVersion;
 
-        logger.info(() -> String.format("Using %s [%s] for Chrome Browser [%s] ", driverName, version, browserVersion));
-        return version;
+        logger.info(() -> String.format("Using %s [%s] for Chrome Browser [%s] ", driverName, compatibleVersion, browserVersion));
+        return compatibleVersion;
     }
 
 }
