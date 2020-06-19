@@ -119,12 +119,16 @@ public class FileHelper {
 
     public File createTempFile() {
         try {
-            File tempFile = File.createTempFile("", ".temp");
+            File tempFile = File.createTempFile("WDB", ".temp");
             tempFile.deleteOnExit();
             return tempFile;
         } catch (IOException e) {
             throw new SelcukesException("Unable to create temp file : ", e);
         }
+    }
+
+    public String getTempDir() {
+        return createTempFile().getParent();
     }
 }
 
