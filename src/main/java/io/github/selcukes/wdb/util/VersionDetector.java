@@ -57,9 +57,9 @@ public class VersionDetector {
         {
 
             Shell shell = new Shell();
-            ExecResults execResults = shell.runCommand("which google-chrome-stable");
+           /* ExecResults execResults = shell.runCommand("which google-chrome-stable");
             String chromePath=execResults.getOutput().toString();
-            System.out.println(chromePath);
+            System.out.println(chromePath);*/
             String command="google-chrome --version | grep -iE \"[0-9.]{10,20}\"";
             System.out.println(shell.runCommand(command).getOutput());
         }
