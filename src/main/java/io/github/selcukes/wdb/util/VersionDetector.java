@@ -58,7 +58,7 @@ public class VersionDetector {
 
             Shell shell = new Shell();
             String command="google-chrome --version | grep -iE \"[0-9.]{10,20}\"";
-            String browserVersion=shell.runCommand(command).getOutput().get(1);
+            String browserVersion=shell.runCommand(command).getOutput().get(0);
             logger.info(() -> "Browser Version Number: " + browserVersion);
             String browserVersion1=browserVersion.replace("Google Chrome ","").trim();
             logger.debug(() ->browserVersion1);
