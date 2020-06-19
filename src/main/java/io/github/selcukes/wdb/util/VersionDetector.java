@@ -57,11 +57,11 @@ public class VersionDetector {
         {
 
             Shell shell = new Shell();
-            ExecResults execResults = shell.runCommand("which google-chrome-stable");
-            String chromePath=execResults.getOutput().toString();
-            System.out.println(chromePath);
             String command="google-chrome --version | grep -iE \"[0-9.]{10,20}\"";
-            System.out.println(shell.runCommand(command).getOutput());
+            String browserVersion=shell.runCommand(command).getOutput().get(1);
+            logger.info(() -> "Browser Version Number: " + browserVersion);
+            String browserVersion1=browserVersion.replace("Google Chrome ","").trim();
+            logger.debug(() ->browserVersion1);
         }
 
         return regQuery.map(this::getBrowserVersionFromRegistry).orElse(null);
