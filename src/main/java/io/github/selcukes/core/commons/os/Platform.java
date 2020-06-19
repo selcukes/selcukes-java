@@ -23,6 +23,10 @@ public class Platform {
     private int arch;
     private static final String osName = System.getProperty("os.name").toLowerCase();
 
+    public static Platform getPlatform() {
+        return new Platform();
+    }
+
     public OsType getOSType() {
         if (isWindows())
             return OsType.WIN;
