@@ -17,6 +17,7 @@
 package io.github.selcukes.core.commons.exec;
 
 import io.github.selcukes.core.commons.Await;
+import io.github.selcukes.core.commons.os.Platform;
 import io.github.selcukes.core.exception.CommandException;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
@@ -54,7 +55,6 @@ public class Shell {
     }
 
     private void extractPidOf(final Process process) {
-        System.out.println(process.toString());
         pid = process.toString().split(",")[0].split("=")[1];
         logger.debug(() -> "Process Id: " + pid);
     }
@@ -65,7 +65,7 @@ public class Shell {
     }
 
     private ExecResults interactWithProcess(final Process process) {
-        extractPidOf(process);
+        if (Platform.isWindows())extractPidOf(process);
         StreamGuzzler output = new StreamGuzzler(process.getInputStream());
         StreamGuzzler error = new StreamGuzzler(process.getErrorStream());
         ExecutorService executors = Executors.newFixedThreadPool(2);
