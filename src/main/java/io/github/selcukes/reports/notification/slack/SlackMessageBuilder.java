@@ -83,7 +83,7 @@ public class SlackMessageBuilder {
     private String getSlackWebHookUrl() {
         StringBuilder slackWebHookUrl = new StringBuilder();
         slackWebHookUrl.append(NotifierEnum.WEB_HOOKS_URL.getValue())
-            .append(ConfigFactory.getConfig().getSlack().get("webhook-token"));
+            .append(ConfigFactory.getConfig().getNotifier().get("webhook-token"));
 
         return slackWebHookUrl.toString();
     }
