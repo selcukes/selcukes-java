@@ -19,8 +19,6 @@
 package io.github.selcukes.reports.notification.slack;
 
 import io.github.selcukes.core.config.ConfigFactory;
-import io.github.selcukes.core.logging.Logger;
-import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.reports.notification.IncomingWebHookRequest;
 import io.github.selcukes.reports.notification.NotifierEnum;
 import io.github.selcukes.reports.notification.NotifierHelper;
@@ -31,29 +29,26 @@ import java.util.List;
 
 
 public class SlackMessageBuilder {
-    private final Logger logger = LoggerFactory.getLogger(SlackMessageBuilder.class);
-
 
     public void sendMessage(String scenarioTitle, String scenarioStatus, String error, String screenshotPath) {
 
-
         Long startTime = System.currentTimeMillis() / 1000;
 
-        Field field = Field.builder()
+        Field pro = Field.builder()
             .title(NotifierEnum.PROJECT.getValue())
             .value(ConfigFactory.getConfig().getProjectName())
             .shortValue(true)
             .build();
 
-        Field field1 = Field.builder()
+        Field env = Field.builder()
             .title(NotifierEnum.ENVIRONMENT.getValue())
             .value(ConfigFactory.getConfig().getEnv())
             .shortValue(true)
             .build();
 
         List<Field> fieldList = new ArrayList<>();
-        fieldList.add(field);
-        fieldList.add(field1);
+        fieldList.add(pro);
+        fieldList.add(env);
 
         Attachment attachment = Attachment.builder()
             .fallback(NotifierEnum.PRETEXT.getValue())
@@ -81,11 +76,8 @@ public class SlackMessageBuilder {
     }
 
     private String getSlackWebHookUrl() {
-        StringBuilder slackWebHookUrl = new StringBuilder();
-        slackWebHookUrl.append(NotifierEnum.WEB_HOOKS_URL.getValue())
-            .append(ConfigFactory.getConfig().getNotifier().get("webhook-token"));
-
-        return slackWebHookUrl.toString();
+        return NotifierEnum.WEB_HOOKS_URL.getValue() +
+            ConfigFactory.getConfig().getNotifier().get("webhook-token");
     }
 
 

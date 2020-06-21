@@ -21,6 +21,10 @@ package io.github.selcukes.reports.video;
 import io.github.selcukes.core.commons.os.Platform;
 
 public abstract class VideoRecorder implements Recorder {
+    private VideoRecorder() {
+
+    }
+
     public static VideoConfig conf() {
         VideoConfig config = VideoConfig.builder()
             .build();
