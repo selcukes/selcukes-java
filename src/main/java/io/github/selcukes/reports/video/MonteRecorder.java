@@ -34,16 +34,6 @@ class MonteRecorder extends ScreenRecorder {
 
     private String currentTempExtension;
 
-    MonteRecorder(GraphicsConfiguration cfg,
-                  Format fileFormat,
-                  Format screenFormat,
-                  Format mouseFormat,
-                  Format audioFormat,
-                  File folder) throws IOException, AWTException {
-        super(cfg, fileFormat, screenFormat, mouseFormat, audioFormat);
-        super.movieFolder = folder;
-    }
-
     @Builder
     MonteRecorder(GraphicsConfiguration cfg,
                   Rectangle rectangle,
