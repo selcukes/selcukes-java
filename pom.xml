@@ -6,7 +6,7 @@
 
     <groupId>io.github.selcukes</groupId>
     <artifactId>selcukes-core</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.3-SNAPSHOT</version>
 
     <name>selcukes-core</name>
     <description>selcukes-core</description>
@@ -154,9 +154,6 @@
                         <goals>
                             <goal>jar-no-fork</goal>
                         </goals>
-                        <configuration>
-                            <attach>false</attach>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
