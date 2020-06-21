@@ -52,7 +52,7 @@ class MonteRecorderBuilder extends ScreenRecorder {
         return super.createMovieFile(fileFormat);
     }
 
-    public File saveAs(String filename) {
+    protected File saveAs(String filename) {
         this.stop();
         File tempFile = this.getCreatedMovieFiles().get(0);
         File destFile = getDestinationFile(filename);

@@ -33,19 +33,19 @@ import static org.monte.media.VideoFormatKeys.*;
 
 class MonteRecorder extends VideoRecorder {
     final Logger logger = LoggerFactory.getLogger(MonteRecorder.class);
-    private final MonteRecorderBuilder screenRecorder;
+    private final MonteRecorderBuilder recorderBuilder;
     private final VideoConfig videoConfig;
 
     public MonteRecorder() {
         this.videoConfig = conf();
-        this.screenRecorder = getScreenRecorder();
+        this.recorderBuilder = getScreenRecorder();
     }
 
     /**
      * This method will start the recording of the execution.
      */
     public void start() {
-        screenRecorder.start();
+        recorderBuilder.start();
         logger.info(() -> "Recording started");
     }
 
@@ -69,7 +69,7 @@ class MonteRecorder extends VideoRecorder {
 
     private File writeVideo(String filename) {
         try {
-            return screenRecorder.saveAs(filename);
+            return recorderBuilder.saveAs(filename);
         } catch (IndexOutOfBoundsException ex) {
             throw new RecorderException("Video recording wasn't started");
         }

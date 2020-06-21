@@ -18,15 +18,17 @@
 
 package io.github.selcukes.reports.video;
 
+import io.github.selcukes.core.commons.os.Platform;
+
 public abstract class VideoRecorder implements Recorder {
     public static VideoConfig conf() {
-        return VideoConfig.builder()
+        VideoConfig config = VideoConfig.builder()
             .build();
-    }
-    public static synchronized Recorder getRecorder(RecorderType recorderType) {
-        if (recorderType.equals(RecorderType.FFMPEG)) {
-            return new FFmpegRecorder();
-        } else return new MonteRecorder();
+        if (Platform.isLinux()) {
+            config.setFfmpegFormat("x11grab");
+            config.setFfmpegDisplay(":0.0");
+        }
+        return config;
     }
 
     public static synchronized Recorder fFmpegRecorder() {
