@@ -24,6 +24,8 @@ public class ConfigTest {
         logger.info(() -> ConfigFactory.getConfig().getProjectName());
         logger.info(() -> ConfigFactory.getConfig().getRemoteGridUrl());
         logger.info(() -> ConfigFactory.getConfig().getHeadLess() + "");
-        ConfigFactory.getConfig().getSlack().forEach((s, s2) -> logger.info(() -> s + s2));
+        ConfigFactory.getConfig().getNotifier().forEach((k,v)->logger.info(()->String.format("Key :[%s]   Value :[%s]" , k , v)));
+
+        System.out.println(System.getProperty("java.util.logging.SimpleFormatter.format"));
     }
 }

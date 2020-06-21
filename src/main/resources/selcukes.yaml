@@ -10,7 +10,9 @@ isProxy: false
 baseUrl:
 remoteGridUrl:
 videoRecording: false
-slack:
+notification: false
+notifier:
+  type: slack
   webhook-token: WEBHOOKXXXX
   api-token: APIXXXX
   channel: selcukes

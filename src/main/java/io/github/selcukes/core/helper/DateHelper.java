@@ -23,8 +23,8 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class DateHelper {
-    public static final String DEFAULT_DATE_PATTERN = "ddMMMyyyy-hh-mm-ss";
-    public static final String TIMESTAMP_FORMAT = "dd/MM/yyyy hh:mm:ss.SSS";
+    private static final String DEFAULT_DATE_PATTERN = "ddMMMyyyy-hh-mm-ss";
+    private static final String TIMESTAMP_FORMAT = "dd/MM/yyyy hh:mm:ss";
 
     private DateTimeFormatter dtf;
 
@@ -32,46 +32,53 @@ public class DateHelper {
 
     private final LocalDateTime localDateTime;
 
-
     public DateHelper() {
         this.localDateTime = LocalDateTime.now();
         this.localDate = LocalDate.now();
-        this.dtf = setDateFormat(DEFAULT_DATE_PATTERN);
     }
 
     public static DateHelper get() {
         return new DateHelper();
     }
 
-    public DateTimeFormatter setDateFormat(String dateFormat) {
-        return DateTimeFormatter.ofPattern(dateFormat);
+    public DateHelper setDateFormat(String dateFormat) {
+        dtf = DateTimeFormatter.ofPattern(dateFormat);
+        return this;
     }
 
     public String dateTime() {
-        return localDateTime.format(dtf);
+        return localDateTime.format(getDateFormatter());
     }
 
     public String date() {
-        return localDate.format(dtf);
+        return localDate.format(getDateFormatter());
     }
 
     public String timeStamp() {
-        return localDateTime.format(setDateFormat(TIMESTAMP_FORMAT));
+        if (dtf == null)
+            setDateFormat(TIMESTAMP_FORMAT);
+        return dateTime();
     }
 
     public String timeStamp(long date) {
 
-        return timeStamp(date, TIMESTAMP_FORMAT);
+        return getTimeStampFormatter().format(Instant.ofEpochMilli(date));
     }
 
-    public String timeStamp(long date, String dateFormat) {
-
-        return setTimeStampDateFormat(dateFormat).format(Instant.ofEpochMilli(date));
+    public DateTimeFormatter getDateFormatter() {
+        if (dtf == null)
+            setDateFormat(DEFAULT_DATE_PATTERN);
+        return dtf;
     }
 
-    public DateTimeFormatter setTimeStampDateFormat(String dateFormat) {
-        ZoneId zone = ZoneId.systemDefault();
-        return setDateFormat(dateFormat).withZone(zone);
+    private DateTimeFormatter getTimeStampFormatter() {
+        if (dtf == null)
+            setDateFormat(TIMESTAMP_FORMAT);
+        return dtf.withZone(getZoneId());
+    }
+
+    private ZoneId getZoneId() {
+        return ZoneId.systemDefault();
     }
 
     public String futureDate(int noOfDays) {

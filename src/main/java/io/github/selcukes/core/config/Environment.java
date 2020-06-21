@@ -33,5 +33,5 @@ public class Environment {
     private String baseUrl;
     private String remoteGridUrl;
     private Boolean videoRecording;
-    private Map<String, String> slack;
+    private Map<String, String> notifier;
 }
