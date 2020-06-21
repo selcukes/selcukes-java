@@ -86,12 +86,12 @@ public class Selcukes implements ConcurrentEventListener {
     }
 
     private void beforeStep(TestStepStarted event) {
-
+        logger.trace(() -> String.format("Before Step: [%s]", event.getTestStep().toString()));
 
     }
 
     private void afterStep(TestStepFinished event) {
-
+        logger.trace(() -> String.format("After Step: [%s]", event.getTestStep().toString()));
         if (event.getResult().getStatus().is(Status.FAILED)) {
             if (event.getTestStep() instanceof PickleStepTestStep) {
                 PickleStepTestStep testStep = (PickleStepTestStep) event.getTestStep();
@@ -121,13 +121,13 @@ public class Selcukes implements ConcurrentEventListener {
 
     private EventHandler<EmbedEvent> getEmbedEventHandler() {
         return event -> {
-            // embedding(event.mimeType, event.data);
+            logger.trace(() -> String.format("Embed Event: [%s]", event.getName()));
         };
     }
 
     private EventHandler<WriteEvent> getWriteEventHandler() {
         return event -> {
-            // write(event.text);
+            logger.trace(() -> String.format("Write Event: [%s]", event.getText()));
         };
     }
 
