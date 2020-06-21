@@ -25,7 +25,5 @@ public class ConfigTest {
         logger.info(() -> ConfigFactory.getConfig().getRemoteGridUrl());
         logger.info(() -> ConfigFactory.getConfig().getHeadLess() + "");
         ConfigFactory.getConfig().getNotifier().forEach((k,v)->logger.info(()->String.format("Key :[%s]   Value :[%s]" , k , v)));
-
-        System.out.println(System.getProperty("java.util.logging.SimpleFormatter.format"));
     }
 }
