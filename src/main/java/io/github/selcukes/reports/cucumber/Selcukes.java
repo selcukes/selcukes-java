@@ -22,6 +22,7 @@ package io.github.selcukes.reports.cucumber;
 import io.cucumber.plugin.ConcurrentEventListener;
 import io.cucumber.plugin.event.*;
 import io.github.selcukes.core.config.ConfigFactory;
+import io.github.selcukes.core.logging.LogRecordListener;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.reports.video.Recorder;
@@ -34,8 +35,7 @@ public class Selcukes implements ConcurrentEventListener {
     private final Logger logger = LoggerFactory.getLogger(Selcukes.class);
     private final TestSourcesModel testSources = new TestSourcesModel();
     private Recorder recorder;
-    private String scenarioName;
-
+    private LogRecordListener logRecordListener;
 
     /**
      * Registers an event handler for a specific event.
@@ -73,12 +73,12 @@ public class Selcukes implements ConcurrentEventListener {
 
     private void beforeTest(TestRunStarted event) {
 
-
+        logRecordListener = new LogRecordListener();
+        LoggerFactory.addListener(logRecordListener);
     }
 
 
     private void beforeScenario(TestCaseStarted event) {
-        scenarioName = event.getTestCase().getName();
         if (ConfigFactory.getConfig().getVideoRecording()) {
             recorder = VideoRecorder.monteRecorder();
             recorder.start();
@@ -116,7 +116,7 @@ public class Selcukes implements ConcurrentEventListener {
     }
 
     private void afterTest(TestRunFinished event) {
-
+        LoggerFactory.removeListener(logRecordListener);
     }
 
     private EventHandler<EmbedEvent> getEmbedEventHandler() {

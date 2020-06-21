@@ -16,7 +16,6 @@
  *
  *//*
 
-
 package io.github.selcukes.reports.tests;
 
 import io.github.selcukes.core.config.ConfigFactory;
@@ -24,8 +23,8 @@ import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.reports.notification.Notifier;
 import io.github.selcukes.reports.notification.teams.MicrosoftTeams;
-import io.github.selcukes.reports.video.FFmpegRecorder;
 import io.github.selcukes.reports.video.Recorder;
+import io.github.selcukes.reports.video.VideoRecorder;
 import io.github.selcukes.wdb.WebDriverBinary;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -45,7 +44,7 @@ public class RecorderTest {
         ConfigFactory.loadLoggerProperties();
         WebDriverBinary.chromeDriver().setup();
         driver = new ChromeDriver();
-        recorder = new FFmpegRecorder();
+        recorder = VideoRecorder.fFmpegRecorder();
         recorder.start();
     }
 

@@ -32,32 +32,32 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
 public class EmailReporter implements IReporter {
-    private static final Logger LOGGER = LoggerFactory.getLogger(EmailReporter.class);
+    private static final Logger logger = LoggerFactory.getLogger(EmailReporter.class);
     private static final String REPORT_TEMPLATE_PATH = FileHelper.driversFolder(new File(".").getAbsolutePath()) + File.separator + "reportTemplate.html";
     private static final String ROW_TEMPLATE = "<tr class=\"%s\"><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>";
 
+    @Override
     public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites, String outputDirectory) {
         String reportTemplate = initReportTemplate();
 
         final String body = suites
-                .stream()
-                .flatMap(suiteToResults())
-                .collect(Collectors.joining());
+            .stream()
+            .flatMap(suiteToResults())
+            .collect(Collectors.joining());
 
         saveReportTemplate(outputDirectory, reportTemplate.replaceFirst("</tbody>", String.format("%s</tbody>", body)));
     }
 
     private Function<ISuite, Stream<? extends String>> suiteToResults() {
         return suite -> suite.getResults().entrySet()
-                .stream()
-                .flatMap(resultsToRows(suite));
+            .stream()
+            .flatMap(resultsToRows(suite));
     }
 
     private Function<Map.Entry<String, ISuiteResult>, Stream<? extends String>> resultsToRows(ISuite suite) {
@@ -65,27 +65,27 @@ public class EmailReporter implements IReporter {
             ITestContext testContext = e.getValue().getTestContext();
 
             Set<ITestResult> failedTests = testContext
-                    .getFailedTests()
-                    .getAllResults();
+                .getFailedTests()
+                .getAllResults();
             Set<ITestResult> passedTests = testContext
-                    .getPassedTests()
-                    .getAllResults();
+                .getPassedTests()
+                .getAllResults();
             Set<ITestResult> skippedTests = testContext
-                    .getSkippedTests()
-                    .getAllResults();
+                .getSkippedTests()
+                .getAllResults();
 
             String suiteName = suite.getName();
 
             return Stream
-                    .of(failedTests, passedTests, skippedTests)
-                    .flatMap(results -> generateReportRows(e.getKey(), suiteName, results).stream());
+                .of(failedTests, passedTests, skippedTests)
+                .flatMap(results -> generateReportRows(e.getKey(), suiteName, results).stream());
         };
     }
 
     private List<String> generateReportRows(String testName, String suiteName, Set<ITestResult> allTestResults) {
         return allTestResults.stream()
-                .map(testResultToResultRow(testName, suiteName))
-                .collect(toList());
+            .map(testResultToResultRow(testName, suiteName))
+            .collect(toList());
     }
 
     private Function<ITestResult, String> testResultToResultRow(String testName, String suiteName) {
@@ -113,7 +113,7 @@ public class EmailReporter implements IReporter {
             reportTemplate = Files.readAllBytes(Paths.get(REPORT_TEMPLATE_PATH));
             template = new String(reportTemplate, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            LOGGER.info(()->"Problem initializing template" + e);
+            logger.info(() -> "Problem initializing template" + e);
         }
         return template;
     }
@@ -126,7 +126,7 @@ public class EmailReporter implements IReporter {
             reportWriter.flush();
             reportWriter.close();
         } catch (IOException e) {
-            LOGGER.info(()->"Problem saving template" + e);
+            logger.info(() -> "Problem saving template" + e);
         }
     }
 }
