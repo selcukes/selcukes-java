@@ -34,6 +34,7 @@ public class NotifierHelper {
             case "SKIPPED":
                 messageColor = "FFA500"; // Orange
                 break;
+            default:
         }
         return messageColor;
     }

@@ -92,15 +92,15 @@ public class Selcukes implements ConcurrentEventListener {
 
     private void afterStep(TestStepFinished event) {
         logger.trace(() -> String.format("After Step: [%s]", event.getTestStep().toString()));
-        if (event.getResult().getStatus().is(Status.FAILED)) {
-            if (event.getTestStep() instanceof PickleStepTestStep) {
-                PickleStepTestStep testStep = (PickleStepTestStep) event.getTestStep();
-                StringBuilder stepsReport = new StringBuilder();
-                stepsReport.append("Cucumber Step Failed : ").append(testStep.getStep().getText()).append("  [").append(testStep.getStep().getLine()).append("] ");
-                Optional<StepArgument> stepsArgs = Optional.ofNullable(testStep.getStep().getArgument());
-                if (stepsArgs.isPresent()) stepsReport.append("Step Argument: [").append(stepsArgs).append("] ");
-                logger.debug(stepsReport::toString);
-            }
+        if (event.getResult().getStatus().is(Status.FAILED) && event.getTestStep() instanceof PickleStepTestStep) {
+            PickleStepTestStep testStep = (PickleStepTestStep) event.getTestStep();
+            StringBuilder stepsReport = new StringBuilder();
+            stepsReport.append("Cucumber Step Failed : ")
+                .append(testStep.getStep().getText()).append("  [")
+                .append(testStep.getStep().getLine()).append("] ");
+            Optional<StepArgument> stepsArgs = Optional.ofNullable(testStep.getStep().getArgument());
+            if (stepsArgs.isPresent()) stepsReport.append("Step Argument: [").append(stepsArgs).append("] ");
+            logger.debug(stepsReport::toString);
         }
 
     }
@@ -116,19 +116,20 @@ public class Selcukes implements ConcurrentEventListener {
     }
 
     private void afterTest(TestRunFinished event) {
+
         LoggerFactory.removeListener(logRecordListener);
     }
 
     private EventHandler<EmbedEvent> getEmbedEventHandler() {
-        return event -> {
+        return event ->
             logger.trace(() -> String.format("Embed Event: [%s]", event.getName()));
-        };
+
     }
 
     private EventHandler<WriteEvent> getWriteEventHandler() {
-        return event -> {
+        return event ->
             logger.trace(() -> String.format("Write Event: [%s]", event.getText()));
-        };
+
     }
 
 }
