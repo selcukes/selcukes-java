@@ -18,22 +18,7 @@
 
 package io.github.selcukes.reports.video;
 
-import java.io.File;
-
-public abstract class AbstractRecorder implements Recorder {
-    public static VideoConfig conf() {
-        return VideoConfig.builder()
-            .build();
-    }
-
-    private static File lastVideo;
-
-    protected static void setLastVideo(File video) {
-        lastVideo = video;
-    }
-
-    public static File getLastRecording() {
-        return lastVideo;
-    }
-
+public enum RecorderType {
+    MONTE,
+    FFMPEG
 }

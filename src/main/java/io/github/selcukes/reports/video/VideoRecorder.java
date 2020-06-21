@@ -18,14 +18,22 @@
 
 package io.github.selcukes.reports.video;
 
-public class VideoRecorder {
-    Recorder recorder;
-
-    public static synchronized Recorder getFFmpegRecorder() {
-        return new FFmpegRecorderImpl();
+public abstract class VideoRecorder implements Recorder {
+    public static VideoConfig conf() {
+        return VideoConfig.builder()
+            .build();
+    }
+    public static synchronized Recorder getRecorder(RecorderType recorderType) {
+        if (recorderType.equals(RecorderType.FFMPEG)) {
+            return new FFmpegRecorder();
+        } else return new MonteRecorder();
     }
 
-    public static synchronized Recorder getMonteRecorder() {
-        return new MonteRecorderImpl();
+    public static synchronized Recorder fFmpegRecorder() {
+        return new FFmpegRecorder();
+    }
+
+    public static synchronized Recorder monteRecorder() {
+        return new MonteRecorder();
     }
 }

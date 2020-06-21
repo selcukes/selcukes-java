@@ -44,7 +44,7 @@ class ScreenPlayImpl implements ScreenPlay {
     public ScreenPlayImpl(WebDriver driver, Scenario scenario) {
         this.driver = driver;
         this.scenario = scenario;
-        recorder = VideoRecorder.getFFmpegRecorder();
+        recorder = VideoRecorder.fFmpegRecorder();
         isOldCucumber = false;
     }
 

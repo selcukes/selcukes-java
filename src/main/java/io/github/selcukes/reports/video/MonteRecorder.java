@@ -19,68 +19,99 @@
 package io.github.selcukes.reports.video;
 
 import io.github.selcukes.core.exception.RecorderException;
-import io.github.selcukes.core.helper.DateHelper;
-import io.github.selcukes.core.helper.FileHelper;
-import lombok.Builder;
+import io.github.selcukes.core.logging.Logger;
+import io.github.selcukes.core.logging.LoggerFactory;
 import org.monte.media.Format;
-import org.monte.media.Registry;
-import org.monte.screenrecorder.ScreenRecorder;
+import org.monte.media.FormatKeys;
+import org.monte.media.math.Rational;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-class MonteRecorder extends ScreenRecorder {
+import static org.monte.media.VideoFormatKeys.*;
 
-    private String currentTempExtension;
+class MonteRecorder extends VideoRecorder {
+    final Logger logger = LoggerFactory.getLogger(MonteRecorder.class);
+    private final MonteRecorderBuilder screenRecorder;
+    private final VideoConfig videoConfig;
 
-    @Builder
-    MonteRecorder(GraphicsConfiguration cfg,
-                  Rectangle rectangle,
-                  Format fileFormat,
-                  Format screenFormat,
-                  Format mouseFormat,
-                  Format audioFormat,
-                  File folder) throws IOException, AWTException {
-        super(cfg, rectangle, fileFormat, screenFormat, mouseFormat, audioFormat);
-        super.movieFolder = folder;
+    public MonteRecorder() {
+        this.videoConfig = conf();
+        this.screenRecorder = getScreenRecorder();
     }
 
-    @Override
-    protected File createMovieFile(Format fileFormat) throws IOException {
-        this.currentTempExtension = Registry.getInstance().getExtension(fileFormat);
-        return super.createMovieFile(fileFormat);
-    }
-
-    public File saveAs(String filename) {
-        this.stop();
-        File tempFile = this.getCreatedMovieFiles().get(0);
-        File destFile = getDestinationFile(filename);
-        FileHelper.renameFile(tempFile, destFile);
-        return destFile;
-    }
-
-    private File getDestinationFile(String filename) {
-        String fileName = filename + "_recording_" + DateHelper.get().dateTime();
-        return new File(this.movieFolder + File.separator + fileName + "." + this.currentTempExtension);
-
-    }
-
-    @Override
+    /**
+     * This method will start the recording of the execution.
+     */
     public void start() {
+        screenRecorder.start();
+        logger.info(() -> "Recording started");
+    }
+
+    /**
+     * This method will stop and save's the recording.
+     */
+    public File stopAndSave(String filename) {
+        File video = writeVideo(filename);
+        logger.info(() -> "Recording finished to " + video.getAbsolutePath());
+        return video;
+    }
+
+    /**
+     * This method will delete the recorded file,if the test is pass.
+     */
+    public void stopAndDelete(String filename) {
+        File video = writeVideo(filename);
+        logger.info(() -> "Trying to delete recorded video files...");
+        video.deleteOnExit();
+    }
+
+    private File writeVideo(String filename) {
         try {
-            super.start();
-        } catch (IOException e) {
-            throw new RecorderException(e);
+            return screenRecorder.saveAs(filename);
+        } catch (IndexOutOfBoundsException ex) {
+            throw new RecorderException("Video recording wasn't started");
         }
     }
 
-    @Override
-    public void stop() {
+    private GraphicsConfiguration getGraphicConfig() {
+        return GraphicsEnvironment
+            .getLocalGraphicsEnvironment().getDefaultScreenDevice()
+            .getDefaultConfiguration();
+    }
+
+    private MonteRecorderBuilder getScreenRecorder() {
+        int frameRate = videoConfig.getFrameRate();
+
+        Format fileFormat = new Format(MediaTypeKey, MediaType.VIDEO, MimeTypeKey, FormatKeys.MIME_AVI);
+        Format screenFormat = new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey,
+            ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
+            CompressorNameKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
+            DepthKey, 24, FrameRateKey, Rational.valueOf(frameRate),
+            QualityKey, 1.0f,
+            KeyFrameIntervalKey, 15 * 60);
+        Format mouseFormat = new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, "black",
+            FrameRateKey, Rational.valueOf(frameRate));
+
+        Dimension screenSize = videoConfig.getScreenSize();
+        int width = screenSize.width;
+        int height = screenSize.height;
+
+        Rectangle captureSize = new Rectangle(0, 0, width, height);
+
         try {
-            super.stop();
-        } catch (IOException e) {
+            return MonteRecorderBuilder
+                .builder()
+                .cfg(getGraphicConfig())
+                .rectangle(captureSize)
+                .fileFormat(fileFormat)
+                .screenFormat(screenFormat)
+                .folder(new File(videoConfig.getVideoFolder()))
+                .mouseFormat(mouseFormat).build();
+        } catch (IOException | AWTException e) {
             throw new RecorderException(e);
+
         }
     }
 }

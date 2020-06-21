@@ -80,7 +80,7 @@ public class Selcukes implements ConcurrentEventListener {
     private void beforeScenario(TestCaseStarted event) {
         scenarioName = event.getTestCase().getName();
         if (ConfigFactory.getConfig().getVideoRecording()) {
-            recorder = VideoRecorder.getMonteRecorder();
+            recorder = VideoRecorder.monteRecorder();
             recorder.start();
         }
     }

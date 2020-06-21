@@ -29,8 +29,8 @@ import io.github.selcukes.core.logging.LoggerFactory;
 import java.awt.*;
 import java.io.File;
 
-class FFmpegRecorderImpl extends AbstractRecorder {
-    private static final Logger logger = LoggerFactory.getLogger(FFmpegRecorderImpl.class);
+class FFmpegRecorder extends VideoRecorder {
+    private static final Logger logger = LoggerFactory.getLogger(FFmpegRecorder.class);
     private static final String FFMPEG = "ffmpeg";
     private static final String EXTENSION = ".mp4";
     private final VideoConfig videoConfig;
@@ -38,7 +38,7 @@ class FFmpegRecorderImpl extends AbstractRecorder {
     private final Shell shell;
     private File tempFile;
 
-    public FFmpegRecorderImpl() {
+    public FFmpegRecorder() {
         shell = new Shell();
         this.videoConfig = conf();
     }
