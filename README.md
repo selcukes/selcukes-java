@@ -72,4 +72,28 @@ public class CucumberHooks {
 }
 ```
 
+# FFMPEG Setup
+Please follow below steps to install FFMPEG:
+
+For Ubuntu follow below commands:
+```java
+sudo add-apt-repository ppa:mc3man/trusty-media
+sudo apt-get update
+sudo apt-get dist-upgrade
+sudo apt-get install ffmpeg
+```
+For Mac just use brew:
+```java
+brew install ffmpeg
+```
+For Windows
+<ol>
+<li>Download ffmpeg and extract to folder <br/>
+Ex: C:\ffmpeg</li>
+<li>Add FFMPEG bin to PATH variable.<br/>
+Ex: C:\ffmpeg\bin</li> 
+<li>Download SendSignalCtrlC.exe from here and put into the ffmpeg bin folder<br/>
+  Ex: C:\ffmpeg\bin</li>
+</ol>
+To be sure that everything works properly, open CMD and perform first command:
 
