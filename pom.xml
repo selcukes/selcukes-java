@@ -24,10 +24,7 @@
         <recorder.version>0.7.7.0</recorder.version>
         <lombok.version>1.18.12</lombok.version>
         <cucumber.version>5.6.0</cucumber.version>
-        <poi.version>4.1.2</poi.version>
         <selenium.version>4.0.0-alpha-5</selenium.version>
-        <apache-httpcomponents.version>4.5.11</apache-httpcomponents.version>
-
         <webdriver-binaries.version>1.2.0</webdriver-binaries.version>
 
         <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
@@ -35,8 +32,8 @@
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
 
     <licenses>
@@ -140,13 +137,6 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>${poi.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
