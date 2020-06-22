@@ -71,8 +71,8 @@ public class CucumberHooks {
     }
 }
 ```
-
-# FFMPEG Setup
+<details>
+  <summary>FFmpeg Installation and configuration!</summary>
 Please follow below steps to install FFMPEG:
 
 For Ubuntu follow below commands:
@@ -100,3 +100,4 @@ To be sure that everything works properly, open CMD and perform first command:
 ![FFMPEG](./images/ffmpeg.JPG)
 
 ![SendCtrlC](./images/sendCtrlC.JPG)
+</details>
