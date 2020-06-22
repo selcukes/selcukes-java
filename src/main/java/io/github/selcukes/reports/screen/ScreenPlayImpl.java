@@ -35,6 +35,7 @@ import org.openqa.selenium.WebDriver;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.stream.Collectors;
 
@@ -138,10 +139,10 @@ class ScreenPlayImpl implements ScreenPlay {
 
     @Override
     public void attachLogs() {
-        String allLogs = loggerListener.getLogRecords()
+        String infoLogs = loggerListener.getLogRecords(Level.INFO)
             .map(LogRecord::getMessage)
-            .collect(Collectors.joining("\n  --> ", "\n--ALL Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
-        scenario.write(allLogs);
+            .collect(Collectors.joining("\n  --> ", "\n--Info Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
+        scenario.write(infoLogs);
     }
 
     private void attach(byte[] objToEmbed, String mediaType) {
