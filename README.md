@@ -52,10 +52,11 @@ public class CucumberHooks {
 
     @Before
     public void beforeTest(Scenario scenario) {
-        ConfigFactory.loadLoggerProperties();
         WebDriverBinary.chromeDriver().setup();
-        
+        driver = new ChromeDriver();
+       
         screenPlay = ScreenPlayBuilder.getScreenPlay(driver, scenario);
+         // start video recording..
         screenPlay.start();
 
         logger.info(() -> "Before Scenario .." + scenario.getName());
@@ -65,7 +66,7 @@ public class CucumberHooks {
     public void afterTest(Scenario scenario) {
         logger.info(() -> "After Scenario .." + scenario.getName());
         screenPlay.attachScreenshot(); //Attach Full page screenshot to cucumber report
-        screenPlay.attachVideo(); //Attach FFmpeg video to cucumber report
+        screenPlay.attachVideo(); //Attach video to cucumber report on Failure
         screenPlay.attachLogs(); //Attach INFO Level Logs to cucumber report
     }
 }
