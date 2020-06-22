@@ -93,14 +93,16 @@ class ScreenPlayImpl implements ScreenPlay {
 
     @Override
     public void attachVideo() {
-        String videoPath = recorder.stopAndSave(scenario.getName().replace(" ", "_")).getAbsolutePath();
+        if (scenario.isFailed()) {
+            String videoPath = recorder.stopAndSave(scenario.getName().replace(" ", "_")).getAbsolutePath();
 
-        String htmlToEmbed = "<video width=\"864\" height=\"576\" controls>" +
-            "<source src=" + videoPath + " type=\"video/mp4\">" +
-            "Your browser does not support the video tag." +
-            "</video>";
-        byte[] objToEmbed = htmlToEmbed.getBytes();
-        attach(objToEmbed, "text/html");
+            String htmlToEmbed = "<video width=\"864\" height=\"576\" controls>" +
+                "<source src=" + videoPath + " type=\"video/mp4\">" +
+                "Your browser does not support the video tag." +
+                "</video>";
+            byte[] objToEmbed = htmlToEmbed.getBytes();
+            attach(objToEmbed, "text/html");
+        } else recorder.stopAndDelete(scenario.getName());
     }
 
     /**
