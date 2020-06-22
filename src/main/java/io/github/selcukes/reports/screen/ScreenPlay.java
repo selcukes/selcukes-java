@@ -28,4 +28,5 @@ public interface ScreenPlay {
     ScreenPlay stop();
     ScreenPlay slackNotification(String step);
     ScreenPlay teamsNotification(String step);
+    void attachLogs();
 }

@@ -20,6 +20,7 @@ package io.github.selcukes.reports.screen;
 
 import io.cucumber.java.Scenario;
 import io.github.selcukes.core.exception.RecorderException;
+import io.github.selcukes.core.logging.LogRecordListener;
 import io.github.selcukes.devtools.DevToolsService;
 import io.github.selcukes.devtools.core.Screenshot;
 import io.github.selcukes.devtools.services.ChromeDevToolsService;
@@ -34,18 +35,23 @@ import org.openqa.selenium.WebDriver;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.LogRecord;
+import java.util.stream.Collectors;
 
 class ScreenPlayImpl implements ScreenPlay {
-    WebDriver driver;
-    Scenario scenario;
-    Recorder recorder;
-    boolean isOldCucumber;
 
-    public ScreenPlayImpl(WebDriver driver, Scenario scenario) {
+    private final WebDriver driver;
+    private final Scenario scenario;
+    private final LogRecordListener loggerListener;
+    private final Recorder recorder;
+    private boolean isOldCucumber;
+
+    public ScreenPlayImpl(WebDriver driver, Scenario scenario, LogRecordListener logRecordListener) {
         this.driver = driver;
         this.scenario = scenario;
         recorder = VideoRecorder.fFmpegRecorder();
         isOldCucumber = false;
+        this.loggerListener = logRecordListener;
     }
 
     @Override
@@ -128,6 +134,14 @@ class ScreenPlayImpl implements ScreenPlay {
         Notifier teams = new MicrosoftTeams();
         teams.pushNotification(scenario.getName(), scenario.getStatus().toString(), message, takeScreenshot());
         return this;
+    }
+
+    @Override
+    public void attachLogs() {
+        String allLogs = loggerListener.getLogRecords()
+            .map(LogRecord::getMessage)
+            .collect(Collectors.joining("\n  --> ", "\n--ALL Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
+        scenario.write(allLogs);
     }
 
     private void attach(byte[] objToEmbed, String mediaType) {
