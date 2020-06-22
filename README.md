@@ -76,14 +76,14 @@ public class CucumberHooks {
 Please follow below steps to install FFMPEG:
 
 For Ubuntu follow below commands:
-```java
+```linux
 sudo add-apt-repository ppa:mc3man/trusty-media
 sudo apt-get update
 sudo apt-get dist-upgrade
 sudo apt-get install ffmpeg
 ```
 For Mac just use brew:
-```java
+```linux
 brew install ffmpeg
 ```
 For Windows
