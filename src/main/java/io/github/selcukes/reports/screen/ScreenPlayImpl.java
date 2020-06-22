@@ -21,6 +21,7 @@ package io.github.selcukes.reports.screen;
 import io.cucumber.java.Scenario;
 import io.github.selcukes.core.exception.RecorderException;
 import io.github.selcukes.core.logging.LogRecordListener;
+import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.devtools.DevToolsService;
 import io.github.selcukes.devtools.core.Screenshot;
 import io.github.selcukes.devtools.services.ChromeDevToolsService;
@@ -43,16 +44,16 @@ class ScreenPlayImpl implements ScreenPlay {
 
     private final WebDriver driver;
     private final Scenario scenario;
-    private final LogRecordListener loggerListener;
+    private LogRecordListener loggerListener;
     private final Recorder recorder;
     private boolean isOldCucumber;
 
-    public ScreenPlayImpl(WebDriver driver, Scenario scenario, LogRecordListener logRecordListener) {
+    public ScreenPlayImpl(WebDriver driver, Scenario scenario) {
         this.driver = driver;
         this.scenario = scenario;
         recorder = VideoRecorder.fFmpegRecorder();
         isOldCucumber = false;
-        this.loggerListener = logRecordListener;
+        startReadingLogs();
     }
 
     @Override
@@ -143,6 +144,7 @@ class ScreenPlayImpl implements ScreenPlay {
             .map(LogRecord::getMessage)
             .collect(Collectors.joining("\n  --> ", "\n--Info Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
         scenario.write(infoLogs);
+        stopReadingLogs();
     }
 
     private void attach(byte[] objToEmbed, String mediaType) {
@@ -150,6 +152,15 @@ class ScreenPlayImpl implements ScreenPlay {
             scenario.embed(objToEmbed, mediaType);
         else
             scenario.embed(objToEmbed, mediaType, scenario.getName());
+    }
+
+    private void startReadingLogs() {
+        this.loggerListener = new LogRecordListener();
+        LoggerFactory.addListener(loggerListener);
+    }
+
+    private void stopReadingLogs() {
+        LoggerFactory.removeListener(loggerListener);
     }
 
 }

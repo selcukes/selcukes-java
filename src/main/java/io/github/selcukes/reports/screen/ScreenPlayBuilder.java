@@ -20,14 +20,11 @@
 package io.github.selcukes.reports.screen;
 
 import io.cucumber.java.Scenario;
-import io.github.selcukes.core.logging.LogRecordListener;
-import lombok.Builder;
 import org.openqa.selenium.WebDriver;
 
 public class ScreenPlayBuilder {
 
-    @Builder(builderMethodName="setup")
-    private static ScreenPlayImpl getScreenPlay(WebDriver driver, Scenario scenario, LogRecordListener loggerListener) {
-        return new ScreenPlayImpl(driver, scenario, loggerListener);
+    public static ScreenPlayImpl getScreenPlay(WebDriver driver, Scenario scenario) {
+        return new ScreenPlayImpl(driver, scenario);
     }
 }
