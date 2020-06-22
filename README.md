@@ -96,4 +96,5 @@ Ex: C:\ffmpeg\bin</li>
   Ex: C:\ffmpeg\bin</li>
 </ol>
 To be sure that everything works properly, open CMD and perform first command:
-
+![FFMPEG](./images/ffmpeg.jpg)
+![SendCtrlC](./images/sendCtrlC.jpg)
