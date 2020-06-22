@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- *//*
+ */
 
 package io.github.selcukes.reports.tests;
 
@@ -48,7 +48,7 @@ public class RecorderTest {
         recorder.start();
     }
 
-    @Test
+   // @Test
     public void loginTest() {
 
         driver.get("http://www.princexml.com/samples/");
@@ -72,4 +72,3 @@ public class RecorderTest {
 
     }
 }
-*/
