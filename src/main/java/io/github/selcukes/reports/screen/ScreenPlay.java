@@ -18,45 +18,65 @@
 
 package io.github.selcukes.reports.screen;
 
-import io.github.selcukes.reports.video.Recorder;
+import io.github.selcukes.reports.enums.NotifierType;
+import io.github.selcukes.reports.enums.RecorderType;
 
 public interface ScreenPlay {
+    /**
+     * Capture Screenshot
+     */
     String takeScreenshot();
 
     /**
-     * Embed Full page screenshot
+     * Embed Full page screenshot to cucumber report
      * scenario.embed(objToEmbed, mediaType);
      */
     void embedScreenshot();
 
     /**
-     * Attach Full page screenshot
+     * Attach Full page screenshot to cucumber report
      * scenario.embed(objToEmbed, mediaType, scenario.getName());
      */
     void attachScreenshot();
 
+    /**
+     * Start Video Recorder
+     */
     ScreenPlay start();
 
     /**
-     * Attach Video on Failure
+     * Attach Video on Failure to cucumber report
      * scenario.embed(objToEmbed, mediaType, scenario.getName());
      */
     void attachVideo();
 
     /**
-     * Embed Video on Failure
+     * Embed Video on Failure to cucumber report
      * scenario.embed(objToEmbed, mediaType);
      */
     void embedVideo();
 
+    /**
+     * Stop Video Recorder
+     */
     ScreenPlay stop();
 
-    ScreenPlay slackNotification(String step);
+    ScreenPlay sendNotification(String step);
 
-    ScreenPlay teamsNotification(String step);
-
+    /**
+     * Attach INFO Level Logs to cucumber report
+     * scenario.embed(objToEmbed, mediaType);
+     */
     void attachLogs();
 
-    ScreenPlay getRecorder();
+    /**
+     * Get Recorder object by Type
+     */
+    ScreenPlay getRecorder(RecorderType recorderType);
+
+    /**
+     * Get Notifier object by Type
+     */
+    ScreenPlay getNotifier(NotifierType notifierType);
 
 }

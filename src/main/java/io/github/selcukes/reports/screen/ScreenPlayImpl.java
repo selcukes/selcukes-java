@@ -25,11 +25,12 @@ import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.devtools.DevToolsService;
 import io.github.selcukes.devtools.core.Screenshot;
 import io.github.selcukes.devtools.services.ChromeDevToolsService;
+import io.github.selcukes.reports.enums.NotifierType;
+import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.notification.Notifier;
-import io.github.selcukes.reports.notification.slack.Slack;
-import io.github.selcukes.reports.notification.teams.MicrosoftTeams;
+import io.github.selcukes.reports.notification.NotifierFactory;
 import io.github.selcukes.reports.video.Recorder;
-import io.github.selcukes.reports.video.VideoRecorder;
+import io.github.selcukes.reports.video.RecorderFactory;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -46,6 +47,7 @@ class ScreenPlayImpl implements ScreenPlay {
     private final Scenario scenario;
     private LogRecordListener loggerListener;
     private Recorder recorder;
+    private Notifier notifier;
     private boolean isOldCucumber;
 
     public ScreenPlayImpl(WebDriver driver, Scenario scenario) {
@@ -112,16 +114,8 @@ class ScreenPlayImpl implements ScreenPlay {
     }
 
     @Override
-    public ScreenPlay slackNotification(String message) {
-        Notifier slack = new Slack();
-        slack.pushNotification(scenario.getName(), scenario.getStatus().toString(), message, takeScreenshot());
-        return this;
-    }
-
-    @Override
-    public ScreenPlay teamsNotification(String message) {
-        Notifier teams = new MicrosoftTeams();
-        teams.pushNotification(scenario.getName(), scenario.getStatus().toString(), message, takeScreenshot());
+    public ScreenPlay sendNotification(String message) {
+        notifier.pushNotification(scenario.getName(), scenario.getStatus().toString(), message, takeScreenshot());
         return this;
     }
 
@@ -135,8 +129,14 @@ class ScreenPlayImpl implements ScreenPlay {
     }
 
     @Override
-    public ScreenPlay getRecorder() {
-        recorder = VideoRecorder.ffmpegRecorder();
+    public ScreenPlay getRecorder(RecorderType recorderType) {
+        recorder = RecorderFactory.getRecorder(recorderType);
+        return this;
+    }
+
+    @Override
+    public ScreenPlay getNotifier(NotifierType notifierType) {
+        Notifier notifier = NotifierFactory.getNotifier(notifierType);
         return this;
     }
 
