@@ -27,6 +27,7 @@ import io.github.selcukes.devtools.core.Screenshot;
 import io.github.selcukes.devtools.services.ChromeDevToolsService;
 import io.github.selcukes.reports.enums.NotifierType;
 import io.github.selcukes.reports.enums.RecorderType;
+import io.github.selcukes.reports.enums.TestType;
 import io.github.selcukes.reports.notification.Notifier;
 import io.github.selcukes.reports.notification.NotifierFactory;
 import io.github.selcukes.reports.video.Recorder;
@@ -34,6 +35,8 @@ import io.github.selcukes.reports.video.RecorderFactory;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.testng.ITestResult;
+import org.testng.Reporter;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,16 +52,15 @@ class ScreenPlayImpl implements ScreenPlay {
     protected Recorder recorder;
     protected Notifier notifier;
     private boolean isOldCucumber;
-
-    public ScreenPlayImpl(WebDriver driver, Scenario scenario) {
-        this.driver = driver;
-        this.scenario = scenario;
-        isOldCucumber = false;
-        startReadingLogs();
-    }
+    private String scenarioName;
+    private String scenarioStatus;
+    private TestType testType;
+    private boolean isFailed;
 
     public ScreenPlayImpl(WebDriver driver) {
         this.driver = driver;
+        isOldCucumber = false;
+        startReadingLogs();
     }
 
     @Override
@@ -87,16 +89,15 @@ class ScreenPlayImpl implements ScreenPlay {
 
     @Override
     public void attachVideo() {
-        if (scenario.isFailed()) {
+        if (isFailed) {
             String videoPath = stop().getAbsolutePath();
 
             String htmlToEmbed = "<video width=\"864\" height=\"576\" controls>" +
                 "<source src=" + videoPath + " type=\"video/mp4\">" +
                 "Your browser does not support the video tag." +
                 "</video>";
-            byte[] objToEmbed = htmlToEmbed.getBytes();
-            attach(objToEmbed, "text/html");
-        } else recorder.stopAndDelete(scenario.getName());
+            attach(htmlToEmbed);
+        } else recorder.stopAndDelete(scenarioName);
     }
 
     @Override
@@ -113,12 +114,12 @@ class ScreenPlayImpl implements ScreenPlay {
 
     @Override
     public File stop() {
-        return recorder.stopAndSave(scenario.getName().replace(" ", "_"));
+        return recorder.stopAndSave(scenarioName.replace(" ", "_"));
     }
 
     @Override
     public ScreenPlay sendNotification(String message) {
-        notifier.pushNotification(scenario.getName(), scenario.getStatus().toString(), message, takeScreenshot());
+        notifier.pushNotification(scenarioName, scenarioStatus, message, takeScreenshot());
         return this;
     }
 
@@ -127,7 +128,7 @@ class ScreenPlayImpl implements ScreenPlay {
         String infoLogs = loggerListener.getLogRecords(Level.INFO)
             .map(LogRecord::getMessage)
             .collect(Collectors.joining("\n  --> ", "\n--Info Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
-        scenario.write(infoLogs);
+        write(infoLogs);
         stopReadingLogs();
     }
 
@@ -145,7 +146,18 @@ class ScreenPlayImpl implements ScreenPlay {
 
     @Override
     public <T> ScreenPlay readTest(T scenario) {
-        this.scenario = (Scenario) scenario;
+        if (scenario instanceof Scenario) {
+            this.scenario = (Scenario) scenario;
+            scenarioName = ((Scenario) scenario).getName();
+            scenarioStatus = ((Scenario) scenario).getStatus().toString();
+            isFailed = ((Scenario) scenario).isFailed();
+            testType = TestType.Cucumber;
+        } else if (scenario instanceof ITestResult) {
+            testType = TestType.TestNG;
+            scenarioName = ((ITestResult) scenario).getName();
+            scenarioStatus = getTestStatus((ITestResult) scenario);
+            isFailed = !((ITestResult) scenario).isSuccess();
+        }
         return this;
     }
 
@@ -161,8 +173,32 @@ class ScreenPlayImpl implements ScreenPlay {
         LoggerFactory.addListener(loggerListener);
     }
 
+    private void write(String text) {
+        if (testType.equals(TestType.Cucumber)) {
+            scenario.write(text);
+        } else Reporter.log(text);
+    }
+
+    private void attach(String attachment) {
+        if (testType.equals(TestType.Cucumber)) {
+            byte[] objToEmbed = attachment.getBytes();
+            attach(objToEmbed, "text/html");
+        } else Reporter.log(attachment);
+    }
+
     public void stopReadingLogs() {
         LoggerFactory.removeListener(loggerListener);
     }
 
+    private String getTestStatus(ITestResult result) {
+        String status;
+        if (result.isSuccess()) {
+            status = "PASS";
+        } else if (result.getStatus() == ITestResult.FAILURE) {
+            status = "FAILED";
+        } else {
+            status = "SKIPPED";
+        }
+        return status;
+    }
 }

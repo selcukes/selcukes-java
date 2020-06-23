@@ -1,4 +1,3 @@
-
 /*
  *
  * Copyright (c) Ramesh Babu Prudhvi.
@@ -17,14 +16,10 @@
  *
  */
 
-package io.github.selcukes.reports.screen;
+package io.github.selcukes.reports.enums;
 
-import org.openqa.selenium.WebDriver;
-
-public class ScreenPlayBuilder {
-
-    public static ScreenPlayImpl getScreenPlay(WebDriver driver) {
-        return new ScreenPlayImpl(driver);
-    }
-
+public enum  TestType {
+    Cucumber,
+    TestNG,
+    JUnit;
 }
