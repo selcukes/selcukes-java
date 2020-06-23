@@ -21,10 +21,12 @@ package io.github.selcukes.reports.tests;
 import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.reports.enums.NotifierType;
+import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.notification.Notifier;
-import io.github.selcukes.reports.notification.teams.MicrosoftTeams;
+import io.github.selcukes.reports.notification.NotifierFactory;
 import io.github.selcukes.reports.video.Recorder;
-import io.github.selcukes.reports.video.VideoRecorder;
+import io.github.selcukes.reports.video.RecorderFactory;
 import io.github.selcukes.wdb.WebDriverBinary;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -43,11 +45,11 @@ public class RecorderTest {
         ConfigFactory.loadLoggerProperties();
         WebDriverBinary.chromeDriver().setup();
         driver = new ChromeDriver();
-        recorder = VideoRecorder.ffmpegRecorder();
+        recorder = RecorderFactory.getRecorder(RecorderType.FFMPEG);
         recorder.start();
     }
 
-   // @Test
+    // @Test
     public void loginTest() {
 
         driver.get("http://www.princexml.com/samples/");
@@ -59,8 +61,7 @@ public class RecorderTest {
     }
 
     public void notificationTest() {
-        System.setProperty("selcukes.teams.hooksUrl", "");
-        Notifier notifier = new MicrosoftTeams();
+        Notifier notifier = NotifierFactory.getNotifier(NotifierType.TEAMS);
         notifier.pushNotification("Test Name", "FAILED", "Test Exception in Step", "http://connectorsdemo.azurewebsites.net/images/WIN14_Jan_04.jpg");
     }
 

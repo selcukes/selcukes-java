@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class NotifierFactory {
-    public static Notifier getNotifier(NotifierType notifierType) {
+    public static synchronized Notifier getNotifier(NotifierType notifierType) {
 
         Map<NotifierType, Supplier<Notifier>> notifierFactory = new EnumMap<NotifierType, Supplier<Notifier>>(NotifierType.class) {{
             put(NotifierType.SLACK, Slack::new);

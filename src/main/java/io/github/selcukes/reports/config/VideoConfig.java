@@ -30,13 +30,11 @@ import java.awt.*;
 @Builder
 public class VideoConfig extends Environment {
     @Builder.Default
-    String videoFolder="video-report";
+    String videoFolder = "video-report";
     @Builder.Default
-    boolean isVideoEnabled=false;
+    int frameRate = 24;
     @Builder.Default
-    int frameRate=24;
-    @Builder.Default
-    Dimension screenSize=Toolkit.getDefaultToolkit().getScreenSize();
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     @Builder.Default
     String ffmpegFormat = "gdigrab";
     @Builder.Default

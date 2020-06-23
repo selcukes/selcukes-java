@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class RecorderFactory {
-    public static Recorder getRecorder(RecorderType recorderType) {
+    public static synchronized Recorder getRecorder(RecorderType recorderType) {
         Map<RecorderType, Supplier<Recorder>> recorderFactory = new EnumMap<RecorderType, Supplier<Recorder>>(RecorderType.class) {{
             put(RecorderType.MONTE, MonteRecorder::new);
             put(RecorderType.FFMPEG, FFmpegRecorder::new);
