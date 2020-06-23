@@ -44,10 +44,10 @@ import java.util.stream.Collectors;
 class ScreenPlayImpl implements ScreenPlay {
 
     private final WebDriver driver;
-    private final Scenario scenario;
-    private LogRecordListener loggerListener;
-    private Recorder recorder;
-    private Notifier notifier;
+    private Scenario scenario;
+    protected LogRecordListener loggerListener;
+    protected Recorder recorder;
+    protected Notifier notifier;
     private boolean isOldCucumber;
 
     public ScreenPlayImpl(WebDriver driver, Scenario scenario) {
@@ -55,6 +55,10 @@ class ScreenPlayImpl implements ScreenPlay {
         this.scenario = scenario;
         isOldCucumber = false;
         startReadingLogs();
+    }
+
+    public ScreenPlayImpl(WebDriver driver) {
+        this.driver = driver;
     }
 
     @Override
@@ -84,7 +88,7 @@ class ScreenPlayImpl implements ScreenPlay {
     @Override
     public void attachVideo() {
         if (scenario.isFailed()) {
-            String videoPath = recorder.stopAndSave(scenario.getName().replace(" ", "_")).getAbsolutePath();
+            String videoPath = stop().getAbsolutePath();
 
             String htmlToEmbed = "<video width=\"864\" height=\"576\" controls>" +
                 "<source src=" + videoPath + " type=\"video/mp4\">" +
@@ -108,9 +112,8 @@ class ScreenPlayImpl implements ScreenPlay {
     }
 
     @Override
-    public ScreenPlay stop() {
-        recorder.stopAndSave(scenario.getName().replace(" ", "_"));
-        return this;
+    public File stop() {
+        return recorder.stopAndSave(scenario.getName().replace(" ", "_"));
     }
 
     @Override
@@ -136,7 +139,13 @@ class ScreenPlayImpl implements ScreenPlay {
 
     @Override
     public ScreenPlay getNotifier(NotifierType notifierType) {
-        Notifier notifier = NotifierFactory.getNotifier(notifierType);
+        notifier = NotifierFactory.getNotifier(notifierType);
+        return this;
+    }
+
+    @Override
+    public <T> ScreenPlay readTest(T scenario) {
+        this.scenario = (Scenario) scenario;
         return this;
     }
 
@@ -152,7 +161,7 @@ class ScreenPlayImpl implements ScreenPlay {
         LoggerFactory.addListener(loggerListener);
     }
 
-    private void stopReadingLogs() {
+    public void stopReadingLogs() {
         LoggerFactory.removeListener(loggerListener);
     }
 

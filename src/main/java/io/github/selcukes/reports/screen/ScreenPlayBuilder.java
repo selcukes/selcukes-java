@@ -27,4 +27,8 @@ public class ScreenPlayBuilder {
     public static ScreenPlayImpl getScreenPlay(WebDriver driver, Scenario scenario) {
         return new ScreenPlayImpl(driver, scenario);
     }
+
+    public static ScreenPlayTestNG getScreenPlay(WebDriver driver) {
+        return new ScreenPlayTestNG(driver);
+    }
 }

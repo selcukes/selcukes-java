@@ -21,6 +21,8 @@ package io.github.selcukes.reports.screen;
 import io.github.selcukes.reports.enums.NotifierType;
 import io.github.selcukes.reports.enums.RecorderType;
 
+import java.io.File;
+
 public interface ScreenPlay {
     /**
      * Capture Screenshot
@@ -59,7 +61,7 @@ public interface ScreenPlay {
     /**
      * Stop Video Recorder
      */
-    ScreenPlay stop();
+    File stop();
 
     ScreenPlay sendNotification(String step);
 
@@ -79,4 +81,5 @@ public interface ScreenPlay {
      */
     ScreenPlay getNotifier(NotifierType notifierType);
 
+    <T> ScreenPlay readTest(T t);
 }
