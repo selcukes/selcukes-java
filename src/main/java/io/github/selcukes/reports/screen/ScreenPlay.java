@@ -39,7 +39,7 @@ public interface ScreenPlay {
      * Attach Full page screenshot to cucumber report
      * scenario.embed(objToEmbed, mediaType, scenario.getName());
      */
-    void attachScreenshot();
+    ScreenPlay attachScreenshot();
 
     /**
      * Start Video Recorder

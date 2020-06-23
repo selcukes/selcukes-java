@@ -20,6 +20,8 @@ package io.github.selcukes.reports.screen;
 
 import io.cucumber.java.Scenario;
 import io.github.selcukes.core.exception.RecorderException;
+import io.github.selcukes.core.helper.DateHelper;
+import io.github.selcukes.core.helper.FileHelper;
 import io.github.selcukes.core.logging.LogRecordListener;
 import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.devtools.DevToolsService;
@@ -32,6 +34,7 @@ import io.github.selcukes.reports.notification.Notifier;
 import io.github.selcukes.reports.notification.NotifierFactory;
 import io.github.selcukes.reports.video.Recorder;
 import io.github.selcukes.reports.video.RecorderFactory;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -65,8 +68,14 @@ class ScreenPlayImpl implements ScreenPlay {
 
     @Override
     public String takeScreenshot() {
-        File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        return srcFile.getAbsolutePath();
+        File destFile = getScreenshotPath();
+        try {
+            File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            FileUtils.copyFile(srcFile, destFile);
+        } catch (IOException e) {
+            throw new RecorderException("Failed Capturing Screenshot..", e);
+        }
+        return destFile.getAbsolutePath();
     }
 
     @Override
@@ -75,16 +84,27 @@ class ScreenPlayImpl implements ScreenPlay {
         attachScreenshot();
     }
 
+    private ChromeDevToolsService getDevTools() {
+        return DevToolsService.getDevToolsService(driver);
+    }
+
     @Override
-    public void attachScreenshot() {
-        ChromeDevToolsService devToolsService = DevToolsService.getDevToolsService(driver);
-        byte[] screenshot;
-        try {
-            screenshot = Screenshot.captureFullPageAsBytes(devToolsService);
-            attach(screenshot, "image/png");
-        } catch (IOException e) {
-            throw new RecorderException("Failed Capturing Screenshot..", e);
+    public ScreenPlay attachScreenshot() {
+
+        if (testType.equals(TestType.Cucumber)) {
+            byte[] screenshot;
+            try {
+                screenshot = Screenshot.captureFullPageAsBytes(getDevTools());
+                attach(screenshot, "image/png");
+            } catch (IOException e) {
+                throw new RecorderException("Failed Capturing Screenshot..", e);
+            }
+        } else {
+            String screenshotPath = takeScreenshot();
+            String htmlToEmbed = "<br>  <img src='" + screenshotPath + "' height='100' width='100' /><br>";
+            attach(htmlToEmbed);
         }
+        return this;
     }
 
     @Override
@@ -201,4 +221,13 @@ class ScreenPlayImpl implements ScreenPlay {
         }
         return status;
     }
+
+    public File getScreenshotPath() {
+
+        File reportDirectory = new File("screenshots");
+        FileHelper.createDirectory(reportDirectory);
+        String filePath = reportDirectory + File.separator + "screenshot_" + DateHelper.get().dateTime() + ".png";
+        return new File(filePath);
+    }
+
 }
