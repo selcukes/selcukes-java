@@ -32,7 +32,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 public class RecorderTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -44,7 +43,7 @@ public class RecorderTest {
         ConfigFactory.loadLoggerProperties();
         WebDriverBinary.chromeDriver().setup();
         driver = new ChromeDriver();
-        recorder = VideoRecorder.fFmpegRecorder();
+        recorder = VideoRecorder.ffmpegRecorder();
         recorder.start();
     }
 

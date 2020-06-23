@@ -45,36 +45,28 @@ class ScreenPlayImpl implements ScreenPlay {
     private final WebDriver driver;
     private final Scenario scenario;
     private LogRecordListener loggerListener;
-    private final Recorder recorder;
+    private Recorder recorder;
     private boolean isOldCucumber;
 
     public ScreenPlayImpl(WebDriver driver, Scenario scenario) {
         this.driver = driver;
         this.scenario = scenario;
-        recorder = VideoRecorder.fFmpegRecorder();
         isOldCucumber = false;
         startReadingLogs();
     }
 
     @Override
     public String takeScreenshot() {
-
         File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         return srcFile.getAbsolutePath();
     }
 
-    /**
-     * scenario.embed(objToEmbed, mediaType);
-     */
     @Override
     public void embedScreenshot() {
         isOldCucumber = true;
         attachScreenshot();
     }
 
-    /**
-     * scenario.embed(objToEmbed, mediaType, scenario.getName());
-     */
     @Override
     public void attachScreenshot() {
         ChromeDevToolsService devToolsService = DevToolsService.getDevToolsService(driver);
@@ -86,10 +78,6 @@ class ScreenPlayImpl implements ScreenPlay {
             throw new RecorderException("Failed Capturing Screenshot..", e);
         }
     }
-
-    /**
-     * scenario.embed(objToEmbed, mediaType, scenario.getName());
-     */
 
     @Override
     public void attachVideo() {
@@ -105,9 +93,6 @@ class ScreenPlayImpl implements ScreenPlay {
         } else recorder.stopAndDelete(scenario.getName());
     }
 
-    /**
-     * scenario.embed(objToEmbed, mediaType);
-     */
     @Override
     public void embedVideo() {
         isOldCucumber = true;
@@ -147,6 +132,12 @@ class ScreenPlayImpl implements ScreenPlay {
             .collect(Collectors.joining("\n  --> ", "\n--Info Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
         scenario.write(infoLogs);
         stopReadingLogs();
+    }
+
+    @Override
+    public ScreenPlay getRecorder() {
+        recorder = VideoRecorder.ffmpegRecorder();
+        return this;
     }
 
     private void attach(byte[] objToEmbed, String mediaType) {

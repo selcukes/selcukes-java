@@ -25,6 +25,7 @@ import io.github.selcukes.core.helper.DateHelper;
 import io.github.selcukes.core.helper.FileHelper;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.reports.config.VideoConfig;
 
 import java.awt.*;
 import java.io.File;
@@ -43,10 +44,6 @@ class FFmpegRecorder extends VideoRecorder {
         this.videoConfig = conf();
     }
 
-
-    /**
-     * This method will start the recording of the execution.
-     */
     public void start() {
 
         tempFile = getFile("Video");
@@ -60,15 +57,10 @@ class FFmpegRecorder extends VideoRecorder {
             " -framerate " + videoConfig.getFrameRate() +
             " -pix_fmt " + videoConfig.getPixelFormat() + " " +
             tempFile.getAbsolutePath();
-
-        logger.info(() -> "Recording video started to " + tempFile.getAbsolutePath());
         shell.runCommandAsync(cmdline);
-        logger.info(() -> "Started ffmpeg...");
+        logger.info(() -> "Recording started to " + tempFile.getAbsolutePath());
     }
 
-    /**
-     * This method will stop and save's the recording.
-     */
     @Override
     public File stopAndSave(String filename) {
 
@@ -82,13 +74,10 @@ class FFmpegRecorder extends VideoRecorder {
         return videoFile;
     }
 
-    /**
-     * This method will delete the recorded file,if the test is pass.
-     */
     @Override
     public void stopAndDelete(String filename) {
         stopAndSave(filename);
-        logger.info(() -> "Trying to delete recorded video files...");
+        logger.info(() -> "Deleting recorded video file...");
         videoFile.deleteOnExit();
     }
 

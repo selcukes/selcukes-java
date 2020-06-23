@@ -16,7 +16,7 @@
  *
  */
 
-package io.github.selcukes.reports.notification;
+package io.github.selcukes.reports.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,6 +35,7 @@ public enum NotifierEnum {
     PROJECT("Project"),
     ENVIRONMENT("Environment"),
     ATTACHMENT("Attachments"),
+    MESSAGE_CARD("MessageCard"),
     TIME_STAMP("Time Stamp");
     @Getter String value;
 }

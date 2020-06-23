@@ -16,23 +16,9 @@
  *
  */
 
-package io.github.selcukes.reports.video;
+package io.github.selcukes.reports.enums;
 
-import java.io.File;
-
-public interface Recorder {
-    /**
-     * This method will start the recording of the execution.
-     */
-    void start();
-
-    /**
-     * This method will stop and save's the recording.
-     */
-    File stopAndSave(String filename);
-
-    /**
-     * This method will delete the recorded file,if the test is pass.
-     */
-    void stopAndDelete(String filename);
+public enum  RecorderType {
+    MONTE,
+    FFMPEG;
 }

@@ -19,6 +19,7 @@
 package io.github.selcukes.reports.video;
 
 import io.github.selcukes.core.commons.os.Platform;
+import io.github.selcukes.reports.config.VideoConfig;
 
 public abstract class VideoRecorder implements Recorder {
     public static VideoConfig conf() {
@@ -31,7 +32,7 @@ public abstract class VideoRecorder implements Recorder {
         return config;
     }
 
-    public static synchronized Recorder fFmpegRecorder() {
+    public static synchronized Recorder ffmpegRecorder() {
         return new FFmpegRecorder();
     }
 

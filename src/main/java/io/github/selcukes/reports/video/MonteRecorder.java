@@ -21,6 +21,7 @@ package io.github.selcukes.reports.video;
 import io.github.selcukes.core.exception.RecorderException;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.reports.config.VideoConfig;
 import org.monte.media.Format;
 import org.monte.media.FormatKeys;
 import org.monte.media.math.Rational;
@@ -41,29 +42,23 @@ class MonteRecorder extends VideoRecorder {
         this.recorderBuilder = getScreenRecorder();
     }
 
-    /**
-     * This method will start the recording of the execution.
-     */
+    @Override
     public void start() {
         recorderBuilder.start();
         logger.info(() -> "Recording started");
     }
 
-    /**
-     * This method will stop and save's the recording.
-     */
+    @Override
     public File stopAndSave(String filename) {
         File video = writeVideo(filename);
         logger.info(() -> "Recording finished to " + video.getAbsolutePath());
         return video;
     }
 
-    /**
-     * This method will delete the recorded file,if the test is pass.
-     */
+    @Override
     public void stopAndDelete(String filename) {
         File video = writeVideo(filename);
-        logger.info(() -> "Trying to delete recorded video files...");
+        logger.info(() -> "Deleting recorded video file...");
         video.deleteOnExit();
     }
 

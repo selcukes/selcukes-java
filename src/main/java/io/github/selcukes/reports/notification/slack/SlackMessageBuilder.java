@@ -20,7 +20,7 @@ package io.github.selcukes.reports.notification.slack;
 
 import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.reports.notification.IncomingWebHookRequest;
-import io.github.selcukes.reports.notification.NotifierEnum;
+import io.github.selcukes.reports.enums.NotifierEnum;
 import io.github.selcukes.reports.notification.NotifierHelper;
 
 import java.util.ArrayList;

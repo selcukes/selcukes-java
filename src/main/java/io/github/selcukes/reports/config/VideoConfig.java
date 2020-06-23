@@ -16,7 +16,7 @@
  *
  */
 
-package io.github.selcukes.reports.video;
+package io.github.selcukes.reports.config;
 
 import io.github.selcukes.core.config.Environment;
 import lombok.Builder;
@@ -43,5 +43,4 @@ public class VideoConfig extends Environment {
     String ffmpegDisplay = "desktop";
     @Builder.Default
     String pixelFormat = "yuv420p";
-
 }

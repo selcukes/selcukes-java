@@ -21,7 +21,7 @@ package io.github.selcukes.reports.notification.teams;
 import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.helper.DateHelper;
 import io.github.selcukes.reports.notification.IncomingWebHookRequest;
-import io.github.selcukes.reports.notification.NotifierEnum;
+import io.github.selcukes.reports.enums.NotifierEnum;
 import io.github.selcukes.reports.notification.NotifierHelper;
 
 import java.util.ArrayList;
@@ -68,16 +68,16 @@ public class MicrosoftTeamsBuilder {
             .images(Collections.singletonList(image))
             .build();
 
-        String webhookUri = System.getProperty("selcukes.teams.hooksUrl");
+        String hookUri = ConfigFactory.getConfig().getNotifier().get("webhook-token");
         MicrosoftTeamsCard teamsCard = MicrosoftTeamsCard.builder()
-            .type("MessageCard")
+            .type(NotifierEnum.MESSAGE_CARD.getValue())
             .themeColor(NotifierHelper.getThemeColor(scenarioStatus))
             .title(NotifierEnum.PRETEXT.getValue())
             .text(" ")
             .sections(Collections.singletonList(section))
             .build();
 
-        IncomingWebHookRequest.forUrl(webhookUri)
+        IncomingWebHookRequest.forUrl(hookUri)
             .post(teamsCard);
 
     }

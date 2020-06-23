@@ -18,15 +18,45 @@
 
 package io.github.selcukes.reports.screen;
 
+import io.github.selcukes.reports.video.Recorder;
+
 public interface ScreenPlay {
     String takeScreenshot();
+
+    /**
+     * Embed Full page screenshot
+     * scenario.embed(objToEmbed, mediaType);
+     */
     void embedScreenshot();
+
+    /**
+     * Attach Full page screenshot
+     * scenario.embed(objToEmbed, mediaType, scenario.getName());
+     */
     void attachScreenshot();
+
     ScreenPlay start();
+
+    /**
+     * Attach Video on Failure
+     * scenario.embed(objToEmbed, mediaType, scenario.getName());
+     */
     void attachVideo();
+
+    /**
+     * Embed Video on Failure
+     * scenario.embed(objToEmbed, mediaType);
+     */
     void embedVideo();
+
     ScreenPlay stop();
+
     ScreenPlay slackNotification(String step);
+
     ScreenPlay teamsNotification(String step);
+
     void attachLogs();
+
+    ScreenPlay getRecorder();
+
 }
