@@ -55,12 +55,12 @@ public class RecorderTest {
     @AfterMethod
     public void afterMethod(ITestResult result) {
 
-        screenPlay.readTest(result)
+        screenPlay.readResult(result)
             .getNotifier(NotifierType.TEAMS)
             .sendNotification("This is sample Test Step");
     }
 
-   // @Test
+    //@Test
     public void loginTest() {
         driver.get("http://www.princexml.com/samples/");
         logger.debug(driver::getTitle);

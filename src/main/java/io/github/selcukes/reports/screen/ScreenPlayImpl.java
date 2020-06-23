@@ -145,7 +145,7 @@ class ScreenPlayImpl implements ScreenPlay {
     }
 
     @Override
-    public <T> ScreenPlay readTest(T scenario) {
+    public <T> ScreenPlay readResult(T scenario) {
         if (scenario instanceof Scenario) {
             this.scenario = (Scenario) scenario;
             scenarioName = ((Scenario) scenario).getName();

@@ -81,5 +81,5 @@ public interface ScreenPlay {
      */
     ScreenPlay getNotifier(NotifierType notifierType);
 
-    <T> ScreenPlay readTest(T t);
+    <T> ScreenPlay readResult(T t);
 }
