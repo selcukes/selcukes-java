@@ -28,5 +28,5 @@ class ScreenPlayResult {
     TestType testType;
     String scenarioName;
     String scenarioStatus;
-    boolean isFailed;
+    boolean attach;
 }

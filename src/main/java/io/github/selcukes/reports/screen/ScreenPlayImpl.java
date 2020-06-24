@@ -30,6 +30,7 @@ import io.github.selcukes.devtools.core.Screenshot;
 import io.github.selcukes.devtools.services.ChromeDevToolsService;
 import io.github.selcukes.reports.enums.NotifierType;
 import io.github.selcukes.reports.enums.RecorderType;
+import io.github.selcukes.reports.enums.TestStatus;
 import io.github.selcukes.reports.enums.TestType;
 import io.github.selcukes.reports.notification.Notifier;
 import io.github.selcukes.reports.notification.NotifierFactory;
@@ -63,7 +64,7 @@ class ScreenPlayImpl implements ScreenPlay {
     public ScreenPlayImpl(WebDriver driver) {
         this.driver = driver;
         isOldCucumber = false;
-        result = new ScreenPlayResult(TestType.CUCUMBER, "DEFAULT TEST NAME", "PASSED", false);
+        result = new ScreenPlayResult(TestType.TESTNG, "DEFAULT TEST NAME", "PASSED", false);
         startReadingLogs();
     }
 
@@ -109,16 +110,16 @@ class ScreenPlayImpl implements ScreenPlay {
     }
 
     @Override
-    public void attachVideo() {
-        if (result.isFailed()) {
+    public ScreenPlay attachVideo() {
+        if (result.isAttach()) {
             String videoPath = stop().getAbsolutePath();
-
             String htmlToEmbed = "<video width=\"864\" height=\"576\" controls>" +
                 "<source src=" + videoPath + " type=\"video/mp4\">" +
                 "Your browser does not support the video tag." +
                 "</video>";
             attach(htmlToEmbed);
         } else recorder.stopAndDelete(result.getScenarioName());
+        return this;
     }
 
     @Override
@@ -190,8 +191,16 @@ class ScreenPlayImpl implements ScreenPlay {
     }
 
     @Override
-    public ScreenPlay withResult(TestType testType, String scenarioName, String scenarioStatus, boolean isFailed) {
-        result = new ScreenPlayResult(testType, scenarioName, scenarioStatus, isFailed);
+    public ScreenPlay withResult(String scenarioName, String scenarioStatus, boolean isFailed) {
+        result = new ScreenPlayResult(TestType.TESTNG, scenarioName, scenarioStatus, isFailed);
+        return this;
+    }
+
+    @Override
+    public ScreenPlay attachWhen(TestStatus testStatus) {
+        if (testStatus == TestStatus.ALL) {
+            result.setAttach(true);
+        }
         return this;
     }
 
@@ -209,15 +218,24 @@ class ScreenPlayImpl implements ScreenPlay {
 
     private void write(String text) {
         if (result.getTestType().equals(TestType.CUCUMBER)) {
+
             scenario.write(text);
-        } else Reporter.log(text);
+            logger.info(() -> "Attached Logs to Cucumber Report");
+        } else {
+            Reporter.log(text);
+            logger.info(() -> "Attached Logs to TestNG Report");
+        }
     }
 
     private void attach(String attachment) {
         if (result.getTestType().equals(TestType.CUCUMBER)) {
             byte[] objToEmbed = attachment.getBytes();
             attach(objToEmbed, "text/html");
-        } else Reporter.log(attachment);
+            logger.info(() -> "Attached Video to Cucumber Report");
+        } else {
+            Reporter.log(attachment);
+            logger.info(() -> "Attached " + attachment + " to TestNG Report");
+        }
     }
 
     public void stopReadingLogs() {

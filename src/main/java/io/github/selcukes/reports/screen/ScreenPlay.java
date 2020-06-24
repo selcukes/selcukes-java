@@ -20,7 +20,7 @@ package io.github.selcukes.reports.screen;
 
 import io.github.selcukes.reports.enums.NotifierType;
 import io.github.selcukes.reports.enums.RecorderType;
-import io.github.selcukes.reports.enums.TestType;
+import io.github.selcukes.reports.enums.TestStatus;
 
 import java.io.File;
 
@@ -51,7 +51,7 @@ public interface ScreenPlay {
      * Attach Video on Failure to cucumber report
      * scenario.embed(objToEmbed, mediaType, scenario.getName());
      */
-    void attachVideo();
+    ScreenPlay attachVideo();
 
     /**
      * Embed Video on Failure to cucumber report
@@ -86,7 +86,8 @@ public interface ScreenPlay {
      */
     <T> ScreenPlay withResult(T t);
     /**
-     * Read custom Test Result
+     * Read custom Test Result for TestNG
      */
-    ScreenPlay withResult(TestType testType,String scenarioName, String scenarioStatus, boolean isFailed);
+    ScreenPlay withResult(String testName, String testStatus, boolean isFailed);
+    ScreenPlay attachWhen(TestStatus testStatus);
 }
