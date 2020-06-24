@@ -19,12 +19,14 @@
         <java.version>1.8</java.version>
 
         <selenium.version>3.141.59</selenium.version>
+        <selcukes-reports.version>0.0.2</selcukes-reports.version>
 
         <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
         <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
+
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
@@ -82,13 +84,11 @@
             <artifactId>selenium-server</artifactId>
             <version>${selenium.version}</version>
         </dependency>
-
         <dependency>
-            <groupId>com.pojosontheweb</groupId>
-            <artifactId>monte-repack</artifactId>
-            <version>1.0.1</version>
+            <groupId>io.github.selcukes</groupId>
+            <artifactId>selcukes-reports</artifactId>
+            <version>${selcukes-reports.version}</version>
         </dependency>
-
     </dependencies>
 
     <profiles>
