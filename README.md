@@ -95,9 +95,93 @@ Ex: C:\ffmpeg\bin</li>
 <li>Download SendSignalCtrlC.exe from here and put into the ffmpeg bin folder<br/>
   Ex: C:\ffmpeg\bin</li>
 </ol>
-To be sure that everything works properly, open CMD and perform first command:
+To be sure that everything works properly, open CMD and perform following command:
 
 ![FFMPEG](./images/ffmpeg.JPG)
 
 ![SendCtrlC](./images/sendCtrlC.JPG)
 </details>
+
+## TestNG Example
+Get Github SNAPSHOT version from jitpack. 
+
+```xml
+<repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+</repositories>
+```
+
+This is Github SNAPSHOT version(0.0.3-SNPSHOT) testNG example 
+
+```java
+
+package io.github.selcukes.reports.tests;
+
+import io.github.selcukes.core.config.ConfigFactory;
+import io.github.selcukes.core.logging.Logger;
+import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.reports.enums.RecorderType;
+import io.github.selcukes.reports.enums.TestStatus;
+import io.github.selcukes.reports.screen.ScreenPlay;
+import io.github.selcukes.reports.screen.ScreenPlayBuilder;
+import io.github.selcukes.wdb.WebDriverBinary;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+public class ScreenPlayTest {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private WebDriver driver;
+    private ScreenPlay screenPlay;
+
+    @BeforeTest
+    public void beforeTest() {
+        ConfigFactory.loadLoggerProperties();
+        WebDriverBinary.chromeDriver().setup();
+        driver = new ChromeDriver();
+
+        screenPlay = ScreenPlayBuilder
+            .getScreenPlay(driver);
+
+        //Start Video Recorder ....
+        screenPlay
+            .withRecorder(RecorderType.FFMPEG) //Remove this step to use default Recorder MONTE
+            .start();
+
+    }
+
+    @Test
+    public void loginTest() {
+        logger.info(()->"Actual Test comes here");
+    }
+
+    @AfterMethod
+    public void afterMethod(ITestResult result) {
+
+        screenPlay
+            .withResult(result) //Pass ITestResult to read TestName and Test Status
+            .attachWhen(TestStatus.ALL) //Remove this step to attach reports only on Failure 
+            .attachScreenshot()
+            //.withNotifier(NotifierType.SLACK)   // Use this step to specify Notifier as SLACK
+            .sendNotification("This is sample Test Step"); //Using default Notifier TEAMS
+
+    }
+
+    @AfterTest
+    public void afterTest() {
+        driver.quit();
+
+        screenPlay
+            .attachVideo() //Stop and Attach Video to TestNG Report
+            .attachLogs(); //Attach INFO Level Logs to TestNG Report
+    }
+}
+
+```
