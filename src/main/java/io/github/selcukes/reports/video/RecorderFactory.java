@@ -26,11 +26,10 @@ import java.util.function.Supplier;
 
 public class RecorderFactory {
     public static synchronized Recorder getRecorder(RecorderType recorderType) {
-        Map<RecorderType, Supplier<Recorder>> recorderSupplier = new EnumMap<RecorderType, Supplier<Recorder>>(RecorderType.class) {{
-            put(RecorderType.MONTE, MonteRecorder::new);
-            put(RecorderType.FFMPEG, FFmpegRecorder::new);
-
-        }};
-        return recorderSupplier.getOrDefault(recorderType,MonteRecorder::new).get();
+        Map<RecorderType, Supplier<Recorder>> recorderSupplier = new EnumMap<RecorderType, Supplier<Recorder>>(RecorderType.class);
+        recorderSupplier.put(RecorderType.MONTE, MonteRecorder::new);
+        recorderSupplier.put(RecorderType.FFMPEG, FFmpegRecorder::new);
+        
+        return recorderSupplier.getOrDefault(recorderType, MonteRecorder::new).get();
     }
 }
