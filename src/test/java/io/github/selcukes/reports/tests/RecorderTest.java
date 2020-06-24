@@ -21,8 +21,6 @@ package io.github.selcukes.reports.tests;
 import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
-import io.github.selcukes.reports.enums.NotifierType;
-import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.screen.ScreenPlay;
 import io.github.selcukes.reports.screen.ScreenPlayBuilder;
 import io.github.selcukes.wdb.WebDriverBinary;
@@ -34,6 +32,7 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 public class RecorderTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -47,20 +46,21 @@ public class RecorderTest {
         driver = new ChromeDriver();
         screenPlay = ScreenPlayBuilder.getScreenPlay(driver);
 
-        screenPlay.getRecorder(RecorderType.FFMPEG)
+        screenPlay
+            .withRecorder(RecorderType.FFMPEG)
             .start();
     }
 
     @AfterMethod
     public void afterMethod(ITestResult result) {
-
-        screenPlay.readResult(result)
+        screenPlay
+            .withResult(result)
             .attachScreenshot()
-            .getNotifier(NotifierType.TEAMS)
+            .withNotifier(NotifierType.TEAMS)
             .sendNotification("This is sample Test Step");
     }
 
-    // @Test
+    #@Test
     public void loginTest() {
         driver.get("http://www.princexml.com/samples/");
         logger.debug(driver::getTitle);
