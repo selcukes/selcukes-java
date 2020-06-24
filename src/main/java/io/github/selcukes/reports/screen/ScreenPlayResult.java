@@ -25,8 +25,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 class ScreenPlayResult {
-    TestType testType;
-    String scenarioName;
-    String scenarioStatus;
-    boolean attach;
+    private TestType testType;
+    private String scenarioName;
+    private String scenarioStatus;
+    private boolean attach;
 }

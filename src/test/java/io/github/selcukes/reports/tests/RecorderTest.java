@@ -18,6 +18,7 @@
 
 package io.github.selcukes.reports.tests;
 
+import io.github.selcukes.core.commons.os.Platform;
 import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
@@ -31,7 +32,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.ITestResult;
-import org.testng.Reporter;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -39,48 +39,51 @@ import org.testng.annotations.Test;
 
 public class RecorderTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    WebDriver driver;
-    ScreenPlay screenPlay;
+    private WebDriver driver;
+    private ScreenPlay screenPlay;
 
     @BeforeTest
     public void beforeTest() {
         ConfigFactory.loadLoggerProperties();
         WebDriverBinary.chromeDriver().setup();
         driver = new ChromeDriver();
-        screenPlay = ScreenPlayBuilder.getScreenPlay(driver);
-
-        screenPlay
-             .withRecorder(RecorderType.FFMPEG)
-            .start(); //Using default Recorder MONTE
+        if (Platform.isWindows()) {
+            screenPlay = ScreenPlayBuilder.getScreenPlay(driver);
+            screenPlay
+                .withRecorder(RecorderType.FFMPEG)
+                .start();
+        }
     }
 
-   // @Test
+    @Test
     public void loginTest() {
         driver.get("http://www.princexml.com/samples/");
-   /*     logger.debug(driver::getTitle);
+        logger.debug(driver::getTitle);
         Assert.assertTrue(driver.findElement(By.xpath("//a[contains(@href,'dictionary.pdf')]")).isDisplayed());
         driver.findElement(By.xpath("//a[contains(@href,'dictionary.pdf')]")).click();
-        Assert.assertTrue(driver.getCurrentUrl().contains(".pdf"));*/
+        Assert.assertTrue(driver.getCurrentUrl().contains(".pdf"));
     }
 
     @AfterMethod
-    public void afterMethod(ITestResult result)
-    {
-        screenPlay
-             .withResult(result)
-            .attachWhen(TestStatus.ALL)
-            .attachScreenshot()
-            // .withNotifier(NotifierType.SLACK)
-            .sendNotification("This is sample Test Step"); //Using default Notifier TEAMS
+    public void afterMethod(ITestResult result) {
+        if (Platform.isWindows()) {
+            screenPlay
+                .withResult(result)
+                .attachWhen(TestStatus.ALL)
+                .attachScreenshot()
+                // .withNotifier(NotifierType.SLACK)
+                .sendNotification("This is sample Test Step"); //Using default Notifier TEAMS
+        }
     }
+
     @AfterTest
     public void afterTest() {
 
         driver.quit();
-        screenPlay
-            .attachVideo()
-            .attachLogs();
-
-        Reporter.log("done");
+        if (Platform.isWindows()) {
+            screenPlay
+                .attachVideo()
+                .attachLogs();
+        }
     }
 }

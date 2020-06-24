@@ -234,7 +234,8 @@ class ScreenPlayImpl implements ScreenPlay {
             logger.info(() -> "Attached Video to Cucumber Report");
         } else {
             Reporter.log(attachment);
-            logger.info(() -> "Attached " + attachment + " to TestNG Report");
+            String contentType = attachment.contains("video") ? "Video" : "Image";
+            logger.info(() -> "Attached " + contentType + " to TestNG Report");
         }
     }
 

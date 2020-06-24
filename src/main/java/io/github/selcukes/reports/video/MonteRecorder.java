@@ -33,7 +33,7 @@ import java.io.IOException;
 import static org.monte.media.VideoFormatKeys.*;
 
 class MonteRecorder extends VideoRecorder {
-    final Logger logger = LoggerFactory.getLogger(MonteRecorder.class);
+    private final Logger logger = LoggerFactory.getLogger(MonteRecorder.class);
     private final MonteRecorderBuilder recorderBuilder;
     private final VideoConfig videoConfig;
 
