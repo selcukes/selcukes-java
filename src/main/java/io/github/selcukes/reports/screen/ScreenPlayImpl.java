@@ -140,7 +140,7 @@ class ScreenPlayImpl implements ScreenPlay {
 
     @Override
     public File stop() {
-        return recorder.stopAndSave(result.getScenarioName().replace(" ", "_"));
+        return recorder.stopAndSave(result.getScenarioName());
     }
 
     @Override
@@ -178,12 +178,14 @@ class ScreenPlayImpl implements ScreenPlay {
     public <T> ScreenPlay withResult(T scenario) {
         if (scenario instanceof Scenario) {
             this.scenario = (Scenario) scenario;
-            result = new ScreenPlayResult(TestType.CUCUMBER, this.scenario.getName(),
+            result = new ScreenPlayResult(TestType.CUCUMBER,
+                this.scenario.getName().replace(" ", "_"),
                 this.scenario.getStatus().toString(),
                 this.scenario.isFailed());
         } else if (scenario instanceof ITestResult) {
             ITestResult iTestResult = (ITestResult) scenario;
-            result = new ScreenPlayResult(TestType.TESTNG, iTestResult.getName(),
+            result = new ScreenPlayResult(TestType.TESTNG,
+                iTestResult.getName().replace(" ", "_"),
                 getTestStatus(iTestResult),
                 !iTestResult.isSuccess());
         }
