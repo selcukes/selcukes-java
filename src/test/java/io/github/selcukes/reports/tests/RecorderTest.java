@@ -21,6 +21,8 @@ package io.github.selcukes.reports.tests;
 import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.reports.enums.NotifierType;
+import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.screen.ScreenPlay;
 import io.github.selcukes.reports.screen.ScreenPlayBuilder;
 import io.github.selcukes.wdb.WebDriverBinary;
@@ -60,7 +62,7 @@ public class RecorderTest {
             .sendNotification("This is sample Test Step");
     }
 
-    #@Test
+    //@Test
     public void loginTest() {
         driver.get("http://www.princexml.com/samples/");
         logger.debug(driver::getTitle);
