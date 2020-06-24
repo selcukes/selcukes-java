@@ -42,38 +42,38 @@ public class SelcukesTestNGListener implements ITestListener {
     }
 
     @Override
-    public void onStart(ITestContext results) {
-        logger.info(() -> "Started testing on: " + results.getStartDate());
+    public void onStart(ITestContext context) {
+        logger.info(() -> "Started testing on: " + context.getStartDate());
     }
 
     @Override
-    public void onTestFailedButWithinSuccessPercentage(ITestResult results) {
-
-        logger.info(() -> "Started testing on: " + results.getName());
+    public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
+        onTestFailure(result);
     }
 
     @Override
-    public void onTestFailure(ITestResult results) {
-        logger.info(() -> "Failed : " + results.getName());
-
-    }
-
-    @Override
-    public void onTestSkipped(ITestResult results) {
-        logger.info(() -> "Skipped Test: " + results.getName());
+    public void onTestFailure(ITestResult result) {
+        logger.info(() -> "Failed : " + result.getName());
 
     }
 
     @Override
-    public void onTestStart(ITestResult results) {
-        logger.info(() -> "Testing: " + results.getName());
+    public void onTestSkipped(ITestResult result) {
+        logger.info(() -> "Skipped Test: " + result.getName());
+        onTestFailure(result);
 
     }
 
     @Override
-    public void onTestSuccess(ITestResult results) {
-        long timeTaken = results.getEndMillis() - results.getStartMillis();
-        logger.info(() -> "Tested: " + results.getName() + " Time taken:" + timeTaken + " ms");
+    public void onTestStart(ITestResult result) {
+        logger.info(() -> "Testing: " + result.getName());
+
+    }
+
+    @Override
+    public void onTestSuccess(ITestResult result) {
+        long timeTaken = result.getEndMillis() - result.getStartMillis();
+        logger.info(() -> "Tested: " + result.getName() + " Time taken:" + timeTaken + " ms");
 
     }
 
