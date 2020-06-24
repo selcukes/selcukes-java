@@ -19,15 +19,10 @@
 package io.github.selcukes.reports.screen;
 
 import io.cucumber.java.Scenario;
-import io.github.selcukes.core.exception.RecorderException;
-import io.github.selcukes.core.helper.DateHelper;
-import io.github.selcukes.core.helper.FileHelper;
+import io.github.selcukes.core.helper.ExceptionHelper;
 import io.github.selcukes.core.logging.LogRecordListener;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
-import io.github.selcukes.devtools.DevToolsService;
-import io.github.selcukes.devtools.core.Screenshot;
-import io.github.selcukes.devtools.services.ChromeDevToolsService;
 import io.github.selcukes.reports.enums.NotifierType;
 import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.enums.TestStatus;
@@ -36,15 +31,11 @@ import io.github.selcukes.reports.notification.Notifier;
 import io.github.selcukes.reports.notification.NotifierFactory;
 import io.github.selcukes.reports.video.Recorder;
 import io.github.selcukes.reports.video.RecorderFactory;
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.stream.Collectors;
@@ -52,17 +43,18 @@ import java.util.stream.Collectors;
 class ScreenPlayImpl implements ScreenPlay {
 
     private final Logger logger = LoggerFactory.getLogger(ScreenPlayImpl.class);
-    private final WebDriver driver;
-    private Scenario scenario;
 
+    private Scenario scenario;
     protected LogRecordListener loggerListener;
     protected Recorder recorder;
     protected Notifier notifier;
     private boolean isOldCucumber;
-    ScreenPlayResult result;
+    private ScreenPlayResult result;
+    private final ScreenCapture capture;
+    private String errorMessage;
 
     public ScreenPlayImpl(WebDriver driver) {
-        this.driver = driver;
+        capture = new ScreenCapture(driver);
         isOldCucumber = false;
         result = new ScreenPlayResult(TestType.TESTNG, "DEFAULT TEST NAME", "PASSED", false);
         startReadingLogs();
@@ -70,14 +62,7 @@ class ScreenPlayImpl implements ScreenPlay {
 
     @Override
     public String takeScreenshot() {
-        File destFile = getScreenshotPath();
-        try {
-            File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            FileUtils.copyFile(srcFile, destFile);
-        } catch (IOException e) {
-            throw new RecorderException("Failed Capturing Screenshot..", e);
-        }
-        return destFile.getAbsolutePath();
+        return capture.takeShot();
     }
 
     @Override
@@ -86,21 +71,12 @@ class ScreenPlayImpl implements ScreenPlay {
         attachScreenshot();
     }
 
-    private ChromeDevToolsService getDevTools() {
-        return DevToolsService.getDevToolsService(driver);
-    }
-
     @Override
     public ScreenPlay attachScreenshot() {
 
         if (result.getTestType().equals(TestType.CUCUMBER)) {
-            byte[] screenshot;
-            try {
-                screenshot = Screenshot.captureFullPageAsBytes(getDevTools());
-                attach(screenshot, "image/png");
-            } catch (IOException e) {
-                throw new RecorderException("Failed Capturing Screenshot..", e);
-            }
+            attach(capture.takeFullPageAsBytes(), "image/png");
+
         } else {
             String screenshotPath = takeScreenshot();
             String htmlToEmbed = "<br>  <img src='" + screenshotPath + "' height='100' width='100' /><br>";
@@ -149,6 +125,7 @@ class ScreenPlayImpl implements ScreenPlay {
             logger.warn(() -> "NotifierType not configured. Using Default RecorderType as TEAMS");
             withNotifier(NotifierType.TEAMS);
         }
+        if (errorMessage != null) message = message + errorMessage;
         notifier.pushNotification(result.getScenarioName(), result.getScenarioStatus(), message, takeScreenshot());
         return this;
     }
@@ -188,8 +165,16 @@ class ScreenPlayImpl implements ScreenPlay {
                 iTestResult.getName().replace(" ", "_"),
                 getTestStatus(iTestResult),
                 !iTestResult.isSuccess());
+            errorMessage = getErrorMessage(iTestResult);
         }
         return this;
+    }
+
+    private String getErrorMessage(ITestResult result) {
+        if (!result.isSuccess()) {
+            return "Exception: " + ExceptionHelper.getExceptionTitle(result.getThrowable());
+        }
+        return null;
     }
 
     @Override
@@ -248,20 +233,13 @@ class ScreenPlayImpl implements ScreenPlay {
     private String getTestStatus(ITestResult result) {
         String status;
         if (result.isSuccess()) {
-            status = "PASS";
+            status = "PASSED";
         } else if (result.getStatus() == ITestResult.FAILURE) {
             status = "FAILED";
         } else {
             status = "SKIPPED";
         }
         return status;
-    }
-
-    public File getScreenshotPath() {
-        File reportDirectory = new File("screenshots");
-        FileHelper.createDirectory(reportDirectory);
-        String filePath = reportDirectory + File.separator + "screenshot_" + DateHelper.get().dateTime() + ".png";
-        return new File(filePath);
     }
 
 }

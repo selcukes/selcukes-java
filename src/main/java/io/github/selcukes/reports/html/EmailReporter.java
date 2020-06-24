@@ -16,7 +16,7 @@
  *
  */
 
-package io.github.selcukes.reports;
+package io.github.selcukes.reports.html;
 
 import io.github.selcukes.core.helper.FileHelper;
 import io.github.selcukes.core.logging.Logger;

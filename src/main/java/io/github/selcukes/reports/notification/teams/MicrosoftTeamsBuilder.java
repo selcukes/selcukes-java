@@ -20,8 +20,8 @@ package io.github.selcukes.reports.notification.teams;
 
 import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.helper.DateHelper;
-import io.github.selcukes.reports.notification.IncomingWebHookRequest;
 import io.github.selcukes.reports.enums.NotifierEnum;
+import io.github.selcukes.reports.notification.IncomingWebHookRequest;
 import io.github.selcukes.reports.notification.NotifierHelper;
 
 import java.util.ArrayList;
@@ -31,6 +31,12 @@ import java.util.List;
 public class MicrosoftTeamsBuilder {
 
     protected void sendMessage(String scenarioTitle, String scenarioStatus, String message, String screenshotPath) {
+
+        String error = null;
+        if (message.contains("Exception:")) {
+            error = message.split("Exception:")[1];
+            message = message.split("Exception:")[0];
+        }
 
         Field field = Field.builder()
             .name(NotifierEnum.ENVIRONMENT.getValue())
@@ -47,10 +53,16 @@ public class MicrosoftTeamsBuilder {
             .value("[Screenshot.jpg](" + screenshotPath + ")")
             .build();
 
+        Field field3 = Field.builder()
+            .name("Exception: ")
+            .value(error)
+            .build();
+
         List<Field> fieldList = new ArrayList<>();
         fieldList.add(field);
         fieldList.add(field1);
         fieldList.add(field2);
+        if (scenarioStatus.equalsIgnoreCase("FAILED") && error != null) fieldList.add(field3);
 
         Images image = Images.builder()
             .image(screenshotPath)
@@ -72,7 +84,7 @@ public class MicrosoftTeamsBuilder {
         MicrosoftTeamsCard teamsCard = MicrosoftTeamsCard.builder()
             .type(NotifierEnum.MESSAGE_CARD.getValue())
             .themeColor(NotifierHelper.getThemeColor(scenarioStatus))
-            .title(NotifierEnum.PRETEXT.getValue())
+            .title(ConfigFactory.getConfig().getProjectName())
             .text(" ")
             .sections(Collections.singletonList(section))
             .build();
