@@ -37,6 +37,10 @@ public class MicrosoftTeamsBuilder {
             error = message.split("Exception:")[1];
             message = message.split("Exception:")[0];
         }
+        String attachmentValue = "[Screenshot.jpg](" + screenshotPath + ")";
+        if (screenshotPath.endsWith(".avi") || screenshotPath.endsWith(".mp4")) {
+            attachmentValue = "Video Path: " + screenshotPath;
+        }
 
         Field field = Field.builder()
             .name(NotifierEnum.ENVIRONMENT.getValue())
@@ -50,11 +54,11 @@ public class MicrosoftTeamsBuilder {
 
         Field field2 = Field.builder()
             .name(NotifierEnum.ATTACHMENT.getValue())
-            .value("[Screenshot.jpg](" + screenshotPath + ")")
+            .value(attachmentValue)
             .build();
 
         Field field3 = Field.builder()
-            .name("Exception: ")
+            .name("Exception ")
             .value(error)
             .build();
 
