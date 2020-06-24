@@ -23,6 +23,7 @@ import io.github.selcukes.core.exception.RecorderException;
 import io.github.selcukes.core.helper.DateHelper;
 import io.github.selcukes.core.helper.FileHelper;
 import io.github.selcukes.core.logging.LogRecordListener;
+import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.devtools.DevToolsService;
 import io.github.selcukes.devtools.core.Screenshot;
@@ -49,20 +50,20 @@ import java.util.stream.Collectors;
 
 class ScreenPlayImpl implements ScreenPlay {
 
+    private final Logger logger = LoggerFactory.getLogger(ScreenPlayImpl.class);
     private final WebDriver driver;
     private Scenario scenario;
+
     protected LogRecordListener loggerListener;
     protected Recorder recorder;
     protected Notifier notifier;
     private boolean isOldCucumber;
-    private String scenarioName;
-    private String scenarioStatus;
-    private TestType testType;
-    private boolean isFailed;
+    ScreenPlayResult result;
 
     public ScreenPlayImpl(WebDriver driver) {
         this.driver = driver;
         isOldCucumber = false;
+        result = new ScreenPlayResult(TestType.CUCUMBER, "DEFAULT TEST NAME", "PASSED", false);
         startReadingLogs();
     }
 
@@ -91,7 +92,7 @@ class ScreenPlayImpl implements ScreenPlay {
     @Override
     public ScreenPlay attachScreenshot() {
 
-        if (testType.equals(TestType.Cucumber)) {
+        if (result.getTestType().equals(TestType.CUCUMBER)) {
             byte[] screenshot;
             try {
                 screenshot = Screenshot.captureFullPageAsBytes(getDevTools());
@@ -109,7 +110,7 @@ class ScreenPlayImpl implements ScreenPlay {
 
     @Override
     public void attachVideo() {
-        if (isFailed) {
+        if (result.isFailed()) {
             String videoPath = stop().getAbsolutePath();
 
             String htmlToEmbed = "<video width=\"864\" height=\"576\" controls>" +
@@ -117,7 +118,7 @@ class ScreenPlayImpl implements ScreenPlay {
                 "Your browser does not support the video tag." +
                 "</video>";
             attach(htmlToEmbed);
-        } else recorder.stopAndDelete(scenarioName);
+        } else recorder.stopAndDelete(result.getScenarioName());
     }
 
     @Override
@@ -128,18 +129,26 @@ class ScreenPlayImpl implements ScreenPlay {
 
     @Override
     public ScreenPlay start() {
+        if (recorder == null) {
+            logger.warn(() -> "RecorderType not configured. Using Default RecorderType as MONTE");
+            withRecorder(RecorderType.MONTE);
+        }
         recorder.start();
         return this;
     }
 
     @Override
     public File stop() {
-        return recorder.stopAndSave(scenarioName.replace(" ", "_"));
+        return recorder.stopAndSave(result.getScenarioName().replace(" ", "_"));
     }
 
     @Override
     public ScreenPlay sendNotification(String message) {
-        notifier.pushNotification(scenarioName, scenarioStatus, message, takeScreenshot());
+        if (notifier == null) {
+            logger.warn(() -> "NotifierType not configured. Using Default RecorderType as TEAMS");
+            withNotifier(NotifierType.TEAMS);
+        }
+        notifier.pushNotification(result.getScenarioName(), result.getScenarioStatus(), message, takeScreenshot());
         return this;
     }
 
@@ -153,31 +162,36 @@ class ScreenPlayImpl implements ScreenPlay {
     }
 
     @Override
-    public ScreenPlay getRecorder(RecorderType recorderType) {
+    public ScreenPlay withRecorder(RecorderType recorderType) {
         recorder = RecorderFactory.getRecorder(recorderType);
         return this;
     }
 
     @Override
-    public ScreenPlay getNotifier(NotifierType notifierType) {
+    public ScreenPlay withNotifier(NotifierType notifierType) {
         notifier = NotifierFactory.getNotifier(notifierType);
         return this;
     }
 
     @Override
-    public <T> ScreenPlay readResult(T scenario) {
+    public <T> ScreenPlay withResult(T scenario) {
         if (scenario instanceof Scenario) {
             this.scenario = (Scenario) scenario;
-            scenarioName = ((Scenario) scenario).getName();
-            scenarioStatus = ((Scenario) scenario).getStatus().toString();
-            isFailed = ((Scenario) scenario).isFailed();
-            testType = TestType.Cucumber;
+            result = new ScreenPlayResult(TestType.CUCUMBER, this.scenario.getName(),
+                this.scenario.getStatus().toString(),
+                this.scenario.isFailed());
         } else if (scenario instanceof ITestResult) {
-            testType = TestType.TestNG;
-            scenarioName = ((ITestResult) scenario).getName();
-            scenarioStatus = getTestStatus((ITestResult) scenario);
-            isFailed = !((ITestResult) scenario).isSuccess();
+            ITestResult iTestResult = (ITestResult) scenario;
+            result = new ScreenPlayResult(TestType.TESTNG, iTestResult.getName(),
+                getTestStatus(iTestResult),
+                !iTestResult.isSuccess());
         }
+        return this;
+    }
+
+    @Override
+    public ScreenPlay withResult(TestType testType, String scenarioName, String scenarioStatus, boolean isFailed) {
+        result = new ScreenPlayResult(testType, scenarioName, scenarioStatus, isFailed);
         return this;
     }
 
@@ -194,13 +208,13 @@ class ScreenPlayImpl implements ScreenPlay {
     }
 
     private void write(String text) {
-        if (testType.equals(TestType.Cucumber)) {
+        if (result.getTestType().equals(TestType.CUCUMBER)) {
             scenario.write(text);
         } else Reporter.log(text);
     }
 
     private void attach(String attachment) {
-        if (testType.equals(TestType.Cucumber)) {
+        if (result.getTestType().equals(TestType.CUCUMBER)) {
             byte[] objToEmbed = attachment.getBytes();
             attach(objToEmbed, "text/html");
         } else Reporter.log(attachment);
@@ -223,7 +237,6 @@ class ScreenPlayImpl implements ScreenPlay {
     }
 
     public File getScreenshotPath() {
-
         File reportDirectory = new File("screenshots");
         FileHelper.createDirectory(reportDirectory);
         String filePath = reportDirectory + File.separator + "screenshot_" + DateHelper.get().dateTime() + ".png";

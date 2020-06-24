@@ -16,10 +16,17 @@
  *
  */
 
-package io.github.selcukes.reports.enums;
+package io.github.selcukes.reports.screen;
 
-public enum  TestType {
-    CUCUMBER,
-    TESTNG,
-    JUNIT;
+import io.github.selcukes.reports.enums.TestType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+class ScreenPlayResult {
+    TestType testType;
+    String scenarioName;
+    String scenarioStatus;
+    boolean isFailed;
 }

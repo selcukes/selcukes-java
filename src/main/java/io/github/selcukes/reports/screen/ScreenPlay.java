@@ -20,6 +20,7 @@ package io.github.selcukes.reports.screen;
 
 import io.github.selcukes.reports.enums.NotifierType;
 import io.github.selcukes.reports.enums.RecorderType;
+import io.github.selcukes.reports.enums.TestType;
 
 import java.io.File;
 
@@ -74,12 +75,18 @@ public interface ScreenPlay {
     /**
      * Get Recorder object by Type
      */
-    ScreenPlay getRecorder(RecorderType recorderType);
+    ScreenPlay withRecorder(RecorderType recorderType);
 
     /**
      * Get Notifier object by Type
      */
-    ScreenPlay getNotifier(NotifierType notifierType);
-
-    <T> ScreenPlay readResult(T t);
+    ScreenPlay withNotifier(NotifierType notifierType);
+    /**
+     * Read Test Result from object
+     */
+    <T> ScreenPlay withResult(T t);
+    /**
+     * Read custom Test Result
+     */
+    ScreenPlay withResult(TestType testType,String scenarioName, String scenarioStatus, boolean isFailed);
 }
