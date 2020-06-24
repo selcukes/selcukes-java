@@ -120,7 +120,6 @@ This is Github SNAPSHOT version(0.0.3-SNPSHOT) testNG example
 
 package io.github.selcukes.reports.tests;
 
-import io.github.selcukes.core.commons.os.Platform;
 import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
@@ -150,7 +149,7 @@ public class ScreenPlayTest {
 
         screenPlay = ScreenPlayBuilder
             .getScreenPlay(driver);
-        
+
         //Start Video Recorder ....
         screenPlay
             .withRecorder(RecorderType.FFMPEG) //Remove this step to use default Recorder MONTE
@@ -160,19 +159,19 @@ public class ScreenPlayTest {
 
     @Test
     public void loginTest() {
-        //Actual Test Here
+        logger.info(()->"Actual Test comes here");
     }
 
     @AfterMethod
     public void afterMethod(ITestResult result) {
-        if (Platform.isWindows()) {
-            screenPlay
-                .withResult(result)
-                .attachWhen(TestStatus.ALL) //Remove this step to attach reports on Failure 
-                .attachScreenshot()
-                //.withNotifier(NotifierType.SLACK)   // Use this step to specify Notifier as SLACK
-                .sendNotification("This is sample Test Step"); //Using default Notifier TEAMS
-        }
+
+        screenPlay
+            .withResult(result) //Pass ITestResult to read TestName and Test Status
+            .attachWhen(TestStatus.ALL) //Remove this step to attach reports only on Failure 
+            .attachScreenshot()
+            //.withNotifier(NotifierType.SLACK)   // Use this step to specify Notifier as SLACK
+            .sendNotification("This is sample Test Step"); //Using default Notifier TEAMS
+
     }
 
     @AfterTest
