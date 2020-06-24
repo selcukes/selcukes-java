@@ -102,7 +102,7 @@ To be sure that everything works properly, open CMD and perform following comman
 ![SendCtrlC](./images/sendCtrlC.JPG)
 </details>
 
-# TestNG Example
+## TestNG Example
 Get Github SNAPSHOT version from jitpack. 
 
 ```xml
@@ -170,7 +170,7 @@ public class ScreenPlayTest {
                 .withResult(result)
                 .attachWhen(TestStatus.ALL) //Remove this step to attach reports on Failure 
                 .attachScreenshot()
-                //.withNotifier(NotifierType.SLACK)   // User this step to specify Notifier as SLACK
+                //.withNotifier(NotifierType.SLACK)   // Use this step to specify Notifier as SLACK
                 .sendNotification("This is sample Test Step"); //Using default Notifier TEAMS
         }
     }
