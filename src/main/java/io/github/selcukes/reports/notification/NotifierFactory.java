@@ -31,10 +31,9 @@ import java.util.function.Supplier;
 public class NotifierFactory {
     public synchronized Notifier getNotifier(NotifierType notifierType) {
 
-        Map<NotifierType, Supplier<Notifier>> notifierSupplier = new EnumMap<NotifierType, Supplier<Notifier>>(NotifierType.class);
+        Map<NotifierType, Supplier<Notifier>> notifierSupplier = new EnumMap<>(NotifierType.class);
         notifierSupplier.put(NotifierType.SLACK, Slack::new);
         notifierSupplier.put(NotifierType.TEAMS, MicrosoftTeams::new);
-
         return notifierSupplier.getOrDefault(notifierType, MicrosoftTeams::new).get();
     }
 
