@@ -31,12 +31,6 @@ public interface ScreenPlay {
     String takeScreenshot();
 
     /**
-     * Embed Full page screenshot to cucumber report
-     * scenario.embed(objToEmbed, mediaType);
-     */
-    void embedScreenshot();
-
-    /**
      * Attach Full page screenshot to cucumber report
      * scenario.embed(objToEmbed, mediaType, scenario.getName());
      */
@@ -53,11 +47,6 @@ public interface ScreenPlay {
      */
     ScreenPlay attachVideo();
 
-    /**
-     * Embed Video on Failure to cucumber report
-     * scenario.embed(objToEmbed, mediaType);
-     */
-    void embedVideo();
 
     /**
      * Stop Video Recorder
@@ -81,13 +70,16 @@ public interface ScreenPlay {
      * Get Notifier object by Type
      */
     ScreenPlay withNotifier(NotifierType notifierType);
+
     /**
      * Read Test Result from result object
      */
     <T> ScreenPlay withResult(T result);
+
     /**
      * Read custom Test Result for TestNG
      */
     ScreenPlay withResult(String testName, String testStatus, boolean isFailed);
+
     ScreenPlay attachWhen(TestStatus testStatus);
 }

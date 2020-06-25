@@ -39,7 +39,7 @@ public class ScreenCapture {
         this.driver = driver;
     }
 
-    public String takeShot() {
+    public String shootPage() {
         File destFile = getScreenshotPath();
         try {
             File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
@@ -50,7 +50,7 @@ public class ScreenCapture {
         return destFile.getAbsolutePath();
     }
 
-    public byte[] takeShotAsBytes() {
+    public byte[] shootPageAsBytes() {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
@@ -58,12 +58,12 @@ public class ScreenCapture {
         return DevToolsService.getDevToolsService(driver);
     }
 
-    public String takeFullPage() {
+    public String shootFullPage() {
         File destFile = getScreenshotPath();
         return Screenshot.captureFullPage(getDevTools(), destFile.getAbsolutePath());
     }
 
-    public byte[] takeFullPageAsBytes() {
+    public byte[] shootFullPageAsBytes() {
         byte[] screenshot;
         try {
             screenshot = Screenshot.captureFullPageAsBytes(getDevTools());

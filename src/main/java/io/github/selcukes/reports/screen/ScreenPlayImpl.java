@@ -48,34 +48,26 @@ class ScreenPlayImpl implements ScreenPlay {
     protected LogRecordListener loggerListener;
     protected Recorder recorder;
     protected Notifier notifier;
-    private boolean isOldCucumber;
     private ScreenPlayResult result;
     private final ScreenCapture capture;
     private String errorMessage;
 
     public ScreenPlayImpl(WebDriver driver) {
         capture = new ScreenCapture(driver);
-        isOldCucumber = false;
         result = new ScreenPlayResult(TestType.TESTNG, "DEFAULT TEST NAME", "PASSED", false);
         startReadingLogs();
     }
 
     @Override
     public String takeScreenshot() {
-        return capture.takeShot();
-    }
-
-    @Override
-    public void embedScreenshot() {
-        isOldCucumber = true;
-        attachScreenshot();
+        return capture.shootPage();
     }
 
     @Override
     public ScreenPlay attachScreenshot() {
 
         if (result.getTestType().equals(TestType.CUCUMBER)) {
-            attach(capture.takeFullPageAsBytes(), "image/png");
+            attach(capture.shootFullPageAsBytes(), "image/png");
 
         } else {
             String screenshotPath = takeScreenshot();
@@ -96,12 +88,6 @@ class ScreenPlayImpl implements ScreenPlay {
             attach(htmlToEmbed);
         } else recorder.stopAndDelete(result.getScenarioName());
         return this;
-    }
-
-    @Override
-    public void embedVideo() {
-        isOldCucumber = true;
-        attachVideo();
     }
 
     @Override
@@ -191,12 +177,6 @@ class ScreenPlayImpl implements ScreenPlay {
         return this;
     }
 
-    private void attach(byte[] objToEmbed, String mediaType) {
-        if (isOldCucumber)
-            scenario.embed(objToEmbed, mediaType);
-        else
-            scenario.embed(objToEmbed, mediaType, scenario.getName());
-    }
 
     private void startReadingLogs() {
         this.loggerListener = new LogRecordListener();
@@ -224,6 +204,10 @@ class ScreenPlayImpl implements ScreenPlay {
             String contentType = attachment.contains("video") ? "Video" : "Image";
             logger.info(() -> "Attached " + contentType + " to TestNG Report");
         }
+    }
+
+    private void attach(byte[] objToEmbed, String mediaType) {
+        scenario.embed(objToEmbed, mediaType, scenario.getName());
     }
 
     public void stopReadingLogs() {
