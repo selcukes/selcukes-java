@@ -20,7 +20,6 @@ package io.github.selcukes.reports.screen;
 
 import io.github.selcukes.reports.enums.NotifierType;
 import io.github.selcukes.reports.enums.RecorderType;
-import io.github.selcukes.reports.enums.TestStatus;
 
 import java.io.File;
 
@@ -76,10 +75,5 @@ public interface ScreenPlay {
      */
     <T> ScreenPlay withResult(T result);
 
-    /**
-     * Read custom Test Result for TestNG
-     */
-    ScreenPlay withResult(String testName, String testStatus, boolean isFailed);
-
-    ScreenPlay attachWhen(TestStatus testStatus);
+    ScreenPlay ignoreCondition();
 }

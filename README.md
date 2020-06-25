@@ -124,7 +124,6 @@ import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.reports.enums.RecorderType;
-import io.github.selcukes.reports.enums.TestStatus;
 import io.github.selcukes.reports.screen.ScreenPlay;
 import io.github.selcukes.reports.screen.ScreenPlayBuilder;
 import io.github.selcukes.wdb.WebDriverBinary;
@@ -167,7 +166,7 @@ public class ScreenPlayTest {
 
         screenPlay
             .withResult(result) //Pass ITestResult to read TestName and Test Status
-            .attachWhen(TestStatus.ALL) //Remove this step to attach reports only on Failure 
+            .ignoreCondition() //Remove this step to attach reports only on Failure 
             .attachScreenshot()
             //.withNotifier(NotifierType.SLACK)   // Use this step to specify Notifier as SLACK
             .sendNotification("This is sample Test Step"); //Using default Notifier TEAMS

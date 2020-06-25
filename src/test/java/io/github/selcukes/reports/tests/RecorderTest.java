@@ -23,7 +23,6 @@ import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.reports.enums.RecorderType;
-import io.github.selcukes.reports.enums.TestStatus;
 import io.github.selcukes.reports.screen.ScreenPlay;
 import io.github.selcukes.reports.screen.ScreenPlayBuilder;
 import io.github.selcukes.wdb.WebDriverBinary;
@@ -70,7 +69,7 @@ public class RecorderTest {
         if (Platform.isWindows()) {
             screenPlay
                 .withResult(result)
-                .attachWhen(TestStatus.ALL)
+                .ignoreCondition()
                 .attachScreenshot()
                 // .withNotifier(NotifierType.SLACK)
                 .sendNotification("This is sample Test Step"); //Using default Notifier TEAMS
