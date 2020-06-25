@@ -22,7 +22,7 @@ import org.openqa.selenium.WebDriver;
 
 public class ScreenPlayBuilder {
 
-    public static ScreenPlayImpl getScreenPlay(WebDriver driver) {
+    public static ScreenPlay getScreenPlay(WebDriver driver) {
         return new ScreenPlayImpl(driver);
     }
 

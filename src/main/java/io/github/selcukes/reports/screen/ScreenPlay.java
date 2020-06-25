@@ -82,9 +82,9 @@ public interface ScreenPlay {
      */
     ScreenPlay withNotifier(NotifierType notifierType);
     /**
-     * Read Test Result from object
+     * Read Test Result from result object
      */
-    <T> ScreenPlay withResult(T t);
+    <T> ScreenPlay withResult(T result);
     /**
      * Read custom Test Result for TestNG
      */
