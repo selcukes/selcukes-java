@@ -79,7 +79,7 @@ public class MicrosoftTeamsBuilder {
             .activityTitle(activityTitle)
             .activitySubtitle(activitySubtitle)
             .activityText(activityText)
-            .activityImage(NotifierEnum.AUTHOR_ICON.getValue())
+            .activityImage(ConfigFactory.getConfig().getNotifier().get("authorIcon"))
             .facts(fieldList)
             .images(Collections.singletonList(image))
             .build();

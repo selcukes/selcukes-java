@@ -1,7 +1,7 @@
 # Selcukes Environment Properties
 ---
-projectName: Selcukes
-env: Dev
+projectName: Selcukes Automation Report
+env: QA01
 browserName: CHROME
 windowId: 30
 headLess: true
@@ -13,6 +13,7 @@ videoRecording: false
 notification: false
 notifier:
   type: teams
-  webhook-token: WebXXXX
+  webhook-token: WEBXXXX
   api-token: APIXXXX
   channel: selcukes
+  authorIcon: https://avatars0.githubusercontent.com/u/2510294?s=400&u=5d6412ba1dd13052992ff66317ae28d007a971d3&v=4

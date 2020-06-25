@@ -57,7 +57,7 @@ public class SlackMessageBuilder {
             .pretext(NotifierEnum.PRETEXT.getValue())
             .authorName(NotifierEnum.AUTHOR.getValue())
             .authorLink(NotifierEnum.TECHYWORKS.getValue())
-            .authorIcon(NotifierEnum.AUTHOR_ICON.getValue())
+            .authorIcon(ConfigFactory.getConfig().getNotifier().get("authorIcon"))
             .title(scenarioTitle)
             .titleLink(NotifierEnum.TECHYWORKS.getValue())
             .text(error)

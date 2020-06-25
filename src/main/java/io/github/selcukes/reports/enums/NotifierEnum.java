@@ -26,7 +26,6 @@ public enum NotifierEnum {
     PRETEXT("Selcukes Automation Report"),
     CALL_BACK("Callback"),
     AUTHOR("Ramesh"),
-    AUTHOR_ICON("https://avatars0.githubusercontent.com/u/2510294?s=400&u=5d6412ba1dd13052992ff66317ae28d007a971d3&v=4"),
     TECHYWORKS("https://techyworks.blogspot.com/"),
     FOOTER_TEXT("Test Start Time"),
     FOOTER_ICON("https://techyworks.blogspot.com/favicon.ico"),
