@@ -48,8 +48,7 @@ public class RecorderTest {
         driver = new ChromeDriver();
         if (Platform.isWindows()) {
             screenPlay = ScreenPlayBuilder
-                .getScreenPlay(driver);
-            screenPlay
+                .getScreenPlay(driver)
                 .withRecorder(RecorderType.FFMPEG)
                 .start();
         }
