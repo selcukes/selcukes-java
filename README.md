@@ -55,9 +55,9 @@ public class CucumberHooks {
         WebDriverBinary.chromeDriver().setup();
         driver = new ChromeDriver();
        
-        screenPlay = ScreenPlayBuilder.getScreenPlay(driver, scenario);
-         // start video recording..
-        screenPlay.start();
+        screenPlay = ScreenPlayBuilder.getScreenPlay(driver)
+             // start video recording..
+               .start();
 
         logger.info(() -> "Before Scenario .." + scenario.getName());
     }
@@ -65,9 +65,11 @@ public class CucumberHooks {
     @After
     public void afterTest(Scenario scenario) {
         logger.info(() -> "After Scenario .." + scenario.getName());
-        screenPlay.attachScreenshot(); //Attach Full page screenshot to cucumber report
-        screenPlay.attachVideo(); //Attach video to cucumber report on Failure
-        screenPlay.attachLogs(); //Attach INFO Level Logs to cucumber report
+        screenPlay
+            .withResult(scenario) 
+            .attachScreenshot() //Attach Full page screenshot to cucumber report
+            .attachVideo() //Attach video to cucumber report on Failure
+            .attachLogs(); //Attach INFO Level Logs to cucumber report
     }
 }
 ```
@@ -103,19 +105,6 @@ To be sure that everything works properly, open CMD and perform following comman
 </details>
 
 ## TestNG Example
-Get Github SNAPSHOT version from jitpack. 
-
-```xml
-<repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-</repositories>
-```
-
-This is Github SNAPSHOT version(0.0.3-SNPSHOT) testNG example 
-
 ```java
 
 package io.github.selcukes.reports.tests;
