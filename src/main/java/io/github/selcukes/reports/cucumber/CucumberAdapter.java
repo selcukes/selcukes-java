@@ -20,17 +20,25 @@ package io.github.selcukes.reports.cucumber;
 
 import io.github.selcukes.core.logging.LogRecordListener;
 import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.reports.enums.NotifierType;
 import io.github.selcukes.reports.enums.RecorderType;
+import io.github.selcukes.reports.notification.Notifier;
+import io.github.selcukes.reports.notification.NotifierFactory;
 import io.github.selcukes.reports.video.Recorder;
 import io.github.selcukes.reports.video.RecorderFactory;
+
+import java.io.File;
 
 public class CucumberAdapter implements CucumberService {
     private Recorder recorder;
     private LogRecordListener logRecordListener;
+    private Notifier notifier;
+    private String stepInfo;
 
     @Override
     public void beforeTest() {
         recorder = RecorderFactory.getRecorder(RecorderType.MONTE);
+        notifier = NotifierFactory.getNotifier(NotifierType.TEAMS);
     }
 
     @Override
@@ -47,12 +55,17 @@ public class CucumberAdapter implements CucumberService {
 
     @Override
     public void afterStep(String step, boolean status) {
+        if (status) stepInfo = step;
 
     }
 
     @Override
     public void afterScenario(String scenarioName, boolean status) {
-        recorder.stopAndSave(scenarioName);
+        if (status) {
+            File video = recorder.stopAndSave(scenarioName.replace(" ", "_"));
+            notifier.pushNotification(scenarioName, "FAILED", stepInfo, video.toURI().toString());
+        } else
+            recorder.stopAndDelete();
         LoggerFactory.removeListener(logRecordListener);
     }
 
