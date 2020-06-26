@@ -22,6 +22,7 @@ import io.github.selcukes.core.commons.os.Platform;
 import io.github.selcukes.reports.config.VideoConfig;
 
 public abstract class VideoRecorder implements Recorder {
+
     public static VideoConfig conf() {
         VideoConfig config = VideoConfig.builder()
             .build();
@@ -30,13 +31,5 @@ public abstract class VideoRecorder implements Recorder {
             config.setFfmpegDisplay(":0.0");
         }
         return config;
-    }
-
-    public static synchronized Recorder ffmpegRecorder() {
-        return new FFmpegRecorder();
-    }
-
-    public static synchronized Recorder monteRecorder() {
-        return new MonteRecorder();
     }
 }

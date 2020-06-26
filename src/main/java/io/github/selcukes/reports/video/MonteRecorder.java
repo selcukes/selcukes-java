@@ -56,8 +56,8 @@ class MonteRecorder extends VideoRecorder {
     }
 
     @Override
-    public void stopAndDelete(String filename) {
-        File video = writeVideo(filename);
+    public void stopAndDelete() {
+        File video = writeVideo("Temp");
         logger.info(() -> "Deleting recorded video file...");
         video.deleteOnExit();
     }

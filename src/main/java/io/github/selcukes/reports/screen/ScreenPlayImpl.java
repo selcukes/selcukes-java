@@ -19,6 +19,7 @@
 package io.github.selcukes.reports.screen;
 
 import io.cucumber.java.Scenario;
+import io.github.selcukes.core.helper.Preconditions;
 import io.github.selcukes.core.logging.LogRecordListener;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
@@ -30,6 +31,7 @@ import io.github.selcukes.reports.notification.NotifierFactory;
 import io.github.selcukes.reports.video.Recorder;
 import io.github.selcukes.reports.video.RecorderFactory;
 import org.openqa.selenium.WebDriver;
+import org.testng.ITestResult;
 import org.testng.Reporter;
 
 import java.io.File;
@@ -48,6 +50,7 @@ class ScreenPlayImpl implements ScreenPlay {
     private ScreenPlayResult result;
     private final ScreenCapture capture;
     boolean isFailedOnly;
+    private ITestResult iTestResult;
 
     public ScreenPlayImpl(WebDriver driver) {
         capture = new ScreenCapture(driver);
@@ -83,7 +86,7 @@ class ScreenPlayImpl implements ScreenPlay {
                 "Your browser does not support the video tag." +
                 "</video>";
             attach(htmlToEmbed);
-        } else recorder.stopAndDelete(result.getTestName());
+        } else recorder.stopAndDelete();
         return this;
     }
 
@@ -99,6 +102,7 @@ class ScreenPlayImpl implements ScreenPlay {
 
     @Override
     public File stop() {
+        Preconditions.checkNotNull(recorder, "Recording not started...");
         return recorder.stopAndSave(result.getTestName());
     }
 
@@ -120,7 +124,7 @@ class ScreenPlayImpl implements ScreenPlay {
         if (isAttachable()) {
             String infoLogs = loggerListener.getLogRecords(Level.INFO)
                 .map(LogRecord::getMessage)
-                .collect(Collectors.joining("\n  --> ", "\n--Info Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
+                .collect(Collectors.joining("<br/>  --> ", "<br/> Logs: <br/>   --> ", "<br/> --End Of Logs--"));
             write(infoLogs);
         }
         stopReadingLogs();
@@ -144,6 +148,8 @@ class ScreenPlayImpl implements ScreenPlay {
         if (scenario instanceof Scenario) {
             this.scenario = (Scenario) scenario;
 
+        } else if (scenario instanceof ITestResult) {
+            iTestResult = (ITestResult) scenario;
         }
         return this;
     }
@@ -179,6 +185,7 @@ class ScreenPlayImpl implements ScreenPlay {
                 attach(objToEmbed, "text/html");
                 logger.info(() -> "Attached Video to Cucumber Report");
             } else {
+                Reporter.setCurrentTestResult(iTestResult);
                 Reporter.log(attachment);
                 String contentType = attachment.contains("video") ? "Video" : "Screenshot";
                 logger.info(() -> "Attached " + contentType + " to TestNG Report");

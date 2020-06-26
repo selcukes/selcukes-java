@@ -47,14 +47,14 @@ public class ScreenPlayListener extends SelcukesTestNGListener {
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        recorder.stopAndDelete(result.getName());
+        recorder.stopAndDelete();
         Reporter.log(getLogs(Level.INFO));
         LoggerFactory.removeListener(logRecordListener);
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        File video = recorder.stopAndSave(result.getName());
+        File video = recorder.stopAndSave(result.getName().replace(" ","_"));
         attachVideo(video.getAbsolutePath());
         Reporter.log(getLogs(Level.FINE));
         LoggerFactory.removeListener(logRecordListener);
@@ -63,7 +63,7 @@ public class ScreenPlayListener extends SelcukesTestNGListener {
     private String getLogs(Level level) {
         return logRecordListener.getLogRecords(level)
             .map(LogRecord::getMessage)
-            .collect(Collectors.joining("\n  --> ", "\n--Info Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
+            .collect(Collectors.joining("<br/>  --> ", "<br/> Logs: <br/>   --> ", "<br/> --End Of Logs--"));
 
     }
 

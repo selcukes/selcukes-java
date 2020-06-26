@@ -19,10 +19,13 @@
 package io.github.selcukes.reports.video;
 
 
+import io.github.selcukes.core.commons.Await;
 import io.github.selcukes.core.commons.exec.Shell;
 import io.github.selcukes.core.commons.os.Platform;
+import io.github.selcukes.core.exception.SelcukesException;
 import io.github.selcukes.core.helper.DateHelper;
 import io.github.selcukes.core.helper.FileHelper;
+import io.github.selcukes.core.helper.Preconditions;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.reports.config.VideoConfig;
@@ -69,14 +72,20 @@ class FFmpegRecorder extends VideoRecorder {
         else shell.runCommand(killFFmpeg);
         logger.info(() -> "Killing ffmpeg...");
         videoFile = getFile(filename);
-        FileHelper.renameFile(tempFile, videoFile);
+        Preconditions.checkArgument(tempFile.exists(), "Video recording wasn't started");
+        try {
+            FileHelper.renameFile(tempFile, videoFile);
+        } catch (SelcukesException ex) {
+            Await.until(2);
+            FileHelper.renameFile(tempFile, videoFile);
+        }
         logger.info(() -> "Recording finished to " + videoFile.getAbsolutePath());
         return videoFile;
     }
 
     @Override
-    public void stopAndDelete(String filename) {
-        stopAndSave(filename);
+    public void stopAndDelete() {
+        stopAndSave("Temp");
         logger.info(() -> "Deleting recorded video file...");
         videoFile.deleteOnExit();
     }

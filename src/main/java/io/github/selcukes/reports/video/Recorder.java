@@ -34,5 +34,5 @@ public interface Recorder {
     /**
      * This method will delete the recorded file,if the test is pass.
      */
-    void stopAndDelete(String filename);
+    void stopAndDelete();
 }
