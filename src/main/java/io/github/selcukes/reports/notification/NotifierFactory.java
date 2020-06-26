@@ -23,18 +23,10 @@ import io.github.selcukes.reports.notification.slack.Slack;
 import io.github.selcukes.reports.notification.teams.MicrosoftTeams;
 import lombok.experimental.UtilityClass;
 
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.function.Supplier;
-
 @UtilityClass
 public class NotifierFactory {
     public synchronized Notifier getNotifier(NotifierType notifierType) {
-
-        Map<NotifierType, Supplier<Notifier>> notifierSupplier = new EnumMap<>(NotifierType.class);
-        notifierSupplier.put(NotifierType.SLACK, Slack::new);
-        notifierSupplier.put(NotifierType.TEAMS, MicrosoftTeams::new);
-        return notifierSupplier.getOrDefault(notifierType, MicrosoftTeams::new).get();
+        return notifierType.equals(NotifierType.SLACK) ? new Slack() : new MicrosoftTeams();
     }
 
 }

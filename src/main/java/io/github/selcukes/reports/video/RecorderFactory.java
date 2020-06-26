@@ -21,16 +21,9 @@ package io.github.selcukes.reports.video;
 import io.github.selcukes.reports.enums.RecorderType;
 import lombok.experimental.UtilityClass;
 
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.function.Supplier;
 @UtilityClass
 public class RecorderFactory {
     public synchronized Recorder getRecorder(RecorderType recorderType) {
-
-        Map<RecorderType, Supplier<Recorder>> recorderSupplier = new EnumMap<>(RecorderType.class);
-        recorderSupplier.put(RecorderType.MONTE, MonteRecorder::new);
-        recorderSupplier.put(RecorderType.FFMPEG, FFmpegRecorder::new);
-        return recorderSupplier.getOrDefault(recorderType, MonteRecorder::new).get();
+        return recorderType.equals(RecorderType.FFMPEG) ? new FFmpegRecorder() : new MonteRecorder();
     }
 }
