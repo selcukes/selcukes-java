@@ -33,9 +33,9 @@ public class MicrosoftTeamsBuilder {
     protected void sendMessage(String scenarioTitle, String scenarioStatus, String message, String screenshotPath) {
 
         String error = null;
-        if (message.contains("Exception:")) {
-            error = message.split("Exception:")[1];
-            message = message.split("Exception:")[0];
+        if (message.contains(NotifierEnum.EXCEPTION.getValue())) {
+            error = message.split(NotifierEnum.EXCEPTION.getValue())[1];
+            message = message.split(NotifierEnum.EXCEPTION.getValue())[0];
         }
         String attachmentValue = "[Screenshot.jpg](" + screenshotPath + ")";
         if (screenshotPath.endsWith(".avi") || screenshotPath.endsWith(".mp4")) {
@@ -58,7 +58,7 @@ public class MicrosoftTeamsBuilder {
             .build();
 
         Field field3 = Field.builder()
-            .name("Exception ")
+            .name(NotifierEnum.EXCEPTION.getValue())
             .value(error)
             .build();
 

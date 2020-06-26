@@ -35,6 +35,7 @@ public enum NotifierEnum {
     ENVIRONMENT("Environment"),
     ATTACHMENT("Attachments"),
     MESSAGE_CARD("MessageCard"),
-    TIME_STAMP("Time Stamp");
+    TIME_STAMP("Time Stamp"),
+    EXCEPTION("Exception");
     @Getter String value;
 }
