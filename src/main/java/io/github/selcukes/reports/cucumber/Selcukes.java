@@ -62,7 +62,7 @@ public class Selcukes implements ConcurrentEventListener {
 
     private void getTestSourceReadHandler(TestSourceRead event) {
         testSources.addTestSourceReadEvent(event.getUri(), event);
-        logger.info(() -> String.format("TestSource Test: \n Source [%s] URI [%s]",
+        logger.info(() -> String.format("TestSource Test: %n  Source [%s] URI [%s]",
             event.getSource(),
             event.getUri()
         ));
@@ -70,7 +70,7 @@ public class Selcukes implements ConcurrentEventListener {
 
     private void beforeTest(TestRunStarted event) {
         cucumberService = EventFiringCucumber.getService();
-        logger.info(() -> String.format("Before Test: \nEvent[%s]",
+        logger.info(() -> String.format("Before Test: %n Event[%s]",
             event.toString()
 
         ));
@@ -79,7 +79,7 @@ public class Selcukes implements ConcurrentEventListener {
 
 
     private void beforeScenario(TestCaseStarted event) {
-        logger.info(() -> String.format("Before Scenario: \nScenario Name[%s] \nKeyword [%s] \nSteps [%s]",
+        logger.info(() -> String.format("Before Scenario: %n Scenario Name[%s] %n Keyword [%s] %n Steps [%s]",
             event.getTestCase().getName(),
             event.getTestCase().getKeyword(),
             event.getTestCase().getTestSteps().toString()
@@ -111,7 +111,7 @@ public class Selcukes implements ConcurrentEventListener {
 
 
     private void afterScenario(TestCaseFinished event) {
-        logger.info(() -> String.format("After Scenario: \nStatus [%s] \nDuration [%s] \nError [%s]",
+        logger.info(() -> String.format("After Scenario: %n Status [%s] %n Duration [%s] %n Error [%s]",
             event.getResult().getStatus(),
             event.getResult().getDuration(),
             event.getResult().getError().getMessage()
@@ -120,7 +120,7 @@ public class Selcukes implements ConcurrentEventListener {
     }
 
     private void afterTest(TestRunFinished event) {
-        logger.info(() -> String.format("After Test: \nEvent [%s]",
+        logger.info(() -> String.format("After Test: %n Event [%s]",
             event.toString()
         ));
 
