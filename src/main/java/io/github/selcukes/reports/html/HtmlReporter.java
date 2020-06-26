@@ -16,7 +16,7 @@
  *
  */
 
-package io.github.selcukes.reports.cucumber;
+package io.github.selcukes.reports.html;
 
 import io.github.selcukes.core.commons.os.Platform;
 import io.github.selcukes.core.config.ConfigFactory;

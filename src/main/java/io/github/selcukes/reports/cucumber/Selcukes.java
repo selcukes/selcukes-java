@@ -18,15 +18,10 @@
 
 package io.github.selcukes.reports.cucumber;
 
-
 import io.cucumber.plugin.ConcurrentEventListener;
 import io.cucumber.plugin.event.*;
-import io.github.selcukes.core.config.ConfigFactory;
-import io.github.selcukes.core.logging.LogRecordListener;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
-import io.github.selcukes.reports.video.Recorder;
-import io.github.selcukes.reports.video.VideoRecorder;
 
 import java.util.Optional;
 
@@ -34,8 +29,7 @@ import java.util.Optional;
 public class Selcukes implements ConcurrentEventListener {
     private final Logger logger = LoggerFactory.getLogger(Selcukes.class);
     private final TestSourcesModel testSources = new TestSourcesModel();
-    private Recorder recorder;
-    private LogRecordListener logRecordListener;
+    private CucumberService cucumberService;
 
     /**
      * Registers an event handler for a specific event.
@@ -68,67 +62,79 @@ public class Selcukes implements ConcurrentEventListener {
 
     private void getTestSourceReadHandler(TestSourceRead event) {
         testSources.addTestSourceReadEvent(event.getUri(), event);
-
+        logger.info(() -> String.format("TestSource Test: \n Source [%s] URI [%s]",
+            event.getSource(),
+            event.getUri()
+        ));
     }
 
     private void beforeTest(TestRunStarted event) {
+        cucumberService = EventFiringCucumber.getService();
+        logger.info(() -> String.format("Before Test: \nEvent[%s]",
+            event.toString()
 
-        logRecordListener = new LogRecordListener();
-        LoggerFactory.addListener(logRecordListener);
+        ));
+        cucumberService.beforeTest();
     }
 
 
     private void beforeScenario(TestCaseStarted event) {
-        if (ConfigFactory.getConfig().getVideoRecording()) {
-            recorder = VideoRecorder.monteRecorder();
-            recorder.start();
-        }
+        logger.info(() -> String.format("Before Scenario: \nScenario Name[%s] \nKeyword [%s] \nSteps [%s]",
+            event.getTestCase().getName(),
+            event.getTestCase().getKeyword(),
+            event.getTestCase().getTestSteps().toString()
+        ));
+        cucumberService.beforeScenario();
     }
 
     private void beforeStep(TestStepStarted event) {
-        logger.trace(() -> String.format("Before Step: [%s]", event.getTestStep().toString()));
-
+        logger.info(() -> String.format("Before Step: [%s]", event.getTestStep().toString()));
+        cucumberService.beforeStep();
     }
 
     private void afterStep(TestStepFinished event) {
-        logger.trace(() -> String.format("After Step: [%s]", event.getTestStep().toString()));
-        if (event.getResult().getStatus().is(Status.FAILED) && event.getTestStep() instanceof PickleStepTestStep) {
+        logger.info(() -> String.format("After Step: [%s]",
+            event.getTestStep().toString()
+        ));
+        StringBuilder stepsReport = new StringBuilder();
+        if (event.getTestStep() instanceof PickleStepTestStep) {
             PickleStepTestStep testStep = (PickleStepTestStep) event.getTestStep();
-            StringBuilder stepsReport = new StringBuilder();
+
             stepsReport.append("Cucumber Step Failed : ")
                 .append(testStep.getStep().getText()).append("  [")
                 .append(testStep.getStep().getLine()).append("] ");
             Optional<StepArgument> stepsArgs = Optional.ofNullable(testStep.getStep().getArgument());
             if (stepsArgs.isPresent()) stepsReport.append("Step Argument: [").append(stepsArgs).append("] ");
-            logger.debug(stepsReport::toString);
         }
-
+        cucumberService.afterStep(stepsReport.toString(), event.getResult().getStatus().is(Status.FAILED));
     }
 
 
     private void afterScenario(TestCaseFinished event) {
-        if (ConfigFactory.getConfig().getVideoRecording()) {
-            if (event.getResult().getStatus().is(Status.FAILED))
-                recorder.stopAndSave(event.getTestCase().getName());
-            else
-                recorder.stopAndDelete(event.getTestCase().getName());
-        }
+        logger.info(() -> String.format("After Scenario: \nStatus [%s] \nDuration [%s] \nError [%s]",
+            event.getResult().getStatus(),
+            event.getResult().getDuration(),
+            event.getResult().getError().getMessage()
+        ));
+        cucumberService.afterScenario(event.getTestCase().getName(), event.getResult().getStatus().is(Status.FAILED));
     }
 
     private void afterTest(TestRunFinished event) {
+        logger.info(() -> String.format("After Test: \nEvent [%s]",
+            event.toString()
+        ));
 
-        LoggerFactory.removeListener(logRecordListener);
     }
 
     private EventHandler<EmbedEvent> getEmbedEventHandler() {
         return event ->
-            logger.trace(() -> String.format("Embed Event: [%s]", event.getName()));
+            logger.info(() -> String.format("Embed Event: [%s]", event.getName()));
 
     }
 
     private EventHandler<WriteEvent> getWriteEventHandler() {
         return event ->
-            logger.trace(() -> String.format("Write Event: [%s]", event.getText()));
+            logger.info(() -> String.format("Write Event: [%s]", event.getText()));
 
     }
 
