@@ -14,25 +14,12 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.core.config;
+package io.github.selcukes.core.commons;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
-
-import java.util.Map;
-@JsonIgnoreProperties(ignoreUnknown = true)
-@Data
-public class Environment {
-    private String projectName;
-    private String env;
-    private String browserName;
-    private String windowId;
-    private Boolean headLess;
-    private Boolean remote;
-    private String isProxy;
-    private String baseUrl;
-    private String remoteGridUrl;
-    private Boolean videoRecording;
-    private Boolean notification;
-    private Map<String, String> notifier;
+public interface EncryptionService {
+    String getPrefix();
+    String encrypt(String text);
+    String decrypt(String text);
+    String encrypt(String cryptoKey, String text);
+    String decrypt(String cryptoKey, String encrypted);
 }

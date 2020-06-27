@@ -23,7 +23,8 @@ public class ConfigTest {
         logger.info(() -> ConfigFactory.getConfig().getIsProxy());
         logger.info(() -> ConfigFactory.getConfig().getProjectName());
         logger.info(() -> ConfigFactory.getConfig().getRemoteGridUrl());
-        logger.info(() -> ConfigFactory.getConfig().getHeadLess() + "");
+        logger.info(() -> ConfigFactory.getConfig().getHeadLess().toString());
+        logger.info(() -> ConfigFactory.getConfig().getNotification().toString());
         ConfigFactory.getConfig().getNotifier().forEach((k,v)->logger.info(()->String.format("Key :[%s]   Value :[%s]" , k , v)));
     }
 }
