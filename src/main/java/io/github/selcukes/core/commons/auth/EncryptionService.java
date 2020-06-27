@@ -17,7 +17,6 @@
 package io.github.selcukes.core.commons.auth;
 
 public interface EncryptionService {
-    String getPrefix();
     String encrypt(String text);
     String decrypt(String text);
     String encrypt(String cryptoKey, String text);

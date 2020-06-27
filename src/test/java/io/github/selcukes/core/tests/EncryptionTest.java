@@ -28,7 +28,7 @@ public class EncryptionTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private EncryptionService encryptionService;
     private final String plainText = "password";
-    private final String encryptedText = "℗:+xn6Yxw4a/zekUJYb3GYEg==";
+    private final String encryptedText = "൫:+xn6Yxw4a/zekUJYb3GYEg==";
 
     @BeforeTest
     public void beforeTest() {
