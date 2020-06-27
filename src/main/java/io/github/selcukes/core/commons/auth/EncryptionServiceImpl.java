@@ -14,20 +14,16 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.core.commons;
+package io.github.selcukes.core.commons.auth;
 
 import io.github.selcukes.core.exception.SelcukesException;
 import io.github.selcukes.core.helper.Preconditions;
 import org.apache.commons.codec.binary.Base64;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 
@@ -52,13 +48,13 @@ public class EncryptionServiceImpl implements EncryptionService {
     public String encrypt(String cryptoKey, String text) {
         Key aesKey = null;
         if (cryptoKey != null && !"".equals(cryptoKey)) {
-            aesKey = buildKey16char(cryptoKey);
+            aesKey = generateKey(cryptoKey);
         }
         try {
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, aesKey, new IvParameterSpec(new byte[16]));
+            Cipher cipher = getCipher();
+            cipher.init(Cipher.ENCRYPT_MODE, aesKey, getIvParameterSpec());
             return getPrefix() + Base64.encodeBase64String(cipher.doFinal(text.getBytes()));
-        } catch (NoSuchAlgorithmException | IllegalBlockSizeException | BadPaddingException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException e) {
+        } catch (Exception e) {
             throw new SelcukesException(e);
         }
 
@@ -69,18 +65,19 @@ public class EncryptionServiceImpl implements EncryptionService {
         Preconditions.checkArgument(encrypted.startsWith(getPrefix()), "Invalid Encrypted key");
         Key aesKey = null;
         if (cryptoKey != null && !"".equals(cryptoKey)) {
-            aesKey = buildKey16char(cryptoKey);
+            aesKey = generateKey(cryptoKey);
         }
         try {
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.DECRYPT_MODE, aesKey, new IvParameterSpec(new byte[16]));
-            return new String(cipher.doFinal(Base64.decodeBase64(encrypted.substring(getPrefix().length(), encrypted.length()))));
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | InvalidAlgorithmParameterException e) {
+            Cipher cipher = getCipher();
+            cipher.init(Cipher.DECRYPT_MODE, aesKey, getIvParameterSpec());
+            String encryptedString = encrypted.substring(getPrefix().length());
+            return new String(cipher.doFinal(Base64.decodeBase64(encryptedString)));
+        } catch (Exception e) {
             throw new SelcukesException(e);
         }
     }
 
-    private Key buildKey16char(String cryptoKey) {
+    private Key generateKey(String cryptoKey) {
         Key aesKey;
         StringBuilder cryptoKeyBuilder = new StringBuilder();
         cryptoKeyBuilder.append(cryptoKey);
@@ -93,6 +90,14 @@ public class EncryptionServiceImpl implements EncryptionService {
 
     private String getCryptoKey() {
         return System.getProperty("selcukes.crypto.key");
+    }
+
+    private Cipher getCipher() throws NoSuchPaddingException, NoSuchAlgorithmException {
+        return Cipher.getInstance("AES/CBC/PKCS5Padding");
+    }
+
+    private IvParameterSpec getIvParameterSpec() {
+        return new IvParameterSpec(new byte[16]);
     }
 
 }

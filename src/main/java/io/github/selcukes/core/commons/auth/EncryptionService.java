@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.core.commons;
+package io.github.selcukes.core.commons.auth;
 
 public interface EncryptionService {
     String getPrefix();

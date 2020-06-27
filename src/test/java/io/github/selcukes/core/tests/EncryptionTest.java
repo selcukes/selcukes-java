@@ -16,8 +16,8 @@
 
 package io.github.selcukes.core.tests;
 
-import io.github.selcukes.core.commons.EncryptionService;
-import io.github.selcukes.core.commons.EncryptionServiceImpl;
+import io.github.selcukes.core.commons.auth.EncryptionService;
+import io.github.selcukes.core.commons.auth.EncryptionServiceImpl;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import org.testng.Assert;
