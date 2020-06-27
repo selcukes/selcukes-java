@@ -18,6 +18,7 @@
 
 package io.github.selcukes.reports.html;
 
+import io.github.selcukes.core.exception.SelcukesException;
 import io.github.selcukes.core.helper.FileHelper;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
@@ -25,11 +26,14 @@ import org.testng.*;
 import org.testng.xml.XmlSuite;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -39,7 +43,7 @@ import static java.util.stream.Collectors.toList;
 
 public class EmailReporter implements IReporter {
     private static final Logger logger = LoggerFactory.getLogger(EmailReporter.class);
-    private static final String REPORT_TEMPLATE_PATH = FileHelper.driversFolder(new File(".").getAbsolutePath()) + File.separator + "reportTemplate.html";
+    private static final String REPORT_TEMPLATE = "reportTemplate.html";
     private static final String ROW_TEMPLATE = "<tr class=\"%s\"><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>";
 
     @Override
@@ -107,26 +111,29 @@ public class EmailReporter implements IReporter {
     }
 
     private String initReportTemplate() {
-        String template = null;
+        String template;
         byte[] reportTemplate;
         try {
-            reportTemplate = Files.readAllBytes(Paths.get(REPORT_TEMPLATE_PATH));
+
+            Path templatePath = Paths.get(Objects.requireNonNull(EmailReporter.class.getClassLoader()
+                .getResource(REPORT_TEMPLATE)).toURI());
+            reportTemplate = Files.readAllBytes(templatePath);
             template = new String(reportTemplate, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            logger.info(() -> "Problem initializing template" + e);
+        } catch (IOException | URISyntaxException e) {
+            throw new SelcukesException("Failed initializing template..", e);
         }
         return template;
     }
 
     private void saveReportTemplate(String outputDirectory, String reportTemplate) {
-        new File(outputDirectory).mkdirs();
+        FileHelper.createDirectory(new File(outputDirectory));
         try {
-            PrintWriter reportWriter = new PrintWriter(new BufferedWriter(new FileWriter(new File(outputDirectory, "my-report.html"))));
+            PrintWriter reportWriter = new PrintWriter(new BufferedWriter(new FileWriter(new File(outputDirectory, "log-report.html"))));
             reportWriter.println(reportTemplate);
             reportWriter.flush();
             reportWriter.close();
         } catch (IOException e) {
-            logger.info(() -> "Problem saving template" + e);
+            throw new SelcukesException("Failed saving template..", e);
         }
     }
 }

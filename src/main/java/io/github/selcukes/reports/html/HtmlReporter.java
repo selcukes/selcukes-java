@@ -53,9 +53,6 @@ public class HtmlReporter {
         configuration.setNotFailingStatuses(Collections.singleton(Status.SKIPPED));
         configuration.addPresentationModes(PresentationMode.RUN_WITH_JENKINS);
 
-        // points to the demo trends which is not used for other tests
-        //  configuration.setTrendsStatsFile(new File("target/cucumber-results/cucumber-trends.json"));
-
         ReportBuilder reportBuilder = new ReportBuilder(jsonFiles, configuration);
         reportBuilder.generateReports();
     }

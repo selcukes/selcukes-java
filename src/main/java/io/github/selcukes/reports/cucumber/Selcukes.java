@@ -62,7 +62,7 @@ public class Selcukes implements ConcurrentEventListener {
 
     private void getTestSourceReadHandler(TestSourceRead event) {
         testSources.addTestSourceReadEvent(event.getUri(), event);
-        logger.info(() -> String.format("TestSource Test: %n  Source [%s] URI [%s]",
+        logger.trace(() -> String.format("TestSource Test: %n  Source [%s] URI [%s]",
             event.getSource(),
             event.getUri()
         ));
@@ -70,7 +70,7 @@ public class Selcukes implements ConcurrentEventListener {
 
     private void beforeTest(TestRunStarted event) {
         cucumberService = EventFiringCucumber.getService();
-        logger.info(() -> String.format("Before Test: %n Event[%s]",
+        logger.trace(() -> String.format("Before Test: %n Event[%s]",
             event.toString()
 
         ));
@@ -79,7 +79,7 @@ public class Selcukes implements ConcurrentEventListener {
 
 
     private void beforeScenario(TestCaseStarted event) {
-        logger.info(() -> String.format("Before Scenario: %n Scenario Name[%s] %n Keyword [%s] %n Steps [%s]",
+        logger.debug(() -> String.format("Before Scenario: %n Scenario Name[%s] %n Keyword [%s] %n Steps [%s]",
             event.getTestCase().getName(),
             event.getTestCase().getKeyword(),
             event.getTestCase().getTestSteps().toString()
@@ -88,12 +88,12 @@ public class Selcukes implements ConcurrentEventListener {
     }
 
     private void beforeStep(TestStepStarted event) {
-        logger.info(() -> String.format("Before Step: [%s]", event.getTestStep().toString()));
+        logger.debug(() -> String.format("Before Step: [%s]", event.getTestStep().toString()));
         cucumberService.beforeStep();
     }
 
     private void afterStep(TestStepFinished event) {
-        logger.info(() -> String.format("After Step: [%s]",
+        logger.debug(() -> String.format("After Step: [%s]",
             event.getTestStep().toString()
         ));
         StringBuilder stepsReport = new StringBuilder();
@@ -111,7 +111,7 @@ public class Selcukes implements ConcurrentEventListener {
 
 
     private void afterScenario(TestCaseFinished event) {
-        logger.info(() -> String.format("After Scenario: %n Status [%s] %n Duration [%s] %n Error [%s]",
+        logger.debug(() -> String.format("After Scenario: %n Status [%s] %n Duration [%s] %n Error [%s]",
             event.getResult().getStatus(),
             event.getResult().getDuration(),
             event.getResult().getError().getMessage()
@@ -120,7 +120,7 @@ public class Selcukes implements ConcurrentEventListener {
     }
 
     private void afterTest(TestRunFinished event) {
-        logger.info(() -> String.format("After Test: %n Event [%s]",
+        logger.trace(() -> String.format("After Test: %n Event [%s]",
             event.toString()
         ));
 
@@ -128,13 +128,13 @@ public class Selcukes implements ConcurrentEventListener {
 
     private EventHandler<EmbedEvent> getEmbedEventHandler() {
         return event ->
-            logger.info(() -> String.format("Embed Event: [%s]", event.getName()));
+            logger.trace(() -> String.format("Embed Event: [%s]", event.getName()));
 
     }
 
     private EventHandler<WriteEvent> getWriteEventHandler() {
         return event ->
-            logger.info(() -> String.format("Write Event: [%s]", event.getText()));
+            logger.trace(() -> String.format("Write Event: [%s]", event.getText()));
 
     }
 

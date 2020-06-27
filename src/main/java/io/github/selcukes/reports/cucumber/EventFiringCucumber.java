@@ -18,14 +18,17 @@
 
 package io.github.selcukes.reports.cucumber;
 
-public class EventFiringCucumber {
-    private static CucumberService regService;
+import lombok.experimental.UtilityClass;
 
-    public static void register(CucumberService service) {
+@UtilityClass
+public class EventFiringCucumber {
+    private CucumberService regService;
+
+    public void register(CucumberService service) {
         regService = service;
     }
 
-    public static CucumberService getService() {
+    public CucumberService getService() {
         return (regService == null) ? new CucumberAdapter() : regService;
     }
 }
