@@ -66,7 +66,7 @@ public class EncryptionServiceImpl implements EncryptionService {
 
     @Override
     public String decrypt(String cryptoKey, String encrypted) {
-        Preconditions.checkArgument(encrypted.startsWith(getPrefix()), "");
+        Preconditions.checkArgument(encrypted.startsWith(getPrefix()), "Invalid Encrypted key");
         Key aesKey = null;
         if (cryptoKey != null && !"".equals(cryptoKey)) {
             aesKey = buildKey16char(cryptoKey);
