@@ -23,8 +23,6 @@ import java.io.InputStream;
 public interface HttpClient {
     HttpClient usingProxy(String proxy);
 
-    HttpClient usingSSL();
-
     HttpClient usingUrl(String url);
 
     HttpClient usingAuthorization(String authorization);

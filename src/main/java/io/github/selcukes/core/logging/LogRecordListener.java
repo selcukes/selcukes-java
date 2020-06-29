@@ -39,4 +39,8 @@ public final class LogRecordListener {
         Preconditions.checkNotNull(level, "Level must not be null");
         return getLogRecords().filter(logRecord -> logRecord.getLevel() == level);
     }
+    public void cleanUp()
+    {
+        logRecords.remove();
+    }
 }

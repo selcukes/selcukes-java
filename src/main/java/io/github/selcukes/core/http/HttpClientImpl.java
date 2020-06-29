@@ -186,12 +186,6 @@ public class HttpClientImpl implements HttpClient {
     }
 
     @Override
-    public HttpClient usingSSL() {
-
-        return this;
-    }
-
-    @Override
     public HttpClient usingUrl(String url) {
         this.webHookUrl = url;
         return this;
