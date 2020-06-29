@@ -17,6 +17,7 @@
 package io.github.selcukes.core.commons.auth;
 
 import io.github.selcukes.core.helper.Preconditions;
+import lombok.experimental.UtilityClass;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -29,12 +30,13 @@ import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
 
+@UtilityClass
 public class EncryptionManager {
-    private static final int DEFAULT_LENGTH = 128;
-    private static final String KEY_ALGORITHM = "AES";
-    private static final String ALGORITHM = "AES/GCM/NoPadding";
+    private final int DEFAULT_LENGTH = 128;
+    private final String KEY_ALGORITHM = "AES";
+    private final String ALGORITHM = "AES/GCM/NoPadding";
 
-    public static byte[] encryptData(String key, byte[] data) throws GeneralSecurityException {
+    public byte[] encryptData(String key, byte[] data) throws GeneralSecurityException {
         SecureRandom secureRandom = new SecureRandom();
         byte[] iv = new byte[12];
         secureRandom.nextBytes(iv);
@@ -51,7 +53,7 @@ public class EncryptionManager {
     }
 
 
-    public static byte[] decryptData(String key, byte[] encryptedData) throws GeneralSecurityException {
+    public byte[] decryptData(String key, byte[] encryptedData) throws GeneralSecurityException {
 
         ByteBuffer byteBuffer = ByteBuffer.wrap(encryptedData);
         int dataSize = byteBuffer.getInt();
@@ -69,7 +71,7 @@ public class EncryptionManager {
 
     }
 
-    public static SecretKey generateSecretKey(String password, byte[] iv) throws GeneralSecurityException {
+    public SecretKey generateSecretKey(String password, byte[] iv) throws GeneralSecurityException {
         KeySpec spec = new PBEKeySpec(password.toCharArray(), iv, 65536, DEFAULT_LENGTH);
         SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         byte[] key = secretKeyFactory.generateSecret(spec).getEncoded();
