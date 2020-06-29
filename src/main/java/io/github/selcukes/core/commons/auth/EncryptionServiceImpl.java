@@ -36,8 +36,8 @@ public class EncryptionServiceImpl implements EncryptionService {
     @Override
     public String encrypt(String cryptoKey, String text) {
         try {
-            byte[] payload = EncryptionManager.encryptData(cryptoKey, text.getBytes());
-            return Base64.encodeBase64String(payload);
+            byte[] textToEncrypt = EncryptionManager.encryptData(cryptoKey, text.getBytes());
+            return Base64.encodeBase64String(textToEncrypt);
         } catch (GeneralSecurityException e) {
             throw new SelcukesException(e);
         }
