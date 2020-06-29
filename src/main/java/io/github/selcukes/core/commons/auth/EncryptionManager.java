@@ -55,7 +55,7 @@ public class EncryptionManager {
 
         ByteBuffer byteBuffer = ByteBuffer.wrap(encryptedData);
         int dataSize = byteBuffer.getInt();
-        Preconditions.checkArgument((dataSize < 12 || dataSize >= 16),
+        Preconditions.checkArgument(!(dataSize < 12 || dataSize >= 16),
             "Data size is incorrect. Make sure that the incoming data is an AES encrypted file.");
         byte[] iv = new byte[dataSize];
         byteBuffer.get(iv);

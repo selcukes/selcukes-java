@@ -28,7 +28,7 @@ public class EncryptionTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private EncryptionService encryptionService;
     private final String plainText = "password";
-    private final String encryptedText = "൫:+xn6Yxw4a/zekUJYb3GYEg==";
+    private String encryptedText = "Test";
 
     @BeforeTest
     public void beforeTest() {
@@ -38,11 +38,10 @@ public class EncryptionTest {
 
     @Test
     public void encryptionTest() {
-        logger.info(() -> "Encrypted Password: " + encryptionService.encrypt(plainText));
-        Assert.assertEquals(encryptedText, encryptionService.encrypt(plainText));
-    }
+        encryptedText = encryptionService.encrypt(plainText);
+        logger.info(() -> "Encrypted Password: " + encryptionService.encrypt(plainText));    }
 
-    @Test
+    @Test(dependsOnMethods={"encryptionTest"})
     public void decryptionTest() {
         logger.info(() -> "Decrypted Password: " + encryptionService.decrypt(encryptedText));
         Assert.assertEquals(plainText, encryptionService.decrypt(encryptedText));
