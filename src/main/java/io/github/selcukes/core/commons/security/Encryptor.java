@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.core.commons.auth;
+package io.github.selcukes.core.commons.security;
 
-public interface EncryptionService {
+public interface Encryptor {
     String encrypt(String text);
     String decrypt(String text);
     String encrypt(String cryptoKey, String text);

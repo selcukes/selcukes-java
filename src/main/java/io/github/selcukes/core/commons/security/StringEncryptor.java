@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.core.commons.auth;
+package io.github.selcukes.core.commons.security;
 
-import io.github.selcukes.core.exception.SelcukesException;
+import io.github.selcukes.core.exception.EncryptionException;
 import org.apache.commons.codec.binary.Base64;
 
 import java.security.GeneralSecurityException;
 
-public class EncryptionServiceImpl implements EncryptionService {
+public class StringEncryptor implements Encryptor {
 
     @Override
     public String encrypt(String text) {
@@ -36,10 +36,10 @@ public class EncryptionServiceImpl implements EncryptionService {
     @Override
     public String encrypt(String cryptoKey, String text) {
         try {
-            byte[] textToEncrypt = EncryptionManager.encryptData(cryptoKey, text.getBytes());
+            byte[] textToEncrypt = ByteEncryptor.encryptData(cryptoKey, text.getBytes());
             return Base64.encodeBase64String(textToEncrypt);
         } catch (GeneralSecurityException e) {
-            throw new SelcukesException(e);
+            throw new EncryptionException(e);
         }
     }
 
@@ -47,9 +47,9 @@ public class EncryptionServiceImpl implements EncryptionService {
     public String decrypt(String cryptoKey, String encrypted) {
         try {
             byte[] textToDecrypt = Base64.decodeBase64(encrypted);
-            return new String(EncryptionManager.decryptData(cryptoKey, textToDecrypt));
+            return new String(ByteEncryptor.decryptData(cryptoKey, textToDecrypt));
         } catch (Exception e) {
-            throw new SelcukesException(e);
+            throw new EncryptionException(e);
         }
     }
 

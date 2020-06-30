@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.core.commons.auth;
+package io.github.selcukes.core.commons.security;
 
 import io.github.selcukes.core.helper.Preconditions;
 import lombok.experimental.UtilityClass;
@@ -31,20 +31,20 @@ import java.security.SecureRandom;
 import java.security.spec.KeySpec;
 
 @UtilityClass
-public class EncryptionManager {
-    private final int DEFAULT_LENGTH = 128;
+public class ByteEncryptor {
+    private final int DEFAULT_LENGTH = 128; // Due to the US export restriction JDK only ships 128bit version.
+    private final int DEFAULT_IV_LENGTH = 12;
     private final String KEY_ALGORITHM = "AES";
-    private final String ALGORITHM = "AES/GCM/NoPadding";
+    private final String DEFAULT_ALGORITHM = "AES/GCM/NoPadding";
+    private final String ALGORITHM = "PBKDF2WithHmacSHA1";
+    private final int ITERATION_COUNT = 65536;
 
     public byte[] encryptData(String key, byte[] data) throws GeneralSecurityException {
         SecureRandom secureRandom = new SecureRandom();
-        byte[] iv = new byte[12];
+        byte[] iv = newIV();
         secureRandom.nextBytes(iv);
         SecretKey secretKey = generateSecretKey(key, iv);
-        Cipher cipher = Cipher.getInstance(ALGORITHM);
-        GCMParameterSpec parameterSpec = new GCMParameterSpec(DEFAULT_LENGTH, iv);
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey, parameterSpec);
-        byte[] encryptedData = cipher.doFinal(data);
+        byte[] encryptedData = doCipher(Cipher.ENCRYPT_MODE, data, secretKey, iv);
         ByteBuffer byteBuffer = ByteBuffer.allocate(4 + iv.length + encryptedData.length);
         byteBuffer.putInt(iv.length);
         byteBuffer.put(iv);
@@ -59,23 +59,37 @@ public class EncryptionManager {
         int dataSize = byteBuffer.getInt();
         Preconditions.checkArgument(!(dataSize < 12 || dataSize >= 16),
             "Data size is incorrect. Make sure that the incoming data is an AES encrypted file.");
-        byte[] iv = new byte[dataSize];
+        byte[] iv = newIV(dataSize);
         byteBuffer.get(iv);
         SecretKey secretKey = generateSecretKey(key, iv);
-        byte[] cipherBytes = new byte[byteBuffer.remaining()];
+        byte[] cipherBytes = newIV(byteBuffer.remaining());
         byteBuffer.get(cipherBytes);
-        Cipher cipher = Cipher.getInstance(ALGORITHM);
-        GCMParameterSpec parameterSpec = new GCMParameterSpec(DEFAULT_LENGTH, iv);
-        cipher.init(Cipher.DECRYPT_MODE, secretKey, parameterSpec);
-        return cipher.doFinal(cipherBytes);
+        return doCipher(Cipher.DECRYPT_MODE, cipherBytes, secretKey, iv);
 
     }
 
     public SecretKey generateSecretKey(String password, byte[] iv) throws GeneralSecurityException {
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), iv, 65536, DEFAULT_LENGTH);
-        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(ALGORITHM);
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), iv, ITERATION_COUNT, DEFAULT_LENGTH);
         byte[] key = secretKeyFactory.generateSecret(spec).getEncoded();
         return new SecretKeySpec(key, KEY_ALGORITHM);
     }
+
+    private byte[] doCipher(int encryptionMode, byte[] data, SecretKey secretKey, byte[] iv)
+        throws GeneralSecurityException {
+
+        Cipher cipher = Cipher.getInstance(DEFAULT_ALGORITHM);
+        cipher.init(encryptionMode, secretKey, new GCMParameterSpec(DEFAULT_LENGTH, iv));
+        return cipher.doFinal(data);
+    }
+
+    private byte[] newIV(int length) {
+        return new byte[length];
+    }
+
+    private byte[] newIV() {
+        return new byte[DEFAULT_IV_LENGTH];
+    }
+
 }
 

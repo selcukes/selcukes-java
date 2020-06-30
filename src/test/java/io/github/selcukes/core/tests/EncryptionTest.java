@@ -16,8 +16,8 @@
 
 package io.github.selcukes.core.tests;
 
-import io.github.selcukes.core.commons.auth.EncryptionService;
-import io.github.selcukes.core.commons.auth.EncryptionServiceImpl;
+import io.github.selcukes.core.commons.security.Encryptor;
+import io.github.selcukes.core.commons.security.StringEncryptor;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import org.testng.Assert;
@@ -26,25 +26,25 @@ import org.testng.annotations.Test;
 
 public class EncryptionTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private EncryptionService encryptionService;
+    private Encryptor encryptor;
     private final String plainText = "password";
     private String encryptedText = "Test";
 
     @BeforeTest
     public void beforeTest() {
-        encryptionService = new EncryptionServiceImpl();
+        encryptor = new StringEncryptor();
         System.setProperty("selcukes.crypto.key", "Hello");
     }
 
     @Test
     public void encryptionTest() {
-        encryptedText = encryptionService.encrypt(plainText);
-        logger.info(() -> "Encrypted Password: " + encryptionService.encrypt(plainText));    }
+        encryptedText = encryptor.encrypt(plainText);
+        logger.info(() -> "Encrypted Password: " + encryptedText);    }
 
     @Test(dependsOnMethods={"encryptionTest"})
     public void decryptionTest() {
-        logger.info(() -> "Decrypted Password: " + encryptionService.decrypt(encryptedText));
-        Assert.assertEquals(plainText, encryptionService.decrypt(encryptedText));
+        logger.info(() -> "Decrypted Password: " + encryptor.decrypt(encryptedText));
+        Assert.assertEquals(plainText, encryptor.decrypt(encryptedText));
     }
 
 
