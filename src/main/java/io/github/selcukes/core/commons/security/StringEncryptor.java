@@ -17,6 +17,7 @@
 package io.github.selcukes.core.commons.security;
 
 import io.github.selcukes.core.exception.EncryptionException;
+import io.github.selcukes.core.helper.Preconditions;
 import org.apache.commons.codec.binary.Base64;
 
 import java.security.GeneralSecurityException;
@@ -35,21 +36,25 @@ public class StringEncryptor implements Encryptor {
 
     @Override
     public String encrypt(String cryptoKey, String text) {
+        Preconditions.checkNotNull(text, "Password Text must not be null");
+        Preconditions.checkNotNull(cryptoKey, "Crypto Key must not be null");
         try {
             byte[] textToEncrypt = ByteEncryptor.encryptData(cryptoKey, text.getBytes());
             return Base64.encodeBase64String(textToEncrypt);
         } catch (GeneralSecurityException e) {
-            throw new EncryptionException(e);
+            throw new EncryptionException(String.format("Failed Encrypting text[%s]: ", text), e);
         }
     }
 
     @Override
     public String decrypt(String cryptoKey, String encrypted) {
+        Preconditions.checkNotNull(encrypted, "Encrypted Text must not be null");
+        Preconditions.checkNotNull(cryptoKey, "Crypto Key must not be null");
         try {
             byte[] textToDecrypt = Base64.decodeBase64(encrypted);
             return new String(ByteEncryptor.decryptData(cryptoKey, textToDecrypt));
         } catch (Exception e) {
-            throw new EncryptionException(e);
+            throw new EncryptionException(String.format("Failed Decrypting text[%s] : ", encrypted), e);
         }
     }
 

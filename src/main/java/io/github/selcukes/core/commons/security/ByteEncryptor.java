@@ -38,17 +38,20 @@ public class ByteEncryptor {
     private final String DEFAULT_ALGORITHM = "AES/GCM/NoPadding";
     private final String ALGORITHM = "PBKDF2WithHmacSHA1";
     private final int ITERATION_COUNT = 65536;
+    private final int ITERATIONS = 4;
 
     public byte[] encryptData(String key, byte[] data) throws GeneralSecurityException {
         SecureRandom secureRandom = new SecureRandom();
         byte[] iv = newIV();
         secureRandom.nextBytes(iv);
+
         SecretKey secretKey = generateSecretKey(key, iv);
-        byte[] encryptedData = doCipher(Cipher.ENCRYPT_MODE, data, secretKey, iv);
-        ByteBuffer byteBuffer = ByteBuffer.allocate(4 + iv.length + encryptedData.length);
+
+        byte[] cipherBytes = doCipher(Cipher.ENCRYPT_MODE, data, secretKey, iv);
+        ByteBuffer byteBuffer = ByteBuffer.allocate(ITERATIONS + iv.length + cipherBytes.length);
         byteBuffer.putInt(iv.length);
         byteBuffer.put(iv);
-        byteBuffer.put(encryptedData);
+        byteBuffer.put(cipherBytes);
         return byteBuffer.array();
     }
 
@@ -57,7 +60,7 @@ public class ByteEncryptor {
 
         ByteBuffer byteBuffer = ByteBuffer.wrap(encryptedData);
         int dataSize = byteBuffer.getInt();
-        Preconditions.checkArgument(!(dataSize < 12 || dataSize >= 16),
+        Preconditions.checkArgument(!(dataSize < DEFAULT_IV_LENGTH || dataSize >= DEFAULT_IV_LENGTH + ITERATIONS),
             "Data size is incorrect. Make sure that the incoming data is an AES encrypted file.");
         byte[] iv = newIV(dataSize);
         byteBuffer.get(iv);
