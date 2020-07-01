@@ -43,7 +43,7 @@ public final class LoggerFactory {
         listeners.remove(listener);
     }
 
-    public static Logger getLogger(Class<?> clazz) {
+    public static synchronized Logger getLogger(Class<?> clazz) {
         requireNonNull(clazz, "Class must not be null");
         initialize();
         return new DelegatingLogger(clazz.getName());
