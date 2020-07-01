@@ -16,6 +16,8 @@
 
 package io.github.selcukes.core.logging;
 
+import io.github.selcukes.core.config.ConfigFactory;
+
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
@@ -27,6 +29,7 @@ import static java.util.Objects.requireNonNull;
 public final class LoggerFactory {
 
     private static final Set<LogRecordListener> listeners = ConcurrentHashMap.newKeySet();
+    private static boolean initialized;
 
     private LoggerFactory() {
 
@@ -42,7 +45,16 @@ public final class LoggerFactory {
 
     public static Logger getLogger(Class<?> clazz) {
         requireNonNull(clazz, "Class must not be null");
+        initialize();
         return new DelegatingLogger(clazz.getName());
+    }
+
+    private static synchronized void initialize() {
+        if (initialized) {
+            return;
+        }
+        initialized = true;
+        ConfigFactory.loadLoggerProperties();
     }
 
     private static final class DelegatingLogger implements Logger {

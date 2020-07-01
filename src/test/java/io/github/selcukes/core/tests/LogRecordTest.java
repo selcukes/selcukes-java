@@ -16,7 +16,6 @@
 
 package io.github.selcukes.core.tests;
 
-import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.helper.ExceptionHelper;
 import io.github.selcukes.core.logging.LogRecordListener;
 import io.github.selcukes.core.logging.Logger;
@@ -35,7 +34,6 @@ public class LogRecordTest {
 
     @BeforeTest
     public void setup() {
-        ConfigFactory.loadLoggerProperties();
         logRecordListener = new LogRecordListener();
         LoggerFactory.addListener(logRecordListener);
     }

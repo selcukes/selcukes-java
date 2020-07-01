@@ -54,8 +54,8 @@ public class ConfigFactory {
         try (InputStream inputStream = ConfigFactory.class.getClassLoader().getResourceAsStream(DEFAULT_LOG_BACK_FILE)) {
             if (inputStream != null)
                 logManager.readConfiguration(inputStream);
-        } catch (IOException e) {
-            LOGGER.warn(() -> "Failed loading selcukes-logback property file. Using default logger properties");
+        } catch (IOException ignored) {
+            //Gobble exception
         }
     }
 

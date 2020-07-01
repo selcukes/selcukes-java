@@ -1,19 +1,12 @@
 package io.github.selcukes.core.tests;
 
-import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 public class LoggerTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Exception exception = new Exception();
-
-    @BeforeTest
-    public void beforeTest() {
-        ConfigFactory.loadLoggerProperties();
-    }
 
     @Test
     private void error() {
