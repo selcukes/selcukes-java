@@ -17,32 +17,27 @@
 package io.github.selcukes.core.tests;
 
 import io.github.selcukes.core.commons.Await;
-import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.io.File;
 
 public class AwaitTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    @BeforeTest
-    public void beforeTest() {
-        ConfigFactory.loadLoggerProperties();
-    }
+
     @Test
     public void awaitTest() throws Exception {
-        File file=new File("hello.jpg");
+        File file = new File("hello.jpg");
         String s1 = "Hello";
         String s2 = "hello";
-        long startTime=System.currentTimeMillis()/1000;
+        long startTime = System.currentTimeMillis() / 1000;
         Await.await().poll(2)
             .atMax(10)
             .until(file::exists);
-        long endTime=System.currentTimeMillis()/1000;
-        long duration=endTime-startTime;
-        System.out.println(duration);
+        long endTime = System.currentTimeMillis() / 1000;
+        long duration = endTime - startTime;
+        logger.info(() -> "Duration:" + duration);
         Await.await().poll(2)
             .atMax(10)
             .until(() -> s1.equalsIgnoreCase(s2));
