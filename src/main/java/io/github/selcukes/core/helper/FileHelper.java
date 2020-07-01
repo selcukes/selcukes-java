@@ -41,7 +41,7 @@ public class FileHelper {
 
     }
 
-    public String driversFolder(String path) {
+    public static String driversFolder(String path) {
         File file = new File(path);
         for (String item : Objects.requireNonNull(file.list())) {
 
@@ -64,7 +64,7 @@ public class FileHelper {
         }
     }
 
-    public String systemFilePath(String filePath) {
+    public static String systemFilePath(String filePath) {
         String fileSeparator = System.getProperty("file.separator");
 
         if (!fileSeparator.isEmpty() && "\\".equals(fileSeparator)) {
@@ -111,7 +111,7 @@ public class FileHelper {
         }
     }
 
-    public Path createTempDirectory() {
+    public static Path createTempDirectory() {
         try {
             return Files.createTempDirectory(null);
         } catch (IOException e) {
@@ -119,7 +119,7 @@ public class FileHelper {
         }
     }
 
-    public File createTempFile() {
+    public static File createTempFile() {
         try {
             File tempFile = File.createTempFile("WDB", ".temp");
             tempFile.deleteOnExit();
@@ -129,7 +129,7 @@ public class FileHelper {
         }
     }
 
-    public String getTempDir() {
+    public static String getTempDir() {
         return createTempFile().getParent();
     }
 }
