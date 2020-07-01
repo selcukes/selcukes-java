@@ -34,8 +34,8 @@ import java.util.Set;
 public class FileHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileHelper.class);
-    protected final String SUPPORT_FOLDER = "support";
-    public final String RESOURCE_SEPARATOR = "/";
+    protected static final String SUPPORT_FOLDER = "support";
+    public static final String RESOURCE_SEPARATOR = "/";
 
     private FileHelper() {
 
