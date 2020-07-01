@@ -16,12 +16,10 @@
 
 package io.github.selcukes.core.helper;
 
-
 import io.github.selcukes.core.exception.SelcukesException;
 import io.github.selcukes.core.exception.WebDriverBinaryException;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
-import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -33,11 +31,15 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.util.Objects;
 import java.util.Set;
 
-@UtilityClass
 public class FileHelper {
-    private final Logger logger = LoggerFactory.getLogger(FileHelper.class);
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(FileHelper.class);
     protected final String SUPPORT_FOLDER = "support";
     public final String RESOURCE_SEPARATOR = "/";
+
+    private FileHelper() {
+
+    }
 
     public String driversFolder(String path) {
         File file = new File(path);
@@ -50,14 +52,14 @@ public class FileHelper {
         return driversFolder(file.getParent());
     }
 
-    public void setFileExecutable(String fileName) {
+    public static void setFileExecutable(String fileName) {
         try {
             final Path filepath = Paths.get(fileName);
             final Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(filepath);
             permissions.add(PosixFilePermission.OWNER_EXECUTE);
             Files.setPosixFilePermissions(filepath, permissions);
         } catch (Exception e) {
-            logger.error(e::getMessage);
+            LOGGER.error(e::getMessage);
             throw new WebDriverBinaryException("Unable to set WebDriver Binary file as executable :" + e);
         }
     }
@@ -78,32 +80,32 @@ public class FileHelper {
         return filePath;
     }
 
-    public void createDirectory(File dirName) {
+    public static void createDirectory(File dirName) {
         boolean dirExists = dirName.exists();
         if (!dirExists) {
-            logger.debug(() -> "Creating directory: " + dirName.getName());
+            LOGGER.debug(() -> "Creating directory: " + dirName.getName());
             dirExists = dirName.mkdirs();
             if (dirExists) {
-                logger.debug(() -> dirName.getName() + " directory created...");
+                LOGGER.debug(() -> dirName.getName() + " directory created...");
             }
         }
     }
 
-    public void deleteFilesInDirectory(File dirName) {
+    public static void deleteFilesInDirectory(File dirName) {
         try {
             FileUtils.cleanDirectory(dirName);
         } catch (IOException e) {
-            logger.error(e::getMessage);
+            LOGGER.error(e::getMessage);
             throw new SelcukesException("\"" + dirName + "\" is not a directory or a file to delete.", e);
         }
     }
 
-    public void deleteFile(File fileName) {
+    public static void deleteFile(File fileName) {
         if (fileName.exists())
             FileUtils.deleteQuietly(fileName);
     }
 
-    public void renameFile(File from, File to) {
+    public static void renameFile(File from, File to) {
         if (!from.renameTo(to)) {
             throw new SelcukesException("Failed to rename " + from + " to " + to);
         }
