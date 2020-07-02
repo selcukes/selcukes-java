@@ -25,28 +25,11 @@ import io.github.selcukes.core.logging.LoggerFactory;
 
 import java.util.Optional;
 
-
 public class Selcukes implements ConcurrentEventListener {
     private final Logger logger = LoggerFactory.getLogger(Selcukes.class);
     private final TestSourcesModel testSources = new TestSourcesModel();
     private CucumberService cucumberService;
 
-    /**
-     * Registers an event handler for a specific event.
-     * <p>
-     * The available events types are:
-     * <ul>
-     * <li>{@link TestRunStarted} - the first event sent.
-     * <li>{@link TestSourceRead} - sent for each feature file read, contains the feature file source.
-     * <li>{@link TestCaseStarted} - sent before starting the execution of a Test Case(/Pickle/Scenario), contains the Test Case
-     * <li>{@link TestStepStarted} - sent before starting the execution of a Test Step, contains the Test Step
-     * <li>{@link TestStepFinished} - sent after the execution of a Test Step, contains the Test Step and its Result.
-     * <li>{@link TestCaseFinished} - sent after the execution of a Test Case(/Pickle/Scenario), contains the Test Case and its Result.
-     * <li>{@link TestRunFinished} - the last event sent.
-     * <li>{@link EmbedEvent} - calling scenario.embed in a hook triggers this event.
-     * <li>{@link WriteEvent} - calling scenario.write in a hook triggers this event.
-     * </ul>
-     */
     @Override
     public void setEventPublisher(EventPublisher publisher) {
         publisher.registerHandlerFor(TestRunStarted.class, this::beforeTest);

@@ -18,7 +18,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
-        <selcukes-core.version>1.0.2</selcukes-core.version>
+        <selcukes-core.version>1.0.3</selcukes-core.version>
         <testng.version>7.0.0</testng.version>
         <cucumber-reporting.version>5.2.0</cucumber-reporting.version>
         <recorder.version>0.7.7.0</recorder.version>
