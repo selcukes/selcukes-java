@@ -18,11 +18,13 @@
 
 package io.github.selcukes.reports.screen;
 
+import lombok.experimental.UtilityClass;
 import org.openqa.selenium.WebDriver;
 
+@UtilityClass
 public class ScreenPlayBuilder {
 
-    public static ScreenPlay getScreenPlay(WebDriver driver) {
+    public ScreenPlay getScreenPlay(WebDriver driver) {
         return new ScreenPlayImpl(driver);
     }
 

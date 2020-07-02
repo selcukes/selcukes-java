@@ -20,9 +20,10 @@ package io.github.selcukes.reports.notification;
 
 
 import io.github.selcukes.core.http.HttpClient;
+import io.github.selcukes.core.http.HttpClientImpl;
 
 public interface IncomingWebHookRequest {
     static HttpClient forUrl(String webHookUrl) {
-        return new HttpClient(webHookUrl);
+        return new HttpClientImpl(webHookUrl);
     }
 }
