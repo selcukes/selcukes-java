@@ -17,6 +17,8 @@
 
 package io.github.selcukes.reports.image;
 
+
+import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.core.exception.RecorderException;
 import io.github.selcukes.devtools.DevToolsService;
 import io.github.selcukes.devtools.core.Screenshot;
@@ -28,11 +30,14 @@ import org.openqa.selenium.WebDriver;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class SnapshotImpl extends NativeScreenshot implements Snapshot {
     private final WebDriver driver;
 
     public SnapshotImpl(WebDriver driver) {
+        super(driver);
         this.driver = driver;
     }
 
@@ -49,22 +54,18 @@ public class SnapshotImpl extends NativeScreenshot implements Snapshot {
     }
 
     @Override
-    public byte[] shootPageAsBytes() {
-        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-    }
-
-
-    @Override
     public String shootFullPage() {
         File destFile = getScreenshotPath();
-        return Screenshot.captureFullPage(getDevTools(), destFile.getAbsolutePath());
+        return (isChrome()) ?
+            Screenshot.captureFullPage(getDevTools(), destFile.getAbsolutePath()) : captureNativeScreenshot();
     }
 
     @Override
     public byte[] shootFullPageAsBytes() {
         byte[] screenshot;
         try {
-            screenshot = Screenshot.captureFullPageAsBytes(getDevTools());
+            screenshot = (isChrome()) ? Screenshot.captureFullPageAsBytes(getDevTools()) :
+                Files.readAllBytes(Paths.get(captureNativeScreenshot()));
         } catch (IOException e) {
             throw new RecorderException("Failed Capturing Screenshot..", e);
         }
@@ -75,4 +76,7 @@ public class SnapshotImpl extends NativeScreenshot implements Snapshot {
         return DevToolsService.getDevToolsService(driver);
     }
 
+    private boolean isChrome() {
+        return (ConfigFactory.getConfig().getBrowserName().equalsIgnoreCase("CHROME"));
+    }
 }

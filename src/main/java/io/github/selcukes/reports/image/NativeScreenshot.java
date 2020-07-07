@@ -33,22 +33,29 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 
-public class NativeScreenshot {
-
+abstract class NativeScreenshot {
+    private final WebDriver driver;
     private final String ERROR_WHILE_CONVERTING_IMAGE = "Error while converting image";
 
-
-    private String getFullHeight(WebDriver driver) {
-        return executeJS(driver, "return document.body.scrollHeight").toString();
+    public NativeScreenshot(WebDriver driver) {
+        this.driver = driver;
     }
 
-    private int getFullWidth(WebDriver driver) {
-        return ((Long) executeJS(driver, "return window.innerWidth",
+    public byte[] shootPageAsBytes() {
+        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
+
+    private String getFullHeight() {
+        return executeJS("return document.body.scrollHeight").toString();
+    }
+
+    private int getFullWidth() {
+        return ((Long) executeJS("return window.innerWidth",
             new Object[0])).intValue();
     }
 
-    private int getWindowHeight(WebDriver driver) {
-        return ((Long) executeJS(driver, "return window.innerHeight",
+    private int getWindowHeight() {
+        return ((Long) executeJS("return window.innerHeight",
             new Object[0])).intValue();
     }
 
@@ -56,33 +63,33 @@ public class NativeScreenshot {
         Await.until(1);
     }
 
-    private BufferedImage getScreenshotNative(WebDriver driver) {
-        byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-        try (ByteArrayInputStream imageArrayStream = new ByteArrayInputStream(screenshot)) {
+    private BufferedImage toBufferedImage() {
+
+        try (ByteArrayInputStream imageArrayStream = new ByteArrayInputStream(shootPageAsBytes())) {
             return ImageIO.read(imageArrayStream);
         } catch (IOException e) {
             throw new SelcukesException(ERROR_WHILE_CONVERTING_IMAGE, e);
         }
     }
 
-    private BufferedImage getScreenshot(WebDriver driver) {
-        int allH = Integer.parseInt(getFullHeight(driver));
-        int allW = getFullWidth(driver);
-        int winH = getWindowHeight(driver);
+    private BufferedImage getScreenshot() {
+        int allH = Integer.parseInt(getFullHeight());
+        int allW = getFullWidth();
+        int winH = getWindowHeight();
         int scrollTimes = allH / winH;
         int tail = allH - winH * scrollTimes;
         BufferedImage finalImage = new BufferedImage(allW, allH, BufferedImage.TYPE_4BYTE_ABGR);
         Graphics2D graphics = finalImage.createGraphics();
         for (int n = 0; n < scrollTimes; n++) {
-            executeJS(driver, "scrollTo(0, arguments[0])", winH * n);
+            executeJS("scrollTo(0, arguments[0])", winH * n);
             waitForScrolling();
-            BufferedImage part = getScreenshotNative(driver);
+            BufferedImage part = toBufferedImage();
             graphics.drawImage(part, 0, n * winH, null);
         }
         if (tail > 0) {
-            executeJS(driver, "scrollTo(0, document.body.scrollHeight)");
+            executeJS("scrollTo(0, document.body.scrollHeight)");
             waitForScrolling();
-            BufferedImage last = getScreenshotNative(driver);
+            BufferedImage last = toBufferedImage();
             BufferedImage tailImage = last.getSubimage(0, last.getHeight() - tail, last.getWidth(), tail);
             graphics.drawImage(tailImage, 0, scrollTimes * winH, null);
         }
@@ -90,20 +97,21 @@ public class NativeScreenshot {
         return finalImage;
     }
 
-    public void captureNativeScreenshot(WebDriver driver, String filename) {
+    protected String captureNativeScreenshot() {
         try {
-            ImageIO.write(getScreenshot(driver), "PNG", new File(filename));
+            File file = getScreenshotPath();
+            ImageIO.write(getScreenshot(), "PNG", file);
+            return file.getAbsolutePath();
         } catch (IOException e) {
             throw new SelcukesException(ERROR_WHILE_CONVERTING_IMAGE, e);
         }
     }
 
-    private Object executeJS(WebDriver driver, String script, Object... args) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        return js.executeScript(script, args);
+    private Object executeJS(String script, Object... args) {
+        return ((JavascriptExecutor) driver).executeScript(script, args);
     }
 
-    public File getScreenshotPath() {
+    protected File getScreenshotPath() {
         File reportDirectory = new File("screenshots");
         FileHelper.createDirectory(reportDirectory);
         String filePath = reportDirectory + File.separator + "screenshot_" + DateHelper.get().dateTime() + ".png";

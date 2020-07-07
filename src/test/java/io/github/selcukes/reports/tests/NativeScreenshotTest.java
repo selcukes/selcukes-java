@@ -17,6 +17,7 @@
 
 package io.github.selcukes.reports.tests;
 
+import io.github.selcukes.reports.image.Snapshot;
 import io.github.selcukes.reports.image.SnapshotImpl;
 import io.github.selcukes.wdb.WebDriverBinary;
 import org.openqa.selenium.WebDriver;
@@ -24,12 +25,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.Test;
 
 public class NativeScreenshotTest {
+
     @Test
     public void nativeScreenshotTest() {
         WebDriverBinary.chromeDriver().setup();
         WebDriver driver = new ChromeDriver();
         driver.get("https://techyworks.blogspot.com/");
-        new SnapshotImpl(driver).captureNativeScreenshot(driver, "Hello.png");
+        Snapshot snapshot = new SnapshotImpl(driver);
+        System.out.println(snapshot.shootFullPage());
 
     }
 }
