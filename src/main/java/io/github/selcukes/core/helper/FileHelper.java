@@ -20,6 +20,7 @@ import io.github.selcukes.core.exception.SelcukesException;
 import io.github.selcukes.core.exception.WebDriverBinaryException;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
+import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -31,17 +32,14 @@ import java.nio.file.attribute.PosixFilePermission;
 import java.util.Objects;
 import java.util.Set;
 
+@UtilityClass
 public class FileHelper {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FileHelper.class);
-    protected static final String SUPPORT_FOLDER = "support";
-    public static final String RESOURCE_SEPARATOR = "/";
+    private final Logger LOGGER = LoggerFactory.getLogger(FileHelper.class);
+    protected final String SUPPORT_FOLDER = "support";
+    public final String RESOURCE_SEPARATOR = "/";
 
-    private FileHelper() {
-
-    }
-
-    public static String driversFolder(String path) {
+    public String driversFolder(String path) {
         File file = new File(path);
         for (String item : Objects.requireNonNull(file.list())) {
 
@@ -52,7 +50,7 @@ public class FileHelper {
         return driversFolder(file.getParent());
     }
 
-    public static void setFileExecutable(String fileName) {
+    public void setFileExecutable(String fileName) {
         try {
             final Path filepath = Paths.get(fileName);
             final Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(filepath);
@@ -64,7 +62,7 @@ public class FileHelper {
         }
     }
 
-    public static String systemFilePath(String filePath) {
+    public String systemFilePath(String filePath) {
         String fileSeparator = System.getProperty("file.separator");
 
         if (!fileSeparator.isEmpty() && "\\".equals(fileSeparator)) {
@@ -80,7 +78,7 @@ public class FileHelper {
         return filePath;
     }
 
-    public static void createDirectory(File dirName) {
+    public void createDirectory(File dirName) {
         boolean dirExists = dirName.exists();
         if (!dirExists) {
             LOGGER.debug(() -> "Creating directory: " + dirName.getName());
@@ -91,7 +89,7 @@ public class FileHelper {
         }
     }
 
-    public static void deleteFilesInDirectory(File dirName) {
+    public void deleteFilesInDirectory(File dirName) {
         try {
             FileUtils.cleanDirectory(dirName);
         } catch (IOException e) {
@@ -100,18 +98,18 @@ public class FileHelper {
         }
     }
 
-    public static void deleteFile(File fileName) {
+    public void deleteFile(File fileName) {
         if (fileName.exists())
             FileUtils.deleteQuietly(fileName);
     }
 
-    public static void renameFile(File from, File to) {
+    public void renameFile(File from, File to) {
         if (!from.renameTo(to)) {
             throw new SelcukesException("Failed to rename " + from + " to " + to);
         }
     }
 
-    public static Path createTempDirectory() {
+    public Path createTempDirectory() {
         try {
             return Files.createTempDirectory(null);
         } catch (IOException e) {
@@ -119,7 +117,7 @@ public class FileHelper {
         }
     }
 
-    public static File createTempFile() {
+    public File createTempFile() {
         try {
             File tempFile = File.createTempFile("WDB", ".temp");
             tempFile.deleteOnExit();
@@ -129,7 +127,15 @@ public class FileHelper {
         }
     }
 
-    public static String getTempDir() {
+    public byte[] toByteArray(String filePath) {
+        try {
+            return Files.readAllBytes(Paths.get(filePath));
+        } catch (IOException e) {
+            throw new SelcukesException("Unable to convert file to ByteArray  : ", e);
+        }
+    }
+
+    public String getTempDir() {
         return createTempFile().getParent();
     }
 }
