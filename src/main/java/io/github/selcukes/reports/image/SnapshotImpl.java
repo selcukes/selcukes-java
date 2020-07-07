@@ -1,26 +1,23 @@
 /*
+ *  Copyright (c) Ramesh Babu Prudhvi.
  *
- * Copyright (c) Ramesh Babu Prudhvi.
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *          http://www.apache.org/licenses/LICENSE-2.0
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *   limitations under the License.
  *
  */
 
-package io.github.selcukes.reports.screen;
+package io.github.selcukes.reports.image;
 
 import io.github.selcukes.core.exception.RecorderException;
-import io.github.selcukes.core.helper.DateHelper;
-import io.github.selcukes.core.helper.FileHelper;
 import io.github.selcukes.devtools.DevToolsService;
 import io.github.selcukes.devtools.core.Screenshot;
 import io.github.selcukes.devtools.services.ChromeDevToolsService;
@@ -32,13 +29,14 @@ import org.openqa.selenium.WebDriver;
 import java.io.File;
 import java.io.IOException;
 
-public class ScreenCapture {
+public class SnapshotImpl extends NativeScreenshot implements Snapshot {
     private final WebDriver driver;
 
-    public ScreenCapture(WebDriver driver) {
+    public SnapshotImpl(WebDriver driver) {
         this.driver = driver;
     }
 
+    @Override
     public String shootPage() {
         File destFile = getScreenshotPath();
         try {
@@ -50,19 +48,19 @@ public class ScreenCapture {
         return destFile.getAbsolutePath();
     }
 
+    @Override
     public byte[] shootPageAsBytes() {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
-    private ChromeDevToolsService getDevTools() {
-        return DevToolsService.getDevToolsService(driver);
-    }
 
+    @Override
     public String shootFullPage() {
         File destFile = getScreenshotPath();
         return Screenshot.captureFullPage(getDevTools(), destFile.getAbsolutePath());
     }
 
+    @Override
     public byte[] shootFullPageAsBytes() {
         byte[] screenshot;
         try {
@@ -73,10 +71,8 @@ public class ScreenCapture {
         return screenshot;
     }
 
-    public File getScreenshotPath() {
-        File reportDirectory = new File("screenshots");
-        FileHelper.createDirectory(reportDirectory);
-        String filePath = reportDirectory + File.separator + "screenshot_" + DateHelper.get().dateTime() + ".png";
-        return new File(filePath);
+    private ChromeDevToolsService getDevTools() {
+        return DevToolsService.getDevToolsService(driver);
     }
+
 }
