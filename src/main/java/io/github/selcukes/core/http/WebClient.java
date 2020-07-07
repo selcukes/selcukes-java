@@ -22,8 +22,6 @@ import org.apache.hc.client5.http.entity.mime.FileBody;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.HttpEntity;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -45,33 +43,16 @@ public class WebClient {
         }
     }
 
-    public InputStream getResponseStream() {
-
-        try {
-            ClassicHttpRequest request = client.createHttpGet(url);
-            return client.createClient()
-                .execute(request)
-                .getEntity()
-                .getContent();
-        } catch (IOException e) {
-            throw new SelcukesException(e);
-        }
+    public Response sendRequest() {
+        ClassicHttpRequest request = client.createHttpGet(url);
+        return new Response(client.createClient().execute(request));
     }
 
-    public InputStream post(Object payload) {
-        try {
-            HttpEntity httpEntity = (payload instanceof FileBody) ?
-                client.createMultipartEntityBuilder((FileBody) payload) : client.createStringEntity(payload);
-            HttpPost post = client.createHttpPost(url.getPath(), httpEntity);
-
-            return client.createClient()
-                .execute(post)
-                .getEntity()
-                .getContent();
-        } catch (IOException e) {
-            throw new SelcukesException(e);
-        }
-
+    public <T> Response post(T payload) {
+        HttpEntity httpEntity = (payload instanceof FileBody) ?
+            client.createMultipartEntityBuilder((FileBody) payload) : client.createStringEntity(payload);
+        HttpPost post = client.createHttpPost(url.getPath(), httpEntity);
+        return new Response(client.createClient().execute(post));
     }
 
 }
