@@ -16,31 +16,19 @@
 
 package io.github.selcukes.core.http;
 
-import io.github.selcukes.core.exception.SelcukesException;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.entity.mime.FileBody;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.HttpEntity;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 public class WebClient {
     private final HttpClient client;
-    private final URL url;
+    private final String url;
 
     public WebClient(String url) {
-        this.url = setURL(url);
+        this.url = url;
         this.client = new HttpClient();
 
-    }
-
-    private URL setURL(String url) {
-        try {
-            return new URL(url);
-        } catch (MalformedURLException e) {
-            throw new SelcukesException(e);
-        }
     }
 
     public Response sendRequest() {
@@ -51,7 +39,7 @@ public class WebClient {
     public <T> Response post(T payload) {
         HttpEntity httpEntity = (payload instanceof FileBody) ?
             client.createMultipartEntityBuilder((FileBody) payload) : client.createStringEntity(payload);
-        HttpPost post = client.createHttpPost(url.getPath(), httpEntity);
+        HttpPost post = client.createHttpPost(url, httpEntity);
         return new Response(client.createClient().execute(post));
     }
 
