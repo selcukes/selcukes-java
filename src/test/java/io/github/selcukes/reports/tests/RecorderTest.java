@@ -43,7 +43,6 @@ public class RecorderTest {
 
     @BeforeTest
     public void beforeTest() {
-        ConfigFactory.loadLoggerProperties();
         WebDriverBinary.chromeDriver().setup();
         driver = new ChromeDriver();
         if (Platform.isWindows()) {

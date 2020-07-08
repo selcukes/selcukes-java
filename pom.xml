@@ -18,14 +18,14 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
-        <selcukes-core.version>1.0.3</selcukes-core.version>
+        <selcukes-core.version>dev-SNAPSHOT</selcukes-core.version>
         <testng.version>7.0.0</testng.version>
         <cucumber-reporting.version>5.2.0</cucumber-reporting.version>
         <recorder.version>0.7.7.0</recorder.version>
         <lombok.version>1.18.12</lombok.version>
         <cucumber.version>5.6.0</cucumber.version>
         <selenium.version>4.0.0-alpha-5</selenium.version>
-        <webdriver-binaries.version>1.2.0</webdriver-binaries.version>
+        <webdriver-binaries.version>dev-SNAPSHOT</webdriver-binaries.version>
 
         <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
@@ -42,7 +42,12 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
-
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
     <scm>
         <connection>scm:git:git@github.com:selcukes/selcukes-reports.git</connection>
         <developerConnection>scm:git:git@github.com:selcukes/selcukes-reports.git</developerConnection>
