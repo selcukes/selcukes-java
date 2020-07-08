@@ -41,7 +41,7 @@ public class ImageUtil {
         }
     }
 
-    private BufferedImage toBufferedImage(byte[] bytes) {
+    public BufferedImage toBufferedImage(byte[] bytes) {
 
         try (ByteArrayInputStream imageArrayStream = new ByteArrayInputStream(bytes)) {
             return ImageIO.read(imageArrayStream);
