@@ -29,7 +29,9 @@ public class Response {
     private final CloseableHttpResponse httpResponse;
 
     public Response(CloseableHttpResponse httpResponse) {
+
         this.httpResponse = httpResponse;
+        logIfError();
     }
 
     public String getHeader(String name) {
@@ -42,7 +44,6 @@ public class Response {
 
     public InputStream getResponseStream() {
         try {
-            logIfError();
             return httpResponse.getEntity().getContent();
         } catch (IOException e) {
             throw new SelcukesException(e);

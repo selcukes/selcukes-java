@@ -65,7 +65,7 @@ class HttpClient {
         }
     }
 
-    protected HttpEntity createMultipartEntityBuilder(FileBody fileBody) {
+    protected HttpEntity createMultipartEntity(FileBody fileBody) {
         return MultipartEntityBuilder.create().addPart("file", fileBody).build();
     }
 

@@ -38,7 +38,7 @@ public class WebClient {
 
     public <T> Response post(T payload) {
         HttpEntity httpEntity = (payload instanceof FileBody) ?
-            client.createMultipartEntityBuilder((FileBody) payload) : client.createStringEntity(payload);
+            client.createMultipartEntity((FileBody) payload) : client.createStringEntity(payload);
         HttpPost post = client.createHttpPost(url, httpEntity);
         return new Response(client.createClient().execute(post));
     }
