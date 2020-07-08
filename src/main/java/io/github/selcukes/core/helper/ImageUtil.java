@@ -73,21 +73,26 @@ public class ImageUtil {
         }
     }
 
-    public BufferedImage generateImageWithLogo(String alertText, int screenshotWidth) {
-        BufferedImage alertImage = generateImageWithText(alertText, screenshotWidth, 200);
+    public BufferedImage generateImageWithLogo(String text, BufferedImage image) {
+        BufferedImage logoAndTextImage = generateImageWithLogoAndText(text, image.getWidth());
+        return stitchImages(image, logoAndTextImage, false);
+    }
+
+    private BufferedImage generateImageWithLogoAndText(String text, int screenshotWidth) {
+        BufferedImage textImage = generateImageWithText(text, screenshotWidth, 200);
         BufferedImage logo = toBufferedImage(ImageUtil.class.getResource("/sc_logo.png").getPath());
-        return stitchImages(alertImage, logo, true);
+        return stitchImages(textImage, logo, true);
     }
 
     private BufferedImage generateImageWithText(String text, int width, int height) {
-        BufferedImage alertImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        Graphics graphics = alertImage.getGraphics();
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics graphics = image.getGraphics();
         graphics.setColor(new Color(220, 218, 218));
         graphics.fillRect(0, 0, width, height);
         graphics.setColor(Color.BLACK);
         graphics.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
         drawStringMultiLine(graphics, text, (width - 200) - 10);
-        return alertImage;
+        return image;
     }
 
     private void drawStringMultiLine(Graphics g, String text, int lineWidth) {
