@@ -17,7 +17,7 @@
 
 package io.github.selcukes.reports.image;
 
-import io.github.selcukes.core.exception.RecorderException;
+import io.github.selcukes.core.exception.SnapshotException;
 import io.github.selcukes.core.helper.FileHelper;
 import io.github.selcukes.devtools.DevToolsService;
 import io.github.selcukes.devtools.core.Screenshot;
@@ -46,7 +46,7 @@ public class SnapshotImpl extends NativeScreenshot implements Snapshot {
             File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             FileUtils.copyFile(srcFile, destFile);
         } catch (IOException e) {
-            throw new RecorderException("Failed Capturing Screenshot..", e);
+            throw new SnapshotException("Failed Capturing Screenshot..", e);
         }
         return destFile.getAbsolutePath();
     }
@@ -65,7 +65,7 @@ public class SnapshotImpl extends NativeScreenshot implements Snapshot {
             screenshot = (isChrome()) ? Screenshot.captureFullPageAsBytes(getDevTools()) :
                 FileHelper.toByteArray(captureNativeScreenshot());
         } catch (IOException e) {
-            throw new RecorderException("Failed Capturing Screenshot..", e);
+            throw new SnapshotException("Failed Capturing Screenshot..", e);
         }
         return screenshot;
     }

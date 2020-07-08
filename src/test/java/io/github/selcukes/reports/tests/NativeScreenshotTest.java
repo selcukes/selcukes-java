@@ -33,6 +33,6 @@ public class NativeScreenshotTest {
         driver.get("https://techyworks.blogspot.com/");
         Snapshot snapshot = new SnapshotImpl(driver);
         System.out.println(snapshot.shootFullPage());
-
+        driver.quit();
     }
 }

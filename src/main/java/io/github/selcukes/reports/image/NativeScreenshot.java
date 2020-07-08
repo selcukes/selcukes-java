@@ -18,9 +18,10 @@
 package io.github.selcukes.reports.image;
 
 import io.github.selcukes.core.commons.Await;
-import io.github.selcukes.core.exception.SelcukesException;
+import io.github.selcukes.core.exception.SnapshotException;
 import io.github.selcukes.core.helper.DateHelper;
 import io.github.selcukes.core.helper.FileHelper;
+import io.github.selcukes.core.helper.ImageUtil;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -29,13 +30,11 @@ import org.openqa.selenium.WebDriver;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 
 abstract class NativeScreenshot {
     private final WebDriver driver;
-    private final String ERROR_WHILE_CONVERTING_IMAGE = "Error while converting image";
 
     public NativeScreenshot(WebDriver driver) {
         this.driver = driver;
@@ -43,6 +42,10 @@ abstract class NativeScreenshot {
 
     public byte[] shootPageAsBytes() {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+    }
+
+    private String getCurrentUrl() {
+        return driver.getCurrentUrl();
     }
 
     private String getFullHeight() {
@@ -63,16 +66,7 @@ abstract class NativeScreenshot {
         Await.until(1);
     }
 
-    private BufferedImage toBufferedImage() {
-
-        try (ByteArrayInputStream imageArrayStream = new ByteArrayInputStream(shootPageAsBytes())) {
-            return ImageIO.read(imageArrayStream);
-        } catch (IOException e) {
-            throw new SelcukesException(ERROR_WHILE_CONVERTING_IMAGE, e);
-        }
-    }
-
-    private BufferedImage getScreenshot() {
+    private BufferedImage getFullPageScreenshot() {
         int allH = Integer.parseInt(getFullHeight());
         int allW = getFullWidth();
         int winH = getWindowHeight();
@@ -83,13 +77,13 @@ abstract class NativeScreenshot {
         for (int n = 0; n < scrollTimes; n++) {
             executeJS("scrollTo(0, arguments[0])", winH * n);
             waitForScrolling();
-            BufferedImage part = toBufferedImage();
+            BufferedImage part = ImageUtil.toBufferedImage(shootPageAsBytes());
             graphics.drawImage(part, 0, n * winH, null);
         }
         if (tail > 0) {
             executeJS("scrollTo(0, document.body.scrollHeight)");
             waitForScrolling();
-            BufferedImage last = toBufferedImage();
+            BufferedImage last = ImageUtil.toBufferedImage(shootPageAsBytes());
             BufferedImage tailImage = last.getSubimage(0, last.getHeight() - tail, last.getWidth(), tail);
             graphics.drawImage(tailImage, 0, scrollTimes * winH, null);
         }
@@ -99,11 +93,13 @@ abstract class NativeScreenshot {
 
     protected String captureNativeScreenshot() {
         try {
+            BufferedImage screenshotImage = getFullPageScreenshot();
+            BufferedImage textImage = ImageUtil.generateImageWithLogo("URL: " + getCurrentUrl(), screenshotImage);
             File file = getScreenshotPath();
-            ImageIO.write(getScreenshot(), "PNG", file);
+            ImageIO.write(textImage, "PNG", file);
             return file.getAbsolutePath();
         } catch (IOException e) {
-            throw new SelcukesException(ERROR_WHILE_CONVERTING_IMAGE, e);
+            throw new SnapshotException("Error while converting image", e);
         }
     }
 
