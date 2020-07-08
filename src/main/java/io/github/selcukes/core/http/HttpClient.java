@@ -26,47 +26,19 @@ import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
-import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
-import org.apache.hc.client5.http.socket.ConnectionSocketFactory;
-import org.apache.hc.client5.http.socket.PlainConnectionSocketFactory;
-import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactory;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpHeaders;
-import org.apache.hc.core5.http.config.Registry;
-import org.apache.hc.core5.http.config.RegistryBuilder;
 import org.apache.hc.core5.http.io.entity.StringEntity;
-import org.apache.hc.core5.ssl.SSLContexts;
 
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 
 class HttpClient {
     private static final String APPLICATION_JSON = "application/json";
-    private static final String HTTPS = "https";
     private CloseableHttpClient client;
-
 
     protected HttpGet createHttpGet(String url) {
         return new HttpGet(url);
-    }
-
-    private void setConnection(HttpClientBuilder builder) throws GeneralSecurityException {
-        HostnameVerifier allHostsValid = (hostname, session) -> hostname
-            .equalsIgnoreCase(session.getPeerHost());
-        SSLContext sslContext = SSLContexts.custom()
-            .loadTrustMaterial(null, (chain, authType) -> true).build();
-        SSLConnectionSocketFactory socketFactory = new SSLConnectionSocketFactory(
-            sslContext, allHostsValid);
-        Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder
-            .<ConnectionSocketFactory>create().register(HTTPS, socketFactory)
-            .register(HTTPS, new PlainConnectionSocketFactory())
-            .build();
-        PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager(
-            socketFactoryRegistry);
-        builder.setConnectionManager(cm);
     }
 
     protected HttpClient createClient() {
