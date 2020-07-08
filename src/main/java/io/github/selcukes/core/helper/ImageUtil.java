@@ -23,20 +23,28 @@ import lombok.experimental.UtilityClass;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 @UtilityClass
 public class ImageUtil {
     private final String ERROR_WHILE_CONVERTING_IMAGE = "Error while converting image";
 
-    public BufferedImage toBufferedImage(String fileName) {
+    public BufferedImage toBufferedImage(InputStream is) {
 
-        try (InputStream is = Files.newInputStream(Paths.get(fileName))) {
+        try {
             return ImageIO.read(is);
+        } catch (IOException e) {
+            throw new SnapshotException(ERROR_WHILE_CONVERTING_IMAGE, e);
+        }
+    }
+
+    private BufferedImage toBufferedImage(byte[] bytes) {
+
+        try (ByteArrayInputStream imageArrayStream = new ByteArrayInputStream(bytes)) {
+            return ImageIO.read(imageArrayStream);
         } catch (IOException e) {
             throw new SnapshotException(ERROR_WHILE_CONVERTING_IMAGE, e);
         }
@@ -80,7 +88,7 @@ public class ImageUtil {
 
     private BufferedImage generateImageWithLogoAndText(String text, int screenshotWidth) {
         BufferedImage textImage = generateImageWithText(text, screenshotWidth, 200);
-        BufferedImage logo = toBufferedImage(ImageUtil.class.getResource("/sc_logo.png").getPath());
+        BufferedImage logo = toBufferedImage(ImageUtil.class.getClassLoader().getResourceAsStream("selcukes_logo.png"));
         return stitchImages(textImage, logo, true);
     }
 
