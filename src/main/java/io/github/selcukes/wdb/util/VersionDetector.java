@@ -21,7 +21,7 @@ import io.github.selcukes.core.commons.exec.ExecResults;
 import io.github.selcukes.core.commons.exec.Shell;
 import io.github.selcukes.core.commons.os.Platform;
 import io.github.selcukes.core.exception.WebDriverBinaryException;
-import io.github.selcukes.core.http.HttpClient;
+import io.github.selcukes.core.http.WebClient;
 import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import org.jsoup.nodes.Document;
@@ -110,8 +110,8 @@ public class VersionDetector {
     }
 
     public List<String> getBinaryVersions(String binaryDownloadUrl, String matcher) {
-        HttpClient client = new HttpClient(binaryDownloadUrl, null);
-        final InputStream downloadStream = client.getResponseStream();
+        WebClient client = new WebClient(binaryDownloadUrl);
+        final InputStream downloadStream = client.sendRequest().getResponseStream();
         List<String> versions = new ArrayList<>();
 
         try {
