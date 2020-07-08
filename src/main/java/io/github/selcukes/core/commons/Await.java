@@ -66,5 +66,12 @@ public class Await {
         }
     }
 
+    public static void until(TimeUnit timeUnit, int timeout) {
+        try {
+            timeUnit.sleep(timeout);
+        } catch (Exception e) {
+            throw new SelcukesException("Timeout exception : ", e);
+        }
+    }
 }
 

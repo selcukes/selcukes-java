@@ -81,10 +81,10 @@ public class FileHelper {
     public void createDirectory(File dirName) {
         boolean dirExists = dirName.exists();
         if (!dirExists) {
-            LOGGER.debug(() -> "Creating directory: " + dirName.getName());
+            LOGGER.trace(() -> "Creating directory: " + dirName.getName());
             dirExists = dirName.mkdirs();
             if (dirExists) {
-                LOGGER.debug(() -> dirName.getName() + " directory created...");
+                LOGGER.trace(() -> dirName.getName() + " directory created...");
             }
         }
     }
