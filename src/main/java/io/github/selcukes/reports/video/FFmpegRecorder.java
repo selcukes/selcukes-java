@@ -22,7 +22,6 @@ package io.github.selcukes.reports.video;
 import io.github.selcukes.core.commons.Await;
 import io.github.selcukes.core.commons.exec.Shell;
 import io.github.selcukes.core.commons.os.Platform;
-import io.github.selcukes.core.exception.SelcukesException;
 import io.github.selcukes.core.helper.DateHelper;
 import io.github.selcukes.core.helper.FileHelper;
 import io.github.selcukes.core.helper.Preconditions;
@@ -32,6 +31,8 @@ import io.github.selcukes.reports.config.VideoConfig;
 
 import java.awt.*;
 import java.io.File;
+import java.util.Objects;
+
 
 class FFmpegRecorder extends VideoRecorder {
     private static final Logger logger = LoggerFactory.getLogger(FFmpegRecorder.class);
@@ -52,7 +53,7 @@ class FFmpegRecorder extends VideoRecorder {
         tempFile = getFile("Video");
         String screenSize = getScreenSize();
 
-        String cmdline = FFMPEG + " -y " +
+        String command = FFMPEG + " -y " +
             "-video_size " + screenSize +
             " -f " + videoConfig.getFfmpegFormat() +
             " -i " + videoConfig.getFfmpegDisplay() +
@@ -60,7 +61,7 @@ class FFmpegRecorder extends VideoRecorder {
             " -framerate " + videoConfig.getFrameRate() +
             " -pix_fmt " + videoConfig.getPixelFormat() + " " +
             tempFile.getAbsolutePath();
-        shell.runCommandAsync(cmdline);
+        shell.runCommandAsync(command);
         logger.info(() -> "Recording started to " + tempFile.getAbsolutePath());
     }
 
@@ -73,12 +74,7 @@ class FFmpegRecorder extends VideoRecorder {
         logger.info(() -> "Killing ffmpeg...");
         videoFile = getFile(filename);
         Preconditions.checkArgument(tempFile.exists(), "Video recording wasn't started");
-        try {
-            FileHelper.renameFile(tempFile, videoFile);
-        } catch (SelcukesException ex) {
-            Await.until(2);
-            FileHelper.renameFile(tempFile, videoFile);
-        }
+        saveAsVideo();
         logger.info(() -> "Recording finished to " + videoFile.getAbsolutePath());
         return videoFile;
     }
@@ -105,6 +101,21 @@ class FFmpegRecorder extends VideoRecorder {
         File movieFolder = new File(videoConfig.getVideoFolder());
         FileHelper.createDirectory(movieFolder);
         return movieFolder;
+    }
+
+    private void saveAsVideo() {
+        File waterMark = new File(
+            Objects.requireNonNull(FFmpegRecorder.class.getClassLoader()
+                .getResource("selcukes-watermark.png")).getFile()
+        );
+
+        String command = FFMPEG + " -i " + tempFile.getAbsolutePath() +
+            " -i " + waterMark.getAbsolutePath() +
+            " -filter_complex \"overlay=x=(main_w-200):y=5\" " + videoFile.getAbsolutePath();
+        Await.until(2);
+        shell.runCommand(command);
+        tempFile.deleteOnExit();
+        Await.until(1);
     }
 
 }

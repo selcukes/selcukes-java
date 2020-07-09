@@ -27,7 +27,7 @@ import java.util.List;
 @Builder
 public class Section {
     @Builder.Default
-    private final boolean markdown = true;
+    private boolean markdown = true;
 
     private final List<Field> facts;
 

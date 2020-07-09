@@ -26,6 +26,7 @@ import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.reports.enums.NotifierType;
 import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.enums.TestType;
+import io.github.selcukes.reports.image.SnapshotImpl;
 import io.github.selcukes.reports.notification.Notifier;
 import io.github.selcukes.reports.notification.NotifierFactory;
 import io.github.selcukes.reports.video.Recorder;
@@ -48,12 +49,12 @@ class ScreenPlayImpl implements ScreenPlay {
     protected Recorder recorder;
     protected Notifier notifier;
     private ScreenPlayResult result;
-    private final ScreenCapture capture;
+    private final SnapshotImpl capture;
     boolean isFailedOnly;
     private ITestResult iTestResult;
 
     public ScreenPlayImpl(WebDriver driver) {
-        capture = new ScreenCapture(driver);
+        capture = new SnapshotImpl(driver);
         isFailedOnly = true;
         startReadingLogs();
     }

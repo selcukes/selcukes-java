@@ -19,7 +19,6 @@
 package io.github.selcukes.reports.listeners;
 
 import io.github.selcukes.core.logging.LogRecordListener;
-import io.github.selcukes.core.logging.Logger;
 import io.github.selcukes.core.logging.LoggerFactory;
 import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.video.Recorder;
@@ -33,7 +32,6 @@ import java.util.logging.LogRecord;
 import java.util.stream.Collectors;
 
 public class ScreenPlayListener extends SelcukesTestNGListener {
-    private final Logger logger = LoggerFactory.getLogger(ScreenPlayListener.class);
     private Recorder recorder;
     private LogRecordListener logRecordListener;
 
@@ -54,7 +52,7 @@ public class ScreenPlayListener extends SelcukesTestNGListener {
 
     @Override
     public void onTestFailure(ITestResult result) {
-        File video = recorder.stopAndSave(result.getName().replace(" ","_"));
+        File video = recorder.stopAndSave(result.getName().replace(" ", "_"));
         attachVideo(video.getAbsolutePath());
         Reporter.log(getLogs(Level.FINE));
         LoggerFactory.removeListener(logRecordListener);

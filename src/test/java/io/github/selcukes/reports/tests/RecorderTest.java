@@ -43,9 +43,9 @@ public class RecorderTest {
 
     @BeforeTest
     public void beforeTest() {
-        ConfigFactory.loadLoggerProperties();
         WebDriverBinary.chromeDriver().setup();
         driver = new ChromeDriver();
+        driver.manage().window().maximize();
         if (Platform.isWindows()) {
             screenPlay = ScreenPlayBuilder
                 .getScreenPlay(driver)
