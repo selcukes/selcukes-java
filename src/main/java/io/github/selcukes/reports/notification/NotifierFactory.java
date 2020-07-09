@@ -18,6 +18,7 @@
 
 package io.github.selcukes.reports.notification;
 
+import io.github.selcukes.core.config.ConfigFactory;
 import io.github.selcukes.reports.enums.NotifierType;
 import io.github.selcukes.reports.notification.slack.Slack;
 import io.github.selcukes.reports.notification.teams.MicrosoftTeams;
@@ -27,6 +28,11 @@ import lombok.experimental.UtilityClass;
 public class NotifierFactory {
     public synchronized Notifier getNotifier(NotifierType notifierType) {
         return notifierType.equals(NotifierType.SLACK) ? new Slack() : new MicrosoftTeams();
+    }
+
+    public synchronized Notifier getNotifier() {
+        return ConfigFactory.getConfig().getNotifier().get("type").equalsIgnoreCase("SLACK") ?
+            new Slack() : new MicrosoftTeams();
     }
 
 }

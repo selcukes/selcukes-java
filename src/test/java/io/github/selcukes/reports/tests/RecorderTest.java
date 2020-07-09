@@ -69,9 +69,9 @@ public class RecorderTest {
             screenPlay
                 .withResult(result)
                 .ignoreCondition()
-                .attachScreenshot()
+                .attachScreenshot();
                 // .withNotifier(NotifierType.SLACK)
-                .sendNotification("This is sample Test Step"); //Using default Notifier TEAMS
+                //.sendNotification("This is sample Test Step"); //Using default Notifier TEAMS
         }
     }
 

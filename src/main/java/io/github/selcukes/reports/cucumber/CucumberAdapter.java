@@ -20,7 +20,6 @@ package io.github.selcukes.reports.cucumber;
 
 import io.github.selcukes.core.logging.LogRecordListener;
 import io.github.selcukes.core.logging.LoggerFactory;
-import io.github.selcukes.reports.enums.NotifierType;
 import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.notification.Notifier;
 import io.github.selcukes.reports.notification.NotifierFactory;
@@ -38,7 +37,7 @@ public class CucumberAdapter implements CucumberService {
     @Override
     public void beforeTest() {
         recorder = RecorderFactory.getRecorder(RecorderType.MONTE);
-        notifier = NotifierFactory.getNotifier(NotifierType.TEAMS);
+        notifier = NotifierFactory.getNotifier();
     }
 
     @Override

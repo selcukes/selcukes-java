@@ -99,9 +99,9 @@ Ex: C:\ffmpeg\bin</li>
 </ol>
 To be sure that everything works properly, open CMD and perform following command:
 
-![FFMPEG](./images/ffmpeg.JPG)
+![FFMPEG](assets/ffmpeg.JPG)
 
-![SendCtrlC](./images/sendCtrlC.JPG)
+![SendCtrlC](assets/sendCtrlC.JPG)
 </details>
 
 ## TestNG Example
