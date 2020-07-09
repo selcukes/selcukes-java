@@ -18,18 +18,14 @@
 package io.github.selcukes.reports.image;
 
 import io.github.selcukes.core.exception.SnapshotException;
-import io.github.selcukes.core.helper.FileHelper;
-import io.github.selcukes.devtools.DevToolsService;
-import io.github.selcukes.devtools.core.Screenshot;
-import io.github.selcukes.devtools.services.ChromeDevToolsService;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 
 public class SnapshotImpl extends NativeScreenshot implements Snapshot {
     private final WebDriver driver;
@@ -41,7 +37,7 @@ public class SnapshotImpl extends NativeScreenshot implements Snapshot {
 
     @Override
     public String shootPage() {
-        File destFile = getScreenshotPath();
+        File destFile = getScreenshotPath().toFile();
         try {
             File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             FileUtils.copyFile(srcFile, destFile);
@@ -53,28 +49,15 @@ public class SnapshotImpl extends NativeScreenshot implements Snapshot {
 
     @Override
     public String shootFullPage() {
-        File destFile = getScreenshotPath();
-        return (isChrome()) ?
-            Screenshot.captureFullPage(getDevTools(), destFile.getAbsolutePath()) : captureNativeScreenshot();
+        try {
+            return Files.write(getScreenshotPath(), shootFullPageAsBytes()).toString();
+        } catch (IOException e) {
+            throw new SnapshotException("Failed Capturing Screenshot..", e);
+        }
     }
 
     @Override
     public byte[] shootFullPageAsBytes() {
-        byte[] screenshot;
-        try {
-            screenshot = (isChrome()) ? Screenshot.captureFullPageAsBytes(getDevTools()) :
-                FileHelper.toByteArray(captureNativeScreenshot());
-        } catch (IOException e) {
-            throw new SnapshotException("Failed Capturing Screenshot..", e);
-        }
-        return screenshot;
-    }
-
-    private ChromeDevToolsService getDevTools() {
-        return DevToolsService.getDevToolsService(driver);
-    }
-
-    private boolean isChrome() {
-        return driver instanceof ChromeDriver;
+        return fullPageNativeScreenshotAsBytes();
     }
 }

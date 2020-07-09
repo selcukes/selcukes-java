@@ -13,7 +13,7 @@ videoRecording: false
 notification: false
 notifier:
   type: teams
-  webhook-token: WEBXXXX
+  webhook-token: https://outlook.office.com/webhook/8b7ae3b2-ef21-4caa-a770-f3e5f5dc67ac@55e374bf-374e-49de-a716-836ce6f714d1/IncomingWebhook/bd7cf6c116354991afa50691e45bde16/e4eb5b1c-adff-4433-9fb1-9b1611fabe32
   api-token: APIXXXX
   channel: selcukes
   authorIcon: https://avatars0.githubusercontent.com/u/2510294?s=400&u=5d6412ba1dd13052992ff66317ae28d007a971d3&v=4
