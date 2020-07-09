@@ -97,8 +97,8 @@ public class ImageUtil {
         Graphics graphics = image.getGraphics();
         graphics.setColor(new Color(220, 218, 218));
         graphics.fillRect(0, 0, width, height);
-        graphics.setColor(Color.BLACK);
-        graphics.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
+        graphics.setColor(Color.RED);
+        graphics.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
         drawStringMultiLine(graphics, text, (width - 200) - 10);
         return image;
     }
