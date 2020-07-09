@@ -25,6 +25,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -137,6 +138,22 @@ public class FileHelper {
 
     public String getTempDir() {
         return createTempFile().getParent();
+    }
+
+    public File loadResource(String file) {
+        return new File(Objects.requireNonNull(FileHelper.class.getClassLoader().getResource(file)).getFile());
+    }
+
+    public File loadThreadResource(String file) {
+        return new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource(file)).getFile());
+    }
+
+    public InputStream loadThreadResourceAsStream(String file) {
+        return Thread.currentThread().getContextClassLoader().getResourceAsStream(file);
+    }
+
+    public InputStream loadResourceAsStream(String file) {
+        return FileHelper.class.getClassLoader().getResourceAsStream(file);
     }
 }
 

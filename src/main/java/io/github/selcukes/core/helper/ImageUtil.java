@@ -88,7 +88,7 @@ public class ImageUtil {
 
     private BufferedImage generateImageWithLogoAndText(String text, int screenshotWidth) {
         BufferedImage textImage = generateImageWithText(text, screenshotWidth, 200);
-        BufferedImage logo = toBufferedImage(ImageUtil.class.getClassLoader().getResourceAsStream("selcukes_logo.png"));
+        BufferedImage logo = toBufferedImage(FileHelper.loadResourceAsStream("selcukes_logo.png"));
         return stitchImages(textImage, logo, true);
     }
 
