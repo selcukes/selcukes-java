@@ -85,7 +85,7 @@ abstract class AbstractBinary implements BinaryFactory {
     }
 
     protected Response getHttpClient(String binaryDownloadUrl) {
-        return new WebClient(binaryDownloadUrl).sendRequest();
+        return new WebClient(binaryDownloadUrl,getProxy()).sendRequest();
     }
 
     protected String getVersionNumberFromGit(String binaryDownloadUrl) {

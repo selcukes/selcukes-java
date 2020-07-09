@@ -15,7 +15,7 @@
 
     <properties>
 
-        <selcukes-core.version>dev-SNAPSHOT</selcukes-core.version>
+        <selcukes-core.version>1.0.5</selcukes-core.version>
         <commons-compress.version>1.20</commons-compress.version>
         <jsoup.version>1.13.1</jsoup.version>
 
@@ -35,12 +35,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     </properties>
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
