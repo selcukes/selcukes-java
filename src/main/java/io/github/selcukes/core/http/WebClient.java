@@ -28,7 +28,11 @@ public class WebClient {
     public WebClient(String url) {
         this.url = url;
         this.client = new HttpClient();
+    }
 
+    public WebClient(String url, String proxy) {
+        this.url = url;
+        this.client = new HttpClient(proxy);
     }
 
     public Response sendRequest() {

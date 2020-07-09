@@ -29,13 +29,28 @@ import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpHeaders;
+import org.apache.hc.core5.http.HttpHost;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
+import java.net.Proxy;
+import java.net.URL;
+import java.util.Optional;
 
 class HttpClient {
     private static final String APPLICATION_JSON = "application/json";
     private CloseableHttpClient client;
+    private String proxy;
+
+    public HttpClient(String proxy) {
+        this.proxy = proxy;
+    }
+
+    public HttpClient() {
+
+    }
 
     protected HttpGet createHttpGet(String url) {
         return new HttpGet(url);
@@ -43,8 +58,33 @@ class HttpClient {
 
     protected HttpClient createClient() {
         HttpClientBuilder builder = HttpClientBuilder.create().disableRedirectHandling();
+        if (isProxy().isPresent()) builder.setProxy(getProxyHost());
         client = builder.build();
         return this;
+    }
+
+    private HttpHost getProxyHost() {
+        return new HttpHost(proxy);
+    }
+
+    private Optional<Proxy> isProxy() {
+        Optional<URL> url = getProxyUrl(proxy);
+        if (url.isPresent()) {
+            String proxyHost = url.get().getHost();
+            int proxyPort = url.get().getPort() == -1 ? 80
+                : url.get().getPort();
+            return Optional.of(new Proxy(Proxy.Type.HTTP,
+                new InetSocketAddress(proxyHost, proxyPort)));
+        }
+        return Optional.empty();
+    }
+
+    private Optional<URL> getProxyUrl(String proxy) {
+        try {
+            return Optional.of(new URL(proxy));
+        } catch (MalformedURLException e) {
+            return Optional.empty();
+        }
     }
 
     protected CloseableHttpResponse execute(ClassicHttpRequest request) {
