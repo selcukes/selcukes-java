@@ -31,7 +31,6 @@ import io.github.selcukes.reports.config.VideoConfig;
 
 import java.awt.*;
 import java.io.File;
-import java.util.Objects;
 
 
 class FFmpegRecorder extends VideoRecorder {
@@ -39,7 +38,6 @@ class FFmpegRecorder extends VideoRecorder {
     private static final String FFMPEG = "ffmpeg";
     private static final String EXTENSION = ".mp4";
     private final VideoConfig videoConfig;
-    private File videoFile;
     private final Shell shell;
     private File tempFile;
 
@@ -67,23 +65,34 @@ class FFmpegRecorder extends VideoRecorder {
 
     @Override
     public File stopAndSave(String filename) {
-
-        String killFFmpeg = "pkill -INT ffmpeg";
-        if (Platform.isWindows()) shell.sendCtrlC();
-        else shell.runCommand(killFFmpeg);
-        logger.info(() -> "Killing ffmpeg...");
-        videoFile = getFile(filename);
+        stop();
         Preconditions.checkArgument(tempFile.exists(), "Video recording wasn't started");
-        saveAsVideo();
+        File videoFile = getFile(filename);
+        File waterMark = FileHelper.loadResource("selcukes-watermark.png");
+
+        String command = FFMPEG + " -i " + tempFile.getAbsolutePath() +
+            " -i " + waterMark.getAbsolutePath() +
+            " -filter_complex \"overlay=x=(main_w-200):y=5\" " + videoFile.getAbsolutePath();
+        shell.runCommand(command);
+        tempFile.deleteOnExit();
+        Await.until(1);
         logger.info(() -> "Recording finished to " + videoFile.getAbsolutePath());
         return videoFile;
     }
 
+    private void stop() {
+        logger.info(() -> "Killing ffmpeg...");
+        String killFFmpeg = "pkill -INT ffmpeg";
+        if (Platform.isWindows()) shell.sendCtrlC();
+        else shell.runCommand(killFFmpeg);
+        Await.until(2);
+    }
+
     @Override
     public void stopAndDelete() {
-        stopAndSave("Temp");
+        stop();
         logger.info(() -> "Deleting recorded video file...");
-        videoFile.deleteOnExit();
+        tempFile.deleteOnExit();
     }
 
     private String getScreenSize() {
@@ -101,21 +110,6 @@ class FFmpegRecorder extends VideoRecorder {
         File movieFolder = new File(videoConfig.getVideoFolder());
         FileHelper.createDirectory(movieFolder);
         return movieFolder;
-    }
-
-    private void saveAsVideo() {
-        File waterMark = new File(
-            Objects.requireNonNull(FFmpegRecorder.class.getClassLoader()
-                .getResource("selcukes-watermark.png")).getFile()
-        );
-
-        String command = FFMPEG + " -i " + tempFile.getAbsolutePath() +
-            " -i " + waterMark.getAbsolutePath() +
-            " -filter_complex \"overlay=x=(main_w-200):y=5\" " + videoFile.getAbsolutePath();
-        Await.until(2);
-        shell.runCommand(command);
-        tempFile.deleteOnExit();
-        Await.until(1);
     }
 
 }
