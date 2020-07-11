@@ -30,7 +30,7 @@ import org.testng.annotations.Test;
 
 public class NativeScreenshotTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private String url="https://techyworks.blogspot.com/";
+    private final String url="https://techyworks.blogspot.com/";
     // @Test
     public void nativeScreenshotTestForFirefox() {
         WebDriverBinary.firefoxDriver().setup();

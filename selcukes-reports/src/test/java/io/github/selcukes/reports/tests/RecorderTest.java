@@ -28,6 +28,7 @@ import io.github.selcukes.wdb.WebDriverBinary;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
@@ -43,7 +44,9 @@ public class RecorderTest {
     @BeforeTest
     public void beforeTest() {
         WebDriverBinary.chromeDriver().setup();
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        driver = new ChromeDriver(options);
         if (Platform.isWindows()) {
             driver.manage().window().maximize();
             screenPlay = ScreenPlayBuilder
