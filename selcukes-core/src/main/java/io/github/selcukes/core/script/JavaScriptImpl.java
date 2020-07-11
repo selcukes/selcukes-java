@@ -3,7 +3,7 @@ package io.github.selcukes.core.script;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
-public class JavaScriptImpl implements JavaScript {
+public class JavaScriptImpl implements JavaScriptControl {
     JavascriptExecutor js;
     Object result;
 

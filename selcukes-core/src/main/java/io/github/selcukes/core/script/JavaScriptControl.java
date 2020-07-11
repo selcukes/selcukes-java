@@ -1,5 +1,5 @@
 package io.github.selcukes.core.script;
 
-public interface JavaScript {
+public interface JavaScriptControl {
     JavaScriptImpl execute(String script, Object... args);
 }
