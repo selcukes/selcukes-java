@@ -20,8 +20,8 @@ package io.github.selcukes.reports.cucumber;
 
 import io.cucumber.plugin.ConcurrentEventListener;
 import io.cucumber.plugin.event.*;
-import io.github.selcukes.core.logging.Logger;
-import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.commons.logging.Logger;
+import io.github.selcukes.commons.logging.LoggerFactory;
 
 import java.util.Optional;
 

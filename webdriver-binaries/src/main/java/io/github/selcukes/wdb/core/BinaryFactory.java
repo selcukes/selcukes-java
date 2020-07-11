@@ -18,10 +18,10 @@
 
 package io.github.selcukes.wdb.core;
 
-import io.github.selcukes.core.commons.os.Architecture;
-import io.github.selcukes.core.commons.os.OsType;
-import io.github.selcukes.core.commons.os.Platform;
-import io.github.selcukes.core.helper.FileHelper;
+import io.github.selcukes.commons.os.Architecture;
+import io.github.selcukes.commons.os.OsType;
+import io.github.selcukes.commons.os.Platform;
+import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.DriverType;
 

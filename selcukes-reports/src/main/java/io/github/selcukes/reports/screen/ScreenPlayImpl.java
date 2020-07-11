@@ -19,10 +19,10 @@
 package io.github.selcukes.reports.screen;
 
 import io.cucumber.java.Scenario;
-import io.github.selcukes.core.helper.Preconditions;
-import io.github.selcukes.core.logging.LogRecordListener;
-import io.github.selcukes.core.logging.Logger;
-import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.commons.helper.Preconditions;
+import io.github.selcukes.commons.logging.LogRecordListener;
+import io.github.selcukes.commons.logging.Logger;
+import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.reports.enums.NotifierType;
 import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.enums.TestType;

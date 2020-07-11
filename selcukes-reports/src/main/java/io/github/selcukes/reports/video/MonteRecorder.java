@@ -18,9 +18,9 @@
 
 package io.github.selcukes.reports.video;
 
-import io.github.selcukes.core.exception.RecorderException;
-import io.github.selcukes.core.logging.Logger;
-import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.commons.exception.RecorderException;
+import io.github.selcukes.commons.logging.Logger;
+import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.reports.config.VideoConfig;
 import org.monte.media.Format;
 import org.monte.media.FormatKeys;

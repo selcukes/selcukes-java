@@ -18,9 +18,9 @@
 
 package io.github.selcukes.reports.video;
 
-import io.github.selcukes.core.exception.RecorderException;
-import io.github.selcukes.core.helper.DateHelper;
-import io.github.selcukes.core.helper.FileHelper;
+import io.github.selcukes.commons.exception.RecorderException;
+import io.github.selcukes.commons.helper.DateHelper;
+import io.github.selcukes.commons.helper.FileHelper;
 import lombok.Builder;
 import org.monte.media.Format;
 import org.monte.media.Registry;

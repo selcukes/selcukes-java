@@ -19,14 +19,14 @@
 package io.github.selcukes.reports.video;
 
 
-import io.github.selcukes.core.commons.Await;
-import io.github.selcukes.core.commons.exec.Shell;
-import io.github.selcukes.core.commons.os.Platform;
-import io.github.selcukes.core.helper.DateHelper;
-import io.github.selcukes.core.helper.FileHelper;
-import io.github.selcukes.core.helper.Preconditions;
-import io.github.selcukes.core.logging.Logger;
-import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.commons.commons.Await;
+import io.github.selcukes.commons.exec.Shell;
+import io.github.selcukes.commons.os.Platform;
+import io.github.selcukes.commons.helper.DateHelper;
+import io.github.selcukes.commons.helper.FileHelper;
+import io.github.selcukes.commons.helper.Preconditions;
+import io.github.selcukes.commons.logging.Logger;
+import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.reports.config.VideoConfig;
 
 import java.awt.*;

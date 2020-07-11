@@ -19,8 +19,8 @@
 package io.github.selcukes.reports.listeners;
 
 
-import io.github.selcukes.core.logging.Logger;
-import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.commons.logging.Logger;
+import io.github.selcukes.commons.logging.LoggerFactory;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;

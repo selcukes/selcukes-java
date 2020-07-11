@@ -17,11 +17,11 @@
 
 package io.github.selcukes.reports.image;
 
-import io.github.selcukes.core.commons.Await;
-import io.github.selcukes.core.exception.SnapshotException;
-import io.github.selcukes.core.helper.DateHelper;
-import io.github.selcukes.core.helper.FileHelper;
-import io.github.selcukes.core.helper.ImageUtil;
+import io.github.selcukes.commons.commons.Await;
+import io.github.selcukes.commons.exception.SnapshotException;
+import io.github.selcukes.commons.helper.DateHelper;
+import io.github.selcukes.commons.helper.FileHelper;
+import io.github.selcukes.commons.helper.ImageUtil;
 import io.github.selcukes.devtools.DevToolsService;
 import io.github.selcukes.devtools.core.Screenshot;
 import io.github.selcukes.devtools.services.ChromeDevToolsService;

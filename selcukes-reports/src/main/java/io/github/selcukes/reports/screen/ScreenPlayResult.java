@@ -19,7 +19,7 @@
 package io.github.selcukes.reports.screen;
 
 import io.cucumber.java.Scenario;
-import io.github.selcukes.core.helper.ExceptionHelper;
+import io.github.selcukes.commons.helper.ExceptionHelper;
 import io.github.selcukes.reports.enums.TestType;
 import lombok.Getter;
 import org.testng.ITestResult;

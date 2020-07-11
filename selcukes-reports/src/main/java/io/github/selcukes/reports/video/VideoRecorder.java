@@ -18,7 +18,7 @@
 
 package io.github.selcukes.reports.video;
 
-import io.github.selcukes.core.commons.os.Platform;
+import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.reports.config.VideoConfig;
 
 public abstract class VideoRecorder implements Recorder {

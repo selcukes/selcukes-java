@@ -18,8 +18,8 @@
 
 package io.github.selcukes.wdb;
 
-import io.github.selcukes.core.commons.os.Architecture;
-import io.github.selcukes.core.helper.FileHelper;
+import io.github.selcukes.commons.os.Architecture;
+import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.wdb.core.*;
 import io.github.selcukes.wdb.util.WebDriverBinaryUtil;
 

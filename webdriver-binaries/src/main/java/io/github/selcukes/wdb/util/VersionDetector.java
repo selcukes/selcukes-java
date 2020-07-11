@@ -17,13 +17,13 @@
  */
 package io.github.selcukes.wdb.util;
 
-import io.github.selcukes.core.commons.exec.ExecResults;
-import io.github.selcukes.core.commons.exec.Shell;
-import io.github.selcukes.core.commons.os.Platform;
-import io.github.selcukes.core.exception.WebDriverBinaryException;
-import io.github.selcukes.core.http.WebClient;
-import io.github.selcukes.core.logging.Logger;
-import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.commons.exec.ExecResults;
+import io.github.selcukes.commons.exec.Shell;
+import io.github.selcukes.commons.os.Platform;
+import io.github.selcukes.commons.exception.WebDriverBinaryException;
+import io.github.selcukes.commons.http.WebClient;
+import io.github.selcukes.commons.logging.Logger;
+import io.github.selcukes.commons.logging.LoggerFactory;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;

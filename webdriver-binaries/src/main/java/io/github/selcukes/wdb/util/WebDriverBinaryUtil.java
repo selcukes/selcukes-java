@@ -18,11 +18,11 @@
 
 package io.github.selcukes.wdb.util;
 
-import io.github.selcukes.core.commons.os.OsType;
-import io.github.selcukes.core.exception.WebDriverBinaryException;
-import io.github.selcukes.core.helper.FileHelper;
-import io.github.selcukes.core.logging.Logger;
-import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.commons.os.OsType;
+import io.github.selcukes.commons.exception.WebDriverBinaryException;
+import io.github.selcukes.commons.helper.FileHelper;
+import io.github.selcukes.commons.logging.Logger;
+import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.wdb.BinaryInfo;
 import io.github.selcukes.wdb.core.BinaryFactory;
 import io.github.selcukes.wdb.enums.DownloaderType;

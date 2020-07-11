@@ -18,8 +18,8 @@
 
 package io.github.selcukes.reports.listeners;
 
-import io.github.selcukes.core.logging.LogRecordListener;
-import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.commons.logging.LogRecordListener;
+import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.video.Recorder;
 import io.github.selcukes.reports.video.RecorderFactory;

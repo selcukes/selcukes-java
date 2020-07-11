@@ -18,7 +18,7 @@
 
 package io.github.selcukes.wdb.core;
 
-import io.github.selcukes.core.exception.WebDriverBinaryException;
+import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.util.UrlHelper;

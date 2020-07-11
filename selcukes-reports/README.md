@@ -39,8 +39,8 @@ Example Cucumber Hooks class
 
 ```java
 import io.cucumber.java.*;
-import io.github.selcukes.core.logging.Logger;
-import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.commons.logging.Logger;
+import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.reports.screen.ScreenPlay;
 import io.github.selcukes.reports.screen.ScreenPlayBuilder;
 import org.openqa.selenium.WebDriver;
@@ -109,9 +109,9 @@ To be sure that everything works properly, open CMD and perform following comman
 
 package io.github.selcukes.reports.tests;
 
-import io.github.selcukes.core.config.ConfigFactory;
-import io.github.selcukes.core.logging.Logger;
-import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.commons.logging.Logger;
+import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.screen.ScreenPlay;
 import io.github.selcukes.reports.screen.ScreenPlayBuilder;

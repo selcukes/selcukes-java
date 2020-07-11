@@ -18,7 +18,7 @@
 
 package io.github.selcukes.reports.config;
 
-import io.github.selcukes.core.config.Environment;
+import io.github.selcukes.commons.config.Environment;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

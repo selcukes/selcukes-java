@@ -17,7 +17,7 @@
 
 package io.github.selcukes.reports.image;
 
-import io.github.selcukes.core.exception.SnapshotException;
+import io.github.selcukes.commons.exception.SnapshotException;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;

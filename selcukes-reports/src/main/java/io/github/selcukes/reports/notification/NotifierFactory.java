@@ -18,7 +18,7 @@
 
 package io.github.selcukes.reports.notification;
 
-import io.github.selcukes.core.config.ConfigFactory;
+import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.reports.enums.NotifierType;
 import io.github.selcukes.reports.notification.slack.Slack;
 import io.github.selcukes.reports.notification.teams.MicrosoftTeams;

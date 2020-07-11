@@ -19,9 +19,9 @@
 package io.github.selcukes.tests;
 
 
-import io.github.selcukes.core.config.ConfigFactory;
-import io.github.selcukes.core.logging.Logger;
-import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.commons.logging.Logger;
+import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.wdb.BinaryInfo;
 import io.github.selcukes.wdb.WebDriverBinary;
 import org.testng.annotations.BeforeTest;

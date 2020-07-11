@@ -18,8 +18,8 @@
 
 package io.github.selcukes.reports.notification.teams;
 
-import io.github.selcukes.core.config.ConfigFactory;
-import io.github.selcukes.core.helper.DateHelper;
+import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.reports.enums.NotifierEnum;
 import io.github.selcukes.reports.notification.IncomingWebHookRequest;
 import io.github.selcukes.reports.notification.NotifierHelper;

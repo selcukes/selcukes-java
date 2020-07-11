@@ -18,10 +18,10 @@
 
 package io.github.selcukes.reports.html;
 
-import io.github.selcukes.core.exception.SelcukesException;
-import io.github.selcukes.core.helper.FileHelper;
-import io.github.selcukes.core.logging.Logger;
-import io.github.selcukes.core.logging.LoggerFactory;
+import io.github.selcukes.commons.exception.SelcukesException;
+import io.github.selcukes.commons.helper.FileHelper;
+import io.github.selcukes.commons.logging.Logger;
+import io.github.selcukes.commons.logging.LoggerFactory;
 import org.testng.*;
 import org.testng.xml.XmlSuite;
 
