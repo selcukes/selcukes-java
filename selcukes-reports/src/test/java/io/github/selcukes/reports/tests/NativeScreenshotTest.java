@@ -30,12 +30,14 @@ import org.testng.annotations.Test;
 
 public class NativeScreenshotTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-   // @Test
+    private String url="https://techyworks.blogspot.com/";
+    // @Test
     public void nativeScreenshotTestForFirefox() {
         WebDriverBinary.firefoxDriver().setup();
         WebDriver driver = new FirefoxDriver();
-        driver.get("https://techyworks.blogspot.com/");
+        logger.info(() -> "Initiated Firefox browser");
+        driver.get(url);
+        logger.info(() -> "Navigated to "+url);
         Snapshot snapshot = new SnapshotImpl(driver);
         logger.info(() -> "Firefox full page screenshot captured : " + snapshot.shootFullPage());
         driver.quit();
@@ -47,7 +49,9 @@ public class NativeScreenshotTest {
         ChromeOptions options = new ChromeOptions();
         options.setHeadless(true);
         WebDriver driver = new ChromeDriver(options);
-        driver.get("https://techyworks.blogspot.com/");
+        logger.info(() -> "Initiated Chrome browser");
+        driver.get(url);
+        logger.info(() -> "Navigated to "+url);
         Snapshot snapshot = new SnapshotImpl(driver);
         logger.info(() -> "Chrome full page screenshot captured : " + snapshot.shootFullPage());
         driver.quit();

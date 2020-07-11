@@ -18,6 +18,8 @@
 package io.github.selcukes.reports.screenshot;
 
 import io.github.selcukes.commons.exception.SnapshotException;
+import io.github.selcukes.commons.logging.Logger;
+import io.github.selcukes.commons.logging.LoggerFactory;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -28,6 +30,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 public class SnapshotImpl extends NativeScreenshot implements Snapshot {
+    private final Logger logger = LoggerFactory.getLogger(SnapshotImpl.class);
     private final WebDriver driver;
 
     public SnapshotImpl(WebDriver driver) {
@@ -37,10 +40,13 @@ public class SnapshotImpl extends NativeScreenshot implements Snapshot {
 
     @Override
     public String shootPage() {
+
         File destFile = getScreenshotPath().toFile();
+        logger.debug(() -> "Capturing screenshot...");
         try {
             File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
             FileUtils.copyFile(srcFile, destFile);
+            logger.debug(() -> "Screenshot saved at  :" + destFile.getAbsolutePath());
         } catch (IOException e) {
             throw new SnapshotException("Failed Capturing Screenshot..", e);
         }
@@ -50,7 +56,10 @@ public class SnapshotImpl extends NativeScreenshot implements Snapshot {
     @Override
     public String shootFullPage() {
         try {
-            return Files.write(getScreenshotPath(), shootFullPageAsBytes()).toString();
+            logger.debug(() -> "Capturing screenshot...");
+            String filePath = Files.write(getScreenshotPath(), shootFullPageAsBytes()).toString();
+            logger.debug(() -> "Screenshot saved at  :" + filePath);
+            return filePath;
         } catch (IOException e) {
             throw new SnapshotException("Failed Capturing Screenshot..", e);
         }
