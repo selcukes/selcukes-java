@@ -19,7 +19,7 @@ jobs:
     # 1.1 Sonar check JDK 8
     - stage: test
       jdk: openjdk8
-      script: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=selcukes_selcukes_java
+      script: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=selcukes_selcukes-java
 
     # 1.2 Check JDK 10,11
     - stage: test
