@@ -19,7 +19,7 @@
 package io.github.selcukes.reports.video;
 
 
-import io.github.selcukes.commons.commons.Await;
+import io.github.selcukes.commons.Await;
 import io.github.selcukes.commons.exec.Shell;
 import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.commons.helper.DateHelper;

@@ -17,7 +17,7 @@
 
 package io.github.selcukes.reports.image;
 
-import io.github.selcukes.commons.commons.Await;
+import io.github.selcukes.commons.Await;
 import io.github.selcukes.commons.exception.SnapshotException;
 import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.helper.FileHelper;
