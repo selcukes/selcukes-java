@@ -16,7 +16,7 @@
  *
  */
 
-package io.github.selcukes.reports.listeners;
+package io.github.selcukes.core.listener;
 
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
