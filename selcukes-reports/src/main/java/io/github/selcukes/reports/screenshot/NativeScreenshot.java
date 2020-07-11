@@ -15,7 +15,7 @@
  *
  */
 
-package io.github.selcukes.reports.image;
+package io.github.selcukes.reports.screenshot;
 
 import com.google.common.collect.ImmutableMap;
 import io.github.selcukes.commons.Await;

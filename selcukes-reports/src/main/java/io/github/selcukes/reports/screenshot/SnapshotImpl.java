@@ -15,7 +15,7 @@
  *
  */
 
-package io.github.selcukes.reports.image;
+package io.github.selcukes.reports.screenshot;
 
 import io.github.selcukes.commons.exception.SnapshotException;
 import org.apache.commons.io.FileUtils;

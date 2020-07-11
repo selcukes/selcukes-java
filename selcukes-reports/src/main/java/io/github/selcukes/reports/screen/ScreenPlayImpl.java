@@ -26,7 +26,7 @@ import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.reports.enums.NotifierType;
 import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.enums.TestType;
-import io.github.selcukes.reports.image.SnapshotImpl;
+import io.github.selcukes.reports.screenshot.SnapshotImpl;
 import io.github.selcukes.reports.notification.Notifier;
 import io.github.selcukes.reports.notification.NotifierFactory;
 import io.github.selcukes.reports.video.Recorder;

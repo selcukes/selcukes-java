@@ -15,7 +15,7 @@
  *
  */
 
-package io.github.selcukes.reports.image;
+package io.github.selcukes.reports.screenshot;
 
 public interface Snapshot {
     String shootPage();

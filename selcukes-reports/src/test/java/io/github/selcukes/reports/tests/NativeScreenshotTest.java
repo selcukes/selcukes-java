@@ -17,33 +17,39 @@
 
 package io.github.selcukes.reports.tests;
 
-import io.github.selcukes.reports.image.Snapshot;
-import io.github.selcukes.reports.image.SnapshotImpl;
+import io.github.selcukes.commons.logging.Logger;
+import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.reports.screenshot.Snapshot;
+import io.github.selcukes.reports.screenshot.SnapshotImpl;
 import io.github.selcukes.wdb.WebDriverBinary;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.Test;
 
 public class NativeScreenshotTest {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Test
+   // @Test
     public void nativeScreenshotTestForFirefox() {
         WebDriverBinary.firefoxDriver().setup();
         WebDriver driver = new FirefoxDriver();
         driver.get("https://techyworks.blogspot.com/");
         Snapshot snapshot = new SnapshotImpl(driver);
-        System.out.println(snapshot.shootFullPage());
+        logger.info(() -> "Firefox full page screenshot captured : " + snapshot.shootFullPage());
         driver.quit();
     }
 
     @Test
     public void nativeScreenshotTestForChrome() {
         WebDriverBinary.chromeDriver().setup();
-        WebDriver driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.setHeadless(true);
+        WebDriver driver = new ChromeDriver(options);
         driver.get("https://techyworks.blogspot.com/");
         Snapshot snapshot = new SnapshotImpl(driver);
-        System.out.println(snapshot.shootFullPage());
+        logger.info(() -> "Chrome full page screenshot captured : " + snapshot.shootFullPage());
         driver.quit();
     }
 }
