@@ -41,7 +41,7 @@ public class RecorderTest {
     private WebDriver driver;
     private ScreenPlay screenPlay;
 
-    @BeforeTest
+    //@BeforeTest
     public void beforeTest() {
         WebDriverBinary.chromeDriver().setup();
         driver = new ChromeDriver();
@@ -55,7 +55,7 @@ public class RecorderTest {
         }
     }
 
-    @Test
+    //@Test
     public void loginTest() {
         driver.get("http://www.princexml.com/samples/");
         logger.debug(driver::getTitle);
@@ -64,7 +64,7 @@ public class RecorderTest {
         Assert.assertTrue(driver.getCurrentUrl().contains(".pdf"));
     }
 
-    @AfterMethod
+    //@AfterMethod
     public void afterMethod(ITestResult result) {
         if (Platform.isWindows()) {
             screenPlay
@@ -76,7 +76,7 @@ public class RecorderTest {
         }
     }
 
-    @AfterTest
+    //@AfterTest
     public void afterTest() {
 
         driver.quit();
