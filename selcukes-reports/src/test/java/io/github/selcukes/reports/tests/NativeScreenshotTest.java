@@ -47,7 +47,7 @@ public class NativeScreenshotTest {
     public void nativeScreenshotTestForChrome() {
         WebDriverBinary.chromeDriver().setup();
         ChromeOptions options = new ChromeOptions();
-        options.setHeadless(true);
+        options.addArguments("--headless");
         WebDriver driver = new ChromeDriver(options);
         logger.info(() -> "Initiated Chrome browser");
         driver.get(url);
