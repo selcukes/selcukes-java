@@ -10,9 +10,13 @@ install: true
 
 addons:
   chrome: stable
+  firefox: latest
   sonarcloud:
     organization: "selcukes"
     token: $SONAR_TOKEN
+
+before_script:
+    - export DISPLAY=:99.0
 
 jobs:
   include:
