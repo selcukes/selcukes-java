@@ -45,8 +45,9 @@ public class RecorderTest {
     public void beforeTest() {
         WebDriverBinary.chromeDriver().setup();
         driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        
         if (Platform.isWindows()) {
+            driver.manage().window().maximize();
             screenPlay = ScreenPlayBuilder
                 .getScreenPlay(driver)
                 .withRecorder(RecorderType.FFMPEG)
