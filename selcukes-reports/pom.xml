@@ -7,20 +7,16 @@
         <groupId>io.github.selcukes</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
     <artifactId>selcukes-reports</artifactId>
-<name>selcukes-reports</name>
+    <name>selcukes-reports</name>
     <description>Selcukes Reports</description>
+
     <dependencies>
         <dependency>
             <groupId>io.github.selcukes</groupId>
-            <artifactId>selcukes-commons</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.selcukes</groupId>
-            <artifactId>chrome-devtools</artifactId>
-            <version>1.0.0</version>
+            <artifactId>selcukes-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
@@ -65,12 +61,6 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.github.selcukes</groupId>
-            <artifactId>webdriver-binaries</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 

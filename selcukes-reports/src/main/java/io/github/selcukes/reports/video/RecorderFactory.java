@@ -18,6 +18,7 @@
 
 package io.github.selcukes.reports.video;
 
+import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.reports.enums.RecorderType;
 import lombok.experimental.UtilityClass;
 
@@ -25,5 +26,12 @@ import lombok.experimental.UtilityClass;
 public class RecorderFactory {
     public synchronized Recorder getRecorder(RecorderType recorderType) {
         return recorderType.equals(RecorderType.FFMPEG) ? new FFmpegRecorder() : new MonteRecorder();
+    }
+
+    public synchronized Recorder getRecorder() {
+        return ConfigFactory.getConfig()
+            .getRecorderType()
+            .equalsIgnoreCase("FFMPEG") ?
+            new FFmpegRecorder() : new MonteRecorder();
     }
 }

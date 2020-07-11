@@ -12,6 +12,7 @@
     <artifactId>selcukes-core</artifactId>
     <name>selcukes-core</name>
     <description>Selenium core</description>
+
     <dependencies>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
@@ -21,8 +22,6 @@
         <dependency>
             <groupId>io.github.selcukes</groupId>
             <artifactId>webdriver-binaries</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

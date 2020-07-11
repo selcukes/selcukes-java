@@ -8,6 +8,7 @@
 # Build directories
 target/
 tmp/
+temp/
 test-output/
 video-report/
 

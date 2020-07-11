@@ -17,7 +17,6 @@
         <dependency>
             <groupId>io.github.selcukes</groupId>
             <artifactId>selcukes-commons</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

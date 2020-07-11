@@ -1,7 +1,7 @@
 package io.github.selcukes.grid;
 
 import io.github.selcukes.reports.video.Recorder;
-import io.github.selcukes.reports.video.VideoRecorder;
+import io.github.selcukes.reports.video.RecorderFactory;
 import org.openqa.grid.common.RegistrationRequest;
 import org.openqa.grid.internal.GridRegistry;
 import org.openqa.grid.internal.TestSession;
@@ -20,7 +20,6 @@ public class GhostProxy extends DefaultRemoteProxy implements TestSessionListene
     private static Recorder recorder;
     private static String RECORD_VIDEO = "recordVideo";
     private static Boolean record;
-    private static String folderNamebySession;
 
     @Override
     public void beforeCommand(TestSession session, HttpServletRequest request,
@@ -39,7 +38,7 @@ public class GhostProxy extends DefaultRemoteProxy implements TestSessionListene
     public void beforeSession(TestSession session) {
         record = (Boolean) session.getRequestedCapabilities().get(RECORD_VIDEO);
         if (record) {
-            recorder = VideoRecorder.monteRecorder();
+            recorder = RecorderFactory.getRecorder();
             recorder.start();
             System.out.println("Video Recording value is.." + record);
         }

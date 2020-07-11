@@ -33,6 +33,7 @@ public class Environment {
     private String baseUrl;
     private String remoteGridUrl;
     private Boolean videoRecording;
+    private String recorderType;
     private Boolean notification;
     private Map<String, String> notifier;
 }

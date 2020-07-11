@@ -21,15 +21,26 @@ import io.github.selcukes.reports.image.Snapshot;
 import io.github.selcukes.reports.image.SnapshotImpl;
 import io.github.selcukes.wdb.WebDriverBinary;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.Test;
 
 public class NativeScreenshotTest {
 
     @Test
-    public void nativeScreenshotTest() {
+    public void nativeScreenshotTestForFirefox() {
         WebDriverBinary.firefoxDriver().setup();
         WebDriver driver = new FirefoxDriver();
+        driver.get("https://techyworks.blogspot.com/");
+        Snapshot snapshot = new SnapshotImpl(driver);
+        System.out.println(snapshot.shootFullPage());
+        driver.quit();
+    }
+
+    @Test
+    public void nativeScreenshotTestForChrome() {
+        WebDriverBinary.chromeDriver().setup();
+        WebDriver driver = new ChromeDriver();
         driver.get("https://techyworks.blogspot.com/");
         Snapshot snapshot = new SnapshotImpl(driver);
         System.out.println(snapshot.shootFullPage());

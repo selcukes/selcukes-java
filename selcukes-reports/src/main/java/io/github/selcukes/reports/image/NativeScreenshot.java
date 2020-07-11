@@ -17,14 +17,12 @@
 
 package io.github.selcukes.reports.image;
 
+import com.google.common.collect.ImmutableMap;
 import io.github.selcukes.commons.Await;
 import io.github.selcukes.commons.exception.SnapshotException;
 import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.helper.ImageUtil;
-import io.github.selcukes.devtools.DevToolsService;
-import io.github.selcukes.devtools.core.Screenshot;
-import io.github.selcukes.devtools.services.ChromeDevToolsService;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -45,6 +43,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 abstract class NativeScreenshot {
@@ -155,15 +154,46 @@ abstract class NativeScreenshot {
 
     private BufferedImage getBufferedImage() throws IOException {
         if (driver instanceof ChromeDriver)
-            return ImageUtil.toBufferedImage(Screenshot.captureFullPageAsBytes(getDevTools()));
+            return nativeScreenshotForCH();
         else if (driver instanceof FirefoxDriver)
             return nativeScreenshotForFF();
         else
             return defaultFullPageScreenshot();
     }
 
-    private ChromeDevToolsService getDevTools() {
-        return DevToolsService.getDevToolsService(driver);
+    protected BufferedImage nativeScreenshotForCH() {
+        defineCustomCommand("sendCommand", new CommandInfo("/session/:sessionId/chromium/send_command_and_get_result", HttpMethod.POST));
+        Object metrics = sendEvaluate(
+            "({" +
+                "width: Math.max(window.innerWidth,document.body.scrollWidth,document.documentElement.scrollWidth)|0," +
+                "height: Math.max(window.innerHeight,document.body.scrollHeight,document.documentElement.scrollHeight)|0," +
+                "deviceScaleFactor: window.devicePixelRatio || 1," +
+                "mobile: typeof window.orientation !== 'undefined'" +
+                "})");
+        sendCommand("Emulation.setDeviceMetricsOverride", metrics);
+        Await.until(TimeUnit.MILLISECONDS, 500);
+        Object result = sendCommand("Page.captureScreenshot", ImmutableMap.of("format", "png", "fromSurface", true));
+        sendCommand("Emulation.clearDeviceMetricsOverride", ImmutableMap.of());
+        String base64EncodedPng = (String) ((Map<String, ?>) result).get("data");
+        return ImageUtil.toBufferedImage(OutputType.BYTES.convertFromBase64Png(base64EncodedPng));
+    }
+
+    private Object sendCommand(String cmd, Object params) {
+        try {
+            Method execute = RemoteWebDriver.class.getDeclaredMethod("execute", String.class, Map.class);
+            execute.setAccessible(true);
+            Response res = (Response) execute.invoke(driver, "sendCommand", ImmutableMap.of("cmd", cmd, "params", params));
+            return res.getValue();
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    protected Object sendEvaluate(String script) {
+        Object response = sendCommand("Runtime.evaluate", ImmutableMap.of("returnByValue", true, "expression", script));
+        Object result = ((Map<String, ?>) response).get("result");
+        return ((Map<String, ?>) result).get("value");
     }
 
     protected Object executeJS(String script, Object... args) {
@@ -171,7 +201,7 @@ abstract class NativeScreenshot {
     }
 
     protected Path getScreenshotPath() {
-        File reportDirectory = new File("screenshots");
+        File reportDirectory = new File("target/screenshots");
         FileHelper.createDirectory(reportDirectory);
         String filePath = reportDirectory + File.separator + "screenshot_" + DateHelper.get().dateTime() + ".png";
         return Paths.get(filePath);
