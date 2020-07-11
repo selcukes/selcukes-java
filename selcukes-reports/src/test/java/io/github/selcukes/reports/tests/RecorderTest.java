@@ -60,9 +60,9 @@ public class RecorderTest {
     public void loginTest() {
         driver.get("http://www.princexml.com/samples/");
         logger.debug(driver::getTitle);
-        Assert.assertTrue(driver.findElement(By.xpath("//a[contains(@href,'dictionary.pdf')]")).isDisplayed());
+        /*Assert.assertTrue(driver.findElement(By.xpath("//a[contains(@href,'dictionary.pdf')]")).isDisplayed());
         driver.findElement(By.xpath("//a[contains(@href,'dictionary.pdf')]")).click();
-        Assert.assertTrue(driver.getCurrentUrl().contains(".pdf"));
+        Assert.assertTrue(driver.getCurrentUrl().contains(".pdf"));*/
     }
 
     @AfterMethod
