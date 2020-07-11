@@ -16,6 +16,7 @@
 
 package io.github.selcukes.core.logging;
 
+import io.github.selcukes.core.commons.SelcukesBanner;
 import io.github.selcukes.core.config.ConfigFactory;
 
 import java.util.Set;
@@ -55,6 +56,7 @@ public final class LoggerFactory {
         }
         initialized = true;
         ConfigFactory.loadLoggerProperties();
+        SelcukesBanner.printBanner();
     }
 
     private static final class DelegatingLogger implements Logger {
