@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>selcukes-core</artifactId>
-
+    <name>selcukes-core</name>
+    <description>Selenium core</description>
 
 </project>
