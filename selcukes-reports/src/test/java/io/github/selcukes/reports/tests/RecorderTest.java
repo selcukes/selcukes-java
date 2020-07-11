@@ -18,10 +18,9 @@
 
 package io.github.selcukes.reports.tests;
 
-import io.github.selcukes.commons.os.Platform;
-import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.screen.ScreenPlay;
 import io.github.selcukes.reports.screen.ScreenPlayBuilder;
@@ -45,8 +44,8 @@ public class RecorderTest {
     public void beforeTest() {
         WebDriverBinary.chromeDriver().setup();
         driver = new ChromeDriver();
-        driver.manage().window().maximize();
         if (Platform.isWindows()) {
+            driver.manage().window().maximize();
             screenPlay = ScreenPlayBuilder
                 .getScreenPlay(driver)
                 .withRecorder(RecorderType.FFMPEG)
@@ -70,8 +69,8 @@ public class RecorderTest {
                 .withResult(result)
                 .ignoreCondition()
                 .attachScreenshot();
-                // .withNotifier(NotifierType.SLACK)
-                //.sendNotification("This is sample Test Step"); //Using default Notifier TEAMS
+            // .withNotifier(NotifierType.SLACK)
+            //.sendNotification("This is sample Test Step"); //Using default Notifier TEAMS
         }
     }
 
