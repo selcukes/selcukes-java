@@ -155,8 +155,13 @@ abstract class NativeSnapshot {
     protected byte[] fullPageNativeScreenshotAsBytes() {
         BufferedImage screenshotImage = getBufferedImage();
         BufferedImage textImage = ImageUtil.generateImageWithLogo(getScreenshotText(), screenshotImage);
-        BufferedImage addressBarImage = ImageUtil.generateImageWithAddressBar(captureAddressBar(textImage.getWidth()), textImage);
-        return (isAddressBar && !Platform.isLinux()) ? ImageUtil.toByteArray(addressBarImage) : ImageUtil.toByteArray(textImage);
+        if (isAddressBar & !Platform.isLinux()) {
+            BufferedImage addressBarImage = ImageUtil.generateImageWithAddressBar(captureAddressBar(textImage.getWidth()), textImage);
+            return ImageUtil.toByteArray(addressBarImage);
+        } else {
+            return ImageUtil.toByteArray(textImage);
+        }
+
     }
 
     private BufferedImage getBufferedImage() {
