@@ -45,12 +45,13 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-abstract class NativeScreenshot {
+abstract class NativeSnapshot {
+    private final static String PNG = "png";
     private final WebDriver driver;
     protected boolean isAddressBar = false;
     protected String screenshotText;
 
-    public NativeScreenshot(WebDriver driver) {
+    public NativeSnapshot(WebDriver driver) {
         this.driver = driver;
     }
 
@@ -144,10 +145,10 @@ abstract class NativeScreenshot {
     }
 
     private String getScreenshotText() {
-        String pageUrl="Current Page Url: " + getCurrentUrl();
+        String pageUrl = "Current Page Url: " + getCurrentUrl();
         if (screenshotText == null)
             return pageUrl;
-        return pageUrl+"\n"+screenshotText;
+        return pageUrl + "\n" + screenshotText;
     }
 
     protected byte[] fullPageNativeScreenshotAsBytes() {
@@ -177,7 +178,7 @@ abstract class NativeScreenshot {
                 "})");
         sendCommand("Emulation.setDeviceMetricsOverride", metrics);
         Await.until(TimeUnit.MILLISECONDS, 500);
-        Object result = sendCommand("Page.captureScreenshot", ImmutableMap.of("format", "png", "fromSurface", true));
+        Object result = sendCommand("Page.captureScreenshot", ImmutableMap.of("format", PNG, "fromSurface", true));
         sendCommand("Emulation.clearDeviceMetricsOverride", ImmutableMap.of());
         String base64EncodedPng = (String) ((Map<String, ?>) result).get("data");
         return ImageUtil.toBufferedImage(OutputType.BYTES.convertFromBase64Png(base64EncodedPng));
@@ -195,16 +196,13 @@ abstract class NativeScreenshot {
     }
 
     public BufferedImage captureAddressBar(int width) {
-
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Rectangle screenRectangle = new Rectangle(0, 0, width, 70);
-        Robot robot = null;
         try {
-            robot = new Robot();
+            Robot robot = new Robot();
+            return robot.createScreenCapture(screenRectangle);
         } catch (AWTException e) {
-            e.printStackTrace();
+            throw new SnapshotException("Failed capturing Address bar..");
         }
-        return robot.createScreenCapture(screenRectangle);
     }
 
     protected Object sendEvaluate(String script) {
@@ -220,7 +218,7 @@ abstract class NativeScreenshot {
     protected Path getScreenshotPath() {
         File reportDirectory = new File("target/screenshots");
         FileHelper.createDirectory(reportDirectory);
-        String filePath = reportDirectory + File.separator + "screenshot_" + DateHelper.get().dateTime() + ".png";
+        String filePath = reportDirectory + File.separator + "screenshot_" + DateHelper.get().dateTime() + "." + PNG;
         return Paths.get(filePath);
     }
 }

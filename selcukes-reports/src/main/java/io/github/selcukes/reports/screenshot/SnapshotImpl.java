@@ -29,7 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
-public class SnapshotImpl extends NativeScreenshot implements Snapshot {
+public class SnapshotImpl extends NativeSnapshot implements Snapshot {
     private final Logger logger = LoggerFactory.getLogger(SnapshotImpl.class);
     private final WebDriver driver;
 

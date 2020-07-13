@@ -20,6 +20,7 @@ package io.github.selcukes.reports.tests;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.reports.screenshot.Snapshot;
+import io.github.selcukes.reports.screenshot.ScreenGrabber;
 import io.github.selcukes.reports.screenshot.SnapshotImpl;
 import io.github.selcukes.wdb.WebDriverBinary;
 import org.openqa.selenium.WebDriver;
@@ -28,7 +29,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.Test;
 
-public class NativeScreenshotTest {
+public class NativeSnapshotTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final String url = "https://techyworks.blogspot.com/";
 
@@ -68,11 +69,14 @@ public class NativeScreenshotTest {
         driver.get(url);
         logger.info(() -> "Navigated to " + url);
         long startTime = System.currentTimeMillis();
-        Snapshot snapshot = new SnapshotImpl(driver);
-        String screenshotFilePath = snapshot.withText("This sample Text Message").shootFullPage();
+        String screenshotFilePath = ScreenGrabber
+            .shoot(driver)
+            .withText("This sample Text Message")
+            .fullPage()
+            .save();
         long endTime = System.currentTimeMillis();
         long duration = (endTime - startTime) / 1000;
-        logger.info(() -> "Time Taken to capture screenshot: " + duration);
+        logger.info(() -> "Time Taken to capture screenshot: " + duration+"ms");
         logger.info(() -> "Chrome full page screenshot captured : " + screenshotFilePath);
         driver.quit();
     }
