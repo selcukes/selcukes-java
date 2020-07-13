@@ -23,6 +23,7 @@ import io.github.selcukes.commons.exception.SnapshotException;
 import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.helper.ImageUtil;
+import io.github.selcukes.commons.os.Platform;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -155,7 +156,7 @@ abstract class NativeSnapshot {
         BufferedImage screenshotImage = getBufferedImage();
         BufferedImage textImage = ImageUtil.generateImageWithLogo(getScreenshotText(), screenshotImage);
         BufferedImage addressBarImage = ImageUtil.generateImageWithAddressBar(captureAddressBar(textImage.getWidth()), textImage);
-        return (isAddressBar) ? ImageUtil.toByteArray(addressBarImage) : ImageUtil.toByteArray(textImage);
+        return (isAddressBar && !Platform.isLinux()) ? ImageUtil.toByteArray(addressBarImage) : ImageUtil.toByteArray(textImage);
     }
 
     private BufferedImage getBufferedImage() {
