@@ -201,7 +201,7 @@ abstract class NativeSnapshot {
             Robot robot = new Robot();
             return robot.createScreenCapture(screenRectangle);
         } catch (AWTException e) {
-            throw new SnapshotException("Failed capturing Address bar..");
+            throw new SnapshotException("Failed capturing Browser address bar...", e);
         }
     }
 
