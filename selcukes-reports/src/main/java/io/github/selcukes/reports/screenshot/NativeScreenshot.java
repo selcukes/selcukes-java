@@ -38,7 +38,6 @@ import org.openqa.selenium.remote.http.HttpMethod;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
@@ -48,6 +47,8 @@ import java.util.concurrent.TimeUnit;
 
 abstract class NativeScreenshot {
     private final WebDriver driver;
+    protected boolean isAddressBar = false;
+    protected String screenshotText;
 
     public NativeScreenshot(WebDriver driver) {
         this.driver = driver;
@@ -142,17 +143,21 @@ abstract class NativeScreenshot {
         }
     }
 
-    protected byte[] fullPageNativeScreenshotAsBytes() {
-        try {
-            BufferedImage screenshotImage = getBufferedImage();
-            BufferedImage textImage = ImageUtil.generateImageWithLogo("URL: " + getCurrentUrl(), screenshotImage);
-            return ImageUtil.toByteArray(textImage);
-        } catch (IOException e) {
-            throw new SnapshotException(e);
-        }
+    private String getScreenshotText() {
+        String pageUrl="Current Page Url: " + getCurrentUrl();
+        if (screenshotText == null)
+            return pageUrl;
+        return pageUrl+"\n"+screenshotText;
     }
 
-    private BufferedImage getBufferedImage() throws IOException {
+    protected byte[] fullPageNativeScreenshotAsBytes() {
+        BufferedImage screenshotImage = getBufferedImage();
+        BufferedImage textImage = ImageUtil.generateImageWithLogo(getScreenshotText(), screenshotImage);
+        BufferedImage addressBarImage = ImageUtil.generateImageWithAddressBar(captureAddressBar(textImage.getWidth()), textImage);
+        return (isAddressBar) ? ImageUtil.toByteArray(addressBarImage) : ImageUtil.toByteArray(textImage);
+    }
+
+    private BufferedImage getBufferedImage() {
         if (driver instanceof ChromeDriver)
             return nativeScreenshotForCH();
         else if (driver instanceof FirefoxDriver)
@@ -189,6 +194,18 @@ abstract class NativeScreenshot {
         }
     }
 
+    public BufferedImage captureAddressBar(int width) {
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Rectangle screenRectangle = new Rectangle(0, 0, width, 70);
+        Robot robot = null;
+        try {
+            robot = new Robot();
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+        return robot.createScreenCapture(screenRectangle);
+    }
 
     protected Object sendEvaluate(String script) {
         Object response = sendCommand("Runtime.evaluate", ImmutableMap.of("returnByValue", true, "expression", script));

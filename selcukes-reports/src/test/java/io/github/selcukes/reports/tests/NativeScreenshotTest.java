@@ -30,14 +30,15 @@ import org.testng.annotations.Test;
 
 public class NativeScreenshotTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final String url="https://techyworks.blogspot.com/";
+    private final String url = "https://techyworks.blogspot.com/";
+
     // @Test
     public void nativeScreenshotTestForFirefox() {
         WebDriverBinary.firefoxDriver().setup();
         WebDriver driver = new FirefoxDriver();
         logger.info(() -> "Initiated Firefox browser");
         driver.get(url);
-        logger.info(() -> "Navigated to "+url);
+        logger.info(() -> "Navigated to " + url);
         Snapshot snapshot = new SnapshotImpl(driver);
         logger.info(() -> "Firefox full page screenshot captured : " + snapshot.shootFullPage());
         driver.quit();
@@ -51,9 +52,28 @@ public class NativeScreenshotTest {
         WebDriver driver = new ChromeDriver(options);
         logger.info(() -> "Initiated Chrome browser");
         driver.get(url);
-        logger.info(() -> "Navigated to "+url);
+        logger.info(() -> "Navigated to " + url);
         Snapshot snapshot = new SnapshotImpl(driver);
-        logger.info(() -> "Chrome full page screenshot captured : " + snapshot.shootFullPage());
+        logger.info(() -> "Chrome full page screenshot captured : " + snapshot.withAddressBar().shootFullPage());
+        driver.quit();
+    }
+
+    @Test
+    public void nativeScreenshotTestForChromeWithText() {
+        WebDriverBinary.chromeDriver().setup();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        WebDriver driver = new ChromeDriver(options);
+        logger.info(() -> "Initiated Chrome browser");
+        driver.get(url);
+        logger.info(() -> "Navigated to " + url);
+        long startTime = System.currentTimeMillis();
+        Snapshot snapshot = new SnapshotImpl(driver);
+        String screenshotFilePath = snapshot.withText("This sample Text Message").shootFullPage();
+        long endTime = System.currentTimeMillis();
+        long duration = (endTime - startTime) / 1000;
+        logger.info(() -> "Time Taken to capture screenshot: " + duration);
+        logger.info(() -> "Chrome full page screenshot captured : " + screenshotFilePath);
         driver.quit();
     }
 }

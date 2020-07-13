@@ -69,4 +69,21 @@ public class SnapshotImpl extends NativeScreenshot implements Snapshot {
     public byte[] shootFullPageAsBytes() {
         return fullPageNativeScreenshotAsBytes();
     }
+
+    @Override
+    public Snapshot withAddressBar() {
+        isAddressBar = true;
+        return this;
+    }
+
+    @Override
+    public Snapshot withText(String text) {
+        screenshotText = text;
+        return this;
+    }
+
+    @Override
+    public String save() {
+        return null;
+    }
 }

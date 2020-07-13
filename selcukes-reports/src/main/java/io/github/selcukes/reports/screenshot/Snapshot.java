@@ -25,4 +25,10 @@ public interface Snapshot {
     String shootFullPage();
 
     byte[] shootFullPageAsBytes();
+
+    Snapshot withAddressBar();
+
+    Snapshot withText(String text);
+
+    String save();
 }
