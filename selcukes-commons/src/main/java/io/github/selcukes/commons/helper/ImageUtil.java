@@ -86,6 +86,22 @@ public class ImageUtil {
         return stitchImages(image, logoAndTextImage, false);
     }
 
+    public BufferedImage generateImageWithAddressBar(BufferedImage image1, BufferedImage image2) {
+        BufferedImage aImage = generateAddressBarImageWithLogo(image1);
+        return stitchImages(aImage, image2, false);
+    }
+
+    private BufferedImage generateAddressBarImageWithLogo(BufferedImage image1) {
+        int width=image1.getWidth();
+        BufferedImage image = new BufferedImage(width, 70, BufferedImage.TYPE_INT_RGB);
+        Graphics graphics = image.getGraphics();
+       // graphics.setColor(new Color(220, 218, 218));
+        graphics.fillRect(0, 0, width, 70);
+        graphics.setColor(Color.RED);
+       // graphics.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
+        return stitchImages(image, image1, true);
+    }
+
     private BufferedImage generateImageWithLogoAndText(String text, int screenshotWidth) {
         BufferedImage textImage = generateImageWithText(text, screenshotWidth, 200);
         BufferedImage logo = toBufferedImage(FileHelper.loadResourceAsStream("selcukes_logo.png"));
