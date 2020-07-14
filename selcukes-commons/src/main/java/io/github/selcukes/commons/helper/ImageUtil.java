@@ -87,19 +87,13 @@ public class ImageUtil {
     }
 
     public BufferedImage generateImageWithAddressBar(BufferedImage image1, BufferedImage image2) {
-        BufferedImage aImage = generateAddressBarImageWithLogo(image1);
-        return stitchImages(aImage, image2, false);
+        BufferedImage addressBarImage = generateAddressBarImageWithLogo(image1);
+        return stitchImages(addressBarImage, image2, false);
     }
 
-    private BufferedImage generateAddressBarImageWithLogo(BufferedImage image1) {
-        int width=image1.getWidth();
-        BufferedImage image = new BufferedImage(width, 70, BufferedImage.TYPE_INT_RGB);
-        Graphics graphics = image.getGraphics();
-       // graphics.setColor(new Color(220, 218, 218));
-        graphics.fillRect(0, 0, width, 70);
-        graphics.setColor(Color.RED);
-       // graphics.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
-        return stitchImages(image, image1, true);
+    private BufferedImage generateAddressBarImageWithLogo(BufferedImage addressBarImage) {
+        BufferedImage textImage = generateImageWithText("selcukes", addressBarImage.getWidth(), 70);
+        return stitchImages(textImage, addressBarImage, true);
     }
 
     private BufferedImage generateImageWithLogoAndText(String text, int screenshotWidth) {
