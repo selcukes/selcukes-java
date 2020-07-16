@@ -1,37 +1,35 @@
+
 /*
+ * Copyright (c) Ramesh Babu Prudhvi.
  *
- *  * Copyright (c) Ramesh Babu Prudhvi.
- *  *
- *  * Licensed under the Apache License, Version 2.0 (the "License");
- *  * you may not use this file except in compliance with the License.
- *  * You may obtain a copy of the License at
- *  *
- *  *        http://www.apache.org/licenses/LICENSE-2.0
- *  *
- *  * Unless required by applicable law or agreed to in writing, software
- *  * distributed under the License is distributed on an "AS IS" BASIS,
- *  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  * See the License for the specific language governing permissions and
- *  * limitations under the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
 package io.github.selcukes.wdb.util;
 
+import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.commons.exec.ExecResults;
 import io.github.selcukes.commons.exec.Shell;
-import io.github.selcukes.commons.os.Platform;
-import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.commons.http.WebClient;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.commons.os.Platform;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.jsoup.Jsoup.parse;
 
@@ -51,7 +49,7 @@ public class VersionDetector {
         Optional<String> regQuery = Optional.empty();
 
         if (Platform.isWindows()) {
-            regQuery = Optional.ofNullable(getRegQuery());
+            regQuery = Optional.ofNullable(getQuery(false));
         } else if (Platform.isLinux()) {
 
             Shell shell = new Shell();
@@ -65,36 +63,33 @@ public class VersionDetector {
         return regQuery.map(this::getBrowserVersionFromRegistry).orElse(null);
     }
 
-    private String getRegQuery() {
-        String regQuery = "reg query \"%s\" /v version";
-        String chKey = "HKEY_CURRENT_USER\\Software\\Google\\Chrome\\BLBeacon";
-        String ffKey = "HKLM\\Software\\Mozilla\\Mozilla Firefox";
-        String ieKey = "HKLM\\Software\\Microsoft\\Internet Explorer";
-        String key = null;
+    private String getQuery(boolean fromReg) {
+
         if (driverName.contains("chrome"))
-            key = chKey;
+            return (fromReg) ? getRegQuery("chKey") : getWMICQuery("chKey");
         else if (driverName.contains("gecko"))
-            key = ffKey;
+            return (fromReg) ? getRegQuery("ffKey") : getWMICQuery("ffKey");
         else if (driverName.contains("IE"))
-            key = ieKey;
+            return (fromReg) ? getRegQuery("ieKey") : getWMICQuery("ieKey");
         else return null;
-        return String.format(regQuery, key);
     }
 
-    private String getWMICQuery() {
+    private String getRegQuery(String key) {
+        String regQuery = "reg query \"%s\" /v version";
+        Map<String, String> keyMap = new HashMap<>();
+        keyMap.put("chKey", "HKEY_CURRENT_USER\\Software\\Google\\Chrome\\BLBeacon");
+        keyMap.put("ffKey", "HKLM\\Software\\Mozilla\\Mozilla Firefox");
+        keyMap.put("ieKey", "HKLM\\Software\\Microsoft\\Internet Explorer");
+        return String.format(regQuery, keyMap.get(key));
+    }
+
+    private String getWMICQuery(String key) {
         String wmicQuery = "wmic datafile where name='%s' get version";
-        String ffKey = "C:\\\\program files (x86)\\\\Mozilla Firefox\\\\firefox.exe";
-        String chKey = "C:\\\\Program Files (x86)\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe";
-        String ieKey = "C:\\\\Program Files\\\\Internet Explorer\\\\iexplore.exe";
-        String key = null;
-        if (driverName.contains("chrome"))
-            key = chKey;
-        else if (driverName.contains("gecko"))
-            key = ffKey;
-        else if (driverName.contains("IE"))
-            key = ieKey;
-        else return null;
-        return String.format(wmicQuery, key);
+        Map<String, String> keyMap = new HashMap<>();
+        keyMap.put("ffKey ", "C:\\\\program files (x86)\\\\Mozilla Firefox\\\\firefox.exe");
+        keyMap.put("chKey ", "C:\\\\Program Files (x86)\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe");
+        keyMap.put("ieKey ", "C:\\\\Program Files\\\\Internet Explorer\\\\iexplore.exe");
+        return String.format(wmicQuery, keyMap.get(key));
     }
 
     private String getBrowserVersionFromRegistry(String regQuery) {
