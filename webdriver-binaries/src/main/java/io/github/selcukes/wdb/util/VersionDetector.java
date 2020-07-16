@@ -64,7 +64,6 @@ public class VersionDetector {
     }
 
     private String getQuery(boolean fromReg) {
-
         if (driverName.contains("chrome"))
             return (fromReg) ? getRegQuery("chKey") : getWMICQuery("chKey");
         else if (driverName.contains("gecko"))
@@ -86,9 +85,9 @@ public class VersionDetector {
     private String getWMICQuery(String key) {
         String wmicQuery = "wmic datafile where name='%s' get version";
         Map<String, String> keyMap = new HashMap<>();
-        keyMap.put("ffKey ", "C:\\\\program files (x86)\\\\Mozilla Firefox\\\\firefox.exe");
-        keyMap.put("chKey ", "C:\\\\Program Files (x86)\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe");
-        keyMap.put("ieKey ", "C:\\\\Program Files\\\\Internet Explorer\\\\iexplore.exe");
+        keyMap.put("ffKey", "C:\\\\program files (x86)\\\\Mozilla Firefox\\\\firefox.exe");
+        keyMap.put("chKey", "C:\\\\Program Files (x86)\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe");
+        keyMap.put("ieKey", "C:\\\\Program Files\\\\Internet Explorer\\\\iexplore.exe");
         return String.format(wmicQuery, keyMap.get(key));
     }
 
@@ -135,9 +134,14 @@ public class VersionDetector {
             versions.add(browserVersion);
             versions.sort(new VersionComparator());
             int index = versions.indexOf(browserVersion);
-            String previousVersion = versions.get(index - 1);
-            String nextVersion = versions.get(index + 1);
-            compatibleVersion = nextVersion.startsWith(browserVersionPrefix) ? nextVersion : previousVersion;
+            if (index == versions.size() - 1) {
+                compatibleVersion = versions.get(index - 1);
+
+            } else {
+                String previousVersion = versions.get(index - 1);
+                String nextVersion = versions.get(index + 1);
+                compatibleVersion = nextVersion.startsWith(browserVersionPrefix) ? nextVersion : previousVersion;
+            }
         } else compatibleVersion = browserVersion;
 
         logger.info(() -> String.format("Using %s [%s] for Chrome Browser [%s] ", driverName, compatibleVersion, browserVersion));
