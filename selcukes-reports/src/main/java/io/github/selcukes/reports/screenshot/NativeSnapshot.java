@@ -47,7 +47,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 abstract class NativeSnapshot {
-    private final static String PNG = "png";
+    private static final String PNG = "png";
     private final WebDriver driver;
     protected boolean isAddressBar = false;
     protected String screenshotText;
@@ -155,7 +155,7 @@ abstract class NativeSnapshot {
     protected byte[] fullPageNativeScreenshotAsBytes() {
         BufferedImage screenshotImage = getBufferedImage();
         BufferedImage textImage = ImageUtil.generateImageWithLogo(getScreenshotText(), screenshotImage);
-        if (isAddressBar & !Platform.isLinux()) {
+        if (isAddressBar && !Platform.isLinux()) {
             BufferedImage addressBarImage = ImageUtil.generateImageWithAddressBar(captureAddressBar(textImage.getWidth()), textImage);
             return ImageUtil.toByteArray(addressBarImage);
         } else {
@@ -197,7 +197,7 @@ abstract class NativeSnapshot {
             Response res = (Response) execute.invoke(driver, "sendCommand", ImmutableMap.of("cmd", cmd, "params", params));
             return res.getValue();
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+            throw new SnapshotException(e);
         }
     }
 
