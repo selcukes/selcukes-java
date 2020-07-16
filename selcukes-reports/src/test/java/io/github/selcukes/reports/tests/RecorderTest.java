@@ -43,7 +43,7 @@ public class RecorderTest {
 
     @BeforeTest
     public void beforeTest() {
-        WebDriverBinary.chromeDriver().setup();
+        WebDriverBinary.chromeDriver().autoDetectVersion().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
