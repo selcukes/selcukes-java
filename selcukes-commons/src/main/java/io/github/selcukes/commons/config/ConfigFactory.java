@@ -29,6 +29,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.logging.LogManager;
 import java.util.stream.Collectors;
 
@@ -50,7 +51,7 @@ public class ConfigFactory {
         return environment;
     }
 
-    public static Environment loadConfig() {
+    private static Environment loadConfig() {
         try {
             ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
             File defaultConfigFile = FileHelper.loadResource(DEFAULT_CONFIG_FILE);
@@ -85,13 +86,13 @@ public class ConfigFactory {
         return null;
     }
 
-    public static LinkedHashMap<String, String> loadPropertiesMap() {
+    public static Map<String, String> loadPropertiesMap() {
         LinkedHashMap<String, String> propertiesMap;
         LinkedProperties properties = new LinkedProperties();
         try {
             properties.load(getStream());
         } catch (IOException e) {
-            throw new ConfigurationException("Could not parse properties file '" + "': " + e.getMessage());
+            throw new ConfigurationException("Could not parse properties file '" + CONFIG_FILE + "'", e);
         }
         propertiesMap = properties.entrySet().stream()
             .collect(Collectors.toMap(propertyEntry -> (String) propertyEntry.getKey(),

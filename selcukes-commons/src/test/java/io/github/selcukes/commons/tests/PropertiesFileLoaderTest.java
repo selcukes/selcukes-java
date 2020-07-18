@@ -20,14 +20,15 @@ import io.github.selcukes.commons.config.ConfigFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class PropertiesFileLoaderTest {
     @Test
     public void loadPropertiesMapTest() {
-        final LinkedHashMap<String, String> propertiesMap = ConfigFactory.loadPropertiesMap();
+
+        final Map<String, String> propertiesMap = ConfigFactory.loadPropertiesMap();
         Assert.assertEquals(propertiesMap.size(), 2);
-        Assert.assertEquals(propertiesMap.get("test.env"),"QA");
-        Assert.assertEquals(propertiesMap.get("test.browser"),"CHROME");
+        Assert.assertEquals(propertiesMap.get("test.env"), "QA");
+        Assert.assertEquals(propertiesMap.get("test.browser"), "CHROME");
     }
 }
