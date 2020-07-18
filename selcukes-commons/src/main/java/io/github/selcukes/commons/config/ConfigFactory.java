@@ -37,7 +37,6 @@ public class ConfigFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigFactory.class);
     private static final String DEFAULT_CONFIG_FILE = "selcukes.yaml";
     private static final String DEFAULT_LOG_BACK_FILE = "selcukes-logback.yaml";
-    private static final String CONFIG_FILE = "selcukes-test.properties";
     private static Environment environment;
 
     private ConfigFactory() {
@@ -71,13 +70,13 @@ public class ConfigFactory {
         }
     }
 
-    private static InputStream getStream() {
+    private static InputStream getStream(final String propertiesFile) {
         try {
-            LOGGER.config(() -> String.format("Attempting to read %s as resource.", CONFIG_FILE));
-            InputStream stream = FileHelper.loadThreadResourceAsStream(CONFIG_FILE);
+            LOGGER.config(() -> String.format("Attempting to read %s as resource.", propertiesFile));
+            InputStream stream = FileHelper.loadThreadResourceAsStream(propertiesFile);
             if (stream == null) {
-                LOGGER.config(() -> String.format("Re-attempting to read %s as a local file.", CONFIG_FILE));
-                return new FileInputStream(new File(CONFIG_FILE));
+                LOGGER.config(() -> String.format("Re-attempting to read %s as a local file.", propertiesFile));
+                return new FileInputStream(new File(propertiesFile));
             }
             return stream;
         } catch (Exception ignored) {
@@ -86,13 +85,13 @@ public class ConfigFactory {
         return null;
     }
 
-    public static Map<String, String> loadPropertiesMap() {
+    public static Map<String, String> loadPropertiesMap(final String propertiesFile) {
         LinkedHashMap<String, String> propertiesMap;
         LinkedProperties properties = new LinkedProperties();
         try {
-            properties.load(getStream());
+            properties.load(getStream(propertiesFile));
         } catch (IOException e) {
-            throw new ConfigurationException("Could not parse properties file '" + CONFIG_FILE + "'", e);
+            throw new ConfigurationException("Could not parse properties file '" + propertiesFile + "'", e);
         }
         propertiesMap = properties.entrySet().stream()
             .collect(Collectors.toMap(propertyEntry -> (String) propertyEntry.getKey(),
