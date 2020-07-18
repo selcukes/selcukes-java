@@ -22,18 +22,21 @@ import io.github.selcukes.commons.exception.ConfigurationException;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.commons.properties.LinkedProperties;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.LinkedHashMap;
 import java.util.logging.LogManager;
+import java.util.stream.Collectors;
 
 public class ConfigFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigFactory.class);
     private static final String DEFAULT_CONFIG_FILE = "selcukes.yaml";
     private static final String DEFAULT_LOG_BACK_FILE = "selcukes-logback.yaml";
-    private static final String CONFIG_FILE = "config.properties";
+    private static final String CONFIG_FILE = "selcukes-test.properties";
 
     private ConfigFactory() {
 
@@ -59,7 +62,7 @@ public class ConfigFactory {
         }
     }
 
-    public static InputStream getStream() {
+    private static InputStream getStream() {
         try {
             LOGGER.config(() -> String.format("Attempting to read %s as resource.", CONFIG_FILE));
             InputStream stream = FileHelper.loadThreadResourceAsStream(CONFIG_FILE);
@@ -71,5 +74,19 @@ public class ConfigFactory {
             //Gobble exception
         }
         return null;
+    }
+
+    public static LinkedHashMap<String, String> loadPropertiesMap() {
+        LinkedHashMap<String, String> propertiesMap;
+        LinkedProperties properties = new LinkedProperties();
+        try {
+            properties.load(getStream());
+        } catch (IOException e) {
+            throw new ConfigurationException("Could not parse properties file '" + "': " + e.getMessage());
+        }
+        propertiesMap = properties.entrySet().stream()
+            .collect(Collectors.toMap(propertyEntry -> (String) propertyEntry.getKey(),
+                propertyEntry -> (String) propertyEntry.getValue(), (a, b) -> b, LinkedHashMap::new));
+        return propertiesMap;
     }
 }
