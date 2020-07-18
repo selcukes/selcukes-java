@@ -41,7 +41,7 @@ public class GhostProxy extends DefaultRemoteProxy implements TestSessionListene
     public void beforeSession(TestSession session) {
         logger.info(() -> "Selenium Grid - Before Session");
         record = (Boolean) session.getRequestedCapabilities().get("recordVideo");
-        if (record) {
+        if (Boolean.TRUE.equals(record)) {
             recorder = RecorderFactory.getRecorder();
             recorder.start();
         }
@@ -50,7 +50,7 @@ public class GhostProxy extends DefaultRemoteProxy implements TestSessionListene
     @Override
     public void afterSession(TestSession session) {
         logger.info(() -> "Selenium Grid - After Session");
-        if (record)
+        if (Boolean.TRUE.equals(record))
             recorder.stopAndSave(session.getInternalKey());
 
     }
