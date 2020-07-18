@@ -89,8 +89,8 @@ public class WebDriverBinary {
             return this;
         }
 
-        public Builder disableAutoCheck() {
-            binaryFactory.browserVersion(false);
+        public Builder checkBrowserVersion() {
+            binaryFactory.browserVersion(true);
             return this;
         }
 

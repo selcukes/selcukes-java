@@ -29,12 +29,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-public final class BinaryDownloadUtil {
+public final class BinaryDownloader {
 
 
-    private static final Logger logger = LoggerFactory.getLogger(BinaryDownloadUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(BinaryDownloader.class);
 
-    private BinaryDownloadUtil() {
+    private BinaryDownloader() {
 
     }
 

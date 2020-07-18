@@ -74,7 +74,7 @@ public class WebDriverBinaryUtil {
             logger.info(() -> "Re-using an existing driver binary found at: " + getWebDriverBinary().getParent());
         } else {
 
-            BinaryDownloadUtil.downloadBinary(binaryFactory.getDownloadURL(), binaryFactory.getCompressedBinaryFile());
+            BinaryDownloader.downloadBinary(binaryFactory.getDownloadURL(), binaryFactory.getCompressedBinaryFile());
             logger.info(() -> String.format("%s successfully downloaded to: %s", binaryFactory.getBinaryDriverName(), getWebDriverBinary().getParent()));
 
             if (binaryFactory.getCompressedBinaryType().equals(DownloaderType.JAR)) {

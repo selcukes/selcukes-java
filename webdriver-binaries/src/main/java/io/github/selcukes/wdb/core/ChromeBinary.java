@@ -23,7 +23,7 @@ import io.github.selcukes.commons.os.OsType;
 import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.enums.DriverType;
-import io.github.selcukes.wdb.util.BinaryDownloadUtil;
+import io.github.selcukes.wdb.util.BinaryDownloader;
 import io.github.selcukes.wdb.util.UrlHelper;
 import io.github.selcukes.wdb.util.VersionDetector;
 
@@ -82,7 +82,7 @@ public class ChromeBinary extends AbstractBinary {
     @Override
     protected String getLatestRelease() {
         try {
-            return BinaryDownloadUtil.downloadAndReadFile(new URL(UrlHelper.CHROMEDRIVER_LATEST_RELEASE_URL));
+            return BinaryDownloader.downloadAndReadFile(new URL(UrlHelper.CHROMEDRIVER_LATEST_RELEASE_URL));
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);
         }
