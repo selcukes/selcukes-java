@@ -70,6 +70,7 @@ public class ConfigFactory {
                 LOGGER.config(() -> String.format("Re-attempting to read %s as a local file.", CONFIG_FILE));
                 return new FileInputStream(new File(CONFIG_FILE));
             }
+            return stream;
         } catch (Exception ignored) {
             //Gobble exception
         }
