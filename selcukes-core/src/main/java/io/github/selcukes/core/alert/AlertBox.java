@@ -16,7 +16,10 @@
 
 package io.github.selcukes.core.alert;
 
-public interface Alert extends org.openqa.selenium.Alert{
+import org.openqa.selenium.Alert;
+
+public interface AlertBox extends Alert {
     void prompt(String text);
+
     boolean present();
 }

@@ -21,18 +21,18 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WrapsElement;
 
 public class Element implements WrapsElement {
-    WebElement element;
+    WebElement webElement;
 
     public Element(WebElement element) {
-        this.element = element;
+        this.webElement = element;
     }
 
     public WebElement getWrappedElement() {
-        return getWrappedElement(element);
+        return getWrappedElement(webElement);
     }
 
-    public WebElement getElement() {
-        return element;
+    public WebElement getWebElement() {
+        return webElement;
     }
 
     public WebElement getWrappedElement(WebElement element) {
@@ -40,11 +40,11 @@ public class Element implements WrapsElement {
     }
 
     public String tagName() {
-        return element.getTagName();
+        return webElement.getTagName();
     }
 
     public Element click() {
-        element.click();
+        webElement.click();
         return this;
     }
 

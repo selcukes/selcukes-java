@@ -23,9 +23,9 @@ import java.util.List;
 
 public final class DriverFactory<D extends RemoteWebDriver> {
 
-    private static ThreadLocal<Object> DRIVER_THREAD = new ThreadLocal<>();
+    private static final ThreadLocal<Object> DRIVER_THREAD = new ThreadLocal<>();
 
-    private static List<Object> STORED_DRIVER = new ArrayList<>();
+    private static final List<Object> STORED_DRIVER = new ArrayList<>();
 
     static {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> STORED_DRIVER.forEach(d -> ((RemoteWebDriver) d).quit())));

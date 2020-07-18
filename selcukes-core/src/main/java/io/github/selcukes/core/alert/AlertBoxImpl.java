@@ -16,18 +16,21 @@
 
 package io.github.selcukes.core.alert;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 
-public class AlertImpl implements Alert{
+public class AlertBoxImpl implements AlertBox {
     private final org.openqa.selenium.Alert alert;
-    public AlertImpl(WebDriver driver) {
+
+    public AlertBoxImpl(WebDriver driver) {
         alert = driver.switchTo().alert();
     }
-    public AlertImpl(org.openqa.selenium.Alert alert) {
+
+    public AlertBoxImpl(org.openqa.selenium.Alert alert) {
         this.alert = alert;
     }
 
-    public org.openqa.selenium.Alert getAlert() {
+    public Alert getAlert() {
         return alert;
     }
 

@@ -45,7 +45,7 @@ public class SelcukesDriver {
         if (null == element || !"iframe".equals(element.tagName())) {
             getDriver().switchTo().defaultContent();
         } else {
-            WebElement target = element.getElement();
+            WebElement target = element.getWebElement();
             while (target instanceof WrapsElement && target != element.getWrappedElement(target)) {
                 target = element.getWrappedElement(target);
             }
