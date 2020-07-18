@@ -1,5 +1,7 @@
-package io.github.selcukes.grid;
+package io.github.selcukes.server;
 
+import io.github.selcukes.commons.logging.Logger;
+import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.reports.video.Recorder;
 import io.github.selcukes.reports.video.RecorderFactory;
 import org.openqa.grid.common.RegistrationRequest;
@@ -12,19 +14,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class GhostProxy extends DefaultRemoteProxy implements TestSessionListener {
+    private final Logger logger = LoggerFactory.getLogger(GhostProxy.class);
 
     public GhostProxy(RegistrationRequest request, GridRegistry registry) {
         super(request, registry);
     }
 
     private static Recorder recorder;
-    private static String RECORD_VIDEO = "recordVideo";
     private static Boolean record;
 
     @Override
     public void beforeCommand(TestSession session, HttpServletRequest request,
                               HttpServletResponse response) {
-        System.out.println("Selenium Grid - Before Command");
+        logger.info(() -> "Selenium Grid - Before Command");
 
     }
 
@@ -36,17 +38,17 @@ public class GhostProxy extends DefaultRemoteProxy implements TestSessionListene
 
     @Override
     public void beforeSession(TestSession session) {
-        record = (Boolean) session.getRequestedCapabilities().get(RECORD_VIDEO);
+        logger.info(() -> "Selenium Grid - Before Session");
+        record = (Boolean) session.getRequestedCapabilities().get("recordVideo");
         if (record) {
             recorder = RecorderFactory.getRecorder();
             recorder.start();
-            System.out.println("Video Recording value is.." + record);
         }
     }
 
     @Override
     public void afterSession(TestSession session) {
-        System.out.println("Selenium Grid - After Session");
+        logger.info(() -> "Selenium Grid - After Session");
         if (record)
             recorder.stopAndSave(session.getInternalKey());
 

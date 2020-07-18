@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) Ramesh Babu Prudhvi.
  *
@@ -34,10 +33,13 @@ import java.util.*;
 import static org.jsoup.Jsoup.parse;
 
 public class VersionDetector {
-    Logger logger = LoggerFactory.getLogger(getClass());
-    String driverName;
-    String osNameAndArch;
-    String binaryDownloadUrl;
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final String driverName;
+    private final String osNameAndArch;
+    private final String binaryDownloadUrl;
+    private static final String CH_KEY = "chKey";
+    private static final String FF_KEY = "ffKey";
+    private static final String IE_KEY = "ieKey";
 
     public VersionDetector(String binaryDriverName, String osNameAndArch, String binaryDownloadUrl) {
         this.driverName = binaryDriverName;
@@ -65,29 +67,29 @@ public class VersionDetector {
 
     private String getQuery(boolean fromReg) {
         if (driverName.contains("chrome"))
-            return (fromReg) ? getRegQuery("chKey") : getWMICQuery("chKey");
+            return (fromReg) ? getRegQuery(CH_KEY) : getWMICQuery(CH_KEY);
         else if (driverName.contains("gecko"))
-            return (fromReg) ? getRegQuery("ffKey") : getWMICQuery("ffKey");
+            return (fromReg) ? getRegQuery(FF_KEY) : getWMICQuery(FF_KEY);
         else if (driverName.contains("IE"))
-            return (fromReg) ? getRegQuery("ieKey") : getWMICQuery("ieKey");
+            return (fromReg) ? getRegQuery(IE_KEY) : getWMICQuery(IE_KEY);
         else return null;
     }
 
     private String getRegQuery(String key) {
         String regQuery = "reg query \"%s\" /v version";
         Map<String, String> keyMap = new HashMap<>();
-        keyMap.put("chKey", "HKEY_CURRENT_USER\\Software\\Google\\Chrome\\BLBeacon");
-        keyMap.put("ffKey", "HKLM\\Software\\Mozilla\\Mozilla Firefox");
-        keyMap.put("ieKey", "HKLM\\Software\\Microsoft\\Internet Explorer");
+        keyMap.put(CH_KEY, "HKEY_CURRENT_USER\\Software\\Google\\Chrome\\BLBeacon");
+        keyMap.put(FF_KEY, "HKLM\\Software\\Mozilla\\Mozilla Firefox");
+        keyMap.put(IE_KEY, "HKLM\\Software\\Microsoft\\Internet Explorer");
         return String.format(regQuery, keyMap.get(key));
     }
 
     private String getWMICQuery(String key) {
         String wmicQuery = "wmic datafile where name='%s' get version";
         Map<String, String> keyMap = new HashMap<>();
-        keyMap.put("ffKey", "C:\\\\program files (x86)\\\\Mozilla Firefox\\\\firefox.exe");
-        keyMap.put("chKey", "C:\\\\Program Files (x86)\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe");
-        keyMap.put("ieKey", "C:\\\\Program Files\\\\Internet Explorer\\\\iexplore.exe");
+        keyMap.put(CH_KEY, "C:\\\\Program Files (x86)\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe");
+        keyMap.put(FF_KEY, "C:\\\\program files (x86)\\\\Mozilla Firefox\\\\firefox.exe");
+        keyMap.put(IE_KEY, "C:\\\\Program Files\\\\Internet Explorer\\\\iexplore.exe");
         return String.format(wmicQuery, keyMap.get(key));
     }
 
