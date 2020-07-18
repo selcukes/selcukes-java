@@ -17,17 +17,37 @@
 package io.github.selcukes.commons.tests;
 
 import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.commons.logging.Logger;
+import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.commons.properties.LinkedProperties;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.Map;
 
-public class PropertiesFileLoaderTest {
+public class PropertiesFileTest {
+    Logger logger = LoggerFactory.getLogger(getClass());
+
     @Test
     public void loadPropertiesMapTest() {
         final Map<String, String> propertiesMap = ConfigFactory.loadPropertiesMap("selcukes-test.properties");
         Assert.assertEquals(propertiesMap.size(), 2);
         Assert.assertEquals(propertiesMap.get("test.env"), "QA");
         Assert.assertEquals(propertiesMap.get("test.browser"), "CHROME");
+        propertiesMap.forEach((k, v) -> logger.info(() -> String.format("Key :[%s]   Value :[%s]", k, v)));
+    }
+
+    @Test(expectedExceptions = UnsupportedOperationException.class)
+    public void linkedPropertiesTest() {
+        LinkedProperties linkedProperties = new LinkedProperties();
+        Assert.assertFalse(linkedProperties.contains("value1"));
+        linkedProperties.put("key1", "value1");
+        Assert.assertTrue(linkedProperties.contains("value1"));
+        linkedProperties.put("key2", "value2");
+        Assert.assertTrue(linkedProperties.containsKey("key2"));
+        Assert.assertEquals(linkedProperties.entrySet().size(), 2);
+        linkedProperties.clear();
+        Assert.assertEquals(linkedProperties.entrySet().size(), 0);
+        linkedProperties.elements();
     }
 }
