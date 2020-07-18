@@ -37,12 +37,20 @@ public class ConfigFactory {
     private static final String DEFAULT_CONFIG_FILE = "selcukes.yaml";
     private static final String DEFAULT_LOG_BACK_FILE = "selcukes-logback.yaml";
     private static final String CONFIG_FILE = "selcukes-test.properties";
+    private static Environment environment;
 
     private ConfigFactory() {
 
     }
 
     public static Environment getConfig() {
+        if (environment == null) {
+            environment = loadConfig();
+        }
+        return environment;
+    }
+
+    public static Environment loadConfig() {
         try {
             ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
             File defaultConfigFile = FileHelper.loadResource(DEFAULT_CONFIG_FILE);
