@@ -49,7 +49,7 @@ public class CucumberAdapter implements CucumberService {
 
     @Override
     public void beforeStep() {
-
+        // Nothing required
     }
 
     @Override
@@ -70,7 +70,7 @@ public class CucumberAdapter implements CucumberService {
 
     @Override
     public void afterTest() {
-
+        // Nothing required
     }
 }
 

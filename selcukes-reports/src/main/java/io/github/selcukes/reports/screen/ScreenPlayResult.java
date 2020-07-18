@@ -53,15 +53,15 @@ class ScreenPlayResult {
     }
 
     private String getTestStatus(ITestResult result) {
-        String status;
+        String testStatus;
         if (result.isSuccess()) {
-            status = "PASSED";
+            testStatus = "PASSED";
         } else if (result.getStatus() == ITestResult.FAILURE) {
-            status = "FAILED";
+            testStatus = "FAILED";
         } else {
-            status = "SKIPPED";
+            testStatus = "SKIPPED";
         }
-        return status;
+        return testStatus;
     }
 
     private String getError(ITestResult result) {

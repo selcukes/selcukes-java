@@ -20,8 +20,6 @@ package io.github.selcukes.reports.html;
 
 import io.github.selcukes.commons.exception.SelcukesException;
 import io.github.selcukes.commons.helper.FileHelper;
-import io.github.selcukes.commons.logging.Logger;
-import io.github.selcukes.commons.logging.LoggerFactory;
 import org.testng.*;
 import org.testng.xml.XmlSuite;
 
@@ -42,7 +40,6 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 public class EmailReporter implements IReporter {
-    private static final Logger logger = LoggerFactory.getLogger(EmailReporter.class);
     private static final String REPORT_TEMPLATE = "reportTemplate.html";
     private static final String ROW_TEMPLATE = "<tr class=\"%s\"><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>";
 

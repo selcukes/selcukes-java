@@ -51,6 +51,7 @@ public class NativeSnapshotTest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         WebDriver driver = new ChromeDriver(options);
+        //driver.manage().window().maximize();
         logger.info(() -> "Initiated Chrome browser");
         driver.get(url);
         logger.info(() -> "Navigated to " + url);
@@ -71,7 +72,7 @@ public class NativeSnapshotTest {
         long startTime = System.currentTimeMillis();
         String screenshotFilePath = ScreenGrabber
             .shoot(driver)
-            .withText("This sample Text Message")
+            .withText("This sample Text Message\nMake it simple Make it simple Make it simple Make it simple Make it simple" )
             .fullPage()
             .save();
         long endTime = System.currentTimeMillis();

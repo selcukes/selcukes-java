@@ -31,10 +31,10 @@ import java.util.Optional;
 
 
 public class WindowsManager {
-    private static Logger logger = LoggerFactory.getLogger(WindowsManager.class);
+    private static final Logger logger = LoggerFactory.getLogger(WindowsManager.class);
     private static WindowsDriver session;
     private static Process winProcess;
-    private static String WINAPP_DRIVER_PATH = "C:/Program Files (x86)/Windows Application Driver/WinAppDriver.exe";
+    private static final String WINAPP_DRIVER_PATH = "C:/Program Files (x86)/Windows Application Driver/WinAppDriver.exe";
     private static Optional<String> defaultHubUrl = Optional.empty();
     private static String localServiceUrl = "http://127.0.0.1:";
     private static String defaultPort = "4723";

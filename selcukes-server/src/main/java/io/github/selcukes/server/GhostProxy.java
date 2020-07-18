@@ -34,6 +34,7 @@ public class GhostProxy extends DefaultRemoteProxy implements TestSessionListene
     @Override
     public void afterCommand(TestSession session, HttpServletRequest request,
                              HttpServletResponse response) {
+        //ignore
     }
 
     @Override
