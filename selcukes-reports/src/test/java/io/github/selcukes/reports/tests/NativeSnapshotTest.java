@@ -47,7 +47,7 @@ public class NativeSnapshotTest {
 
     @Test
     public void nativeScreenshotTestForChrome() {
-        WebDriverBinary.chromeDriver().setup();
+        WebDriverBinary.chromeDriver().checkBrowserVersion().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         WebDriver driver = new ChromeDriver(options);
@@ -62,7 +62,7 @@ public class NativeSnapshotTest {
 
     @Test
     public void nativeScreenshotTestForChromeWithText() {
-        WebDriverBinary.chromeDriver().setup();
+        WebDriverBinary.chromeDriver().checkBrowserVersion().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         WebDriver driver = new ChromeDriver(options);

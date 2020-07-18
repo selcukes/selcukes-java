@@ -41,7 +41,7 @@ public class RecorderTest {
 
     @BeforeTest
     public void beforeTest() {
-        WebDriverBinary.chromeDriver().setup();
+        WebDriverBinary.chromeDriver().checkBrowserVersion().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
