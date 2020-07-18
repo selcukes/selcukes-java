@@ -40,7 +40,7 @@ abstract class AbstractBinary implements BinaryFactory {
     private Optional<Architecture> targetArch = Optional.empty();
     private Optional<String> proxyUrl = Optional.empty();
     protected String latestVersionUrl;
-    protected boolean isAutoDetectBrowserVersion;
+    protected boolean isAutoDetectBrowserVersion=true;
 
     @Override
     public Platform getBinaryEnvironment() {

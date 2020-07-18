@@ -25,11 +25,9 @@ import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.screen.ScreenPlay;
 import io.github.selcukes.reports.screen.ScreenPlayBuilder;
 import io.github.selcukes.wdb.WebDriverBinary;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
@@ -43,7 +41,7 @@ public class RecorderTest {
 
     @BeforeTest
     public void beforeTest() {
-        WebDriverBinary.chromeDriver().autoDetectVersion().setup();
+        WebDriverBinary.chromeDriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
