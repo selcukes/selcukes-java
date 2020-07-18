@@ -20,8 +20,8 @@ public class GhostProxy extends DefaultRemoteProxy implements TestSessionListene
         super(request, registry);
     }
 
-    private static Recorder recorder;
-    private static Boolean record;
+    private Recorder recorder;
+    private Boolean record;
 
     @Override
     public void beforeCommand(TestSession session, HttpServletRequest request,
