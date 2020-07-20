@@ -13,6 +13,7 @@
         <module>selcukes-commons</module>
         <module>webdriver-binaries</module>
         <module>selcukes-core</module>
+        <module>selcukes-testng</module>
         <module>selcukes-reports</module>
         <module>selcukes-server</module>
     </modules>
@@ -99,6 +100,11 @@
             <dependency>
                 <groupId>io.github.selcukes</groupId>
                 <artifactId>selcukes-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.selcukes</groupId>
+                <artifactId>selcukes-testng</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

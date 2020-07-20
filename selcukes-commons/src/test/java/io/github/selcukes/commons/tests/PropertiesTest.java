@@ -25,8 +25,8 @@ import org.testng.annotations.Test;
 
 import java.util.Map;
 
-public class PropertiesFileTest {
-    Logger logger = LoggerFactory.getLogger(getClass());
+public class PropertiesTest {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Test
     public void loadPropertiesMapTest() {
@@ -35,6 +35,8 @@ public class PropertiesFileTest {
         Assert.assertEquals(propertiesMap.get("test.env"), "QA");
         Assert.assertEquals(propertiesMap.get("test.browser"), "CHROME");
         propertiesMap.forEach((k, v) -> logger.info(() -> String.format("Key :[%s]   Value :[%s]", k, v)));
+
+
     }
 
     @Test(expectedExceptions = UnsupportedOperationException.class)
