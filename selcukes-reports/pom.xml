@@ -19,6 +19,11 @@
             <artifactId>selcukes-testng</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.github.selcukes</groupId>
+            <artifactId>webdriver-binaries</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <scope>provided</scope>
