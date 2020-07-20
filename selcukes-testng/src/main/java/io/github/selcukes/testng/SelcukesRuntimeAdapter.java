@@ -22,6 +22,8 @@ import io.github.selcukes.commons.logging.LoggerFactory;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
     private final Logger logger = LoggerFactory.getLogger(SelcukesRuntimeAdapter.class);
@@ -40,6 +42,15 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
 
         UUID uuid = UUID.randomUUID();
         String features = properties.getOrDefault("selcukes.features", "");
+        Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}");
+        Matcher matcher = pattern.matcher(features);
+        StringBuffer stringBuffer = new StringBuffer();
+
+        while (matcher.find()) {
+            matcher.appendReplacement(stringBuffer, properties.getOrDefault(matcher.group(1), ""));
+        }
+        matcher.appendTail(stringBuffer);
+        features = stringBuffer.toString();
 
         String glue = properties.getOrDefault("selcukes.glue", "");
         String tag = properties.getOrDefault("selcukes.tags", "");
@@ -51,7 +62,8 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
         System.setProperty("cucumber.filter.tags", tag);
         System.setProperty("cucumber.glue", glue);
         System.setProperty("cucumber.plugin", plugin);
+        String finalFeatures = features;
         logger.debug(() -> String.format("Using Runtime Cucumber Options:\nFeatures : [%s]\nGlue     : [%s]\nTags     : [%s] " +
-                "\n ",features, glue, tag));
+            "\n ", finalFeatures, glue, tag));
     }
 }
