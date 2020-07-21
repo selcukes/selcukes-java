@@ -53,8 +53,7 @@ public class ConfigFactory {
     private static Environment loadConfig() {
         try {
             ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
-            File defaultConfigFile = FileHelper.loadResource(DEFAULT_CONFIG_FILE);
-            return objectMapper.readValue(defaultConfigFile, Environment.class);
+            return objectMapper.readValue(getStream(DEFAULT_CONFIG_FILE), Environment.class);
         } catch (IOException e) {
             throw new ConfigurationException("Failed loading selcukes properties: ", e);
         }
