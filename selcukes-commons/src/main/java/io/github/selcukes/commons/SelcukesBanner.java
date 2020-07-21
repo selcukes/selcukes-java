@@ -27,15 +27,14 @@ import java.util.stream.Collectors;
 public class SelcukesBanner {
 
     public void printBanner() {
-        try {
-            InputStream inputStream = FileHelper.loadResourceAsStream("banner.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        try(InputStream inputStream = FileHelper.loadResourceFromJar("banner.txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             StringBuilder banner = new StringBuilder();
             banner.append(System.lineSeparator());
             banner.append(reader.lines().collect(Collectors.joining(System.lineSeparator())));
             banner.append(System.lineSeparator());
             System.out.println(banner);
-        } catch (Exception ignoredException) {
+        } catch (Exception ignore) {
             // Ignored
         }
     }

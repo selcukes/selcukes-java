@@ -155,5 +155,8 @@ public class FileHelper {
     public InputStream loadResourceAsStream(String file) {
         return FileHelper.class.getClassLoader().getResourceAsStream(file);
     }
+    public InputStream loadResourceFromJar(String file) {
+        return FileHelper.class.getResourceAsStream("/"+file);
+    }
 }
 
