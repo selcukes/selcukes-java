@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
     private final Logger logger = LoggerFactory.getLogger(SelcukesRuntimeAdapter.class);
     private static SelcukesRuntimeOptions runtimeOptions;
+    private static Map<String, String> properties;
 
     public static SelcukesRuntimeOptions getInstance() {
         if (runtimeOptions == null)
@@ -37,24 +38,29 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
 
     @Override
     public void perform() {
-        final Map<String, String> properties = ConfigFactory
-            .loadPropertiesMap("selcukes-test.properties");
+        try {
+            properties = ConfigFactory
+                .loadPropertiesMap("selcukes-test.properties");
+        } catch (Exception ignored) {
+            //Gobble exception
+        }
 
         UUID uuid = UUID.randomUUID();
-        String features = properties.getOrDefault("selcukes.features", "");
+        String features = getProperty("selcukes.features");
         Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}");
         Matcher matcher = pattern.matcher(features);
         StringBuffer stringBuffer = new StringBuffer();
 
         while (matcher.find()) {
-            matcher.appendReplacement(stringBuffer, properties.getOrDefault(matcher.group(1), ""));
+            matcher.appendReplacement(stringBuffer, getProperty(matcher.group(1)));
         }
         matcher.appendTail(stringBuffer);
         features = stringBuffer.toString();
 
-        String glue = properties.getOrDefault("selcukes.glue", "");
-        String tag = properties.getOrDefault("selcukes.tags", "");
-        String reportsPath = properties.getOrDefault("selcukes.reports-path", "target/cucumber-reports");
+        String glue = getProperty("selcukes.glue");
+        String tag = getProperty("selcukes.tags");
+        String reportsPath = getProperty("selcukes.reports-path");
+        if (reportsPath.equals("")) reportsPath = "target/cucumber-reports";
 
         String plugin = "pretty, html:" + reportsPath + ", json:" + reportsPath + "/cucumber" + uuid + ".json";
 
@@ -66,4 +72,12 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
         logger.debug(() -> String.format("Using Runtime Cucumber Options:\nFeatures : [%s]\nGlue     : [%s]\nTags     : [%s] " +
             "\n ", finalFeatures, glue, tag));
     }
+
+    public String getProperty(String propertyKey) {
+        if (System.getProperty(propertyKey) != null) {
+            return System.getProperty(propertyKey);
+        }
+        return properties.getOrDefault(propertyKey, "");
+    }
+
 }
