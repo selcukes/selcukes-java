@@ -41,36 +41,36 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
         try {
             properties = ConfigFactory
                 .loadPropertiesMap("selcukes-test.properties");
-        } catch (Exception ignored) {
-            //Gobble exception
+
+            UUID uuid = UUID.randomUUID();
+            String features = getProperty("selcukes.features");
+            Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}");
+            Matcher matcher = pattern.matcher(features);
+            StringBuffer stringBuffer = new StringBuffer();
+
+            while (matcher.find()) {
+                matcher.appendReplacement(stringBuffer, getProperty(matcher.group(1)));
+            }
+            matcher.appendTail(stringBuffer);
+            features = stringBuffer.toString();
+
+            String glue = getProperty("selcukes.glue");
+            String tag = getProperty("selcukes.tags");
+            String reportsPath = getProperty("selcukes.reports-path");
+            if (reportsPath.equals("")) reportsPath = "target/cucumber-reports";
+
+            String plugin = "pretty, html:" + reportsPath + ", json:" + reportsPath + "/cucumber" + uuid + ".json";
+
+            System.setProperty("cucumber.features", features);
+            System.setProperty("cucumber.filter.tags", tag);
+            System.setProperty("cucumber.glue", glue);
+            System.setProperty("cucumber.plugin", plugin);
+            String finalFeatures = features;
+            logger.debug(() -> String.format("Using Runtime Cucumber Options:\nFeatures : [%s]\nGlue     : [%s]\nTags     : [%s] " +
+                "\n ", finalFeatures, glue, tag));
+        } catch (Exception exception) {
+            logger.warn(() -> "Failed loading selcukes-test properties. Using default CucumberOptions to execute...");
         }
-
-        UUID uuid = UUID.randomUUID();
-        String features = getProperty("selcukes.features");
-        Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}");
-        Matcher matcher = pattern.matcher(features);
-        StringBuffer stringBuffer = new StringBuffer();
-
-        while (matcher.find()) {
-            matcher.appendReplacement(stringBuffer, getProperty(matcher.group(1)));
-        }
-        matcher.appendTail(stringBuffer);
-        features = stringBuffer.toString();
-
-        String glue = getProperty("selcukes.glue");
-        String tag = getProperty("selcukes.tags");
-        String reportsPath = getProperty("selcukes.reports-path");
-        if (reportsPath.equals("")) reportsPath = "target/cucumber-reports";
-
-        String plugin = "pretty, html:" + reportsPath + ", json:" + reportsPath + "/cucumber" + uuid + ".json";
-
-        System.setProperty("cucumber.features", features);
-        System.setProperty("cucumber.filter.tags", tag);
-        System.setProperty("cucumber.glue", glue);
-        System.setProperty("cucumber.plugin", plugin);
-        String finalFeatures = features;
-        logger.debug(() -> String.format("Using Runtime Cucumber Options:\nFeatures : [%s]\nGlue     : [%s]\nTags     : [%s] " +
-            "\n ", finalFeatures, glue, tag));
     }
 
     public String getProperty(String propertyKey) {
