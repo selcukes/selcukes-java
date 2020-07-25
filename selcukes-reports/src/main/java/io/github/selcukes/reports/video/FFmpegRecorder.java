@@ -68,8 +68,9 @@ class FFmpegRecorder extends VideoRecorder {
         stop();
         Preconditions.checkArgument(tempFile.exists(), "Video recording wasn't started");
         File videoFile = getFile(filename);
+        File waterMark = FileHelper.getWaterMarkFile();
         String command = FFMPEG + " -i " + tempFile.getAbsolutePath() +
-            " -i " + FileHelper.getWaterMarkPath() +
+            " -i " + waterMark.getAbsolutePath() +
             " -filter_complex \"overlay=x=(main_w-200):y=5\" " + videoFile.getAbsolutePath();
         shell.runCommand(command);
         tempFile.deleteOnExit();

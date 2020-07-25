@@ -160,17 +160,15 @@ public class FileHelper {
         return FileHelper.class.getResourceAsStream("/" + file);
     }
 
-    public String getWaterMarkPath() {
+    public File getWaterMarkFile() {
         String waterMark = "selcukes-watermark.png";
-        File waterMarkFile = new File(waterMark);
+        File waterMarkFile = new File(getTempDir()+File.separator+waterMark);
         try {
             FileUtils.copyInputStreamToFile(loadResourceAsStream(waterMark), waterMarkFile);
-
-            waterMarkFile.deleteOnExit();
         } catch (IOException e) {
             throw new SelcukesException("Unable to copy file to local folder  : ", e);
         }
-        return waterMarkFile.getAbsolutePath();
+        return waterMarkFile;
     }
 }
 
