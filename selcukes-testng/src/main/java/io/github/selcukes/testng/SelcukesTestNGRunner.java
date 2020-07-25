@@ -17,10 +17,7 @@
 package io.github.selcukes.testng;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
-import io.github.selcukes.testng.listeners.SuiteListener;
-import org.testng.annotations.Listeners;
 
-@Listeners(SuiteListener.class)
 public class SelcukesTestNGRunner extends AbstractTestNGCucumberTests {
 
 }
