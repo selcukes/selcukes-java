@@ -155,8 +155,22 @@ public class FileHelper {
     public InputStream loadResourceAsStream(String file) {
         return FileHelper.class.getClassLoader().getResourceAsStream(file);
     }
+
     public InputStream loadResourceFromJar(String file) {
-        return FileHelper.class.getResourceAsStream("/"+file);
+        return FileHelper.class.getResourceAsStream("/" + file);
+    }
+
+    public String getWaterMarkPath() {
+        String waterMark = "selcukes-watermark.png";
+        File waterMarkFile = new File(waterMark);
+        try {
+            FileUtils.copyInputStreamToFile(loadResourceAsStream(waterMark), waterMarkFile);
+
+            waterMarkFile.deleteOnExit();
+        } catch (IOException e) {
+            throw new SelcukesException("Unable to copy file to local folder  : ", e);
+        }
+        return waterMarkFile.getAbsolutePath();
     }
 }
 

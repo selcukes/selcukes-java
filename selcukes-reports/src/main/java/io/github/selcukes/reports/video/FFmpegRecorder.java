@@ -21,12 +21,12 @@ package io.github.selcukes.reports.video;
 
 import io.github.selcukes.commons.Await;
 import io.github.selcukes.commons.exec.Shell;
-import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.helper.Preconditions;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.reports.config.VideoConfig;
 
 import java.awt.*;
@@ -68,10 +68,8 @@ class FFmpegRecorder extends VideoRecorder {
         stop();
         Preconditions.checkArgument(tempFile.exists(), "Video recording wasn't started");
         File videoFile = getFile(filename);
-        File waterMark = FileHelper.loadResource("selcukes-watermark.png");
-
         String command = FFMPEG + " -i " + tempFile.getAbsolutePath() +
-            " -i " + waterMark.getAbsolutePath() +
+            " -i " + FileHelper.getWaterMarkPath() +
             " -filter_complex \"overlay=x=(main_w-200):y=5\" " + videoFile.getAbsolutePath();
         shell.runCommand(command);
         tempFile.deleteOnExit();
