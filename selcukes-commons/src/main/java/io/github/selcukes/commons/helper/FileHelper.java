@@ -161,9 +161,10 @@ public class FileHelper {
     }
 
     public File getWaterMarkFile() {
-        String waterMark = "selcukes-watermark.png";
-        File waterMarkFile = new File(getTempDir()+File.separator+waterMark);
+        String waterMark = "target/selcukes-watermark.png";
+        File waterMarkFile = new File(waterMark);
         try {
+            if(!waterMarkFile.exists())
             FileUtils.copyInputStreamToFile(loadResourceAsStream(waterMark), waterMarkFile);
         } catch (IOException e) {
             throw new SelcukesException("Unable to copy file to local folder  : ", e);
