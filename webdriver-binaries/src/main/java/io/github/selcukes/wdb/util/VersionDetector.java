@@ -88,7 +88,7 @@ public class VersionDetector {
         String wmicQuery = "wmic datafile where name='%s' get version";
         Map<String, String> keyMap = new HashMap<>();
         keyMap.put(CH_KEY, "C:\\\\Program Files (x86)\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe");
-        keyMap.put(FF_KEY, "C:\\\\program files (x86)\\\\Mozilla Firefox\\\\firefox.exe");
+        keyMap.put(FF_KEY, "C:\\\\program files\\\\Mozilla Firefox\\\\firefox.exe");
         keyMap.put(IE_KEY, "C:\\\\Program Files\\\\Internet Explorer\\\\iexplore.exe");
         return String.format(wmicQuery, keyMap.get(key));
     }
