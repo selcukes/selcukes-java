@@ -18,7 +18,7 @@ package io.github.selcukes.junit.listeners;
 
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.junit.SelcukesRuntimeAdapter;
+import io.github.selcukes.testng.SelcukesRuntimeAdapter;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
