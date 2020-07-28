@@ -11,30 +11,31 @@
     <artifactId>selcukes-junit</artifactId>
     <properties>
         <junit.jupiter.version>5.6.2</junit.jupiter.version>
-        <junit.platform.version>1.5.2</junit.platform.version>
+        <cucumber.version>5.7.0</cucumber.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.jupiter.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.github.selcukes</groupId>
             <artifactId>selcukes-commons</artifactId>
         </dependency>
-
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit-platform-engine</artifactId>
-            <version>5.7.0</version>
-            <scope>test</scope>
+            <version>${cucumber.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
 </project>
