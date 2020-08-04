@@ -20,7 +20,7 @@ import io.cucumber.junit.platform.engine.Cucumber;
 import org.junit.jupiter.api.Test;
 
 @Cucumber
-public class CucumberRunner {
+class CucumberRunner {
     @Test
     public void test() {
 
