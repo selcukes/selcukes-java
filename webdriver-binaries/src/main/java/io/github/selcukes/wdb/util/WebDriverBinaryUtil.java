@@ -40,15 +40,17 @@ public class WebDriverBinaryUtil {
     private static final String WEBDRIVER = "webdriver";
 
 
-    public WebDriverBinaryUtil(BinaryFactory binaryFactory, String downloadLocation, boolean strictDownload) {
+    public WebDriverBinaryUtil(BinaryFactory binaryFactory, String downloadLocation, boolean strictDownload,boolean clearBinaryCache) {
         this.binaryFactory = binaryFactory;
-        this.binaryDownloadDirectory = getBinaryDownloadDirectory(downloadLocation);
+        this.binaryDownloadDirectory = getBinaryDownloadDirectory(downloadLocation,clearBinaryCache);
         this.strictDownload = strictDownload;
 
     }
 
-    private File getBinaryDownloadDirectory(String downloadLocation) {
+    private File getBinaryDownloadDirectory(String downloadLocation,boolean clearBinaryCache) {
         binaryDownloadDirectory = new File(downloadLocation + File.separator + WEBDRIVER + File.separator);
+        if(clearBinaryCache)
+            FileHelper.deleteFilesInDirectory(binaryDownloadDirectory);
         FileHelper.createDirectory(binaryDownloadDirectory);
         return binaryDownloadDirectory;
     }
