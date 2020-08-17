@@ -30,7 +30,7 @@ import java.util.regex.Pattern;
 
 public class DriverEventHandler implements WebDriverEventListener {
 
-    private static final Logger logger = LoggerFactory.getLogger(DriverEventHandler.class);
+    private final Logger logger = LoggerFactory.getLogger(DriverEventHandler.class);
 
     private static String getLocatorFromElement(WebElement element) {
         String str = element.toString();
