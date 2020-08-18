@@ -42,7 +42,7 @@ public class ByteEncryptor {
 
     public byte[] encryptData(String key, byte[] data) throws GeneralSecurityException {
         SecureRandom secureRandom = new SecureRandom();
-        byte[] iv = newIV();
+        byte[] iv = newIV(DEFAULT_IV_LENGTH);
         secureRandom.nextBytes(iv);
 
         SecretKey secretKey = generateSecretKey(key, iv);
@@ -88,10 +88,6 @@ public class ByteEncryptor {
 
     private byte[] newIV(int length) {
         return new byte[length];
-    }
-
-    private byte[] newIV() {
-        return new byte[DEFAULT_IV_LENGTH];
     }
 
 }
