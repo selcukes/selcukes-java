@@ -65,6 +65,7 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
             System.setProperty("cucumber.filter.tags", tag);
             System.setProperty("cucumber.glue", glue);
             System.setProperty("cucumber.plugin", plugin);
+            System.setProperty("cucumber.publish.quiet", "true");
             String finalFeatures = features;
             logger.debug(() -> String.format("Using Runtime Cucumber Options:\nFeatures : [%s]\nGlue     : [%s]\nTags     : [%s] " +
                 "\n ", finalFeatures, glue, tag));
