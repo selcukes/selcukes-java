@@ -20,6 +20,7 @@ import io.github.selcukes.reports.enums.NotifierType;
 import io.github.selcukes.reports.enums.RecorderType;
 
 import java.io.File;
+import java.util.logging.Level;
 
 public interface ScreenPlay {
     /**
@@ -29,7 +30,7 @@ public interface ScreenPlay {
 
     /**
      * Attach Full page screenshot to cucumber report
-     * scenario.embed(objToEmbed, mediaType, scenario.getName());
+     * scenario.attach(objToEmbed, mediaType, scenario.getName());
      */
     ScreenPlay attachScreenshot();
 
@@ -40,7 +41,7 @@ public interface ScreenPlay {
 
     /**
      * Attach Video on Failure to cucumber report
-     * scenario.embed(objToEmbed, mediaType, scenario.getName());
+     * scenario.attach(objToEmbed, mediaType, scenario.getName());
      */
     ScreenPlay attachVideo();
 
@@ -54,9 +55,15 @@ public interface ScreenPlay {
 
     /**
      * Attach INFO Level Logs to cucumber report
-     * scenario.embed(objToEmbed, mediaType);
+     * scenario.log(String message);
      */
     void attachLogs();
+
+    /**
+     * Attach Logs to cucumber report
+     * scenario.log(String message);
+     */
+    void attachLogs(Level level);
 
     /**
      * Get Recorder object by Type

@@ -7,7 +7,7 @@
     <groupId>io.github.selcukes</groupId>
     <artifactId>selcukes-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.6-SNAPSHOT</version>
+    <version>0.0.6</version>
 
     <modules>
         <module>selcukes-commons</module>
@@ -35,13 +35,13 @@
         <apache-http.version>5.0.1</apache-http.version>
         <commons-compress.version>1.20</commons-compress.version>
         <jsoup.version>1.13.1</jsoup.version>
-        <cucumber-reporting.version>5.2.0</cucumber-reporting.version>
+        <cucumber-reporting.version>5.3.1</cucumber-reporting.version>
         <recorder.version>0.7.7.0</recorder.version>
 
-        <cucumber.version>5.6.0</cucumber.version>
+        <cucumber.version>6.5.0</cucumber.version>
         <selenium.version>3.141.59</selenium.version>
         <appium.version>7.2.0</appium.version>
-        <testng.version>7.0.0</testng.version>
+        <testng.version>7.3.0</testng.version>
 
         <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>

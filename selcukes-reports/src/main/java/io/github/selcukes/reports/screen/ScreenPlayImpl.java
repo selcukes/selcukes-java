@@ -24,9 +24,9 @@ import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.reports.enums.NotifierType;
 import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.enums.TestType;
-import io.github.selcukes.reports.screenshot.SnapshotImpl;
 import io.github.selcukes.reports.notification.Notifier;
 import io.github.selcukes.reports.notification.NotifierFactory;
+import io.github.selcukes.reports.screenshot.SnapshotImpl;
 import io.github.selcukes.reports.video.Recorder;
 import io.github.selcukes.reports.video.RecorderFactory;
 import org.openqa.selenium.WebDriver;
@@ -130,6 +130,17 @@ class ScreenPlayImpl implements ScreenPlay {
     }
 
     @Override
+    public void attachLogs(Level level) {
+        if (isAttachable()) {
+            String logs = loggerListener.getLogRecords(level)
+                .map(LogRecord::getMessage)
+                .collect(Collectors.joining("<br/>  --> ", "<br/> Logs: <br/>   --> ", "<br/> --End Of Logs--"));
+            write(logs);
+        }
+        stopReadingLogs();
+    }
+
+    @Override
     public ScreenPlay withRecorder(RecorderType recorderType) {
         recorder = RecorderFactory.getRecorder(recorderType);
         return this;
@@ -169,7 +180,7 @@ class ScreenPlayImpl implements ScreenPlay {
     private void write(String text) {
         if (result.getTestType().equals(TestType.CUCUMBER)) {
 
-            scenario.write(text);
+            scenario.log(text);
             logger.info(() -> "Attached Logs to Cucumber Report");
         } else {
             Reporter.log(text);
@@ -193,7 +204,7 @@ class ScreenPlayImpl implements ScreenPlay {
     }
 
     private void attach(byte[] objToEmbed, String mediaType) {
-        scenario.embed(objToEmbed, mediaType, scenario.getName());
+        scenario.attach(objToEmbed, mediaType, scenario.getName());
     }
 
     public void stopReadingLogs() {

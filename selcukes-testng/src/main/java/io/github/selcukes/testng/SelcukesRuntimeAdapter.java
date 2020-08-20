@@ -59,13 +59,12 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
             String reportsPath = getProperty("selcukes.reports-path");
             if (reportsPath.equals("")) reportsPath = "target/cucumber-reports";
 
-            String plugin = "pretty, html:" + reportsPath + ", json:" + reportsPath + "/cucumber" + uuid + ".json";
+            String plugin = "pretty, html:" + reportsPath + "/cucumber.html, json:" + reportsPath + "/cucumber" + uuid + ".json";
 
             System.setProperty("cucumber.features", features);
             System.setProperty("cucumber.filter.tags", tag);
             System.setProperty("cucumber.glue", glue);
             System.setProperty("cucumber.plugin", plugin);
-            System.setProperty("cucumber.execution.strict","true");
             String finalFeatures = features;
             logger.debug(() -> String.format("Using Runtime Cucumber Options:\nFeatures : [%s]\nGlue     : [%s]\nTags     : [%s] " +
                 "\n ", finalFeatures, glue, tag));

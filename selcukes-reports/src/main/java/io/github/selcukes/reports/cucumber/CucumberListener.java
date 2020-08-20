@@ -23,8 +23,8 @@ import io.github.selcukes.commons.logging.LoggerFactory;
 
 import java.util.Optional;
 
-public class Selcukes implements ConcurrentEventListener {
-    private final Logger logger = LoggerFactory.getLogger(Selcukes.class);
+public class CucumberListener implements ConcurrentEventListener {
+    private final Logger logger = LoggerFactory.getLogger(CucumberListener.class);
     private final TestSourcesModel testSources = new TestSourcesModel();
     private CucumberService cucumberService;
 
