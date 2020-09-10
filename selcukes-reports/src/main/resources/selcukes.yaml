@@ -10,6 +10,9 @@ isProxy: false
 baseUrl:
 remoteGridUrl:
 videoRecording: false
+ffmpegPath: 
+watermarkStatus: true
+recorderType: FFMPEG
 notification: false
 notifier:
   type: teams

@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.util.Map;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class Environment {
@@ -32,6 +33,8 @@ public class Environment {
     private String isProxy;
     private String baseUrl;
     private String remoteGridUrl;
+    private String ffmpegPath;
+    private Boolean watermarkStatus;
     private Boolean videoRecording;
     private String recorderType;
     private Boolean notification;

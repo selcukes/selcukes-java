@@ -10,6 +10,8 @@ isProxy: false
 baseUrl:
 remoteGridUrl:
 videoRecording: false
+ffmpegPath:
+watermarkStatus: false
 recorderType: FFMPEG
 notification: false
 notifier:

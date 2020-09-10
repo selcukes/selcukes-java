@@ -59,8 +59,8 @@ public class Shell {
         logger.debug(() -> "Process Id: " + pid);
     }
 
-    public void sendCtrlC() {
-        String killCommand = "SendSignalCtrlC.exe " + pid;
+    public void sendCtrlC(String folder) {
+        String killCommand = folder+"SendSignalCtrlC.exe " + pid;
         runCommand(killCommand);
     }
 

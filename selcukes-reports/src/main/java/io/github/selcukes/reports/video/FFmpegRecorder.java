@@ -18,6 +18,8 @@ package io.github.selcukes.reports.video;
 
 
 import io.github.selcukes.commons.Await;
+import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.commons.exception.RecorderException;
 import io.github.selcukes.commons.exec.Shell;
 import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.helper.FileHelper;
@@ -38,10 +40,13 @@ class FFmpegRecorder extends VideoRecorder {
     private final VideoConfig videoConfig;
     private final Shell shell;
     private File tempFile;
+    private String ffmpegFolderPath = "";
 
     public FFmpegRecorder() {
         shell = new Shell();
         this.videoConfig = conf();
+        if (ConfigFactory.getConfig().getFfmpegPath() != null)
+            ffmpegFolderPath = ConfigFactory.getConfig().getFfmpegPath();
     }
 
     public void start() {
@@ -49,7 +54,7 @@ class FFmpegRecorder extends VideoRecorder {
         tempFile = getFile("Video");
         String screenSize = getScreenSize();
 
-        String command = FFMPEG + " -y " +
+        String command = ffmpegFolderPath + FFMPEG + " -y " +
             "-video_size " + screenSize +
             " -f " + videoConfig.getFfmpegFormat() +
             " -i " + videoConfig.getFfmpegDisplay() +
@@ -66,13 +71,22 @@ class FFmpegRecorder extends VideoRecorder {
         stop();
         Preconditions.checkArgument(tempFile.exists(), "Video recording wasn't started");
         File videoFile = getFile(filename);
-        File waterMark = FileHelper.getWaterMarkFile();
-        String command = FFMPEG + " -i " + tempFile.getAbsolutePath() +
-            " -i " + waterMark.getAbsolutePath() +
-            " -filter_complex \"overlay=x=(main_w-200):y=5\" " + videoFile.getAbsolutePath();
-        shell.runCommand(command);
-        tempFile.deleteOnExit();
-        Await.until(1);
+        if (Boolean.TRUE == ConfigFactory.getConfig().getWatermarkStatus()) {
+            File waterMark = FileHelper.getWaterMarkFile();
+            String command = ffmpegFolderPath + FFMPEG + " -i " + tempFile.getAbsolutePath() +
+                " -i " + waterMark.getAbsolutePath() +
+                " -filter_complex \"overlay=x=(main_w-200):y=5\" " + videoFile.getAbsolutePath();
+            shell.runCommand(command);
+            tempFile.deleteOnExit();
+            Await.until(1);
+        } else {
+            try {
+                FileHelper.renameFile(tempFile, videoFile);
+            } catch (RecorderException ex) {
+                Await.until(2);
+                FileHelper.renameFile(tempFile, videoFile);
+            }
+        }
         logger.info(() -> "Recording finished to " + videoFile.getAbsolutePath());
         return videoFile;
     }
@@ -80,7 +94,7 @@ class FFmpegRecorder extends VideoRecorder {
     private void stop() {
         logger.info(() -> "Killing ffmpeg...");
         String killFFmpeg = "pkill -INT ffmpeg";
-        if (Platform.isWindows()) shell.sendCtrlC();
+        if (Platform.isWindows()) shell.sendCtrlC(ffmpegFolderPath);
         else shell.runCommand(killFFmpeg);
         Await.until(2);
     }
