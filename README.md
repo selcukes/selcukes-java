@@ -1,4 +1,4 @@
-# Selcukes
+# Selcukes Java
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.selcukes/selcukes-parent.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.selcukes%22%20AND%20a:%22selcukes-java%22)
 [![Build Status](https://travis-ci.org/selcukes/selcukes-java.svg?branch=master)](https://travis-ci.org/selcukes/selcukes-java)
@@ -9,4 +9,8 @@
 [![badge-jdk](https://img.shields.io/badge/jdk-8-green.svg)](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 [![License badge](https://img.shields.io/badge/license-Apache%202.0-blue.svg?label=License)](http://www.apache.org/licenses/LICENSE-2.0)
 
+
+
+## License
+This software is licensed under Apache-2.0. See the [LICENSE.md](https://github.com/selcukes/selcukes-java/blob/master/LICENSE) file for more information.
 
