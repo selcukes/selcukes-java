@@ -54,9 +54,11 @@ public class FileHelper {
     public void setFileExecutable(String fileName) {
         try {
             final Path filepath = Paths.get(fileName);
-            final Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(filepath);
-            permissions.add(PosixFilePermission.OWNER_EXECUTE);
-            Files.setPosixFilePermissions(filepath, permissions);
+            if (!Files.isSymbolicLink(filepath)) {
+                final Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(filepath);
+                permissions.add(PosixFilePermission.OWNER_EXECUTE);
+                Files.setPosixFilePermissions(filepath, permissions);
+            }
         } catch (Exception e) {
             LOGGER.error(e::getMessage);
             throw new WebDriverBinaryException("Unable to set WebDriver Binary file as executable :" + e);
