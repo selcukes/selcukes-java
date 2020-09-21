@@ -43,95 +43,95 @@ public class DriverEventHandler implements WebDriverEventListener {
 
     @Override
     public void afterChangeValueOf(WebElement element, WebDriver driver, CharSequence[] keysSent) {
-        logger.warn(() -> "Changed value of element with " + getLocatorFromElement(element));
+        logger.debug(() -> "Changed value of element with " + getLocatorFromElement(element));
     }
 
     @Override
     public void afterClickOn(WebElement element, WebDriver driver) {
-        logger.warn(() -> "Clicked on element with " + getLocatorFromElement(element));
+        logger.debug(() -> "Clicked on element with " + getLocatorFromElement(element));
     }
 
     @Override
     public void afterFindBy(By by, WebElement element, WebDriver driver) {
 
-        logger.warn(() -> "Element found using [" + by + "]");
+        logger.debug(() -> "Element found using [" + by + "]");
     }
 
     @Override
     public void afterNavigateBack(WebDriver driver) {
-        logger.warn(() -> "Navigated backward...");
+        logger.debug(() -> "Navigated backward...");
     }
 
     @Override
     public void afterNavigateForward(WebDriver driver) {
-        logger.warn(() -> "Navigated forward...");
+        logger.debug(() -> "Navigated forward...");
     }
 
     @Override
     public void beforeNavigateRefresh(WebDriver webDriver) {
-        logger.warn(() -> "Refreshing the page...");
+        logger.debug(() -> "Refreshing the page...");
     }
 
     @Override
     public void afterNavigateRefresh(WebDriver webDriver) {
-        logger.warn(() -> "Page refreshed...");
+        logger.debug(() -> "Page refreshed...");
     }
 
     @Override
     public void afterNavigateTo(String url, WebDriver driver) {
-        logger.warn(() -> "Navigated to url [" + url + "]");
+        logger.debug(() -> "Navigated to url [" + url + "]");
     }
 
     @Override
     public void afterScript(String script, WebDriver driver) {
 
-        logger.warn(() -> "ran script " + StringUtils.abbreviate(script, 128));
+        logger.debug(() -> "ran script " + StringUtils.abbreviate(script, 128));
     }
 
     @Override
     public void beforeSwitchToWindow(String windowName, WebDriver driver) {
-        logger.warn(() -> "Switching to window [" + windowName + "]");
+        logger.debug(() -> "Switching to window [" + windowName + "]");
     }
 
     @Override
     public void afterSwitchToWindow(String windowName, WebDriver driver) {
-        logger.warn(() -> "after switch to window " + windowName);
+        logger.debug(() -> "after switch to window " + windowName);
     }
 
     @Override
     public void beforeChangeValueOf(WebElement element, WebDriver driver, CharSequence[] keysToSend) {
-        logger.warn(() -> "Change value of element with " + getLocatorFromElement(element));
+        logger.debug(() -> "Change value of element with " + getLocatorFromElement(element));
     }
 
     @Override
     public void beforeClickOn(WebElement element, WebDriver driver) {
-        logger.warn(() -> "click element with " + getLocatorFromElement(element));
+        logger.debug(() -> "Clicking on element with " + getLocatorFromElement(element));
     }
 
     @Override
     public void beforeFindBy(By by, WebElement element, WebDriver driver) {
-        logger.warn(() -> "Finding element by [" + by + "]");
+        logger.debug(() -> "Finding element using [" + by + "]");
     }
 
     @Override
     public void beforeNavigateBack(WebDriver driver) {
-        logger.warn(() -> "Navigating back...");
+        logger.debug(() -> "Navigating back...");
     }
 
     @Override
     public void beforeNavigateForward(WebDriver driver) {
-        logger.warn(() -> "Navigating forward...");
+        logger.debug(() -> "Navigating forward...");
     }
 
     @Override
     public void beforeNavigateTo(String url, WebDriver driver) {
-        logger.warn(() -> "Navigating to [" + url + "]");
+        logger.debug(() -> "Navigating to [" + url + "]");
     }
 
     @Override
     public void beforeScript(String script, WebDriver driver) {
 
-        logger.warn(() -> "Executing script [" + StringUtils.abbreviate(script, 512) + "]");
+        logger.debug(() -> "Executing script [" + StringUtils.abbreviate(script, 512) + "]");
     }
 
     @Override
@@ -142,41 +142,41 @@ public class DriverEventHandler implements WebDriverEventListener {
 
     @Override
     public <X> void beforeGetScreenshotAs(OutputType<X> outputType) {
-        logger.warn(() -> "Capturing screenshot...");
+        logger.debug(() -> "Capturing screenshot...");
     }
 
     @Override
     public <X> void afterGetScreenshotAs(OutputType<X> outputType, X x) {
-        logger.warn(() -> "Successfully captured screenshot...");
+        logger.debug(() -> "Successfully captured screenshot...");
     }
 
     @Override
     public void beforeGetText(WebElement webElement, WebDriver webDriver) {
-        logger.warn(() -> "Getting text from element...");
+        logger.debug(() -> "Getting text from element...");
     }
 
     @Override
     public void afterGetText(WebElement webElement, WebDriver webDriver, String text) {
-        logger.warn(() -> "Got text [" + text + "] from element...");
+        logger.debug(() -> "Got text [" + text + "] from element...");
     }
 
     @Override
     public void beforeAlertAccept(WebDriver webDriver) {
-        logger.warn(() -> "Accepting Alert pop-up...");
+        logger.debug(() -> "Accepting Alert pop-up...");
     }
 
     @Override
     public void afterAlertAccept(WebDriver webDriver) {
-        logger.warn(() -> "Alert dialog accepted...");
+        logger.debug(() -> "Alert dialog accepted...");
     }
 
     @Override
     public void beforeAlertDismiss(WebDriver webDriver) {
-        logger.warn(() -> "Dismissing Alert pop-up...");
+        logger.debug(() -> "Dismissing Alert pop-up...");
     }
 
     @Override
     public void afterAlertDismiss(WebDriver webDriver) {
-        logger.warn(() -> "Alert dialog dismissed...");
+        logger.debug(() -> "Alert dialog dismissed...");
     }
 }
