@@ -41,53 +41,50 @@ public final class FileExtractUtil {
 
     public static File extractFile(File source, File destination, DownloaderType compressedBinaryType) {
         logger.info(() -> String.format("Extracting binary from compressed file %s", source));
+        final File extractedFile = compressedBinaryType.equals(DownloaderType.ZIP) ? unZipFile(source, destination) : unTarFile(source, destination);
 
-        if (compressedBinaryType.equals(DownloaderType.ZIP))
-            unZipFile(source, destination);
-        else
-            unTarFile(source, destination);
-
-        final File[] directoryContents = (destination != null) ? destination.listFiles() : new File[0];
+        final File[] directoryContents = (extractedFile != null) ? extractedFile.listFiles() : new File[0];
 
         if (directoryContents != null && directoryContents.length == 0) {
             throw new WebDriverBinaryException("The file unpacking failed for: " + source.getAbsolutePath());
         }
         logger.debug(() -> "Deleting compressed file:" + source.getAbsolutePath());
         source.deleteOnExit();
-
-        return destination;
+        
+        return extractedFile;
     }
 
-    private static void unZipFile(File source, File destination) {
-
+    private static File unZipFile(File source, File destination) {
+        File entryDestination = null;
         try (FileInputStream fis = new FileInputStream(source);
              ZipArchiveInputStream zis = new ZipArchiveInputStream(fis)) {
             ZipArchiveEntry entry;
             while ((entry = zis.getNextZipEntry()) != null) {
-                uncompress(zis, destination, entry);
+                entryDestination = uncompress(zis, destination, entry);
             }
         } catch (IOException e) {
             throw new WebDriverBinaryException(e);
         }
-
+        return entryDestination;
     }
 
-    private static void unTarFile(File source, File destination) {
+    private static File unTarFile(File source, File destination) {
+        File entryDestination = null;
         try (FileInputStream fis = new FileInputStream(source);
              GZIPInputStream gZIPInputStream = new GZIPInputStream(fis);
              final TarArchiveInputStream tis = new TarArchiveInputStream(gZIPInputStream)) {
             TarArchiveEntry entry;
 
             while ((entry = tis.getNextTarEntry()) != null) {
-                uncompress(tis, destination, entry);
+                entryDestination = uncompress(tis, destination, entry);
             }
         } catch (IOException ex) {
             throw new WebDriverBinaryException(ex);
         }
-
+        return entryDestination;
     }
 
-    private static void uncompress(InputStream inputStream, File destination, ArchiveEntry entry) throws IOException {
+    private static File uncompress(InputStream inputStream, File destination, ArchiveEntry entry) throws IOException {
         String fileName = entry.getName();
         long size = entry.getSize();
         long compressedSize = entry.getSize();
@@ -102,5 +99,6 @@ public final class FileExtractUtil {
             IOUtils.copy(inputStream, fos);
             fos.close();
         }
+        return entryDestination;
     }
 }
