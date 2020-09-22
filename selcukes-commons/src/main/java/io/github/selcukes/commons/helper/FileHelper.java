@@ -51,9 +51,9 @@ public class FileHelper {
         return driversFolder(file.getParent());
     }
 
-    public void setFileExecutable(String fileName) {
+    public void setFileExecutable(Path filepath) {
         try {
-            final Path filepath = Paths.get(fileName);
+
             if (Files.exists(filepath)) {
                 final Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(filepath);
                 permissions.add(PosixFilePermission.OWNER_EXECUTE);
@@ -82,11 +82,10 @@ public class FileHelper {
     }
 
     public void createDirectory(File dirName) {
-        if (!dirName.exists()) {
-            LOGGER.trace(() -> "Creating directory: " + dirName.getName());
-            if (!dirName.mkdirs() && !dirName.isDirectory()) {
-                throw new SelcukesException("\"" + dirName + "\" directory cannot be created");
-            }
+        try {
+            FileUtils.forceMkdir(dirName);
+        } catch (IOException e) {
+            throw new SelcukesException(e);
         }
     }
 
