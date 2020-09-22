@@ -17,19 +17,22 @@
 package io.github.selcukes.wdb.util;
 
 import io.github.selcukes.commons.exception.WebDriverBinaryException;
-import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.wdb.enums.DownloaderType;
+import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
-import org.apache.commons.io.IOUtils;
 
-import java.io.*;
-import java.util.Enumeration;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 public final class FileExtractUtil {
 
@@ -54,59 +57,90 @@ public final class FileExtractUtil {
     }
 
     private static File unZipFile(File source, File destination) {
-        File entryDestination = null;
-        try (ZipFile zipFile = new ZipFile(source)) {
-            Enumeration<? extends ZipEntry> entries = zipFile.entries();
-            while (entries.hasMoreElements()) {
-                ZipEntry zipEntry = entries.nextElement();
-                String fileName = zipEntry.getName();
-                long size = zipEntry.getSize();
-                long compressedSize = zipEntry.getCompressedSize();
-                logger.info(() -> String.format("Unzipping {%s} (size: {%d} KB, compressed size: {%d} KB)",
-                    fileName, size, compressedSize));
-                entryDestination = new File(destination.getAbsolutePath() + File.separator + fileName);
-                if (zipEntry.isDirectory()) {
-                    FileHelper.createDirectory(entryDestination);
-                } else {
-                    FileHelper.createDirectory(entryDestination.getParentFile());
-                    InputStream in = zipFile.getInputStream(zipEntry);
-                    OutputStream out = new FileOutputStream(entryDestination);
-                    IOUtils.copy(in, out);
-                    out.close();
+        try (ZipInputStream zis = new ZipInputStream(new FileInputStream(source))) {
+
+            ZipEntry entry = zis.getNextEntry();
+
+            while (entry != null) {
+                boolean isDirectory = false;
+                if (entry.getName().endsWith(File.separator)) {
+                    isDirectory = true;
                 }
+
+                Path newPath = zipSlipProtect(entry, destination.toPath());
+
+                if (isDirectory) {
+                    Files.createDirectories(newPath);
+                } else {
+
+                    if (newPath.getParent() != null) {
+                        if (Files.notExists(newPath.getParent())) {
+                            Files.createDirectories(newPath.getParent());
+                        }
+                    }
+
+                    Files.copy(zis, newPath, StandardCopyOption.REPLACE_EXISTING);
+
+                }
+                entry = zis.getNextEntry();
             }
+            zis.closeEntry();
+
         } catch (IOException e) {
             throw new WebDriverBinaryException(e);
         }
-        return entryDestination;
+        return destination;
     }
 
     private static File unTarFile(File source, File destination) {
-        File entryDestination = null;
         try (FileInputStream fis = new FileInputStream(source);
              GZIPInputStream gZIPInputStream = new GZIPInputStream(fis);
              final TarArchiveInputStream inputStream = new TarArchiveInputStream(gZIPInputStream)) {
-            TarArchiveEntry tarEntry;
+            TarArchiveEntry entry;
 
-            while ((tarEntry = inputStream.getNextTarEntry()) != null) {
-                String fileName = tarEntry.getName();
-                long size = tarEntry.getSize();
-                long compressedSize = tarEntry.getSize();
-                logger.info(() -> String.format("Decompressing {%s} (size: {%d} KB, compressed size: {%d} KB)",
-                    fileName, size, compressedSize));
-                entryDestination = new File(destination.getAbsolutePath() + File.separator + fileName);
-                if (tarEntry.isDirectory()) {
-                    FileHelper.createDirectory(entryDestination);
+            while ((entry = inputStream.getNextTarEntry()) != null) {
+                Path newPath = zipSlipProtect(entry, destination.toPath());
+                if (entry.isDirectory()) {
+                    Files.createDirectories(newPath);
                 } else {
-                    FileHelper.createDirectory(entryDestination.getParentFile());
-                    FileOutputStream fos = new FileOutputStream(entryDestination);
-                    IOUtils.copy(inputStream, fos);
-                    fos.close();
+
+                    Path parent = newPath.getParent();
+                    if (parent != null) {
+                        if (Files.notExists(parent)) {
+                            Files.createDirectories(parent);
+                        }
+                    }
+                    Files.copy(inputStream, newPath, StandardCopyOption.REPLACE_EXISTING);
+
                 }
             }
         } catch (IOException ex) {
             throw new WebDriverBinaryException(ex);
         }
-        return entryDestination;
+        return destination;
+    }
+
+    public static Path zipSlipProtect(ZipEntry entry, Path targetDir)
+        throws IOException {
+
+        Path targetDirResolved = targetDir.resolve(entry.getName());
+        Path normalizePath = targetDirResolved.normalize();
+        if (!normalizePath.startsWith(targetDir)) {
+            throw new IOException("Bad zip entry: " + entry.getName());
+        }
+
+        return normalizePath;
+    }
+
+    public static Path zipSlipProtect(ArchiveEntry entry, Path targetDir)
+        throws IOException {
+
+        Path targetDirResolved = targetDir.resolve(entry.getName());
+        Path normalizePath = targetDirResolved.normalize();
+        if (!normalizePath.startsWith(targetDir)) {
+            throw new IOException("Bad zip entry: " + entry.getName());
+        }
+
+        return normalizePath;
     }
 }
