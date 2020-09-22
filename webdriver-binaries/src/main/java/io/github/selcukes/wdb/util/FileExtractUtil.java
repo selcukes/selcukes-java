@@ -96,9 +96,7 @@ public final class FileExtractUtil {
                     fileName, size, compressedSize));
                 entryDestination = new File(destination.getAbsolutePath() + File.separator + fileName);
                 if (tarEntry.isDirectory()) {
-                    if (!entryDestination.exists()) {
-                        FileHelper.createDirectory(entryDestination);
-                    }
+                    FileHelper.createDirectory(entryDestination);
                 } else {
                     FileHelper.createDirectory(entryDestination.getParentFile());
                     FileOutputStream fos = new FileOutputStream(entryDestination);

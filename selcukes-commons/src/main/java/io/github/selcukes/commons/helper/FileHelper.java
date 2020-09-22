@@ -54,7 +54,7 @@ public class FileHelper {
     public void setFileExecutable(String fileName) {
         try {
             final Path filepath = Paths.get(fileName);
-            if (!Files.isSymbolicLink(filepath)) {
+            if (Files.exists(filepath)) {
                 final Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(filepath);
                 permissions.add(PosixFilePermission.OWNER_EXECUTE);
                 Files.setPosixFilePermissions(filepath, permissions);
@@ -82,12 +82,10 @@ public class FileHelper {
     }
 
     public void createDirectory(File dirName) {
-        boolean dirExists = dirName.exists();
-        if (!dirExists) {
+        if (!dirName.exists()) {
             LOGGER.trace(() -> "Creating directory: " + dirName.getName());
-            dirExists = dirName.mkdirs();
-            if (dirExists) {
-                LOGGER.trace(() -> dirName.getName() + " directory created...");
+            if (!dirName.mkdirs() && !dirName.isDirectory()) {
+                throw new SelcukesException("\"" + dirName + "\" directory cannot be created");
             }
         }
     }
