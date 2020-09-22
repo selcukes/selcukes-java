@@ -50,7 +50,7 @@ public final class FileExtractUtil {
         }
         logger.debug(() -> "Deleting compressed file:" + source.getAbsolutePath());
         source.deleteOnExit();
-        
+
         return extractedFile;
     }
 
@@ -90,7 +90,7 @@ public final class FileExtractUtil {
         long compressedSize = entry.getSize();
         logger.info(() -> String.format("Uncompressing {%s} (size: {%d} KB, compressed size: {%d} KB)",
             fileName, size, compressedSize));
-        File entryDestination = new File(destination.getAbsolutePath() + File.separator + fileName);
+        File entryDestination = newFile(destination, entry);
         if (entry.isDirectory()) {
             FileHelper.createDirectory(entryDestination);
         } else {
@@ -100,5 +100,18 @@ public final class FileExtractUtil {
             fos.close();
         }
         return entryDestination;
+    }
+
+    private static File newFile(File destinationDir, ArchiveEntry entry) throws IOException {
+        File destFile = new File(destinationDir, entry.getName());
+
+        String destDirPath = destinationDir.getCanonicalPath();
+        String destFilePath = destFile.getCanonicalPath();
+
+        if (!destFilePath.startsWith(destDirPath + File.separator)) {
+            throw new IOException("Entry is outside of the target dir: " + entry.getName());
+        }
+
+        return destFile;
     }
 }
