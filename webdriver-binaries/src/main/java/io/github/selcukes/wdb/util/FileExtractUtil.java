@@ -21,15 +21,15 @@ import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.wdb.enums.DownloaderType;
+import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
-import java.util.Enumeration;
 import java.util.zip.GZIPInputStream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 public final class FileExtractUtil {
 
@@ -41,72 +41,66 @@ public final class FileExtractUtil {
 
     public static File extractFile(File source, File destination, DownloaderType compressedBinaryType) {
         logger.info(() -> String.format("Extracting binary from compressed file %s", source));
-        final File extractedFile = compressedBinaryType.equals(DownloaderType.ZIP) ? unZipFile(source, destination) : unTarFile(source, destination);
 
-        final File[] directoryContents = (extractedFile != null) ? extractedFile.listFiles() : new File[0];
+        if (compressedBinaryType.equals(DownloaderType.ZIP))
+            unZipFile(source, destination);
+        else
+            unTarFile(source, destination);
+
+        final File[] directoryContents = (destination != null) ? destination.listFiles() : new File[0];
 
         if (directoryContents != null && directoryContents.length == 0) {
             throw new WebDriverBinaryException("The file unpacking failed for: " + source.getAbsolutePath());
         }
         logger.debug(() -> "Deleting compressed file:" + source.getAbsolutePath());
         source.deleteOnExit();
-        return extractedFile;
+
+        return destination;
     }
 
-    private static File unZipFile(File source, File destination) {
-        File entryDestination = null;
-        try (ZipFile zipFile = new ZipFile(source)) {
-            Enumeration<? extends ZipEntry> entries = zipFile.entries();
-            while (entries.hasMoreElements()) {
-                ZipEntry zipEntry = entries.nextElement();
-                String fileName = zipEntry.getName();
-                long size = zipEntry.getSize();
-                long compressedSize = zipEntry.getCompressedSize();
-                logger.info(() -> String.format("Unzipping {%s} (size: {%d} KB, compressed size: {%d} KB)",
-                    fileName, size, compressedSize));
-                entryDestination = new File(destination.getAbsolutePath() + File.separator + fileName);
-                if (zipEntry.isDirectory()) {
-                    FileHelper.createDirectory(entryDestination);
-                } else {
-                    FileHelper.createDirectory(entryDestination.getParentFile());
-                    InputStream in = zipFile.getInputStream(zipEntry);
-                    OutputStream out = new FileOutputStream(entryDestination);
-                    IOUtils.copy(in, out);
-                    out.close();
-                }
+    private static void unZipFile(File source, File destination) {
+
+        try (FileInputStream fis = new FileInputStream(source);
+             ZipArchiveInputStream zis = new ZipArchiveInputStream(fis)) {
+            ZipArchiveEntry entry;
+            while ((entry = zis.getNextZipEntry()) != null) {
+                uncompress(zis, destination, entry);
             }
         } catch (IOException e) {
             throw new WebDriverBinaryException(e);
         }
-        return entryDestination;
+
     }
 
-    private static File unTarFile(File source, File destination) {
-        File entryDestination = null;
+    private static void unTarFile(File source, File destination) {
         try (FileInputStream fis = new FileInputStream(source);
              GZIPInputStream gZIPInputStream = new GZIPInputStream(fis);
-             final TarArchiveInputStream inputStream = new TarArchiveInputStream(gZIPInputStream)) {
-            TarArchiveEntry tarEntry;
+             final TarArchiveInputStream tis = new TarArchiveInputStream(gZIPInputStream)) {
+            TarArchiveEntry entry;
 
-            while ((tarEntry = inputStream.getNextTarEntry()) != null) {
-                String fileName = tarEntry.getName();
-                long size = tarEntry.getSize();
-                long compressedSize = tarEntry.getSize();
-                logger.info(() -> String.format("Decompressing {%s} (size: {%d} KB, compressed size: {%d} KB)",
-                    fileName, size, compressedSize));
-                entryDestination = new File(destination.getAbsolutePath() + File.separator + fileName);
-                if (tarEntry.isDirectory()) {
-                    FileHelper.createDirectory(entryDestination);
-                } else {
-                    FileHelper.createDirectory(entryDestination.getParentFile());
-                    FileOutputStream fos = new FileOutputStream(entryDestination);
-                    IOUtils.copy(inputStream, fos);
-                    fos.close();
-                }
+            while ((entry = tis.getNextTarEntry()) != null) {
+                uncompress(tis, destination, entry);
             }
         } catch (IOException ex) {
             throw new WebDriverBinaryException(ex);
         }
-        return entryDestination;
+
+    }
+
+    private static void uncompress(InputStream inputStream, File destination, ArchiveEntry entry) throws IOException {
+        String fileName = entry.getName();
+        long size = entry.getSize();
+        long compressedSize = entry.getSize();
+        logger.info(() -> String.format("Uncompressing {%s} (size: {%d} KB, compressed size: {%d} KB)",
+            fileName, size, compressedSize));
+        File entryDestination = new File(destination.getAbsolutePath() + File.separator + fileName);
+        if (entry.isDirectory()) {
+            FileHelper.createDirectory(entryDestination);
+        } else {
+            FileHelper.createDirectory(entryDestination.getParentFile());
+            FileOutputStream fos = new FileOutputStream(entryDestination);
+            IOUtils.copy(inputStream, fos);
+            fos.close();
+        }
     }
 }
