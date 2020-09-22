@@ -51,14 +51,11 @@ public class FileHelper {
         return driversFolder(file.getParent());
     }
 
-    public void setFileExecutable(Path filepath) {
+    public void setFileExecutable(String filepath) {
         try {
-
-            if (Files.exists(filepath)) {
-                final Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(filepath);
-                permissions.add(PosixFilePermission.OWNER_EXECUTE);
-                Files.setPosixFilePermissions(filepath, permissions);
-            }
+            final Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(Paths.get(filepath));
+            permissions.add(PosixFilePermission.OWNER_EXECUTE);
+            Files.setPosixFilePermissions(Paths.get(filepath), permissions);
         } catch (Exception e) {
             LOGGER.error(e::getMessage);
             throw new WebDriverBinaryException("Unable to set WebDriver Binary file as executable :" + e);
@@ -81,11 +78,13 @@ public class FileHelper {
         return filePath;
     }
 
-    public void createDirectory(File dirName) {
-        try {
-            FileUtils.forceMkdir(dirName);
-        } catch (IOException e) {
-            throw new SelcukesException(e);
+    public void createDirectory(File directory) {
+        if (directory.exists()) {
+            if (!directory.isDirectory()) {
+                throw new SelcukesException("File " + directory + " exists and is not a directory. Unable to create directory.");
+            }
+        } else if (!directory.mkdirs() && !directory.isDirectory()) {
+            throw new SelcukesException("Unable to create directory " + directory);
         }
     }
 

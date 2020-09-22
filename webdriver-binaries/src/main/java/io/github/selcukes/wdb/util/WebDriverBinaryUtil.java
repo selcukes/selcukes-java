@@ -97,7 +97,7 @@ public class WebDriverBinaryUtil {
             new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()),
             binaryFactory.getCompressedBinaryType());
         if (Objects.equals(binaryFactory.getBinaryEnvironment().getOSType(), OsType.LINUX))
-            FileHelper.setFileExecutable(decompressedBinary.toPath());
+            FileHelper.setFileExecutable(decompressedBinary.getAbsolutePath());
     }
 
     private String configureBinary() {
