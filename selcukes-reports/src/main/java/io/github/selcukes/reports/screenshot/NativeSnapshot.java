@@ -68,11 +68,13 @@ abstract class NativeSnapshot {
     }
 
     protected int getFullWidth() {
-        return (int) executeJS("return window.innerWidth");
+        Long fullWidth = (Long) executeJS("return window.innerWidth");
+        return fullWidth.intValue();
     }
 
     protected int getWindowHeight() {
-        return (int) executeJS("return window.innerHeight");
+        Long windowHeight = (Long) executeJS("return window.innerHeight");
+        return windowHeight.intValue();
     }
 
 
