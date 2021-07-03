@@ -7,7 +7,7 @@
     <groupId>io.github.selcukes</groupId>
     <artifactId>selcukes-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.7-SNAPSHOT</version>
+    <version>1.2.2-SNAPSHOT</version>
 
     <modules>
         <module>selcukes-commons</module>
@@ -17,35 +17,35 @@
         <module>selcukes-reports</module>
         <module>selcukes-server</module>
         <module>selcukes-junit</module>
-        
+        <module>driver-pool</module>
     </modules>
 
     <name>selcukes-java</name>
     <description>selcukes-framework</description>
     <url>https://github.com/selcukes/selcukes-java</url>
-    <inceptionYear>2020</inceptionYear>
+    <inceptionYear>2021</inceptionYear>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
-        <commons.io.version>2.7</commons.io.version>
-        <lombok.version>1.18.12</lombok.version>
-        <jackson.version>2.11.0</jackson.version>
-        <apache-http.version>5.0.1</apache-http.version>
+        <commons.io.version>2.10.0</commons.io.version>
+        <lombok.version>1.18.20</lombok.version>
+        <jackson.version>2.12.3</jackson.version>
+        <apache-http.version>5.1</apache-http.version>
         <commons-compress.version>1.20</commons-compress.version>
         <jsoup.version>1.13.1</jsoup.version>
-        <cucumber-reporting.version>5.3.1</cucumber-reporting.version>
+        <cucumber-reporting.version>5.5.3</cucumber-reporting.version>
         <recorder.version>0.7.7.0</recorder.version>
 
-        <cucumber.version>6.7.0</cucumber.version>
+        <cucumber.version>6.10.4</cucumber.version>
         <selenium.version>3.141.59</selenium.version>
-        <appium.version>7.2.0</appium.version>
-        <testng.version>7.3.0</testng.version>
+        <appium.version>7.5.1</appium.version>
+        <testng.version>7.4.0</testng.version>
 
-        <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
-        <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.3.0</maven-javadoc-plugin.version>
+        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 
