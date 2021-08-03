@@ -34,7 +34,7 @@
         <lombok.version>1.18.12</lombok.version>
         <jackson.version>2.11.0</jackson.version>
         <apache-http.version>5.0.1</apache-http.version>
-        <commons-compress.version>1.20</commons-compress.version>
+        <commons-compress.version>1.21</commons-compress.version>
         <jsoup.version>1.13.1</jsoup.version>
         <cucumber-reporting.version>5.3.1</cucumber-reporting.version>
         <recorder.version>0.7.7.0</recorder.version>
