@@ -19,4 +19,4 @@ java.util.logging.FileHandler.level: FINE
 # Limit the message that are printed on the console to INFO and above.
 java.util.logging.ConsoleHandler.level: FINE
 #java.util.logging.ConsoleHandler.formatter : java.util.logging.SimpleFormatter
-java.util.logging.ConsoleHandler.formatter: io.github.selcukes.commons.logging.SelcukesLoggerFormatter
+java.util.logging.ConsoleHandler.formatter: io.github.selcukes.commons.logging.SelcukesColorFormatter

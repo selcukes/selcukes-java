@@ -25,14 +25,14 @@ import java.util.logging.LogRecord;
 
 public class SelcukesLoggerFormatter extends Formatter {
 
-    public String format(LogRecord record) {
+    public String format(LogRecord logRecord) {
         StringBuilder builder = new StringBuilder(1000);
-        builder.append(DateHelper.get().timeStamp(record.getMillis())).append(" - ");
-        builder.append("[").append(getLevel(record)).append("] - ");
-        builder.append("[").append(record.getSourceClassName()).append(".");
-        builder.append(record.getSourceMethodName()).append(":").append(getLineNumber(record)).append("] - ");
-        builder.append(formatMessage(record));
-        Throwable throwable = record.getThrown();
+        builder.append(DateHelper.get().timeStamp(logRecord.getMillis())).append(" - ");
+        builder.append("[").append(getLevel(logRecord)).append("] - ");
+        builder.append("[").append(logRecord.getSourceClassName()).append(".");
+        builder.append(logRecord.getSourceMethodName()).append(":").append(getLineNumber(logRecord)).append("] - ");
+        builder.append(formatMessage(logRecord));
+        Throwable throwable = logRecord.getThrown();
         if (null != throwable) {
             builder.append('\n').append(ExceptionHelper.getStackTrace(throwable));
         }
@@ -41,8 +41,8 @@ public class SelcukesLoggerFormatter extends Formatter {
         return builder.toString();
     }
 
-    public String getLevel(LogRecord record) {
-        String level = record.getLevel().getName();
+    public String getLevel(LogRecord logRecord) {
+        String level = logRecord.getLevel().getName();
         switch (level) {
             case "SEVERE":
                 level = "ERROR";
@@ -72,8 +72,8 @@ public class SelcukesLoggerFormatter extends Formatter {
         return callerFrame;
     }
 
-    private String getLineNumber(LogRecord record) {
-        final StackTraceElement callerFrame = getCallerStackFrame(record.getSourceClassName());
+    private String getLineNumber(LogRecord logRecord) {
+        final StackTraceElement callerFrame = getCallerStackFrame(logRecord.getSourceClassName());
 
         if (callerFrame != null) {
 
