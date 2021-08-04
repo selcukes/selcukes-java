@@ -1,4 +1,4 @@
-Feature: Sample Guess the word
+Feature: Sample Guess the word Demo
 
   @ex
   Scenario: Maker starts a game

@@ -1,1 +1,2 @@
 io.github.selcukes.testng.listeners.SuiteListener
+io.github.selcukes.testng.listeners.AnnotationTransformer

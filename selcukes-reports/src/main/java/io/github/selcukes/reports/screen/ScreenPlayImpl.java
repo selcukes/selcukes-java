@@ -118,12 +118,14 @@ class ScreenPlayImpl implements ScreenPlay {
         return this;
     }
 
+
     @Override
     public void attachLogs() {
         if (isAttachable()) {
             String infoLogs = loggerListener.getLogRecords(Level.INFO)
                 .map(LogRecord::getMessage)
-                .collect(Collectors.joining("<br/>  --> ", "<br/> Logs: <br/>   --> ", "<br/> --End Of Logs--"));
+                .collect(Collectors.joining("</li><li>", "<ul><li> ",
+                    "</li></ul><br/>"));
             write(infoLogs);
         }
         stopReadingLogs();
@@ -134,7 +136,8 @@ class ScreenPlayImpl implements ScreenPlay {
         if (isAttachable()) {
             String logs = loggerListener.getLogRecords(level)
                 .map(LogRecord::getMessage)
-                .collect(Collectors.joining("<br/>  --> ", "<br/> Logs: <br/>   --> ", "<br/> --End Of Logs--"));
+                .collect(Collectors.joining("</li><li>", "<ul><li> ",
+                    "</li></ul><br/>"));
             write(logs);
         }
         stopReadingLogs();
