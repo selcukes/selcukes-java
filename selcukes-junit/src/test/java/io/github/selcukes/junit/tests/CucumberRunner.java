@@ -17,12 +17,8 @@
 package io.github.selcukes.junit.tests;
 
 import io.cucumber.junit.platform.engine.Cucumber;
-import org.junit.jupiter.api.Test;
 
 @Cucumber
 class CucumberRunner {
-    @Test
-    public void test() {
 
-    }
 }

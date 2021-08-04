@@ -46,13 +46,13 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
             String features = getProperty("selcukes.features");
             Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}");
             Matcher matcher = pattern.matcher(features);
-            StringBuffer stringBuffer = new StringBuffer();
+            StringBuilder stringBuilder = new StringBuilder();
 
             while (matcher.find()) {
-                matcher.appendReplacement(stringBuffer, getProperty(matcher.group(1)));
+                matcher.appendReplacement(stringBuilder, getProperty(matcher.group(1)));
             }
-            matcher.appendTail(stringBuffer);
-            features = stringBuffer.toString();
+            matcher.appendTail(stringBuilder);
+            features = stringBuilder.toString();
 
             String glue = getProperty("selcukes.glue");
             String tag = getProperty("selcukes.tags");

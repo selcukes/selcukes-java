@@ -19,5 +19,5 @@ package io.github.selcukes.reports.enums;
 public enum  TestType {
     CUCUMBER,
     TESTNG,
-    JUNIT;
+    JUNIT
 }

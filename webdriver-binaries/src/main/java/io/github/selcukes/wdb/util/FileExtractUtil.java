@@ -94,7 +94,10 @@ public final class FileExtractUtil {
         if (entry.isDirectory()) {
             FileHelper.createDirectory(entryDestination);
         } else {
-            FileHelper.createDirectory(entryDestination.getParentFile());
+            if (entryDestination.getParent() != null) {
+                FileHelper.createDirectory(entryDestination.getParentFile());
+            }
+
             FileOutputStream fos = new FileOutputStream(entryDestination);
             IOUtils.copy(inputStream, fos);
             fos.close();

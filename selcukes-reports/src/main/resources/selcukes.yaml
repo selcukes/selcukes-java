@@ -10,7 +10,7 @@ isProxy: false
 baseUrl:
 remoteGridUrl:
 videoRecording: false
-ffmpegPath: 
+ffmpegPath: D:\\MyProject\support\video\ffmpeg\bin\
 watermarkStatus: true
 recorderType: FFMPEG
 notification: false

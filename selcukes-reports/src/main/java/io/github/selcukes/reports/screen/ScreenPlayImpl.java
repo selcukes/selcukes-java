@@ -118,6 +118,7 @@ class ScreenPlayImpl implements ScreenPlay {
         return this;
     }
 
+
     @Override
     public void attachLogs() {
         if (isAttachable()) {
