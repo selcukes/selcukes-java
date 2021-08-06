@@ -30,7 +30,7 @@ public class ConfigTest {
         logger.info(() -> ConfigFactory.getConfig().getBrowserName());
         logger.info(() -> ConfigFactory.getConfig().getEnv());
         logger.info(() -> ConfigFactory.getConfig().getBaseUrl());
-        logger.info(() -> ConfigFactory.getConfig().getIsProxy());
+        logger.info(() -> ConfigFactory.getConfig().getProxy().toString());
         logger.info(() -> ConfigFactory.getConfig().getProjectName());
         logger.info(() -> ConfigFactory.getConfig().getRemoteGridUrl());
         logger.info(() -> ConfigFactory.getConfig().getHeadLess().toString());

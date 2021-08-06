@@ -16,13 +16,13 @@
 
 package io.github.selcukes.commons.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.github.selcukes.commons.exception.ConfigurationException;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.properties.LinkedProperties;
+import io.github.selcukes.commons.resource.FileLoader;
+import lombok.experimental.UtilityClass;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,30 +33,17 @@ import java.util.Map;
 import java.util.logging.LogManager;
 import java.util.stream.Collectors;
 
+@UtilityClass
 public class ConfigFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigFactory.class);
-    private static final String DEFAULT_CONFIG_FILE = "selcukes.yaml";
     private static final String DEFAULT_LOG_BACK_FILE = "selcukes-logback.yaml";
     private static Environment environment;
 
-    private ConfigFactory() {
-
-    }
-
     public static Environment getConfig() {
         if (environment == null) {
-            environment = loadConfig();
+            environment = FileLoader.parse(Environment.class);
         }
         return environment;
-    }
-
-    private static Environment loadConfig() {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper(new YAMLFactory());
-            return objectMapper.readValue(getStream(DEFAULT_CONFIG_FILE), Environment.class);
-        } catch (IOException e) {
-            throw new ConfigurationException("Failed loading selcukes properties: ", e);
-        }
     }
 
     public static void loadLoggerProperties() {
