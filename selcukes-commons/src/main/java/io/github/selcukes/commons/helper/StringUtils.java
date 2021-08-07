@@ -25,4 +25,24 @@ public class StringUtils {
     public boolean isNullOrEmpty(String text) {
         return text == null || text.isEmpty() || text.isBlank();
     }
+
+    public String toSnakeCase(String text) {
+        String regex = "([a-z])([A-Z]+)";
+        String replacement = "$1_$2";
+        return text.replaceAll(regex, replacement).toLowerCase();
+    }
+
+    public String toCamelCase(String text) {
+        String regex = "[^a-zA-Z0-9]";
+        final StringBuilder stringBuilder = new StringBuilder(text.length());
+
+        for (final String word : text.replaceAll(regex, "_").split("_")) {
+            if (!word.isEmpty()) {
+                stringBuilder.append(Character.toUpperCase(word.charAt(0)));
+                stringBuilder.append(word.substring(1).toLowerCase());
+            }
+        }
+
+        return stringBuilder.toString();
+    }
 }
