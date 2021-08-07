@@ -44,7 +44,7 @@ public class Await {
     }
 
     public void until(Callable<Boolean> conditionEvaluator) throws Exception {
-        int stopwatch = 1;
+        long stopwatch = 1;
         while (Boolean.FALSE.equals(conditionEvaluator.call()) && stopwatch <= maxTimeout) {
             logger.debug(() -> "Waiting...");
             TimeUnit.SECONDS.sleep(pollTimeout);
