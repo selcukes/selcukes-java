@@ -23,7 +23,7 @@ import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import org.testng.annotations.Test;
 
-import java.util.NoSuchElementException;
+import java.util.concurrent.TimeoutException;
 
 public class BusinessExceptionTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -31,7 +31,7 @@ public class BusinessExceptionTest {
     public void createException() {
 
         try {
-            throw new NoSuchElementException("Test not found");
+            throw new TimeoutException("Test not found");
         } catch (Exception e) {
             throw new BusinessException("Element not Found", e);
         }
