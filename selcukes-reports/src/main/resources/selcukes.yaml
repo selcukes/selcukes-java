@@ -6,7 +6,7 @@ browserName: CHROME
 windowId: 30
 headLess: true
 remote: false
-isProxy: false
+proxy: false
 baseUrl:
 remoteGridUrl:
 videoRecording: false

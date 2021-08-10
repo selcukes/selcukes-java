@@ -17,12 +17,14 @@
 package io.github.selcukes.commons.config;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.github.selcukes.commons.annotation.DataFile;
 import lombok.Data;
 
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
+@DataFile(fileName = "selcukes.yaml", folderPath = "src/main/resources")
 public class Environment {
     private String projectName;
     private String env;
@@ -30,7 +32,7 @@ public class Environment {
     private String windowId;
     private Boolean headLess;
     private Boolean remote;
-    private String isProxy;
+    private Boolean proxy;
     private String baseUrl;
     private String remoteGridUrl;
     private String ffmpegPath;

@@ -16,7 +16,6 @@
 
 package io.github.selcukes.reports.screenshot;
 
-import com.google.common.collect.ImmutableMap;
 import io.github.selcukes.commons.Await;
 import io.github.selcukes.commons.exception.SnapshotException;
 import io.github.selcukes.commons.helper.DateHelper;
@@ -51,7 +50,7 @@ abstract class NativeSnapshot {
     protected boolean isAddressBar = false;
     protected String screenshotText;
 
-    public NativeSnapshot(WebDriver driver) {
+    protected NativeSnapshot(WebDriver driver) {
         this.driver = driver;
     }
 
@@ -183,8 +182,8 @@ abstract class NativeSnapshot {
                 "})");
         sendCommand("Emulation.setDeviceMetricsOverride", metrics);
         Await.until(TimeUnit.MILLISECONDS, 500);
-        Object result = sendCommand("Page.captureScreenshot", ImmutableMap.of("format", PNG, "fromSurface", true));
-        sendCommand("Emulation.clearDeviceMetricsOverride", ImmutableMap.of());
+        Object result = sendCommand("Page.captureScreenshot", Map.of("format", PNG, "fromSurface", true));
+        sendCommand("Emulation.clearDeviceMetricsOverride", Map.of());
         String base64EncodedPng = (String) ((Map<String, ?>) result).get("data");
         return ImageUtil.toBufferedImage(OutputType.BYTES.convertFromBase64Png(base64EncodedPng));
     }
@@ -193,7 +192,7 @@ abstract class NativeSnapshot {
         try {
             Method execute = RemoteWebDriver.class.getDeclaredMethod("execute", String.class, Map.class);
             execute.setAccessible(true);
-            Response res = (Response) execute.invoke(driver, "sendCommand", ImmutableMap.of("cmd", cmd, "params", params));
+            Response res = (Response) execute.invoke(driver, "sendCommand", Map.of("cmd", cmd, "params", params));
             return res.getValue();
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             throw new SnapshotException(e);
@@ -211,7 +210,7 @@ abstract class NativeSnapshot {
     }
 
     protected Object sendEvaluate(String script) {
-        Object response = sendCommand("Runtime.evaluate", ImmutableMap.of("returnByValue", true, "expression", script));
+        Object response = sendCommand("Runtime.evaluate", Map.of("returnByValue", true, "expression", script));
         Object result = ((Map<String, ?>) response).get("result");
         return ((Map<String, ?>) result).get("value");
     }

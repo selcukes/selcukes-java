@@ -19,6 +19,7 @@ package io.github.selcukes.commons.helper;
 
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.commons.data.DataMapper;
 import lombok.experimental.UtilityClass;
 
 import java.io.PrintWriter;
@@ -30,6 +31,7 @@ import java.util.regex.Pattern;
 public class ExceptionHelper {
 
     private final Logger logger = LoggerFactory.getLogger(ExceptionHelper.class);
+    private static ErrorCodes errorCodes;
 
     public <T> T rethrow(Exception e) {
         logger.error(() -> "Rethrow exception: " + e.getClass().getName() + e.getMessage());
@@ -54,5 +56,12 @@ public class ExceptionHelper {
             return matcher.group(1);
 
         return null;
+    }
+
+    public ErrorCodes getErrorCodes() {
+        if (errorCodes == null) {
+            errorCodes = DataMapper.parse(ErrorCodes.class);
+        }
+        return errorCodes;
     }
 }

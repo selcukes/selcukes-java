@@ -1,0 +1,11 @@
+errors:
+  no_such_element_exception: "Issue1 - Wrong locator might be used:\n
+      Make sure that you are using a unique locator.\nIssue2 - The web page was not completely loaded and the element is not found:\n
+      you can use Selenium explicit waits, and wait until the element can be found on the page.\n"
+  element_not_visible_exception: "Issue1 - Locator might finds more elements and the first one is not visible:\n
+      Make sure that you are using a unique locator.
+      \nIssue2 - The element is hidden:\n
+      If your locator is good, then you can add a wait, that checks when the element is visible.\n"
+  stale_element_reference_exception: "Issue1 - The element was deleted from the DOM:
+      \nIssue2 - The element is no longer attached to the DOM:
+      \nRefresh the page and try to finding the element or wait for the element to load before you manipulate.\n"

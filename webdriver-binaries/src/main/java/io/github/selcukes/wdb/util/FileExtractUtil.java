@@ -98,9 +98,12 @@ public final class FileExtractUtil {
                 FileHelper.createDirectory(entryDestination.getParentFile());
             }
 
-            FileOutputStream fos = new FileOutputStream(entryDestination);
-            IOUtils.copy(inputStream, fos);
-            fos.close();
+            try (FileOutputStream fos = new FileOutputStream(entryDestination)) {
+                IOUtils.copy(inputStream, fos);
+            } catch (Exception e) {
+                throw new WebDriverBinaryException(e);
+            }
+
         }
         return entryDestination;
     }
