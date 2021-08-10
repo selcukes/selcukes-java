@@ -19,7 +19,7 @@ package io.github.selcukes.commons.helper;
 
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.commons.resource.FileLoader;
+import io.github.selcukes.commons.resource.DataMapper;
 import lombok.experimental.UtilityClass;
 
 import java.io.PrintWriter;
@@ -60,7 +60,7 @@ public class ExceptionHelper {
 
     public ErrorCodes getErrorCodes() {
         if (errorCodes == null) {
-            errorCodes = FileLoader.parse(ErrorCodes.class);
+            errorCodes = DataMapper.parse(ErrorCodes.class);
         }
         return errorCodes;
     }

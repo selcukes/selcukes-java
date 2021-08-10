@@ -27,12 +27,12 @@ import static java.lang.System.getProperty;
 import static java.util.Objects.requireNonNull;
 
 public class DataFileHelper<T> {
+    private final Class<T> dataClass;
+    private final DataFile dataFile;
+
     public static <T> DataFileHelper<T> getInstance(final Class<T> dataClass) {
         return new DataFileHelper<>(dataClass);
     }
-
-    private final Class<T> dataClass;
-    private final DataFile dataFile;
 
     private DataFileHelper(final Class<T> dataClass) {
         this.dataClass = dataClass;

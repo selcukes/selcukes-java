@@ -21,7 +21,7 @@ import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.properties.LinkedProperties;
-import io.github.selcukes.commons.resource.FileLoader;
+import io.github.selcukes.commons.resource.DataMapper;
 import lombok.experimental.UtilityClass;
 
 import java.io.File;
@@ -41,7 +41,7 @@ public class ConfigFactory {
 
     public static Environment getConfig() {
         if (environment == null) {
-            environment = FileLoader.parse(Environment.class);
+            environment = DataMapper.parse(Environment.class);
         }
         return environment;
     }

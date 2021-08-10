@@ -23,7 +23,7 @@ import io.github.selcukes.commons.helper.DataFileHelper;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class FileLoader {
+public class DataMapper {
     public static <T> T parse(final Class<T> resourceClass) {
         final DataFileHelper<T> dataFile = DataFileHelper.getInstance(resourceClass);
         final String fileName = dataFile.getFileName();
