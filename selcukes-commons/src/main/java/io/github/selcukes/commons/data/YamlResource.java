@@ -16,8 +16,24 @@
  *
  */
 
-package io.github.selcukes.commons.resource;
+package io.github.selcukes.commons.data;
 
-interface ResourceReader {
-    <T> T parse(String path, Class<T> dataClass);
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import lombok.SneakyThrows;
+
+import java.io.File;
+
+class YamlResource implements ResourceReader {
+    private final ObjectMapper mapper;
+
+    public YamlResource() {
+        this.mapper = new ObjectMapper(new YAMLFactory());
+    }
+
+    @SneakyThrows
+    @Override
+    public <T> T parse(final String path, final Class<T> resourceClass) {
+        return this.mapper.readValue(new File(path), resourceClass);
+    }
 }

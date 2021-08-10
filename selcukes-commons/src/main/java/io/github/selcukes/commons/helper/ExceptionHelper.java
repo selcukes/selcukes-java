@@ -19,7 +19,7 @@ package io.github.selcukes.commons.helper;
 
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.commons.resource.DataMapper;
+import io.github.selcukes.commons.data.DataMapper;
 import lombok.experimental.UtilityClass;
 
 import java.io.PrintWriter;

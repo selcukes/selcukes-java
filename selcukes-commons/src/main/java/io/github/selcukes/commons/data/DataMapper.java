@@ -16,7 +16,7 @@
  *
  */
 
-package io.github.selcukes.commons.resource;
+package io.github.selcukes.commons.data;
 
 import io.github.selcukes.commons.exception.SelcukesException;
 import io.github.selcukes.commons.helper.DataFileHelper;

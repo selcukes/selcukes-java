@@ -16,23 +16,8 @@
  *
  */
 
-package io.github.selcukes.commons.resource;
+package io.github.selcukes.commons.data;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
-
-import java.io.File;
-
-class JsonResource implements ResourceReader {
-    private final ObjectMapper mapper;
-
-    public JsonResource() {
-        this.mapper = new ObjectMapper();
-    }
-
-    @SneakyThrows
-    @Override
-    public <T> T parse(final String path, final Class<T> resourceClass) {
-        return this.mapper.readValue(new File(path), resourceClass);
-    }
+interface ResourceReader {
+    <T> T parse(String path, Class<T> dataClass);
 }
