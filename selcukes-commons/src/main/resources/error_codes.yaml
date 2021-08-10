@@ -1,11 +1,18 @@
 errors:
-  no_such_element_exception: "Issue1 - Wrong locator might be used:\n
-      Make sure that you are using a unique locator.\nIssue2 - The web page was not completely loaded and the element is not found:\n
-      you can use Selenium explicit waits, and wait until the element can be found on the page.\n"
-  element_not_visible_exception: "Issue1 - Locator might finds more elements and the first one is not visible:\n
-      Make sure that you are using a unique locator.
-      \nIssue2 - The element is hidden:\n
-      If your locator is good, then you can add a wait, that checks when the element is visible.\n"
-  stale_element_reference_exception: "Issue1 - The element was deleted from the DOM:
-      \nIssue2 - The element is no longer attached to the DOM:
-      \nRefresh the page and try to finding the element or wait for the element to load before you manipulate.\n"
+  no_such_element_exception: |
+    * Wrong locator might be used
+    Make sure that you are using a unique locator.
+    * The web page was not completely loaded and the element is not found
+    you can use Selenium explicit waits, and wait until the element can be found on the page.
+  element_not_visible_exception: |
+    * Locator might finds more elements and the first one is not visible
+    Make sure that you are using a unique locator.
+    * The element is hidden
+    If your locator is good, then you can add a wait, that checks when the element is visible.
+  stale_element_reference_exception: |
+    * The element was either deleted from the DOM or no longer attached to the DOM.
+    Try to find the element after page refresh
+    Add explicit wait for the element to load before you manipulate
+  timeout_exception: |
+    * This exception will be thrown when the page or element was not loaded after the specified wait time.
+    To overcome this, you can increase the wait time, if you are using an implicit wait, or better yet, replace the implicit wait with an explicit wait
