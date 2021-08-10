@@ -37,7 +37,7 @@ public class DataFileHelper<T> {
     private DataFileHelper(final Class<T> dataClass) {
         this.dataClass = dataClass;
         if (!this.dataClass.isAnnotationPresent(DataFile.class)) {
-            throw new SelcukesException("Data Class must have @DataFile annotation.");
+            throw new SelcukesException(String.format("Data Class[%s] must have @DataFile annotation.", dataClass.getSimpleName()));
         }
         this.dataFile = dataClass.getAnnotation(DataFile.class);
     }
