@@ -17,5 +17,15 @@
 package io.github.selcukes.notifier;
 
 public interface Notifier {
-    Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String screenshotPath);
+    Notifier scenarioName(String title);
+
+    Notifier scenarioStatus(String status);
+
+    Notifier stepDetails(String message);
+
+    Notifier errorMessage(String error);
+
+    Notifier path(String path);
+
+    void pushNotification();
 }

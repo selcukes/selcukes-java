@@ -59,7 +59,11 @@ public class CucumberAdapter implements CucumberService {
     public void afterScenario(String scenarioName, boolean status) {
         if (status) {
             File video = recorder.stopAndSave(scenarioName.replace(" ", "_"));
-            notifier.pushNotification(scenarioName, "FAILED", stepInfo, video.toURI().toString());
+            notifier.scenarioName(scenarioName)
+                .scenarioStatus("FAILED")
+                .stepDetails(stepInfo)
+                .path(video.toURI().toString())
+                .pushNotification();
         } else
             recorder.stopAndDelete();
         LoggerFactory.removeListener(logRecordListener);

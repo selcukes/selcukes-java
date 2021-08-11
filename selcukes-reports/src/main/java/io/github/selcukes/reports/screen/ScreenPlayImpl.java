@@ -21,11 +21,11 @@ import io.github.selcukes.commons.helper.Preconditions;
 import io.github.selcukes.commons.logging.LogRecordListener;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.notifier.Notifier;
+import io.github.selcukes.notifier.NotifierFactory;
 import io.github.selcukes.notifier.enums.NotifierType;
 import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.enums.TestType;
-import io.github.selcukes.notifier.Notifier;
-import io.github.selcukes.notifier.NotifierFactory;
 import io.github.selcukes.reports.screenshot.SnapshotImpl;
 import io.github.selcukes.reports.video.Recorder;
 import io.github.selcukes.reports.video.RecorderFactory;
@@ -112,9 +112,15 @@ class ScreenPlayImpl implements ScreenPlay {
             withNotifier(NotifierType.TEAMS);
         }
 
+        notifier.scenarioName(result.getTestName())
+            .scenarioStatus(result.getStatus())
+            .stepDetails(message)
+            .path(takeScreenshot());
+
         if (result.getErrorMessage() != null)
-            message = message + result.getErrorMessage();
-        notifier.pushNotification(result.getTestName(), result.getStatus(), message, takeScreenshot());
+            notifier.errorMessage(result.getErrorMessage());
+
+        notifier.pushNotification();
         return this;
     }
 

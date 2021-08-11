@@ -16,16 +16,16 @@
 
 package io.github.selcukes.notifier.teams;
 
+import io.github.selcukes.notifier.AbstractNotifier;
 import io.github.selcukes.notifier.Notifier;
 
 
-public class MicrosoftTeams implements Notifier {
-
+public class MicrosoftTeams extends AbstractNotifier {
 
     @Override
-    public Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String screenshotPath) {
+    public Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String error, String screenshotPath) {
         MicrosoftTeamsBuilder teamsBuilder = new MicrosoftTeamsBuilder();
-        teamsBuilder.sendMessage(scenarioTitle, scenarioStatus, message,screenshotPath);
+        teamsBuilder.sendMessage(scenarioTitle, scenarioStatus, message, error,screenshotPath);
         return this;
     }
 }

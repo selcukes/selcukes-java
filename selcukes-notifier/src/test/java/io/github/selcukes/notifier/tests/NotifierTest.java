@@ -18,13 +18,21 @@
 
 package io.github.selcukes.notifier.tests;
 
+import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.notifier.NotifierFactory;
 import org.testng.annotations.Test;
 
 public class NotifierTest {
     @Test
     public void testNotifications() {
-        NotifierFactory.getNotifier()
-            .pushNotification("HelloTitle", "PASS", "This is sample error", "");
+        if (Platform.isWindows()) {
+            NotifierFactory.getNotifier()
+                .scenarioName("This is sample scenario")
+                .scenarioStatus("FAILED")
+                .stepDetails("This is sample test step")
+                .errorMessage("NullPointerException")
+                .path("")
+                .pushNotification();
+        }
     }
 }
