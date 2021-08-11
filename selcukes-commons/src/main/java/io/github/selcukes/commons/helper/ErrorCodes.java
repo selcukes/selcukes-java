@@ -29,6 +29,6 @@ public class ErrorCodes {
     private Map<String, String> errors;
 
     public String getMessage(final String code) {
-        return this.errors.getOrDefault(code, "Solution not found in error_code.yaml");
+        return this.errors.getOrDefault(code, "Solution not found in error_code.yaml file");
     }
 }
