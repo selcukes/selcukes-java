@@ -14,18 +14,8 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.notification.teams;
+package io.github.selcukes.notifier;
 
-import io.github.selcukes.reports.notification.Notifier;
-
-
-public class MicrosoftTeams implements Notifier {
-
-
-    @Override
-    public Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String screenshotPath) {
-        MicrosoftTeamsBuilder teamsBuilder = new MicrosoftTeamsBuilder();
-        teamsBuilder.sendMessage(scenarioTitle, scenarioStatus, message,screenshotPath);
-        return this;
-    }
+public interface Notifier {
+    Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String screenshotPath);
 }

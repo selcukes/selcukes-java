@@ -14,15 +14,29 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.notification.teams;
+package io.github.selcukes.notifier.teams;
 
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Builder
-public class Field {
-    private final String name;
+public class Section {
+    @Builder.Default
+    private boolean markdown = true;
 
-    private final String value;
+    private final List<Field> facts;
+
+    private final String activityTitle;
+
+    private final String activitySubtitle;
+
+    private final String activityText;
+
+    private final String activityImage;
+
+    private final List<Images> images;
+
 }

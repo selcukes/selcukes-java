@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.notification;
+package io.github.selcukes.notifier.slack;
 
-import io.github.selcukes.commons.http.WebClient;
+import io.github.selcukes.notifier.Notifier;
 
-public interface IncomingWebHookRequest {
-    static WebClient forUrl(String webHookUrl) {
-        return new WebClient(webHookUrl);
+public class Slack implements Notifier {
+
+
+    @Override
+    public Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String screenshotPath) {
+        SlackMessageBuilder slackMessageBuilder=new SlackMessageBuilder();
+        slackMessageBuilder.sendMessage(scenarioTitle,scenarioStatus,message,screenshotPath);
+        SlackUploader slackUploader=new SlackUploader();
+        slackUploader.uploadFile(screenshotPath);
+        return this;
     }
 }

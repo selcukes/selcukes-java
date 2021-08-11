@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.notification.slack;
+package io.github.selcukes.notifier.slack;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
 @AllArgsConstructor
-@Getter
-@ToString
-@Builder(builderClassName = "Builder")
-class Field {
-    private final String title;
-    private final String value;
-    @JsonProperty("short")
-    private final Boolean shortValue;
+@NoArgsConstructor
+@Builder
+public class SlackFileUploader {
+    private String channel;
+    private String token;
+    private String filePath;
+    private String fileName;
 }

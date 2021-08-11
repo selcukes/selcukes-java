@@ -14,8 +14,13 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.notification;
+package io.github.selcukes.notifier.teams;
 
-public interface Notifier {
-    Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String screenshotPath);
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class Images {
+    private String image;
 }

@@ -14,19 +14,15 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.notification.slack;
+package io.github.selcukes.notifier.teams;
 
-import io.github.selcukes.reports.notification.Notifier;
+import lombok.Builder;
+import lombok.Data;
 
-public class Slack implements Notifier {
+@Data
+@Builder
+public class Field {
+    private final String name;
 
-
-    @Override
-    public Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String screenshotPath) {
-        SlackMessageBuilder slackMessageBuilder=new SlackMessageBuilder();
-        slackMessageBuilder.sendMessage(scenarioTitle,scenarioStatus,message,screenshotPath);
-        SlackUploader slackUploader=new SlackUploader();
-        slackUploader.uploadFile(screenshotPath);
-        return this;
-    }
+    private final String value;
 }

@@ -14,9 +14,17 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.enums;
+package io.github.selcukes.notifier.slack;
 
-public enum  NotifierType {
-    SLACK,
-    TEAMS
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+@AllArgsConstructor
+@Getter
+@ToString
+@Builder(builderClassName = "Builder")
+class Field {
+    private final String title;
+    private final String value;
+    @JsonProperty("short")
+    private final Boolean shortValue;
 }

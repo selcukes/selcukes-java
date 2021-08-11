@@ -16,7 +16,7 @@
 
 package io.github.selcukes.reports.screen;
 
-import io.github.selcukes.reports.enums.NotifierType;
+import io.github.selcukes.notifier.enums.NotifierType;
 import io.github.selcukes.reports.enums.RecorderType;
 
 import java.io.File;

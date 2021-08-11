@@ -18,8 +18,8 @@ package io.github.selcukes.reports.cucumber;
 
 import io.github.selcukes.commons.logging.LogRecordListener;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.reports.notification.Notifier;
-import io.github.selcukes.reports.notification.NotifierFactory;
+import io.github.selcukes.notifier.Notifier;
+import io.github.selcukes.notifier.NotifierFactory;
 import io.github.selcukes.reports.video.Recorder;
 import io.github.selcukes.reports.video.RecorderFactory;
 

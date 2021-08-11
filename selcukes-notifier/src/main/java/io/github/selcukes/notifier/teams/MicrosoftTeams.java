@@ -14,26 +14,18 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.notification;
+package io.github.selcukes.notifier.teams;
 
-import lombok.experimental.UtilityClass;
+import io.github.selcukes.notifier.Notifier;
 
-@UtilityClass
-public class NotifierHelper {
-    public String getThemeColor(String stepStatus) {
-        String messageColor = null;
-        switch (stepStatus) {
-            case "FAILED":
-                messageColor = "FF0000"; // Red
-                break;
-            case "PASSED":
-                messageColor = "36a64f"; // Green
-                break;
-            case "SKIPPED":
-                messageColor = "FFA500"; // Orange
-                break;
-            default:
-        }
-        return messageColor;
+
+public class MicrosoftTeams implements Notifier {
+
+
+    @Override
+    public Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String screenshotPath) {
+        MicrosoftTeamsBuilder teamsBuilder = new MicrosoftTeamsBuilder();
+        teamsBuilder.sendMessage(scenarioTitle, scenarioStatus, message,screenshotPath);
+        return this;
     }
 }

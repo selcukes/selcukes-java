@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.notification.teams;
+package io.github.selcukes.notifier.teams;
 
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.helper.DateHelper;
-import io.github.selcukes.reports.enums.NotifierEnum;
-import io.github.selcukes.reports.notification.IncomingWebHookRequest;
-import io.github.selcukes.reports.notification.NotifierHelper;
+import io.github.selcukes.notifier.IncomingWebHookRequest;
+import io.github.selcukes.notifier.NotifierHelper;
+import io.github.selcukes.notifier.enums.NotifierEnum;
 
 import java.util.ArrayList;
 import java.util.Collections;
