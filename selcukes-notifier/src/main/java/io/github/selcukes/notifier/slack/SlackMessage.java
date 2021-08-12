@@ -14,13 +14,25 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.notification.teams;
+package io.github.selcukes.notifier.slack;
 
-import lombok.Builder;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
 
-@Data
-@Builder
-public class Images {
-    private String image;
+import java.io.Serializable;
+import java.util.List;
+
+@AllArgsConstructor
+@Builder(builderClassName = "Builder")
+@Getter
+@Setter
+public class SlackMessage implements Serializable {
+    private String username;
+    private String text;
+    @JsonProperty("icon_url")
+    private String iconUrl;
+    @JsonProperty("icon_emoji")
+    private String iconEmoji;
+    private String channel;
+    private List<Attachment> attachments;
 }

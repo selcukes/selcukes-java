@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.notification.slack;
+package io.github.selcukes.notifier.slack;
 
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.reports.notification.IncomingWebHookRequest;
-import io.github.selcukes.reports.enums.NotifierEnum;
+import io.github.selcukes.notifier.IncomingWebHookRequest;
+import io.github.selcukes.notifier.enums.NotifierEnum;
 import org.apache.hc.client5.http.entity.mime.FileBody;
-
 
 import java.io.File;
 
@@ -44,8 +43,8 @@ public class SlackUploader {
         File fileToUpload = new File(slackFileUploader.getFilePath());
         FileBody fileBody = new FileBody(fileToUpload);
 
-       IncomingWebHookRequest.forUrl(url.toString())
-        .post(fileBody);
+        IncomingWebHookRequest.forUrl(url.toString())
+            .post(fileBody);
 
     }
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.notification.teams;
+package io.github.selcukes.notifier.teams;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

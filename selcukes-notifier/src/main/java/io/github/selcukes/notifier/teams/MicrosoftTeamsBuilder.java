@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.notification.teams;
+package io.github.selcukes.notifier.teams;
 
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.helper.DateHelper;
-import io.github.selcukes.reports.enums.NotifierEnum;
-import io.github.selcukes.reports.notification.IncomingWebHookRequest;
-import io.github.selcukes.reports.notification.NotifierHelper;
+import io.github.selcukes.notifier.IncomingWebHookRequest;
+import io.github.selcukes.notifier.NotifierHelper;
+import io.github.selcukes.notifier.enums.NotifierEnum;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,13 +28,13 @@ import java.util.List;
 
 public class MicrosoftTeamsBuilder {
 
-    protected void sendMessage(String scenarioTitle, String scenarioStatus, String message, String screenshotPath) {
+    protected void sendMessage(String scenarioTitle, String scenarioStatus, String message, String error,String screenshotPath) {
 
-        String error = null;
+        /*String error = null;
         if (message.contains(NotifierEnum.EXCEPTION.getValue())) {
             error = message.split(NotifierEnum.EXCEPTION.getValue())[1];
             message = message.split(NotifierEnum.EXCEPTION.getValue())[0];
-        }
+        }*/
         String attachmentValue = "[Screenshot.jpg](" + screenshotPath + ")";
         if (screenshotPath.endsWith(".avi") || screenshotPath.endsWith(".mp4")) {
             attachmentValue = "Video Path: " + screenshotPath;

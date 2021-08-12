@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.notification;
+package io.github.selcukes.notifier;
 
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.reports.enums.NotifierType;
-import io.github.selcukes.reports.notification.slack.Slack;
-import io.github.selcukes.reports.notification.teams.MicrosoftTeams;
+import io.github.selcukes.notifier.enums.NotifierType;
+import io.github.selcukes.notifier.slack.Slack;
+import io.github.selcukes.notifier.teams.MicrosoftTeams;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

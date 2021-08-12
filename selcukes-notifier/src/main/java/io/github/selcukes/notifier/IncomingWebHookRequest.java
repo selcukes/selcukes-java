@@ -14,29 +14,12 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.notification.teams;
+package io.github.selcukes.notifier;
 
-import lombok.Builder;
-import lombok.Data;
+import io.github.selcukes.commons.http.WebClient;
 
-import java.util.List;
-
-@Data
-@Builder
-public class Section {
-    @Builder.Default
-    private boolean markdown = true;
-
-    private final List<Field> facts;
-
-    private final String activityTitle;
-
-    private final String activitySubtitle;
-
-    private final String activityText;
-
-    private final String activityImage;
-
-    private final List<Images> images;
-
+public interface IncomingWebHookRequest {
+    static WebClient forUrl(String webHookUrl) {
+        return new WebClient(webHookUrl);
+    }
 }

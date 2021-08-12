@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.notification.slack;
+package io.github.selcukes.notifier.slack;
 
-import io.github.selcukes.reports.notification.Notifier;
+import io.github.selcukes.notifier.AbstractNotifier;
+import io.github.selcukes.notifier.Notifier;
 
-public class Slack implements Notifier {
+public class Slack extends AbstractNotifier {
 
 
     @Override
-    public Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String screenshotPath) {
-        SlackMessageBuilder slackMessageBuilder=new SlackMessageBuilder();
-        slackMessageBuilder.sendMessage(scenarioTitle,scenarioStatus,message,screenshotPath);
-        SlackUploader slackUploader=new SlackUploader();
+    public Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String error, String screenshotPath) {
+        SlackMessageBuilder slackMessageBuilder = new SlackMessageBuilder();
+        slackMessageBuilder.sendMessage(scenarioTitle, scenarioStatus, error, screenshotPath);
+        SlackUploader slackUploader = new SlackUploader();
         slackUploader.uploadFile(screenshotPath);
         return this;
     }

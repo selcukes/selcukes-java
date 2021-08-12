@@ -16,19 +16,9 @@
  *
  */
 
-package io.github.selcukes.commons.helper;
+package io.github.selcukes.notifier.enums;
 
-import io.github.selcukes.commons.annotation.DataFile;
-import lombok.Data;
-
-import java.util.Map;
-
-@Data
-@DataFile(folderPath = "src/main/resources")
-public class ErrorCodes {
-    private Map<String, String> errors;
-
-    public String getMessage(final String code) {
-        return this.errors.getOrDefault(code, "Solution not found in error_code.yaml file");
-    }
+public enum  NotifierType {
+    SLACK,
+    TEAMS
 }

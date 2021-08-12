@@ -14,9 +14,18 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.enums;
+package io.github.selcukes.notifier;
 
-public enum  NotifierType {
-    SLACK,
-    TEAMS
+public interface Notifier {
+    Notifier scenarioName(String title);
+
+    Notifier scenarioStatus(String status);
+
+    Notifier stepDetails(String message);
+
+    Notifier errorMessage(String error);
+
+    Notifier path(String path);
+
+    void pushNotification();
 }

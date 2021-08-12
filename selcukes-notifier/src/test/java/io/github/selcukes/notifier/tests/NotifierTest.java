@@ -16,19 +16,23 @@
  *
  */
 
-package io.github.selcukes.commons.helper;
+package io.github.selcukes.notifier.tests;
 
-import io.github.selcukes.commons.annotation.DataFile;
-import lombok.Data;
+import io.github.selcukes.commons.os.Platform;
+import io.github.selcukes.notifier.NotifierFactory;
+import org.testng.annotations.Test;
 
-import java.util.Map;
-
-@Data
-@DataFile(folderPath = "src/main/resources")
-public class ErrorCodes {
-    private Map<String, String> errors;
-
-    public String getMessage(final String code) {
-        return this.errors.getOrDefault(code, "Solution not found in error_code.yaml file");
+public class NotifierTest {
+    @Test
+    public void testNotifications() {
+        if (Platform.isWindows()) {
+            NotifierFactory.getNotifier()
+                .scenarioName("This is sample scenario")
+                .scenarioStatus("FAILED")
+                .stepDetails("This is sample test step")
+                .errorMessage("NullPointerException")
+                .path("")
+                .pushNotification();
+        }
     }
 }

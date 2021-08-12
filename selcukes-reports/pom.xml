@@ -20,6 +20,10 @@
         </dependency>
         <dependency>
             <groupId>io.github.selcukes</groupId>
+            <artifactId>selcukes-notifier</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.selcukes</groupId>
             <artifactId>webdriver-binaries</artifactId>
             <scope>test</scope>
         </dependency>

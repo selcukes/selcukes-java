@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.notification.slack;
+package io.github.selcukes.notifier.slack;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

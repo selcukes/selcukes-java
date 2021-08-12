@@ -16,7 +16,8 @@
         <module>selcukes-testng</module>
         <module>selcukes-reports</module>
         <module>selcukes-server</module>
-        <module>selcukes-junit</module>        
+        <module>selcukes-junit</module>
+        <module>selcukes-notifier</module>
     </modules>
 
     <name>selcukes-java</name>
@@ -111,6 +112,11 @@
             <dependency>
                 <groupId>io.github.selcukes</groupId>
                 <artifactId>webdriver-binaries</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.selcukes</groupId>
+                <artifactId>selcukes-notifier</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

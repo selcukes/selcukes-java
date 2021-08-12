@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.notification.slack;
+package io.github.selcukes.notifier.teams;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class SlackFileUploader {
-    private String channel;
-    private String token;
-    private String filePath;
-    private String fileName;
+public class Field {
+    private final String name;
+    private final String value;
 }

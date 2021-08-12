@@ -16,19 +16,26 @@
  *
  */
 
-package io.github.selcukes.commons.helper;
+package io.github.selcukes.notifier;
 
-import io.github.selcukes.commons.annotation.DataFile;
-import lombok.Data;
+import lombok.experimental.UtilityClass;
 
-import java.util.Map;
-
-@Data
-@DataFile(folderPath = "src/main/resources")
-public class ErrorCodes {
-    private Map<String, String> errors;
-
-    public String getMessage(final String code) {
-        return this.errors.getOrDefault(code, "Solution not found in error_code.yaml file");
+@UtilityClass
+public class NotifierHelper {
+    public String getThemeColor(String stepStatus) {
+        String messageColor = null;
+        switch (stepStatus) {
+            case "FAILED":
+                messageColor = "FF0000"; // Red
+                break;
+            case "PASSED":
+                messageColor = "36a64f"; // Green
+                break;
+            case "SKIPPED":
+                messageColor = "FFA500"; // Orange
+                break;
+            default:
+        }
+        return messageColor;
     }
 }

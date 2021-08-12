@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.notification.teams;
+package io.github.selcukes.notifier.slack;
 
-import io.github.selcukes.reports.notification.Notifier;
-
-
-public class MicrosoftTeams implements Notifier {
-
-
-    @Override
-    public Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String screenshotPath) {
-        MicrosoftTeamsBuilder teamsBuilder = new MicrosoftTeamsBuilder();
-        teamsBuilder.sendMessage(scenarioTitle, scenarioStatus, message,screenshotPath);
-        return this;
-    }
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+@AllArgsConstructor
+@Getter
+@ToString
+@Builder(builderClassName = "Builder")
+class Field {
+    private final String title;
+    private final String value;
+    @JsonProperty("short")
+    private final Boolean shortValue;
 }
