@@ -35,6 +35,7 @@ public class DataMapper {
     private static ResourceReader lookup(final String extension) {
         switch (extension.toLowerCase()) {
             case "yaml":
+            case "yml":
                 return new YamlResource();
             case "json":
                 return new JsonResource();
