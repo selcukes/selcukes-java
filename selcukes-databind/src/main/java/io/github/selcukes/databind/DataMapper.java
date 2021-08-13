@@ -16,10 +16,10 @@
  *
  */
 
-package io.github.selcukes.commons.data;
+package io.github.selcukes.databind;
 
-import io.github.selcukes.commons.exception.SelcukesException;
-import io.github.selcukes.commons.helper.DataFileHelper;
+import io.github.selcukes.databind.exception.DataMapperException;
+import io.github.selcukes.databind.utils.DataFileHelper;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -28,11 +28,11 @@ public class DataMapper {
         final DataFileHelper<T> dataFile = DataFileHelper.getInstance(resourceClass);
         final String fileName = dataFile.getFileName();
         final String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
-        final ResourceReader resourceReader = lookup(extension);
+        final DataBind resourceReader = lookup(extension);
         return resourceReader.parse(dataFile.getPath(), resourceClass);
     }
 
-    private static ResourceReader lookup(final String extension) {
+    private static DataBind lookup(final String extension) {
         switch (extension.toLowerCase()) {
             case "yaml":
             case "yml":
@@ -40,7 +40,7 @@ public class DataMapper {
             case "json":
                 return new JsonResource();
             default:
-                throw new SelcukesException("Resource File not supported...");
+                throw new DataMapperException(String.format("File Type[%s] not supported...", extension));
         }
 
     }

@@ -16,19 +16,23 @@
  *
  */
 
-package io.github.selcukes.commons.helper;
+package io.github.selcukes.databind;
 
-import io.github.selcukes.databind.annotation.DataFile;
-import lombok.Data;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 
-import java.util.Map;
+import java.io.File;
 
-@Data
-@DataFile(folderPath = "src/main/resources")
-public class ErrorCodes {
-    private Map<String, String> errors;
+class JsonResource implements DataBind {
+    private final ObjectMapper mapper;
 
-    public String getMessage(final String code) {
-        return this.errors.getOrDefault(code, "Solution not found in error_code.yaml file");
+    public JsonResource() {
+        this.mapper = new ObjectMapper();
+    }
+
+    @SneakyThrows
+    @Override
+    public <T> T parse(final String path, final Class<T> resourceClass) {
+        return this.mapper.readValue(new File(path), resourceClass);
     }
 }

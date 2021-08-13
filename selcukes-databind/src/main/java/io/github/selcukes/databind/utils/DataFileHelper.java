@@ -16,10 +16,11 @@
  *
  */
 
-package io.github.selcukes.commons.helper;
+package io.github.selcukes.databind.utils;
 
-import io.github.selcukes.commons.annotation.DataFile;
-import io.github.selcukes.commons.exception.SelcukesException;
+
+import io.github.selcukes.databind.annotation.DataFile;
+import io.github.selcukes.databind.exception.DataMapperException;
 
 import java.io.File;
 
@@ -37,7 +38,7 @@ public class DataFileHelper<T> {
     private DataFileHelper(final Class<T> dataClass) {
         this.dataClass = dataClass;
         if (!this.dataClass.isAnnotationPresent(DataFile.class)) {
-            throw new SelcukesException(String.format("Data Class[%s] must have @DataFile annotation.", dataClass.getSimpleName()));
+            throw new DataMapperException(String.format("Data Class[%s] must have @DataFile annotation.", dataClass.getSimpleName()));
         }
         this.dataFile = dataClass.getAnnotation(DataFile.class);
     }
@@ -50,7 +51,7 @@ public class DataFileHelper<T> {
         final File folder = new File(getFolder());
         final File[] files = folder.listFiles((d, f) -> f.startsWith(fileName));
         if (requireNonNull(files).length == 0) {
-            throw new SelcukesException(String.format("File [%s] not found.", fileName));
+            throw new DataMapperException(String.format("File [%s] not found.", fileName));
         }
         return files[0].getName();
     }
@@ -79,7 +80,7 @@ public class DataFileHelper<T> {
     private String isDirectory(final String folder) {
         final File dir = new File(folder);
         if (!dir.isDirectory()) {
-            throw new SelcukesException(String.format("%s is not a directory.", folder));
+            throw new DataMapperException(String.format("%s is not a directory.", folder));
         }
         return folder;
     }

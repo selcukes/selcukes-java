@@ -19,7 +19,7 @@
 package io.github.selcukes.commons.exception;
 
 import io.github.selcukes.commons.helper.ExceptionHelper;
-import io.github.selcukes.commons.helper.StringUtils;
+import io.github.selcukes.databind.utils.StringUtils;
 
 import java.util.function.Supplier;
 
