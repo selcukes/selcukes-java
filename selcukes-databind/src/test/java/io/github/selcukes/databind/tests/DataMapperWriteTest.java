@@ -29,7 +29,7 @@ import java.util.UUID;
 
 public class DataMapperWriteTest {
     @Data
-    @DataFile
+    @DataFile(fileName = "test_sample.yml")
     static class TestUsers {
         List<DataMapperTest.User> users;
     }
