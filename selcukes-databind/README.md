@@ -26,6 +26,20 @@ To use add the `selcukes-databind` dependency to your pom.xml:
 
 ```
 ##Usage
+```json
+{
+  "users": [
+    {
+      "username": "junk",
+      "password": "things"
+    },
+    {
+      "username": "spam",
+      "password": "eggs"
+    }
+  ]
+}
+```
 ```java
 
 public class DataMapperTest {
