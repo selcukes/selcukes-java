@@ -24,30 +24,23 @@ import lombok.Data;
 import lombok.SneakyThrows;
 import org.testng.annotations.Test;
 
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class DataMapperWriteTest {
     @Data
     @DataFile(fileName = "test_sample.yml")
-    static class TestUsers {
-        List<DataMapperTest.User> users;
-    }
-
-    @Data
-    static class User {
-        private String username;
-        private String password;
-
+    static class TestSample {
+        Map<String, Map<String, String>> users;
     }
 
     @SneakyThrows
     @Test
     public void testClass() {
         UUID uuid = UUID.randomUUID();
-        TestUsers testUsers = DataMapper.parse(TestUsers.class);
-        testUsers.getUsers().get(1).setPassword(uuid.toString());
-        DataMapper.write(testUsers);
+        TestSample testSample = DataMapper.parse(TestSample.class);
+        testSample.getUsers().get("user1").put("password", uuid.toString());
+        DataMapper.write(testSample);
     }
 
 }
