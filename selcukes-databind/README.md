@@ -25,7 +25,7 @@ To use add the `selcukes-databind` dependency to your pom.xml:
 </dependencies>
 
 ```
-##Usage
+## Usage
 ```json
 {
   "users": [
