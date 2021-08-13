@@ -16,24 +16,25 @@
  *
  */
 
-package io.github.selcukes.commons.data;
+package io.github.selcukes.databind.exception;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import lombok.SneakyThrows;
+public class DataMapperException extends RuntimeException{
 
-import java.io.File;
+    private static final long serialVersionUID = 1L;
 
-class YamlResource implements ResourceReader {
-    private final ObjectMapper mapper;
-
-    public YamlResource() {
-        this.mapper = new ObjectMapper(new YAMLFactory());
+    public DataMapperException() {
+        super();
     }
 
-    @SneakyThrows
-    @Override
-    public <T> T parse(final String path, final Class<T> resourceClass) {
-        return this.mapper.readValue(new File(path), resourceClass);
+    public DataMapperException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public DataMapperException(String message) {
+        super(message);
+    }
+
+    public DataMapperException(Throwable cause) {
+        super(cause);
     }
 }

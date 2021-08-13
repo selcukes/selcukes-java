@@ -16,18 +16,19 @@
  *
  */
 
-package io.github.selcukes.commons.data;
+package io.github.selcukes.databind;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.SneakyThrows;
 
 import java.io.File;
 
-class JsonResource implements ResourceReader {
+class YamlResource implements DataBind {
     private final ObjectMapper mapper;
 
-    public JsonResource() {
-        this.mapper = new ObjectMapper();
+    public YamlResource() {
+        this.mapper = new ObjectMapper(new YAMLFactory());
     }
 
     @SneakyThrows

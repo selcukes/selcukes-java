@@ -16,7 +16,7 @@
  *
  */
 
-package io.github.selcukes.commons.annotation;
+package io.github.selcukes.databind.annotation;
 
 
 import java.lang.annotation.ElementType;

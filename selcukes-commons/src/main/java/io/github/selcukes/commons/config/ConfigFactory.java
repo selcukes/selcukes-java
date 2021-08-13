@@ -21,7 +21,7 @@ import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.properties.LinkedProperties;
-import io.github.selcukes.commons.data.DataMapper;
+import io.github.selcukes.databind.DataMapper;
 import lombok.experimental.UtilityClass;
 
 import java.io.File;

@@ -16,8 +16,8 @@
  *
  */
 
-package io.github.selcukes.commons.data;
+package io.github.selcukes.databind;
 
-interface ResourceReader {
+interface DataBind {
     <T> T parse(String path, Class<T> dataClass);
 }

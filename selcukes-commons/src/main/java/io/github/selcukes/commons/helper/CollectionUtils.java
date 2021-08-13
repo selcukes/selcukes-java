@@ -18,6 +18,7 @@
 
 package io.github.selcukes.commons.helper;
 
+import io.github.selcukes.databind.utils.StringUtils;
 import lombok.experimental.UtilityClass;
 
 import java.util.Arrays;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @UtilityClass
-public class StreamUtils {
+public class CollectionUtils {
     public static String[][] toArray(List<List<String>> cells) {
         return cells.stream()
             .map(row -> row.toArray(String[]::new))

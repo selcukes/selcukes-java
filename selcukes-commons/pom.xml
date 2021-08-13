@@ -19,8 +19,8 @@
             <artifactId>commons-io</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-yaml</artifactId>
+            <groupId>io.github.selcukes</groupId>
+            <artifactId>selcukes-databind</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

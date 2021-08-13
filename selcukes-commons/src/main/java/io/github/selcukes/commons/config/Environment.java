@@ -17,7 +17,7 @@
 package io.github.selcukes.commons.config;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.github.selcukes.commons.annotation.DataFile;
+import io.github.selcukes.databind.annotation.DataFile;
 import lombok.Data;
 
 import java.util.Map;
