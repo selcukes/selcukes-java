@@ -1,12 +1,9 @@
 {
-  "users": [
-    {
-      "username": "junk",
-      "password": "things"
-    },
-    {
-      "username": "spam",
-      "password": "eggs"
-    }
-  ]
+  "users" : [ {
+    "username" : "junk",
+    "password" : "7e49fab8-550b-44b2-959d-e991e897dff9"
+  }, {
+    "username" : "spam",
+    "password" : "42e25964-e373-453f-b130-8e156ea779ec"
+  } ]
 }

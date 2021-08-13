@@ -24,21 +24,29 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class DataMapper {
-    public static <T> T parse(final Class<T> resourceClass) {
+    public <T> T parse(final Class<T> resourceClass) {
         final DataFileHelper<T> dataFile = DataFileHelper.getInstance(resourceClass);
         final String fileName = dataFile.getFileName();
         final String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
-        final DataBind resourceReader = lookup(extension);
-        return resourceReader.parse(dataFile.getPath(), resourceClass);
+        final DataBind dataBind = lookup(extension);
+        return dataBind.parse(dataFile.getPath(), resourceClass);
     }
 
-    private static DataBind lookup(final String extension) {
+    public <T> void write(final T value) {
+        final DataFileHelper<T> dataFile = (DataFileHelper<T>) DataFileHelper.getInstance(value.getClass());
+        final String fileName = dataFile.getFileName();
+        final String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
+        final DataBind dataBind = lookup(extension);
+        dataBind.write(dataFile.getPath(), value);
+    }
+
+    private DataBind lookup(final String extension) {
         switch (extension.toLowerCase()) {
             case "yaml":
             case "yml":
-                return new YamlResource();
+                return new YamlData();
             case "json":
-                return new JsonResource();
+                return new JsonData();
             default:
                 throw new DataMapperException(String.format("File Type[%s] not supported...", extension));
         }
