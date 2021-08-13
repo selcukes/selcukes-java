@@ -18,7 +18,12 @@
 
 package io.github.selcukes.databind;
 
-interface DataBind {
-    <T> T parse(String path, Class<T> dataClass);
-    <T> void write(final String path, final T value);
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+
+class YamlData extends AbstractDataBind {
+
+    public YamlData() {
+        super(new ObjectMapper(new YAMLFactory()));
+    }
 }

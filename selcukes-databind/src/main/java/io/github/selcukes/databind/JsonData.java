@@ -19,20 +19,10 @@
 package io.github.selcukes.databind;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.SneakyThrows;
 
-import java.io.File;
+class JsonData extends AbstractDataBind {
 
-class JsonResource implements DataBind {
-    private final ObjectMapper mapper;
-
-    public JsonResource() {
-        this.mapper = new ObjectMapper();
-    }
-
-    @SneakyThrows
-    @Override
-    public <T> T parse(final String path, final Class<T> resourceClass) {
-        return this.mapper.readValue(new File(path), resourceClass);
+    public JsonData() {
+        super(new ObjectMapper());
     }
 }

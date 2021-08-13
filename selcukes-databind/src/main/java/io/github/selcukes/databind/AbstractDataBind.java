@@ -19,21 +19,27 @@
 package io.github.selcukes.databind;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.SneakyThrows;
 
 import java.io.File;
 
-class YamlResource implements DataBind {
+abstract class AbstractDataBind implements DataBind {
     private final ObjectMapper mapper;
 
-    public YamlResource() {
-        this.mapper = new ObjectMapper(new YAMLFactory());
+    AbstractDataBind(ObjectMapper mapper) {
+
+        this.mapper = mapper;
     }
 
     @SneakyThrows
     @Override
     public <T> T parse(final String path, final Class<T> resourceClass) {
         return this.mapper.readValue(new File(path), resourceClass);
+    }
+
+    @SneakyThrows
+    @Override
+    public <T> void write(final String path, final T value) {
+        this.mapper.writerWithDefaultPrettyPrinter().writeValue(new File(path), value);
     }
 }
