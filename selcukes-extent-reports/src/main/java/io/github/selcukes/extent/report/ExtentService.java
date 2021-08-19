@@ -18,7 +18,6 @@
 
 package io.github.selcukes.extent.report;
 
-
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.observer.ExtentObserver;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
@@ -98,7 +97,6 @@ public class ExtentService implements Serializable {
                         && "true".equals(String.valueOf(properties.get(INIT_SPARK_KEY))))
                         initSpark(properties);
 
-
                     addSystemInfo(properties);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -107,7 +105,8 @@ public class ExtentService implements Serializable {
         }
 
         private static void createViaSystem() {
-            initSpark(null);
+            if ("true".equals(System.getProperty(INIT_SPARK_KEY)))
+                initSpark(null);
             addSystemInfo(System.getProperties());
         }
 
@@ -126,6 +125,7 @@ public class ExtentService implements Serializable {
                 return String.valueOf(properties.get(TIMESTAMP_REPORT)).equalsIgnoreCase("true");
             return false;
         }
+
         private static boolean isThumbnailReport() {
             if (properties != null && properties.get(THUMBNAIL_REPORT) != null)
                 return String.valueOf(properties.get(THUMBNAIL_REPORT)).equalsIgnoreCase("true");
@@ -157,7 +157,8 @@ public class ExtentService implements Serializable {
         }
 
         private static void attach(ReporterConfigurable r, Properties properties) {
-            Object configPath = properties == null ? System.getProperty(ExtentReportsLoader.CONFIG_SPARK_KEY) : properties.get(ExtentReportsLoader.CONFIG_SPARK_KEY);
+            Object configPath = properties == null ? System.getProperty(ExtentReportsLoader.CONFIG_SPARK_KEY)
+                : properties.get(ExtentReportsLoader.CONFIG_SPARK_KEY);
             if (configPath != null && !String.valueOf(configPath).isEmpty())
                 try {
                     r.loadXMLConfig(String.valueOf(configPath));
@@ -178,4 +179,3 @@ public class ExtentService implements Serializable {
         }
     }
 }
-
