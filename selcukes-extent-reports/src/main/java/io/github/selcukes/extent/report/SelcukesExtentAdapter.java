@@ -35,12 +35,11 @@ import io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow;
 import io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell;
 import io.cucumber.plugin.ConcurrentEventListener;
 import io.cucumber.plugin.event.*;
+import lombok.SneakyThrows;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class SelcukesExtentAdapter implements ConcurrentEventListener {
@@ -54,7 +53,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
         "image/png", "png",
         "image/svg+xml", "svg"
     );
-    private static final AtomicInteger EMBEDDED_INT = new AtomicInteger(0);
+
     private static Map<String, ExtentTest> featureMap = new ConcurrentHashMap<>();
     private static ThreadLocal<ExtentTest> featureTestThreadLocal = new InheritableThreadLocal<>();
     private static Map<String, ExtentTest> scenarioOutlineMap = new ConcurrentHashMap<>();
@@ -124,6 +123,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     }
 
     private synchronized void handleTestStepFinished(TestStepFinished event) {
+
         updateResult(event.getResult());
     }
 
@@ -138,21 +138,22 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
                 stepTestThreadLocal.get().fail("Step undefined");
                 break;
             case "skipped":
-                if (isHookThreadLocal.get()) {
+                if (isHookThreadLocal.get().equals(Boolean.TRUE)) {
                     ExtentService.getInstance().removeTest(stepTestThreadLocal.get());
                     break;
                 }
                 boolean currentEndingEventSkipped = test.hasLog() && test.getLogs().get(test.getLogs().size() - 1).getStatus() == Status.SKIP;
                 if (result.getError() != null) {
                     stepTestThreadLocal.get().skip(result.getError());
-                } else if (!currentEndingEventSkipped) {
+                }
+                if (!currentEndingEventSkipped) {
                     String details = result.getError() == null ? "Step skipped" : result.getError().getMessage();
                     stepTestThreadLocal.get().skip(details);
                 }
                 break;
             case "passed":
                 if (stepTestThreadLocal.get() != null) {
-                    if (isHookThreadLocal.get()) {
+                    if (isHookThreadLocal.get().equals(Boolean.TRUE)) {
                         boolean mediaLogs = test.getLogs().stream().anyMatch(l -> l.getMedia() != null);
                         if (!test.hasLog() && !mediaLogs)
                             ExtentService.getInstance().removeTest(stepTestThreadLocal.get());
@@ -197,60 +198,57 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     }
 
     private synchronized void handleStartOfFeature(TestCase testCase) {
-        if (currentFeatureFile == null || !currentFeatureFile.equals(testCase.getUri())) {
-            currentFeatureFile.set(testCase.getUri());
+        if (currentFeatureFile == null || !testCase.getUri().equals(currentFeatureFile.get())) {
+            Objects.requireNonNull(currentFeatureFile).set(testCase.getUri());
             createFeature(testCase);
         }
     }
 
+    @SneakyThrows
     private synchronized void createFeature(TestCase testCase) {
         Feature feature = testSources.getFeature(testCase.getUri());
-        try {
-            ExtentService.getInstance().setGherkinDialect(feature.getLanguage());
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
 
-        if (feature != null) {
-            if (featureMap.containsKey(feature.getName())) {
-                featureTestThreadLocal.set(featureMap.get(feature.getName()));
-                return;
-            }
-            if (featureTestThreadLocal.get() != null
-                && featureTestThreadLocal.get().getModel().getName().equals(feature.getName())) {
-                return;
-            }
-            ExtentTest t = ExtentService.getInstance().createTest(
-                com.aventstack.extentreports.gherkin.model.Feature.class, feature.getName(),
-                feature.getDescription());
-            featureTestThreadLocal.set(t);
-            featureMap.put(feature.getName(), t);
+        ExtentService.getInstance().setGherkinDialect(Objects.requireNonNull(feature).getLanguage());
 
-            Set<String> tagList = feature.getTagsList().stream().map(Feature.Tag::getName).collect(Collectors.toSet());
-            featureTagsThreadLocal.set(tagList);
+        if (featureMap.containsKey(feature.getName())) {
+            featureTestThreadLocal.set(featureMap.get(feature.getName()));
+            return;
         }
+        if (featureTestThreadLocal.get() != null
+            && featureTestThreadLocal.get().getModel().getName().equals(feature.getName())) {
+            return;
+        }
+        ExtentTest t = ExtentService.getInstance().createTest(
+            com.aventstack.extentreports.gherkin.model.Feature.class, feature.getName(),
+            feature.getDescription());
+        featureTestThreadLocal.set(t);
+        featureMap.put(feature.getName(), t);
+
+        Set<String> tagList = feature.getTagsList().stream().map(Feature.Tag::getName).collect(Collectors.toSet());
+        featureTagsThreadLocal.set(tagList);
+
     }
 
     private synchronized void handleScenarioOutline(TestCase testCase) {
         TestSourcesModel.AstNode astNode = testSources.getAstNode(currentFeatureFile.get(), testCase.getLocation().getLine());
         Scenario scenarioDefinition = TestSourcesModel.getScenarioDefinition(astNode);
 
-        if (scenarioDefinition.getKeyword().equals("Scenario Outline")) {
+        if (Objects.requireNonNull(scenarioDefinition).getKeyword().equals("Scenario Outline")) {
             if (currentScenarioOutline.get() == null
                 || !currentScenarioOutline.get().getName().equals(scenarioDefinition.getName())) {
-                scenarioOutlineThreadLocal.set(null);
+                scenarioOutlineThreadLocal.remove();
                 createScenarioOutline(scenarioDefinition);
                 currentScenarioOutline.set(scenarioDefinition);
             }
-            Examples examples = (Examples) astNode.parent.node;
+            Examples examples = (Examples) Objects.requireNonNull(astNode).parent.node;
             if (currentExamples.get() == null || !currentExamples.get().equals(examples)) {
                 currentExamples.set(examples);
                 createExamples(examples);
             }
         } else {
-            scenarioOutlineThreadLocal.set(null);
-            currentScenarioOutline.set(null);
-            currentExamples.set(null);
+            scenarioOutlineThreadLocal.remove();
+            currentScenarioOutline.remove();
+            currentExamples.remove();
         }
     }
 
@@ -298,7 +296,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
             ExtentTest parent = scenarioOutlineThreadLocal.get() != null ? scenarioOutlineThreadLocal.get()
                 : featureTestThreadLocal.get();
             ExtentTest t = parent.createNode(com.aventstack.extentreports.gherkin.model.Scenario.class,
-                testCase.getName(), scenarioDefinition.getDescription());
+                testCase.getName(), Objects.requireNonNull(scenarioDefinition).getDescription());
             scenarioThreadLocal.set(t);
         }
         if (!testCase.getTags().isEmpty()) {
@@ -351,7 +349,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     }
 
     public static void attachScreenshot(byte[] screenshot) {
-        stepTestThreadLocal.get().info("title", MediaEntityBuilder
+        stepTestThreadLocal.get().info("", MediaEntityBuilder
             .createScreenCaptureFromBase64String(Base64.getEncoder().encodeToString(screenshot))
             .build());
     }
