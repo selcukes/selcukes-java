@@ -312,22 +312,21 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
         }
     }
 
+    @SneakyThrows
     private synchronized void createTestStep(PickleStepTestStep testStep) {
         String stepName = testStep.getStep().getText();
         TestSourcesModel.AstNode astNode = testSources.getAstNode(currentFeatureFile.get(),
             testStep.getStep().getLine());
         if (astNode != null) {
             Step step = (Step) astNode.node;
-            try {
-                String name = stepName == null || stepName.isEmpty()
-                    ? step.getText().replace("<", "&lt;").replace(">", "&gt;")
-                    : stepName;
-                ExtentTest t = scenarioThreadLocal.get().createNode(new GherkinKeyword(step.getKeyword().trim()),
-                    "<b>" + step.getKeyword() + name + "</b>", testStep.getCodeLocation());
-                stepTestThreadLocal.set(t);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+
+            String name = stepName == null || stepName.isEmpty()
+                ? step.getText().replace("<", "&lt;").replace(">", "&gt;")
+                : stepName;
+            ExtentTest t = scenarioThreadLocal.get().createNode(new GherkinKeyword(step.getKeyword().trim()),
+                "<b>" + step.getKeyword() + name + "</b>", testStep.getCodeLocation());
+            stepTestThreadLocal.set(t);
+
         }
         StepArgument argument = testStep.getStep().getArgument();
         if (argument != null) {
