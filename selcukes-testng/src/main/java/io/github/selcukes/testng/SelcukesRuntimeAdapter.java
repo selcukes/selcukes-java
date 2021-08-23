@@ -59,7 +59,7 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
             String reportsPath = getProperty("selcukes.reports-path");
             if (reportsPath.equals("")) reportsPath = "target/cucumber-reports";
 
-            String plugin = "pretty, html:" + reportsPath + "/cucumber.html, json:" + reportsPath + "/cucumber" + uuid + ".json";
+            String plugin = "html:" + reportsPath + "/cucumber.html, json:" + reportsPath + "/cucumber" + uuid + ".json";
 
             System.setProperty("cucumber.features", features);
             System.setProperty("cucumber.filter.tags", tag);
