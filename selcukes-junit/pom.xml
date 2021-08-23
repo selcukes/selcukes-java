@@ -11,7 +11,8 @@
     <artifactId>selcukes-junit</artifactId>
     <properties>
         <junit.jupiter.version>5.7.2</junit.jupiter.version>
-        <cucumber.version>6.10.4</cucumber.version>
+        <cucumber.version>6.11.0</cucumber.version>
+        <junit-platform-suite.version>1.8.0-RC1</junit-platform-suite.version>
     </properties>
     <dependencies>
         <dependency>
@@ -25,6 +26,12 @@
             <artifactId>selcukes-testng</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-suite</artifactId>
+            <version>${junit-platform-suite.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit-platform-engine</artifactId>
             <version>${cucumber.version}</version>
@@ -33,6 +40,7 @@
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
 
