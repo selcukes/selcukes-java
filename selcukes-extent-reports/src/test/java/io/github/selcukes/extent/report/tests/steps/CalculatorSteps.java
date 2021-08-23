@@ -47,7 +47,7 @@ public class CalculatorSteps {
     }
 
     @Then("the result is {double}")
-    public void the_result_is(double expected) {
+    public void theResultIs(double expected) {
         Assert.assertEquals(expected, calc.value());
     }
 
