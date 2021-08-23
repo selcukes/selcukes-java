@@ -37,7 +37,7 @@ import java.util.Set;
 public class FileHelper {
 
     private final Logger LOGGER = LoggerFactory.getLogger(FileHelper.class);
-    protected final String SUPPORT_FOLDER = "support";
+    private final String SUPPORT_FOLDER = "support";
     public final String RESOURCE_SEPARATOR = "/";
 
     public String driversFolder(String path) {

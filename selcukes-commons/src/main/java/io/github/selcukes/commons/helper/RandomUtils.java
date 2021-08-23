@@ -45,11 +45,11 @@ public class RandomUtils {
         return randomChars(33, 47, length);
     }
 
-    public static String randomNumeric(final int length) {
+    public String randomNumeric(final int length) {
         return randomChars(48, 57, length);
     }
 
-    public static String randomAlphabetic(final int length) {
+    public String randomAlphabetic(final int length) {
         return randomChars(97, 122, length);
     }
 

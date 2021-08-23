@@ -28,13 +28,8 @@ import java.util.List;
 
 public class MicrosoftTeamsBuilder {
 
-    protected void sendMessage(String scenarioTitle, String scenarioStatus, String message, String error,String screenshotPath) {
+    protected void sendMessage(String scenarioTitle, String scenarioStatus, String message, String error, String screenshotPath) {
 
-        /*String error = null;
-        if (message.contains(NotifierEnum.EXCEPTION.getValue())) {
-            error = message.split(NotifierEnum.EXCEPTION.getValue())[1];
-            message = message.split(NotifierEnum.EXCEPTION.getValue())[0];
-        }*/
         String attachmentValue = "[Screenshot.jpg](" + screenshotPath + ")";
         if (screenshotPath.endsWith(".avi") || screenshotPath.endsWith(".mp4")) {
             attachmentValue = "Video Path: " + screenshotPath;

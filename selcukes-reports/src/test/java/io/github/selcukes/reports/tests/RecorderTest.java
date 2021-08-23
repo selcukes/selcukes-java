@@ -41,7 +41,7 @@ public class RecorderTest {
     public void beforeTest() {
         WebDriverBinary.chromeDriver().checkBrowserVersion().setup();
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
+        // options.addArguments("--headless");
         driver = new ChromeDriver(options);
         if (Platform.isWindows()) {
             driver.manage().window().maximize();
@@ -67,9 +67,9 @@ public class RecorderTest {
             screenPlay
                 .withResult(result)
                 .ignoreCondition()
-                .attachScreenshot();
-            // .withNotifier(NotifierType.SLACK)
-            //.sendNotification("This is sample Test Step"); //Using default Notifier TEAMS
+                .attachScreenshot()
+                // .withNotifier()
+                .sendNotification("This is sample Test Step"); //Using default Notifier TEAMS
         }
     }
 

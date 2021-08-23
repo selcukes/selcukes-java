@@ -16,9 +16,13 @@
 
 package io.github.selcukes.junit.tests;
 
-import io.cucumber.junit.platform.engine.Cucumber;
+import org.junit.platform.suite.api.IncludeEngines;
+import org.junit.platform.suite.api.Suite;
 
-@Cucumber
+@Suite
+@IncludeEngines({"cucumber"})
+//@SelectClasses(JupiterTest.class) // This selector is picked up by Jupiter
+//@SelectClasspathResource("io/cucumber/skeleton") // This selector is picked up by Cucumber
 class CucumberRunner {
 
 }
