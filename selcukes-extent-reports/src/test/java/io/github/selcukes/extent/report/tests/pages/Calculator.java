@@ -18,15 +18,15 @@
 
 package io.github.selcukes.extent.report.tests.pages;
 
-import static java.util.Arrays.asList;
-
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
+import static java.util.Arrays.asList;
+
 public class Calculator {
-    private final Deque<Number> stack = new LinkedList<Number>();
     private static final List<String> OPS = asList("-", "+", "*", "/");
+    private final Deque<Number> stack = new LinkedList<Number>();
 
     public void push(Object arg) {
         if (OPS.contains(arg)) {

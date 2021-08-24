@@ -25,6 +25,14 @@ public class VersionTokenizer {
     private String suffix;
     private boolean hasValue;
 
+    public VersionTokenizer(String versionString) {
+        if (versionString == null)
+            throw new IllegalArgumentException("Version String is null");
+
+        this.versionString = versionString;
+        length = versionString.length();
+    }
+
     public int getNumber() {
         return number;
     }
@@ -35,14 +43,6 @@ public class VersionTokenizer {
 
     public boolean hasValue() {
         return hasValue;
-    }
-
-    public VersionTokenizer(String versionString) {
-        if (versionString == null)
-            throw new IllegalArgumentException("Version String is null");
-
-        this.versionString = versionString;
-        length = versionString.length();
     }
 
     public boolean moveNext() {

@@ -14,7 +14,7 @@ public class ReporterHooks {
         getReport().start(); //Initialise Extent Report and start recording logRecord
         //  .initSnapshot(driver); //Initialise Full page screenshot
         logger.info(() -> "Starting Scenario .." + scenario.getName());
-       getReport().attachAndRestart(); // Attach INFO logs and restart logRecord
+        getReport().attachAndRestart(); // Attach INFO logs and restart logRecord
 
     }
 

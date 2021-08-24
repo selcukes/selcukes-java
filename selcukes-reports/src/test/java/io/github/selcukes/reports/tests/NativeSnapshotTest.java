@@ -18,8 +18,8 @@ package io.github.selcukes.reports.tests;
 
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.reports.screenshot.Snapshot;
 import io.github.selcukes.reports.screenshot.ScreenGrabber;
+import io.github.selcukes.reports.screenshot.Snapshot;
 import io.github.selcukes.reports.screenshot.SnapshotImpl;
 import io.github.selcukes.wdb.WebDriverBinary;
 import org.openqa.selenium.WebDriver;
@@ -71,12 +71,12 @@ public class NativeSnapshotTest {
         long startTime = System.currentTimeMillis();
         String screenshotFilePath = ScreenGrabber
             .shoot(driver)
-            .withText("This sample Text Message\nMake it simple Make it simple Make it simple Make it simple Make it simple" )
+            .withText("This sample Text Message\nMake it simple Make it simple Make it simple Make it simple Make it simple")
             .fullPage()
             .save();
         long endTime = System.currentTimeMillis();
         long duration = (endTime - startTime) / 1000;
-        logger.info(() -> "Time Taken to capture screenshot: " + duration+"ms");
+        logger.info(() -> "Time Taken to capture screenshot: " + duration + "ms");
         logger.info(() -> "Chrome full page screenshot captured : " + screenshotFilePath);
         driver.quit();
     }

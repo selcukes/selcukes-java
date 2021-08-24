@@ -16,18 +16,18 @@
 
 package io.github.selcukes.commons.tests;
 
-import io.github.selcukes.commons.security.Encryptor;
-import io.github.selcukes.commons.security.StringEncryptor;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.commons.security.Encryptor;
+import io.github.selcukes.commons.security.StringEncryptor;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 public class EncryptionTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private Encryptor encryptor;
     private final String plainText = "password";
+    private Encryptor encryptor;
     private String encryptedText;
 
     @BeforeTest

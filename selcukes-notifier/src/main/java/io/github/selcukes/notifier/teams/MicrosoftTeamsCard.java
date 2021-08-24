@@ -30,23 +30,18 @@ import java.util.List;
 @JsonPropertyOrder({"@context", "@type", "themeColor", "title", "text"})
 public class MicrosoftTeamsCard {
 
-    @Builder.Default
-    @JsonProperty("@context")
-    private String context="http://schema.org/extensions";
-
-    @JsonProperty("@type")
-    private String type;
-
-    @JsonProperty("themeColor")
-    private String themeColor;
-
-    @JsonProperty("title")
-    private String title;
-
-    @JsonProperty("text")
-    private String text;
-
     @JsonProperty("sections")
     private final List<Section> sections;
+    @Builder.Default
+    @JsonProperty("@context")
+    private String context = "http://schema.org/extensions";
+    @JsonProperty("@type")
+    private String type;
+    @JsonProperty("themeColor")
+    private String themeColor;
+    @JsonProperty("title")
+    private String title;
+    @JsonProperty("text")
+    private String text;
 
 }

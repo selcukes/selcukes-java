@@ -27,17 +27,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.util.concurrent.TimeUnit;
 
 public class WebManager {
-    final Logger logger = LoggerFactory.getLogger(WebManager.class);
+    private final Logger logger = LoggerFactory.getLogger(WebManager.class);
     private WebDriver driver;
 
     public WebManager() {
     }
 
-    /**
-     * Get browser
-     *
-     * @return Webdriver
-     */
     public synchronized WebDriver createDriver() {
 
         String browser = ConfigFactory.getConfig().getBrowserName();

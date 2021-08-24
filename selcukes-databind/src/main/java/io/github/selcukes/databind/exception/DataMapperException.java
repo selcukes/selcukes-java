@@ -18,7 +18,7 @@
 
 package io.github.selcukes.databind.exception;
 
-public class DataMapperException extends RuntimeException{
+public class DataMapperException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 

@@ -16,8 +16,8 @@
 
 package io.github.selcukes.reports.html;
 
-import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.commons.os.Platform;
 import lombok.experimental.UtilityClass;
 import net.masterthought.cucumber.Configuration;
 import net.masterthought.cucumber.ReportBuilder;

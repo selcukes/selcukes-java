@@ -23,12 +23,13 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
+
 @UtilityClass
 public class SelcukesBanner {
 
     public void printBanner() {
-        try(InputStream inputStream = FileHelper.loadResourceFromJar("banner.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+        try (InputStream inputStream = FileHelper.loadResourceFromJar("banner.txt");
+             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             StringBuilder banner = new StringBuilder();
             banner.append(System.lineSeparator());
             banner.append(reader.lines().collect(Collectors.joining(System.lineSeparator())));

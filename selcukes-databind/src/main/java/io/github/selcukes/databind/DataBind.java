@@ -20,5 +20,6 @@ package io.github.selcukes.databind;
 
 interface DataBind {
     <T> T parse(String path, Class<T> dataClass);
+
     <T> void write(final String path, final T value);
 }

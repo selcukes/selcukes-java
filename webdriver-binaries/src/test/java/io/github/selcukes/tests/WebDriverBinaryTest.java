@@ -63,7 +63,7 @@ public class WebDriverBinaryTest {
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
     }
 
-    @Test(enabled=false)
+    @Test(enabled = false)
     public void edgeDriverTest() {
 
         BinaryInfo binaryInfo = WebDriverBinary.edgeDriver().targetPath("temp").setup();
@@ -120,6 +120,7 @@ public class WebDriverBinaryTest {
         String binaryDownloadedPath = binaryInfo.getBinaryPath();
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + binaryDownloadedPath + "}");
     }
+
     @Test
     public void cleanBinaryCacheTest() {
         BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().targetPath("temp").clearBinaryCache().setup();

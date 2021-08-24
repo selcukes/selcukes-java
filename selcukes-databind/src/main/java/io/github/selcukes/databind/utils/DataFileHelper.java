@@ -31,16 +31,16 @@ public class DataFileHelper<T> {
     private final Class<T> dataClass;
     private final DataFile dataFile;
 
-    public static <T> DataFileHelper<T> getInstance(final Class<T> dataClass) {
-        return new DataFileHelper<>(dataClass);
-    }
-
     private DataFileHelper(final Class<T> dataClass) {
         this.dataClass = dataClass;
         if (!this.dataClass.isAnnotationPresent(DataFile.class)) {
             throw new DataMapperException(String.format("Data Class[%s] must have @DataFile annotation.", dataClass.getSimpleName()));
         }
         this.dataFile = dataClass.getAnnotation(DataFile.class);
+    }
+
+    public static <T> DataFileHelper<T> getInstance(final Class<T> dataClass) {
+        return new DataFileHelper<>(dataClass);
     }
 
     public String getFileName() {

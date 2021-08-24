@@ -18,7 +18,10 @@ package io.github.selcukes.commons.security;
 
 public interface Encryptor {
     String encrypt(String text);
+
     String decrypt(String text);
+
     String encrypt(String cryptoKey, String text);
+
     String decrypt(String cryptoKey, String encrypted);
 }

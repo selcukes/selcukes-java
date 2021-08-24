@@ -26,9 +26,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
-    private final Logger logger = LoggerFactory.getLogger(SelcukesRuntimeAdapter.class);
     private static SelcukesRuntimeOptions runtimeOptions;
     private static Map<String, String> properties;
+    private final Logger logger = LoggerFactory.getLogger(SelcukesRuntimeAdapter.class);
 
     public static SelcukesRuntimeOptions getInstance() {
         if (runtimeOptions == null)

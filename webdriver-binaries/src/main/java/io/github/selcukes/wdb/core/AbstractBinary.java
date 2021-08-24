@@ -16,11 +16,11 @@
 
 package io.github.selcukes.wdb.core;
 
-import io.github.selcukes.commons.os.Architecture;
-import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.commons.http.Response;
 import io.github.selcukes.commons.http.WebClient;
+import io.github.selcukes.commons.os.Architecture;
+import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.wdb.util.VersionComparator;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -34,11 +34,11 @@ import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
 import static org.jsoup.Jsoup.parse;
 
 abstract class AbstractBinary implements BinaryFactory {
+    protected String latestVersionUrl;
+    protected boolean isAutoDetectBrowserVersion = true;
     private Optional<String> release = Optional.empty();
     private Optional<Architecture> targetArch = Optional.empty();
     private Optional<String> proxyUrl = Optional.empty();
-    protected String latestVersionUrl;
-    protected boolean isAutoDetectBrowserVersion=true;
 
     @Override
     public Platform getBinaryEnvironment() {
@@ -57,18 +57,13 @@ abstract class AbstractBinary implements BinaryFactory {
         this.release = Optional.ofNullable(version);
     }
 
-    @Override
-    public void setTargetArch(Architecture targetArch) {
-        this.targetArch = Optional.ofNullable(targetArch);
-    }
-
     public Optional<Architecture> getTargetArch() {
         return this.targetArch;
     }
 
     @Override
-    public void setProxy(String proxy) {
-        this.proxyUrl = Optional.ofNullable(proxy);
+    public void setTargetArch(Architecture targetArch) {
+        this.targetArch = Optional.ofNullable(targetArch);
     }
 
     @Override
@@ -82,8 +77,13 @@ abstract class AbstractBinary implements BinaryFactory {
         return unwrap(proxyUrl);
     }
 
+    @Override
+    public void setProxy(String proxy) {
+        this.proxyUrl = Optional.ofNullable(proxy);
+    }
+
     protected Response getHttpClient(String binaryDownloadUrl) {
-        return new WebClient(binaryDownloadUrl,getProxy()).sendRequest();
+        return new WebClient(binaryDownloadUrl, getProxy()).sendRequest();
     }
 
     protected String getVersionNumberFromGit(String binaryDownloadUrl) {

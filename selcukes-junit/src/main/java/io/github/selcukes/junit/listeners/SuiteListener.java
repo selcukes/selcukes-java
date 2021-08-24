@@ -31,7 +31,7 @@ public class SuiteListener implements BeforeAllCallback, AfterAllCallback {
     public void beforeAll(ExtensionContext extensionContext) {
 
         logger.debug(() -> "Test Suite Execution started...");
-          SelcukesRuntimeAdapter.getInstance().perform();
+        SelcukesRuntimeAdapter.getInstance().perform();
     }
 
     @Override

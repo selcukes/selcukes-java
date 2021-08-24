@@ -17,10 +17,10 @@
 package io.github.selcukes.commons.exec;
 
 import io.github.selcukes.commons.Await;
-import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.commons.exception.CommandException;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.commons.os.Platform;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
@@ -60,12 +60,12 @@ public class Shell {
     }
 
     public void sendCtrlC(String folder) {
-        String killCommand = folder+"SendSignalCtrlC.exe " + pid;
+        String killCommand = folder + "SendSignalCtrlC.exe " + pid;
         runCommand(killCommand);
     }
 
     private ExecResults interactWithProcess(final Process process) {
-        if (Platform.isWindows())extractPidOf(process);
+        if (Platform.isWindows()) extractPidOf(process);
         StreamGuzzler output = new StreamGuzzler(process.getInputStream());
         StreamGuzzler error = new StreamGuzzler(process.getErrorStream());
         ExecutorService executors = Executors.newFixedThreadPool(2);
