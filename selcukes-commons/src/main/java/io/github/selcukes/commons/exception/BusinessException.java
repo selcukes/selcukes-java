@@ -19,7 +19,7 @@
 package io.github.selcukes.commons.exception;
 
 import io.github.selcukes.commons.helper.ExceptionHelper;
-import io.github.selcukes.databind.utils.StringUtils;
+import io.github.selcukes.databind.utils.StringHelper;
 
 import java.util.function.Supplier;
 
@@ -32,7 +32,7 @@ public class BusinessException extends SelcukesException {
     }
 
     public String getCode() {
-        return ExceptionHelper.getErrorCodes().getMessage(StringUtils.toSnakeCase(code));
+        return ExceptionHelper.getErrorCodes().getMessage(StringHelper.toSnakeCase(code));
     }
 
     public void setCode(String code) {

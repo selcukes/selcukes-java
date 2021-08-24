@@ -47,7 +47,7 @@ public class DataFileHelper<T> {
         if (!this.dataFile.fileName().isEmpty()) {
             return this.dataFile.fileName();
         }
-        final String fileName = StringUtils.toSnakeCase(this.dataClass.getSimpleName());
+        final String fileName = StringHelper.toSnakeCase(this.dataClass.getSimpleName());
         final File folder = new File(getFolder());
         final File[] files = folder.listFiles((d, f) -> f.startsWith(fileName));
         if (requireNonNull(files).length == 0) {

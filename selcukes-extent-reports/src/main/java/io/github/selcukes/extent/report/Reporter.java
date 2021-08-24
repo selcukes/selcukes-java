@@ -20,7 +20,6 @@ package io.github.selcukes.extent.report;
 
 import io.github.selcukes.commons.logging.LogRecordListener;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.databind.utils.StringUtils;
 import io.github.selcukes.extent.report.support.Snapshot;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
@@ -28,6 +27,8 @@ import org.openqa.selenium.WebDriver;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.stream.Collectors;
+
+import static io.github.selcukes.databind.utils.StringHelper.nullOrEmpty;
 
 public class Reporter {
     private static Snapshot snapshot;
@@ -61,7 +62,7 @@ public class Reporter {
     public Reporter attach() {
         String infoLogs = logRecordListener.getLogRecords(Level.INFO)
             .map(LogRecord::getMessage)
-            .filter(m -> !StringUtils.isNullOrEmpty(m))
+            .filter(nullOrEmpty.negate())
             .collect(Collectors.joining("</li><li>", "<ul><li> ",
                 "</li></ul><br/>"));
         if (!infoLogs.equalsIgnoreCase("<ul><li> </li></ul><br/>"))

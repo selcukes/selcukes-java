@@ -18,7 +18,6 @@
 
 package io.github.selcukes.commons.helper;
 
-import io.github.selcukes.databind.utils.StringUtils;
 import lombok.experimental.UtilityClass;
 
 import java.util.Arrays;
@@ -26,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
 
 @UtilityClass
 public class CollectionUtils {
@@ -37,7 +38,7 @@ public class CollectionUtils {
 
     public Map<String, String> toMap(List<String> keys, List<String> values) {
         return IntStream.range(0, keys.size()).boxed()
-            .filter(i -> StringUtils.isNullOrEmpty(keys.get(i))).collect(Collectors.toMap(keys::get, values::get));
+            .filter(i -> isNullOrEmpty(keys.get(i))).collect(Collectors.toMap(keys::get, values::get));
     }
 
     public List<String> trim(List<String> list) {

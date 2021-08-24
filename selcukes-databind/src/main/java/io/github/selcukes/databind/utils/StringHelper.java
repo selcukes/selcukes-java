@@ -21,11 +21,14 @@ package io.github.selcukes.databind.utils;
 import lombok.experimental.UtilityClass;
 
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
 @UtilityClass
-public class StringUtils {
+public class StringHelper {
+    public static final Predicate<String> nullOrEmpty = StringHelper::isNullOrEmpty;
+
     public boolean isNullOrEmpty(String text) {
         return text == null || text.isEmpty() || text.isBlank();
     }
@@ -50,8 +53,9 @@ public class StringUtils {
         return stringBuilder.toString();
     }
 
-    public String replaceProperty(String text, Function<MatchResult, String> replacer) {
-        return Pattern.compile("\\$\\{(.+?)\\}")
+    public String interpolate(String text, Function<MatchResult, String> replacer) {
+        String regex = "\\$\\{(.+?)\\}";
+        return Pattern.compile(regex)
             .matcher(text)
             .replaceAll(replacer);
     }

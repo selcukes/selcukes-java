@@ -19,7 +19,7 @@ package io.github.selcukes.testng;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.databind.utils.StringUtils;
+import io.github.selcukes.databind.utils.StringHelper;
 
 import java.util.Map;
 import java.util.UUID;
@@ -43,7 +43,7 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
                 .loadPropertiesMap("selcukes-test.properties");
 
             UUID uuid = UUID.randomUUID();
-            String features = StringUtils.replaceProperty(getProperty("selcukes.features"),
+            String features = StringHelper.interpolate(getProperty("selcukes.features"),
                 matcher -> getProperty(matcher.group(1)));
 
             String glue = getProperty("selcukes.glue");
