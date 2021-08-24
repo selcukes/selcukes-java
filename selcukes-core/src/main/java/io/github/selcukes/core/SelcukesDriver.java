@@ -27,8 +27,8 @@ import org.openqa.selenium.WrapsElement;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 
 public class SelcukesDriver {
-    private CapabilitiesProvider caps;
     private final WebDriver driver;
+    private CapabilitiesProvider caps;
 
     public SelcukesDriver(WebDriver driver) {
         if (driver instanceof EventFiringWebDriver) {

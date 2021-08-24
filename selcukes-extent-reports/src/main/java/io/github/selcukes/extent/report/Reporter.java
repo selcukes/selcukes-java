@@ -17,6 +17,7 @@
  */
 
 package io.github.selcukes.extent.report;
+
 import io.github.selcukes.commons.logging.LogRecordListener;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.databind.utils.StringUtils;
@@ -29,9 +30,9 @@ import java.util.logging.LogRecord;
 import java.util.stream.Collectors;
 
 public class Reporter {
-    private LogRecordListener logRecordListener;
     private static Snapshot snapshot;
     private static Reporter reporter;
+    private LogRecordListener logRecordListener;
 
     public static void log(String message) {
         if (message != null) {
@@ -39,17 +40,17 @@ public class Reporter {
         }
     }
 
-    public Reporter start() {
-        logRecordListener = new LogRecordListener();
-        LoggerFactory.addListener(logRecordListener);
-        return this;
-    }
-
     public static Reporter getReport() {
         if (reporter == null) {
             reporter = new Reporter();
         }
         return reporter;
+    }
+
+    public Reporter start() {
+        logRecordListener = new LogRecordListener();
+        LoggerFactory.addListener(logRecordListener);
+        return this;
     }
 
     public void initSnapshot(WebDriver driver) {

@@ -16,8 +16,8 @@
 
 package io.github.selcukes.wdb;
 
-import io.github.selcukes.commons.os.Architecture;
 import io.github.selcukes.commons.helper.FileHelper;
+import io.github.selcukes.commons.os.Architecture;
 import io.github.selcukes.wdb.core.*;
 import io.github.selcukes.wdb.util.WebDriverBinaryUtil;
 
@@ -92,14 +92,16 @@ public class WebDriverBinary {
             binaryFactory.browserVersion(true);
             return this;
         }
+
         public Builder clearBinaryCache() {
             WebDriverBinary.this.clearBinaryCache = true;
             return this;
         }
+
         public BinaryInfo setup() {
             return new WebDriverBinaryUtil(WebDriverBinary.this.binaryFactory,
                 WebDriverBinary.this.downloadLocation,
-                WebDriverBinary.this.strictDownload,WebDriverBinary.this.clearBinaryCache).downloadAndSetupBinaryPath();
+                WebDriverBinary.this.strictDownload, WebDriverBinary.this.clearBinaryCache).downloadAndSetupBinaryPath();
         }
     }
 

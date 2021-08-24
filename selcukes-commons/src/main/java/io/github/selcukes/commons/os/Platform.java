@@ -20,11 +20,23 @@ import java.util.Objects;
 
 public class Platform {
 
-    private int arch;
     private static final String OS_NAME = System.getProperty("os.name").toLowerCase();
+    private int arch;
 
     public static Platform getPlatform() {
         return new Platform();
+    }
+
+    public static boolean isWindows() {
+        return (OS_NAME.contains("win"));
+    }
+
+    public static boolean isMac() {
+        return (OS_NAME.contains("mac") || OS_NAME.startsWith("darwin"));
+    }
+
+    public static boolean isLinux() {
+        return (OS_NAME.contains("nix") || OS_NAME.contains("nux"));
     }
 
     public OsType getOSType() {
@@ -40,18 +52,6 @@ public class Platform {
 
     public String getOsName() {
         return OS_NAME;
-    }
-
-    public static boolean isWindows() {
-        return (OS_NAME.contains("win"));
-    }
-
-    public static boolean isMac() {
-        return (OS_NAME.contains("mac") || OS_NAME.startsWith("darwin"));
-    }
-
-    public static boolean isLinux() {
-        return (OS_NAME.contains("nix") || OS_NAME.contains("nux"));
     }
 
     private int getPlatformArch() {

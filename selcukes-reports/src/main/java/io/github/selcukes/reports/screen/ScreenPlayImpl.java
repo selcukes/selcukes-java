@@ -41,14 +41,13 @@ import java.util.stream.Collectors;
 class ScreenPlayImpl implements ScreenPlay {
 
     private final Logger logger = LoggerFactory.getLogger(ScreenPlayImpl.class);
-
-    private Scenario scenario;
+    private final SnapshotImpl capture;
     protected LogRecordListener loggerListener;
     protected Recorder recorder;
     protected Notifier notifier;
-    private ScreenPlayResult result;
-    private final SnapshotImpl capture;
     boolean isFailedOnly;
+    private Scenario scenario;
+    private ScreenPlayResult result;
     private ITestResult iTestResult;
 
     public ScreenPlayImpl(WebDriver driver) {

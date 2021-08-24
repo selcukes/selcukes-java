@@ -34,15 +34,15 @@ import java.util.List;
  * for consuming stream will trigger errors.
  */
 public class StreamGuzzler implements Runnable {
-    private InputStream stream;
     private final List<String> content = new LinkedList<>();
-
-    public List<String> getContent() {
-        return content;
-    }
+    private InputStream stream;
 
     public StreamGuzzler(InputStream stream) {
         this.stream = stream;
+    }
+
+    public List<String> getContent() {
+        return content;
     }
 
     @Override

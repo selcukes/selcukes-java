@@ -9,7 +9,7 @@
 [![badge-jdk](https://img.shields.io/badge/jdk-8-green.svg)](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 [![License badge](https://img.shields.io/badge/license-Apache%202.0-blue.svg?label=License)](http://www.apache.org/licenses/LICENSE-2.0)
 
-selcukes-commons provides components needed to discover, parse files. 
+selcukes-commons provides components needed to discover, parse files.
 
 To use add the `selcukes-commons` dependency to your pom.xml:
 

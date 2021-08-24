@@ -24,19 +24,13 @@ import java.util.List;
 @Data
 @Builder
 public class Section {
+    private final List<Field> facts;
+    private final String activityTitle;
+    private final String activitySubtitle;
+    private final String activityText;
+    private final String activityImage;
+    private final List<Images> images;
     @Builder.Default
     private boolean markdown = true;
-
-    private final List<Field> facts;
-
-    private final String activityTitle;
-
-    private final String activitySubtitle;
-
-    private final String activityText;
-
-    private final String activityImage;
-
-    private final List<Images> images;
 
 }

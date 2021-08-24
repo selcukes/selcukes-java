@@ -33,6 +33,22 @@ public class Await {
         return new Await();
     }
 
+    public static void until(int timeoutInSeconds) {
+        try {
+            TimeUnit.SECONDS.sleep(timeoutInSeconds);
+        } catch (Exception e) {
+            throw new SelcukesException("Timeout exception : ", e);
+        }
+    }
+
+    public static void until(TimeUnit timeUnit, int timeout) {
+        try {
+            timeUnit.sleep(timeout);
+        } catch (Exception e) {
+            throw new SelcukesException("Timeout exception : ", e);
+        }
+    }
+
     public Await poll(long pollTimeout) {
         this.pollTimeout = pollTimeout;
         return this;
@@ -56,22 +72,6 @@ public class Await {
             logger.info(() -> "Condition successful");
         }
 
-    }
-
-    public static void until(int timeoutInSeconds) {
-        try {
-            TimeUnit.SECONDS.sleep(timeoutInSeconds);
-        } catch (Exception e) {
-            throw new SelcukesException("Timeout exception : ", e);
-        }
-    }
-
-    public static void until(TimeUnit timeUnit, int timeout) {
-        try {
-            timeUnit.sleep(timeout);
-        } catch (Exception e) {
-            throw new SelcukesException("Timeout exception : ", e);
-        }
     }
 }
 

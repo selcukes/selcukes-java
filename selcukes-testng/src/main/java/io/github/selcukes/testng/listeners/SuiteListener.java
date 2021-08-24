@@ -23,15 +23,16 @@ import org.testng.ISuite;
 import org.testng.ISuiteListener;
 
 public class SuiteListener implements ISuiteListener {
-    private final Logger logger= LoggerFactory.getLogger(SuiteListener.class);
+    private final Logger logger = LoggerFactory.getLogger(SuiteListener.class);
+
     @Override
     public void onStart(ISuite suite) {
-        logger.debug(()->"Test Suite Execution started...");
+        logger.debug(() -> "Test Suite Execution started...");
         SelcukesRuntimeAdapter.getInstance().perform();
     }
 
     @Override
     public void onFinish(ISuite suite) {
-        logger.debug(()->"Test Suite Execution finished...");
+        logger.debug(() -> "Test Suite Execution finished...");
     }
 }

@@ -16,7 +16,7 @@
 
 package io.github.selcukes.core.enums;
 
-public enum  DeviceType {
+public enum DeviceType {
     BROWSER,
     WINDOWS,
     MOBILE

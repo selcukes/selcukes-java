@@ -23,7 +23,7 @@ import java.util.List;
 
 public final class DriverFactory<D extends RemoteWebDriver> {
 
-    private static final ThreadLocal<Object> DRIVER_THREAD = new ThreadLocal<>();
+    private static final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
 
     private static final List<Object> STORED_DRIVER = new ArrayList<>();
 

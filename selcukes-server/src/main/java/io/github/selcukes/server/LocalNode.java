@@ -16,10 +16,11 @@
 
 package io.github.selcukes.server;
 
-import java.util.concurrent.TimeUnit;
 import org.openqa.grid.internal.utils.SelfRegisteringRemote;
 import org.openqa.grid.internal.utils.configuration.GridNodeConfiguration;
 import org.openqa.selenium.remote.server.SeleniumServer;
+
+import java.util.concurrent.TimeUnit;
 
 public class LocalNode implements Bootable {
 

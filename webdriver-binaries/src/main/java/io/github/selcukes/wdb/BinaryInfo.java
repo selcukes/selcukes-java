@@ -24,12 +24,12 @@ public class BinaryInfo {
         this.binaryProperty = binaryProperty;
         this.binaryPath = binaryPath;
     }
-    public String getBinaryProperty()
-    {
+
+    public String getBinaryProperty() {
         return this.binaryProperty;
     }
-    public String getBinaryPath()
-    {
+
+    public String getBinaryPath() {
         return binaryPath;
     }
 }

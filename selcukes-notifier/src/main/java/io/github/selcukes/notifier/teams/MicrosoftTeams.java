@@ -25,7 +25,7 @@ public class MicrosoftTeams extends AbstractNotifier {
     @Override
     public Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String error, String screenshotPath) {
         MicrosoftTeamsBuilder teamsBuilder = new MicrosoftTeamsBuilder();
-        teamsBuilder.sendMessage(scenarioTitle, scenarioStatus, message, error,screenshotPath);
+        teamsBuilder.sendMessage(scenarioTitle, scenarioStatus, message, error, screenshotPath);
         return this;
     }
 }

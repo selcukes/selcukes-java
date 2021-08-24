@@ -35,8 +35,8 @@ import java.util.stream.Collectors;
 
 @UtilityClass
 public class ConfigFactory {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigFactory.class);
     private static final String DEFAULT_LOG_BACK_FILE = "selcukes-logback.yaml";
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigFactory.class);
     private static Environment environment;
 
     public static Environment getConfig() {

@@ -30,19 +30,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class DataMapperTest {
-    @Data
-    @DataFile
-    static class TestUsers {
-        List<User> users;
-    }
-
-    @Data
-    static class User {
-        private String username;
-        private String password;
-
-    }
-
     @DataProvider
     public Iterator<Object[]> getTestUsers() {
         final TestUsers testUsers = DataMapper.parse(TestUsers.class);
@@ -55,6 +42,19 @@ public class DataMapperTest {
     @Test(dataProvider = "getTestUsers")
     public void jsonTest(User user) {
         Assert.assertFalse(user.getUsername().isBlank());
-        System.out.println("Username[" + user.getUsername() + "] Password[" + user.getPassword()+"]");
+        System.out.println("Username[" + user.getUsername() + "] Password[" + user.getPassword() + "]");
+    }
+
+    @Data
+    @DataFile
+    static class TestUsers {
+        List<User> users;
+    }
+
+    @Data
+    static class User {
+        private String username;
+        private String password;
+
     }
 }

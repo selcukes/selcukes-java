@@ -33,13 +33,13 @@ import java.util.*;
 import static org.jsoup.Jsoup.parse;
 
 public class VersionDetector {
+    private static final String CH_KEY = "chKey";
+    private static final String FF_KEY = "ffKey";
+    private static final String IE_KEY = "ieKey";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final String driverName;
     private final String osNameAndArch;
     private final String binaryDownloadUrl;
-    private static final String CH_KEY = "chKey";
-    private static final String FF_KEY = "ffKey";
-    private static final String IE_KEY = "ieKey";
 
     public VersionDetector(String binaryDriverName, String osNameAndArch, String binaryDownloadUrl) {
         this.driverName = binaryDriverName;
