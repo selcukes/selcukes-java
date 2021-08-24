@@ -25,9 +25,10 @@ import java.util.Map;
 import java.util.UUID;
 
 public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
-    private static SelcukesRuntimeOptions runtimeOptions;
-    private static Map<String, String> properties;
+
     private final Logger logger = LoggerFactory.getLogger(SelcukesRuntimeAdapter.class);
+    private static SelcukesRuntimeOptions runtimeOptions;
+    private Map<String, String> properties;
 
     public static SelcukesRuntimeOptions getInstance() {
         if (runtimeOptions == null)

@@ -1,6 +1,5 @@
 # Selcukes Reports
 
-
 selcukes-reports helps to record video  and send notifications using Slack and Microsoft teams.
 
 To use add the `selcukes-reports` dependency to your pom.xml:
