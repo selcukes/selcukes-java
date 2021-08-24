@@ -20,6 +20,10 @@ package io.github.selcukes.databind.utils;
 
 import lombok.experimental.UtilityClass;
 
+import java.util.function.Function;
+import java.util.regex.MatchResult;
+import java.util.regex.Pattern;
+
 @UtilityClass
 public class StringUtils {
     public boolean isNullOrEmpty(String text) {
@@ -44,5 +48,11 @@ public class StringUtils {
         }
 
         return stringBuilder.toString();
+    }
+
+    public String replaceProperty(String text, Function<MatchResult, String> replacer) {
+        return Pattern.compile("\\$\\{(.+?)\\}")
+            .matcher(text)
+            .replaceAll(replacer);
     }
 }
