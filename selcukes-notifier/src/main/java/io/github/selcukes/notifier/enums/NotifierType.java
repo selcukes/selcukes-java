@@ -18,7 +18,7 @@
 
 package io.github.selcukes.notifier.enums;
 
-public enum  NotifierType {
+public enum NotifierType {
     SLACK,
     TEAMS
 }

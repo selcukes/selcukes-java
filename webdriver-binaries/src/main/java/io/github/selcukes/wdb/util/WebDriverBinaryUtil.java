@@ -16,11 +16,11 @@
 
 package io.github.selcukes.wdb.util;
 
-import io.github.selcukes.commons.os.OsType;
 import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.commons.os.OsType;
 import io.github.selcukes.wdb.BinaryInfo;
 import io.github.selcukes.wdb.core.BinaryFactory;
 import io.github.selcukes.wdb.enums.DownloaderType;
@@ -31,23 +31,23 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class WebDriverBinaryUtil {
+    private static final String WEBDRIVER = "webdriver";
     private final Logger logger = LoggerFactory.getLogger(WebDriverBinaryUtil.class);
-    private File binaryDownloadDirectory;
     private final boolean strictDownload;
     private final BinaryFactory binaryFactory;
-    private static final String WEBDRIVER = "webdriver";
+    private File binaryDownloadDirectory;
 
 
-    public WebDriverBinaryUtil(BinaryFactory binaryFactory, String downloadLocation, boolean strictDownload,boolean clearBinaryCache) {
+    public WebDriverBinaryUtil(BinaryFactory binaryFactory, String downloadLocation, boolean strictDownload, boolean clearBinaryCache) {
         this.binaryFactory = binaryFactory;
-        this.binaryDownloadDirectory = getBinaryDownloadDirectory(downloadLocation,clearBinaryCache);
+        this.binaryDownloadDirectory = getBinaryDownloadDirectory(downloadLocation, clearBinaryCache);
         this.strictDownload = strictDownload;
 
     }
 
-    private File getBinaryDownloadDirectory(String downloadLocation,boolean clearBinaryCache) {
+    private File getBinaryDownloadDirectory(String downloadLocation, boolean clearBinaryCache) {
         binaryDownloadDirectory = new File(downloadLocation + File.separator + WEBDRIVER + File.separator);
-        if(clearBinaryCache)
+        if (clearBinaryCache)
             FileHelper.deleteFilesInDirectory(binaryDownloadDirectory);
         FileHelper.createDirectory(binaryDownloadDirectory);
         return binaryDownloadDirectory;

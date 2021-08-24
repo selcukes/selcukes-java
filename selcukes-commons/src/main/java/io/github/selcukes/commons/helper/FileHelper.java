@@ -36,9 +36,9 @@ import java.util.Set;
 @UtilityClass
 public class FileHelper {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(FileHelper.class);
-    protected final String SUPPORT_FOLDER = "support";
     public final String RESOURCE_SEPARATOR = "/";
+    private final Logger LOGGER = LoggerFactory.getLogger(FileHelper.class);
+    private final String SUPPORT_FOLDER = "support";
 
     public String driversFolder(String path) {
         File file = new File(path);

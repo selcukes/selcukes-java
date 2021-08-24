@@ -16,7 +16,7 @@
 
 package io.github.selcukes.reports.enums;
 
-public enum  RecorderType {
+public enum RecorderType {
     MONTE,
     FFMPEG
 }

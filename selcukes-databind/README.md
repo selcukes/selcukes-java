@@ -16,7 +16,9 @@ To use add the `selcukes-databind` dependency to your pom.xml:
 </dependencies>
 
 ```
+
 ## Usage
+
 ```json
 {
   "users": [
@@ -31,6 +33,7 @@ To use add the `selcukes-databind` dependency to your pom.xml:
   ]
 }
 ```
+
 ```java
 
 public class DataMapperTest {

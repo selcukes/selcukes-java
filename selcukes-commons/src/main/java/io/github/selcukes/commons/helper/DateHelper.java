@@ -25,12 +25,9 @@ import java.time.format.DateTimeFormatter;
 public class DateHelper {
     private static final String DEFAULT_DATE_PATTERN = "ddMMMyyyy-hh-mm-ss";
     private static final String TIMESTAMP_FORMAT = "dd/MM/yyyy hh:mm:ss";
-
-    private DateTimeFormatter dtf;
-
     private final LocalDate localDate;
-
     private final LocalDateTime localDateTime;
+    private DateTimeFormatter dtf;
 
     public DateHelper() {
         this.localDateTime = LocalDateTime.now();

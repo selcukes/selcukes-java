@@ -27,6 +27,7 @@ public class SnapshotException extends SelcukesException {
     public SnapshotException(String message, Throwable cause) {
         super(message, cause);
     }
+
     public SnapshotException(String message) {
         super(message);
     }

@@ -31,13 +31,11 @@ import javax.servlet.http.HttpServletResponse;
 
 public class GhostProxy extends DefaultRemoteProxy implements TestSessionListener {
     private final Logger logger = LoggerFactory.getLogger(GhostProxy.class);
-
+    private Recorder recorder;
+    private Boolean record;
     public GhostProxy(RegistrationRequest request, GridRegistry registry) {
         super(request, registry);
     }
-
-    private Recorder recorder;
-    private Boolean record;
 
     @Override
     public void beforeCommand(TestSession session, HttpServletRequest request,

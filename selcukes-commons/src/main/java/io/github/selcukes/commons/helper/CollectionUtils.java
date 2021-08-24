@@ -29,24 +29,24 @@ import java.util.stream.IntStream;
 
 @UtilityClass
 public class CollectionUtils {
-    public static String[][] toArray(List<List<String>> cells) {
+    public String[][] toArray(List<List<String>> cells) {
         return cells.stream()
             .map(row -> row.toArray(String[]::new))
             .toArray(String[][]::new);
     }
 
-    public static Map<String, String> toMap(List<String> keys, List<String> values) {
+    public Map<String, String> toMap(List<String> keys, List<String> values) {
         return IntStream.range(0, keys.size()).boxed()
             .filter(i -> StringUtils.isNullOrEmpty(keys.get(i))).collect(Collectors.toMap(keys::get, values::get));
     }
 
-    public static List<String> trim(List<String> list) {
+    public List<String> trim(List<String> list) {
         return list.stream()
             .map(String::trim)
             .collect(Collectors.toList());
     }
 
-    public static List<String> toList(Class<? extends Enum<?>> enumData) {
+    public List<String> toList(Class<? extends Enum<?>> enumData) {
         return Arrays.stream(enumData.getEnumConstants()).map(Enum::toString).collect(Collectors.toList());
     }
 }

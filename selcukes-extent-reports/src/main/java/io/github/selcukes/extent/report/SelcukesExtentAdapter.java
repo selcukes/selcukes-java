@@ -85,6 +85,12 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
         stepTestThreadLocal.get().info(message);
     }
 
+    public static void attachScreenshot(byte[] screenshot) {
+        stepTestThreadLocal.get().info("", MediaEntityBuilder
+            .createScreenCaptureFromBase64String(Base64.getEncoder().encodeToString(screenshot))
+            .build());
+    }
+
     @Override
     public void setEventPublisher(EventPublisher publisher) {
         publisher.registerHandlerFor(TestSourceRead.class, testSourceReadHandler);
@@ -184,7 +190,6 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
             }
         }
     }
-
 
     private void handleWrite(WriteEvent event) {
         String text = event.getText();
@@ -345,12 +350,6 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
         return cells.stream()
             .map(row -> row.toArray(String[]::new))
             .toArray(String[][]::new);
-    }
-
-    public static void attachScreenshot(byte[] screenshot) {
-        stepTestThreadLocal.get().info("", MediaEntityBuilder
-            .createScreenCaptureFromBase64String(Base64.getEncoder().encodeToString(screenshot))
-            .build());
     }
 
 }

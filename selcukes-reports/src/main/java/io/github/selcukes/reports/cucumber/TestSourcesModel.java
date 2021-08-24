@@ -20,13 +20,9 @@ import io.cucumber.gherkin.Gherkin;
 import io.cucumber.messages.Messages;
 import io.cucumber.messages.Messages.GherkinDocument;
 import io.cucumber.messages.Messages.GherkinDocument.Feature;
-import io.cucumber.messages.Messages.GherkinDocument.Feature.Background;
-import io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild;
+import io.cucumber.messages.Messages.GherkinDocument.Feature.*;
 import io.cucumber.messages.Messages.GherkinDocument.Feature.FeatureChild.RuleChild;
-import io.cucumber.messages.Messages.GherkinDocument.Feature.Scenario;
 import io.cucumber.messages.Messages.GherkinDocument.Feature.Scenario.Examples;
-import io.cucumber.messages.Messages.GherkinDocument.Feature.Step;
-import io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow;
 import io.cucumber.messages.internal.com.google.protobuf.GeneratedMessageV3;
 import io.cucumber.messages.internal.com.google.protobuf.Message;
 import io.cucumber.plugin.event.TestSourceRead;
@@ -101,6 +97,23 @@ final class TestSourcesModel {
         } catch (URISyntaxException e) {
             throw new IllegalArgumentException(e.getMessage(), e);
         }
+    }
+
+    static Background getBackgroundForTestCase(AstNode astNode) {
+        Feature feature = getFeatureForTestCase(astNode);
+        return feature.getChildrenList()
+            .stream()
+            .filter(FeatureChild::hasBackground)
+            .map(FeatureChild::getBackground)
+            .findFirst()
+            .orElse(null);
+    }
+
+    private static Feature getFeatureForTestCase(AstNode astNode) {
+        while (astNode.parent != null) {
+            astNode = astNode.parent;
+        }
+        return (Feature) astNode.node;
     }
 
     void addTestSourceReadEvent(URI path, TestSourceRead event) {
@@ -228,23 +241,6 @@ final class TestSourcesModel {
             return getBackgroundForTestCase(astNode) != null;
         }
         return false;
-    }
-
-    static Background getBackgroundForTestCase(AstNode astNode) {
-        Feature feature = getFeatureForTestCase(astNode);
-        return feature.getChildrenList()
-            .stream()
-            .filter(FeatureChild::hasBackground)
-            .map(FeatureChild::getBackground)
-            .findFirst()
-            .orElse(null);
-    }
-
-    private static Feature getFeatureForTestCase(AstNode astNode) {
-        while (astNode.parent != null) {
-            astNode = astNode.parent;
-        }
-        return (Feature) astNode.node;
     }
 
     static class ExamplesRowWrapperNode extends GeneratedMessageV3 {

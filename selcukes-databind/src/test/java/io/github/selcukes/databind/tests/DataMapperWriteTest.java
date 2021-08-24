@@ -28,12 +28,6 @@ import java.util.Map;
 import java.util.UUID;
 
 public class DataMapperWriteTest {
-    @Data
-    @DataFile(fileName = "test_sample.yml")
-    static class TestSample {
-        Map<String, Map<String, String>> users;
-    }
-
     @SneakyThrows
     @Test
     public void testClass() {
@@ -41,6 +35,12 @@ public class DataMapperWriteTest {
         TestSample testSample = DataMapper.parse(TestSample.class);
         testSample.getUsers().get("user1").put("password", uuid.toString());
         DataMapper.write(testSample);
+    }
+
+    @Data
+    @DataFile(fileName = "test_sample.yml")
+    static class TestSample {
+        Map<String, Map<String, String>> users;
     }
 
 }

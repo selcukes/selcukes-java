@@ -29,7 +29,7 @@ public class ConfigurationException extends SelcukesException {
 
     public ConfigurationException(String configurationType) {
 
-        super("Configuration section for {"+configurationType+"} was not found.");
+        super("Configuration section for {" + configurationType + "} was not found.");
     }
 
     public ConfigurationException(Throwable cause) {
