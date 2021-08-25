@@ -15,7 +15,6 @@
  */
 
 package io.github.selcukes.commons.helper;
-
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,11 +22,16 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 public class DateHelper {
-    private static final String DEFAULT_DATE_PATTERN = "ddMMMyyyy-hh-mm-ss";
-    private static final String TIMESTAMP_FORMAT = "dd/MM/yyyy hh:mm:ss";
-    private final LocalDate localDate;
-    private final LocalDateTime localDateTime;
+
+    private static final String DEFAULT_DATE_TIME_PATTERN = "ddMMMyyyy-hh-mm-ss";
+    private static final String DEFAULT_DATE_PATTERN = "MM/dd/yyyy";
+    private static final String TIMESTAMP_FORMAT = "MM/dd/yyyy hh:mm:ss";
+
     private DateTimeFormatter dtf;
+
+    private LocalDate localDate;
+
+    private final LocalDateTime localDateTime;
 
     public DateHelper() {
         this.localDateTime = LocalDateTime.now();
@@ -43,12 +47,28 @@ public class DateHelper {
         return this;
     }
 
+    public DateTimeFormatter getDateFormatter() {
+        if (dtf == null)
+            setDateFormat(DEFAULT_DATE_PATTERN);
+        return dtf;
+    }
+
+    public DateTimeFormatter getDateTimeFormatter() {
+        if (dtf == null)
+            setDateFormat(DEFAULT_DATE_TIME_PATTERN);
+        return dtf;
+    }
+
+    public String formatDate(LocalDate date) {
+        return date.format(getDateFormatter());
+    }
+
     public String dateTime() {
-        return localDateTime.format(getDateFormatter());
+        return localDateTime.format(getDateTimeFormatter());
     }
 
     public String date() {
-        return localDate.format(getDateFormatter());
+        return formatDate(localDate);
     }
 
     public String timeStamp() {
@@ -62,12 +82,6 @@ public class DateHelper {
         return getTimeStampFormatter().format(Instant.ofEpochMilli(date));
     }
 
-    public DateTimeFormatter getDateFormatter() {
-        if (dtf == null)
-            setDateFormat(DEFAULT_DATE_PATTERN);
-        return dtf;
-    }
-
     private DateTimeFormatter getTimeStampFormatter() {
         if (dtf == null)
             setDateFormat(TIMESTAMP_FORMAT);
@@ -78,12 +92,29 @@ public class DateHelper {
         return ZoneId.systemDefault();
     }
 
-    public String futureDate(int noOfDays) {
-        return localDate.plusDays(noOfDays).toString();
+    public LocalDate futureDate(int noOfDays) {
+        return localDate.plusDays(noOfDays);
     }
 
-    public String pastDate(int noOfDays) {
-        return localDate.minusDays(noOfDays).toString();
+    public LocalDate pastDate(int noOfDays) {
+        return localDate.minusDays(noOfDays);
+    }
+
+    public LocalDate futureLocalDate(int noOfDays) {
+        return localDate.plusDays(noOfDays);
+    }
+
+    public LocalDate getLocalDate(String date) {
+        return LocalDate.parse(date, getDateFormatter());
+    }
+
+    public LocalDate currentDate() {
+        return localDate;
+    }
+
+    public DateHelper setDate(String date) {
+        localDate = getLocalDate(date);
+        return this;
     }
 
 }
