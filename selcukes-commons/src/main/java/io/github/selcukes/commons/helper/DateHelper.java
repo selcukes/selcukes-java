@@ -15,6 +15,7 @@
  */
 
 package io.github.selcukes.commons.helper;
+
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -98,10 +99,6 @@ public class DateHelper {
 
     public LocalDate pastDate(int noOfDays) {
         return localDate.minusDays(noOfDays);
-    }
-
-    public LocalDate futureLocalDate(int noOfDays) {
-        return localDate.plusDays(noOfDays);
     }
 
     public LocalDate getLocalDate(String date) {
