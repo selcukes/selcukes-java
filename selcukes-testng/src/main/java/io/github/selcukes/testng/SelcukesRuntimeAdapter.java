@@ -19,16 +19,16 @@ package io.github.selcukes.testng;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.databind.utils.StringHelper;
 
 import java.util.Map;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
-    private static SelcukesRuntimeOptions runtimeOptions;
-    private static Map<String, String> properties;
+
     private final Logger logger = LoggerFactory.getLogger(SelcukesRuntimeAdapter.class);
+    private static SelcukesRuntimeOptions runtimeOptions;
+    private Map<String, String> properties;
 
     public static SelcukesRuntimeOptions getInstance() {
         if (runtimeOptions == null)
@@ -43,16 +43,8 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
                 .loadPropertiesMap("selcukes-test.properties");
 
             UUID uuid = UUID.randomUUID();
-            String features = getProperty("selcukes.features");
-            Pattern pattern = Pattern.compile("\\$\\{(.+?)\\}");
-            Matcher matcher = pattern.matcher(features);
-            StringBuilder stringBuilder = new StringBuilder();
-
-            while (matcher.find()) {
-                matcher.appendReplacement(stringBuilder, getProperty(matcher.group(1)));
-            }
-            matcher.appendTail(stringBuilder);
-            features = stringBuilder.toString();
+            String features = StringHelper.interpolate(getProperty("selcukes.features"),
+                matcher -> getProperty(matcher.group(1)));
 
             String glue = getProperty("selcukes.glue");
             String tag = getProperty("selcukes.tags");
@@ -66,9 +58,8 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
             System.setProperty("cucumber.glue", glue);
             System.setProperty("cucumber.plugin", plugin);
             System.setProperty("cucumber.publish.quiet", "true");
-            String finalFeatures = features;
             logger.debug(() -> String.format("Using Runtime Cucumber Options:\nFeatures : [%s]\nGlue     : [%s]\nTags     : [%s] " +
-                "\n ", finalFeatures, glue, tag));
+                "\n ", features, glue, tag));
         } catch (Exception exception) {
             logger.warn(() -> "Failed loading selcukes-test properties. Using default CucumberOptions to execute...");
         }

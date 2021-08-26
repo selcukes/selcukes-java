@@ -47,6 +47,4 @@ public class EncryptionTest {
         logger.info(() -> "Decrypted Password: " + encryptor.decrypt(encryptedText));
         Assert.assertEquals(plainText, encryptor.decrypt(encryptedText));
     }
-
-
 }
