@@ -17,7 +17,7 @@ To use add the `selcukes-commons` dependency to your pom.xml:
 
 ```
 ### Encryptor
-This helps to Encryption/Decryption user credential
+This helps to Encryption/Decryption of user credentials
 ```java
 public class EncryptionTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -88,15 +88,22 @@ public class LogRecordTest {
 }
 ```
 ### Run Command
-execute Shell command
+Shell class helps to run commands
 ```java
 public class RunCommandTest {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     @Test
-    public void runCommandTest()
-    {
-        String command="";
+    public void runCommandTest() {
+        
         Shell shell = new Shell();
-        ExecResults execResults = shell.runCommand(command);
+        ExecResults execResults = shell.runCommand("google-chrome --version");
+
+        String[] words = execResults.getOutput().get(2).split(" ");
+        String browserVersion = words[words.length - 1];
+
+        logger.info(() -> "Browser Version Number: " + browserVersion);
+        
     }
 }
 ```
@@ -124,7 +131,7 @@ public class BusinessExceptionTest {
     }
 }
 ```
-### Properties:
+### Properties
 LinkedProperties is a subclass of Properties that returns keys in insertion order by keeping an internal insertion order set of keys updated on each
 write operation (put, putAll, clear, remove).
 Does not control the usage of {@link java.util.Hashtable#entrySet()} which allows write operations as well.
@@ -158,7 +165,36 @@ public class PropertiesTest {
     }
 }
 ```
-- WebClient - Http Client Utils
+### WebClient
+WebClient class is a Http Client Utils which helps to get or post request
+```java
+public class WebClientTest {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Test
+    public void postTest() throws IOException {
+        StringBuilder json = new StringBuilder();
+        json.append("{");
+        json.append("\"name\":\"Ramesh\",");
+        json.append("\"notes\":\"hello\"");
+        json.append("}");
+
+        WebClient client = new WebClient("https://httpbin.org/post");
+        Response response = client.post(json);
+        String body = IOUtils.toString(response.getResponseStream(), StandardCharsets.UTF_8);
+        logger.info(() -> body);
+    }
+
+    @Test
+    public void requestTest() throws IOException {
+
+        WebClient client = new WebClient("https://httpbin.org/get");
+        Response response = client.sendRequest();
+        String body = IOUtils.toString(response.getResponseStream(), StandardCharsets.UTF_8);
+        logger.info(() -> body);
+    }
+}
+```
 ### DateHelper
 ```java
 public class DateHelperTest {
@@ -175,8 +211,6 @@ public class DateHelperTest {
     }
 }
 ```
-- ExceptionHelper
-- ImageUtils
 ### Preconditions
 This class provides a list of static methods for checking that a method or a constructor is invoked with valid parameter values. If a precondition fails, a tailored exception is thrown
 
