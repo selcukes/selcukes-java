@@ -17,15 +17,15 @@ To use add the `selcukes-commons` dependency to your pom.xml:
 
 ```
 ## Table of contents
-* [Encryptor](#Encryptor)  
-* [Logger](#Logger)
-* [Run Command](#Run-Command)
-* [Business Friendly Exceptions](#Business-Friendly-Exceptions)
-* [Properties](#Properties)
-* [WebClient](#WebClient)
-* [DateHelper](#DateHelper)
-* [Preconditions](#Preconditions)
-* [RandomUtils](#RandomUtils)
+- [Encryptor](#Encryptor)  
+- [Logger](#Logger)
+- [Run Command](#Run-Command)
+- [Business Friendly Exceptions](#Business-Friendly-Exceptions)
+- [Properties](#Properties)
+- [WebClient](#WebClient)
+- [DateHelper](#DateHelper)
+- [Preconditions](#Preconditions)
+- [RandomUtils](#RandomUtils)
   
 ### Encryptor
 This helps to Encryption/Decryption of user credentials
@@ -230,7 +230,6 @@ We can get a meaningful error message from the checkArgument method by passing a
 ```java
 
 public class PreconditionsTest {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void checkArgAndThrowsException() {

@@ -28,7 +28,7 @@ import org.testng.annotations.Test;
 public class RunCommandTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Test
+    @Test(enabled = false)
     public void runCommandTest() {
         if (Platform.isLinux()) {
             Shell shell = new Shell();

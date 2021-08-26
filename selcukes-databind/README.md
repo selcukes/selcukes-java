@@ -83,7 +83,7 @@ users:
     username: "spam"
     password: "40aafad2-1d24-4d6c-85e2-b7630dc17c57"
 ```
-### Usage
+
 ```java
 public class DataMapperWriteTest {
     @SneakyThrows

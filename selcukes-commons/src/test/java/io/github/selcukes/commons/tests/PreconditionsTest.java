@@ -19,12 +19,9 @@
 package io.github.selcukes.commons.tests;
 
 import io.github.selcukes.commons.helper.Preconditions;
-import io.github.selcukes.commons.logging.Logger;
-import io.github.selcukes.commons.logging.LoggerFactory;
 import org.testng.annotations.Test;
 
 public class PreconditionsTest {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void checkArgAndThrowsException() {
