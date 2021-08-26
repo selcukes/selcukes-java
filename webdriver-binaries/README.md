@@ -21,12 +21,12 @@ To use add the `webdriver-binaries` dependency to your pom.xml:
 
 ## Usage
 
-| Description                | Method                     |
-| -------------------------- | -------------------------- |
-| Download the latest binary | WebDriverBinary.chromeDriver().setup(); WebDriverBinary.firefoxDriver().setup(); WebDriverBinary.ieDriver().setup(); WebDriverBinary.edgeDriver().setup(); WebDriverBinary.edgeDriver().setup(); WebDriverBinary.operaDriver().setup(); WebDriverBinary.grid().setup(); |
-| Download binaries for specific architecture | WebDriverBinary.chromeDriver().arch64().setup(); WebDriverBinary.firefoxDriver().arch32().setup(); |
-| Download binaries by specifying custom download location| WebDriverBinary.chromeDriver().targetPath("temp").setup(); WebDriverBinary.firefoxDriver().targetPath("downloadLocation").setup();| 
-| Download binaries for a specific release version | WebDriverBinary.firefoxDriver().version("v0.26.0").setup();|
+ Description | Method                     
+  --- | ---
+ Download the latest binary| WebDriverBinary.chromeDriver().setup(); <br/> WebDriverBinary.firefoxDriver().setup(); <br/> WebDriverBinary.ieDriver().setup(); <br/> WebDriverBinary.edgeDriver().setup(); <br/> WebDriverBinary.edgeDriver().setup(); <br/> WebDriverBinary.operaDriver().setup(); <br/> WebDriverBinary.grid().setup(); 
+ Download binaries for specific architecture | WebDriverBinary.chromeDriver().arch64().setup(); <br/> WebDriverBinary.firefoxDriver().arch32().setup(); 
+ Download binaries by specifying custom download location| WebDriverBinary.chromeDriver().targetPath("temp").setup(); WebDriverBinary.firefoxDriver().targetPath("downloadLocation").setup();
+ Download binaries for a specific release version | WebDriverBinary.firefoxDriver().version("v0.26.0").setup();
 
 ## Usage
 
