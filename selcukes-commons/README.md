@@ -1,23 +1,26 @@
 # Selcukes Commons
 
-selcukes-commons provides components needed to discover, parse files. 
+selcukes-commons provides components needed to discover, parse files.
 
 To use add the `selcukes-commons` dependency to your pom.xml:
 
 ```xml
+
 <dependencies>
-  [...]
+    [...]
     <dependency>
         <groupId>io.github.selcukes</groupId>
         <artifactId>selcukes-commons</artifactId>
         <version>${selcukes-commons.version}</version>
     </dependency>
-  [...]
+    [...]
 </dependencies>
 
 ```
+
 ## Table of contents
-- [Encryptor](#Encryptor)  
+
+- [Encryptor](#Encryptor)
 - [Logger](#Logger)
 - [Run Command](#Run-Command)
 - [Business Friendly Exceptions](#Business-Friendly-Exceptions)
@@ -26,9 +29,11 @@ To use add the `selcukes-commons` dependency to your pom.xml:
 - [DateHelper](#DateHelper)
 - [Preconditions](#Preconditions)
 - [RandomUtils](#RandomUtils)
-  
+
 ### Encryptor
+
 This helps to Encryption/Decryption of user credentials
+
 ```java
 public class EncryptionTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -55,8 +60,11 @@ public class EncryptionTest {
     }
 }
 ```
+
 ### Logger
+
 A Logging utility helps to attach logs in html reports
+
 ```java
 public class LogRecordTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -98,15 +106,18 @@ public class LogRecordTest {
     }
 }
 ```
+
 ### Run Command
+
 Shell class helps to run commands
+
 ```java
 public class RunCommandTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Test
     public void runCommandTest() {
-        
+
         Shell shell = new Shell();
         ExecResults execResults = shell.runCommand("google-chrome --version");
 
@@ -114,11 +125,13 @@ public class RunCommandTest {
         String browserVersion = words[words.length - 1];
 
         logger.info(() -> "Browser Version Number: " + browserVersion);
-        
+
     }
 }
 ```
+
 ### Business Friendly Exceptions
+
 ```java
 public class BusinessExceptionTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -142,10 +155,13 @@ public class BusinessExceptionTest {
     }
 }
 ```
+
 ### Properties
-LinkedProperties is a subclass of Properties that returns keys in insertion order by keeping an internal insertion order set of keys updated on each
-write operation (put, putAll, clear, remove).
-Does not control the usage of {@link java.util.Hashtable#entrySet()} which allows write operations as well.
+
+LinkedProperties is a subclass of Properties that returns keys in insertion order by keeping an internal insertion order
+set of keys updated on each write operation (put, putAll, clear, remove). Does not control the usage of {@link
+java.util.Hashtable#entrySet()} which allows write operations as well.
+
 ```java
 public class PropertiesTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -176,8 +192,11 @@ public class PropertiesTest {
     }
 }
 ```
+
 ### WebClient
+
 WebClient class is a Http Client Utils which helps to get or post request
+
 ```java
 public class WebClientTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -206,7 +225,9 @@ public class WebClientTest {
     }
 }
 ```
+
 ### DateHelper
+
 ```java
 public class DateHelperTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -222,8 +243,11 @@ public class DateHelperTest {
     }
 }
 ```
+
 ### Preconditions
-This class provides a list of static methods for checking that a method or a constructor is invoked with valid parameter values. If a precondition fails, a tailored exception is thrown
+
+This class provides a list of static methods for checking that a method or a constructor is invoked with valid parameter
+values. If a precondition fails, a tailored exception is thrown
 
 We can get a meaningful error message from the checkArgument method by passing an error message
 
@@ -240,7 +264,9 @@ public class PreconditionsTest {
 
 }
 ```
+
 ### RandomUtils
+
 ```java
 public class RandomUtilsTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
