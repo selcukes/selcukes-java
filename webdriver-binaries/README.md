@@ -51,3 +51,33 @@ Download binaries for a specific release version
 ```java
 WebDriverBinary.firefoxDriver().version("v0.26.0").setup();
 ```
+## Usage
+```java
+public class WebDriverTest {
+
+    private WebDriver driver;
+
+    @BeforeClass
+    public static void setupClass() {
+        WebDriverBinary.chromeDriver().setup();
+    }
+
+    @Before
+    public void setupTest() {
+        driver = new ChromeDriver();
+    }
+
+    @After
+    public void teardown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
+    @Test
+    public void test() {
+        // Your test code here
+    }
+
+}
+```
