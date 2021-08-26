@@ -19,8 +19,8 @@ To use add the `selcukes-commons` dependency to your pom.xml:
 ## Table of contents
 * [Encryptor](#Encryptor)  
 * [Logger](#Logger)
-* [Run Command](#Run Command)
-* [Business Friendly Exceptions](#Business Friendly Exceptions)
+* [Run Command](#Run-Command)
+* [Business Friendly Exceptions](#Business-Friendly-Exceptions)
 * [Properties](#Properties)
 * [WebClient](#WebClient)
 * [DateHelper](#DateHelper)
