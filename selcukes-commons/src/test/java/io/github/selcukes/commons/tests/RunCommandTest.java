@@ -20,14 +20,24 @@ package io.github.selcukes.commons.tests;
 
 import io.github.selcukes.commons.exec.ExecResults;
 import io.github.selcukes.commons.exec.Shell;
+import io.github.selcukes.commons.logging.Logger;
+import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.commons.os.Platform;
 import org.testng.annotations.Test;
 
 public class RunCommandTest {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     @Test
-    public void runCommandTest()
-    {
-        String command="";
-        Shell shell = new Shell();
-        ExecResults execResults = shell.runCommand(command);
+    public void runCommandTest() {
+        if (Platform.isLinux()) {
+            Shell shell = new Shell();
+            ExecResults execResults = shell.runCommand("google-chrome --version");
+
+            String[] words = execResults.getOutput().get(2).split(" ");
+            String browserVersion = words[words.length - 1];
+
+            logger.info(() -> "Browser Version Number: " + browserVersion);
+        }
     }
 }
