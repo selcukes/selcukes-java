@@ -87,7 +87,19 @@ public class LogRecordTest {
     }
 }
 ```
-- Shell Command Executor
+### Run Command
+execute Shell command
+```java
+public class RunCommandTest {
+    @Test
+    public void runCommandTest()
+    {
+        String command="";
+        Shell shell = new Shell();
+        ExecResults execResults = shell.runCommand(command);
+    }
+}
+```
 ### Business Friendly Exceptions
 ```java
 public class BusinessExceptionTest {
@@ -147,23 +159,54 @@ public class PropertiesTest {
 }
 ```
 - WebClient - Http Client Utils
-### Common Helpers
-- DateHelper
+### DateHelper
+```java
+public class DateHelperTest {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Test
+    public void testDate() {
+        DateHelper dh = DateHelper.get();
+        logger.info(dh::dateTime);
+        logger.info(dh::timeStamp);
+        logger.info(() -> DateHelper.get().setDate("10/08/2021").date());
+        LocalDate currentDate = dh.currentDate();
+        logger.info(() -> dh.setDateFormat("MM-dd-YY").formatDate(currentDate));
+    }
+}
+```
 - ExceptionHelper
 - ImageUtils
 ### Preconditions
 This class provides a list of static methods for checking that a method or a constructor is invoked with valid parameter values. If a precondition fails, a tailored exception is thrown
-```java
-We can get a meaningful error message from the checkArgument method by passing an error message:
 
-@Test
-public void givenErrorMsg_whenCheckArgEvalsFalse_throwsException() {
-    int age = -18;
-    String message = "Age can't be zero or less than zero.";
- 
-    assertThatThrownBy(() -> Preconditions.checkArgument(age > 0, message))
-      .isInstanceOf(IllegalArgumentException.class)
-      .hasMessage(message).hasNoCause();
+We can get a meaningful error message from the checkArgument method by passing an error message
+
+```java
+
+public class PreconditionsTest {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void checkArgAndThrowsException() {
+        int age = -18;
+        String message = "Age can't be zero or less than zero.";
+        Preconditions.checkArgument(age > 0, message);
+    }
+
 }
 ```
-- RandomUtils
+### RandomUtils
+```java
+public class RandomUtilsTest {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Test
+    public void randomTest() {
+        logger.info(() -> RandomUtils.randomAscii(10));
+        logger.info(() -> RandomUtils.randomNumeric(10));
+        logger.info(() -> RandomUtils.randomAlphabetic(10));
+        logger.info(() -> RandomUtils.randomAlphaNumeric(10));
+    }
+}
+```
