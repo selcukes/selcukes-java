@@ -23,12 +23,14 @@ import lombok.SneakyThrows;
 
 import java.io.File;
 
+import static com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE;
+
 abstract class AbstractDataBind implements DataBind {
     private final ObjectMapper mapper;
 
     AbstractDataBind(ObjectMapper mapper) {
-
         this.mapper = mapper;
+        mapper.setPropertyNamingStrategy(SNAKE_CASE);
     }
 
     @SneakyThrows
