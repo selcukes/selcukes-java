@@ -30,7 +30,7 @@ abstract class AbstractDataBind implements DataBind {
 
     AbstractDataBind(ObjectMapper mapper) {
         this.mapper = mapper;
-        mapper.setPropertyNamingStrategy(SNAKE_CASE);
+        this.mapper.setPropertyNamingStrategy(SNAKE_CASE);
     }
 
     @SneakyThrows
