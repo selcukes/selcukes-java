@@ -20,34 +20,45 @@ import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.DriverSetupException;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.wdb.enums.DriverType;
+import io.github.selcukes.wdb.WebDriverBinary;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 public class WebManager {
     private final Logger logger = LoggerFactory.getLogger(WebManager.class);
     private WebDriver driver;
 
-    public WebManager() {
-    }
-
     public synchronized WebDriver createDriver() {
 
-        String browser = ConfigFactory.getConfig().getBrowserName();
-        if (browser == null) {
-            browser = DriverType.CHROME.getName();
+        Optional<String> browser = Optional.empty();
+        try {
+            browser = Optional.ofNullable(ConfigFactory.getConfig().getBrowserName());
+        } catch (Exception ignored) {
+                //ignore
         }
 
         if (null == driver) {
 
             try {
                 logger.info(() -> "Initiating New Browser Session...");
-
-                driver = new ChromeDriver();
-                /*EventFiringWebDriver wd=new EventFiringWebDriver(driver);
-                wd.register(new DriverEventHandler());*/
+                switch (browser.orElse("")) {
+                    case "edge":
+                        WebDriverBinary.edgeDriver().setup();
+                        driver = new EdgeDriver();
+                        break;
+                    case "firefox":
+                        WebDriverBinary.firefoxDriver().setup();
+                        driver = new FirefoxDriver();
+                        break;
+                    default:
+                        WebDriverBinary.chromeDriver().checkBrowserVersion().setup();
+                        driver = new ChromeDriver();
+                }
                 driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
             } catch (Exception e) {

@@ -32,7 +32,7 @@ import java.util.Optional;
 
 public class WindowsManager {
     private static final Logger logger = LoggerFactory.getLogger(WindowsManager.class);
-    private static final String WINAPP_DRIVER_PATH = "C:/Program Files (x86)/Windows Application Driver/WinAppDriver.exe";
+    private static final String WIN_APP_DRIVER_PATH = "C:/Program Files (x86)/Windows Application Driver/WinAppDriver.exe";
     private static WindowsDriver session;
     private static Process winProcess;
     private static Optional<String> defaultHubUrl = Optional.empty();
@@ -43,8 +43,8 @@ public class WindowsManager {
         if (null == session) {
             startWinAppDriver();
             try {
-
-                session = new WindowsDriver<>(Objects.requireNonNull(getServiceUrl()), setCapabilities(""));
+                String app = System.getProperty("window.module.id");
+                session = new WindowsDriver<>(Objects.requireNonNull(getServiceUrl()), setCapabilities(app));
             } finally {
                 logger.info(() -> "Closing Windows App...");
                 Runtime.getRuntime().addShutdownHook(new Thread(new WinAppCleanup()));
@@ -61,7 +61,7 @@ public class WindowsManager {
 
     private void startWinAppDriver() {
 
-        ProcessBuilder processBuilder = new ProcessBuilder(WINAPP_DRIVER_PATH);
+        ProcessBuilder processBuilder = new ProcessBuilder(WIN_APP_DRIVER_PATH);
         processBuilder.inheritIO();
         try {
             winProcess = processBuilder.start();
@@ -81,7 +81,7 @@ public class WindowsManager {
 
         WebElement newWindowElement = session.findElementByName(name);
         String windowId = newWindowElement.getAttribute("NativeWindowHandle");
-        System.out.println("Window Id: " + windowId + "After: " + Integer.toHexString(Integer.parseInt(windowId)));
+        logger.debug(() -> "Window Id: " + windowId + "After: " + Integer.toHexString(Integer.parseInt(windowId)));
         session = new WindowsDriver<>(getServiceUrl(), setCapabilities(Integer.toHexString(Integer.parseInt(windowId))));
         session.switchTo().activeElement();
         return session;

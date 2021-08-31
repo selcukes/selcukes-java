@@ -20,6 +20,7 @@ import io.github.selcukes.commons.exception.DriverSetupException;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.core.enums.DeviceType;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 

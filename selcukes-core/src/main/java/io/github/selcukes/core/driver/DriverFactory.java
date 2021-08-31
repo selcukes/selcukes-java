@@ -21,30 +21,30 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class DriverFactory<D extends RemoteWebDriver> {
+public final class DriverFactory {
 
-    private static final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
+    private static ThreadLocal<Object> driverThread = new InheritableThreadLocal<>();
 
-    private static final List<Object> STORED_DRIVER = new ArrayList<>();
+    private static List<Object> storedDrivers = new ArrayList<>();
 
     static {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> STORED_DRIVER.forEach(d -> ((RemoteWebDriver) d).quit())));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> storedDrivers.forEach(d -> ((RemoteWebDriver) d).quit())));
     }
 
     private DriverFactory() {
     }
 
     public static <D> D getDriver() {
-        return (D) DRIVER_THREAD.get();
+        return (D) driverThread.get();
     }
 
     public static <D> void setDriver(D driveThread) {
-        STORED_DRIVER.add(driveThread);
-        DRIVER_THREAD.set(driveThread);
+        storedDrivers.add(driveThread);
+        driverThread.set(driveThread);
     }
 
     public static void removeDriver() {
-        STORED_DRIVER.remove(DRIVER_THREAD.get());
-        DRIVER_THREAD.remove();
+        storedDrivers.remove(driverThread.get());
+        driverThread.remove();
     }
 }
