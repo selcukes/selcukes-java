@@ -4,13 +4,16 @@
 .settings
 .project
 .classpath
+.gradle
+.gradletasknamecache
 
 # Build directories
 target/
 tmp/
-temp/
+out/
 test-output/
-video-report/
+test-results/
+build/
 
 # Log file
 *.log
@@ -26,5 +29,3 @@ dependency-reduced-pom.xml
 ehthumbs.db
 Icon?
 Thumbs.db
-
-

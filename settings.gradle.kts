@@ -1,0 +1,11 @@
+rootProject.name = "selcukes-parent"
+include(":selcukes-databind")
+include(":selcukes-extent-reports")
+include(":selcukes-core")
+include(":selcukes-server")
+include(":selcukes-junit")
+include(":selcukes-commons")
+include(":selcukes-testng")
+include(":webdriver-binaries")
+include(":selcukes-notifier")
+include(":selcukes-reports")
