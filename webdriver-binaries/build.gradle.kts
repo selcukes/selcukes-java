@@ -1,7 +1,7 @@
 description = "webdriver-binaries"
 val agent: Configuration by configurations.creating
 dependencies {
-    implementation(project(":selcukes-commons"))
+    api(project(":selcukes-commons"))
     implementation("org.apache.commons:commons-compress:1.21")
     implementation("org.jsoup:jsoup:1.14.2")
     testImplementation("org.seleniumhq.selenium:selenium-java:3.141.59")
@@ -17,7 +17,4 @@ tasks.jar {
 }
 tasks.test {
     useTestNG()
-    doFirst {
-        jvmArgs("-javaagent:${agent.singleFile}")
-    }
 }

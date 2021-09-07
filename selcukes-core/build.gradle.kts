@@ -4,7 +4,8 @@ dependencies {
     implementation(project(":webdriver-binaries"))
     implementation("org.testng:testng:7.4.0")
     compileOnly("io.appium:java-client:7.5.1")
-    compileOnly("org.seleniumhq.selenium:selenium-java:3.141.59")
+    implementation("org.seleniumhq.selenium:selenium-java:3.141.59")
+    implementation("org.apache.commons:commons-lang3:3.12.0")
 }
 tasks.jar {
     manifest {
@@ -15,7 +16,4 @@ tasks.jar {
 }
 tasks.test {
     useTestNG()
-    doFirst {
-        jvmArgs("-javaagent:${agent.singleFile}")
-    }
 }
