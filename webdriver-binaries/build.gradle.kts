@@ -1,7 +1,5 @@
-plugins {
-    id("io.github.selcukes.java-conventions")
-}
-
+description = "webdriver-binaries"
+val agent: Configuration by configurations.creating
 dependencies {
     implementation(project(":selcukes-commons"))
     implementation("org.apache.commons:commons-compress:1.21")
@@ -10,8 +8,16 @@ dependencies {
     testImplementation("org.testng:testng:7.4.0")
 }
 
-description = "webdriver-binaries"
-
+tasks.jar {
+    manifest {
+        attributes(mapOf(
+            "Automatic-Module-Name" to "io.github.selcukes.wdb"
+        ))
+    }
+}
 tasks.test {
     useTestNG()
+    doFirst {
+        jvmArgs("-javaagent:${agent.singleFile}")
+    }
 }

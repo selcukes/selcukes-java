@@ -1,6 +1,6 @@
-plugins {
-    id("io.github.selcukes.java-conventions")
-}
+description = "selcukes-junit"
+
+val agent: Configuration by configurations.creating
 
 dependencies {
     implementation(project(":selcukes-testng"))
@@ -10,4 +10,16 @@ dependencies {
     compileOnly("io.cucumber:cucumber-junit-platform-engine:6.11.0")
 }
 
-description = "selcukes-junit"
+tasks.jar {
+    manifest {
+        attributes(mapOf(
+            "Automatic-Module-Name" to "io.github.selcukes.junit"
+        ))
+    }
+}
+tasks.test {
+    useTestNG()
+    doFirst {
+        jvmArgs("-javaagent:${agent.singleFile}")
+    }
+}

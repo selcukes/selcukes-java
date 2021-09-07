@@ -1,7 +1,6 @@
-plugins {
-    id("io.github.selcukes.java-conventions")
-}
+description = "selcukes-reports"
 
+val agent: Configuration by configurations.creating
 dependencies {
     implementation(project(":selcukes-commons"))
     implementation(project(":selcukes-notifier"))
@@ -16,8 +15,16 @@ dependencies {
     compileOnly("org.seleniumhq.selenium:selenium-java:3.141.59")
 }
 
-description = "selcukes-reports"
-
+tasks.jar {
+    manifest {
+        attributes(mapOf(
+            "Automatic-Module-Name" to "io.github.selcukes.reports"
+        ))
+    }
+}
 tasks.test {
     useTestNG()
+    doFirst {
+        jvmArgs("-javaagent:${agent.singleFile}")
+    }
 }

@@ -1,7 +1,3 @@
-plugins {
-    id("io.github.selcukes.java-conventions")
-}
-
 dependencies {
     implementation(project(":selcukes-commons"))
     testImplementation("org.testng:testng:7.4.0")

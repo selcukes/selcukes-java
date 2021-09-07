@@ -1,7 +1,5 @@
-plugins {
-    id("io.github.selcukes.java-conventions")
-}
-
+description = "selcukes-testng"
+val agent: Configuration by configurations.creating
 dependencies {
     implementation(project(":selcukes-commons"))
     testImplementation("io.cucumber:cucumber-java:6.11.0")
@@ -9,8 +7,16 @@ dependencies {
     compileOnly("org.testng:testng:7.4.0")
 }
 
-description = "selcukes-testng"
-
+tasks.jar {
+    manifest {
+        attributes(mapOf(
+            "Automatic-Module-Name" to "io.github.selcukes.testng"
+        ))
+    }
+}
 tasks.test {
     useTestNG()
+    doFirst {
+        jvmArgs("-javaagent:${agent.singleFile}")
+    }
 }

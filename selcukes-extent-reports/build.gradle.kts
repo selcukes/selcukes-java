@@ -1,7 +1,5 @@
-plugins {
-    id("io.github.selcukes.java-conventions")
-}
-
+description = "selcukes-extent-reports"
+val agent: Configuration by configurations.creating
 dependencies {
     compileOnly("org.seleniumhq.selenium:selenium-java:3.141.59")
     compileOnly("org.testng:testng:7.4.0")
@@ -13,8 +11,16 @@ dependencies {
     compileOnly(project(":webdriver-binaries"))
 }
 
-description = "selcukes-extent-reports"
-
+tasks.jar {
+    manifest {
+        attributes(mapOf(
+            "Automatic-Module-Name" to "io.github.selcukes.extent.reports"
+        ))
+    }
+}
 tasks.test {
     useTestNG()
+    doFirst {
+        jvmArgs("-javaagent:${agent.singleFile}")
+    }
 }
