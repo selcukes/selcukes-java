@@ -17,6 +17,7 @@ pluginManagement {
     plugins {
         id("com.gradle.enterprise") version "3.6.2"
         id("io.github.gradle-nexus.publish-plugin") version "1.1.0"
+        id("org.sonarqube") version "3.3"
     }
 }
 plugins {

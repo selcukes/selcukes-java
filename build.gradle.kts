@@ -15,6 +15,7 @@ plugins {
     `maven-publish`
     signing
     id("io.github.gradle-nexus.publish-plugin")
+    id("org.sonarqube")
 
 }
 java {
@@ -29,6 +30,13 @@ tasks.withType(JavaCompile::class) {
 configure(listOf(rootProject)) {
     description = "Selcukes Java"
     group = "io.github.selcukes"
+}
+sonarqube {
+    properties {
+        property("sonar.projectKey", "selcukes_selcukes-java")
+        property("sonar.organization", "selcukes")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
 }
 nexusPublishing {
     repositories {
