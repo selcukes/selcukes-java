@@ -1,10 +1,10 @@
 description = "selcukes-extent-reports"
 val agent: Configuration by configurations.creating
 dependencies {
-    compileOnly(libs.selenium)
-    compileOnly(libs.testng)
-    implementation(libs.bundles.cucumber)
-    implementation(libs.extentReports)
+    compileOnly(rootProject.libs.selenium)
+    compileOnly(rootProject.libs.testng)
+    implementation(rootProject.libs.bundles.cucumber)
+    implementation(rootProject.libs.extentReports)
     implementation(projects.webdriverBinaries)
 }
 

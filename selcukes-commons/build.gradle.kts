@@ -2,9 +2,9 @@ description = "Selcukes commons"
 val agent: Configuration by configurations.creating
 dependencies {
     api(projects.selcukesDatabind)
-    api(libs.commonsIo)
-    api(libs.httpClient)
-    testImplementation(libs.testng)
+    api(rootProject.libs.commonsIo)
+    api(rootProject.libs.httpClient)
+    testImplementation(rootProject.libs.testng)
 }
 tasks.jar {
     manifest {

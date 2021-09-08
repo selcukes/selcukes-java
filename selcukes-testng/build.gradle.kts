@@ -2,9 +2,9 @@ description = "selcukes-testng"
 val agent: Configuration by configurations.creating
 dependencies {
     api(projects.selcukesCommons)
-    testImplementation(libs.cucumberJava)
-    api(libs.cucumberTestNG)
-    compileOnly(libs.testng)
+    testImplementation(rootProject.libs.cucumberJava)
+    api(rootProject.libs.cucumberTestNG)
+    compileOnly(rootProject.libs.testng)
 }
 
 tasks.jar {

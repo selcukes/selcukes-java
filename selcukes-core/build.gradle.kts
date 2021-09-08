@@ -1,10 +1,10 @@
 description = "selcukes-core"
 val agent: Configuration by configurations.creating
 dependencies {
-    implementation(projects.webdriverBinaries)
-    implementation(libs.testng)
-    compileOnly(libs.appium)
-    implementation(libs.selenium)
+    implementation(rootProject.projects.webdriverBinaries)
+    implementation(rootProject.libs.testng)
+    compileOnly(rootProject.libs.appium)
+    implementation(rootProject.libs.selenium)
     implementation("org.apache.commons:commons-lang3:3.12.0")
 }
 tasks.jar {

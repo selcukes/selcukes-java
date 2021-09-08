@@ -2,10 +2,10 @@ description = "webdriver-binaries"
 val agent: Configuration by configurations.creating
 dependencies {
     api(projects.selcukesCommons)
-    implementation(libs.commonsCompress)
-    implementation(libs.jsoup)
-    testImplementation(libs.selenium)
-    testImplementation(libs.testng)
+    implementation(rootProject.libs.commonsCompress)
+    implementation(rootProject.libs.jsoup)
+    testImplementation(rootProject.libs.selenium)
+    testImplementation(rootProject.libs.testng)
 }
 
 tasks.jar {

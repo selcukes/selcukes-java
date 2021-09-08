@@ -1,8 +1,8 @@
 description = "selcukes-databind"
 val agent: Configuration by configurations.creating
 dependencies {
-    api(libs.jacksonYml)
-    testImplementation(libs.testng)
+    api(rootProject.libs.jacksonYml)
+    testImplementation(rootProject.libs.testng)
 }
 tasks.jar {
     manifest {

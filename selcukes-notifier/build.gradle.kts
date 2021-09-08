@@ -2,7 +2,7 @@ description = "selcukes-notifier"
 
 dependencies {
     implementation(projects.selcukesCommons)
-    testImplementation(libs.testng)
+    testImplementation(rootProject.libs.testng)
 }
 
 tasks.test {

@@ -112,10 +112,10 @@ configure(libs) {
     apply(plugin = "java")
     apply(plugin = "java-library")
     dependencies {
-        compileOnly(libs.lombok)
-        testCompileOnly(libs.lombok)
-        annotationProcessor(libs.lombok)
-        testAnnotationProcessor(libs.lombok)
+        compileOnly(rootProject.libs.lombok)
+        testCompileOnly(rootProject.libs.lombok)
+        annotationProcessor(rootProject.libs.lombok)
+        testAnnotationProcessor(rootProject.libs.lombok)
     }
 
     val internal by configurations.creating {

@@ -2,7 +2,7 @@ description = "selcukes-server"
 
 val agent: Configuration by configurations.creating
 dependencies {
-    implementation(libs.selenium)
+    implementation(rootProject.libs.selenium)
     implementation("org.seleniumhq.selenium:selenium-server:3.141.59")
     api(projects.selcukesReports)
 }
