@@ -1,3 +1,11 @@
+enableFeaturePreview("VERSION_CATALOGS")
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+}
+
 rootProject.name = "selcukes-parent"
 include(":selcukes-bom")
 include(":selcukes-databind")

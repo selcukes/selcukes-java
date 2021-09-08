@@ -1,0 +1,35 @@
+[versions]
+libVersion = "0.0.1"
+seleniumVersion= "3.141.59"
+appiumVersion= "7.5.1"
+testngVersion= "7.4.0"
+cucumberVersion= "6.11.0"
+extentReportsVersion= "5.0.8"
+commonsIoVersion= "2.11.0"
+lombokVersion= "1.18.20"
+jacksonVersion= "2.12.5"
+apacheHttpVersion= "5.1"
+commonsCompressVersion= "1.21"
+jsoupVersion= "1.14.2"
+cucumberReportingVersion= "5.6.0"
+recorderVersion= "0.7.7.0"
+
+[libraries]
+selenium = { module = "org.seleniumhq.selenium:selenium-java", version.ref = "seleniumVersion" }
+appium = { module = "io.appium:java-client", version.ref = "appiumVersion" }
+testng = { module = "org.testng:testng", version.ref = "testngVersion" }
+cucumberJava = { module = "io.cucumber:cucumber-java", version.ref = "cucumberVersion" }
+cucumberTestNG = { module = "io.cucumber:cucumber-testng", version.ref = "cucumberVersion" }
+cucumberPicoContainer = { module = "io.cucumber:cucumber-picocontainer", version.ref = "cucumberVersion" }
+extentReports = { module = "com.aventstack:extentreports", version.ref = "extentReportsVersion" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombokVersion" }
+httpClient = { module = "org.apache.httpcomponents.client5:httpclient5", version.ref = "apacheHttpVersion" }
+jacksonYml = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "jacksonVersion" }
+cucumberReporting = { module = "net.masterthought:cucumber-reporting", version.ref = "cucumberReportingVersion" }
+recorder = { module = "com.github.stephenc.monte:monte-screen-recorder", version.ref = "recorderVersion" }
+commonsCompress = { module = "org.apache.commons:commons-compress", version.ref = "commonsCompressVersion" }
+commonsIo = { module = "commons-io:commons-io", version.ref = "commonsIoVersion" }
+jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoupVersion" }
+
+[bundles]
+cucumber = ["cucumberJava", "cucumberTestNG", "cucumberPicoContainer"]
