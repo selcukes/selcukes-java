@@ -6,7 +6,7 @@ val linkScmDevConnection by extra("scm:git:ssh://git@github.com:selcukes/selcuke
 val libs = subprojects.filterNot { it.name in "selcukes-bom" }
 
 tasks.withType(Wrapper::class) {
-    gradleVersion = "7.1.1"
+    gradleVersion = "7.2"
 }
 
 plugins {
@@ -16,7 +16,6 @@ plugins {
     signing
     id("io.github.gradle-nexus.publish-plugin")
     id("org.sonarqube")
-
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_11
