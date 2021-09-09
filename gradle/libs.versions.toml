@@ -9,6 +9,7 @@ lombokVersion = "1.18.20"
 jacksonVersion = "2.12.5"
 apacheHttpVersion = "5.1"
 commonsCompressVersion = "1.21"
+commonsLangVersion = "3.12.0"
 jsoupVersion = "1.14.2"
 cucumberReportingVersion = "5.6.0"
 recorderVersion = "0.7.7.0"
@@ -37,6 +38,7 @@ jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoupVersion" }
 cucumberJunit = { module = "io.cucumber:cucumber-junit-platform-engine", version.ref = "cucumberVersion" }
 junitPlatformEngine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junitVersion" }
 junitSuite = { module = "org.junit.platform:junit-platform-suite", version.ref = "junitSuiteVersion" }
+commonsLang = { module = "org.apache.commons:commons-lang3", version.ref = "commonsLangVersion" }
 
 [bundles]
 cucumber = ["cucumberJava", "cucumberTestNG", "cucumberPicoContainer"]

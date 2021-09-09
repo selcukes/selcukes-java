@@ -5,7 +5,7 @@ dependencies {
     implementation(rootProject.libs.testng)
     compileOnly(rootProject.libs.appium)
     implementation(rootProject.libs.selenium)
-    implementation("org.apache.commons:commons-lang3:3.12.0")
+    implementation(rootProject.libs.commonsLang)
 }
 tasks.jar {
     manifest {

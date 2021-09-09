@@ -1,8 +1,3 @@
-val linkHomepage by extra("https://github.com/selcukes")
-val linkCi by extra("https://ci.qameta.in/job/selcukes-java_deploy/")
-val linkScmUrl by extra("https://github.com/selcukes/selcukes-java")
-val linkScmConnection by extra("scm:git:git://github.com/selcukes/selcukes-java.git")
-val linkScmDevConnection by extra("scm:git:ssh://git@github.com:selcukes/selcukes-java.git")
 val libs = subprojects.filterNot { it.name in "selcukes-bom" }
 
 tasks.withType(Wrapper::class) {
