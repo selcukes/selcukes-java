@@ -43,7 +43,7 @@
         <jsoup.version>1.14.2</jsoup.version>
         <cucumber-reporting.version>5.6.0</cucumber-reporting.version>
         <recorder.version>0.7.7.0</recorder.version>
-        <extentreports.version>5.0.8</extentreports.version>
+        <extentreports.version>5.0.9</extentreports.version>
 
         <cucumber.version>6.11.0</cucumber.version>
         <selenium.version>3.141.59</selenium.version>
