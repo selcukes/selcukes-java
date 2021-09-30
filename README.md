@@ -16,6 +16,7 @@
 - [Documentation](https://github.com/selcukes/selcukes-java/wiki)
 - [Example Project](https://github.com/selcukes/selcukes-java-skeleton)
 
+If you like this project, please give it a star ⭐! This helps the project be more visible, gain relevance and encourages us to invest more effort in new features.
 ## License
 
 This software is licensed under Apache-2.0. See
