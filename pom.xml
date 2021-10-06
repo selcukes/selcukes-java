@@ -45,7 +45,7 @@
         <recorder.version>0.7.7.0</recorder.version>
         <extentreports.version>5.0.9</extentreports.version>
 
-        <cucumber.version>6.11.0</cucumber.version>
+        <cucumber.version>7.0.0</cucumber.version>
         <selenium.version>3.141.59</selenium.version>
         <appium.version>7.5.1</appium.version>
         <testng.version>7.4.0</testng.version>
