@@ -27,13 +27,14 @@ import com.aventstack.extentreports.gherkin.model.Asterisk;
 import com.aventstack.extentreports.gherkin.model.ScenarioOutline;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.aventstack.extentreports.model.Test;
-import io.cucumber.messages.Messages.GherkinDocument.Feature;
-import io.cucumber.messages.Messages.GherkinDocument.Feature.Scenario;
-import io.cucumber.messages.Messages.GherkinDocument.Feature.Scenario.Examples;
-import io.cucumber.messages.Messages.GherkinDocument.Feature.Step;
-import io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow;
-import io.cucumber.messages.Messages.GherkinDocument.Feature.TableRow.TableCell;
+import io.cucumber.messages.types.*;
+import io.cucumber.messages.types.Step;
 import io.cucumber.plugin.ConcurrentEventListener;
+import io.cucumber.plugin.event.TestCase;
+import io.cucumber.plugin.event.TestCaseStarted;
+import io.cucumber.plugin.event.TestRunFinished;
+import io.cucumber.plugin.event.TestStepFinished;
+import io.cucumber.plugin.event.TestStepStarted;
 import io.cucumber.plugin.event.*;
 import lombok.SneakyThrows;
 
@@ -229,7 +230,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
         featureTestThreadLocal.set(t);
         featureMap.put(feature.getName(), t);
 
-        Set<String> tagList = feature.getTagsList().stream().map(Feature.Tag::getName).collect(Collectors.toSet());
+        Set<String> tagList = feature.getTags().stream().map(Tag::getName).collect(Collectors.toSet());
         featureTagsThreadLocal.set(tagList);
 
     }
@@ -269,7 +270,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
             scenarioOutlineThreadLocal.set(t);
             scenarioOutlineMap.put(scenarioOutline.getName(), t);
 
-            Set<String> tagList = scenarioOutline.getTagsList().stream().map(Feature.Tag::getName)
+            Set<String> tagList = scenarioOutline.getTags().stream().map(Tag::getName)
                 .collect(Collectors.toSet());
             scenarioOutlineTagsThreadLocal.set(tagList);
         }
@@ -278,7 +279,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     private void createExamples(Examples examples) {
         List<TableRow> rows = new ArrayList<>();
         rows.add(examples.getTableHeader());
-        rows.addAll(examples.getTableBodyList());
+        rows.addAll(examples.getTableBody());
         String[][] data = getTable(rows);
         String markup = MarkupHelper.createTable(data).getMarkup();
         if (examples.getName() != null && !examples.getName().isEmpty()) {
@@ -289,7 +290,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     }
 
     private String[][] getTable(List<TableRow> rows) {
-        return rows.stream().map(row -> row.getCellsList().stream()
+        return rows.stream().map(row -> row.getCells().stream()
                 .map(TableCell::getValue).toArray(String[]::new))
             .toArray(String[][]::new);
     }
