@@ -62,7 +62,7 @@ public class ConfigFactory {
             InputStream stream = FileHelper.loadThreadResourceAsStream(propertiesFile);
             if (stream == null) {
                 LOGGER.config(() -> String.format("Re-attempting to read %s as a local file.", propertiesFile));
-                return new FileInputStream(new File(propertiesFile));
+                return new FileInputStream(propertiesFile);
             }
             return stream;
         } catch (Exception ignored) {

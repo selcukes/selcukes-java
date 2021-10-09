@@ -143,7 +143,7 @@ public final class TestSourcesModel {
 
         pathToAstMap.put(path, gherkinDocument);
         Map<Long, AstNode> nodeMap = new HashMap<>();
-        AstNode currentParent = new AstNode(gherkinDocument.getFeature(), null);
+        AstNode currentParent = new AstNode(Objects.requireNonNull(gherkinDocument).getFeature(), null);
         for (FeatureChild child : gherkinDocument.getFeature().getChildren()) {
             processFeatureDefinition(nodeMap, child, currentParent);
         }
@@ -216,7 +216,7 @@ public final class TestSourcesModel {
             parseGherkinSource(path);
         }
         if (pathToNodeMap.containsKey(path)) {
-            return pathToNodeMap.get(path).get(Long.valueOf(line));
+            return pathToNodeMap.get(path).get((long) line);
         }
         return null;
     }
@@ -226,7 +226,7 @@ public final class TestSourcesModel {
             parseGherkinSource(path);
         }
         if (pathToNodeMap.containsKey(path)) {
-            AstNode astNode = pathToNodeMap.get(path).get(Long.valueOf(line));
+            AstNode astNode = pathToNodeMap.get(path).get((long) line);
             return getBackgroundForTestCase(astNode).isPresent();
         }
         return false;
