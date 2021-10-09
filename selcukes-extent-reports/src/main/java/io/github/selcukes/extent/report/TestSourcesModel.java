@@ -45,7 +45,7 @@ import static io.cucumber.gherkin.Gherkin.makeSourceEnvelope;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 
-final class TestSourcesModel {
+public final class TestSourcesModel {
 
     private final Map<URI, TestSourceRead> pathToReadEventMap = new HashMap<>();
     private final Map<URI, GherkinDocument> pathToAstMap = new HashMap<>();
@@ -105,7 +105,7 @@ final class TestSourcesModel {
         }
     }
 
-    void addTestSourceReadEvent(URI path, TestSourceRead event) {
+    public void addTestSourceReadEvent(URI path, TestSourceRead event) {
         pathToReadEventMap.put(path, event);
     }
 
