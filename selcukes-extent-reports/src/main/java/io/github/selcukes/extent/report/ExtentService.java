@@ -98,8 +98,8 @@ public class ExtentService implements Serializable {
                         initSpark(properties);
 
                     addSystemInfo(properties);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (Exception ignored) {
+                    //Gobble exception
                 }
             }
         }
@@ -151,8 +151,8 @@ public class ExtentService implements Serializable {
                 List<ViewName> viewOrder = Arrays.stream(String.valueOf(getProperty(VIEW_ORDER_SPARK_KEY)).split(","))
                     .map(v -> ViewName.valueOf(v.toUpperCase())).collect(Collectors.toList());
                 spark.viewConfigurer().viewOrder().as(viewOrder).apply();
-            } catch (Exception e) {
-                // Do nothing. Use default order.
+            } catch (Exception ignored) {
+                //Gobble exception
             }
         }
 
