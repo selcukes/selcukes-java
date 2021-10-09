@@ -36,7 +36,7 @@ public class Await {
     public static void until(int timeoutInSeconds) {
         try {
             TimeUnit.SECONDS.sleep(timeoutInSeconds);
-        } catch (Exception e) {
+        } catch (Exception e) { //NOSONAR
             throw new SelcukesException("Timeout exception : ", e);
         }
     }
@@ -44,7 +44,7 @@ public class Await {
     public static void until(TimeUnit timeUnit, int timeout) {
         try {
             timeUnit.sleep(timeout);
-        } catch (Exception e) {
+        } catch (Exception e) { //NOSONAR
             throw new SelcukesException("Timeout exception : ", e);
         }
     }

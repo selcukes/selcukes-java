@@ -26,7 +26,7 @@ import static java.util.Arrays.asList;
 
 public class Calculator {
     private static final List<String> OPS = asList("-", "+", "*", "/");
-    private final Deque<Number> stack = new LinkedList<Number>();
+    private final Deque<Number> stack = new LinkedList<>();
 
     public void push(Object arg) {
         if (OPS.contains(arg)) {

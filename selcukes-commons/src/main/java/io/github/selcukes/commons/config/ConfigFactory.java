@@ -24,7 +24,6 @@ import io.github.selcukes.commons.properties.LinkedProperties;
 import io.github.selcukes.databind.DataMapper;
 import lombok.experimental.UtilityClass;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,7 +61,7 @@ public class ConfigFactory {
             InputStream stream = FileHelper.loadThreadResourceAsStream(propertiesFile);
             if (stream == null) {
                 LOGGER.config(() -> String.format("Re-attempting to read %s as a local file.", propertiesFile));
-                return new FileInputStream(new File(propertiesFile));
+                return new FileInputStream(propertiesFile);
             }
             return stream;
         } catch (Exception ignored) {
