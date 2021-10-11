@@ -19,33 +19,19 @@
 package io.github.selcukes.extent.report;
 
 import io.cucumber.gherkin.Gherkin;
-import io.cucumber.messages.types.Background;
-import io.cucumber.messages.types.Envelope;
-import io.cucumber.messages.types.Examples;
-import io.cucumber.messages.types.Feature;
-import io.cucumber.messages.types.FeatureChild;
-import io.cucumber.messages.types.GherkinDocument;
-import io.cucumber.messages.types.RuleChild;
-import io.cucumber.messages.types.Scenario;
-import io.cucumber.messages.types.Step;
-import io.cucumber.messages.types.TableRow;
+import io.cucumber.messages.types.*;
 import io.cucumber.plugin.event.TestSourceRead;
 
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static io.cucumber.gherkin.Gherkin.makeSourceEnvelope;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 
-final class TestSourcesModel {
+public final class TestSourcesModel {
 
     private final Map<URI, TestSourceRead> pathToReadEventMap = new HashMap<>();
     private final Map<URI, GherkinDocument> pathToAstMap = new HashMap<>();
@@ -105,7 +91,7 @@ final class TestSourcesModel {
         }
     }
 
-    void addTestSourceReadEvent(URI path, TestSourceRead event) {
+    public void addTestSourceReadEvent(URI path, TestSourceRead event) {
         pathToReadEventMap.put(path, event);
     }
 
@@ -143,7 +129,7 @@ final class TestSourcesModel {
 
         pathToAstMap.put(path, gherkinDocument);
         Map<Long, AstNode> nodeMap = new HashMap<>();
-        AstNode currentParent = new AstNode(gherkinDocument.getFeature(), null);
+        AstNode currentParent = new AstNode(Objects.requireNonNull(gherkinDocument).getFeature(), null);
         for (FeatureChild child : gherkinDocument.getFeature().getChildren()) {
             processFeatureDefinition(nodeMap, child, currentParent);
         }
@@ -216,7 +202,7 @@ final class TestSourcesModel {
             parseGherkinSource(path);
         }
         if (pathToNodeMap.containsKey(path)) {
-            return pathToNodeMap.get(path).get(Long.valueOf(line));
+            return pathToNodeMap.get(path).get((long) line);
         }
         return null;
     }
@@ -226,7 +212,7 @@ final class TestSourcesModel {
             parseGherkinSource(path);
         }
         if (pathToNodeMap.containsKey(path)) {
-            AstNode astNode = pathToNodeMap.get(path).get(Long.valueOf(line));
+            AstNode astNode = pathToNodeMap.get(path).get((long) line);
             return getBackgroundForTestCase(astNode).isPresent();
         }
         return false;
