@@ -96,8 +96,8 @@ public class VersionDetector {
     private String getBrowserVersionFromCommand(String regQuery) {
         Shell shell = new Shell();
         ExecResults execResults = shell.runCommand(regQuery);
-        if (driverName.contains("chrome") && execResults.getOutput().get(2).contains("No Instance"))
-            execResults = shell.runCommand(regQuery.replaceAll(" (x86)", ""));
+        if (driverName.contains("chrome") && execResults.getOutput().get(2).isEmpty())
+            execResults = shell.runCommand(regQuery.replace(" (x86)", ""));
         String[] words = execResults.getOutput().get(2).split(" ");
         String browserVersion = words[words.length - 1];
 
