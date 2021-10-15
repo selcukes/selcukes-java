@@ -17,7 +17,6 @@
         <module>selcukes-reports</module>
         <module>selcukes-notifier</module>
         <module>selcukes-databind</module>
-        <module>selcukes-server</module>
         <module>selcukes-junit</module>
         <module>selcukes-extent-reports</module>
     </modules>
@@ -201,11 +200,6 @@
                 <groupId>io.appium</groupId>
                 <artifactId>java-client</artifactId>
                 <version>${appium.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.seleniumhq.selenium</groupId>
-                <artifactId>selenium-server</artifactId>
-                <version>${selenium.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.testng</groupId>

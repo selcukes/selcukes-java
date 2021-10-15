@@ -1,1 +1,0 @@
-# selcukes-server
