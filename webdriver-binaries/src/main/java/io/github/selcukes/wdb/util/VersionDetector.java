@@ -62,7 +62,7 @@ public class VersionDetector {
             return getCompatibleBinaryVersion(browserVersion);
         }
 
-        return regQuery.map(this::getBrowserVersionFromRegistry).orElse(null);
+        return regQuery.map(this::getBrowserVersionFromCommand).orElse(null);
     }
 
     private String getQuery(boolean fromReg) {
@@ -93,10 +93,11 @@ public class VersionDetector {
         return String.format(wmicQuery, keyMap.get(key));
     }
 
-    private String getBrowserVersionFromRegistry(String regQuery) {
+    private String getBrowserVersionFromCommand(String regQuery) {
         Shell shell = new Shell();
         ExecResults execResults = shell.runCommand(regQuery);
-
+        if (driverName.contains("chrome") && execResults.getOutput().get(2).isEmpty())
+            execResults = shell.runCommand(regQuery.replace(" (x86)", ""));
         String[] words = execResults.getOutput().get(2).split(" ");
         String browserVersion = words[words.length - 1];
 
