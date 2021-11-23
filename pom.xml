@@ -45,7 +45,7 @@
         <extentreports.version>5.0.9</extentreports.version>
 
         <cucumber.version>7.0.0</cucumber.version>
-        <selenium.version>4.0.0</selenium.version>
+        <selenium.version>4.1.0</selenium.version>
         <appium.version>7.6.0</appium.version>
         <testng.version>7.4.0</testng.version>
 
