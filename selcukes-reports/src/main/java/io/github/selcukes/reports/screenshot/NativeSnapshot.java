@@ -27,6 +27,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.HttpCommandExecutor;
@@ -163,7 +164,7 @@ abstract class NativeSnapshot {
     }
 
     private BufferedImage getBufferedImage() {
-        if (driver instanceof ChromeDriver)
+        if (driver instanceof ChromeDriver||driver instanceof EdgeDriver)
             return nativeScreenshotForCH();
         else if (driver instanceof FirefoxDriver)
             return nativeScreenshotForFF();
