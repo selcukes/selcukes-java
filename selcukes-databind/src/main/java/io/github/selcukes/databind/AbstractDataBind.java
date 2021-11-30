@@ -27,7 +27,6 @@ abstract class AbstractDataBind implements DataBind {
     private final ObjectMapper mapper;
 
     AbstractDataBind(ObjectMapper mapper) {
-
         this.mapper = mapper;
     }
 
