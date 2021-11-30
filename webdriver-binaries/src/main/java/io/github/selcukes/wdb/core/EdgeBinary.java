@@ -19,19 +19,12 @@ package io.github.selcukes.wdb.core;
 import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.commons.os.OsType;
 import io.github.selcukes.wdb.enums.DriverType;
+import io.github.selcukes.wdb.util.BinaryDownloader;
 import io.github.selcukes.wdb.util.UrlHelper;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-
-import static org.jsoup.Jsoup.parse;
 
 public class EdgeBinary extends AbstractBinary {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/edgedriver_%s.zip";
@@ -63,27 +56,12 @@ public class EdgeBinary extends AbstractBinary {
 
     @Override
     protected String getLatestRelease() {
-        List<String> versionNumbers = new ArrayList<>();
-        String latestVersion;
-        final InputStream downloadStream = getHttpClient(UrlHelper.EDGE_DRIVER_LATEST_RELEASE_URL).getResponseStream();
         try {
-            Document doc = parse(downloadStream, null, "");
-
-            Elements versionParagraph = doc.select(
-                "ul.driver-downloads li.driver-download p.driver-download__meta");
-
-            for (Element element : versionParagraph) {
-                if (element.text().toLowerCase().startsWith("version")) {
-                    String[] version = element.text().split(" ");
-                    versionNumbers.add(version[1]);
-                }
-            }
-
-            latestVersion = versionNumbers.get(0);
-
-        } catch (Exception e) {
+            String latestVersion = BinaryDownloader.downloadAndReadFile(new URL(UrlHelper.EDGE_DRIVER_LATEST_RELEASE_URL));
+            return latestVersion.replaceAll("[^A-Za-z0-9_\\\\.]", "");
+        } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);
         }
-        return latestVersion;
     }
+
 }
