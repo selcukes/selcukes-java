@@ -50,25 +50,6 @@ public class NativeSnapshotTest {
 
     }
 
-   /* @Test
-    public void nativeScreenshotTestForChromeWithText() {
-        setDriver(DriverType.CHROME);
-        logger.info(() -> "Initiated Chrome browser");
-        getDriver().get(url);
-        logger.info(() -> "Navigated to " + url);
-        long startTime = System.currentTimeMillis();
-        String screenshotFilePath = ScreenGrabber
-            .shoot(getDriver())
-            .withText("This sample Text Message\nMake it simple Make it simple Make it simple Make it simple Make it simple")
-            .fullPage()
-            .save();
-        long endTime = System.currentTimeMillis();
-        long duration = (endTime - startTime) / 1000;
-        logger.info(() -> "Time Taken to capture screenshot: " + duration + "ms");
-        logger.info(() -> "Chrome full page screenshot captured : " + screenshotFilePath);
-
-    }*/
-
     @AfterTest
     public void tearDown() {
         LOCAL_DRIVER.get().quit();

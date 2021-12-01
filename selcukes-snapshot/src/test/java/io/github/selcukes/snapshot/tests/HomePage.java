@@ -21,8 +21,11 @@ public class HomePage {
         driver.get(url);
         logger.info(() -> "Navigated to " + url);
         Snapshot snapshot = new SnapshotImpl(driver);
+        String screenshotFilePath = snapshot
+            .withText("This sample Text Message\nMake it simple Make it simple Make it simple Make it simple Make it simple")
+            .shootPage();
         logger.info(() -> String.format("Captured full page screenshot for %s browser and placed at %s ",
-            browser, snapshot.withText("Hello").shootPage()));
+            browser, screenshotFilePath));
     }
 
 }
