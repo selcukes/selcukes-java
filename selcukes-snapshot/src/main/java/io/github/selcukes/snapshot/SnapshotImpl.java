@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.screenshot;
+package io.github.selcukes.snapshot;
 
 import io.github.selcukes.commons.exception.SnapshotException;
 import io.github.selcukes.commons.logging.Logger;

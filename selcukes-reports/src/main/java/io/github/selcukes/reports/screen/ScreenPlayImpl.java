@@ -26,9 +26,10 @@ import io.github.selcukes.notifier.NotifierFactory;
 import io.github.selcukes.notifier.enums.NotifierType;
 import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.enums.TestType;
-import io.github.selcukes.reports.screenshot.SnapshotImpl;
+
 import io.github.selcukes.reports.video.Recorder;
 import io.github.selcukes.reports.video.RecorderFactory;
+import io.github.selcukes.snapshot.SnapshotImpl;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.Reporter;
