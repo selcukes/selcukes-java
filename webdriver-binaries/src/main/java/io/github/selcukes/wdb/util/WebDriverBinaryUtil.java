@@ -28,6 +28,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 public class WebDriverBinaryUtil {
@@ -96,8 +97,12 @@ public class WebDriverBinaryUtil {
             binaryFactory.getCompressedBinaryFile(),
             new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()),
             binaryFactory.getCompressedBinaryType());
-        if (Objects.equals(binaryFactory.getBinaryEnvironment().getOSType(), OsType.LINUX))
-            FileHelper.setFileExecutable(decompressedBinary.getAbsolutePath());
+        if (Objects.equals(binaryFactory.getBinaryEnvironment().getOSType(), OsType.LINUX)) {
+            String driverPath = decompressedBinary.getAbsolutePath();
+            FileHelper.deleteFilesExcept(Paths.get(driverPath).toFile(), binaryFactory.getBinaryFileName());
+            FileHelper.setFileExecutable(driverPath);
+        }
+
     }
 
     private String configureBinary() {

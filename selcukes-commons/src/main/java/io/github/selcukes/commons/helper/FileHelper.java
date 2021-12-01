@@ -30,6 +30,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 
@@ -95,6 +96,12 @@ public class FileHelper {
             LOGGER.error(e::getMessage);
             throw new SelcukesException("\"" + dirName + "\" is not a directory or a file to delete.", e);
         }
+    }
+
+    public void deleteFilesExcept(File dir, String fileName) {
+        Arrays.stream(Objects.requireNonNull(dir.listFiles()))
+            .filter(file -> !file.getName().equals(fileName))
+            .forEach(File::deleteOnExit);
     }
 
     public void deleteFile(File fileName) {
