@@ -27,12 +27,9 @@ public class DateHelper {
     private static final String DEFAULT_DATE_TIME_PATTERN = "ddMMMyyyy-hh-mm-ss";
     private static final String DEFAULT_DATE_PATTERN = "MM/dd/yyyy";
     private static final String TIMESTAMP_FORMAT = "MM/dd/yyyy hh:mm:ss";
-
-    private DateTimeFormatter dtf;
-
-    private LocalDate localDate;
-
     private final LocalDateTime localDateTime;
+    private DateTimeFormatter dtf;
+    private LocalDate localDate;
 
     public DateHelper() {
         this.localDateTime = LocalDateTime.now();

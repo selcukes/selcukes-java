@@ -8,8 +8,8 @@ import org.openqa.selenium.WebDriver;
 
 public class HomePage {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private WebDriver driver;
     private final String url = "https://techyworks.blogspot.com/";
+    private WebDriver driver;
 
     public HomePage(WebDriver driver) {
         this.driver = driver;

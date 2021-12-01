@@ -17,14 +17,12 @@
 package io.github.selcukes.wdb.core;
 
 import io.github.selcukes.commons.exception.WebDriverBinaryException;
-import io.github.selcukes.commons.os.OsType;
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.util.BinaryDownloader;
 import io.github.selcukes.wdb.util.UrlHelper;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Objects;
 
 public class EdgeBinary extends AbstractBinary {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/edgedriver_%s.zip";

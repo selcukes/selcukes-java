@@ -16,9 +16,13 @@ To use add the `selcukes-databind` dependency to your pom.xml:
 </dependencies>
 
 ```
+
 ## Example 1
+
 ### Data file content
+
 Test data file test-users.json
+
 ```json
 {
   "users": [
@@ -33,6 +37,7 @@ Test data file test-users.json
   ]
 }
 ```
+
 ### Usage
 
 ```java
@@ -71,9 +76,11 @@ public class DataMapperTest {
 ```
 
 ## Example 2
+
 Update test file runtime
 
 Test data file test_sample.yml
+
 ```yaml
 users:
   user1:

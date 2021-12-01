@@ -32,7 +32,8 @@ public class LocalDriver {
         }
 
     }
+
     public WebDriver createWebDriver(DriverType driverType) {
-        return createWebDriver(driverType,true);
+        return createWebDriver(driverType, true);
     }
 }

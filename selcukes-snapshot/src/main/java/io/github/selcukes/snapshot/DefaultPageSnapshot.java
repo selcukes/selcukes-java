@@ -13,9 +13,9 @@ import java.awt.image.BufferedImage;
 import java.util.concurrent.TimeUnit;
 
 class DefaultPageSnapshot {
-    private WebDriver driver;
     protected String screenshotText;
     protected boolean isAddressBar = false;
+    private WebDriver driver;
 
     public DefaultPageSnapshot(WebDriver driver) {
         this.driver = driver;

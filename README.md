@@ -10,13 +10,15 @@
 [![badge-jdk](https://img.shields.io/badge/jdk-11-green.svg)](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 [![License badge](https://img.shields.io/badge/license-Apache%202.0-blue.svg?label=License)](http://www.apache.org/licenses/LICENSE-2.0)
 
-
 ## Getting started
+
 - [Installation](https://github.com/selcukes/selcukes-java/wiki/Installation)
 - [Documentation](https://github.com/selcukes/selcukes-java/wiki)
 - [Example Project](https://github.com/selcukes/selcukes-java-skeleton)
 
-If you like this project, please give it a star ⭐! This helps the project be more visible, gain relevance and encourages us to invest more effort in new features.
+If you like this project, please give it a star ⭐! This helps the project be more visible, gain relevance and encourages
+us to invest more effort in new features.
+
 ## License
 
 This software is licensed under Apache-2.0. See

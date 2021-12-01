@@ -91,6 +91,22 @@ public final class TestSourcesModel {
         }
     }
 
+    static Optional<Background> getBackgroundForTestCase(AstNode astNode) {
+        Feature feature = getFeatureForTestCase(astNode);
+        return feature.getChildren()
+            .stream()
+            .map(FeatureChild::getBackground)
+            .filter(Objects::nonNull)
+            .findFirst();
+    }
+
+    private static Feature getFeatureForTestCase(AstNode astNode) {
+        while (astNode.parent != null) {
+            astNode = astNode.parent;
+        }
+        return (Feature) astNode.node;
+    }
+
     public void addTestSourceReadEvent(URI path, TestSourceRead event) {
         pathToReadEventMap.put(path, event);
     }
@@ -216,22 +232,6 @@ public final class TestSourcesModel {
             return getBackgroundForTestCase(astNode).isPresent();
         }
         return false;
-    }
-
-    static Optional<Background> getBackgroundForTestCase(AstNode astNode) {
-        Feature feature = getFeatureForTestCase(astNode);
-        return feature.getChildren()
-            .stream()
-            .map(FeatureChild::getBackground)
-            .filter(Objects::nonNull)
-            .findFirst();
-    }
-
-    private static Feature getFeatureForTestCase(AstNode astNode) {
-        while (astNode.parent != null) {
-            astNode = astNode.parent;
-        }
-        return (Feature) astNode.node;
     }
 
     static class ExamplesRowWrapperNode {

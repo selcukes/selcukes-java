@@ -25,9 +25,9 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 public class NativeSnapshotTest {
+    private static final ThreadLocal<WebDriver> LOCAL_DRIVER = new InheritableThreadLocal<>();
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final String url = "https://techyworks.blogspot.com/";
-    private static final ThreadLocal<WebDriver> LOCAL_DRIVER = new InheritableThreadLocal<>();
 
     @Test(enabled = false)
     public void nativeScreenshotTestForFirefox() {

@@ -1,6 +1,6 @@
 # Selcukes Reports
 
-selcukes-reports helps to record video  and send notifications using Slack and Microsoft teams.
+selcukes-reports helps to record video and send notifications using Slack and Microsoft teams.
 
 To use add the `selcukes-reports` dependency to your pom.xml:
 
@@ -54,10 +54,10 @@ public class CucumberHooks {
     public void beforeTest(Scenario scenario) {
         WebDriverBinary.chromeDriver().setup();
         driver = new ChromeDriver();
-       
+
         screenPlay = ScreenPlayBuilder.getScreenPlay(driver)
-             // start video recording..
-               .start();
+                // start video recording..
+                .start();
 
         logger.info(() -> "Before Scenario .." + scenario.getName());
     }
@@ -66,10 +66,10 @@ public class CucumberHooks {
     public void afterTest(Scenario scenario) {
         logger.info(() -> "After Scenario .." + scenario.getName());
         screenPlay
-            .withResult(scenario) 
-            .attachScreenshot() //Attach Full page screenshot to cucumber report
-            .attachVideo() //Attach video to cucumber report on Failure
-            .attachLogs(); //Attach INFO Level Logs to cucumber report
+                .withResult(scenario)
+                .attachScreenshot() //Attach Full page screenshot to cucumber report
+                .attachVideo() //Attach video to cucumber report on Failure
+                .attachLogs(); //Attach INFO Level Logs to cucumber report
     }
 }
 ```
@@ -142,29 +142,29 @@ public class ScreenPlayTest {
         driver = new ChromeDriver();
 
         screenPlay = ScreenPlayBuilder
-            .getScreenPlay(driver);
+                .getScreenPlay(driver);
 
         //Start Video Recorder ....
         screenPlay
-            .withRecorder(RecorderType.FFMPEG) //Remove this step to use default Recorder MONTE
-            .start();
+                .withRecorder(RecorderType.FFMPEG) //Remove this step to use default Recorder MONTE
+                .start();
 
     }
 
     @Test
     public void loginTest() {
-        logger.info(()->"Actual Test comes here");
+        logger.info(() -> "Actual Test comes here");
     }
 
     @AfterMethod
     public void afterMethod(ITestResult result) {
 
         screenPlay
-            .withResult(result) //Pass ITestResult to read TestName and Test Status
-            .ignoreCondition() //Remove this step to attach reports only on Failure 
-            .attachScreenshot()
-            //.withNotifier(NotifierType.SLACK)   // Use this step to specify Notifier as SLACK
-            .sendNotification("This is sample Test Step"); //Using default Notifier TEAMS
+                .withResult(result) //Pass ITestResult to read TestName and Test Status
+                .ignoreCondition() //Remove this step to attach reports only on Failure 
+                .attachScreenshot()
+                //.withNotifier(NotifierType.SLACK)   // Use this step to specify Notifier as SLACK
+                .sendNotification("This is sample Test Step"); //Using default Notifier TEAMS
 
     }
 
@@ -173,8 +173,8 @@ public class ScreenPlayTest {
         driver.quit();
 
         screenPlay
-            .attachVideo() //Stop and Attach Video to TestNG Report
-            .attachLogs(); //Attach INFO Level Logs to TestNG Report
+                .attachVideo() //Stop and Attach Video to TestNG Report
+                .attachLogs(); //Attach INFO Level Logs to TestNG Report
     }
 }
 
