@@ -18,7 +18,6 @@ package io.github.selcukes.snapshot.tests;
 
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
-
 import io.github.selcukes.snapshot.ScreenGrabber;
 import io.github.selcukes.snapshot.Snapshot;
 import io.github.selcukes.snapshot.SnapshotImpl;
@@ -35,7 +34,7 @@ public class NativeSnapshotTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final String url = "https://techyworks.blogspot.com/";
 
-    // @Test
+    @Test(enabled = false)
     public void nativeScreenshotTestForFirefox() {
         WebDriverBinary.firefoxDriver().setup();
         WebDriver driver = new FirefoxDriver();
@@ -61,7 +60,8 @@ public class NativeSnapshotTest {
         logger.info(() -> "Chrome full page screenshot captured : " + snapshot.withAddressBar().shootFullPage());
         driver.quit();
     }
-    @Test
+
+    @Test(enabled = false)
     public void nativeScreenshotTestForEdge() {
         WebDriverBinary.edgeDriver().setup();
         EdgeOptions options = new EdgeOptions();
