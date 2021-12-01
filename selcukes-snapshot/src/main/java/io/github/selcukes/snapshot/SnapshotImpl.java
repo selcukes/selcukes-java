@@ -43,7 +43,7 @@ public class SnapshotImpl extends PageSnapshot implements Snapshot {
         File destFile = getScreenshotPath().toFile();
         logger.debug(() -> "Capturing screenshot...");
         try {
-            File srcFile = screenshotText != null || isAddressBar ? getScreenshotWithText(OutputType.FILE) : getFullScreenshotAs(OutputType.FILE);
+            File srcFile = getScreenshot(OutputType.FILE);
             FileUtils.copyFile(srcFile, destFile);
             logger.debug(() -> "Screenshot saved at  :" + destFile.getAbsolutePath());
         } catch (IOException e) {
@@ -55,7 +55,11 @@ public class SnapshotImpl extends PageSnapshot implements Snapshot {
 
     @Override
     public byte[] shootPageAsBytes() {
-        return screenshotText != null || isAddressBar ? getScreenshotWithText(OutputType.BYTES) :getFullScreenshotAs(OutputType.BYTES);
+        return getScreenshot(OutputType.BYTES);
+    }
+
+    private <X> X getScreenshot(OutputType<X> outputType) {
+        return screenshotText != null || isAddressBar ? getScreenshotWithText(outputType) : getFullScreenshotAs(outputType);
     }
 
     private Path getScreenshotPath() {
