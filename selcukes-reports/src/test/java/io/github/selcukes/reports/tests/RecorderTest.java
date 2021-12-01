@@ -22,15 +22,15 @@ import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.screen.ScreenPlay;
 import io.github.selcukes.reports.screen.ScreenPlayBuilder;
-import io.github.selcukes.wdb.WebDriverBinary;
+import io.github.selcukes.wdb.driver.LocalDriver;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import static io.github.selcukes.wdb.enums.DriverType.CHROME;
 
 public class RecorderTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -39,10 +39,7 @@ public class RecorderTest {
 
     @BeforeTest
     public void beforeTest() {
-        WebDriverBinary.chromeDriver().checkBrowserVersion().setup();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
-        driver = new ChromeDriver(options);
+        driver = new LocalDriver().createWebDriver(CHROME);
         if (Platform.isWindows()) {
             driver.manage().window().maximize();
             screenPlay = ScreenPlayBuilder

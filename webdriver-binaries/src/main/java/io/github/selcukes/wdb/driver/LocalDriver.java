@@ -16,7 +16,6 @@ public class LocalDriver {
             case EDGE:
                 WebDriverBinary.edgeDriver().setup();
                 EdgeOptions edgeOptions = new EdgeOptions();
-
                 edgeOptions.setHeadless(headless);
                 return new EdgeDriver(edgeOptions);
             case FIREFOX:
@@ -32,5 +31,8 @@ public class LocalDriver {
                 return new ChromeDriver(chromeOptions);
         }
 
+    }
+    public WebDriver createWebDriver(DriverType driverType) {
+        return createWebDriver(driverType,true);
     }
 }
