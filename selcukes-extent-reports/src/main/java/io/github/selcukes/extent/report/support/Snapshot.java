@@ -22,6 +22,7 @@ import io.github.selcukes.commons.Await;
 import io.github.selcukes.commons.exception.SnapshotException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.remote.CommandInfo;
 import org.openqa.selenium.remote.HttpCommandExecutor;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -89,7 +90,7 @@ public class Snapshot {
     }
 
     private void unwrapDriver() {
-        String[] wrapperClassNames = {"org.openqa.selenium.WrapsDriver", "org.openqa.selenium.internal.WrapsDriver"};
+        String[] wrapperClassNames = {"org.openqa.selenium.WrapsDriver"};
         for (String wrapperClassName : wrapperClassNames) {
             try {
                 Class<?> clazz = Class.forName(wrapperClassName);

@@ -36,7 +36,7 @@ public class EdgeBinary extends AbstractBinary {
                 BINARY_DOWNLOAD_URL_PATTERN,
                 UrlHelper.EDGE_DRIVER_URL,
                 getBinaryVersion(),
-                Objects.equals(getBinaryEnvironment().getOSType(), OsType.LINUX) ? "win" + getBinaryEnvironment().getArchitecture() : getBinaryEnvironment().getOsNameAndArch()
+                getBinaryEnvironment().getOsNameAndArch()
             ));
 
         } catch (MalformedURLException e) {

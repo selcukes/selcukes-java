@@ -16,6 +16,10 @@
     <dependencies>
         <dependency>
             <groupId>io.github.selcukes</groupId>
+            <artifactId>selcukes-snapshot</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.selcukes</groupId>
             <artifactId>selcukes-commons</artifactId>
         </dependency>
         <dependency>

@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.tests;
+package io.github.selcukes.snapshot.tests;
 
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.reports.screenshot.ScreenGrabber;
-import io.github.selcukes.reports.screenshot.Snapshot;
-import io.github.selcukes.reports.screenshot.SnapshotImpl;
+import io.github.selcukes.snapshot.ScreenGrabber;
+import io.github.selcukes.snapshot.Snapshot;
+import io.github.selcukes.snapshot.SnapshotImpl;
 import io.github.selcukes.wdb.WebDriverBinary;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.Test;
 
@@ -32,7 +34,7 @@ public class NativeSnapshotTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final String url = "https://techyworks.blogspot.com/";
 
-    // @Test
+    @Test(enabled = false)
     public void nativeScreenshotTestForFirefox() {
         WebDriverBinary.firefoxDriver().setup();
         WebDriver driver = new FirefoxDriver();
@@ -56,6 +58,20 @@ public class NativeSnapshotTest {
         logger.info(() -> "Navigated to " + url);
         Snapshot snapshot = new SnapshotImpl(driver);
         logger.info(() -> "Chrome full page screenshot captured : " + snapshot.withAddressBar().shootFullPage());
+        driver.quit();
+    }
+
+    @Test(enabled = false)
+    public void nativeScreenshotTestForEdge() {
+        WebDriverBinary.edgeDriver().setup();
+        EdgeOptions options = new EdgeOptions();
+        options.addArguments("--headless");
+        WebDriver driver = new EdgeDriver(options);
+        logger.info(() -> "Initiated Edge browser");
+        driver.get(url);
+        logger.info(() -> "Navigated to " + url);
+        Snapshot snapshot = new SnapshotImpl(driver);
+        logger.info(() -> "Edge full page screenshot captured : " + snapshot.withAddressBar().shootFullPage());
         driver.quit();
     }
 
