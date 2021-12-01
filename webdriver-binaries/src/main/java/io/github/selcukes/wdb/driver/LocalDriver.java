@@ -11,12 +11,13 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
 public class LocalDriver {
-    public WebDriver createWebDriver(DriverType driverType) {
+    public WebDriver createWebDriver(DriverType driverType, boolean headless) {
         switch (driverType) {
             case EDGE:
                 WebDriverBinary.edgeDriver().setup();
                 EdgeOptions edgeOptions = new EdgeOptions();
-                edgeOptions.addArguments("--headless");
+
+                edgeOptions.setHeadless(headless);
                 return new EdgeDriver(edgeOptions);
             case FIREFOX:
                 WebDriverBinary.firefoxDriver().setup();
@@ -27,7 +28,7 @@ public class LocalDriver {
             default:
                 WebDriverBinary.chromeDriver().checkBrowserVersion().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.addArguments("--headless");
+                chromeOptions.setHeadless(headless);
                 return new ChromeDriver(chromeOptions);
         }
 

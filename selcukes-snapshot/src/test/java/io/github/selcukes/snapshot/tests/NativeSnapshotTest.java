@@ -81,6 +81,6 @@ public class NativeSnapshotTest {
     }
 
     private void setDriver(DriverType driverType) {
-        LOCAL_DRIVER.set(new LocalDriver().createWebDriver(driverType));
+        LOCAL_DRIVER.set(new LocalDriver().createWebDriver(driverType, true));
     }
 }
