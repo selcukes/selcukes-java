@@ -22,7 +22,7 @@ public class HomePage {
         logger.info(() -> "Navigated to " + url);
         Snapshot snapshot = new SnapshotImpl(driver);
         logger.info(() -> String.format("Captured full page screenshot for %s browser and placed at %s ",
-            browser, snapshot.withAddressBar().shootFullPage()));
+            browser, snapshot.withText("Hello").shootPage()));
     }
 
 }

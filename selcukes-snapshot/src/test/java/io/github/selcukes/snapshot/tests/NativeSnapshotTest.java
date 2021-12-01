@@ -18,7 +18,6 @@ package io.github.selcukes.snapshot.tests;
 
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.snapshot.ScreenGrabber;
 import io.github.selcukes.wdb.driver.LocalDriver;
 import io.github.selcukes.wdb.enums.DriverType;
 import org.openqa.selenium.WebDriver;
@@ -51,7 +50,7 @@ public class NativeSnapshotTest {
 
     }
 
-    @Test
+   /* @Test
     public void nativeScreenshotTestForChromeWithText() {
         setDriver(DriverType.CHROME);
         logger.info(() -> "Initiated Chrome browser");
@@ -68,7 +67,7 @@ public class NativeSnapshotTest {
         logger.info(() -> "Time Taken to capture screenshot: " + duration + "ms");
         logger.info(() -> "Chrome full page screenshot captured : " + screenshotFilePath);
 
-    }
+    }*/
 
     @AfterTest
     public void tearDown() {
