@@ -98,9 +98,10 @@ public class WebDriverBinaryUtil {
             new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()),
             binaryFactory.getCompressedBinaryType());
         if (Objects.equals(binaryFactory.getBinaryEnvironment().getOSType(), OsType.LINUX)) {
-            String driverPath = decompressedBinary.getAbsolutePath();
-            FileHelper.deleteFilesExcept(Paths.get(driverPath).toFile(), binaryFactory.getBinaryFileName());
-            FileHelper.setFileExecutable(driverPath);
+           getWebDriverBinary().setExecutable(true);
+
+          //  FileHelper.deleteFilesExcept(Paths.get(driverPath).toFile(), binaryFactory.getBinaryFileName());
+          //  FileHelper.setFileExecutable(driverPath);
         }
 
     }
