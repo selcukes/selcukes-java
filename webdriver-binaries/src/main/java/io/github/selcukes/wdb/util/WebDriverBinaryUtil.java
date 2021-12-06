@@ -28,7 +28,6 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Objects;
 
 public class WebDriverBinaryUtil {
@@ -93,15 +92,12 @@ public class WebDriverBinaryUtil {
     }
 
     private void decompressBinary() {
-        final File decompressedBinary = FileExtractUtil.extractFile(
+        FileExtractUtil.extractFile(
             binaryFactory.getCompressedBinaryFile(),
             new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()),
             binaryFactory.getCompressedBinaryType());
         if (Objects.equals(binaryFactory.getBinaryEnvironment().getOSType(), OsType.LINUX)) {
-           getWebDriverBinary().setExecutable(true);
-
-          //  FileHelper.deleteFilesExcept(Paths.get(driverPath).toFile(), binaryFactory.getBinaryFileName());
-          //  FileHelper.setFileExecutable(driverPath);
+            FileHelper.setFileExecutable(getWebDriverBinary().getAbsolutePath());
         }
 
     }

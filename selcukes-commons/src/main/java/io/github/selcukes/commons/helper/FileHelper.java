@@ -51,13 +51,12 @@ public class FileHelper {
         return driversFolder(file.getParent());
     }
 
-    public void setFileExecutable(String filepath) {
+    public void setFileExecutable(String filePath) {
         try {
-            final Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(Paths.get(filepath));
+            final Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(Paths.get(filePath));
             permissions.add(PosixFilePermission.OWNER_EXECUTE);
-            Files.setPosixFilePermissions(Paths.get(filepath), permissions);
+            Files.setPosixFilePermissions(Paths.get(filePath), permissions);
         } catch (Exception e) {
-            LOGGER.error(e::getMessage);
             throw new WebDriverBinaryException("Unable to set WebDriver Binary file as executable :" + e);
         }
     }
@@ -93,29 +92,7 @@ public class FileHelper {
             FileUtils.cleanDirectory(dirName);
         } catch (IOException e) {
             LOGGER.error(e::getMessage);
-            throw new SelcukesException("\"" + dirName + "\" is not a directory or a file to delete.", e);
-        }
-    }
-
-    public void deleteFilesExcept(File dir, String fileName) {
-        File[] allContents = dir.listFiles();
-        if (allContents != null) {
-            for (File file : allContents) {
-                if (!file.getName().equals(fileName)) {
-                    if (file.isDirectory()) {
-                        deleteDirectory(file);
-                    } else deleteFile(file);
-                }
-            }
-        }
-
-    }
-
-    public void deleteDirectory(File dir) {
-        try {
-            FileUtils.deleteDirectory(dir);
-        } catch (IOException e) {
-            throw new SelcukesException("Unable to delete  directory'" + dir + "'.", e);
+            throw new SelcukesException("'" + dirName + "' is not a directory or a file to delete.", e);
         }
     }
 
