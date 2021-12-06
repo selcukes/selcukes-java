@@ -92,12 +92,14 @@ public class WebDriverBinaryUtil {
     }
 
     private void decompressBinary() {
-        final File decompressedBinary = FileExtractUtil.extractFile(
+        FileExtractUtil.extractFile(
             binaryFactory.getCompressedBinaryFile(),
             new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()),
             binaryFactory.getCompressedBinaryType());
-        if (Objects.equals(binaryFactory.getBinaryEnvironment().getOSType(), OsType.LINUX))
-            FileHelper.setFileExecutable(decompressedBinary.getAbsolutePath());
+        if (Objects.equals(binaryFactory.getBinaryEnvironment().getOSType(), OsType.LINUX)) {
+            FileHelper.setFileExecutable(getWebDriverBinary().getAbsolutePath());
+        }
+
     }
 
     private String configureBinary() {

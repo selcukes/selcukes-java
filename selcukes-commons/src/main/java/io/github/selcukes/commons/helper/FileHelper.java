@@ -17,7 +17,6 @@
 package io.github.selcukes.commons.helper;
 
 import io.github.selcukes.commons.exception.SelcukesException;
-import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import lombok.experimental.UtilityClass;
@@ -51,14 +50,13 @@ public class FileHelper {
         return driversFolder(file.getParent());
     }
 
-    public void setFileExecutable(String filepath) {
+    public void setFileExecutable(String filePath) {
         try {
-            final Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(Paths.get(filepath));
+            final Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(Paths.get(filePath));
             permissions.add(PosixFilePermission.OWNER_EXECUTE);
-            Files.setPosixFilePermissions(Paths.get(filepath), permissions);
+            Files.setPosixFilePermissions(Paths.get(filePath), permissions);
         } catch (Exception e) {
-            LOGGER.error(e::getMessage);
-            throw new WebDriverBinaryException("Unable to set WebDriver Binary file as executable :" + e);
+            LOGGER.warn(e, () -> "Unable to set WebDriver Binary file as executable");
         }
     }
 
@@ -93,7 +91,7 @@ public class FileHelper {
             FileUtils.cleanDirectory(dirName);
         } catch (IOException e) {
             LOGGER.error(e::getMessage);
-            throw new SelcukesException("\"" + dirName + "\" is not a directory or a file to delete.", e);
+            throw new SelcukesException("'" + dirName + "' is not a directory or a file to delete.", e);
         }
     }
 

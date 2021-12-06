@@ -17,24 +17,24 @@
 package io.github.selcukes.snapshot;
 
 import io.github.selcukes.commons.exception.SnapshotException;
+import io.github.selcukes.commons.helper.DateHelper;
+import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-public class SnapshotImpl extends NativeSnapshot implements Snapshot {
+public class SnapshotImpl extends PageSnapshot implements Snapshot {
     private final Logger logger = LoggerFactory.getLogger(SnapshotImpl.class);
-    private final WebDriver driver;
 
     public SnapshotImpl(WebDriver driver) {
         super(driver);
-        this.driver = driver;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class SnapshotImpl extends NativeSnapshot implements Snapshot {
         File destFile = getScreenshotPath().toFile();
         logger.debug(() -> "Capturing screenshot...");
         try {
-            File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+            File srcFile = getScreenshot(OutputType.FILE);
             FileUtils.copyFile(srcFile, destFile);
             logger.debug(() -> "Screenshot saved at  :" + destFile.getAbsolutePath());
         } catch (IOException e) {
@@ -52,21 +52,21 @@ public class SnapshotImpl extends NativeSnapshot implements Snapshot {
         return destFile.getAbsolutePath();
     }
 
-    @Override
-    public String shootFullPage() {
-        try {
-            logger.debug(() -> "Capturing screenshot...");
-            String filePath = Files.write(getScreenshotPath(), shootFullPageAsBytes()).toString();
-            logger.debug(() -> "Screenshot saved at  :" + filePath);
-            return filePath;
-        } catch (IOException e) {
-            throw new SnapshotException("Failed Capturing Screenshot..", e);
-        }
-    }
 
     @Override
-    public byte[] shootFullPageAsBytes() {
-        return fullPageNativeScreenshotAsBytes();
+    public byte[] shootPageAsBytes() {
+        return getScreenshot(OutputType.BYTES);
+    }
+
+    private <X> X getScreenshot(OutputType<X> outputType) {
+        return screenshotText != null || isAddressBar ? getScreenshotWithText(outputType) : getFullScreenshotAs(outputType);
+    }
+
+    private Path getScreenshotPath() {
+        File reportDirectory = new File("target/screenshots");
+        FileHelper.createDirectory(reportDirectory);
+        String filePath = reportDirectory + File.separator + "screenshot_" + DateHelper.get().dateTime() + "." + "png";
+        return Paths.get(filePath);
     }
 
     @Override
@@ -79,10 +79,5 @@ public class SnapshotImpl extends NativeSnapshot implements Snapshot {
     public Snapshot withText(String text) {
         screenshotText = text;
         return this;
-    }
-
-    @Override
-    public String save() {
-        return null;
     }
 }

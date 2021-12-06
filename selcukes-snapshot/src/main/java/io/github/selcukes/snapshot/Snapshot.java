@@ -21,13 +21,7 @@ public interface Snapshot {
 
     byte[] shootPageAsBytes();
 
-    String shootFullPage();
-
-    byte[] shootFullPageAsBytes();
-
     Snapshot withAddressBar();
 
     Snapshot withText(String text);
-
-    String save();
 }

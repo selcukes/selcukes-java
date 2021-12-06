@@ -14,4 +14,5 @@ To use add the `selcukes-extent-reports` dependency to your pom.xml:
 </dependencies>
 
 ```
+
 Refer [wiki](https://github.com/selcukes/selcukes-java/wiki/Selcukes-Extent-Report) for documentation

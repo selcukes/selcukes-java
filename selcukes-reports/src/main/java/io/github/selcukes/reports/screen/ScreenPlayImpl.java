@@ -26,7 +26,6 @@ import io.github.selcukes.notifier.NotifierFactory;
 import io.github.selcukes.notifier.enums.NotifierType;
 import io.github.selcukes.reports.enums.RecorderType;
 import io.github.selcukes.reports.enums.TestType;
-
 import io.github.selcukes.reports.video.Recorder;
 import io.github.selcukes.reports.video.RecorderFactory;
 import io.github.selcukes.snapshot.SnapshotImpl;
@@ -66,7 +65,7 @@ class ScreenPlayImpl implements ScreenPlay {
     public ScreenPlay attachScreenshot() {
 
         if (result.getTestType().equals(TestType.CUCUMBER)) {
-            attach(capture.shootFullPageAsBytes(), "image/png");
+            attach(capture.shootPageAsBytes(), "image/png");
 
         } else {
             String screenshotPath = takeScreenshot();

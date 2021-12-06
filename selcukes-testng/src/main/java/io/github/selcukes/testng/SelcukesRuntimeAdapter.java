@@ -26,8 +26,8 @@ import java.util.UUID;
 
 public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
 
-    private final Logger logger = LoggerFactory.getLogger(SelcukesRuntimeAdapter.class);
     private static SelcukesRuntimeOptions runtimeOptions;
+    private final Logger logger = LoggerFactory.getLogger(SelcukesRuntimeAdapter.class);
     private Map<String, String> properties;
 
     public static SelcukesRuntimeOptions getInstance() {

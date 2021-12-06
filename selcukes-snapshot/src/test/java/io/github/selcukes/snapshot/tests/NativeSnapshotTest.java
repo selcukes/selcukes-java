@@ -18,82 +18,49 @@ package io.github.selcukes.snapshot.tests;
 
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.snapshot.ScreenGrabber;
-import io.github.selcukes.snapshot.Snapshot;
-import io.github.selcukes.snapshot.SnapshotImpl;
-import io.github.selcukes.wdb.WebDriverBinary;
+import io.github.selcukes.wdb.driver.LocalDriver;
+import io.github.selcukes.wdb.enums.DriverType;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 public class NativeSnapshotTest {
+    private static final ThreadLocal<WebDriver> LOCAL_DRIVER = new InheritableThreadLocal<>();
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final String url = "https://techyworks.blogspot.com/";
 
     @Test(enabled = false)
     public void nativeScreenshotTestForFirefox() {
-        WebDriverBinary.firefoxDriver().setup();
-        WebDriver driver = new FirefoxDriver();
-        logger.info(() -> "Initiated Firefox browser");
-        driver.get(url);
-        logger.info(() -> "Navigated to " + url);
-        Snapshot snapshot = new SnapshotImpl(driver);
-        logger.info(() -> "Firefox full page screenshot captured : " + snapshot.shootFullPage());
-        driver.quit();
+        setDriver(DriverType.FIREFOX);
+        new HomePage(getDriver()).navigateToHomePage();
+
     }
 
     @Test
     public void nativeScreenshotTestForChrome() {
-        WebDriverBinary.chromeDriver().checkBrowserVersion().setup();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
-        WebDriver driver = new ChromeDriver(options);
-        //driver.manage().window().maximize();
-        logger.info(() -> "Initiated Chrome browser");
-        driver.get(url);
-        logger.info(() -> "Navigated to " + url);
-        Snapshot snapshot = new SnapshotImpl(driver);
-        logger.info(() -> "Chrome full page screenshot captured : " + snapshot.withAddressBar().shootFullPage());
-        driver.quit();
-    }
+        setDriver(DriverType.CHROME);
+        new HomePage(getDriver()).navigateToHomePage();
 
-    @Test(enabled = false)
-    public void nativeScreenshotTestForEdge() {
-        WebDriverBinary.edgeDriver().setup();
-        EdgeOptions options = new EdgeOptions();
-        options.addArguments("--headless");
-        WebDriver driver = new EdgeDriver(options);
-        logger.info(() -> "Initiated Edge browser");
-        driver.get(url);
-        logger.info(() -> "Navigated to " + url);
-        Snapshot snapshot = new SnapshotImpl(driver);
-        logger.info(() -> "Edge full page screenshot captured : " + snapshot.withAddressBar().shootFullPage());
-        driver.quit();
     }
 
     @Test
-    public void nativeScreenshotTestForChromeWithText() {
-        WebDriverBinary.chromeDriver().checkBrowserVersion().setup();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
-        WebDriver driver = new ChromeDriver(options);
-        logger.info(() -> "Initiated Chrome browser");
-        driver.get(url);
-        logger.info(() -> "Navigated to " + url);
-        long startTime = System.currentTimeMillis();
-        String screenshotFilePath = ScreenGrabber
-            .shoot(driver)
-            .withText("This sample Text Message\nMake it simple Make it simple Make it simple Make it simple Make it simple")
-            .fullPage()
-            .save();
-        long endTime = System.currentTimeMillis();
-        long duration = (endTime - startTime) / 1000;
-        logger.info(() -> "Time Taken to capture screenshot: " + duration + "ms");
-        logger.info(() -> "Chrome full page screenshot captured : " + screenshotFilePath);
-        driver.quit();
+    public void nativeScreenshotTestForEdge() {
+        setDriver(DriverType.EDGE);
+        new HomePage(getDriver()).navigateToHomePage();
+
+    }
+
+    @AfterTest
+    public void tearDown() {
+        LOCAL_DRIVER.get().quit();
+        LOCAL_DRIVER.remove();
+    }
+
+    private WebDriver getDriver() {
+        return LOCAL_DRIVER.get();
+    }
+
+    private void setDriver(DriverType driverType) {
+        LOCAL_DRIVER.set(new LocalDriver().createWebDriver(driverType));
     }
 }

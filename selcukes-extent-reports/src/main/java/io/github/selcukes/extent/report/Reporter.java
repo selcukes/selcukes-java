@@ -20,8 +20,8 @@ package io.github.selcukes.extent.report;
 
 import io.github.selcukes.commons.logging.LogRecordListener;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.extent.report.support.Snapshot;
-import org.openqa.selenium.OutputType;
+import io.github.selcukes.snapshot.Snapshot;
+import io.github.selcukes.snapshot.SnapshotImpl;
 import org.openqa.selenium.WebDriver;
 
 import java.util.logging.Level;
@@ -55,7 +55,7 @@ public class Reporter {
     }
 
     public void initSnapshot(WebDriver driver) {
-        snapshot = new Snapshot(driver);
+        snapshot = new SnapshotImpl(driver);
     }
 
 
@@ -86,6 +86,6 @@ public class Reporter {
     }
 
     public void attachScreenshot() {
-        SelcukesExtentAdapter.attachScreenshot(snapshot.getFullScreenshotAs(OutputType.BYTES));
+        SelcukesExtentAdapter.attachScreenshot(snapshot.shootPageAsBytes());
     }
 }
