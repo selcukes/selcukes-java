@@ -17,7 +17,6 @@
 package io.github.selcukes.commons.helper;
 
 import io.github.selcukes.commons.exception.SelcukesException;
-import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import lombok.experimental.UtilityClass;
@@ -57,7 +56,7 @@ public class FileHelper {
             permissions.add(PosixFilePermission.OWNER_EXECUTE);
             Files.setPosixFilePermissions(Paths.get(filePath), permissions);
         } catch (Exception e) {
-            throw new WebDriverBinaryException("Unable to set WebDriver Binary file as executable :" + e);
+            LOGGER.warn(e, () -> "Unable to set WebDriver Binary file as executable");
         }
     }
 
