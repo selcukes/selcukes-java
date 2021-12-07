@@ -22,7 +22,8 @@ class DefaultPageSnapshot {
     }
 
     protected <X> X getDefaultPageSnapshot(OutputType<X> outputType) {
-        return outputType.convertFromPngBytes(ImageUtil.toByteArray(defaultPageScreenshot()));
+        BufferedImage defaultPageScreenshot = defaultPageScreenshot();
+        return outputType.convertFromPngBytes(ImageUtil.toByteArray(defaultPageScreenshot));
     }
 
     protected Object executeJS(String script, Object... args) {
@@ -47,7 +48,7 @@ class DefaultPageSnapshot {
         Await.until(TimeUnit.MILLISECONDS, 1);
     }
 
-    public byte[] shootPageAsBytes() {
+    private byte[] takeScreenshot() {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
@@ -73,13 +74,13 @@ class DefaultPageSnapshot {
         for (int n = 0; n < scrollTimes; n++) {
             executeJS("scrollTo(0, arguments[0])", winH * n);
             waitForScrolling();
-            BufferedImage part = ImageUtil.toBufferedImage(shootPageAsBytes());
+            BufferedImage part = ImageUtil.toBufferedImage(takeScreenshot());
             graphics.drawImage(part, 0, n * winH, null);
         }
         if (tail > 0) {
             executeJS("scrollTo(0, document.body.scrollHeight)");
             waitForScrolling();
-            BufferedImage last = ImageUtil.toBufferedImage(shootPageAsBytes());
+            BufferedImage last = ImageUtil.toBufferedImage(takeScreenshot());
             BufferedImage tailImage = last.getSubimage(0, last.getHeight() - tail, last.getWidth(), tail);
             graphics.drawImage(tailImage, 0, scrollTimes * winH, null);
         }

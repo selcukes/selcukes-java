@@ -16,8 +16,7 @@
 
 package io.github.selcukes.snapshot.tests;
 
-import io.github.selcukes.commons.logging.Logger;
-import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.wdb.driver.LocalDriver;
 import io.github.selcukes.wdb.enums.DriverType;
 import org.openqa.selenium.WebDriver;
@@ -26,8 +25,6 @@ import org.testng.annotations.Test;
 
 public class NativeSnapshotTest {
     private static final ThreadLocal<WebDriver> LOCAL_DRIVER = new InheritableThreadLocal<>();
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-    private final String url = "https://techyworks.blogspot.com/";
 
     @Test(enabled = false)
     public void nativeScreenshotTestForFirefox() {
@@ -61,6 +58,6 @@ public class NativeSnapshotTest {
     }
 
     private void setDriver(DriverType driverType) {
-        LOCAL_DRIVER.set(new LocalDriver().createWebDriver(driverType));
+        LOCAL_DRIVER.set(new LocalDriver().createWebDriver(driverType, Platform.isLinux()));
     }
 }
