@@ -41,7 +41,8 @@ public class NativeSnapshotTest {
 
     @Test(dataProvider = "driverTypes")
     public void browserTest(DriverType driverType) {
-        if (!driverType.equals(DriverType.IEXPLORER)) {
+        boolean excludedDrivers = driverType.equals(DriverType.IEXPLORER) || driverType.equals(DriverType.FIREFOX);
+        if (!excludedDrivers) {
             logger.debug(() -> "DriverType : " + driverType);
             setDriver(driverType);
             new HomePage(getDriver()).navigateToHomePage();
@@ -50,7 +51,7 @@ public class NativeSnapshotTest {
 
     @AfterTest
     public void tearDown() {
-        LOCAL_DRIVER.get().quit();
+        getDriver().quit();
         LOCAL_DRIVER.remove();
     }
 
