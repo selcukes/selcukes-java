@@ -19,32 +19,33 @@ package io.github.selcukes.snapshot.tests;
 import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.wdb.driver.LocalDriver;
 import io.github.selcukes.wdb.enums.DriverType;
+import lombok.CustomLog;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+@CustomLog
 public class NativeSnapshotTest {
     private static final ThreadLocal<WebDriver> LOCAL_DRIVER = new InheritableThreadLocal<>();
 
-    @Test(enabled = false)
-    public void nativeScreenshotTestForFirefox() {
-        setDriver(DriverType.FIREFOX);
-        new HomePage(getDriver()).navigateToHomePage();
-
+    @DataProvider
+    public Object[][] driverTypes() {
+        DriverType[] driverTypes = DriverType.values();
+        Object[][] driverArray = new Object[driverTypes.length][];
+        for (int i = 0; i < driverTypes.length; i++) {
+            driverArray[i] = new Object[]{driverTypes[i]};
+        }
+        return driverArray;
     }
 
-    @Test
-    public void nativeScreenshotTestForChrome() {
-        setDriver(DriverType.CHROME);
-        new HomePage(getDriver()).navigateToHomePage();
-
-    }
-
-    @Test
-    public void nativeScreenshotTestForEdge() {
-        setDriver(DriverType.EDGE);
-        new HomePage(getDriver()).navigateToHomePage();
-
+    @Test(dataProvider = "driverTypes")
+    public void browserTest(DriverType driverType) {
+        if (!driverType.equals(DriverType.IEXPLORER)) {
+            logger.debug(() -> "DriverType : " + driverType);
+            setDriver(driverType);
+            new HomePage(getDriver()).navigateToHomePage();
+        }
     }
 
     @AfterTest
