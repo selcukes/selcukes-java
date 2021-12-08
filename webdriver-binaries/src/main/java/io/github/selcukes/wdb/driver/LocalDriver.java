@@ -9,6 +9,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 
 public class LocalDriver {
     public WebDriver createWebDriver(DriverType driverType, boolean headless) {
@@ -23,6 +24,14 @@ public class LocalDriver {
                 return new FirefoxDriver();
             case IEXPLORER:
                 WebDriverBinary.ieDriver().setup();
+                InternetExplorerOptions ieOptions = new InternetExplorerOptions().requireWindowFocus();
+                ieOptions.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+                ieOptions.setCapability("ignoreZoomSetting", true);
+                ieOptions.setCapability("nativeEvents", false);
+                ieOptions.setCapability("unexpectedAlertBehaviour", "accept");
+                ieOptions.setCapability("ignoreProtectedModeSettings", true);
+                ieOptions.setCapability("disable-popup-blocking", true);
+                ieOptions.setCapability("enablePersistentHover", true);
                 return new InternetExplorerDriver();
             default:
                 WebDriverBinary.chromeDriver().checkBrowserVersion().setup();

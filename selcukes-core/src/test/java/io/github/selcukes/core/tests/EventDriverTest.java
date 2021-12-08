@@ -16,12 +16,15 @@
 
 package io.github.selcukes.core.tests;
 
-import io.github.selcukes.core.listener.DriverEventHandler;
-import io.github.selcukes.wdb.WebDriverBinary;
+import io.github.selcukes.commons.Await;
+import io.github.selcukes.commons.os.Platform;
+import io.github.selcukes.core.listener.EventCapture;
+import io.github.selcukes.wdb.driver.LocalDriver;
+import io.github.selcukes.wdb.enums.DriverType;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.events.EventFiringWebDriver;
+import org.openqa.selenium.support.events.EventFiringDecorator;
+import org.openqa.selenium.support.events.WebDriverListener;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -31,19 +34,21 @@ public class EventDriverTest {
 
     @BeforeTest
     public void beforeTest() {
-        WebDriverBinary.chromeDriver().checkBrowserVersion().setup();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
-        DriverEventHandler eventListener = new DriverEventHandler();
-        EventFiringWebDriver eventFiringDriver =
-            new EventFiringWebDriver(new ChromeDriver(options));
-        eventFiringDriver.register(eventListener);
-        driver = eventFiringDriver;
+        LocalDriver localDriver = new LocalDriver();
+        driver = localDriver.createWebDriver(DriverType.CHROME, Platform.isLinux());
+        WebDriverListener eventCapture = new EventCapture();
+        driver = new EventFiringDecorator(eventCapture).decorate(driver);
     }
 
     @Test
     public void eventDriverTest() {
+
         driver.get("https://techyworks.blogspot.com/");
+        driver.getTitle();
+        Await.until(2);
+        driver.findElement(By.xpath("//span[@class='show-search']")).click();
+        Await.until(2);
+        driver.findElement(By.xpath("//input[@class='search-input']")).sendKeys("selenium");
     }
 
     @AfterTest

@@ -20,6 +20,7 @@ import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.commons.helper.ExceptionHelper;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -44,7 +45,7 @@ public class WindowsManager {
             startWinAppDriver();
             try {
 
-                session = new WindowsDriver<>(Objects.requireNonNull(getServiceUrl()), setCapabilities(""));
+                session = new WindowsDriver(Objects.requireNonNull(getServiceUrl()), setCapabilities(""));
             } finally {
                 logger.info(() -> "Closing Windows App...");
                 Runtime.getRuntime().addShutdownHook(new Thread(new WinAppCleanup()));
@@ -79,10 +80,10 @@ public class WindowsManager {
 
     public WindowsDriver switchWindow(String name) {
 
-        WebElement newWindowElement = session.findElementByName(name);
+        WebElement newWindowElement = session.findElement(By.name(name));
         String windowId = newWindowElement.getAttribute("NativeWindowHandle");
         System.out.println("Window Id: " + windowId + "After: " + Integer.toHexString(Integer.parseInt(windowId)));
-        session = new WindowsDriver<>(getServiceUrl(), setCapabilities(Integer.toHexString(Integer.parseInt(windowId))));
+        session = new WindowsDriver(getServiceUrl(), setCapabilities(Integer.toHexString(Integer.parseInt(windowId))));
         session.switchTo().activeElement();
         return session;
     }
