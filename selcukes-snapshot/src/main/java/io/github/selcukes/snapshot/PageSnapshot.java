@@ -22,6 +22,7 @@ import io.github.selcukes.commons.helper.ImageUtil;
 import io.github.selcukes.commons.os.Platform;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -46,10 +47,10 @@ class PageSnapshot extends DefaultPageSnapshot {
     }
 
     public <X> X getFullScreenshotAs(OutputType<X> outputType) {
-        unwrapDriver();
-        if (driver instanceof ChromeDriver || driver instanceof EdgeDriver)
+        WebDriver unwrap = unwrapDriver(driver);
+        if (unwrap instanceof ChromeDriver || unwrap instanceof EdgeDriver)
             return getFullScreenshot(outputType);
-        else if (driver instanceof FirefoxDriver)
+        else if (unwrap instanceof FirefoxDriver)
             return ((FirefoxDriver) driver).getFullPageScreenshotAs(outputType);
         else
             return getDefaultPageSnapshot(outputType);
@@ -128,5 +129,11 @@ class PageSnapshot extends DefaultPageSnapshot {
                 //Gobble exception
             }
         }
+    }
+
+    private WebDriver unwrapDriver(WebDriver webDriver) {
+        if (webDriver instanceof WrapsDriver)
+            return ((WrapsDriver) webDriver).getWrappedDriver();
+        else return webDriver;
     }
 }
