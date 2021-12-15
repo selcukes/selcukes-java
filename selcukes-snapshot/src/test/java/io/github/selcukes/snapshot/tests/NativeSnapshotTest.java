@@ -31,22 +31,15 @@ public class NativeSnapshotTest {
 
     @DataProvider
     public Object[][] driverTypes() {
-        DriverType[] driverTypes = DriverType.values();
-        Object[][] driverArray = new Object[driverTypes.length][];
-        for (int i = 0; i < driverTypes.length; i++) {
-            driverArray[i] = new Object[]{driverTypes[i]};
-        }
-        return driverArray;
+        return new Object[][]{{DriverType.CHROME}, {DriverType.EDGE}};
     }
 
     @Test(dataProvider = "driverTypes")
     public void browserTest(DriverType driverType) {
-        boolean excludedDrivers = driverType.equals(DriverType.IEXPLORER) || driverType.equals(DriverType.FIREFOX);
-        if (!excludedDrivers) {
-            logger.debug(() -> "DriverType : " + driverType);
-            setDriver(driverType);
-            new HomePage(getDriver()).navigateToHomePage();
-        }
+        logger.debug(() -> "DriverType : " + driverType);
+        setDriver(driverType);
+        new HomePage(getDriver()).navigateToHomePage();
+
     }
 
     @AfterTest
