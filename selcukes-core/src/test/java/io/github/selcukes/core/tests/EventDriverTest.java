@@ -19,7 +19,6 @@ package io.github.selcukes.core.tests;
 import io.github.selcukes.commons.Await;
 import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.helper.FileHelper;
-import io.github.selcukes.commons.helper.ImageUtil;
 import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.core.listener.EventCapture;
 import io.github.selcukes.wdb.driver.LocalDriver;
@@ -48,7 +47,7 @@ public class EventDriverTest {
     @BeforeTest
     public void beforeTest() {
         LocalDriver localDriver = new LocalDriver();
-        driver = localDriver.createWebDriver(DriverType.CHROME, true);
+        driver = localDriver.createWebDriver(DriverType.EDGE, Platform.isLinux());
         WebDriverListener eventCapture = new EventCapture();
         driver = new EventFiringDecorator(eventCapture).decorate(driver);
     }
@@ -69,10 +68,10 @@ public class EventDriverTest {
 
     @AfterTest
     public void afterTest() throws IOException {
-        File srcFile=((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         File reportDirectory = new File("target/screenshots");
         FileHelper.createDirectory(reportDirectory);
-        String filePath = reportDirectory + File.separator + "screenshot_" + DateHelper.get().dateTime() + ".png" ;
+        String filePath = reportDirectory + File.separator + "screenshot_" + DateHelper.get().dateTime() + ".png";
 
         FileUtils.copyFile(srcFile, Paths.get(filePath).toFile());
         driver.quit();
