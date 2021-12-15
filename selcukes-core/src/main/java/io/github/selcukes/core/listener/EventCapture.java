@@ -16,8 +16,7 @@
 
 package io.github.selcukes.core.listener;
 
-import io.github.selcukes.commons.logging.Logger;
-import io.github.selcukes.commons.logging.LoggerFactory;
+import lombok.CustomLog;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -28,8 +27,8 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@CustomLog
 public class EventCapture implements WebDriverListener {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private static final String FIELD_ATTRIBUTE = "placeholder";
 
     private static String getLocatorFromElement(WebElement element) {
@@ -47,7 +46,7 @@ public class EventCapture implements WebDriverListener {
     }
 
     @Override
-    public void afterGet(WebDriver driver, String url) {
+    public void beforeGet(WebDriver driver, String url) {
         logger.info(() -> String.format("Opening URL[%s]", url));
     }
 
@@ -59,17 +58,17 @@ public class EventCapture implements WebDriverListener {
     @Override
     public void beforeClick(WebElement element) {
         String elementName = element.getText();
-        logger.info(() -> "Clicked on " + (elementName.isBlank() ? getLocatorFromElement(element) : elementName));
+        logger.info(() -> "Clicking on " + (elementName.isBlank() ? getLocatorFromElement(element) : elementName));
     }
 
     @Override
-    public void afterClear(WebElement element) {
-        logger.info(() -> "Cleared " + element.getAttribute(FIELD_ATTRIBUTE));
+    public void beforeClear(WebElement element) {
+        logger.info(() -> "Clearing " + element.getAttribute(FIELD_ATTRIBUTE));
     }
 
     @Override
     public void beforeSendKeys(WebElement element, CharSequence... keysToSend) {
-        logger.debug(() -> "Entered Text using locator " + getLocatorFromElement(element));
+        logger.debug(() -> "Entering Text using locator " + getLocatorFromElement(element));
         if (keysToSend != null) {
             Optional<CharSequence> keyChar = Arrays.stream(keysToSend).filter(Keys.class::isInstance).findFirst();
 
@@ -77,7 +76,7 @@ public class EventCapture implements WebDriverListener {
                 Arrays.stream(Keys.values()).filter(key -> key.equals(keyChar.get()))
                     .findFirst().ifPresent(key -> logger.info(() -> key.name() + " Key Pressed"));
             } else {
-                logger.info(() -> (String.format("Entered Text %s in %s Field", Arrays.toString(keysToSend),
+                logger.info(() -> (String.format("Entering Text %s in %s Field", Arrays.toString(keysToSend),
                     element.getAttribute(FIELD_ATTRIBUTE))));
             }
         }
@@ -91,5 +90,15 @@ public class EventCapture implements WebDriverListener {
     @Override
     public void afterRefresh(WebDriver.Navigation navigation) {
         logger.info(() -> "Browser Refreshed");
+    }
+
+    @Override
+    public void afterMaximize(WebDriver.Window window) {
+        logger.info(() -> "Browser Maximized");
+    }
+
+    @Override
+    public void afterGetWindowHandle(WebDriver driver, String result) {
+        logger.info(() -> "Switched to window " + result);
     }
 }
