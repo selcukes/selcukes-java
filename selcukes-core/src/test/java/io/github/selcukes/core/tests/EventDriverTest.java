@@ -25,9 +25,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.events.WebDriverListener;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import java.time.Duration;
 
 public class EventDriverTest {
     WebDriver driver;
@@ -46,6 +50,9 @@ public class EventDriverTest {
         driver.get("https://techyworks.blogspot.com/");
         driver.getTitle();
         Await.until(3);
+        new WebDriverWait(driver, Duration.ofSeconds(5)).until(
+            ExpectedConditions.elementToBeClickable(By.xpath("//span[@class='show-search']"))
+        );
         driver.findElement(By.xpath("//span[@class='show-search']")).click();
         Await.until(2);
         driver.findElement(By.xpath("//input[@class='search-input']")).sendKeys("selenium");
