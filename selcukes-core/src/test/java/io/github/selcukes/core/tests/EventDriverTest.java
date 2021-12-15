@@ -17,11 +17,17 @@
 package io.github.selcukes.core.tests;
 
 import io.github.selcukes.commons.Await;
+import io.github.selcukes.commons.helper.DateHelper;
+import io.github.selcukes.commons.helper.FileHelper;
+import io.github.selcukes.commons.helper.ImageUtil;
 import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.core.listener.EventCapture;
 import io.github.selcukes.wdb.driver.LocalDriver;
 import io.github.selcukes.wdb.enums.DriverType;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.events.WebDriverListener;
@@ -31,6 +37,9 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.Duration;
 
 public class EventDriverTest {
@@ -39,7 +48,7 @@ public class EventDriverTest {
     @BeforeTest
     public void beforeTest() {
         LocalDriver localDriver = new LocalDriver();
-        driver = localDriver.createWebDriver(DriverType.CHROME, Platform.isLinux());
+        driver = localDriver.createWebDriver(DriverType.CHROME, true);
         WebDriverListener eventCapture = new EventCapture();
         driver = new EventFiringDecorator(eventCapture).decorate(driver);
     }
@@ -49,18 +58,23 @@ public class EventDriverTest {
 
         driver.get("https://techyworks.blogspot.com/");
         driver.getTitle();
-        Await.until(3);
+
         new WebDriverWait(driver, Duration.ofSeconds(5)).until(
-            ExpectedConditions.elementToBeClickable(By.xpath("//span[@class='show-search']"))
+            ExpectedConditions.elementToBeClickable(By.xpath("//span[@class='show-search' or @class='show-mobile-search']"))
         );
-        driver.findElement(By.xpath("//span[@class='show-search']")).click();
+        driver.findElement(By.xpath("//span[@class='show-search' or @class='show-mobile-search']")).click();
         Await.until(2);
-        driver.findElement(By.xpath("//input[@class='search-input']")).sendKeys("selenium");
+        driver.findElement(By.xpath("//input[@class='search-input' or @class='mobile-search-input']")).sendKeys("selenium");
     }
 
     @AfterTest
-    public void afterTest() {
-        driver.close();
+    public void afterTest() throws IOException {
+        File srcFile=((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        File reportDirectory = new File("target/screenshots");
+        FileHelper.createDirectory(reportDirectory);
+        String filePath = reportDirectory + File.separator + "screenshot_" + DateHelper.get().dateTime() + ".png" ;
+
+        FileUtils.copyFile(srcFile, Paths.get(filePath).toFile());
         driver.quit();
     }
 }
