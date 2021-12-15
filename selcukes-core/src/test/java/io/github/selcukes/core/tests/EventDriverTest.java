@@ -45,7 +45,7 @@ public class EventDriverTest {
 
         driver.get("https://techyworks.blogspot.com/");
         driver.getTitle();
-        Await.until(2);
+        Await.until(3);
         driver.findElement(By.xpath("//span[@class='show-search']")).click();
         Await.until(2);
         driver.findElement(By.xpath("//input[@class='search-input']")).sendKeys("selenium");
@@ -53,7 +53,7 @@ public class EventDriverTest {
 
     @AfterTest
     public void afterTest() {
-
+        driver.close();
         driver.quit();
     }
 }
