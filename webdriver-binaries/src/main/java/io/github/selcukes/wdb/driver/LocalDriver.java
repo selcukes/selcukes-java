@@ -11,6 +11,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 
+import static org.openqa.selenium.remote.CapabilityType.HAS_NATIVE_EVENTS;
+import static org.openqa.selenium.remote.CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR;
+
 public class LocalDriver {
     public WebDriver createWebDriver(DriverType driverType, boolean headless) {
         switch (driverType) {
@@ -26,9 +29,9 @@ public class LocalDriver {
                 WebDriverBinary.ieDriver().setup();
                 InternetExplorerOptions ieOptions = new InternetExplorerOptions().requireWindowFocus();
                 ieOptions.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-                ieOptions.setCapability("ignoreZoomSetting", true);
-                ieOptions.setCapability("nativeEvents", false);
-                ieOptions.setCapability("unexpectedAlertBehaviour", "accept");
+                ieOptions.setCapability(InternetExplorerDriver.IGNORE_ZOOM_SETTING, true);
+                ieOptions.setCapability(HAS_NATIVE_EVENTS, false);
+                ieOptions.setCapability(UNEXPECTED_ALERT_BEHAVIOUR, "accept");
                 ieOptions.setCapability("ignoreProtectedModeSettings", true);
                 ieOptions.setCapability("disable-popup-blocking", true);
                 ieOptions.setCapability("enablePersistentHover", true);

@@ -18,46 +18,36 @@ package io.github.selcukes.core.driver;
 
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.DriverSetupException;
-import io.github.selcukes.commons.logging.Logger;
-import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.wdb.driver.LocalDriver;
 import io.github.selcukes.wdb.enums.DriverType;
+import lombok.CustomLog;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.util.concurrent.TimeUnit;
+@CustomLog
+public class WebManager implements RemoteManager {
 
-public class WebManager {
-    private final Logger logger = LoggerFactory.getLogger(WebManager.class);
     private WebDriver driver;
 
-    public WebManager() {
-    }
-
     public synchronized WebDriver createDriver() {
-
-        String browser = ConfigFactory.getConfig().getBrowserName();
-        if (browser == null) {
-            browser = DriverType.CHROME.getName();
-        }
-
+        String browser = ConfigFactory.getConfig().getWeb().get("BrowserName");
         if (null == driver) {
-
             try {
                 logger.info(() -> "Initiating New Browser Session...");
-
-                driver = new ChromeDriver();
-                /*EventFiringWebDriver wd=new EventFiringWebDriver(driver);
-                wd.register(new DriverEventHandler());*/
-                driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+                if (ConfigFactory.getConfig().getWeb().get("remote").equalsIgnoreCase("true"))
+                    driver = createRemoteDriver();
+                else
+                    driver = new LocalDriver().createWebDriver(DriverType.valueOf(browser));
 
             } catch (Exception e) {
                 throw new DriverSetupException("Driver was not setup properly.", e);
-            } finally {
-                logger.info(() -> "Closing Browser...");
-
             }
         }
         return driver;
+    }
+
+    @Override
+    public void destroyDriver() {
 
     }
+
 }

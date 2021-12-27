@@ -25,6 +25,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class DriverManager<D extends RemoteWebDriver> {
     private final Logger logger = LoggerFactory.getLogger(DriverManager.class);
+    private RemoteManager remoteManager;
 
     public D createDriver(DeviceType deviceType) {
 
@@ -32,17 +33,23 @@ public class DriverManager<D extends RemoteWebDriver> {
             logger.info(() -> "Creating new session..." + deviceType);
             switch (deviceType) {
                 case BROWSER:
-                    DriverFactory.setDriver(new WebManager().createDriver());
+                    remoteManager = new WebManager();
+                    DriverFactory.setDriver(remoteManager.createDriver());
                     break;
-                case WINDOWS:
+                case DESKTOP:
                 case MOBILE:
-                    DriverFactory.setDriver(new WindowsManager().createDriver());
+                    remoteManager=new DesktopManager();
+                    DriverFactory.setDriver(remoteManager.createDriver());
                     break;
                 default:
                     throw new DriverSetupException("Unable to create new driver session for Driver Type[" + deviceType + "]");
             }
         }
         return DriverFactory.getDriver();
+    }
+
+    public RemoteManager getManager() {
+        return remoteManager;
     }
 
 }
