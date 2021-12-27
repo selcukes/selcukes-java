@@ -16,12 +16,12 @@
 
 package io.github.selcukes.core.driver;
 
+import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
-import org.openqa.selenium.remote.CapabilityType;
 
 import static org.openqa.selenium.remote.CapabilityType.*;
-
+@UtilityClass
 public class DriverOptions {
     private static final ThreadLocal<MutableCapabilities> threadLocalCapabilities = new InheritableThreadLocal<>();
 

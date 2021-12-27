@@ -47,7 +47,7 @@ public class WebManager implements RemoteManager {
 
     @Override
     public void destroyDriver() {
-
+        //IGNORE
     }
 
 }
