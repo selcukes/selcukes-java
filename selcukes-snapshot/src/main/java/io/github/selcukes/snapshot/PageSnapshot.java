@@ -46,6 +46,7 @@ class PageSnapshot extends DefaultPageSnapshot {
     }
 
     public <X> X getFullScreenshotAs(OutputType<X> outputType) {
+        unwrapDriver();
         if (driver instanceof ChromeDriver || driver instanceof EdgeDriver)
             return getFullScreenshot(outputType);
         else if (driver instanceof FirefoxDriver)

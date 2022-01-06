@@ -28,17 +28,10 @@ import java.util.Map;
 public class Environment {
     private String projectName;
     private String env;
-    private String browserName;
-    private String windowId;
-    private Boolean headLess;
-    private Boolean remote;
-    private Boolean proxy;
     private String baseUrl;
-    private String remoteGridUrl;
-    private String ffmpegPath;
-    private Boolean watermarkStatus;
-    private Boolean videoRecording;
-    private String recorderType;
-    private Boolean notification;
+    private Map<String, String> web;
+    private Map<String, String> windows;
+    private Map<String, String> mobile;
+    private Map<String, String> video;
     private Map<String, String> notifier;
 }

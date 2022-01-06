@@ -44,7 +44,7 @@ public class HtmlReporter {
         configuration.setBuildNumber(buildNumber);
 
         configuration.addClassifications("Platform", Platform.getPlatform().getOsName());
-        configuration.addClassifications("Browser", ConfigFactory.getConfig().getBrowserName());
+        configuration.addClassifications("Browser", ConfigFactory.getConfig().getWeb().get("browserName"));
         configuration.addClassifications("Branch", ConfigFactory.getConfig().getEnv());
 
         configuration.setSortingMethod(SortingMethod.NATURAL);

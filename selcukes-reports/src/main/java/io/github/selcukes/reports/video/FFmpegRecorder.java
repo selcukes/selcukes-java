@@ -45,8 +45,8 @@ class FFmpegRecorder extends VideoRecorder {
     public FFmpegRecorder() {
         shell = new Shell();
         this.videoConfig = conf();
-        if (ConfigFactory.getConfig().getFfmpegPath() != null)
-            ffmpegFolderPath = ConfigFactory.getConfig().getFfmpegPath();
+        if (ConfigFactory.getConfig().getVideo().get("ffmpegPath") != null)
+            ffmpegFolderPath = ConfigFactory.getConfig().getVideo().get("ffmpegPath");
     }
 
     public void start() {
@@ -71,7 +71,7 @@ class FFmpegRecorder extends VideoRecorder {
         stop();
         Preconditions.checkArgument(tempFile.exists(), "Video recording wasn't started");
         File videoFile = getFile(filename);
-        if (Boolean.TRUE.equals(ConfigFactory.getConfig().getWatermarkStatus())) {
+        if (ConfigFactory.getConfig().getVideo().get("watermarkStatus").equalsIgnoreCase("true")) {
             File waterMark = FileHelper.getWaterMarkFile();
             String command = ffmpegFolderPath + FFMPEG + " -i " + tempFile.getAbsolutePath() +
                 " -i " + waterMark.getAbsolutePath() +

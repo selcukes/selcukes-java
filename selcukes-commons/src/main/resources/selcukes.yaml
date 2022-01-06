@@ -2,19 +2,25 @@
 ---
 projectName: Selcukes
 env: Dev
-browserName: CHROME
-windowId: 30
-headLess: true
-remote: false
 proxy: false
 baseUrl:
-remoteGridUrl:
-videoRecording: false
-ffmpegPath:
-watermarkStatus: false
-recorderType: FFMPEG
-notification: false
+web:
+  remote: false
+  browserName: CHROME
+  headLess: true
+  serviceUrl: "http://127.0.0.1:8080"
+windows:
+  serviceUrl: "http://127.0.0.1:4723"
+  winApp-path: "C:/Program Files (x86)/Windows Application Driver/WinAppDriver.exe"
+mobile:
+  serviceUrl: "http://127.0.0.1:4723"
+video:
+  recording: false
+  recorderType: FFMPEG
+  ffmpegPath:
+  watermarkStatus: false
 notifier:
+  notification: false
   type: slack
   webhook-token: WEBHOOKXXXX
   api-token: APIXXXX

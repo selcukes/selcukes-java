@@ -38,7 +38,7 @@ public class HomePage {
         logger.info(() -> "Navigated to " + url);
         Snapshot snapshot = new SnapshotImpl(driver);
         String screenshotFilePath = snapshot
-            .withText("This sample Text Message\nMake it simple Make it simple Make it simple Make it simple Make it simple")
+            .withText("Browser: " + browser + "\nThis sample Text Message\nMake it simple Make it simple Make it simple Make it simple Make it simple")
             .shootPage();
         logger.info(() -> String.format("Captured full page screenshot for %s browser and placed at %s ",
             browser, screenshotFilePath));

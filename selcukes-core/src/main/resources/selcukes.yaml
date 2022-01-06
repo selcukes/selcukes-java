@@ -18,7 +18,7 @@ mobile:
 video:
   recording: false
   recorderType: FFMPEG
-  ffmpegPath: D:\\MyProject\support\video\ffmpeg\bin\
+  ffmpegPath:
   watermarkStatus: false
 notifier:
   notification: false
@@ -26,4 +26,3 @@ notifier:
   webhook-token: WEBHOOKXXXX
   api-token: APIXXXX
   channel: selcukes
-  authorIcon: https://avatars0.githubusercontent.com/u/2510294?s=400&u=5d6412ba1dd13052992ff66317ae28d007a971d3&v=4
