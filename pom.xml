@@ -48,7 +48,7 @@
         <cucumber.version>7.2.1</cucumber.version>
         <selenium.version>4.1.0</selenium.version>
         <appium.version>8.0.0-beta2</appium.version>
-        <testng.version>7.4.0</testng.version>
+        <testng.version>7.5</testng.version>
 
         <maven-javadoc-plugin.version>3.3.1</maven-javadoc-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
