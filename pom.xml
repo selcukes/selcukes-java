@@ -46,8 +46,8 @@
         <extentreports.version>5.0.9</extentreports.version>
 
         <cucumber.version>7.2.3</cucumber.version>
-        <selenium.version>4.1.2</selenium.version>
-        <appium.version>8.0.0-beta2</appium.version>
+        <selenium.version>4.1.0</selenium.version>
+        <appium.version>8.0.0</appium.version>
         <testng.version>7.5</testng.version>
 
         <maven-javadoc-plugin.version>3.3.2</maven-javadoc-plugin.version>
