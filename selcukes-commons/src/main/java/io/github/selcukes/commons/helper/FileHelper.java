@@ -19,16 +19,19 @@ package io.github.selcukes.commons.helper;
 import io.github.selcukes.commons.exception.SelcukesException;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
+import java.util.Base64;
 import java.util.Objects;
 import java.util.Set;
 
@@ -167,6 +170,14 @@ public class FileHelper {
             throw new SelcukesException("Unable to copy file to local folder  : ", e);
         }
         return waterMarkFile;
+    }
+
+    @SneakyThrows
+    public void createFile(String fileContent, String filePath) {
+        byte[] decodedFile = Base64.getDecoder()
+            .decode(fileContent.getBytes(StandardCharsets.UTF_8));
+        Path destinationFile = Paths.get(filePath);
+        Files.write(destinationFile, decodedFile);
     }
 }
 
