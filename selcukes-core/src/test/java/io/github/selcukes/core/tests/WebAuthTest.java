@@ -1,6 +1,5 @@
 package io.github.selcukes.core.tests;
 
-import io.github.selcukes.core.page.WebPage;
 import lombok.CustomLog;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -15,7 +14,6 @@ public class WebAuthTest extends BaseTest {
 
     @Test
     public void testVirtualAuth() {
-        WebPage page = new WebPage(driver);
         page.open("https://webauthn.io/");
         page.addVirtualAuthenticator();
 
@@ -36,7 +34,6 @@ public class WebAuthTest extends BaseTest {
 
     @Test
     public void testBasicAuth() {
-        WebPage page = new WebPage(driver);
         page.basicAuth("admin", "admin");
         page.open("https://the-internet.herokuapp.com/basic_auth");
     }
