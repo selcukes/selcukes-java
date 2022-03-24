@@ -19,7 +19,7 @@
         <dependency>
             <groupId>io.appium</groupId>
             <artifactId>java-client</artifactId>
-            <scope>provided</scope>
+
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
