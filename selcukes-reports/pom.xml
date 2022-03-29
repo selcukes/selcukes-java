@@ -58,6 +58,12 @@
         <dependency>
             <groupId>net.masterthought</groupId>
             <artifactId>cucumber-reporting</artifactId>
+           <exclusions>
+              <exclusion>
+                 <groupId>com.google.guava</groupId>
+                 <artifactId>guava</artifactId>
+              </exclusion>
+           </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.stephenc.monte</groupId>
