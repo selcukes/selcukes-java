@@ -1,5 +1,4 @@
 /*
- *
  *  Copyright (c) Ramesh Babu Prudhvi.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,26 +12,22 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
 
 package io.github.selcukes.notifier.tests;
 
-import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.notifier.NotifierFactory;
 import org.testng.annotations.Test;
 
 public class NotifierTest {
-    @Test
+    @Test(enabled = false)
     public void testNotifications() {
-        if (Platform.isWindows()) {
-            NotifierFactory.getNotifier()
-                .scenarioName("This is sample scenario")
-                .scenarioStatus("FAILED")
-                .stepDetails("This is sample test step")
-                .errorMessage("NullPointerException")
-                .path("")
-                .pushNotification();
-        }
+        NotifierFactory.getNotifier()
+            .scenarioName("This is sample scenario")
+            .scenarioStatus("FAILED")
+            .stepDetails("This is sample test step")
+            .errorMessage("NullPointerException")
+            .path("")
+            .pushNotification();
     }
 }

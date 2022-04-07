@@ -1,3 +1,19 @@
+/*
+ *  Copyright (c) Ramesh Babu Prudhvi.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
 package io.github.selcukes.core.page;
 
 import io.github.selcukes.commons.helper.FileHelper;
@@ -10,7 +26,7 @@ import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.events.WebDriverListener;
 import org.testng.Assert;
 
-public class WebPage extends WebAuthenticator {
+public class WebPage extends WebAuthenticator implements Page {
     WebDriver driver;
 
     public WebPage(WebDriver driver) {
@@ -18,8 +34,9 @@ public class WebPage extends WebAuthenticator {
         this.driver = driver;
     }
 
-    public void open(String url) {
-        driver.get(url);
+    @Override
+    public WebDriver getDriver() {
+        return driver;
     }
 
     public void enableDriverEvents() {

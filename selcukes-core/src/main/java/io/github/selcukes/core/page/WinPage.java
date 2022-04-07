@@ -14,29 +14,30 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.core.tests;
+package io.github.selcukes.core.page;
 
-import io.github.selcukes.commons.Await;
-import io.github.selcukes.core.page.WebPage;
-import io.github.selcukes.wdb.driver.LocalDriver;
-import io.github.selcukes.wdb.enums.DriverType;
+import io.appium.java_client.AppiumBy;
+import io.appium.java_client.windows.WindowsDriver;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.openqa.selenium.WebElement;
 
-public class BaseTest {
-    WebDriver driver;
-    WebPage page;
+public class WinPage implements Page {
+    private final WindowsDriver driver;
 
-    @BeforeMethod
-    public void setup() {
-        driver = new LocalDriver().createWebDriver(DriverType.CHROME, true);
-        page = new WebPage(driver);
+    public WinPage(WindowsDriver driver) {
+        this.driver = driver;
     }
 
-    @AfterMethod
-    public void teardown(){
-        Await.until(3);
-        driver.quit();
+    @Override
+    public WebDriver getDriver() {
+        return driver;
+    }
+
+    public String read(String name) {
+        return find(name).getText();
+    }
+
+    public WebElement find(String locator) {
+        return getDriver().findElement(new AppiumBy.ByAccessibilityId(locator));
     }
 }

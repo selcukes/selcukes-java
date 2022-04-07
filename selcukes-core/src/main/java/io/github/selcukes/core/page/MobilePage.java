@@ -14,10 +14,20 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.core.enums;
+package io.github.selcukes.core.page;
 
-public enum DeviceType {
-    BROWSER,
-    DESKTOP,
-    MOBILE
+import io.appium.java_client.AppiumDriver;
+import org.openqa.selenium.WebDriver;
+
+public class MobilePage implements Page {
+    private final AppiumDriver driver;
+    public MobilePage(AppiumDriver driver)
+    {
+        this.driver=driver;
+    }
+
+    @Override
+    public WebDriver getDriver() {
+        return driver;
+    }
 }
