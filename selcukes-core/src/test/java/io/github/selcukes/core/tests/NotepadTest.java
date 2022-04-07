@@ -19,6 +19,7 @@ package io.github.selcukes.core.tests;
 import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.enums.DeviceType;
+import io.github.selcukes.core.page.WinPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.Test;
@@ -28,7 +29,8 @@ public class NotepadTest {
     public void notepadTest() {
         DriverManager<RemoteWebDriver> driverManager = new DriverManager<>();
         WindowsDriver driver = (WindowsDriver) driverManager.createDriver(DeviceType.DESKTOP);
-        driver.findElement(By.className("Edit")).sendKeys("This is sample");
+        WinPage page=new WinPage(driver);
+        page.write(By.className("Edit"),"This is sample");
         driverManager.getManager().destroyDriver();
     }
 }

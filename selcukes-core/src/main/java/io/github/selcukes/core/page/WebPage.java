@@ -10,7 +10,7 @@ import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.events.WebDriverListener;
 import org.testng.Assert;
 
-public class WebPage extends WebAuthenticator {
+public class WebPage extends WebAuthenticator implements Page {
     WebDriver driver;
 
     public WebPage(WebDriver driver) {
@@ -18,8 +18,9 @@ public class WebPage extends WebAuthenticator {
         this.driver = driver;
     }
 
-    public void open(String url) {
-        driver.get(url);
+    @Override
+    public WebDriver getDriver() {
+        return driver;
     }
 
     public void enableDriverEvents() {
