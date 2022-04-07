@@ -16,14 +16,25 @@
 
 package io.github.selcukes.core.driver;
 
+import io.github.selcukes.commons.config.ConfigFactory;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
 
+import java.net.URL;
+
 import static org.openqa.selenium.remote.CapabilityType.*;
+
 @UtilityClass
 public class DriverOptions {
     private static final ThreadLocal<MutableCapabilities> threadLocalCapabilities = new InheritableThreadLocal<>();
+
+    @SneakyThrows
+    public static URL getServiceUrl() {
+        String serviceUrl = ConfigFactory.getConfig().getWindows().get("serviceUrl");
+        return new URL(serviceUrl);
+    }
 
     private static void getDefaultOptions() {
         MutableCapabilities capabilities = new MutableCapabilities();
@@ -50,7 +61,7 @@ public class DriverOptions {
         MutableCapabilities capabilities = new MutableCapabilities();
         capabilities.setCapability(PLATFORM_NAME, "Windows");
         capabilities.setCapability("deviceName", "WindowsPC");
-        capabilities.setCapability("app",app);
+        capabilities.setCapability("app", app);
         return capabilities;
     }
 

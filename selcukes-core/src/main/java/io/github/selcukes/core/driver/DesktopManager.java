@@ -35,7 +35,7 @@ public class DesktopManager implements RemoteManager {
         if (null == windowsDriver) {
             startWinAppDriver();
             String app=ConfigFactory.getConfig().getWindows().get("app");
-            windowsDriver = new WindowsDriver(Objects.requireNonNull(getServiceUrl()),
+            windowsDriver = new WindowsDriver(Objects.requireNonNull(DriverOptions.getServiceUrl()),
                 DriverOptions.setCapabilities(app));
         }
         return windowsDriver;
@@ -58,15 +58,5 @@ public class DesktopManager implements RemoteManager {
         winProcess.destroy();
         logger.info(() -> "WinAppDriver killed...");
     }
-
-    public WindowsDriver switchWindow(String name) {
-        WebElement newWindowElement = windowsDriver.findElement(By.name(name));
-        String windowId = newWindowElement.getAttribute("NativeWindowHandle");
-        logger.info(() -> "Window Id: " + windowId + "After: " + Integer.toHexString(Integer.parseInt(windowId)));
-        windowsDriver = new WindowsDriver(getServiceUrl(), DriverOptions.setAppTopLevelWindow(Integer.toHexString(Integer.parseInt(windowId))));
-        windowsDriver.switchTo().activeElement();
-        return windowsDriver;
-    }
-
 
 }
