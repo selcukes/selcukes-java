@@ -16,14 +16,12 @@
 
 package io.github.selcukes.core.page;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface Page {
@@ -44,7 +42,7 @@ public interface Page {
     }
 
     default String read(By by) {
-        return  find(by).getText();
+        return find(by).getText();
     }
 
     default Page write(By by, CharSequence text) {
@@ -77,8 +75,19 @@ public interface Page {
         return new Actions(getDriver());
     }
 
-    default Page switchWindow(String name) {
+    default List<String> getWindows() {
+        return new ArrayList<>(getDriver().getWindowHandles());
+    }
+
+    default Page switchWindow(int index) {
+        getDriver().switchTo().window(getWindows().get(index));
         return this;
+    }
+    default void openNewBrowserWindow() {
+        getDriver().switchTo().newWindow(WindowType.WINDOW);
+    }
+    default void openNewBrowserTab() {
+        getDriver().switchTo().newWindow(WindowType.TAB);
     }
 
     default Page back() {

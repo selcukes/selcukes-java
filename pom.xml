@@ -20,6 +20,7 @@
         <module>selcukes-junit</module>
         <module>selcukes-extent-reports</module>
         <module>selcukes-snapshot</module>
+        <module>selcukes-excel-runner</module>
     </modules>
 
     <name>selcukes-java</name>
