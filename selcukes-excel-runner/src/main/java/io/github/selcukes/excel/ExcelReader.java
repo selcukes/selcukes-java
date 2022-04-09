@@ -56,12 +56,9 @@ public class ExcelReader {
     public List<List<String>> getSheetData(String sheetName) {
         Sheet sheet;
         List<List<String>> outerList;
-
         try {
             sheet = getWorkBookSheet(fileName, sheetName);
             outerList = getSheetData(sheet);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
         } finally {
             this.workbook.close();
         }
