@@ -28,9 +28,9 @@ import java.util.stream.Collectors;
 public class ExcelUtils {
     private static final String RUN = "Run";
     private static final String EXAMPLE = " - Example";
-    protected static Map<String, List<List<String>>> allSheetsTestData = new LinkedHashMap<>();
+    protected static final Map<String, List<List<String>>> allSheetsTestData = new LinkedHashMap<>();
     public static List<String> runScenarios = new ArrayList<>();
-    private static final Map<String, List<List<String>>> allSheetsMap = new LinkedHashMap<>();
+    private static Map<String, List<List<String>>> allSheetsMap = new LinkedHashMap<>();
     private static final Map<String, List<List<String>>> allSheetsModifiedMap = new LinkedHashMap<>();
     private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcelRunner().get("suiteName");
     private static final List<String> IGNORE_SHEETS = new ArrayList<>(
@@ -41,16 +41,13 @@ public class ExcelUtils {
             ConfigFactory.getConfig().getExcelRunner().get("filePath"));
 
         // Store all sheets data
+        allSheetsMap = excelReader.getAllSheets().stream()
+            .collect(Collectors.toMap(Sheet::getSheetName, excelReader::getSheetData));
 
-        for (Sheet sheet : excelReader.getAllSheets()) {
-            allSheetsMap.put(sheet.getSheetName(), excelReader.getSheetData(sheet));
-        }
-        // Replace Empty test name with previous row test name and if it is examples
-        // test added Application row
+        // Replace Empty test name with previous row test name and if it is examples test then add Example row
         allSheetsMap.keySet().forEach(sheet -> allSheetsTestData.put(sheet, modifySheetFirstColumn(sheet)));
 
-        if (IGNORE_SHEETS.contains(TEST_SUITE_RUNNER_SHEET))
-            IGNORE_SHEETS.remove(TEST_SUITE_RUNNER_SHEET);
+        IGNORE_SHEETS.remove(TEST_SUITE_RUNNER_SHEET);
 
         logger.debug(() -> "Using excel runner sheet : " + TEST_SUITE_RUNNER_SHEET);
 

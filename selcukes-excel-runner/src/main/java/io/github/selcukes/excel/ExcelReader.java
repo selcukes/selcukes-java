@@ -51,7 +51,6 @@ public class ExcelReader {
             .collect(Collectors.toList());
     }
 
-
     public List<String> getRowData(Row row) {
         DataFormatter df = new DataFormatter();
         FormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
