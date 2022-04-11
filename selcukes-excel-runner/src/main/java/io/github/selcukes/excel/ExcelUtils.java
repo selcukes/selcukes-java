@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @CustomLog
 public class ExcelUtils {
     private static final String RUN = "Run";
-    private static final String NAME_SEPARATOR = "::";
+    protected static final String NAME_SEPARATOR = "::";
     private static final String HYPHEN = " - ";
     private static final String EXAMPLE = " - Example";
     protected static final Map<String, List<List<String>>> allSheetsTestData = new LinkedHashMap<>();

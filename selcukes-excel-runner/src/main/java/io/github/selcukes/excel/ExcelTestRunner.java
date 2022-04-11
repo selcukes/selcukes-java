@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
 public class ExcelTestRunner extends SelcukesTestNGRunner {
     @Override
     public Object[][] filter(Object[][] scenarios, Predicate<Pickle> accept) {
-        List<String> excelSuiteScenarios = ExcelUtils.runScenarios;
-        excelSuiteScenarios = excelSuiteScenarios.stream().map(s -> s.split("::")[1]).collect(Collectors.toList());
+        List<String> excelSuiteScenarios = ExcelUtils.runScenarios.stream()
+            .map(s -> s.split(ExcelUtils.NAME_SEPARATOR)[1]).collect(Collectors.toList());
 
         Object[][] scenarios1 = super.filter(scenarios, accept);
         List<Object[]> allScenarios = Arrays.asList(scenarios1);
