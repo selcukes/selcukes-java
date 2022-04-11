@@ -16,15 +16,13 @@
 
 package io.github.selcukes.excel;
 
+import io.github.selcukes.commons.helper.CollectionUtils;
 import lombok.SneakyThrows;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
 import java.util.List;
-import java.util.Spliterator;
-import java.util.Spliterators;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 public class ExcelReader {
     private final Workbook workbook;
@@ -39,23 +37,20 @@ public class ExcelReader {
     }
 
     public List<Sheet> getAllSheets() {
-        return StreamSupport.stream(
-                Spliterators.spliteratorUnknownSize(workbook.iterator(), Spliterator.ORDERED), false)
+        return CollectionUtils.toStream(workbook.iterator())
             .collect(Collectors.toList());
     }
 
     public List<List<String>> getSheetData(Sheet sheet) {
-        return StreamSupport.stream(
-                Spliterators.spliteratorUnknownSize(sheet.iterator(), Spliterator.ORDERED), false)
+        return CollectionUtils.toStream(sheet.iterator())
             .map(this::getRowData)
             .collect(Collectors.toList());
     }
 
-    public List<String> getRowData(Row row) {
+    private List<String> getRowData(Row row) {
         DataFormatter df = new DataFormatter();
         FormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
-        return StreamSupport
-            .stream(Spliterators.spliteratorUnknownSize(row.iterator(), Spliterator.ORDERED), false)
+        return CollectionUtils.toStream(row.iterator())
             .map(cell -> {
                 if (cell == null) {
                     return "";
@@ -66,5 +61,7 @@ public class ExcelReader {
                 }
             }).collect(Collectors.toList());
     }
+
+
 }
 
