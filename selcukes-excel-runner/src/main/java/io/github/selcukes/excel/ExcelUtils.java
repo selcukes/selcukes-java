@@ -27,6 +27,8 @@ import java.util.stream.Collectors;
 @CustomLog
 public class ExcelUtils {
     private static final String RUN = "Run";
+    private static final String NAME_SEPARATOR = "::";
+    private static final String HYPHEN = " - ";
     private static final String EXAMPLE = " - Example";
     protected static final Map<String, List<List<String>>> allSheetsTestData = new LinkedHashMap<>();
     public static List<String> runScenarios = new ArrayList<>();
@@ -64,7 +66,7 @@ public class ExcelUtils {
 
         // Stores FeatureName::Tests from master sheet
         List<String> masterList = allSheetsModifiedMap.get(TEST_SUITE_RUNNER_SHEET).stream()
-            .map(row -> row.get(1) + "::" + row.get(2)).collect(Collectors.toList());
+            .map(row -> row.get(1) + NAME_SEPARATOR + row.get(2)).collect(Collectors.toList());
 
         if (TEST_SUITE_RUNNER_SHEET.equalsIgnoreCase("Master")) {
             allSheetsModifiedMap.keySet().stream().skip(1).forEach(
@@ -99,12 +101,12 @@ public class ExcelUtils {
     }
 
     private static String getTestSheetName(String testName) {
-        String tests = testName.split("::")[1];
+        String tests = testName.split(NAME_SEPARATOR)[1];
 
         List<List<String>> masterSheetList = allSheetsTestData.get(TEST_SUITE_RUNNER_SHEET);
         int index = getColumnData(masterSheetList, 2).indexOf(tests);
         if (index < 0) {
-            int i = tests.lastIndexOf("-");
+            int i = tests.lastIndexOf(HYPHEN.trim());
             if (i > 0 && tests.substring(i).trim().startsWith(EXAMPLE.trim())) {
                 tests = tests.substring(0, i - 1);
             }
@@ -136,9 +138,9 @@ public class ExcelUtils {
                 String newTestName;
                 if (!sheetName.equalsIgnoreCase(TEST_SUITE_RUNNER_SHEET)) {
                     if (!sheetDataList.get(i - 1).get(0).startsWith(testName + EXAMPLE)) {
-                        sheetDataList.get(i - 1).set(0, testName + " - " + sheetDataList.get(i - 1).get(1));
+                        sheetDataList.get(i - 1).set(0, testName + HYPHEN + sheetDataList.get(i - 1).get(1));
                     }
-                    newTestName = testName + " - " + sheetDataList.get(i).get(1);
+                    newTestName = testName + HYPHEN + sheetDataList.get(i).get(1);
                 } else
                     newTestName = testName;
                 sheetDataList.get(i).set(0, newTestName);
