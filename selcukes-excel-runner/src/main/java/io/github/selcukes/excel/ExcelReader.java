@@ -20,17 +20,17 @@ import lombok.SneakyThrows;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class ExcelReader {
-
-    private final String fileName;
-    private Workbook workbook;
+    private final Workbook workbook;
 
     public ExcelReader(String fileName) {
-        this.fileName = fileName;
+        this.workbook = getWorkBook(fileName);
     }
 
     @SneakyThrows
@@ -38,62 +38,34 @@ public class ExcelReader {
         return WorkbookFactory.create(new File(filePath));
     }
 
-    private Sheet getWorkBookSheet(String fileName, String sheetName) {
-        this.workbook = getWorkBook(fileName);
-        return this.workbook.getSheet(sheetName);
-    }
-
     public List<Sheet> getAllSheets() {
-        List<Sheet> sheetNames = new ArrayList<>();
-        this.workbook = getWorkBook(fileName);
-        for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
-            sheetNames.add(workbook.getSheetAt(i));
-        }
-        return sheetNames;
-    }
-
-    @SneakyThrows
-    public List<List<String>> getSheetData(String sheetName) {
-        Sheet sheet;
-        List<List<String>> outerList;
-        try {
-            sheet = getWorkBookSheet(fileName, sheetName);
-            outerList = getSheetData(sheet);
-        } finally {
-            this.workbook.close();
-        }
-        return outerList;
+        return StreamSupport.stream(
+                Spliterators.spliteratorUnknownSize(workbook.iterator(), Spliterator.ORDERED), false)
+            .collect(Collectors.toList());
     }
 
     public List<List<String>> getSheetData(Sheet sheet) {
-        List<List<String>> outerList = new LinkedList<>();
-        prepareOuterList(sheet, outerList);
-        return outerList;
+        return StreamSupport.stream(
+                Spliterators.spliteratorUnknownSize(sheet.iterator(), Spliterator.ORDERED), false)
+            .map(this::getRowData)
+            .collect(Collectors.toList());
     }
 
-    private void prepareOuterList(Sheet sheet, List<List<String>> outerList) {
 
-        for (int i = sheet.getFirstRowNum(); i <= sheet.getLastRowNum(); i++) {
-            List<String> innerList = new LinkedList<>();
-            Row row = sheet.getRow(i);
-            for (int j = sheet.getRow(0).getFirstCellNum(); j < sheet.getRow(0).getLastCellNum(); j++) {
-                prepareInnerList(innerList, row, j);
-            }
-            outerList.add(innerList);
-        }
-    }
-
-    private void prepareInnerList(List<String> innerList, Row row, int j) {
-        Cell cell = row.getCell(j);
+    public List<String> getRowData(Row row) {
         DataFormatter df = new DataFormatter();
-        if (cell == null) {
-            innerList.add("");
-        } else if (cell.getCellType().equals(CellType.FORMULA)) {
-            FormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
-            innerList.add(df.formatCellValue(cell, formulaEvaluator));
-        } else {
-            innerList.add(df.formatCellValue(cell));
-        }
+        FormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
+        return StreamSupport
+            .stream(Spliterators.spliteratorUnknownSize(row.iterator(), Spliterator.ORDERED), false)
+            .map(cell -> {
+                if (cell == null) {
+                    return "";
+                } else if (cell.getCellType().equals(CellType.FORMULA)) {
+                    return df.formatCellValue(cell, formulaEvaluator);
+                } else {
+                    return df.formatCellValue(cell);
+                }
+            }).collect(Collectors.toList());
     }
 }
 
