@@ -18,7 +18,6 @@ package io.github.selcukes.excel;
 
 import io.cucumber.testng.Pickle;
 import io.github.selcukes.testng.SelcukesTestNGRunner;
-import org.testng.annotations.DataProvider;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,25 +26,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class ExcelTestRunner extends SelcukesTestNGRunner {
-
-    @DataProvider
-    public Object[][] serialScenarios() {
-        if (testNGCucumberRunner == null) {
-            return new Object[0][0];
-        }
-
-        return filterScenarios(testNGCucumberRunner.provideScenarios(), isParallel.negate());
-    }
-
-    @DataProvider(parallel = true)
-    public Object[][] parallelScenarios() {
-        if (testNGCucumberRunner == null) {
-            return new Object[0][0];
-        }
-        return filterScenarios(testNGCucumberRunner.provideScenarios(), isParallel);
-    }
-
-    public Object[][] filterScenarios(Object[][] scenarios, Predicate<Pickle> accept) {
+    @Override
+    public Object[][] filter(Object[][] scenarios, Predicate<Pickle> accept) {
         List<String> excelSuiteScenarios = ExcelUtils.runScenarios;
         excelSuiteScenarios = excelSuiteScenarios.stream().map(s -> s.split("::")[1]).collect(Collectors.toList());
 
