@@ -33,7 +33,7 @@ public class ExcelUtils {
     protected static final Map<String, List<List<String>>> allSheetsTestData = new LinkedHashMap<>();
     public static List<String> runScenarios = new ArrayList<>();
     private static Map<String, List<List<String>>> allSheetsMap = new LinkedHashMap<>();
-    private static final Map<String, List<List<String>>> allSheetsModifiedMap = new LinkedHashMap<>();
+    private static Map<String, List<List<String>>> allSheetsModifiedMap = new LinkedHashMap<>();
     private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcelRunner().get("suiteName");
     private static final List<String> IGNORE_SHEETS = new ArrayList<>(
         Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
@@ -54,15 +54,12 @@ public class ExcelUtils {
         logger.debug(() -> "Using excel runner sheet : " + TEST_SUITE_RUNNER_SHEET);
 
         // Filter runOnly Tests
-        allSheetsTestData.keySet().stream().filter(s -> !IGNORE_SHEETS.contains(s))
-            .forEach(sheet -> allSheetsModifiedMap.put(sheet, allSheetsTestData.get(sheet).stream().skip(1).map(
-                row -> {
+        allSheetsModifiedMap = allSheetsTestData.keySet().stream().filter(s -> !IGNORE_SHEETS.contains(s))
+            .collect(Collectors.toMap(sheet -> sheet, sheet -> allSheetsTestData.get(sheet).stream().skip(1)
+                .filter(row -> {
                     int exeStatus = allSheetsTestData.get(sheet).get(0).indexOf(RUN);
-                    if (row.get(exeStatus).equalsIgnoreCase("yes")) {
-                        return row;
-                    }
-                    return null;
-                }).filter(Objects::nonNull).collect(Collectors.toList())));
+                    return row.get(exeStatus).equalsIgnoreCase("yes");
+                }).collect(Collectors.toList())));
 
         // Stores FeatureName::Tests from master sheet
         List<String> masterList = allSheetsModifiedMap.get(TEST_SUITE_RUNNER_SHEET).stream()
