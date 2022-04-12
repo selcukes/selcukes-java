@@ -43,7 +43,7 @@ public class WebDriverBinaryTest {
     public void chromeDriverTest() {
         BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().targetPath("temp").setup();
         String binProp = binaryInfo.getBinaryProperty();
-        assertEquals("webdriver.chrome.driver", binProp);
+        assertEquals(binProp, "webdriver.chrome.driver");
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
     }
 
@@ -51,7 +51,7 @@ public class WebDriverBinaryTest {
     public void firefoxDriverTest() {
         BinaryInfo binaryInfo = WebDriverBinary.firefoxDriver().targetPath("temp").version("v0.26.0").arch64().setup();
         String binProp = binaryInfo.getBinaryProperty();
-        assertEquals("webdriver.gecko.driver", binProp);
+        assertEquals(binProp, "webdriver.gecko.driver");
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
     }
 
@@ -59,7 +59,7 @@ public class WebDriverBinaryTest {
     public void ieDriverTest() {
         BinaryInfo binaryInfo = WebDriverBinary.ieDriver().targetPath("temp").arch32().setup();
         String binProp = binaryInfo.getBinaryProperty();
-        assertEquals("webdriver.ie.driver", binProp);
+        assertEquals(binProp, "webdriver.ie.driver");
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
     }
 
@@ -68,7 +68,7 @@ public class WebDriverBinaryTest {
 
         BinaryInfo binaryInfo = WebDriverBinary.edgeDriver().targetPath("temp").setup();
         String binProp = binaryInfo.getBinaryProperty();
-        assertEquals("webdriver.edge.driver", binProp);
+        assertEquals(binProp, "webdriver.edge.driver");
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
     }
 
@@ -77,7 +77,7 @@ public class WebDriverBinaryTest {
 
         BinaryInfo binaryInfo = WebDriverBinary.operaDriver().targetPath("temp").setup();
         String binProp = binaryInfo.getBinaryProperty();
-        assertEquals("webdriver.opera.driver", binProp);
+        assertEquals(binProp, "webdriver.opera.driver");
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
     }
 
