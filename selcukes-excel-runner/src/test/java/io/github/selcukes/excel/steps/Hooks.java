@@ -16,29 +16,21 @@
 
 package io.github.selcukes.excel.steps;
 
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import io.github.selcukes.excel.ExcelUtils;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 
-public class MySteps {
-    @Given("I open {} page")
-    public void iOpenGooglePage(String page) {
-        ExcelUtils.getTestDataAsMap(Hooks.testName.get())
-            .forEach((k,v)-> System.out.printf("Key: [%s] Values: [%s]%n",k,v));
+public class Hooks {
+    public static ThreadLocal<String> testName = new InheritableThreadLocal<>();
 
+    @Before
+    public void beforeTest(Scenario scenario) {
+        String test = getFeatureName(scenario) + "::" + scenario.getName();
+        testName.set(test);
     }
 
-    @Then("I see {string} in the title")
-    public void iSeeInTheTitle(String page) {
-
-    }
-
-    @Given("I kinda open {} page")
-    public void iKindaOpenGooglePage(String page) {
-
-    }
-
-    @Then("I am very happy")
-    public void iAmVeryHappy() {
+    public static String getFeatureName(Scenario scenario) {
+        String featureName = scenario.getUri().getPath();
+        featureName = featureName.substring(featureName.lastIndexOf("/") + 1, featureName.indexOf("."));
+        return featureName;
     }
 }
