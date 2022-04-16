@@ -45,6 +45,8 @@
         <cucumber-reporting.version>5.7.0</cucumber-reporting.version>
         <recorder.version>0.7.7.0</recorder.version>
         <extentreports.version>5.0.9</extentreports.version>
+        <poi.version>5.2.2</poi.version>
+        <slfj4.version>2.17.2</slfj4.version>
 
         <cucumber.version>7.2.3</cucumber.version>
         <selenium.version>4.1.3</selenium.version>
@@ -218,6 +220,16 @@
                 <artifactId>extentreports</artifactId>
                 <version>${extentreports.version}</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-slf4j-impl</artifactId>
+                <version>${slfj4.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

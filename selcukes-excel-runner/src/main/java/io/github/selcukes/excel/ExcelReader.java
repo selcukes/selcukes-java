@@ -16,8 +16,8 @@
 
 package io.github.selcukes.excel;
 
+import io.github.selcukes.commons.exception.ExcelConfigException;
 import io.github.selcukes.commons.helper.CollectionUtils;
-import lombok.SneakyThrows;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
@@ -31,9 +31,12 @@ public class ExcelReader {
         this.workbook = getWorkBook(fileName);
     }
 
-    @SneakyThrows
     private Workbook getWorkBook(String filePath) {
-        return WorkbookFactory.create(new File(filePath));
+        try (Workbook wb = WorkbookFactory.create(new File(filePath))) {
+            return wb;
+        } catch (Exception e) {
+            throw new ExcelConfigException("Failed reading excel file : " + filePath);
+        }
     }
 
     public List<Sheet> getAllSheets() {
