@@ -18,27 +18,36 @@ package io.github.selcukes.excel.steps;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import io.github.selcukes.excel.ExcelUtils;
+import io.github.selcukes.excel.page.CommonPage;
+import lombok.CustomLog;
 
+@CustomLog
 public class MySteps {
+    private final CommonPage commonPage;
+
+    public MySteps(CommonPage commonPage) {
+        this.commonPage = commonPage;
+    }
+
     @Given("I open {} page")
-    public void iOpenGooglePage(String page) {
-        ExcelUtils.getTestDataAsMap(Hooks.testName.get())
-            .forEach((k,v)-> System.out.printf("Key: [%s] Values: [%s]%n",k,v));
+    public void openPage(String page) {
+        logger.info(() -> page);
 
     }
 
     @Then("I see {string} in the title")
-    public void iSeeInTheTitle(String page) {
-
+    public void title(String page) {
+        logger.info(() -> page);
     }
 
     @Given("I kinda open {} page")
-    public void iKindaOpenGooglePage(String page) {
-
+    public void kinda(String page) {
+        logger.info(() -> page);
     }
 
     @Then("I am very happy")
-    public void iAmVeryHappy() {
+    public void happy() {
+        commonPage.getScenarioData()
+            .forEach((k, v) -> logger.info(() -> String.format("Key: [%s] Values: [%s]%n", k, v)));
     }
 }

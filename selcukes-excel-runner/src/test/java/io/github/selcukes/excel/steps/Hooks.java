@@ -16,6 +16,7 @@
 
 package io.github.selcukes.excel.steps;
 
+import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 
@@ -26,6 +27,11 @@ public class Hooks {
     public void beforeTest(Scenario scenario) {
         String test = getFeatureName(scenario) + "::" + scenario.getName();
         testName.set(test);
+    }
+
+    @After
+    public void afterTest(Scenario scenario) {
+        testName.remove();
     }
 
     public static String getFeatureName(Scenario scenario) {
