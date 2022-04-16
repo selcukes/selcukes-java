@@ -35,7 +35,7 @@ public class ExcelTestRunner extends SelcukesTestNGRunner {
         List<Object[]> allScenarios = Arrays.asList(scenarios1);
         List<Object[]> modifiedList = excelSuiteScenarios.stream()
             .map(excelScenario -> allScenarios.stream()
-                .filter(a -> a[0].toString().replaceAll("\"", "").equalsIgnoreCase(excelScenario)).findAny())
+                .filter(a -> a[0].toString().replace("\"", "").equalsIgnoreCase(excelScenario)).findAny())
             .filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
 
         return modifiedList.toArray(Object[][]::new);

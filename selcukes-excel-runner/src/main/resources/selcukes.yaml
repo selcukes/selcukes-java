@@ -5,7 +5,7 @@ env: Dev
 proxy: false
 baseUrl:
 excelRunner:
-  filePath: "E:/workspace/selcukes-excel-runner/src/test/resources/TestData.xlsx"
+  fileName: "TestData.xlsx"
   suiteName: "Smoke"
 web:
   remote: false

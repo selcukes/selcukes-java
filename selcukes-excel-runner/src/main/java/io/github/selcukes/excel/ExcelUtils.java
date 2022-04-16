@@ -19,45 +19,46 @@ package io.github.selcukes.excel;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ExcelConfigException;
 import lombok.CustomLog;
+import lombok.experimental.UtilityClass;
 import org.apache.poi.ss.usermodel.Sheet;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@UtilityClass
 @CustomLog
 public class ExcelUtils {
     private static final String RUN = "Run";
-    protected static final String NAME_SEPARATOR = "::";
+    static final String NAME_SEPARATOR = "::";
     private static final String HYPHEN = " - ";
     private static final String EXAMPLE = " - Example";
-    protected static final Map<String, List<List<String>>> allSheetsTestData = new LinkedHashMap<>();
-    public static List<String> runScenarios = new ArrayList<>();
+    private static final Map<String, List<List<String>>> allSheetsDataMap = new LinkedHashMap<>();
     private static Map<String, List<List<String>>> allSheetsMap = new LinkedHashMap<>();
-    private static Map<String, List<List<String>>> allSheetsModifiedMap = new LinkedHashMap<>();
+    public static final List<String> runScenarios = new ArrayList<>();
     private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcelRunner().get("suiteName");
     private static final List<String> IGNORE_SHEETS = new ArrayList<>(
         Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
 
     public static void initTestRunner() {
         ExcelReader excelReader = new ExcelReader(
-            ConfigFactory.getConfig().getExcelRunner().get("filePath"));
+            ConfigFactory.getConfig().getExcelRunner().get("fileName"));
 
         // Store all sheets data
         allSheetsMap = excelReader.getAllSheets().stream()
             .collect(Collectors.toMap(Sheet::getSheetName, excelReader::getSheetData));
 
         // Replace Empty test name with previous row test name and if it is examples test then add Example row
-        allSheetsMap.keySet().forEach(sheet -> allSheetsTestData.put(sheet, modifySheetFirstColumn(sheet)));
+        allSheetsMap.keySet().forEach(sheet -> allSheetsDataMap.put(sheet, modifySheetFirstColumn(sheet)));
 
         IGNORE_SHEETS.remove(TEST_SUITE_RUNNER_SHEET);
 
         logger.debug(() -> "Using excel runner sheet : " + TEST_SUITE_RUNNER_SHEET);
 
         // Filter runOnly Tests
-        allSheetsModifiedMap = allSheetsTestData.keySet().stream().filter(s -> !IGNORE_SHEETS.contains(s))
-            .collect(Collectors.toMap(sheet -> sheet, sheet -> allSheetsTestData.get(sheet).stream().skip(1)
+        Map<String, List<List<String>>> allSheetsModifiedMap = allSheetsDataMap.keySet().stream().filter(s -> !IGNORE_SHEETS.contains(s))
+            .collect(Collectors.toMap(sheet -> sheet, sheet -> allSheetsDataMap.get(sheet).stream().skip(1)
                 .filter(row -> {
-                    int exeStatus = allSheetsTestData.get(sheet).get(0).indexOf(RUN);
+                    int exeStatus = allSheetsDataMap.get(sheet).get(0).indexOf(RUN);
                     return row.get(exeStatus).equalsIgnoreCase("yes");
                 }).collect(Collectors.toList())));
 
@@ -79,7 +80,7 @@ public class ExcelUtils {
         String testSheetName = getTestSheetName(testName);
         logger.debug(() -> "TestSheetName:" + testSheetName);
 
-        List<List<String>> listRow = allSheetsTestData.get(testSheetName);
+        List<List<String>> listRow = allSheetsDataMap.get(testSheetName);
         int testRowIndex = getColumnData(listRow, 0).indexOf(testName);
         Map<String, String> testDataRowMap = new LinkedHashMap<>();
         if (testRowIndex < 0) {
@@ -87,7 +88,7 @@ public class ExcelUtils {
         }
         for (int i = 0; i < getRowData(listRow, 0).size(); i++) {
             // Adding Key as Column Header and Value as Test Data Row value
-            testDataRowMap.put(getRowData(allSheetsTestData.get(testSheetName), 0).get(i),
+            testDataRowMap.put(getRowData(allSheetsDataMap.get(testSheetName), 0).get(i),
                 getRowData(listRow, testRowIndex).get(i));
         }
         return testDataRowMap;
@@ -100,7 +101,7 @@ public class ExcelUtils {
     private static String getTestSheetName(String testName) {
         String tests = testName.split(NAME_SEPARATOR)[1];
 
-        List<List<String>> masterSheetList = allSheetsTestData.get(TEST_SUITE_RUNNER_SHEET);
+        List<List<String>> masterSheetList = allSheetsDataMap.get(TEST_SUITE_RUNNER_SHEET);
         int index = getColumnData(masterSheetList, 2).indexOf(tests);
         if (index < 0) {
             int i = tests.lastIndexOf(HYPHEN.trim());

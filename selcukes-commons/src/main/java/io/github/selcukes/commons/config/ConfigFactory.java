@@ -55,7 +55,7 @@ public class ConfigFactory {
         }
     }
 
-    private static InputStream getStream(final String propertiesFile) {
+    public static InputStream getStream(final String propertiesFile) {
         try {
             LOGGER.config(() -> String.format("Attempting to read %s as resource.", propertiesFile));
             InputStream stream = FileHelper.loadThreadResourceAsStream(propertiesFile);

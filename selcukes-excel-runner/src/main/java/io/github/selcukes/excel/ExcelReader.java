@@ -16,12 +16,13 @@
 
 package io.github.selcukes.excel;
 
+import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ExcelConfigException;
 import io.github.selcukes.commons.helper.CollectionUtils;
 import org.apache.poi.ss.usermodel.*;
 
-import java.io.File;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ExcelReader {
@@ -31,11 +32,11 @@ public class ExcelReader {
         this.workbook = getWorkBook(fileName);
     }
 
-    private Workbook getWorkBook(String filePath) {
-        try (Workbook wb = WorkbookFactory.create(new File(filePath))) {
+    private Workbook getWorkBook(String fileName) {
+        try (Workbook wb = WorkbookFactory.create(Objects.requireNonNull(ConfigFactory.getStream(fileName)))) {
             return wb;
         } catch (Exception e) {
-            throw new ExcelConfigException("Failed reading excel file : " + filePath);
+            throw new ExcelConfigException("Failed reading excel file : " + fileName);
         }
     }
 
