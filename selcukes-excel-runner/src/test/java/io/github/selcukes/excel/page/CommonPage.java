@@ -14,9 +14,17 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.extent.report.tests;
-import io.github.selcukes.testng.SelcukesTestNGRunner;
+package io.github.selcukes.excel.page;
 
-public class TestRunner extends SelcukesTestNGRunner {
+import io.github.selcukes.excel.ExcelUtils;
+import io.github.selcukes.excel.steps.Hooks;
 
+import java.util.Map;
+
+public class CommonPage {
+
+    public Map<String,String> getScenarioData()
+    {
+        return ExcelUtils.getTestDataAsMap(Hooks.testName.get());
+    }
 }

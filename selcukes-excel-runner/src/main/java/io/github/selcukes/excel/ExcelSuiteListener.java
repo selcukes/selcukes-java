@@ -14,9 +14,14 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.extent.report.tests;
-import io.github.selcukes.testng.SelcukesTestNGRunner;
+package io.github.selcukes.excel;
 
-public class TestRunner extends SelcukesTestNGRunner {
+import org.testng.ISuite;
+import org.testng.ISuiteListener;
 
+public class ExcelSuiteListener implements ISuiteListener {
+    @Override
+    public void onStart(ISuite suite) {
+        ExcelUtils.initTestRunner();
+    }
 }

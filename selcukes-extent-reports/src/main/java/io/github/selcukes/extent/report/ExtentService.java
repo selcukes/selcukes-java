@@ -47,12 +47,6 @@ public class ExtentService implements Serializable {
         return sys == null ? (properties == null ? null : properties.get(key)) : sys;
     }
 
-
-    @SuppressWarnings("unused")
-    private ExtentReports readResolve() {
-        return ExtentReportsLoader.INSTANCE;
-    }
-
     private static class ExtentReportsLoader {
         private static final String THUMBNAIL_REPORT = "thumbnail.report";
         private static final String TIMESTAMP_REPORT = "timestamp.report";

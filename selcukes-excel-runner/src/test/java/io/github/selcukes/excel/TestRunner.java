@@ -14,9 +14,7 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.extent.report.tests;
-import io.github.selcukes.testng.SelcukesTestNGRunner;
+package io.github.selcukes.excel;
 
-public class TestRunner extends SelcukesTestNGRunner {
-
+public class TestRunner extends ExcelTestRunner {
 }

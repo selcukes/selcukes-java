@@ -5,8 +5,8 @@ env: Dev
 proxy: false
 baseUrl:
 excelRunner:
-  filePath: ""
-  suiteName: "smoke"
+  fileName: "TestData.xlsx"
+  suiteName: "Smoke"
 web:
   remote: false
   browserName: CHROME

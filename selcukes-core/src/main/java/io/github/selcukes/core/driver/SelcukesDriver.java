@@ -14,9 +14,17 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.extent.report.tests;
-import io.github.selcukes.testng.SelcukesTestNGRunner;
+package io.github.selcukes.core.driver;
 
-public class TestRunner extends SelcukesTestNGRunner {
+import io.github.selcukes.wdb.enums.DriverType;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
+public class SelcukesDriver {
+    public WebDriver createDriver(DriverType driverType, boolean remote, boolean headless) {
+        BrowserOptions options = new BrowserOptions();
+        return RemoteWebDriver.builder()
+            .oneOf(options.getBrowserOptions(driverType))
+            .build();
+    }
 }

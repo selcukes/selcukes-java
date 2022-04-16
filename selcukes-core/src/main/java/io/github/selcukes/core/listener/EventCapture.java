@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 
 @CustomLog
 public class EventCapture implements WebDriverListener {
-    public static final String FIELD_ATTRIBUTE = "placeholder";
+    public static String FIELD_ATTRIBUTE = "placeholder";
 
     private static String getLocatorFromElement(WebElement element) {
         String eleText = element.toString();
