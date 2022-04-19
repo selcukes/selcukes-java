@@ -32,8 +32,8 @@ public class UrlHelper {
     public static final String OPERA_DRIVER_URL = "https://github.com/operasoftware/operachromiumdriver/releases/download";
     public static final String OPERA_DRIVER_LATEST_RELEASE_URL = "https://github.com/operasoftware/operachromiumdriver/releases/latest";
 
-    public static final String SELENIUM_SERVER_URL = "https://selenium-release.storage.googleapis.com";
-    public static final String SELENIUM_SERVER_LATEST_RELEASE_URL = "https://selenium-release.storage.googleapis.com";
+    public static final String SELENIUM_SERVER_URL = "https://github.com/SeleniumHQ/selenium/releases/download";
+    public static final String SELENIUM_SERVER_LATEST_RELEASE_URL = "https://github.com/SeleniumHQ/selenium/releases/latest";
 
     private UrlHelper() {
 
