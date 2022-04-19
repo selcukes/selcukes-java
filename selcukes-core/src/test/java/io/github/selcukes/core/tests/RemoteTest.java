@@ -17,16 +17,17 @@
 package io.github.selcukes.core.tests;
 
 import io.github.selcukes.wdb.WebDriverBinary;
+import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.grid.Main;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class RemoteTest {
@@ -38,8 +39,9 @@ public class RemoteTest {
         Main.main(new String[]{"standalone", "--port", "4444"});
     }
 
+    @SneakyThrows
     @BeforeTest
-    void setupTest() throws MalformedURLException {
+    void setupTest(){
         driver=new RemoteWebDriver(new URL("http://localhost:4444"), new ChromeOptions());
 
     }
@@ -47,11 +49,11 @@ public class RemoteTest {
     @Test
     public void remoteTest() {
         driver.get("https://www.google.com/");
+        Assert.assertEquals(driver.getTitle(),"Google");
     }
 
     @AfterTest
     void teardown() {
-
         driver.quit();
     }
 }
