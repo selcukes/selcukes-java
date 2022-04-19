@@ -36,6 +36,7 @@ import io.cucumber.plugin.event.TestRunFinished;
 import io.cucumber.plugin.event.TestStepFinished;
 import io.cucumber.plugin.event.TestStepStarted;
 import io.cucumber.plugin.event.*;
+import io.github.selcukes.commons.helper.CollectionUtils;
 import lombok.SneakyThrows;
 
 import java.net.URI;
@@ -347,10 +348,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     }
 
     private String[][] createDataTableList(DataTableArgument dataTable) {
-        List<List<String>> cells = dataTable.cells();
-        return cells.stream()
-            .map(row -> row.toArray(String[]::new))
-            .toArray(String[][]::new);
+        return CollectionUtils.toArray(dataTable.cells());
     }
 
 }

@@ -38,7 +38,7 @@ public class CollectionUtils {
 
     public Map<String, String> toMap(List<String> keys, List<String> values) {
         return IntStream.range(0, keys.size()).boxed()
-            .filter(i -> isNullOrEmpty(keys.get(i))).collect(Collectors.toMap(keys::get, values::get));
+            .filter(i -> !isNullOrEmpty(keys.get(i))).collect(Collectors.toMap(keys::get, values::get));
     }
 
     public List<String> trim(List<String> list) {

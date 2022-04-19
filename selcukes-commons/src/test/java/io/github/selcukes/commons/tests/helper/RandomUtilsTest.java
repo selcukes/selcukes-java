@@ -1,5 +1,4 @@
 /*
- *
  *  Copyright (c) Ramesh Babu Prudhvi.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,21 +12,23 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
 
-package io.github.selcukes.commons.tests;
+package io.github.selcukes.commons.tests.helper;
 
-import io.github.selcukes.commons.helper.Preconditions;
+import io.github.selcukes.commons.helper.RandomUtils;
+import io.github.selcukes.commons.logging.Logger;
+import io.github.selcukes.commons.logging.LoggerFactory;
 import org.testng.annotations.Test;
 
-public class PreconditionsTest {
+public class RandomUtilsTest {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void checkArgAndThrowsException() {
-        int age = -18;
-        String message = "Age can't be zero or less than zero.";
-        Preconditions.checkArgument(age > 0, message);
+    @Test
+    public void randomTest() {
+        logger.info(() -> RandomUtils.randomAscii(10));
+        logger.info(() -> RandomUtils.randomNumeric(10));
+        logger.info(() -> RandomUtils.randomAlphabetic(10));
+        logger.info(() -> RandomUtils.randomAlphaNumeric(10));
     }
-
 }

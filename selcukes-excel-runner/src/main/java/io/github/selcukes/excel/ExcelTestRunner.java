@@ -18,6 +18,7 @@ package io.github.selcukes.excel;
 
 import io.cucumber.testng.Pickle;
 import io.github.selcukes.testng.SelcukesTestNGRunner;
+import lombok.CustomLog;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,20 +26,29 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static io.github.selcukes.excel.ExcelUtils.NAME_SEPARATOR;
+import static io.github.selcukes.excel.ExcelUtils.runScenarios;
+
+@CustomLog
 public class ExcelTestRunner extends SelcukesTestNGRunner {
     @Override
     public Object[][] filter(Object[][] scenarios, Predicate<Pickle> accept) {
-        List<String> excelSuiteScenarios = ExcelUtils.runScenarios.stream()
-            .map(s -> s.split(ExcelUtils.NAME_SEPARATOR)[1]).collect(Collectors.toList());
+        Object[][] filteredScenarios = super.filter(scenarios, accept);
+        if (runScenarios.isEmpty()) {
+            logger.info(() -> "No scenario is selected to execute.");
+            return filteredScenarios;
+        } else {
+            List<String> excelSuiteScenarios = runScenarios.stream()
+                .map(s -> s.split(NAME_SEPARATOR)[1]).collect(Collectors.toList());
+            List<Object[]> allScenarios = Arrays.asList(filteredScenarios);
+            List<Object[]> excelFilteredScenarios = excelSuiteScenarios.stream()
+                .map(excelScenario -> allScenarios.stream()
+                    .filter(scenario -> scenario[0].toString().replace("\"", "")
+                        .equalsIgnoreCase(excelScenario)).findAny())
+                .filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
 
-        Object[][] scenarios1 = super.filter(scenarios, accept);
-        List<Object[]> allScenarios = Arrays.asList(scenarios1);
-        List<Object[]> modifiedList = excelSuiteScenarios.stream()
-            .map(excelScenario -> allScenarios.stream()
-                .filter(a -> a[0].toString().replace("\"", "").equalsIgnoreCase(excelScenario)).findAny())
-            .filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
-
-        return modifiedList.toArray(Object[][]::new);
+            return excelFilteredScenarios.toArray(Object[][]::new);
+        }
     }
 
 }
