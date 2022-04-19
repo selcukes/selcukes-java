@@ -206,6 +206,11 @@
                 <version>${selenium.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.seleniumhq.selenium</groupId>
+                <artifactId>selenium-grid</artifactId>
+                <version>${selenium.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>io.appium</groupId>
                 <artifactId>java-client</artifactId>
                 <version>${appium.version}</version>
