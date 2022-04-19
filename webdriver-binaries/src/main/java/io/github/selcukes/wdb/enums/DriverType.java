@@ -21,8 +21,7 @@ public enum DriverType {
     FIREFOX("gecko"),
     IEXPLORER("ie"),
     EDGE("edge"),
-    OPERA("opera"),
-    GRID("grid");
+    OPERA("opera");
 
     String name;
 

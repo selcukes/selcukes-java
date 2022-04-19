@@ -82,16 +82,6 @@ public class WebDriverBinaryTest {
     }
 
     @Test
-    public void seleniumServerTest() {
-        BinaryInfo binaryInfo = WebDriverBinary.grid().targetPath("temp").setup();
-        String binaryPath = binaryInfo.getBinaryPath();
-        File binaryFile = new File(binaryInfo.getBinaryPath());
-        logger.debug(() -> "Binary path for selenium-server is {" + binaryPath + "}");
-        assertTrue(binaryFile.exists(), "Binary file not exists in " + binaryPath);
-
-    }
-
-    @Test
     public void reuseDownloadedBinaryTest() {
         BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().setup();
         String binProp = binaryInfo.getBinaryProperty();

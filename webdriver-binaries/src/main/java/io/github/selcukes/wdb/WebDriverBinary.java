@@ -47,10 +47,6 @@ public class WebDriverBinary {
         return new WebDriverBinary().new Builder(new OperaBinary());
     }
 
-    public static synchronized Builder grid() {
-        return new WebDriverBinary().new Builder(new SeleniumServerBinary());
-    }
-
     public class Builder {
         public Builder(BinaryFactory binaryFactory) {
             WebDriverBinary.this.binaryFactory = binaryFactory;
