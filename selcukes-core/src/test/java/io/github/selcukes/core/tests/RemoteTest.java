@@ -41,15 +41,17 @@ public class RemoteTest {
 
     @SneakyThrows
     @BeforeTest
-    void setupTest(){
-        driver=new RemoteWebDriver(new URL("http://localhost:4444"), new ChromeOptions());
+    void setupTest() {
+        ChromeOptions options = new ChromeOptions();
+        options.setHeadless(true);
+        driver = new RemoteWebDriver(new URL("http://localhost:4444"), options);
 
     }
 
     @Test
     public void remoteTest() {
         driver.get("https://www.google.com/");
-        Assert.assertEquals(driver.getTitle(),"Google");
+        Assert.assertEquals(driver.getTitle(), "Google");
     }
 
     @AfterTest
