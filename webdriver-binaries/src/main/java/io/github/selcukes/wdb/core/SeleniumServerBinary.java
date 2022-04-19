@@ -27,6 +27,7 @@ import java.net.URL;
 public class SeleniumServerBinary extends AbstractBinary {
 
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/selenium-server-%s.%s";
+    private static final String TAG = "selenium-";
 
     @Override
     public URL getDownloadURL() {
@@ -34,7 +35,7 @@ public class SeleniumServerBinary extends AbstractBinary {
             return new URL(String.format(
                 BINARY_DOWNLOAD_URL_PATTERN,
                 UrlHelper.SELENIUM_SERVER_URL,
-                getBinaryVersion(), getBinaryVersion().substring(getBinaryVersion().indexOf("-") + 1),
+                TAG + getBinaryVersion(), getBinaryVersion(),
                 getCompressedBinaryType().getName()));
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);
@@ -63,7 +64,7 @@ public class SeleniumServerBinary extends AbstractBinary {
 
     @Override
     protected String getLatestRelease() {
-        return getVersionNumberFromGit(UrlHelper.SELENIUM_SERVER_LATEST_RELEASE_URL);
+        return getVersionNumberFromGit(UrlHelper.SELENIUM_SERVER_LATEST_RELEASE_URL).replace(TAG, "");
     }
 
 }
