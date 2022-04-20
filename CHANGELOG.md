@@ -8,9 +8,9 @@
 
 ### Changed
 * Update dependency org.projectlombok:lombok to v1.18.24 ([#85](https://github.com/selcukes/selcukes-java/pull/85))
-* Update dependency cucumber.version to v7.2.2 ([#86](https://github.com/selcukes/selcukes-java/pull/86))
+* Update dependency cucumber.version to v7.3.0 ([#86](https://github.com/selcukes/selcukes-java/pull/86))
 
 ### Removed
-*  [Webdriver Binaries] Removed Selenium server binary support. Alternatively use selenium grid maven dependency to run grid programmatically
+*  [WebDriver Binaries] Removed Selenium server binary support. Alternatively use selenium grid maven dependency to run grid programmatically
 
 ### Fixed

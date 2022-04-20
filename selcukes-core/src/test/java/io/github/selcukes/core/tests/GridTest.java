@@ -21,30 +21,33 @@ import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.grid.Main;
+import org.openqa.selenium.net.PortProber;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.net.URL;
 
-public class RemoteTest {
+public class GridTest {
     WebDriver driver;
+    private static int HUB_PORT;
 
-    @BeforeSuite
-    static void setupClass() {
+    @BeforeClass
+    static void beforeClass() {
         WebDriverBinary.chromeDriver().setup();
-        Main.main(new String[]{"standalone", "--port", "4444"});
+        HUB_PORT = PortProber.findFreePort();
+        Main.main(new String[]{"standalone", "--port", String.valueOf(HUB_PORT)});
     }
 
     @SneakyThrows
     @BeforeTest
-    void setupTest() {
+    void beforeTest() {
         ChromeOptions options = new ChromeOptions();
         options.setHeadless(true);
-        driver = new RemoteWebDriver(new URL("http://localhost:4444"), options);
+        driver = new RemoteWebDriver(new URL("http://localhost:" + HUB_PORT), options);
 
     }
 
@@ -55,7 +58,7 @@ public class RemoteTest {
     }
 
     @AfterTest
-    void teardown() {
+    void afterTest() {
         driver.quit();
     }
 }
