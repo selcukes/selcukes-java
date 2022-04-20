@@ -90,7 +90,7 @@ public final class TestSourcesModel {
         }
     }
 
-    void addTestSourceReadEvent(URI path, TestSourceRead event) {
+    public void addTestSourceReadEvent(URI path, TestSourceRead event) {
         pathToReadEventMap.put(path, event);
     }
 
