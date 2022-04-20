@@ -16,8 +16,8 @@
 
 package io.github.selcukes.core.driver;
 
+import io.github.selcukes.core.enums.DriverType;
 import io.github.selcukes.wdb.WebDriverBinary;
-import io.github.selcukes.wdb.enums.DriverType;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;

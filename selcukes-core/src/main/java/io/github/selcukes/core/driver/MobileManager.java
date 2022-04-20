@@ -16,39 +16,38 @@
 
 package io.github.selcukes.core.driver;
 
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.DriverSetupException;
 import io.github.selcukes.core.enums.DriverType;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.grid.Main;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.RemoteWebDriverBuilder;
 
 import java.net.URL;
 
 @CustomLog
-public class WebManager implements RemoteManager {
+public class MobileManager implements RemoteManager {
+    AppiumDriver driver;
+    AppiumDriverLocalService service;
 
-    private WebDriver driver;
-
-    public synchronized WebDriver createDriver() {
+    @Override
+    public AppiumDriver createDriver() {
         String browser = ConfigFactory.getConfig().getWeb().get("browserName");
         if (null == driver) {
             try {
                 logger.info(() -> "Initiating New Browser Session...");
+                service = new AppiumServiceBuilder()
+                    .withIPAddress("127.0.0.1")
+                    .usingPort(4723)
+                    .build();
+                service.start();
 
-                BrowserOptions browserOptions = new BrowserOptions();
+                MobileOptions browserOptions = new MobileOptions();
                 Capabilities capabilities = browserOptions.getBrowserOptions(DriverType.valueOf(browser));
-
-                RemoteWebDriverBuilder webDriverBuilder = RemoteWebDriver.builder().oneOf(capabilities);
-                if (ConfigFactory.getConfig().getWeb().get("remote").equalsIgnoreCase("true")) {
-                    Main.main(new String[]{"standalone", "--port", "4444"});
-                    webDriverBuilder.address(getServiceUrl());
-                }
-                driver = webDriverBuilder.build();
+                driver = new AppiumDriver(getServiceUrl(), capabilities);
             } catch (Exception e) {
                 throw new DriverSetupException("Driver was not setup properly.", e);
             }
@@ -58,14 +57,18 @@ public class WebManager implements RemoteManager {
 
     @Override
     public void destroyDriver() {
-        if (driver != null)
+        if (driver != null) {
             driver.quit();
+        }
+        if (service != null) {
+            service.stop();
+        }
     }
 
     @SneakyThrows
     @Override
     public URL getServiceUrl() {
-        String serviceUrl = ConfigFactory.getConfig().getWeb().get("serviceUrl");
+        String serviceUrl = ConfigFactory.getConfig().getMobile().get("serviceUrl");
         return new URL(serviceUrl);
     }
 }

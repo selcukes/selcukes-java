@@ -23,8 +23,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import static io.github.selcukes.core.driver.DriverOptions.getServiceUrl;
-import static io.github.selcukes.core.driver.DriverOptions.setAppTopLevelWindow;
+import static io.github.selcukes.core.driver.DesktopOptions.getServiceUrl;
+import static io.github.selcukes.core.driver.DesktopOptions.setAppTopLevelWindow;
 
 @CustomLog
 public class WinPage implements Page {

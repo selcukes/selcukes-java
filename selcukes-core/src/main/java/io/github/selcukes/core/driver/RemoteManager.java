@@ -16,20 +16,12 @@
 
 package io.github.selcukes.core.driver;
 
-import lombok.SneakyThrows;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import java.net.URL;
 
 public interface RemoteManager {
-
-    @SneakyThrows
-    default WebDriver createRemoteDriver() {
-        Capabilities capabilities = DriverOptions.getOptions();
-        return new RemoteWebDriver(DriverOptions.getServiceUrl(), capabilities);
-    }
-
     Object createDriver();
 
     void destroyDriver();
+
+    URL getServiceUrl();
 }

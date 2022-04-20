@@ -21,6 +21,7 @@ import io.github.selcukes.commons.config.ConfigFactory;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 
+import java.net.URL;
 import java.util.Objects;
 
 @CustomLog
@@ -33,8 +34,8 @@ public class DesktopManager implements RemoteManager {
         if (null == windowsDriver) {
             startWinAppDriver();
             String app = ConfigFactory.getConfig().getWindows().get("app");
-            windowsDriver = new WindowsDriver(Objects.requireNonNull(DriverOptions.getServiceUrl()),
-                DriverOptions.setCapabilities(app));
+            windowsDriver = new WindowsDriver(Objects.requireNonNull(getServiceUrl()),
+                DesktopOptions.setCapabilities(app));
         }
         return windowsDriver;
     }
@@ -59,4 +60,10 @@ public class DesktopManager implements RemoteManager {
         logger.info(() -> "WinAppDriver killed...");
     }
 
+    @SneakyThrows
+    @Override
+    public URL getServiceUrl() {
+        String serviceUrl = ConfigFactory.getConfig().getWindows().get("serviceUrl");
+        return new URL(serviceUrl);
+    }
 }

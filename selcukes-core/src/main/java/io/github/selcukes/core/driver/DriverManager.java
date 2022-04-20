@@ -37,8 +37,11 @@ public class DriverManager<D extends RemoteWebDriver> {
                     DriverFactory.setDriver(remoteManager.createDriver());
                     break;
                 case DESKTOP:
+                    remoteManager = new DesktopManager();
+                    DriverFactory.setDriver(remoteManager.createDriver());
+                    break;
                 case MOBILE:
-                    remoteManager=new DesktopManager();
+                    remoteManager = new MobileManager();
                     DriverFactory.setDriver(remoteManager.createDriver());
                     break;
                 default:

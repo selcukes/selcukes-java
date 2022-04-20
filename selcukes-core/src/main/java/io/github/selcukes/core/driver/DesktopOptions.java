@@ -24,31 +24,15 @@ import org.openqa.selenium.MutableCapabilities;
 
 import java.net.URL;
 
-import static org.openqa.selenium.remote.CapabilityType.*;
+import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 @UtilityClass
-public class DriverOptions {
-    private static final ThreadLocal<MutableCapabilities> threadLocalCapabilities = new InheritableThreadLocal<>();
+public class DesktopOptions {
 
     @SneakyThrows
     public static URL getServiceUrl() {
         String serviceUrl = ConfigFactory.getConfig().getWindows().get("serviceUrl");
         return new URL(serviceUrl);
-    }
-
-    private static void getDefaultOptions() {
-        MutableCapabilities capabilities = new MutableCapabilities();
-        capabilities.setCapability(ACCEPT_SSL_CERTS, true);
-        capabilities.setCapability(ACCEPT_INSECURE_CERTS, true);
-        capabilities.setCapability(SUPPORTS_JAVASCRIPT, true);
-        capabilities.setCapability(TAKES_SCREENSHOT, true);
-        capabilities.setCapability(SUPPORTS_ALERTS, true);
-        threadLocalCapabilities.set(capabilities);
-    }
-
-    public static Capabilities getOptions() {
-        if (threadLocalCapabilities.get() == null) getDefaultOptions();
-        return threadLocalCapabilities.get();
     }
 
     public static Capabilities setAppTopLevelWindow(String windowId) {
