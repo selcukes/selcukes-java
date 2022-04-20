@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public final class TestSourcesModel {
+public final class TestSourcesModel { //NOSONAR
 
     private final Map<URI, TestSourceRead> pathToReadEventMap = new HashMap<>();
     private final Map<URI, GherkinDocument> pathToAstMap = new HashMap<>();
