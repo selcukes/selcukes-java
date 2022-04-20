@@ -22,15 +22,29 @@ import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.page.WinPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 public class NotepadTest {
+    DriverManager<RemoteWebDriver> driverManager;
+
+    @BeforeTest
+    public void beforeTest() {
+        driverManager = new DriverManager<>();
+    }
+
     @Test(enabled = false)
     public void notepadTest() {
-        DriverManager<RemoteWebDriver> driverManager = new DriverManager<>();
+
         WindowsDriver driver = (WindowsDriver) driverManager.createDriver(DeviceType.DESKTOP);
-        WinPage page=new WinPage(driver);
-        page.write(By.className("Edit"),"This is sample");
+        WinPage page = new WinPage(driver);
+        page.write(By.className("Edit"), "This is sample");
+
+    }
+
+    @AfterTest
+    public void afterTest() {
         driverManager.getManager().destroyDriver();
     }
 }

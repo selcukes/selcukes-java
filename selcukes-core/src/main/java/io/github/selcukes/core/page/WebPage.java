@@ -44,7 +44,7 @@ public class WebPage extends WebAuthenticator implements Page {
         driver = new EventFiringDecorator(eventCapture).decorate(driver);
     }
 
-    public void capturePageAsPdf(String filePath) {
+    public void printPage(String filePath) {
         PrintsPage pg = (PrintsPage) driver;
         PrintOptions printOptions = new PrintOptions();
         Pdf pdf = pg.print(printOptions);

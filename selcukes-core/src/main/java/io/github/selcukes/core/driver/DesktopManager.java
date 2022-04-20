@@ -20,8 +20,6 @@ import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import java.util.Objects;
 
@@ -34,7 +32,7 @@ public class DesktopManager implements RemoteManager {
     public synchronized WindowsDriver createDriver() {
         if (null == windowsDriver) {
             startWinAppDriver();
-            String app=ConfigFactory.getConfig().getWindows().get("app");
+            String app = ConfigFactory.getConfig().getWindows().get("app");
             windowsDriver = new WindowsDriver(Objects.requireNonNull(DriverOptions.getServiceUrl()),
                 DriverOptions.setCapabilities(app));
         }
@@ -42,8 +40,12 @@ public class DesktopManager implements RemoteManager {
     }
 
     public void destroyDriver() {
-        windowsDriver.closeApp();
-        killWinAppDriver();
+        try {
+            windowsDriver.closeApp();
+        } finally {
+            killWinAppDriver();
+        }
+
     }
 
     @SneakyThrows

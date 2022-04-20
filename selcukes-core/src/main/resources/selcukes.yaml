@@ -11,7 +11,7 @@ web:
   serviceUrl: "http://127.0.0.1:8080"
 windows:
   serviceUrl: "http://127.0.0.1:4723"
-  winApp-path: "C:/Program Files/Windows Application Driver/WinAppDriver.exe"
+  winApp-path: "C:/Program Files (x86)/Windows Application Driver/WinAppDriver.exe"
   app: "C:\\Windows\\System32\\notepad.exe"
 mobile:
   serviceUrl: "http://127.0.0.1:4723"
