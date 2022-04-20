@@ -17,6 +17,7 @@
 package io.github.selcukes.core.tests;
 
 import io.github.selcukes.wdb.WebDriverBinary;
+import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -31,15 +32,16 @@ import org.testng.annotations.Test;
 
 import java.net.URL;
 
+@CustomLog
 public class GridTest {
     WebDriver driver;
-    private static int HUB_PORT;
 
     @BeforeClass
     static void beforeClass() {
         WebDriverBinary.chromeDriver().setup();
-        HUB_PORT = PortProber.findFreePort();
-        Main.main(new String[]{"standalone", "--port", String.valueOf(HUB_PORT)});
+        int freePort = PortProber.findFreePort();
+        logger.debug(() -> "Using Free Hub Port: " + freePort);
+        Main.main(new String[]{"standalone", "--port", "4444"});
     }
 
     @SneakyThrows
@@ -47,7 +49,7 @@ public class GridTest {
     void beforeTest() {
         ChromeOptions options = new ChromeOptions();
         options.setHeadless(true);
-        driver = new RemoteWebDriver(new URL("http://localhost:" + HUB_PORT), options);
+        driver = new RemoteWebDriver(new URL("http://localhost:4444"), options);
 
     }
 
