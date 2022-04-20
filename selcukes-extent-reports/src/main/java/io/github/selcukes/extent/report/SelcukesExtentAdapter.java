@@ -279,7 +279,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
 
     private void createExamples(Examples examples) {
         List<TableRow> rows = new ArrayList<>();
-        rows.add(examples.getTableHeader());
+        examples.getTableHeader().ifPresent(rows::add);
         rows.addAll(examples.getTableBody());
         String[][] data = getTable(rows);
         String markup = MarkupHelper.createTable(data).getMarkup();
