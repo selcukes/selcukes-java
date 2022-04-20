@@ -16,33 +16,33 @@
 
 package io.github.selcukes.core.tests;
 
-import io.appium.java_client.windows.WindowsDriver;
+import io.appium.java_client.AppiumDriver;
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.enums.DeviceType;
-import io.github.selcukes.core.page.WinPage;
-import org.openqa.selenium.By;
+import io.github.selcukes.core.page.MobilePage;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class NotepadTest {
-    DriverManager<WindowsDriver> driverManager;
+public class MobileTest {
+    DriverManager<AppiumDriver> driverManager;
 
     @BeforeTest
-    public void beforeTest() {
+    void beforeTest() {
         driverManager = new DriverManager<>();
     }
 
     @Test(enabled = false)
-    public void notepadTest() {
-        WindowsDriver driver = driverManager.createDriver(DeviceType.DESKTOP);
-        WinPage page = new WinPage(driver);
-        page.write(By.className("Edit"), "This is sample");
-
+    public void remoteTest() {
+        AppiumDriver driver = driverManager.createDriver(DeviceType.MOBILE);
+        MobilePage page = new MobilePage(driver);
+        page.open("https://www.google.com/");
+        Assert.assertEquals(page.title(), "Google");
     }
 
     @AfterTest
-    public void afterTest() {
+    void afterTest() {
         if (driverManager.getManager() != null)
             driverManager.getManager().destroyDriver();
     }

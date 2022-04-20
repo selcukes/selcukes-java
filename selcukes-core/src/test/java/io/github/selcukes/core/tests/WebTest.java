@@ -16,34 +16,37 @@
 
 package io.github.selcukes.core.tests;
 
-import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.enums.DeviceType;
-import io.github.selcukes.core.page.WinPage;
-import org.openqa.selenium.By;
+import io.github.selcukes.core.page.WebPage;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class NotepadTest {
-    DriverManager<WindowsDriver> driverManager;
+public class WebTest {
+
+    DriverManager<RemoteWebDriver> driverManager;
+    WebDriver driver;
 
     @BeforeTest
-    public void beforeTest() {
+    void beforeTest() {
         driverManager = new DriverManager<>();
+        driver = driverManager.createDriver(DeviceType.BROWSER);
     }
 
-    @Test(enabled = false)
-    public void notepadTest() {
-        WindowsDriver driver = driverManager.createDriver(DeviceType.DESKTOP);
-        WinPage page = new WinPage(driver);
-        page.write(By.className("Edit"), "This is sample");
 
+    @Test
+    public void remoteTest() {
+        WebPage page = new WebPage(driver);
+        page.open("https://www.google.com/");
+        Assert.assertEquals(page.title(), "Google");
     }
 
     @AfterTest
-    public void afterTest() {
-        if (driverManager.getManager() != null)
-            driverManager.getManager().destroyDriver();
+    void afterTest() {
+        driverManager.getManager().destroyDriver();
     }
 }
