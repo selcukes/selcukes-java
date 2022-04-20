@@ -46,7 +46,7 @@ public class MobileManager implements RemoteManager {
                 service.start();
 
                 MobileOptions browserOptions = new MobileOptions();
-                Capabilities capabilities = browserOptions.getBrowserOptions(DriverType.valueOf(browser));
+                Capabilities capabilities = browserOptions.getMobileOptions(DriverType.valueOf(browser));
                 driver = new AppiumDriver(getServiceUrl(), capabilities);
             } catch (Exception e) {
                 throw new DriverSetupException("Driver was not setup properly.", e);

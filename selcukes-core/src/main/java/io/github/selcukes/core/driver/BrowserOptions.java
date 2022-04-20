@@ -16,6 +16,7 @@
 
 package io.github.selcukes.core.driver;
 
+import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.core.enums.DriverType;
 import io.github.selcukes.wdb.WebDriverBinary;
 import org.openqa.selenium.Capabilities;
@@ -50,7 +51,7 @@ public class BrowserOptions {
                 return ieOptions;
             default:
                 WebDriverBinary.chromeDriver().checkBrowserVersion().setup();
-                return new ChromeOptions();
+                return new ChromeOptions().setHeadless(true);
         }
 
     }

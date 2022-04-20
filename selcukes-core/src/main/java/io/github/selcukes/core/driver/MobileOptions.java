@@ -30,23 +30,17 @@ public class MobileOptions extends BrowserOptions{
     public Capabilities getMobileOptions(DriverType mobileType) {
         switch (mobileType) {
             case SAFARI:
-                SafariOptions safariOptions = new SafariOptions();
-                return safariOptions;
+                return new SafariOptions();
             case GECKO:
-                GeckoOptions geckoOptions = new GeckoOptions();
-                return geckoOptions;
+                return new GeckoOptions();
             case MAC:
-                Mac2Options mac2Options = new Mac2Options();
-                return mac2Options;
+                return new Mac2Options();
             case WINDOWS:
-                WindowsOptions windowsOptions = new WindowsOptions();
-                return windowsOptions;
+                return new WindowsOptions();
             case ESPRESSO:
-                EspressoOptions espressoOptions = new EspressoOptions();
-                return espressoOptions;
+                return new EspressoOptions();
             case UIAUTOMATOR:
-                UiAutomator2Options uiAutomator2Options = new UiAutomator2Options();
-                return uiAutomator2Options;
+                return new UiAutomator2Options();
             default:
                 return getBrowserOptions(mobileType);
 
