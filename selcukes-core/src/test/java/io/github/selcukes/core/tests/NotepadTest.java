@@ -36,7 +36,6 @@ public class NotepadTest {
 
     @Test(enabled = false)
     public void notepadTest() {
-
         WindowsDriver driver = (WindowsDriver) driverManager.createDriver(DeviceType.DESKTOP);
         WinPage page = new WinPage(driver);
         page.write(By.className("Edit"), "This is sample");
@@ -45,6 +44,7 @@ public class NotepadTest {
 
     @AfterTest
     public void afterTest() {
+        if(driverManager.getManager()!=null)
         driverManager.getManager().destroyDriver();
     }
 }

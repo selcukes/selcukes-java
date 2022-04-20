@@ -40,12 +40,10 @@ public class DesktopManager implements RemoteManager {
     }
 
     public void destroyDriver() {
-        try {
+        if (windowsDriver != null) {
             windowsDriver.closeApp();
-        } finally {
-            killWinAppDriver();
         }
-
+        killWinAppDriver();
     }
 
     @SneakyThrows
