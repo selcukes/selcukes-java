@@ -33,12 +33,12 @@ public class MobileTest {
         driverManager = new DriverManager<>();
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void remoteTest() {
         AppiumDriver driver = driverManager.createDriver(DeviceType.MOBILE);
         MobilePage page = new MobilePage(driver);
-        page.open("https://www.google.com/");
-        Assert.assertEquals(page.title(), "Google");
+      //  page.open("https://www.google.com/");
+        //Assert.assertEquals(page.title(), "Google");
     }
 
     @AfterTest

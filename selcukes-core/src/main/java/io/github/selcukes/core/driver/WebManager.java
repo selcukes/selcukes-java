@@ -63,7 +63,6 @@ public class WebManager implements RemoteManager {
     }
 
     @SneakyThrows
-    @Override
     public URL getServiceUrl() {
         String serviceUrl = ConfigFactory.getConfig().getWeb().get("serviceUrl");
         return new URL(serviceUrl);

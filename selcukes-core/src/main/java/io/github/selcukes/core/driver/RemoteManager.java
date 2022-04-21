@@ -16,12 +16,8 @@
 
 package io.github.selcukes.core.driver;
 
-import java.net.URL;
-
 public interface RemoteManager {
     Object createDriver();
-
     void destroyDriver();
 
-    URL getServiceUrl();
 }

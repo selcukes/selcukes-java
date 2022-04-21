@@ -17,16 +17,15 @@
 package io.github.selcukes.core.driver;
 
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.DriverSetupException;
-import io.github.selcukes.core.enums.DriverType;
 import lombok.CustomLog;
-import lombok.SneakyThrows;
-import org.openqa.selenium.Capabilities;
 
-import java.net.URL;
+import java.io.File;
 
 @CustomLog
 public class MobileManager implements RemoteManager {
@@ -35,19 +34,16 @@ public class MobileManager implements RemoteManager {
 
     @Override
     public AppiumDriver createDriver() {
-        String browser = ConfigFactory.getConfig().getWeb().get("browserName");
+        // String browser = ConfigFactory.getConfig().getWeb().get("browserName");
         if (null == driver) {
             try {
-                logger.info(() -> "Initiating New Browser Session...");
-                service = new AppiumServiceBuilder()
-                    .withIPAddress("127.0.0.1")
-                    .usingPort(4723)
-                    .build();
-                service.start();
-
-                MobileOptions browserOptions = new MobileOptions();
-                Capabilities capabilities = browserOptions.getMobileOptions(DriverType.valueOf(browser));
-                driver = new AppiumDriver(getServiceUrl(), capabilities);
+                logger.info(() -> "Initiating New Mobile Session...");
+                startAppiumService();
+                /*MobileOptions browserOptions = new MobileOptions();
+                Capabilities capabilities = browserOptions.getMobileOptions(DriverType.valueOf(browser));*/
+                String app = System.getProperty("user.dir") + File.separator + ConfigFactory.getConfig().getMobile().get("app");
+                System.out.println(app);
+                driver = new AndroidDriver(service.getUrl(), DesktopOptions.setMobileCapabilities(app));
             } catch (Exception e) {
                 throw new DriverSetupException("Driver was not setup properly.", e);
             }
@@ -60,15 +56,22 @@ public class MobileManager implements RemoteManager {
         if (driver != null) {
             driver.quit();
         }
-        if (service != null) {
-            service.stop();
-        }
+        stopAppiumService();
     }
 
-    @SneakyThrows
-    @Override
-    public URL getServiceUrl() {
-        String serviceUrl = ConfigFactory.getConfig().getMobile().get("serviceUrl");
-        return new URL(serviceUrl);
+    public void startAppiumService() {
+        service = new AppiumServiceBuilder()
+            .withIPAddress("127.0.0.1")
+            .usingPort(4723)
+            .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+            .withArgument(GeneralServerFlag.BASEPATH, "/wd/")
+            .build();
+        logger.info(() -> "Starting Appium server...");
+        service.start();
+    }
+
+    public void stopAppiumService() {
+        if (service != null)
+            service.stop();
     }
 }

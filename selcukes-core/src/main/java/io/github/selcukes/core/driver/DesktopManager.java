@@ -16,25 +16,28 @@
 
 package io.github.selcukes.core.driver;
 
+import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
+import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 
-import java.net.URL;
 import java.util.Objects;
 
 @CustomLog
 public class DesktopManager implements RemoteManager {
-
+    private AppiumDriverLocalService service;
     private WindowsDriver windowsDriver;
     private Process winProcess;
 
     public synchronized WindowsDriver createDriver() {
         if (null == windowsDriver) {
+            startAppiumService();
             startWinAppDriver();
             String app = ConfigFactory.getConfig().getWindows().get("app");
-            windowsDriver = new WindowsDriver(Objects.requireNonNull(getServiceUrl()),
+            windowsDriver = new WindowsDriver(Objects.requireNonNull(service.getUrl()),
                 DesktopOptions.setCapabilities(app));
         }
         return windowsDriver;
@@ -45,6 +48,7 @@ public class DesktopManager implements RemoteManager {
             windowsDriver.closeApp();
         }
         killWinAppDriver();
+        stopAppiumService();
     }
 
     @SneakyThrows
@@ -60,10 +64,18 @@ public class DesktopManager implements RemoteManager {
         logger.info(() -> "WinAppDriver killed...");
     }
 
-    @SneakyThrows
-    @Override
-    public URL getServiceUrl() {
-        String serviceUrl = ConfigFactory.getConfig().getWindows().get("serviceUrl");
-        return new URL(serviceUrl);
+    public void startAppiumService() {
+        service = new AppiumServiceBuilder()
+            .withIPAddress("127.0.0.1")
+            .usingPort(4723)
+            .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+            .withArgument(GeneralServerFlag.BASEPATH, "/wd/")
+            .build();
+        service.start();
+    }
+
+    public void stopAppiumService() {
+        if (service != null)
+            service.stop();
     }
 }

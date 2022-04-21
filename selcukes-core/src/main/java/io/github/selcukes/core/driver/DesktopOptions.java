@@ -16,6 +16,7 @@
 
 package io.github.selcukes.core.driver;
 
+import io.appium.java_client.remote.MobileCapabilityType;
 import io.github.selcukes.commons.config.ConfigFactory;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -46,6 +47,12 @@ public class DesktopOptions {
         capabilities.setCapability(PLATFORM_NAME, "Windows");
         capabilities.setCapability("deviceName", "WindowsPC");
         capabilities.setCapability("app", app);
+        return capabilities;
+    }
+
+    public static MutableCapabilities setMobileCapabilities(String app) {
+        MutableCapabilities capabilities = new MutableCapabilities();
+        capabilities.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir") + "\\ApiDemos-debug.apk");
         return capabilities;
     }
 
