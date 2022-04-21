@@ -23,9 +23,8 @@ import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.DriverSetupException;
+import io.github.selcukes.commons.helper.FileHelper;
 import lombok.CustomLog;
-
-import java.io.File;
 
 @CustomLog
 public class MobileManager implements RemoteManager {
@@ -41,7 +40,8 @@ public class MobileManager implements RemoteManager {
                 startAppiumService();
                 /*MobileOptions browserOptions = new MobileOptions();
                 Capabilities capabilities = browserOptions.getMobileOptions(DriverType.valueOf(browser));*/
-                String app = System.getProperty("user.dir") + File.separator + ConfigFactory.getConfig().getMobile().get("app");
+
+                String app = FileHelper.loadThreadResource(ConfigFactory.getConfig().getMobile().get("app")).getAbsolutePath();
                 System.out.println(app);
                 driver = new AndroidDriver(service.getUrl(), DesktopOptions.setMobileCapabilities(app));
             } catch (Exception e) {

@@ -52,7 +52,7 @@ public class DesktopOptions {
 
     public static MutableCapabilities setMobileCapabilities(String app) {
         MutableCapabilities capabilities = new MutableCapabilities();
-        capabilities.setCapability(MobileCapabilityType.APP, System.getProperty("user.dir") + "\\ApiDemos-debug.apk");
+        capabilities.setCapability(MobileCapabilityType.APP, app);
         return capabilities;
     }
 
