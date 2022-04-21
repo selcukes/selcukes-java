@@ -30,7 +30,7 @@ public class BaseTest {
 
     @BeforeMethod
     public void setup() {
-        driver = new LocalDriver().createWebDriver(DriverType.CHROME, true);
+        driver = new LocalDriver().createWebDriver(DriverType.CHROME, false);
         page = new WebPage(driver);
     }
 

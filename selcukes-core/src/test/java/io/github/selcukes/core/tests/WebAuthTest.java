@@ -16,13 +16,13 @@
 
 package io.github.selcukes.core.tests;
 
+import io.github.selcukes.core.wait.WaitCondition;
 import lombok.CustomLog;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 import java.util.UUID;
 
 @CustomLog
@@ -34,16 +34,15 @@ public class WebAuthTest extends BaseTest {
         page.addVirtualAuthenticator();
 
         String randomId = UUID.randomUUID().toString();
-        logger.info(() -> "Username:" + randomId);
-        page.write(By.id("input-email"),randomId);
+        logger.info(() -> "Username: " + randomId);
+        page.write(By.id("input-email"), randomId);
         page.click(By.id("register-button"));
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        WebDriverWait wait = page.getWait(20);
         wait.until(ExpectedConditions.textToBePresentInElementLocated(
             By.className("popover-body"), "Success! Now try logging in"));
 
         page.click(By.id("login-button"));
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(
-            By.className("main-content"), "You're logged in!"));
+        page.waitFor(By.xpath("//*[contains(@class,'main-content')]//h3"), "You're logged in!", WaitCondition.TEXT_TO_BE);
         page.removeVirtualAuthenticator();
 
     }

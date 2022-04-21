@@ -16,6 +16,7 @@
 
 package io.github.selcukes.core.page;
 
+import io.github.selcukes.core.wait.WaitCondition;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -23,8 +24,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public interface Page {
+    int TIMEOUT = 2;
+
     WebDriver getDriver();
 
     default Page open(String url) {
@@ -46,12 +50,17 @@ public interface Page {
     }
 
     default Page write(By by, CharSequence text) {
-        find(by).sendKeys(text);
+        find(by, WaitCondition.VISIBLE).sendKeys(text);
         return this;
     }
 
     default Page click(By by) {
-        find(by).click();
+        click(by, WaitCondition.CLICKABLE);
+        return this;
+    }
+
+    default Page click(By by, final WaitCondition condition) {
+        find(by, condition).click();
         return this;
     }
 
@@ -83,9 +92,11 @@ public interface Page {
         getDriver().switchTo().window(getWindows().get(index));
         return this;
     }
+
     default void openNewBrowserWindow() {
         getDriver().switchTo().newWindow(WindowType.WINDOW);
     }
+
     default void openNewBrowserTab() {
         getDriver().switchTo().newWindow(WindowType.TAB);
     }
@@ -117,12 +128,32 @@ public interface Page {
         return getDriver().findElements(by);
     }
 
+    default WebElement find(By by, final WaitCondition condition) {
+        return waitFor(by, "", condition);
+    }
+
+    default List<WebElement> findAll(By by, final WaitCondition condition) {
+        return waitFor(by, "", condition);
+    }
+
     default Object executeScript(String script, Object... args) {
         JavascriptExecutor exe = (JavascriptExecutor) getDriver();
         return exe.executeScript(script, args);
     }
 
     default WebDriverWait getWait() {
-        return new WebDriverWait(getDriver(), Duration.ofSeconds(5));
+        return getWait(TIMEOUT);
+    }
+
+    default WebDriverWait getWait(int seconds) {
+        return new WebDriverWait(getDriver(), Duration.ofSeconds(seconds));
+    }
+
+    @SuppressWarnings("unchecked")
+    default <T, V, R> R waitFor(final T locator, final V arg, final WaitCondition condition) {
+        return (R) getWait()
+            .pollingEvery(Duration.ofMillis(100))
+            .ignoreAll(List.of(StaleElementReferenceException.class, NoSuchElementException.class))
+            .until((Function<WebDriver, ?>) condition.getType().apply(locator, arg));
     }
 }
