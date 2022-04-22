@@ -20,7 +20,7 @@ import io.appium.java_client.AppiumDriver;
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.page.MobilePage;
-import org.testng.Assert;
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -37,8 +37,7 @@ public class MobileTest {
     public void remoteTest() {
         AppiumDriver driver = driverManager.createDriver(DeviceType.MOBILE);
         MobilePage page = new MobilePage(driver);
-      //  page.open("https://www.google.com/");
-        //Assert.assertEquals(page.title(), "Google");
+        page.click(By.xpath("//android.widget.TextView[contains(@text,'Views')]"));
     }
 
     @AfterTest

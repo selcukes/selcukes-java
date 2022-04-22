@@ -22,7 +22,6 @@ import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
 import lombok.CustomLog;
-import lombok.SneakyThrows;
 
 import java.util.Objects;
 
@@ -30,12 +29,10 @@ import java.util.Objects;
 public class DesktopManager implements RemoteManager {
     private AppiumDriverLocalService service;
     private WindowsDriver windowsDriver;
-    private Process winProcess;
 
     public synchronized WindowsDriver createDriver() {
         if (null == windowsDriver) {
             startAppiumService();
-            startWinAppDriver();
             String app = ConfigFactory.getConfig().getWindows().get("app");
             windowsDriver = new WindowsDriver(Objects.requireNonNull(service.getUrl()),
                 DesktopOptions.setCapabilities(app));
@@ -47,27 +44,13 @@ public class DesktopManager implements RemoteManager {
         if (windowsDriver != null) {
             windowsDriver.closeApp();
         }
-        killWinAppDriver();
         stopAppiumService();
-    }
-
-    @SneakyThrows
-    private void startWinAppDriver() {
-        ProcessBuilder processBuilder = new ProcessBuilder(ConfigFactory.getConfig().getWindows().get("winApp-path"));
-        processBuilder.inheritIO();
-        winProcess = processBuilder.start();
-        logger.info(() -> "WinAppDriver started...");
-    }
-
-    private void killWinAppDriver() {
-        winProcess.destroy();
-        logger.info(() -> "WinAppDriver killed...");
     }
 
     public void startAppiumService() {
         service = new AppiumServiceBuilder()
             .withIPAddress("127.0.0.1")
-            .usingPort(4723)
+            .usingAnyFreePort()
             .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
             .withArgument(GeneralServerFlag.BASEPATH, "/wd/")
             .build();
