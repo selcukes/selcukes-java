@@ -26,6 +26,7 @@ import java.util.Map;
 @UtilityClass
 public class DesktopOptions {
     URL serviceUrl;
+    Capabilities caps;
 
     public URL getServiceUrl() {
         return serviceUrl;
@@ -52,6 +53,14 @@ public class DesktopOptions {
         MutableCapabilities capabilities = new MutableCapabilities();
         capabilities.setCapability(capabilityName, value);
         return capabilities;
+    }
+
+    public void setUserOptions(Capabilities capabilities) {
+        caps = capabilities;
+    }
+
+    public Capabilities getUserOptions() {
+        return caps;
     }
 
 }

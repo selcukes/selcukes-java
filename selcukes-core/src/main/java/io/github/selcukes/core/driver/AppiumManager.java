@@ -25,6 +25,7 @@ import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.DriverSetupException;
 import io.github.selcukes.commons.helper.FileHelper;
 import lombok.CustomLog;
+import org.openqa.selenium.Capabilities;
 
 @CustomLog
 public class AppiumManager implements RemoteManager {
@@ -33,17 +34,18 @@ public class AppiumManager implements RemoteManager {
 
     @Override
     public AppiumDriver createDriver() {
-        // String browser = ConfigFactory.getConfig().getWeb().get("browserName");
+
         if (null == driver) {
             try {
                 logger.info(() -> "Initiating New Mobile Session...");
                 startAppiumService();
-                /*MobileOptions browserOptions = new MobileOptions();
-                Capabilities capabilities = browserOptions.getMobileOptions(DriverType.valueOf(browser));*/
-
-                String app = FileHelper.loadThreadResource(ConfigFactory.getConfig().getMobile().get("app")).getAbsolutePath();
-                System.out.println(app);
-                driver = new AndroidDriver(service.getUrl(), DesktopOptions.getAndroidOptions(app));
+                Capabilities capabilities = DesktopOptions.getUserOptions();
+                if (capabilities == null) {
+                    String app = FileHelper.loadThreadResource(ConfigFactory.getConfig()
+                        .getMobile().get("app")).getAbsolutePath();
+                    capabilities = DesktopOptions.getAndroidOptions(app);
+                }
+                driver = new AndroidDriver(service.getUrl(), capabilities);
             } catch (Exception e) {
                 throw new DriverSetupException("Driver was not setup properly.", e);
             }
