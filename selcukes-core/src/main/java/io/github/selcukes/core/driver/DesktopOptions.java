@@ -16,43 +16,41 @@
 
 package io.github.selcukes.core.driver;
 
-import io.appium.java_client.remote.MobileCapabilityType;
-import io.github.selcukes.commons.config.ConfigFactory;
-import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
 
 import java.net.URL;
-
-import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
+import java.util.Map;
 
 @UtilityClass
 public class DesktopOptions {
+    URL serviceUrl;
 
-    @SneakyThrows
-    public static URL getServiceUrl() {
-        String serviceUrl = ConfigFactory.getConfig().getWindows().get("serviceUrl");
-        return new URL(serviceUrl);
+    public URL getServiceUrl() {
+        return serviceUrl;
     }
 
-    public static Capabilities setAppTopLevelWindow(String windowId) {
-        MutableCapabilities capabilities = new MutableCapabilities();
-        capabilities.setCapability("appTopLevelWindow", windowId);
-        return capabilities;
+    public void setServiceUrl(URL url) {
+        serviceUrl = url;
     }
 
-    public static MutableCapabilities setCapabilities(String app) {
-        MutableCapabilities capabilities = new MutableCapabilities();
-        capabilities.setCapability(PLATFORM_NAME, "Windows");
-        capabilities.setCapability("deviceName", "WindowsPC");
-        capabilities.setCapability("app", app);
-        return capabilities;
+    public Capabilities setAppTopLevelWindow(String windowId) {
+        return setCapability("appTopLevelWindow", windowId);
     }
 
-    public static MutableCapabilities setMobileCapabilities(String app) {
+    public MutableCapabilities getWinAppOptions(String app) {
+        return new MutableCapabilities(Map.of("platformName", "Windows",
+            "deviceName", "WindowsPC", "app", app));
+    }
+
+    public MutableCapabilities getAndroidOptions(String app) {
+        return setCapability("app", app);
+    }
+
+    public MutableCapabilities setCapability(String capabilityName, String value) {
         MutableCapabilities capabilities = new MutableCapabilities();
-        capabilities.setCapability(MobileCapabilityType.APP, app);
+        capabilities.setCapability(capabilityName, value);
         return capabilities;
     }
 

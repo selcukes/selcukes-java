@@ -17,13 +17,10 @@
 package io.github.selcukes.core.page;
 
 import io.github.selcukes.commons.helper.FileHelper;
-import io.github.selcukes.core.listener.EventCapture;
 import org.openqa.selenium.Pdf;
 import org.openqa.selenium.PrintsPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.print.PrintOptions;
-import org.openqa.selenium.support.events.EventFiringDecorator;
-import org.openqa.selenium.support.events.WebDriverListener;
 import org.testng.Assert;
 
 public class WebPage extends WebAuthenticator implements Page {
@@ -37,11 +34,6 @@ public class WebPage extends WebAuthenticator implements Page {
     @Override
     public WebDriver getDriver() {
         return driver;
-    }
-
-    public void enableDriverEvents() {
-        WebDriverListener eventCapture = new EventCapture();
-        driver = new EventFiringDecorator(eventCapture).decorate(driver);
     }
 
     public void printPage(String filePath) {

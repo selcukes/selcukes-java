@@ -30,7 +30,7 @@ public class DriverManager<D extends RemoteWebDriver> {
     public D createDriver(DeviceType deviceType) {
 
         if (DriverFactory.getDriver() == null) {
-            logger.info(() -> "Creating new session..." + deviceType);
+            logger.info(() -> String.format("Creating new %s session...", deviceType));
             switch (deviceType) {
                 case BROWSER:
                     remoteManager = new WebManager();
@@ -41,7 +41,7 @@ public class DriverManager<D extends RemoteWebDriver> {
                     DriverFactory.setDriver(remoteManager.createDriver());
                     break;
                 case MOBILE:
-                    remoteManager = new MobileManager();
+                    remoteManager = new AppiumManager();
                     DriverFactory.setDriver(remoteManager.createDriver());
                     break;
                 default:

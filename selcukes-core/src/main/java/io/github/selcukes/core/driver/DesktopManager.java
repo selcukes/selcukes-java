@@ -16,26 +16,25 @@
 
 package io.github.selcukes.core.driver;
 
-import io.appium.java_client.service.local.AppiumDriverLocalService;
-import io.appium.java_client.service.local.AppiumServiceBuilder;
-import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
 import lombok.CustomLog;
 
+import java.net.URL;
 import java.util.Objects;
 
 @CustomLog
-public class DesktopManager implements RemoteManager {
-    private AppiumDriverLocalService service;
+public class DesktopManager extends AppiumManager {
     private WindowsDriver windowsDriver;
 
+    @Override
     public synchronized WindowsDriver createDriver() {
         if (null == windowsDriver) {
             startAppiumService();
             String app = ConfigFactory.getConfig().getWindows().get("app");
-            windowsDriver = new WindowsDriver(Objects.requireNonNull(service.getUrl()),
-                DesktopOptions.setCapabilities(app));
+            URL serviceUrl = Objects.requireNonNull(service.getUrl());
+            DesktopOptions.setServiceUrl(serviceUrl);
+            windowsDriver = new WindowsDriver(serviceUrl, DesktopOptions.getWinAppOptions(app));
         }
         return windowsDriver;
     }
@@ -47,18 +46,4 @@ public class DesktopManager implements RemoteManager {
         stopAppiumService();
     }
 
-    public void startAppiumService() {
-        service = new AppiumServiceBuilder()
-            .withIPAddress("127.0.0.1")
-            .usingAnyFreePort()
-            .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-            .withArgument(GeneralServerFlag.BASEPATH, "/wd/")
-            .build();
-        service.start();
-    }
-
-    public void stopAppiumService() {
-        if (service != null)
-            service.stop();
-    }
 }

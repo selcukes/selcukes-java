@@ -27,7 +27,7 @@ import io.github.selcukes.commons.helper.FileHelper;
 import lombok.CustomLog;
 
 @CustomLog
-public class MobileManager implements RemoteManager {
+public class AppiumManager implements RemoteManager {
     AppiumDriver driver;
     AppiumDriverLocalService service;
 
@@ -43,7 +43,7 @@ public class MobileManager implements RemoteManager {
 
                 String app = FileHelper.loadThreadResource(ConfigFactory.getConfig().getMobile().get("app")).getAbsolutePath();
                 System.out.println(app);
-                driver = new AndroidDriver(service.getUrl(), DesktopOptions.setMobileCapabilities(app));
+                driver = new AndroidDriver(service.getUrl(), DesktopOptions.getAndroidOptions(app));
             } catch (Exception e) {
                 throw new DriverSetupException("Driver was not setup properly.", e);
             }
@@ -62,7 +62,7 @@ public class MobileManager implements RemoteManager {
     public void startAppiumService() {
         service = new AppiumServiceBuilder()
             .withIPAddress("127.0.0.1")
-            .usingPort(4723)
+            .usingAnyFreePort()
             .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
             .withArgument(GeneralServerFlag.BASEPATH, "/wd/")
             .build();

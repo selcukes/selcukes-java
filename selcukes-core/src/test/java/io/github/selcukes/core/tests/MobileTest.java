@@ -37,6 +37,7 @@ public class MobileTest {
     public void remoteTest() {
         AppiumDriver driver = driverManager.createDriver(DeviceType.MOBILE);
         MobilePage page = new MobilePage(driver);
+        page.enableDriverEvents();
         page.click(By.xpath("//android.widget.TextView[contains(@text,'Views')]"));
     }
 
