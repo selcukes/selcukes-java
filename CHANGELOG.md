@@ -6,13 +6,24 @@
 
 ### Added
 
+### Changed
+
+### Removed
+
+### Fixed
+
+## [1.6.0]  (22-04-2022)
+
+### Added
+
 * [Excel Runner] Support excel driven test runner ([#84](https://github.com/selcukes/selcukes-java/pull/84))
 * [Selcukes Core] Added AndroidDriver support ([#92](https://github.com/selcukes/selcukes-java/pull/92))
 
 ### Changed
 
 * Update dependency org.projectlombok:lombok to v1.18.24 ([#85](https://github.com/selcukes/selcukes-java/pull/85))
-* Update dependency cucumber.version to v7.3.2 ([#86](https://github.com/selcukes/selcukes-java/pull/86))
+* Update dependency cucumber.version to
+  v7.3.1 ([#86](https://github.com/selcukes/selcukes-java/pull/86)) ([#89](https://github.com/selcukes/selcukes-java/pull/89))
 
 ### Removed
 
@@ -22,4 +33,5 @@
 ### Fixed
 
 * [Selcukes Core] Fixed Appium Local service issue ([#92](https://github.com/selcukes/selcukes-java/pull/92))
-* [Selcukes Core] Fixed launching windows application using WinAppDriver ([#92](https://github.com/selcukes/selcukes-java/pull/92))
+* [Selcukes Core] Fixed launching windows application using
+  WinAppDriver ([#92](https://github.com/selcukes/selcukes-java/pull/92))
