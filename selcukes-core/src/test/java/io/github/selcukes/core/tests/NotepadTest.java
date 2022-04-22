@@ -33,7 +33,7 @@ public class NotepadTest {
         driverManager = new DriverManager<>();
     }
 
-    @Test
+    @Test(enabled = false)
     public void notepadTest() {
         WindowsDriver driver = driverManager.createDriver(DeviceType.DESKTOP);
         WinPage page = new WinPage(driver);

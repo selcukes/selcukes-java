@@ -33,7 +33,7 @@ public class MobileTest {
         driverManager = new DriverManager<>();
     }
 
-    @Test(enabled = true)
+    @Test(enabled = false)
     public void remoteTest() {
         AppiumDriver driver = driverManager.createDriver(DeviceType.MOBILE);
         MobilePage page = new MobilePage(driver);
