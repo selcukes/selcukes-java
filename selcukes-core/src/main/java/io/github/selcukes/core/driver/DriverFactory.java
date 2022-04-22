@@ -20,6 +20,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public final class DriverFactory<D extends RemoteWebDriver> {
 
@@ -28,7 +29,8 @@ public final class DriverFactory<D extends RemoteWebDriver> {
     private static final List<Object> STORED_DRIVER = new ArrayList<>();
 
     static {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> STORED_DRIVER.forEach(d -> ((RemoteWebDriver) d).quit())));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> STORED_DRIVER.stream()
+            .filter(Objects::nonNull).forEach(d -> ((RemoteWebDriver) d).quit())));
     }
 
     private DriverFactory() {
