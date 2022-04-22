@@ -20,17 +20,20 @@ import io.github.selcukes.commons.exception.DriverSetupException;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.core.enums.DeviceType;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.util.Arrays;
 
 
 public class DriverManager<D extends RemoteWebDriver> {
     private final Logger logger = LoggerFactory.getLogger(DriverManager.class);
     private RemoteManager remoteManager;
 
-    public D createDriver(DeviceType deviceType) {
-
+    public D createDriver(DeviceType deviceType, Capabilities... capabilities) {
+        Arrays.stream(capabilities).findAny().ifPresent(DesktopOptions::setUserOptions);
         if (DriverFactory.getDriver() == null) {
-            logger.info(() -> "Creating new session..." + deviceType);
+            logger.info(() -> String.format("Creating new %s session...", deviceType));
             switch (deviceType) {
                 case BROWSER:
                     remoteManager = new WebManager();
@@ -41,7 +44,7 @@ public class DriverManager<D extends RemoteWebDriver> {
                     DriverFactory.setDriver(remoteManager.createDriver());
                     break;
                 case MOBILE:
-                    remoteManager = new MobileManager();
+                    remoteManager = new AppiumManager();
                     DriverFactory.setDriver(remoteManager.createDriver());
                     break;
                 default:

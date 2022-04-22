@@ -16,20 +16,18 @@
 
 package io.github.selcukes.core.tests;
 
-import io.github.selcukes.commons.Await;
 import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.helper.FileHelper;
 import lombok.CustomLog;
+import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Paths;
 
 @CustomLog
@@ -41,16 +39,13 @@ public class EventDriverTest extends BaseTest {
         page.open("https://techyworks.blogspot.com/");
 
         By search = By.xpath("//span[@class='show-search' or @class='show-mobile-search']");
-        page.getWait().until(
-            ExpectedConditions.elementToBeClickable(search)
-        );
         page.click(search);
-        Await.until(2);
         page.write(By.xpath("//input[@class='search-input' or @class='mobile-search-input']"), "selenium");
     }
 
+    @SneakyThrows
     @AfterMethod
-    public void afterTest() throws IOException {
+    public void afterTest() {
         File srcFile = ((TakesScreenshot) page.getDriver()).getScreenshotAs(OutputType.FILE);
         File reportDirectory = new File("target/screenshots");
         FileHelper.createDirectory(reportDirectory);

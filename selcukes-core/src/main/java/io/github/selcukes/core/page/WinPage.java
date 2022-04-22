@@ -18,13 +18,11 @@ package io.github.selcukes.core.page;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.windows.WindowsDriver;
+import io.github.selcukes.core.driver.DesktopOptions;
 import lombok.CustomLog;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import static io.github.selcukes.core.driver.DesktopOptions.getServiceUrl;
-import static io.github.selcukes.core.driver.DesktopOptions.setAppTopLevelWindow;
 
 @CustomLog
 public class WinPage implements Page {
@@ -52,7 +50,7 @@ public class WinPage implements Page {
         String windowId = newWindowElement.getAttribute("NativeWindowHandle");
         String windowIdToHex = Integer.toHexString(Integer.parseInt(windowId));
         logger.info(() -> "Window Id: " + windowId + "After: " + windowIdToHex);
-        driver = new WindowsDriver(getServiceUrl(), setAppTopLevelWindow(windowIdToHex));
+        driver = new WindowsDriver(DesktopOptions.getServiceUrl(), DesktopOptions.setAppTopLevelWindow(windowIdToHex));
         driver.switchTo().activeElement();
         return this;
     }

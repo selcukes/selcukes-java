@@ -37,6 +37,7 @@ public class NotepadTest {
     public void notepadTest() {
         WindowsDriver driver = driverManager.createDriver(DeviceType.DESKTOP);
         WinPage page = new WinPage(driver);
+        page.enableDriverEvents();
         page.write(By.className("Edit"), "This is sample");
 
     }

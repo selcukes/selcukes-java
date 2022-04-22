@@ -19,23 +19,22 @@ package io.github.selcukes.core.driver;
 import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
 import lombok.CustomLog;
-import lombok.SneakyThrows;
 
 import java.net.URL;
 import java.util.Objects;
 
 @CustomLog
-public class DesktopManager implements RemoteManager {
-
+public class DesktopManager extends AppiumManager {
     private WindowsDriver windowsDriver;
-    private Process winProcess;
 
+    @Override
     public synchronized WindowsDriver createDriver() {
         if (null == windowsDriver) {
-            startWinAppDriver();
+            startAppiumService();
             String app = ConfigFactory.getConfig().getWindows().get("app");
-            windowsDriver = new WindowsDriver(Objects.requireNonNull(getServiceUrl()),
-                DesktopOptions.setCapabilities(app));
+            URL serviceUrl = Objects.requireNonNull(service.getUrl());
+            DesktopOptions.setServiceUrl(serviceUrl);
+            windowsDriver = new WindowsDriver(serviceUrl, DesktopOptions.getWinAppOptions(app));
         }
         return windowsDriver;
     }
@@ -44,26 +43,7 @@ public class DesktopManager implements RemoteManager {
         if (windowsDriver != null) {
             windowsDriver.closeApp();
         }
-        killWinAppDriver();
+        stopAppiumService();
     }
 
-    @SneakyThrows
-    private void startWinAppDriver() {
-        ProcessBuilder processBuilder = new ProcessBuilder(ConfigFactory.getConfig().getWindows().get("winApp-path"));
-        processBuilder.inheritIO();
-        winProcess = processBuilder.start();
-        logger.info(() -> "WinAppDriver started...");
-    }
-
-    private void killWinAppDriver() {
-        winProcess.destroy();
-        logger.info(() -> "WinAppDriver killed...");
-    }
-
-    @SneakyThrows
-    @Override
-    public URL getServiceUrl() {
-        String serviceUrl = ConfigFactory.getConfig().getWindows().get("serviceUrl");
-        return new URL(serviceUrl);
-    }
 }

@@ -39,10 +39,11 @@ public class WebManager implements RemoteManager {
         if (null == driver) {
             try {
                 logger.info(() -> "Initiating New Browser Session...");
-
-                BrowserOptions browserOptions = new BrowserOptions();
-                Capabilities capabilities = browserOptions.getBrowserOptions(DriverType.valueOf(browser));
-
+                Capabilities capabilities = DesktopOptions.getUserOptions();
+                if (capabilities == null) {
+                    BrowserOptions browserOptions = new BrowserOptions();
+                    capabilities = browserOptions.getBrowserOptions(DriverType.valueOf(browser));
+                }
                 RemoteWebDriverBuilder webDriverBuilder = RemoteWebDriver.builder().oneOf(capabilities);
                 if (ConfigFactory.getConfig().getWeb().get("remote").equalsIgnoreCase("true")) {
                     Main.main(new String[]{"standalone", "--port", "4444"});
@@ -63,7 +64,6 @@ public class WebManager implements RemoteManager {
     }
 
     @SneakyThrows
-    @Override
     public URL getServiceUrl() {
         String serviceUrl = ConfigFactory.getConfig().getWeb().get("serviceUrl");
         return new URL(serviceUrl);
