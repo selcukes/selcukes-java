@@ -168,7 +168,7 @@ public class PropertiesTest {
 
     @Test
     public void loadPropertiesMapTest() {
-        final Map<String, String> propertiesMap = ConfigFactory.loadPropertiesMap("selcukes-test.properties");
+        final Map<String, String> propertiesMap = ConfigFactory.loadPropertiesMap("selcukes.properties");
         Assert.assertEquals(propertiesMap.size(), 2);
         Assert.assertEquals(propertiesMap.get("test.env"), "QA");
         Assert.assertEquals(propertiesMap.get("test.browser"), "CHROME");

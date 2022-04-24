@@ -16,12 +16,15 @@
 
 package io.github.selcukes.excel;
 
+import io.github.selcukes.commons.properties.SelcukesTestProperties;
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
 
 public class ExcelSuiteListener implements ISuiteListener {
     @Override
     public void onStart(ISuite suite) {
-        ExcelUtils.initTestRunner();
+        SelcukesTestProperties testProperties = new SelcukesTestProperties();
+        if (!testProperties.getProperty(SelcukesTestProperties.EXCEL_RUNNER).equalsIgnoreCase("false"))
+            ExcelUtils.initTestRunner();
     }
 }

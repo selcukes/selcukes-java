@@ -16,19 +16,15 @@
 
 package io.github.selcukes.testng;
 
-import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.commons.logging.Logger;
-import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.databind.utils.StringHelper;
+import io.github.selcukes.commons.helper.DateHelper;
+import io.github.selcukes.commons.properties.SelcukesTestProperties;
+import lombok.CustomLog;
 
-import java.util.Map;
-import java.util.UUID;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.*;
 
+@CustomLog
 public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
-
     private static SelcukesRuntimeOptions runtimeOptions;
-    private final Logger logger = LoggerFactory.getLogger(SelcukesRuntimeAdapter.class);
-    private Map<String, String> properties;
 
     public static SelcukesRuntimeOptions getInstance() {
         if (runtimeOptions == null)
@@ -39,44 +35,48 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
     @Override
     public void perform() {
         try {
-            properties = ConfigFactory
-                .loadPropertiesMap("selcukes-test.properties");
+            SelcukesTestProperties properties = new SelcukesTestProperties();
+            String features = properties.getSubstitutedProperty(FEATURES);
+            String glue = properties.getProperty(GLUE);
+            String tag = properties.getProperty(TAGS);
+            String additionalPlugin = properties.getProperty(PLUGIN);
+            String reportsPath = properties.getProperty(REPORTS_PATH);
+            String timestampReport = properties.getProperty(TIMESTAMP_REPORT);
+            String extentReport = properties.getProperty(EXTENT_REPORT);
 
-            UUID uuid = UUID.randomUUID();
-            String features = StringHelper.interpolate(getProperty("selcukes.features"),
-                matcher -> getProperty(matcher.group(1)));
+            String extentReportPath = reportsPath;
 
-            String glue = getProperty("selcukes.glue");
-            String tag = getProperty("selcukes.tags");
-            String reportsPath = getProperty("selcukes.reports-path");
-            if (reportsPath.isBlank()) reportsPath = "target/cucumber-reports";
+            if (reportsPath.isBlank()) {
+                reportsPath = "target/cucumber-reports";
+                extentReportPath = "target/extent-reports";
+            }
+            String timestamp = timestampReport.equalsIgnoreCase("true") ?
+                "-" + DateHelper.get().dateTime() : "";
 
-            String plugin = "html:" + reportsPath + "/cucumber.html, json:"
-                + reportsPath + "/cucumber" + uuid + ".json";
-            String additionalPlugin = getProperty("selcukes.plugin");
+
+            String plugin = String.format("html:%s/cucumber%s.html, json:%s/cucumber%s.json",
+                reportsPath, timestamp, reportsPath, timestamp);
+
             if (!additionalPlugin.isBlank()) {
                 plugin = plugin + "," + additionalPlugin;
             }
-            System.setProperty("cucumber.plugin", plugin);
-            if (!features.isBlank())
-                System.setProperty("cucumber.features", features);
-            if (!tag.isBlank())
-                System.setProperty("cucumber.filter.tags", tag);
-            if (!glue.isBlank())
-                System.setProperty("cucumber.glue", glue);
-            System.setProperty("cucumber.publish.quiet", "true");
+            if (!extentReport.equalsIgnoreCase("false")) {
+                setSystemProperty("extent.reporter.spark.start", "true");
+                setSystemProperty("extent.reporter.spark.out", extentReportPath + "/TestReport.html");
+                setSystemProperty(TIMESTAMP_REPORT, timestampReport);
+                plugin=plugin + "," + "io.github.selcukes.extent.report.SelcukesExtentAdapter:";
+            }
+            setSystemProperty("cucumber.plugin", plugin);
+            setSystemProperty("cucumber.features", features);
+            setSystemProperty("cucumber.filter.tags", tag);
+            setSystemProperty("cucumber.glue", glue);
+            setSystemProperty("cucumber.publish.quiet", "true");
+
             logger.debug(() -> String.format("Using Runtime Cucumber Options:\nFeatures : [%s]\nGlue     : [%s]\nTags     : [%s] " +
                 "\n ", features, glue, tag));
         } catch (Exception exception) {
             logger.warn(() -> "Failed loading selcukes-test properties. Using default CucumberOptions to execute...");
         }
-    }
-
-    public String getProperty(String propertyKey) {
-        if (System.getProperty(propertyKey) != null) {
-            return System.getProperty(propertyKey);
-        }
-        return properties.getOrDefault(propertyKey, "");
     }
 
 }
