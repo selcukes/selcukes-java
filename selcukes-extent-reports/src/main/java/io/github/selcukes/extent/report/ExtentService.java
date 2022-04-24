@@ -49,7 +49,7 @@ public class ExtentService implements Serializable {
 
     private static class ExtentReportsLoader {
         private static final String THUMBNAIL_REPORT = "thumbnail.report";
-        private static final String TIMESTAMP_REPORT = "timestamp.report";
+        private static final String TIMESTAMP_REPORT = "selcukes.timestamp.report";
         private static final ExtentReports INSTANCE = new ExtentReports();
         private static final String[] DEFAULT_SETUP_PATH = new String[]{"extent.properties",
             "com/aventstack/adapter/extent.properties"};

@@ -22,6 +22,7 @@ import org.testng.ISuiteListener;
 public class ExcelSuiteListener implements ISuiteListener {
     @Override
     public void onStart(ISuite suite) {
+
         ExcelUtils.initTestRunner();
     }
 }

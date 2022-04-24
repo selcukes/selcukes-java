@@ -20,36 +20,46 @@ import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.properties.LinkedProperties;
-import org.testng.Assert;
+import io.github.selcukes.commons.properties.SelcukesTestProperties;
 import org.testng.annotations.Test;
 
 import java.util.Map;
+
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.*;
+import static org.testng.Assert.*;
 
 public class PropertiesTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Test
     public void loadPropertiesMapTest() {
-        final Map<String, String> propertiesMap = ConfigFactory.loadPropertiesMap("selcukes-test.properties");
-        Assert.assertEquals(propertiesMap.size(), 2);
-        Assert.assertEquals(propertiesMap.get("test.env"), "QA");
-        Assert.assertEquals(propertiesMap.get("test.browser"), "CHROME");
+        final Map<String, String> propertiesMap = ConfigFactory.loadPropertiesMap("selcukes.properties");
+        assertEquals(propertiesMap.size(), 2);
+        assertEquals(propertiesMap.get(EXCEL_RUNNER), "true");
+        assertEquals(propertiesMap.get(EXCEL_SUITE_NAME), "SMOKE");
         propertiesMap.forEach((k, v) -> logger.info(() -> String.format("Key :[%s]   Value :[%s]", k, v)));
-
-
     }
 
     @Test(expectedExceptions = UnsupportedOperationException.class)
     public void linkedPropertiesTest() {
         LinkedProperties linkedProperties = new LinkedProperties();
-        Assert.assertFalse(linkedProperties.contains("value1"));
+        assertFalse(linkedProperties.contains("value1"));
         linkedProperties.put("key1", "value1");
-        Assert.assertTrue(linkedProperties.contains("value1"));
+        assertTrue(linkedProperties.contains("value1"));
         linkedProperties.put("key2", "value2");
-        Assert.assertTrue(linkedProperties.containsKey("key2"));
-        Assert.assertEquals(linkedProperties.entrySet().size(), 2);
+        assertTrue(linkedProperties.containsKey("key2"));
+        assertEquals(linkedProperties.entrySet().size(), 2);
         linkedProperties.clear();
-        Assert.assertEquals(linkedProperties.entrySet().size(), 0);
+        assertEquals(linkedProperties.entrySet().size(), 0);
         linkedProperties.elements();
+    }
+
+    @Test
+    public void selcukesTestPropsTest() {
+        SelcukesTestProperties properties = new SelcukesTestProperties();
+        assertEquals(properties.getProperty(FEATURES), "Hello RB Test");
+        assertEquals(properties.getProperty(EXCEL_SUITE_FILE), "TestData.xlsx");
+        assertEquals(properties.getProperty("dummy"), "");
+        assertEquals(properties.getProperty(GLUE), "${make}");
     }
 }
