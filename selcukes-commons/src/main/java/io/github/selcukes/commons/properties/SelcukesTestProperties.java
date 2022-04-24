@@ -24,16 +24,16 @@ import java.util.Map;
 
 @CustomLog
 public class SelcukesTestProperties {
-    public static String EXCEL_RUNNER = "selcukes.excel.runner";
-    public static String EXCEL_SUITE_NAME = "selcukes.excel.suiteName";
-    public static String EXCEL_SUITE_FILE = "selcukes.excel.suiteFile";
-    public static String EXTENT_REPORT = "selcukes.extent.report";
-    public static String FEATURES = "selcukes.features";
-    public static String GLUE = "selcukes.glue";
-    public static String TAGS = "selcukes.tags";
-    public static String PLUGIN = "selcukes.plugin";
-    public static String REPORTS_PATH = "selcukes.reports.path";
-    public static String TIMESTAMP_REPORT = "selcukes.timestamp.report";
+    public static final String EXCEL_RUNNER = "selcukes.excel.runner";
+    public static final String EXCEL_SUITE_NAME = "selcukes.excel.suiteName";
+    public static final String EXCEL_SUITE_FILE = "selcukes.excel.suiteFile";
+    public static final String EXTENT_REPORT = "selcukes.extent.report";
+    public static final String FEATURES = "selcukes.features";
+    public static final String GLUE = "selcukes.glue";
+    public static final String TAGS = "selcukes.tags";
+    public static final String PLUGIN = "selcukes.plugin";
+    public static final String REPORTS_PATH = "selcukes.reports.path";
+    public static final String TIMESTAMP_REPORT = "selcukes.timestamp.report";
     private final Map<String, String> properties;
 
     public SelcukesTestProperties() {
