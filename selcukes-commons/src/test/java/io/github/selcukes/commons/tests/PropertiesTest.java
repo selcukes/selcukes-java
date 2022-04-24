@@ -34,7 +34,7 @@ public class PropertiesTest {
     @Test
     public void loadPropertiesMapTest() {
         final Map<String, String> propertiesMap = ConfigFactory.loadPropertiesMap("selcukes.properties");
-        assertEquals(propertiesMap.size(), 2);
+        assertEquals(propertiesMap.size(), 11);
         assertEquals(propertiesMap.get(EXCEL_RUNNER), "true");
         assertEquals(propertiesMap.get(EXCEL_SUITE_NAME), "SMOKE");
         propertiesMap.forEach((k, v) -> logger.info(() -> String.format("Key :[%s]   Value :[%s]", k, v)));
@@ -57,9 +57,9 @@ public class PropertiesTest {
     @Test
     public void selcukesTestPropsTest() {
         SelcukesTestProperties properties = new SelcukesTestProperties();
-        assertEquals(properties.getProperty(FEATURES), "Hello RB Test");
+        assertEquals(properties.getSubstitutedProperty(FEATURES), "Hello RB Test");
         assertEquals(properties.getProperty(EXCEL_SUITE_FILE), "TestData.xlsx");
         assertEquals(properties.getProperty("dummy"), "");
-        assertEquals(properties.getProperty(GLUE), "${make}");
+        assertEquals(properties.getSubstitutedProperty(GLUE), "Sample  of RB Test");
     }
 }

@@ -36,7 +36,7 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
     public void perform() {
         try {
             SelcukesTestProperties properties = new SelcukesTestProperties();
-            String features = properties.getProperty(FEATURES);
+            String features = properties.getSubstitutedProperty(FEATURES);
             String glue = properties.getProperty(GLUE);
             String tag = properties.getProperty(TAGS);
             String additionalPlugin = properties.getProperty(PLUGIN);

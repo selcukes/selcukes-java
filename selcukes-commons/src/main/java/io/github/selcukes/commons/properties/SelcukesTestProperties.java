@@ -42,16 +42,16 @@ public class SelcukesTestProperties {
     }
 
     public String getProperty(String propertyKey) {
-        String value;
-        if (System.getProperty(propertyKey) != null) {
-            value = System.getProperty(propertyKey);
-        } else {
-            value = properties.getOrDefault(propertyKey, "");
-        }
+        if (System.getProperty(propertyKey) != null)
+            return System.getProperty(propertyKey);
+        return properties.getOrDefault(propertyKey, "");
+    }
 
-        return StringHelper.interpolate(value,
+    public String getSubstitutedProperty(String propertyKey) {
+        return StringHelper.interpolate(getProperty(propertyKey),
             matcher -> getProperty(matcher.group(1)));
     }
+
 
     public static void setSystemProperty(String key, String value) {
         if (!value.isBlank()) {
