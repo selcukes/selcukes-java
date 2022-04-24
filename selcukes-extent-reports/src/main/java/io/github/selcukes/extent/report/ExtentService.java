@@ -48,7 +48,7 @@ public class ExtentService implements Serializable {
     }
 
     private static class ExtentReportsLoader {
-        private static final String THUMBNAIL_REPORT = "thumbnail.report";
+        private static final String THUMBNAIL_REPORT = "selcukes.extent.thumbnail";
         private static final String TIMESTAMP_REPORT = "selcukes.timestamp.report";
         private static final ExtentReports INSTANCE = new ExtentReports();
         private static final String[] DEFAULT_SETUP_PATH = new String[]{"extent.properties",
@@ -72,8 +72,8 @@ public class ExtentService implements Serializable {
         private static final String REPORT_TITLE = "Automation Report";
 
         static {
-            createViaProperties();
             createViaSystem();
+            createViaProperties();
         }
 
         private static void createViaProperties() {
@@ -151,8 +151,8 @@ public class ExtentService implements Serializable {
         }
 
         private static void attach(ReporterConfigurable r, Properties properties) {
-            Object configPath = properties == null ? System.getProperty(ExtentReportsLoader.CONFIG_SPARK_KEY)
-                : properties.get(ExtentReportsLoader.CONFIG_SPARK_KEY);
+            Object configPath = properties == null ? System.getProperty(CONFIG_SPARK_KEY)
+                : properties.get(CONFIG_SPARK_KEY);
             if (configPath != null && !String.valueOf(configPath).isEmpty())
                 try {
                     r.loadXMLConfig(String.valueOf(configPath));

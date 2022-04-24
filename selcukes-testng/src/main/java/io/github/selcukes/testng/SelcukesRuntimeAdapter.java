@@ -48,10 +48,10 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
 
             if (reportsPath.isBlank()) {
                 reportsPath = "target/cucumber-reports";
-                extentReport = "target/extent-reports";
+                extentReportPath = "target/extent-reports";
             }
-            String timestamp = timestampReport.equalsIgnoreCase("true") ? "-" +
-                DateHelper.get().timeStamp() : "";
+            String timestamp = timestampReport.equalsIgnoreCase("true") ?
+                "-" + DateHelper.get().dateTime() : "";
 
 
             String plugin = String.format("html:%s/cucumber%s.html, json:%s/cucumber%s.json",
@@ -60,10 +60,11 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
             if (!additionalPlugin.isBlank()) {
                 plugin = plugin + "," + additionalPlugin;
             }
-            if (extentReport.equalsIgnoreCase("true")) {
+            if (!extentReport.equalsIgnoreCase("false")) {
                 setSystemProperty("extent.reporter.spark.start", "true");
                 setSystemProperty("extent.reporter.spark.out", extentReportPath + "/TestReport.html");
-                setSystemProperty("timestamp.report", timestampReport);
+                setSystemProperty(TIMESTAMP_REPORT, timestampReport);
+                plugin=plugin + "," + "io.github.selcukes.extent.report.SelcukesExtentAdapter:";
             }
             setSystemProperty("cucumber.plugin", plugin);
             setSystemProperty("cucumber.features", features);
