@@ -111,7 +111,7 @@ public class VersionDetector {
     }
 
     public String getCompatibleBinaryVersion(String browserVersion) {
-        logger.info(() -> String.format("Identifying Compatible %s version for Chrome Browser [%s] ", driverName, browserVersion));
+        logger.info(() -> String.format("Identifying Compatible %s version for Browser [%s] ", driverName, browserVersion));
         List<String> versions = getBinaryVersions(this.binaryDownloadUrl, this.driverName + "_" + this.osNameAndArch);
 
         String browserVersionPrefix = browserVersion.split("\\.")[0];
@@ -129,7 +129,7 @@ public class VersionDetector {
             }
         } else compatibleVersion = browserVersion;
 
-        logger.info(() -> String.format("Using %s [%s] for Chrome Browser [%s] ", driverName, compatibleVersion, browserVersion));
+        logger.info(() -> String.format("Using %s [%s] for Browser [%s] ", driverName, compatibleVersion, browserVersion));
         return compatibleVersion;
     }
 
