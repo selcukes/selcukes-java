@@ -34,7 +34,7 @@ public class BrowserOptions {
         boolean headless= Platform.isLinux();
         switch (driverType) {
             case EDGE:
-                WebDriverBinary.edgeDriver().checkBrowserVersion().setup();
+                WebDriverBinary.edgeDriver().setup();
                 EdgeOptions edgeOptions = new EdgeOptions();
                 edgeOptions.setHeadless(headless);
                 return edgeOptions;
@@ -55,7 +55,7 @@ public class BrowserOptions {
                 ieOptions.setCapability("enablePersistentHover", true);
                 return ieOptions;
             default:
-                WebDriverBinary.chromeDriver().checkBrowserVersion().setup();
+                WebDriverBinary.chromeDriver().setup();
                 return new ChromeOptions().setHeadless(headless);
         }
 
