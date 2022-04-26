@@ -48,10 +48,10 @@ public class VersionDetector {
     }
 
     public String getVersion() {
-        Optional<String> regQuery = Optional.empty();
+        Optional<String> version = Optional.empty();
 
         if (Platform.isWindows()) {
-            regQuery = Optional.of(getQuery());
+            version = Optional.of(getQuery());
         } else if (Platform.isLinux()) {
 
             Shell shell = new Shell();
@@ -62,7 +62,7 @@ public class VersionDetector {
             return getCompatibleBinaryVersion(browserVersion);
         }
 
-        return regQuery.map(this::getBrowserVersionFromCommand).orElse(null);
+        return version.map(this::getBrowserVersionFromCommand).orElse(null);
     }
 
     private String getQuery() {
