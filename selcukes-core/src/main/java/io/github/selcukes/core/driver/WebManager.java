@@ -46,7 +46,7 @@ public class WebManager implements RemoteManager {
                 }
                 RemoteWebDriverBuilder webDriverBuilder = RemoteWebDriver.builder().oneOf(capabilities);
                 if (ConfigFactory.getConfig().getWeb().get("remote").equalsIgnoreCase("true")) {
-                    Main.main(new String[]{"standalone", "--port", "4444"});
+                    Main.main(new String[]{"standalone", "--port", String.valueOf(getServiceUrl().getPort())});
                     webDriverBuilder.address(getServiceUrl());
                 }
                 driver = webDriverBuilder.build();
