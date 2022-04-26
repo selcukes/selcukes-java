@@ -23,27 +23,16 @@ import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.grid.Main;
-import org.openqa.selenium.net.PortProber;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URL;
+
+import static io.github.selcukes.core.driver.GridRunner.HUB_PORT;
 
 @CustomLog
 public class WebManager implements RemoteManager {
 
     private WebDriver driver;
-    private static boolean isGridStarted = false;
-    private static int HUB_PORT;
-
-    public static void startGrid() {
-        HUB_PORT = PortProber.findFreePort();
-        if (ConfigFactory.getConfig().getWeb().get("remote").equalsIgnoreCase("true") && !isGridStarted) {
-            Main.main(new String[]{"standalone", "--port", String.valueOf(HUB_PORT)});
-            isGridStarted = true;
-            logger.info(() -> "Grid Server started...");
-        }
-    }
 
     public synchronized WebDriver createDriver() {
         String browser = ConfigFactory.getConfig().getWeb().get("browserName");

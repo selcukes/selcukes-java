@@ -17,36 +17,32 @@
 package io.github.selcukes.core.tests.grid;
 
 import io.github.selcukes.core.driver.BrowserOptions;
+import io.github.selcukes.core.driver.DriverFactory;
+import io.github.selcukes.core.driver.DriverManager;
+import io.github.selcukes.core.driver.GridRunner;
+import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.enums.DriverType;
-import io.github.selcukes.wdb.WebDriverBinary;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.grid.Main;
-import org.openqa.selenium.net.PortProber;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
-import org.testng.annotations.*;
-
-import java.net.URL;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 @CustomLog
-public class ClassGridTest {
-    private static final ThreadLocal<WebDriver> LOCAL_DRIVER = new InheritableThreadLocal<>();
-    private static int HUB_PORT;
+public class ClassicGridTest {
+
+    DriverManager<RemoteWebDriver> driverManager;
 
     @BeforeSuite
-    static void beforeSuite() {
-        WebDriverBinary.chromeDriver().setup();
-        WebDriverBinary.edgeDriver().setup();
-        HUB_PORT = PortProber.findFreePort();
-        logger.debug(() -> "Using Free Hub Port: " + HUB_PORT);
-        Main.main(new String[]{"standalone", "--port", String.valueOf(HUB_PORT)});
+    void beforeSuite() {
+        driverManager = new DriverManager<>();
+        GridRunner.startGrid(DriverType.CHROME, DriverType.EDGE);
     }
 
     @DataProvider(parallel = true)
     public Object[][] driverTypes() {
-
         return new Object[][]{{DriverType.CHROME}, {DriverType.EDGE}};
     }
 
@@ -54,23 +50,9 @@ public class ClassGridTest {
     @Test(dataProvider = "driverTypes")
     public void parallelBrowserTest(DriverType driverType) {
         BrowserOptions browserOptions = new BrowserOptions();
-        LOCAL_DRIVER.set(new RemoteWebDriver(new URL("http://localhost:" + HUB_PORT),
-            browserOptions.getBrowserOptions(driverType)));
-        getDriver().get("https://www.google.com/");
-        Assert.assertEquals(getDriver().getTitle(), "Google");
+        driverManager.createDriver(DeviceType.BROWSER, browserOptions.getBrowserOptions(driverType));
+        DriverFactory.getDriver().get("https://www.google.com/");
+        Assert.assertEquals(DriverFactory.getDriver().getTitle(), "Google");
     }
 
-    public WebDriver getDriver() {
-        return LOCAL_DRIVER.get();
-    }
-
-    @AfterMethod
-    public void tearDown() {
-        getDriver().quit();
-    }
-
-    @AfterClass
-    void terminate() {
-        LOCAL_DRIVER.remove();
-    }
 }
