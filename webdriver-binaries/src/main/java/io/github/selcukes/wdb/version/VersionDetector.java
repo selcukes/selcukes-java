@@ -55,7 +55,8 @@ public class VersionDetector {
         } else if (Platform.isLinux()) {
 
             Shell shell = new Shell();
-            String command = "google-chrome --version";
+            String browserName = driverName.contains("chrome") ? "google-chrome" : "microsoft-edge";
+            String command = browserName + " --version";
             String queryResult = shell.runCommand(command).getOutput().get(0);
             String browserVersion = queryResult.replace("Google Chrome ", "").trim();
             logger.info(() -> "Browser Version Number: " + browserVersion);
