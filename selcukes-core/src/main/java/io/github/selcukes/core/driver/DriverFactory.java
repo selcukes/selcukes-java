@@ -16,13 +16,14 @@
 
 package io.github.selcukes.core.driver;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class DriverFactory<D extends RemoteWebDriver> {
+public final class DriverFactory<D extends WebDriver> {
 
     private static final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
 
@@ -36,11 +37,11 @@ public final class DriverFactory<D extends RemoteWebDriver> {
     private DriverFactory() {
     }
 
-    public static <D> D getDriver() {
+    public static <D extends WebDriver> D getDriver() {
         return (D) DRIVER_THREAD.get();
     }
 
-    public static <D> void setDriver(D driveThread) {
+    public static <D extends WebDriver> void setDriver(D driveThread) {
         STORED_DRIVER.add(driveThread);
         DRIVER_THREAD.set(driveThread);
     }
