@@ -89,6 +89,15 @@ public class FileHelper {
         }
     }
 
+    public Path createDirectory(String directory) {
+        try {
+            Path path = Paths.get(directory);
+            return Files.createDirectories(path);
+        } catch (IOException e) {
+            throw new SelcukesException("Unable to create directory : " + directory, e);
+        }
+    }
+
     public void deleteFilesInDirectory(File dirName) {
         try {
             FileUtils.cleanDirectory(dirName);
