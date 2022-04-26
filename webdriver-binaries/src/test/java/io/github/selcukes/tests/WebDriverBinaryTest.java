@@ -104,14 +104,20 @@ public class WebDriverBinaryTest {
     }
 
     @Test
-    public void checkBrowserVersionTest() {
+    public void chromeVersionTest() {
         BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().checkBrowserVersion().setup();
         String binProp = binaryInfo.getBinaryProperty();
         String binaryDownloadedPath = binaryInfo.getBinaryPath();
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + binaryDownloadedPath + "}");
     }
-
     @Test
+    public void edgeVersionTest() {
+        BinaryInfo binaryInfo = WebDriverBinary.edgeDriver().checkBrowserVersion().setup();
+        String binProp = binaryInfo.getBinaryProperty();
+        String binaryDownloadedPath = binaryInfo.getBinaryPath();
+        logger.debug(() -> "Binary path for { " + binProp + "} is {" + binaryDownloadedPath + "}");
+    }
+    @Test(priority = 1000)
     public void cleanBinaryCacheTest() {
         BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().targetPath("temp").clearBinaryCache().setup();
         String binProp = binaryInfo.getBinaryProperty();

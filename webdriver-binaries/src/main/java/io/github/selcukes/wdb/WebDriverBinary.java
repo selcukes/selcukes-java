@@ -32,7 +32,7 @@ public class WebDriverBinary {
     }
 
     public static synchronized Builder firefoxDriver() {
-        return new WebDriverBinary().new Builder(new GeckoBinary());
+        return new WebDriverBinary().new Builder(new FirefoxBinary());
     }
 
     public static synchronized Builder ieDriver() {
@@ -100,6 +100,4 @@ public class WebDriverBinary {
                 WebDriverBinary.this.strictDownload, WebDriverBinary.this.clearBinaryCache).downloadAndSetupBinaryPath();
         }
     }
-
-
 }

@@ -35,7 +35,7 @@ public class WebAuthTest extends BaseTest {
 
         String randomId = UUID.randomUUID().toString();
         logger.info(() -> "Username: " + randomId);
-        page.write(By.id("input-email"), randomId);
+        page.enter(By.id("input-email"), randomId);
         page.click(By.id("register-button"));
         WebDriverWait wait = page.getWait(20);
         wait.until(ExpectedConditions.textToBePresentInElementLocated(

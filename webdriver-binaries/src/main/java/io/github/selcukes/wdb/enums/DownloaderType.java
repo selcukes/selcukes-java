@@ -20,7 +20,7 @@ public enum DownloaderType {
     ZIP("zip"),
     TAR("tar.gz"),
     JAR("jar");
-    String name;
+    final String name;
 
     DownloaderType(String name) {
         this.name = name;

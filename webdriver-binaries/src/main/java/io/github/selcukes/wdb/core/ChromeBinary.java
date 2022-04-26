@@ -23,7 +23,6 @@ import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.util.BinaryDownloader;
 import io.github.selcukes.wdb.util.UrlHelper;
-import io.github.selcukes.wdb.util.VersionDetector;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -71,9 +70,7 @@ public class ChromeBinary extends AbstractBinary {
     @Override
     public void browserVersion(boolean isAutoCheck) {
         if (isAutoCheck) {
-            String localBrowserVersion = new VersionDetector(getBinaryDriverName(),
-                getBinaryEnvironment().getOsNameAndArch(), UrlHelper.CHROMEDRIVER_URL).getVersion();
-            super.setVersion(localBrowserVersion);
+            setBrowserVersion(UrlHelper.CHROMEDRIVER_URL);
         }
     }
 
