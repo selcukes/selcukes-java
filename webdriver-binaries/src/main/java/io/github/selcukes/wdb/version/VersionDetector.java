@@ -55,10 +55,10 @@ public class VersionDetector {
         } else if (Platform.isLinux()) {
 
             Shell shell = new Shell();
-            String browserName = driverName.contains("chrome") ? "google-chrome" : "microsoft-edge";
-            String command = browserName + " --version";
+            String browserName = driverName.contains("chrome") ? "Google Chrome" : "Microsoft Edge";
+            String command = browserName.toLowerCase().replace(" ", "-") + " --version";
             String queryResult = shell.runCommand(command).getOutput().get(0);
-            String browserVersion = queryResult.replace("Google Chrome ", "").trim();
+            String browserVersion = queryResult.replace(browserName + " ", "").trim();
             logger.info(() -> "Browser Version Number: " + browserVersion);
             return getCompatibleBinaryVersion(browserVersion);
         }
