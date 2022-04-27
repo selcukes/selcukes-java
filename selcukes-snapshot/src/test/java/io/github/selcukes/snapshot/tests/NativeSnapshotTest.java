@@ -21,7 +21,8 @@ import io.github.selcukes.wdb.driver.LocalDriver;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterTest;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -42,9 +43,13 @@ public class NativeSnapshotTest {
 
     }
 
-    @AfterTest
+    @AfterMethod
     public void tearDown() {
         getDriver().quit();
+    }
+
+    @AfterClass
+    void terminate() {
         LOCAL_DRIVER.remove();
     }
 
