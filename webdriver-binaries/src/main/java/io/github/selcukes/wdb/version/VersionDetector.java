@@ -23,6 +23,7 @@ import io.github.selcukes.commons.http.WebClient;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.os.Platform;
+import io.github.selcukes.databind.utils.StringHelper;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -55,10 +56,10 @@ public class VersionDetector {
         } else if (Platform.isLinux()) {
 
             Shell shell = new Shell();
-            String browserName = driverName.contains("chrome") ? "Google Chrome" : "Microsoft Edge";
-            String command = browserName.toLowerCase().replace(" ", "-") + " --version";
+            String browserName = driverName.contains("chrome") ? "google-chrome" : "microsoft-edge";
+            String command = browserName + " --version";
             String queryResult = shell.runCommand(command).getOutput().get(0);
-            String browserVersion = queryResult.replace(browserName + " ", "").trim();
+            String browserVersion = StringHelper.extractVersionNumber(queryResult);
             logger.info(() -> "Browser Version Number: " + browserVersion);
             return getCompatibleBinaryVersion(browserVersion);
         }
