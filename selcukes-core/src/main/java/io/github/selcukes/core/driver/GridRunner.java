@@ -17,8 +17,8 @@
 package io.github.selcukes.core.driver;
 
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.core.enums.DriverType;
 import io.github.selcukes.wdb.WebDriverBinary;
+import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import org.openqa.selenium.grid.Main;
 import org.openqa.selenium.net.PortProber;

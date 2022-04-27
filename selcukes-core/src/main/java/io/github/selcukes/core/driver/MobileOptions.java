@@ -22,13 +22,13 @@ import io.appium.java_client.gecko.options.GeckoOptions;
 import io.appium.java_client.mac.options.Mac2Options;
 import io.appium.java_client.safari.options.SafariOptions;
 import io.appium.java_client.windows.options.WindowsOptions;
-import io.github.selcukes.core.enums.DriverType;
+import io.github.selcukes.core.enums.AppiumDriverType;
 import org.openqa.selenium.Capabilities;
 
-public class MobileOptions extends BrowserOptions{
+public class MobileOptions extends BrowserOptions {
 
-    public Capabilities getMobileOptions(DriverType mobileType) {
-        switch (mobileType) {
+    public Capabilities getMobileOptions(AppiumDriverType appiumDriverType) {
+        switch (appiumDriverType) {
             case SAFARI:
                 return new SafariOptions();
             case GECKO:
@@ -42,7 +42,7 @@ public class MobileOptions extends BrowserOptions{
             case UIAUTOMATOR:
                 return new UiAutomator2Options();
             default:
-                return getBrowserOptions(mobileType);
+                throw new RuntimeException("Not Supported option" + appiumDriverType);
 
         }
 

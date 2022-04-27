@@ -17,8 +17,8 @@
 package io.github.selcukes.core.driver;
 
 import io.github.selcukes.commons.os.Platform;
-import io.github.selcukes.core.enums.DriverType;
 import io.github.selcukes.wdb.WebDriverBinary;
+import io.github.selcukes.wdb.enums.DriverType;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
@@ -31,7 +31,7 @@ import static org.openqa.selenium.remote.CapabilityType.UNEXPECTED_ALERT_BEHAVIO
 
 public class BrowserOptions {
     public Capabilities getBrowserOptions(DriverType driverType) {
-        boolean headless= Platform.isLinux();
+        boolean headless = Platform.isLinux();
         switch (driverType) {
             case EDGE:
                 WebDriverBinary.edgeDriver().setup();

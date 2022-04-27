@@ -21,7 +21,7 @@ import io.github.selcukes.core.driver.DriverFactory;
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.driver.GridRunner;
 import io.github.selcukes.core.enums.DeviceType;
-import io.github.selcukes.core.enums.DriverType;
+import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.remote.RemoteWebDriver;
