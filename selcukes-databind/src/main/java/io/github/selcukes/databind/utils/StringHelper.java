@@ -23,7 +23,6 @@ import lombok.experimental.UtilityClass;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.MatchResult;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @UtilityClass
@@ -62,9 +61,7 @@ public class StringHelper {
     }
 
     public String extractVersionNumber(String text) {
-        String regex = "(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)";
-        Matcher matcher = Pattern.compile(regex)
-            .matcher(text);
-        return matcher.find() ? matcher.group() : "";
+        String regex = "[^0-9_.]";
+        return text.replaceAll(regex, "");
     }
 }
