@@ -45,10 +45,13 @@ public class GridRunner {
         switch (driverType) {
             case EDGE:
                 WebDriverBinary.edgeDriver().setup();
+                break;
             case FIREFOX:
                 WebDriverBinary.firefoxDriver().setup();
+                break;
             case IEXPLORER:
-                WebDriverBinary.chromeDriver().setup();
+                WebDriverBinary.ieDriver().setup();
+                break;
             default:
                 WebDriverBinary.chromeDriver().setup();
 
