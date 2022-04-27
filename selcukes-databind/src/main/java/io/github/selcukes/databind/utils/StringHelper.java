@@ -59,4 +59,9 @@ public class StringHelper {
             .matcher(text)
             .replaceAll(replacer);
     }
+
+    public String extractVersionNumber(String text) {
+        String regex = "[^0-9_.]";
+        return text.replaceAll(regex, "");
+    }
 }

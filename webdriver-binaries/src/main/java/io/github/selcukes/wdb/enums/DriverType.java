@@ -23,7 +23,7 @@ public enum DriverType {
     EDGE("edge"),
     OPERA("opera");
 
-    String name;
+    final String name;
 
     DriverType(String name) {
         this.name = name;

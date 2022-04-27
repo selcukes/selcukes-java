@@ -23,11 +23,11 @@ import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.grid.Main;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.RemoteWebDriverBuilder;
 
 import java.net.URL;
+
+import static io.github.selcukes.core.driver.GridRunner.HUB_PORT;
 
 @CustomLog
 public class WebManager implements RemoteManager {
@@ -36,24 +36,21 @@ public class WebManager implements RemoteManager {
 
     public synchronized WebDriver createDriver() {
         String browser = ConfigFactory.getConfig().getWeb().get("browserName");
-        if (null == driver) {
-            try {
-                logger.info(() -> "Initiating New Browser Session...");
-                Capabilities capabilities = DesktopOptions.getUserOptions();
-                if (capabilities == null) {
-                    BrowserOptions browserOptions = new BrowserOptions();
-                    capabilities = browserOptions.getBrowserOptions(DriverType.valueOf(browser));
-                }
-                RemoteWebDriverBuilder webDriverBuilder = RemoteWebDriver.builder().oneOf(capabilities);
-                if (ConfigFactory.getConfig().getWeb().get("remote").equalsIgnoreCase("true")) {
-                    Main.main(new String[]{"standalone", "--port", "4444"});
-                    webDriverBuilder.address(getServiceUrl());
-                }
-                driver = webDriverBuilder.build();
-            } catch (Exception e) {
-                throw new DriverSetupException("Driver was not setup properly.", e);
+        try {
+            logger.info(() -> "Initiating New Browser Session...");
+            Capabilities capabilities = DesktopOptions.getUserOptions();
+            if (capabilities == null) {
+                BrowserOptions browserOptions = new BrowserOptions();
+                capabilities = browserOptions.getBrowserOptions(DriverType.valueOf(browser));
             }
+            driver = RemoteWebDriver.builder()
+                .oneOf(capabilities)
+                .address(getServiceUrl())
+                .build();
+        } catch (Exception e) {
+            throw new DriverSetupException("Driver was not setup properly.", e);
         }
+
         return driver;
     }
 
@@ -66,6 +63,6 @@ public class WebManager implements RemoteManager {
     @SneakyThrows
     public URL getServiceUrl() {
         String serviceUrl = ConfigFactory.getConfig().getWeb().get("serviceUrl");
-        return new URL(serviceUrl);
+        return new URL(serviceUrl + HUB_PORT);
     }
 }

@@ -25,6 +25,7 @@ public class WebDriverBinary {
     private String downloadLocation = FileHelper.getTempDir();
     private boolean strictDownload = false;
     private boolean clearBinaryCache = false;
+    private boolean autoCheck = true;
     private BinaryFactory binaryFactory;
 
     public static synchronized Builder chromeDriver() {
@@ -32,7 +33,7 @@ public class WebDriverBinary {
     }
 
     public static synchronized Builder firefoxDriver() {
-        return new WebDriverBinary().new Builder(new GeckoBinary());
+        return new WebDriverBinary().new Builder(new FirefoxBinary());
     }
 
     public static synchronized Builder ieDriver() {
@@ -54,6 +55,7 @@ public class WebDriverBinary {
 
 
         public Builder version(String version) {
+            WebDriverBinary.this.autoCheck = false;
             binaryFactory.setVersion(version);
             return this;
         }
@@ -84,8 +86,8 @@ public class WebDriverBinary {
             return this;
         }
 
-        public Builder checkBrowserVersion() {
-            binaryFactory.browserVersion(true);
+        public Builder disableAutoCheck() {
+            WebDriverBinary.this.autoCheck = false;
             return this;
         }
 
@@ -95,11 +97,11 @@ public class WebDriverBinary {
         }
 
         public BinaryInfo setup() {
+            binaryFactory.browserVersion(autoCheck);
             return new WebDriverBinaryUtil(WebDriverBinary.this.binaryFactory,
                 WebDriverBinary.this.downloadLocation,
                 WebDriverBinary.this.strictDownload, WebDriverBinary.this.clearBinaryCache).downloadAndSetupBinaryPath();
         }
+
     }
-
-
 }

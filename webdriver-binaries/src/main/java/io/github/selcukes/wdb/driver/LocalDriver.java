@@ -37,7 +37,7 @@ public class LocalDriver {
                 ieOptions.setCapability("enablePersistentHover", true);
                 return new InternetExplorerDriver();
             default:
-                WebDriverBinary.chromeDriver().checkBrowserVersion().setup();
+                WebDriverBinary.chromeDriver().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.setHeadless(headless);
                 return new ChromeDriver(chromeOptions);

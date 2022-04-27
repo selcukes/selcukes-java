@@ -16,6 +16,7 @@
 
 package io.github.selcukes.core.driver;
 
+import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.core.enums.DriverType;
 import io.github.selcukes.wdb.WebDriverBinary;
 import org.openqa.selenium.Capabilities;
@@ -30,13 +31,18 @@ import static org.openqa.selenium.remote.CapabilityType.UNEXPECTED_ALERT_BEHAVIO
 
 public class BrowserOptions {
     public Capabilities getBrowserOptions(DriverType driverType) {
+        boolean headless= Platform.isLinux();
         switch (driverType) {
             case EDGE:
                 WebDriverBinary.edgeDriver().setup();
-                return new EdgeOptions();
+                EdgeOptions edgeOptions = new EdgeOptions();
+                edgeOptions.setHeadless(headless);
+                return edgeOptions;
             case FIREFOX:
                 WebDriverBinary.firefoxDriver().setup();
-                return new FirefoxOptions();
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
+                firefoxOptions.setHeadless(headless);
+                return firefoxOptions;
             case IEXPLORER:
                 WebDriverBinary.ieDriver().setup();
                 InternetExplorerOptions ieOptions = new InternetExplorerOptions().requireWindowFocus();
@@ -49,8 +55,8 @@ public class BrowserOptions {
                 ieOptions.setCapability("enablePersistentHover", true);
                 return ieOptions;
             default:
-                WebDriverBinary.chromeDriver().checkBrowserVersion().setup();
-                return new ChromeOptions().setHeadless(true);
+                WebDriverBinary.chromeDriver().setup();
+                return new ChromeOptions().setHeadless(headless);
         }
 
     }

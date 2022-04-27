@@ -40,7 +40,7 @@ public class EventDriverTest extends BaseTest {
 
         By search = By.xpath("//span[@class='show-search' or @class='show-mobile-search']");
         page.click(search);
-        page.write(By.xpath("//input[@class='search-input' or @class='mobile-search-input']"), "selenium");
+        page.enter(By.xpath("//input[@class='search-input' or @class='mobile-search-input']"), "selenium");
     }
 
     @SneakyThrows

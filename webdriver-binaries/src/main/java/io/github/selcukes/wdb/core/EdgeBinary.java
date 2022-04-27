@@ -53,6 +53,13 @@ public class EdgeBinary extends AbstractBinary {
     }
 
     @Override
+    public void browserVersion(boolean isAutoCheck) {
+        if (isAutoCheck) {
+            setBrowserVersion(UrlHelper.EDGE_DRIVER_URL);
+        }
+    }
+
+    @Override
     protected String getLatestRelease() {
         try {
             String latestVersion = BinaryDownloader.downloadAndReadFile(new URL(UrlHelper.EDGE_DRIVER_LATEST_RELEASE_URL));

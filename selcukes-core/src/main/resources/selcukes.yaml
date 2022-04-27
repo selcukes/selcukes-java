@@ -8,7 +8,7 @@ web:
   remote: true
   browserName: CHROME
   headLess: true
-  serviceUrl: "http://localhost:4444"
+  serviceUrl: "http://localhost:"
 windows:
   serviceUrl: "http://127.0.0.1:4723"
   winApp-path: "C:/Program Files (x86)/Windows Application Driver/WinAppDriver.exe"

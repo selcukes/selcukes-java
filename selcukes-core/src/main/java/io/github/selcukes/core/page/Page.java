@@ -22,6 +22,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.events.WebDriverListener;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -57,14 +58,33 @@ public interface Page {
         return find(by).getText();
     }
 
-    default Page write(By by, CharSequence text) {
+    default Page enter(By by, CharSequence text) {
         find(by, WaitCondition.VISIBLE).sendKeys(text);
+        return this;
+    }
+
+    default Page clear(By by) {
+        find(by, WaitCondition.VISIBLE).clear();
         return this;
     }
 
     default Page click(By by) {
         click(by, WaitCondition.CLICKABLE);
         return this;
+    }
+
+    default Page selectText(By by, String text) {
+        select(by).selectByVisibleText(text);
+        return this;
+    }
+
+    default Page selectValue(By by, String value) {
+        select(by).selectByValue(value);
+        return this;
+    }
+
+    default Select select(By by) {
+        return new Select(find(by));
     }
 
     default Page click(By by, final WaitCondition condition) {

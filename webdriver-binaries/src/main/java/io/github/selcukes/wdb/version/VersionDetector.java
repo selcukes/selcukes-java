@@ -1,20 +1,20 @@
 /*
- * Copyright (c) Ramesh Babu Prudhvi.
+ *  Copyright (c) Ramesh Babu Prudhvi.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *         http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 
-package io.github.selcukes.wdb.util;
+package io.github.selcukes.wdb.version;
 
 import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.commons.exec.ExecResults;
@@ -23,19 +23,20 @@ import io.github.selcukes.commons.http.WebClient;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.os.Platform;
+import io.github.selcukes.databind.utils.StringHelper;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static org.jsoup.Jsoup.parse;
 
 public class VersionDetector {
-    private static final String CH_KEY = "chKey";
-    private static final String FF_KEY = "ffKey";
-    private static final String IE_KEY = "ieKey";
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final String driverName;
     private final String osNameAndArch;
@@ -48,49 +49,33 @@ public class VersionDetector {
     }
 
     public String getVersion() {
-        Optional<String> regQuery = Optional.empty();
+        Optional<String> version = Optional.empty();
 
         if (Platform.isWindows()) {
-            regQuery = Optional.ofNullable(getQuery(false));
+            version = Optional.of(getQuery());
         } else if (Platform.isLinux()) {
 
             Shell shell = new Shell();
-            String command = "google-chrome --version";
+            String browserName = driverName.contains("chrome") ? "google-chrome" : "microsoft-edge";
+            String command = browserName + " --version";
             String queryResult = shell.runCommand(command).getOutput().get(0);
-            String browserVersion = queryResult.replace("Google Chrome ", "").trim();
+            String browserVersion = StringHelper.extractVersionNumber(queryResult);
             logger.info(() -> "Browser Version Number: " + browserVersion);
             return getCompatibleBinaryVersion(browserVersion);
         }
 
-        return regQuery.map(this::getBrowserVersionFromCommand).orElse(null);
+        return version.map(this::getBrowserVersionFromCommand).orElse(null);
     }
 
-    private String getQuery(boolean fromReg) {
-        if (driverName.contains("chrome"))
-            return (fromReg) ? getRegQuery(CH_KEY) : getWMICQuery(CH_KEY);
-        else if (driverName.contains("gecko"))
-            return (fromReg) ? getRegQuery(FF_KEY) : getWMICQuery(FF_KEY);
-        else if (driverName.contains("IE"))
-            return (fromReg) ? getRegQuery(IE_KEY) : getWMICQuery(IE_KEY);
-        else return null;
-    }
-
-    private String getRegQuery(String key) {
-        String regQuery = "reg query \"%s\" /v version";
-        Map<String, String> keyMap = new HashMap<>();
-        keyMap.put(CH_KEY, "HKEY_CURRENT_USER\\Software\\Google\\Chrome\\BLBeacon");
-        keyMap.put(FF_KEY, "HKLM\\Software\\Mozilla\\Mozilla Firefox");
-        keyMap.put(IE_KEY, "HKLM\\Software\\Microsoft\\Internet Explorer");
-        return String.format(regQuery, keyMap.get(key));
-    }
-
-    private String getWMICQuery(String key) {
+    private String getQuery() {
         String wmicQuery = "wmic datafile where name='%s' get version";
-        Map<String, String> keyMap = new HashMap<>();
-        keyMap.put(CH_KEY, "C:\\\\Program Files (x86)\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe");
-        keyMap.put(FF_KEY, "C:\\\\program files\\\\Mozilla Firefox\\\\firefox.exe");
-        keyMap.put(IE_KEY, "C:\\\\Program Files\\\\Internet Explorer\\\\iexplore.exe");
-        return String.format(wmicQuery, keyMap.get(key));
+        Map<String, String> browserPath = Map.of(
+            "chromedriver", "C:\\\\Program Files (x86)\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe",
+            "geckodriver", "C:\\\\program files\\\\Mozilla Firefox\\\\firefox.exe",
+            "msedgedriver", "C:\\\\Program Files (x86)\\\\Microsoft\\\\Edge\\\\Application\\\\msedge.exe",
+            "IEDriverServer", "C:\\\\Program Files\\\\Internet Explorer\\\\iexplore.exe"
+        );
+        return String.format(wmicQuery, browserPath.get(driverName));
     }
 
     private String getBrowserVersionFromCommand(String regQuery) {
@@ -128,7 +113,7 @@ public class VersionDetector {
     }
 
     public String getCompatibleBinaryVersion(String browserVersion) {
-        logger.info(() -> String.format("Identifying Compatible %s version for Chrome Browser [%s] ", driverName, browserVersion));
+        logger.info(() -> String.format("Identifying Compatible %s version for Browser [%s] ", driverName, browserVersion));
         List<String> versions = getBinaryVersions(this.binaryDownloadUrl, this.driverName + "_" + this.osNameAndArch);
 
         String browserVersionPrefix = browserVersion.split("\\.")[0];
@@ -138,8 +123,7 @@ public class VersionDetector {
             versions.sort(new VersionComparator());
             int index = versions.indexOf(browserVersion);
             if (index == versions.size() - 1) {
-                compatibleVersion = versions.get(index - 1);
-
+                compatibleVersion = (index == 0) ? versions.get(index) : versions.get(index - 1);
             } else {
                 String previousVersion = versions.get(index - 1);
                 String nextVersion = versions.get(index + 1);
@@ -147,7 +131,7 @@ public class VersionDetector {
             }
         } else compatibleVersion = browserVersion;
 
-        logger.info(() -> String.format("Using %s [%s] for Chrome Browser [%s] ", driverName, compatibleVersion, browserVersion));
+        logger.info(() -> String.format("Using %s [%s] for Browser [%s] ", driverName, compatibleVersion, browserVersion));
         return compatibleVersion;
     }
 

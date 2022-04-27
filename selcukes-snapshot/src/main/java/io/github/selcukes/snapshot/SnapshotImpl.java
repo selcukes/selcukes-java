@@ -63,8 +63,7 @@ public class SnapshotImpl extends PageSnapshot implements Snapshot {
     }
 
     private Path getScreenshotPath() {
-        File reportDirectory = new File("target/screenshots");
-        FileHelper.createDirectory(reportDirectory);
+        Path reportDirectory = FileHelper.createDirectory("target/screenshots");
         String filePath = reportDirectory + File.separator + "screenshot_" + DateHelper.get().dateTime() + "." + "png";
         return Paths.get(filePath);
     }

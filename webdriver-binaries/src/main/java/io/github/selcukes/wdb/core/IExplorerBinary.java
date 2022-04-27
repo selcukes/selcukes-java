@@ -19,9 +19,21 @@ package io.github.selcukes.wdb.core;
 import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.util.UrlHelper;
+import io.github.selcukes.wdb.version.VersionComparator;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
+import static org.jsoup.Jsoup.parse;
 
 public class IExplorerBinary extends AbstractBinary {
 
@@ -49,7 +61,32 @@ public class IExplorerBinary extends AbstractBinary {
     protected String getLatestRelease() {
         String arch = getBinaryEnvironment().getArchitecture() == 64 ? "x64" : "Win32";
         String matcher = "IEDriverServer" + "_" + arch;
-        return getVersionNumberFromXML(UrlHelper.IEDRIVER_LATEST_RELEASE_URL, matcher);
+        final InputStream downloadStream = getHttpClient(UrlHelper.IEDRIVER_LATEST_RELEASE_URL).getResponseStream();
+        List<String> versions = new ArrayList<>();
+        Map<String, String> versionMap = new TreeMap<>();
+        try {
+            Document doc = parse(downloadStream, null, "");
+            Elements element = doc.select(
+                "Key:contains(" + matcher + ")");
+            for (Element e : element) {
+                String key = e.text().substring(e.text().indexOf('/'));
+                versionMap.put(key, e.text());
+                String temp = e.text().substring(e.text().indexOf('/') + 1).replaceAll(matcher, "");
+                String versionNum = temp.substring(1, temp.length() - 4);
+                versions.add(versionNum);
+            }
+
+            versions.sort(new VersionComparator());
+
+            String version = versions.get(versions.size() - 1);
+            latestVersionUrl = unwrap(versionMap.entrySet().stream()
+                .filter(map -> map.getValue().contains(version)).findFirst()).getValue();
+
+            return version;
+
+        } catch (Exception e) {
+            throw new WebDriverBinaryException(e);
+        }
     }
 
 }

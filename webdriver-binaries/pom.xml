@@ -13,7 +13,9 @@
 
     <name>webdriver-binaries</name>
     <description>Automatically downloads and configures Selenium Webdriver binary files</description>
-
+    <properties>
+        <sonar.exclusions>**/VersionComparator.java</sonar.exclusions>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>io.github.selcukes</groupId>

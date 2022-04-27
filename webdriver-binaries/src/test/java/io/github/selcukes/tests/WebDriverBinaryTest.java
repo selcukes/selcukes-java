@@ -16,28 +16,17 @@
 
 package io.github.selcukes.tests;
 
-
-import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.wdb.BinaryInfo;
 import io.github.selcukes.wdb.WebDriverBinary;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
-import java.io.File;
 
 import static java.lang.System.getProperty;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 public class WebDriverBinaryTest {
     private final Logger logger = LoggerFactory.getLogger(WebDriverBinaryTest.class);
-
-    @BeforeTest
-    public void beforeTest() {
-        ConfigFactory.loadLoggerProperties();
-    }
 
     @Test
     public void chromeDriverTest() {
@@ -104,14 +93,14 @@ public class WebDriverBinaryTest {
     }
 
     @Test
-    public void checkBrowserVersionTest() {
-        BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().checkBrowserVersion().setup();
+    public void disableAutoBrowserVersionCheckTest() {
+        BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().disableAutoCheck().setup();
         String binProp = binaryInfo.getBinaryProperty();
         String binaryDownloadedPath = binaryInfo.getBinaryPath();
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + binaryDownloadedPath + "}");
     }
 
-    @Test
+    @Test(priority = 1000)
     public void cleanBinaryCacheTest() {
         BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().targetPath("temp").clearBinaryCache().setup();
         String binProp = binaryInfo.getBinaryProperty();

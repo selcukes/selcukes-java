@@ -31,14 +31,15 @@ public class HomePage {
         this.driver = driver;
     }
 
-    public void navigateToHomePage() {
+    public synchronized void navigateToHomePage() {
         String browser = driver.getClass().getSimpleName().replace("Driver", "");
         logger.info(() -> String.format("Initiated %s browser", browser));
         driver.get(url);
         logger.info(() -> "Navigated to " + url);
         Snapshot snapshot = new SnapshotImpl(driver);
         String screenshotFilePath = snapshot
-            .withText("Browser: " + browser + "\nThis sample Text Message\nMake it simple Make it simple Make it simple Make it simple Make it simple")
+            .withText("Browser: " + browser + "\nThis sample text message displayed in Screenshot." +
+                "\nThis second line of text message displayed in Screenshot")
             .shootPage();
         logger.info(() -> String.format("Captured full page screenshot for %s browser and placed at %s ",
             browser, screenshotFilePath));
