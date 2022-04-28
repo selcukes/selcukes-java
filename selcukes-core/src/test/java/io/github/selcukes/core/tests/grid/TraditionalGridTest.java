@@ -17,8 +17,9 @@
 package io.github.selcukes.core.tests.grid;
 
 import io.github.selcukes.core.driver.BrowserOptions;
-import io.github.selcukes.core.enums.DriverType;
+
 import io.github.selcukes.wdb.WebDriverBinary;
+import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
