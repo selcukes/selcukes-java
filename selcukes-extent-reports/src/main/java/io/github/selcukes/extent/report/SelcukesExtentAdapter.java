@@ -44,6 +44,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import static io.github.selcukes.extent.report.Reporter.getReporter;
+
 public class SelcukesExtentAdapter implements ConcurrentEventListener {
 
 
@@ -56,28 +58,28 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
         "image/svg+xml", "svg"
     );
 
-    private static Map<String, ExtentTest> featureMap = new ConcurrentHashMap<>();
-    private static ThreadLocal<ExtentTest> featureTestThreadLocal = new InheritableThreadLocal<>();
-    private static Map<String, ExtentTest> scenarioOutlineMap = new ConcurrentHashMap<>();
-    private static ThreadLocal<ExtentTest> scenarioOutlineThreadLocal = new InheritableThreadLocal<>();
-    private static ThreadLocal<ExtentTest> scenarioThreadLocal = new InheritableThreadLocal<>();
-    private static ThreadLocal<Boolean> isHookThreadLocal = new InheritableThreadLocal<>();
-    private static ThreadLocal<ExtentTest> stepTestThreadLocal = new InheritableThreadLocal<>();
-    private static ThreadLocal<Set<String>> featureTagsThreadLocal = new InheritableThreadLocal<>();
-    private static ThreadLocal<Set<String>> scenarioOutlineTagsThreadLocal = new InheritableThreadLocal<>();
+    private static final Map<String, ExtentTest> featureMap = new ConcurrentHashMap<>();
+    private static final ThreadLocal<ExtentTest> featureTestThreadLocal = new InheritableThreadLocal<>();
+    private static final Map<String, ExtentTest> scenarioOutlineMap = new ConcurrentHashMap<>();
+    private static final ThreadLocal<ExtentTest> scenarioOutlineThreadLocal = new InheritableThreadLocal<>();
+    private static final ThreadLocal<ExtentTest> scenarioThreadLocal = new InheritableThreadLocal<>();
+    private static final ThreadLocal<Boolean> isHookThreadLocal = new InheritableThreadLocal<>();
+    private static final ThreadLocal<ExtentTest> stepTestThreadLocal = new InheritableThreadLocal<>();
+    private static final ThreadLocal<Set<String>> featureTagsThreadLocal = new InheritableThreadLocal<>();
+    private static final ThreadLocal<Set<String>> scenarioOutlineTagsThreadLocal = new InheritableThreadLocal<>();
     private final TestSourcesModel testSources = new TestSourcesModel();
 
-    private ThreadLocal<URI> currentFeatureFile = new ThreadLocal<>();
-    private ThreadLocal<Scenario> currentScenarioOutline = new InheritableThreadLocal<>();
-    private ThreadLocal<Examples> currentExamples = new InheritableThreadLocal<>();
+    private final ThreadLocal<URI> currentFeatureFile = new ThreadLocal<>();
+    private final ThreadLocal<Scenario> currentScenarioOutline = new InheritableThreadLocal<>();
+    private final ThreadLocal<Examples> currentExamples = new InheritableThreadLocal<>();
 
-    private EventHandler<TestSourceRead> testSourceReadHandler = this::handleTestSourceRead;
-    private EventHandler<TestCaseStarted> caseStartedHandler = this::handleTestCaseStarted;
-    private EventHandler<TestStepStarted> stepStartedHandler = this::handleTestStepStarted;
-    private EventHandler<TestStepFinished> stepFinishedHandler = this::handleTestStepFinished;
-    private EventHandler<EmbedEvent> embedEventHandler = this::handleEmbed;
-    private EventHandler<WriteEvent> writeEventHandler = this::handleWrite;
-    private EventHandler<TestRunFinished> runFinishedHandler = event -> finishReport();
+    private final EventHandler<TestSourceRead> testSourceReadHandler = this::handleTestSourceRead;
+    private final EventHandler<TestCaseStarted> caseStartedHandler = this::handleTestCaseStarted;
+    private final EventHandler<TestStepStarted> stepStartedHandler = this::handleTestStepStarted;
+    private final EventHandler<TestStepFinished> stepFinishedHandler = this::handleTestStepFinished;
+    private final EventHandler<EmbedEvent> embedEventHandler = this::handleEmbed;
+    private final EventHandler<WriteEvent> writeEventHandler = this::handleWrite;
+    private final EventHandler<TestRunFinished> runFinishedHandler = event -> finishReport();
 
     public SelcukesExtentAdapter(String arg) {
         ExtentService.getInstance();
@@ -109,12 +111,14 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     }
 
     private synchronized void handleTestCaseStarted(TestCaseStarted event) {
+        getReporter().start();
         handleStartOfFeature(event.getTestCase());
         handleScenarioOutline(event.getTestCase());
         createTestCase(event.getTestCase());
     }
 
     private synchronized void handleTestStepStarted(TestStepStarted event) {
+        getReporter().attachAndRestart();
         isHookThreadLocal.set(false);
 
         if (event.getTestStep() instanceof HookTestStep) {
@@ -131,7 +135,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     }
 
     private synchronized void handleTestStepFinished(TestStepFinished event) {
-
+        getReporter().attachAndRestart();
         updateResult(event.getResult());
     }
 
@@ -201,11 +205,12 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     }
 
     private void finishReport() {
+        getReporter().attachAndClear();
         ExtentService.getInstance().flush();
     }
 
     private synchronized void handleStartOfFeature(TestCase testCase) {
-        if (currentFeatureFile == null || !testCase.getUri().equals(currentFeatureFile.get())) {
+        if (!testCase.getUri().equals(currentFeatureFile.get())) {
             Objects.requireNonNull(currentFeatureFile).set(testCase.getUri());
             createFeature(testCase);
         }

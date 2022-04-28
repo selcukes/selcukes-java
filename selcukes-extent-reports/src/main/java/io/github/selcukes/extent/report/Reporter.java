@@ -41,14 +41,14 @@ public class Reporter {
         }
     }
 
-    public static Reporter getReport() {
+    public static Reporter getReporter() {
         if (reporter == null) {
             reporter = new Reporter();
         }
         return reporter;
     }
 
-    public Reporter start() {
+    Reporter start() {
         logRecordListener = new LogRecordListener();
         LoggerFactory.addListener(logRecordListener);
         return this;
@@ -59,29 +59,31 @@ public class Reporter {
     }
 
 
-    public Reporter attach() {
-        String infoLogs = logRecordListener.getLogRecords(Level.INFO)
-            .map(LogRecord::getMessage)
-            .filter(nullOrEmpty.negate())
-            .collect(Collectors.joining("</li><li>", "<ul><li> ",
-                "</li></ul><br/>"));
-        if (!infoLogs.equalsIgnoreCase("<ul><li> </li></ul><br/>"))
-            Reporter.log(infoLogs);
+    private Reporter attach() {
+        if (logRecordListener != null) {
+            String infoLogs = logRecordListener.getLogRecords(Level.INFO)
+                .map(LogRecord::getMessage)
+                .filter(nullOrEmpty.negate())
+                .collect(Collectors.joining("</li><li>", "<ul><li> ",
+                    "</li></ul><br/>"));
+            if (!infoLogs.equalsIgnoreCase("<ul><li> </li></ul><br/>"))
+                Reporter.log(infoLogs);
+        }
         return this;
     }
 
-    public Reporter stop() {
-
-        LoggerFactory.removeListener(logRecordListener);
+    private Reporter stop() {
+        if (logRecordListener != null)
+            LoggerFactory.removeListener(logRecordListener);
         return this;
     }
 
-    public void attachAndClear() {
+    void attachAndClear() {
         attach().stop();
 
     }
 
-    public void attachAndRestart() {
+    void attachAndRestart() {
         attach().stop().start();
     }
 
