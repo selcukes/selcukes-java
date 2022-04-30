@@ -46,6 +46,7 @@ public class NotepadTest {
             .enter(edit, "Time is")
             .enter(edit, Keys.ENTER)
             .enter(edit, Keys.F5)
+            .enter(edit, Keys.CONTROL + "w" + Keys.CONTROL)
             .click(By.name("Don't Save"));
     }
 
