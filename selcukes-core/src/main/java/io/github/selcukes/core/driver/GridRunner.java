@@ -17,8 +17,7 @@
 package io.github.selcukes.core.driver;
 
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.core.enums.DriverType;
-import io.github.selcukes.wdb.WebDriverBinary;
+import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import org.openqa.selenium.grid.Main;
 import org.openqa.selenium.net.PortProber;
@@ -27,34 +26,35 @@ import java.util.Arrays;
 
 @CustomLog
 public class GridRunner {
-    private static boolean isGridStarted = false;
+    private static boolean isRunning = false;
     protected static int HUB_PORT;
 
-    public static void startGrid(DriverType... driverType) {
-        Arrays.stream(driverType).distinct().forEach(GridRunner::setBinaries);
+    public static void startSeleniumServer(DriverType... driverType) {
+        Arrays.stream(driverType).distinct().forEach(BrowserOptions::setBinaries);
         HUB_PORT = PortProber.findFreePort();
-        if (ConfigFactory.getConfig().getWeb().get("remote").equalsIgnoreCase("true") && !isGridStarted) {
+        if (isGridNotRunning()) {
+            logger.debug(() -> "Using Free Hub Port: " + HUB_PORT);
             Main.main(new String[]{"standalone", "--port", String.valueOf(HUB_PORT)});
-            isGridStarted = true;
+            isRunning = true;
             logger.info(() -> "Grid Server started...");
         }
-
     }
 
-    private static void setBinaries(DriverType driverType) {
-        switch (driverType) {
-            case EDGE:
-                WebDriverBinary.edgeDriver().setup();
-                break;
-            case FIREFOX:
-                WebDriverBinary.firefoxDriver().setup();
-                break;
-            case IEXPLORER:
-                WebDriverBinary.ieDriver().setup();
-                break;
-            default:
-                WebDriverBinary.chromeDriver().setup();
-
-        }
+    static boolean isGridRunning() {
+        return ConfigFactory.getConfig().getWeb().get("remote")
+            .equalsIgnoreCase("true") && GridRunner.isRunning;
     }
+    static boolean isGridNotRunning() {
+        return ConfigFactory.getConfig().getWeb().get("remote")
+            .equalsIgnoreCase("true") && !GridRunner.isRunning;
+    }
+
+    public static void startAppiumServer() {
+        AppiumEngine.getInstance().startLocalServer();
+    }
+
+    public static void stopAppiumServer() {
+        AppiumEngine.getInstance().stopServer();
+    }
+
 }

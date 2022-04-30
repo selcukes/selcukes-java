@@ -14,10 +14,15 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.core.driver;
+package io.github.selcukes.core.tests;
 
-import org.openqa.selenium.WebDriver;
+import io.github.selcukes.core.driver.GridRunner;
+import io.github.selcukes.wdb.enums.DriverType;
+import org.testng.annotations.BeforeSuite;
 
-public interface RemoteManager {
-    WebDriver createDriver();
+public class GridBaseTest {
+    @BeforeSuite
+    void beforeSuite() {
+        GridRunner.startSeleniumServer(DriverType.CHROME, DriverType.EDGE);
+    }
 }

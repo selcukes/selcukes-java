@@ -17,45 +17,44 @@
 package io.github.selcukes.core.driver;
 
 import io.github.selcukes.commons.exception.DriverSetupException;
-import io.github.selcukes.commons.logging.Logger;
-import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.core.enums.DeviceType;
+import lombok.CustomLog;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.util.Arrays;
 
+@CustomLog
+public class DriverManager {
+    private static final ThreadLocal<DriverManager> DRIVERS = new InheritableThreadLocal<>();
 
-public class DriverManager<D extends RemoteWebDriver> {
-    private final Logger logger = LoggerFactory.getLogger(DriverManager.class);
-    private RemoteManager remoteManager;
+    public static DriverManager getManager() {
+        if (DRIVERS.get() == null) {
+            DRIVERS.set(new DriverManager());
+        }
+        return DRIVERS.get();
+    }
 
-    public D createDriver(DeviceType deviceType, Capabilities... capabilities) {
+    public <D extends RemoteWebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
         Arrays.stream(capabilities).findAny().ifPresent(DesktopOptions::setUserOptions);
         if (DriverFactory.getDriver() == null) {
             logger.info(() -> String.format("Creating new %s session...", deviceType));
+            RemoteManager remoteManager;
             switch (deviceType) {
                 case BROWSER:
                     remoteManager = new WebManager();
-                    DriverFactory.setDriver(remoteManager.createDriver());
                     break;
                 case DESKTOP:
                     remoteManager = new DesktopManager();
-                    DriverFactory.setDriver(remoteManager.createDriver());
                     break;
                 case MOBILE:
                     remoteManager = new AppiumManager();
-                    DriverFactory.setDriver(remoteManager.createDriver());
                     break;
                 default:
                     throw new DriverSetupException("Unable to create new driver session for Driver Type[" + deviceType + "]");
             }
+            DriverFactory.setDriver(remoteManager.createDriver());
         }
         return DriverFactory.getDriver();
     }
-
-    public RemoteManager getManager() {
-        return remoteManager;
-    }
-
 }

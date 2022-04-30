@@ -32,8 +32,8 @@ import static io.github.selcukes.databind.utils.StringHelper.nullOrEmpty;
 
 public class Reporter {
     private static Snapshot snapshot;
-    private static Reporter reporter;
     private LogRecordListener logRecordListener;
+    private static final ThreadLocal<Reporter> reporterThreadLocal = new InheritableThreadLocal<>();
 
     public static void log(String message) {
         if (message != null) {
@@ -41,14 +41,14 @@ public class Reporter {
         }
     }
 
-    public static Reporter getReport() {
-        if (reporter == null) {
-            reporter = new Reporter();
+    public static Reporter getReporter() {
+        if (reporterThreadLocal.get() == null) {
+            reporterThreadLocal.set(new Reporter());
         }
-        return reporter;
+        return reporterThreadLocal.get();
     }
 
-    public Reporter start() {
+    Reporter start() {
         logRecordListener = new LogRecordListener();
         LoggerFactory.addListener(logRecordListener);
         return this;
@@ -59,29 +59,35 @@ public class Reporter {
     }
 
 
-    public Reporter attach() {
-        String infoLogs = logRecordListener.getLogRecords(Level.INFO)
-            .map(LogRecord::getMessage)
-            .filter(nullOrEmpty.negate())
-            .collect(Collectors.joining("</li><li>", "<ul><li> ",
-                "</li></ul><br/>"));
-        if (!infoLogs.equalsIgnoreCase("<ul><li> </li></ul><br/>"))
-            Reporter.log(infoLogs);
+    private Reporter attach() {
+        if (logRecordListener != null) {
+            String infoLogs = logRecordListener.getLogRecords(Level.INFO)
+                .map(LogRecord::getMessage)
+                .filter(nullOrEmpty.negate())
+                .collect(Collectors.joining("</li><li>", "<ul><li> ",
+                    "</li></ul><br/>"));
+            if (!infoLogs.equalsIgnoreCase("<ul><li> </li></ul><br/>"))
+                Reporter.log(infoLogs);
+        }
         return this;
     }
 
-    public Reporter stop() {
-
-        LoggerFactory.removeListener(logRecordListener);
+    private Reporter stop() {
+        if (logRecordListener != null)
+            LoggerFactory.removeListener(logRecordListener);
         return this;
     }
 
-    public void attachAndClear() {
+    void removeReporter() {
+        reporterThreadLocal.remove();
+    }
+
+    void attachAndClear() {
         attach().stop();
 
     }
 
-    public void attachAndRestart() {
+    void attachAndRestart() {
         attach().stop().start();
     }
 

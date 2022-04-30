@@ -16,16 +16,11 @@
 
 package io.github.selcukes.core.enums;
 
-public enum DriverType {
+public enum AppiumDriverType {
     SAFARI,
     GECKO,
     MAC,
     WINDOWS,
     ESPRESSO,
-    UIAUTOMATOR,
-    CHROME,
-    FIREFOX,
-    IEXPLORER,
-    EDGE,
-    OPERA,
+    UIAUTOMATOR
 }

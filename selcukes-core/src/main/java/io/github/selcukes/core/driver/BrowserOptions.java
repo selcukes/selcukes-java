@@ -17,8 +17,8 @@
 package io.github.selcukes.core.driver;
 
 import io.github.selcukes.commons.os.Platform;
-import io.github.selcukes.core.enums.DriverType;
 import io.github.selcukes.wdb.WebDriverBinary;
+import io.github.selcukes.wdb.enums.DriverType;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
@@ -30,21 +30,21 @@ import static org.openqa.selenium.remote.CapabilityType.HAS_NATIVE_EVENTS;
 import static org.openqa.selenium.remote.CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR;
 
 public class BrowserOptions {
-    public Capabilities getBrowserOptions(DriverType driverType) {
-        boolean headless= Platform.isLinux();
+    public Capabilities getBrowserOptions(DriverType driverType, boolean isGrid) {
+        boolean headless = Platform.isLinux();
+        if (isGrid) {
+            setBinaries(driverType);
+        }
         switch (driverType) {
             case EDGE:
-                WebDriverBinary.edgeDriver().setup();
                 EdgeOptions edgeOptions = new EdgeOptions();
                 edgeOptions.setHeadless(headless);
                 return edgeOptions;
             case FIREFOX:
-                WebDriverBinary.firefoxDriver().setup();
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 firefoxOptions.setHeadless(headless);
                 return firefoxOptions;
             case IEXPLORER:
-                WebDriverBinary.ieDriver().setup();
                 InternetExplorerOptions ieOptions = new InternetExplorerOptions().requireWindowFocus();
                 ieOptions.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
                 ieOptions.setCapability(InternetExplorerDriver.IGNORE_ZOOM_SETTING, true);
@@ -55,9 +55,24 @@ public class BrowserOptions {
                 ieOptions.setCapability("enablePersistentHover", true);
                 return ieOptions;
             default:
-                WebDriverBinary.chromeDriver().setup();
                 return new ChromeOptions().setHeadless(headless);
         }
 
+    }
+
+    public static void setBinaries(DriverType driverType) {
+        switch (driverType) {
+            case EDGE:
+                WebDriverBinary.edgeDriver().setup();
+                break;
+            case FIREFOX:
+                WebDriverBinary.firefoxDriver().setup();
+                break;
+            case IEXPLORER:
+                WebDriverBinary.ieDriver().setup();
+                break;
+            default:
+                WebDriverBinary.chromeDriver().setup();
+        }
     }
 }

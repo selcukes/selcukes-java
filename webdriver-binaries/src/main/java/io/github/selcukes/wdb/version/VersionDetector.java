@@ -16,7 +16,6 @@
 
 package io.github.selcukes.wdb.version;
 
-import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.commons.exec.ExecResults;
 import io.github.selcukes.commons.exec.Shell;
 import io.github.selcukes.commons.http.WebClient;
@@ -29,10 +28,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static org.jsoup.Jsoup.parse;
 
@@ -108,7 +104,8 @@ public class VersionDetector {
             return versions;
 
         } catch (Exception e) {
-            throw new WebDriverBinaryException(e);
+            logger.warn(() -> "Failed Identifying Compatible Version. Downloading Latest version.");
+            return Collections.emptyList();
         }
     }
 

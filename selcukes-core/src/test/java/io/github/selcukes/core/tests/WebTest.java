@@ -16,30 +16,20 @@
 
 package io.github.selcukes.core.tests;
 
+import io.github.selcukes.core.driver.DriverFactory;
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.page.WebPage;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class WebTest {
-
-    DriverManager<RemoteWebDriver> driverManager;
-    WebDriver driver;
-
-    @BeforeTest
-    void beforeTest() {
-        driverManager = new DriverManager<>();
-        driver = driverManager.createDriver(DeviceType.BROWSER);
-    }
-
+public class WebTest extends GridBaseTest {
 
     @Test
     public void remoteTest() {
+        WebDriver driver = DriverManager.getManager().createDriver(DeviceType.BROWSER);
         WebPage page = new WebPage(driver);
         page.open("https://www.google.com/");
         Assert.assertEquals(page.title(), "Google");
@@ -47,6 +37,6 @@ public class WebTest {
 
     @AfterTest
     void afterTest() {
-        driverManager.getManager().destroyDriver();
+        DriverFactory.removeDriver();
     }
 }
