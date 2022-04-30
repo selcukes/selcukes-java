@@ -30,9 +30,10 @@ import static io.github.selcukes.core.driver.DriverFactory.getDriver;
 import static io.github.selcukes.core.driver.DriverManager.getManager;
 
 @CustomLog
+@Test(enabled = false)
 public class ClassicGridTest {
 
-    @BeforeSuite
+    @BeforeTest
     void beforeSuite() {
         GridRunner.startSeleniumServer(DriverType.CHROME, DriverType.EDGE);
     }
@@ -51,7 +52,7 @@ public class ClassicGridTest {
         Assert.assertEquals(getDriver().getTitle(), "Google");
     }
 
-    @AfterMethod
+    @AfterTest
     void afterTest() {
         DriverFactory.removeDriver();
     }

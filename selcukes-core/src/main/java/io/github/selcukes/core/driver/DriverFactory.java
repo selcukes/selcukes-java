@@ -43,8 +43,10 @@ public final class DriverFactory {
 
     public static void removeDriver() {
         try {
-            STORED_DRIVER.remove(DRIVER_THREAD.get());
-            getDriver().quit();
+            if(getDriver()!=null) {
+                STORED_DRIVER.remove(getDriver());
+                getDriver().quit();
+            }
         } finally {
             DRIVER_THREAD.remove();
         }
