@@ -51,7 +51,7 @@ public class ClassicGridTest {
         getManager().createDriver(DeviceType.BROWSER, browserOptions.getBrowserOptions(driverType, true));
         getDriver().get("https://www.google.com/");
         Assert.assertEquals(getDriver().getTitle(), "Google");
-        DriverFactory.removeDriver();
+        DriverFactory.removeAllDrivers();
     }
 
 }
