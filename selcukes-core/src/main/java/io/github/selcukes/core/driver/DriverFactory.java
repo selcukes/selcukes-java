@@ -19,15 +19,15 @@ package io.github.selcukes.core.driver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
-public final class DriverFactory<D extends WebDriver> {
+public final class DriverFactory {
 
     private static final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
 
-    private static final Set<Object> STORED_DRIVER = ConcurrentHashMap.newKeySet();
+    private static final Set<Object> STORED_DRIVER = new HashSet<>();
 
     private DriverFactory() {
     }
@@ -43,7 +43,7 @@ public final class DriverFactory<D extends WebDriver> {
 
     public static void removeDriver() {
         try {
-            STORED_DRIVER.remove(getDriver());
+            STORED_DRIVER.remove(DRIVER_THREAD.get());
             getDriver().quit();
         } finally {
             DRIVER_THREAD.remove();
