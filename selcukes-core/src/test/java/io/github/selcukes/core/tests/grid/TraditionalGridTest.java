@@ -17,7 +17,6 @@
 package io.github.selcukes.core.tests.grid;
 
 import io.github.selcukes.core.driver.BrowserOptions;
-
 import io.github.selcukes.wdb.WebDriverBinary;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
@@ -56,7 +55,7 @@ public class TraditionalGridTest {
     public void parallelBrowserTest(DriverType driverType) {
         BrowserOptions browserOptions = new BrowserOptions();
         LOCAL_DRIVER.set(new RemoteWebDriver(new URL("http://localhost:" + HUB_PORT),
-            browserOptions.getBrowserOptions(driverType)));
+            browserOptions.getBrowserOptions(driverType, true)));
         getDriver().get("https://www.google.com/");
         Assert.assertEquals(getDriver().getTitle(), "Google");
     }

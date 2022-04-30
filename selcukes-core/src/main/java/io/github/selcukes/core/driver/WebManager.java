@@ -42,10 +42,10 @@ public class WebManager implements RemoteManager {
             Capabilities capabilities = DesktopOptions.getUserOptions();
             if (capabilities == null) {
                 BrowserOptions browserOptions = new BrowserOptions();
-                capabilities = browserOptions.getBrowserOptions(DriverType.valueOf(browser));
+                capabilities = browserOptions.getBrowserOptions(DriverType.valueOf(browser), isGrid());
             }
             RemoteWebDriverBuilder driverBuilder = RemoteWebDriver.builder().oneOf(capabilities);
-            if (ConfigFactory.getConfig().getWeb().get("remote").equalsIgnoreCase("true"))
+            if (isGrid())
                 driverBuilder.address(getServiceUrl());
 
             driver = driverBuilder.build();
@@ -62,10 +62,15 @@ public class WebManager implements RemoteManager {
             driver.quit();
     }
 
+    private boolean isGrid() {
+        return ConfigFactory.getConfig().getWeb().get("remote")
+            .equalsIgnoreCase("true") && GridRunner.isGridStarted;
+    }
+
     @SneakyThrows
     public URL getServiceUrl() {
         String serviceUrl = ConfigFactory.getConfig().getWeb().get("serviceUrl");
-        if (HUB_PORT == 0) {
+        if (isGrid()) {
             throw new DriverSetupException("Selenium server not started...");
         }
         return new URL(serviceUrl + HUB_PORT);

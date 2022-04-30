@@ -30,9 +30,9 @@ import static org.openqa.selenium.remote.CapabilityType.HAS_NATIVE_EVENTS;
 import static org.openqa.selenium.remote.CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR;
 
 public class BrowserOptions {
-    public Capabilities getBrowserOptions(DriverType driverType) {
+    public Capabilities getBrowserOptions(DriverType driverType, boolean isGrid) {
         boolean headless = Platform.isLinux();
-        if (GridRunner.HUB_PORT == 0) {
+        if (isGrid) {
             setBinaries(driverType);
         }
         switch (driverType) {

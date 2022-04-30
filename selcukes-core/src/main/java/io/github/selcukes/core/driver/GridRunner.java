@@ -26,13 +26,14 @@ import java.util.Arrays;
 
 @CustomLog
 public class GridRunner {
-    private static boolean isGridStarted = false;
+    protected static boolean isGridStarted = false;
     protected static int HUB_PORT;
 
     public static void startSeleniumServer(DriverType... driverType) {
         Arrays.stream(driverType).distinct().forEach(BrowserOptions::setBinaries);
         HUB_PORT = PortProber.findFreePort();
         if (ConfigFactory.getConfig().getWeb().get("remote").equalsIgnoreCase("true") && !isGridStarted) {
+            logger.debug(() -> "Using Free Hub Port: " + HUB_PORT);
             Main.main(new String[]{"standalone", "--port", String.valueOf(HUB_PORT)});
             isGridStarted = true;
             logger.info(() -> "Grid Server started...");

@@ -50,7 +50,7 @@ public class ClassicGridTest {
     @Test(dataProvider = "driverTypes")
     public void parallelBrowserTest(DriverType driverType) {
         BrowserOptions browserOptions = new BrowserOptions();
-        driverManager.createDriver(DeviceType.BROWSER, browserOptions.getBrowserOptions(driverType));
+        driverManager.createDriver(DeviceType.BROWSER, browserOptions.getBrowserOptions(driverType,true));
         DriverFactory.getDriver().get("https://www.google.com/");
         Assert.assertEquals(DriverFactory.getDriver().getTitle(), "Google");
     }
