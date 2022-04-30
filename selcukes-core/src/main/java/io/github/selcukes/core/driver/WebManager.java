@@ -29,6 +29,7 @@ import org.openqa.selenium.remote.RemoteWebDriverBuilder;
 import java.net.URL;
 
 import static io.github.selcukes.core.driver.GridRunner.HUB_PORT;
+import static io.github.selcukes.core.driver.GridRunner.isGridRunning;
 
 @CustomLog
 public class WebManager implements RemoteManager {
@@ -42,10 +43,10 @@ public class WebManager implements RemoteManager {
             Capabilities capabilities = DesktopOptions.getUserOptions();
             if (capabilities == null) {
                 BrowserOptions browserOptions = new BrowserOptions();
-                capabilities = browserOptions.getBrowserOptions(DriverType.valueOf(browser), isGrid());
+                capabilities = browserOptions.getBrowserOptions(DriverType.valueOf(browser), isGridRunning());
             }
             RemoteWebDriverBuilder driverBuilder = RemoteWebDriver.builder().oneOf(capabilities);
-            if (isGrid())
+            if (isGridRunning())
                 driverBuilder.address(getServiceUrl());
 
             driver = driverBuilder.build();
@@ -62,15 +63,10 @@ public class WebManager implements RemoteManager {
             driver.quit();
     }
 
-    private boolean isGrid() {
-        return ConfigFactory.getConfig().getWeb().get("remote")
-            .equalsIgnoreCase("true") && GridRunner.isGridStarted;
-    }
-
     @SneakyThrows
     public URL getServiceUrl() {
         String serviceUrl = ConfigFactory.getConfig().getWeb().get("serviceUrl");
-        if (isGrid()) {
+        if (isGridRunning()) {
             throw new DriverSetupException("Selenium server not started...");
         }
         return new URL(serviceUrl + HUB_PORT);
