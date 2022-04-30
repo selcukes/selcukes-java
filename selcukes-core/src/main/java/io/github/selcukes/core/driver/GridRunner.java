@@ -17,7 +17,6 @@
 package io.github.selcukes.core.driver;
 
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.wdb.WebDriverBinary;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import org.openqa.selenium.grid.Main;
@@ -31,14 +30,13 @@ public class GridRunner {
     protected static int HUB_PORT;
 
     public static void startSeleniumServer(DriverType... driverType) {
-        Arrays.stream(driverType).distinct().forEach(GridRunner::setBinaries);
+        Arrays.stream(driverType).distinct().forEach(BrowserOptions::setBinaries);
         HUB_PORT = PortProber.findFreePort();
         if (ConfigFactory.getConfig().getWeb().get("remote").equalsIgnoreCase("true") && !isGridStarted) {
             Main.main(new String[]{"standalone", "--port", String.valueOf(HUB_PORT)});
             isGridStarted = true;
             logger.info(() -> "Grid Server started...");
         }
-
     }
 
     public static void startAppiumServer() {
@@ -49,19 +47,4 @@ public class GridRunner {
         AppiumEngine.getInstance().stopServer();
     }
 
-    private static void setBinaries(DriverType driverType) {
-        switch (driverType) {
-            case EDGE:
-                WebDriverBinary.edgeDriver().setup();
-                break;
-            case FIREFOX:
-                WebDriverBinary.firefoxDriver().setup();
-                break;
-            case IEXPLORER:
-                WebDriverBinary.ieDriver().setup();
-                break;
-            default:
-                WebDriverBinary.chromeDriver().setup();
-        }
-    }
 }
