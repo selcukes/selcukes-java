@@ -37,7 +37,7 @@ public class WebPage extends WebAuthenticator implements Page {
     }
 
     public void printPage(String filePath) {
-        PrintsPage pg = (PrintsPage) driver;
+        PrintsPage pg = (PrintsPage) getDriver();
         PrintOptions printOptions = new PrintOptions();
         Pdf pdf = pg.print(printOptions);
         String pdfContent = pdf.getContent();

@@ -23,6 +23,7 @@ import io.github.selcukes.core.driver.GridRunner;
 import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.page.WinPage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -39,8 +40,13 @@ public class NotepadTest {
         WindowsDriver driver = DriverManager.getManager().createDriver(DeviceType.DESKTOP);
         WinPage page = new WinPage(driver);
         page.enableDriverEvents();
-        page.enter(By.className("Edit"), "This is sample");
-
+        By edit = By.className("Edit");
+        page.enter(edit, "This is sample")
+            .enter(edit, Keys.ENTER)
+            .enter(edit, "Time is")
+            .enter(edit, Keys.ENTER)
+            .enter(edit, Keys.F5)
+            .click(By.name("Don't Save"));
     }
 
     @AfterMethod

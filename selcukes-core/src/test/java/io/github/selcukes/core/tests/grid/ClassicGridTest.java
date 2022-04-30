@@ -18,25 +18,22 @@ package io.github.selcukes.core.tests.grid;
 
 import io.github.selcukes.core.driver.BrowserOptions;
 import io.github.selcukes.core.driver.DriverFactory;
-import io.github.selcukes.core.driver.GridRunner;
 import io.github.selcukes.core.enums.DeviceType;
+import io.github.selcukes.core.tests.GridBaseTest;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 import static io.github.selcukes.core.driver.DriverFactory.getDriver;
 import static io.github.selcukes.core.driver.DriverManager.getManager;
 
 @CustomLog
-@Test(enabled = false)
-public class ClassicGridTest {
 
-    @BeforeTest
-    void beforeSuite() {
-        GridRunner.startSeleniumServer(DriverType.CHROME, DriverType.EDGE);
-    }
+public class ClassicGridTest extends GridBaseTest {
 
     @DataProvider(parallel = true)
     public Object[][] driverTypes() {
@@ -52,7 +49,7 @@ public class ClassicGridTest {
         Assert.assertEquals(getDriver().getTitle(), "Google");
     }
 
-    @AfterTest
+    @AfterMethod
     void afterTest() {
         DriverFactory.removeDriver();
     }
