@@ -37,19 +37,17 @@ public class DriverManager<D extends RemoteWebDriver> {
             switch (deviceType) {
                 case BROWSER:
                     remoteManager = new WebManager();
-                    DriverFactory.setDriver(remoteManager.createDriver());
                     break;
                 case DESKTOP:
                     remoteManager = new DesktopManager();
-                    DriverFactory.setDriver(remoteManager.createDriver());
                     break;
                 case MOBILE:
                     remoteManager = new AppiumManager();
-                    DriverFactory.setDriver(remoteManager.createDriver());
                     break;
                 default:
                     throw new DriverSetupException("Unable to create new driver session for Driver Type[" + deviceType + "]");
             }
+            DriverFactory.setDriver(remoteManager.createDriver());
         }
         return DriverFactory.getDriver();
     }

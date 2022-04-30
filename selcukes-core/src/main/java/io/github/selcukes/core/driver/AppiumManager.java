@@ -32,21 +32,19 @@ public class AppiumManager implements RemoteManager {
 
     @Override
     public AppiumDriver createDriver() {
-
-        if (null == driver) {
-            try {
-                logger.info(() -> "Initiating New Mobile Session...");
-                Capabilities capabilities = DesktopOptions.getUserOptions();
-                if (capabilities == null) {
-                    String app = FileHelper.loadThreadResource(ConfigFactory.getConfig()
-                        .getMobile().get("app")).getAbsolutePath();
-                    capabilities = DesktopOptions.getAndroidOptions(app);
-                }
-                driver = new AndroidDriver(getServiceUrl(), capabilities);
-            } catch (Exception e) {
-                throw new DriverSetupException("Driver was not setup properly.", e);
+        try {
+            logger.debug(() -> "Initiating New Mobile Session...");
+            Capabilities capabilities = DesktopOptions.getUserOptions();
+            if (capabilities == null) {
+                String app = FileHelper.loadThreadResource(ConfigFactory.getConfig()
+                    .getMobile().get("app")).getAbsolutePath();
+                capabilities = DesktopOptions.getAndroidOptions(app);
             }
+            driver = new AndroidDriver(getServiceUrl(), capabilities);
+        } catch (Exception e) {
+            throw new DriverSetupException("Driver was not setup properly.", e);
         }
+
         return driver;
     }
 

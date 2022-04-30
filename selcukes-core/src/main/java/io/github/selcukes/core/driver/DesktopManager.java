@@ -18,6 +18,7 @@ package io.github.selcukes.core.driver;
 
 import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.commons.exception.DriverSetupException;
 import lombok.CustomLog;
 
 import java.net.URL;
@@ -29,12 +30,14 @@ public class DesktopManager extends AppiumManager {
 
     @Override
     public synchronized WindowsDriver createDriver() {
-        if (null == windowsDriver) {
-
+        try {
+            logger.debug(() -> "Initiating New Desktop Session...");
             String app = ConfigFactory.getConfig().getWindows().get("app");
             URL serviceUrl = Objects.requireNonNull(getServiceUrl());
             DesktopOptions.setServiceUrl(serviceUrl);
             windowsDriver = new WindowsDriver(serviceUrl, DesktopOptions.getWinAppOptions(app));
+        } catch (Exception e) {
+            throw new DriverSetupException("Driver was not setup properly.", e);
         }
         return windowsDriver;
     }
