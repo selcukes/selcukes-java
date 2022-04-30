@@ -206,6 +206,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
 
     private void handleTestRunFinished(TestRunFinished testRunFinished) {
         finishReport();
+        getReporter().removeReporter();
         featureTestThreadLocal.remove();
         scenarioThreadLocal.remove();
         isHookThreadLocal.remove();

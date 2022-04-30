@@ -78,6 +78,10 @@ public class Reporter {
         return this;
     }
 
+    void removeReporter() {
+        reporterThreadLocal.remove();
+    }
+
     void attachAndClear() {
         attach().stop();
 

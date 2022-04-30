@@ -28,10 +28,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static org.jsoup.Jsoup.parse;
 
@@ -107,8 +104,8 @@ public class VersionDetector {
             return versions;
 
         } catch (Exception e) {
-            logger.warn(()->"Failed Identifying Compatible Version. Downloading Latest version.");
-            return null;
+            logger.warn(() -> "Failed Identifying Compatible Version. Downloading Latest version.");
+            return Collections.emptyList();
         }
     }
 
