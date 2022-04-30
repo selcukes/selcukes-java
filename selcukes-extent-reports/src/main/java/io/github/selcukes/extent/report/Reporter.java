@@ -32,8 +32,8 @@ import static io.github.selcukes.databind.utils.StringHelper.nullOrEmpty;
 
 public class Reporter {
     private static Snapshot snapshot;
-    private static Reporter reporter;
     private LogRecordListener logRecordListener;
+    private static final ThreadLocal<Reporter> reporterThreadLocal = new InheritableThreadLocal<>();
 
     public static void log(String message) {
         if (message != null) {
@@ -42,10 +42,10 @@ public class Reporter {
     }
 
     public static Reporter getReporter() {
-        if (reporter == null) {
-            reporter = new Reporter();
+        if (reporterThreadLocal.get() == null) {
+            reporterThreadLocal.set(new Reporter());
         }
-        return reporter;
+        return reporterThreadLocal.get();
     }
 
     Reporter start() {

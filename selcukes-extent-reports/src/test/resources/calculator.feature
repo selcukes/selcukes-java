@@ -11,6 +11,7 @@ Feature: Basic Arithmetic
     When I subtract 7 to 2
     Then the result is 5
 
+  @parallel
   Scenario Outline: Several additions
     When I add <a> and <b>
     Then the result is <c>
@@ -19,3 +20,5 @@ Feature: Basic Arithmetic
       | a | b | c  |
       | 1 | 2 | 3  |
       | 3 | 7 | 10 |
+      | 6 | 8 | 14  |
+      | 8 | 7 | 15 |
