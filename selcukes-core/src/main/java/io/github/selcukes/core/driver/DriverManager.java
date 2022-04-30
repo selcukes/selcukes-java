@@ -28,14 +28,14 @@ import java.util.Arrays;
 public class DriverManager {
     private static final ThreadLocal<DriverManager> DRIVERS = new InheritableThreadLocal<>();
 
-    public synchronized static DriverManager getManager() {
+    public static DriverManager getManager() {
         if (DRIVERS.get() == null) {
             DRIVERS.set(new DriverManager());
         }
         return DRIVERS.get();
     }
 
-    public synchronized <D extends RemoteWebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
+    public <D extends RemoteWebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
         Arrays.stream(capabilities).findAny().ifPresent(DesktopOptions::setUserOptions);
         if (DriverFactory.getDriver() == null) {
             logger.info(() -> String.format("Creating new %s session...", deviceType));
