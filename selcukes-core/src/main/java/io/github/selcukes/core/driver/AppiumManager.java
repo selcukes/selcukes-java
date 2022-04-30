@@ -18,19 +18,17 @@ package io.github.selcukes.core.driver;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.service.local.AppiumDriverLocalService;
-import io.appium.java_client.service.local.AppiumServiceBuilder;
-import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.DriverSetupException;
 import io.github.selcukes.commons.helper.FileHelper;
 import lombok.CustomLog;
 import org.openqa.selenium.Capabilities;
 
+import java.net.URL;
+
 @CustomLog
 public class AppiumManager implements RemoteManager {
     AppiumDriver driver;
-    AppiumDriverLocalService service;
 
     @Override
     public AppiumDriver createDriver() {
@@ -38,14 +36,13 @@ public class AppiumManager implements RemoteManager {
         if (null == driver) {
             try {
                 logger.info(() -> "Initiating New Mobile Session...");
-                startAppiumService();
                 Capabilities capabilities = DesktopOptions.getUserOptions();
                 if (capabilities == null) {
                     String app = FileHelper.loadThreadResource(ConfigFactory.getConfig()
                         .getMobile().get("app")).getAbsolutePath();
                     capabilities = DesktopOptions.getAndroidOptions(app);
                 }
-                driver = new AndroidDriver(service.getUrl(), capabilities);
+                driver = new AndroidDriver(getServiceUrl(), capabilities);
             } catch (Exception e) {
                 throw new DriverSetupException("Driver was not setup properly.", e);
             }
@@ -58,22 +55,10 @@ public class AppiumManager implements RemoteManager {
         if (driver != null) {
             driver.quit();
         }
-        stopAppiumService();
     }
 
-    public void startAppiumService() {
-        service = new AppiumServiceBuilder()
-            .withIPAddress("127.0.0.1")
-            .usingAnyFreePort()
-            .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-            .withArgument(GeneralServerFlag.BASEPATH, "/wd/")
-            .build();
-        logger.info(() -> "Starting Appium server...");
-        service.start();
+    public URL getServiceUrl() {
+        return AppiumEngine.getInstance().getServiceUrl();
     }
 
-    public void stopAppiumService() {
-        if (service != null)
-            service.stop();
-    }
 }

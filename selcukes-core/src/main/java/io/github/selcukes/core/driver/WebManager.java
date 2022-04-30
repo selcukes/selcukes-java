@@ -24,6 +24,7 @@ import lombok.SneakyThrows;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.RemoteWebDriverBuilder;
 
 import java.net.URL;
 
@@ -37,16 +38,17 @@ public class WebManager implements RemoteManager {
     public synchronized WebDriver createDriver() {
         String browser = ConfigFactory.getConfig().getWeb().get("browserName");
         try {
-            logger.info(() -> "Initiating New Browser Session...");
+            logger.debug(() -> "Initiating New Browser Session...");
             Capabilities capabilities = DesktopOptions.getUserOptions();
             if (capabilities == null) {
                 BrowserOptions browserOptions = new BrowserOptions();
                 capabilities = browserOptions.getBrowserOptions(DriverType.valueOf(browser));
             }
-            driver = RemoteWebDriver.builder()
-                .oneOf(capabilities)
-                .address(getServiceUrl())
-                .build();
+            RemoteWebDriverBuilder driverBuilder = RemoteWebDriver.builder().oneOf(capabilities);
+            if (ConfigFactory.getConfig().getWeb().get("remote").equalsIgnoreCase("true"))
+                driverBuilder.address(getServiceUrl());
+
+            driver = driverBuilder.build();
         } catch (Exception e) {
             throw new DriverSetupException("Driver was not setup properly.", e);
         }
@@ -63,6 +65,9 @@ public class WebManager implements RemoteManager {
     @SneakyThrows
     public URL getServiceUrl() {
         String serviceUrl = ConfigFactory.getConfig().getWeb().get("serviceUrl");
+        if (HUB_PORT == 0) {
+            throw new DriverSetupException("Selenium server not started...");
+        }
         return new URL(serviceUrl + HUB_PORT);
     }
 }

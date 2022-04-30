@@ -38,7 +38,7 @@ public class ClassicGridTest {
     @BeforeSuite
     void beforeSuite() {
         driverManager = new DriverManager<>();
-        GridRunner.startGrid(DriverType.CHROME, DriverType.EDGE);
+        GridRunner.startSeleniumServer(DriverType.CHROME, DriverType.EDGE);
     }
 
     @DataProvider(parallel = true)

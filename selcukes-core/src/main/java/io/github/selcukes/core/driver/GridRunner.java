@@ -30,7 +30,7 @@ public class GridRunner {
     private static boolean isGridStarted = false;
     protected static int HUB_PORT;
 
-    public static void startGrid(DriverType... driverType) {
+    public static void startSeleniumServer(DriverType... driverType) {
         Arrays.stream(driverType).distinct().forEach(GridRunner::setBinaries);
         HUB_PORT = PortProber.findFreePort();
         if (ConfigFactory.getConfig().getWeb().get("remote").equalsIgnoreCase("true") && !isGridStarted) {
@@ -39,6 +39,14 @@ public class GridRunner {
             logger.info(() -> "Grid Server started...");
         }
 
+    }
+
+    public static void startAppiumServer() {
+        AppiumEngine.getInstance().startLocalServer();
+    }
+
+    public static void stopAppiumServer() {
+        AppiumEngine.getInstance().stopServer();
     }
 
     private static void setBinaries(DriverType driverType) {
@@ -54,7 +62,6 @@ public class GridRunner {
                 break;
             default:
                 WebDriverBinary.chromeDriver().setup();
-
         }
     }
 }

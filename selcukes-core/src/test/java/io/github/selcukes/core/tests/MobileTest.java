@@ -18,6 +18,7 @@ package io.github.selcukes.core.tests;
 
 import io.appium.java_client.AppiumDriver;
 import io.github.selcukes.core.driver.DriverManager;
+import io.github.selcukes.core.driver.GridRunner;
 import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.page.MobilePage;
 import org.openqa.selenium.By;
@@ -31,6 +32,7 @@ public class MobileTest {
     @BeforeTest
     void beforeTest() {
         driverManager = new DriverManager<>();
+        GridRunner.startAppiumServer();
     }
 
     @Test(enabled = false)
@@ -45,5 +47,6 @@ public class MobileTest {
     void afterTest() {
         if (driverManager.getManager() != null)
             driverManager.getManager().destroyDriver();
+        GridRunner.stopAppiumServer();
     }
 }

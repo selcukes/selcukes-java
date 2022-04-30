@@ -30,9 +30,9 @@ public class DesktopManager extends AppiumManager {
     @Override
     public synchronized WindowsDriver createDriver() {
         if (null == windowsDriver) {
-            startAppiumService();
+
             String app = ConfigFactory.getConfig().getWindows().get("app");
-            URL serviceUrl = Objects.requireNonNull(service.getUrl());
+            URL serviceUrl = Objects.requireNonNull(getServiceUrl());
             DesktopOptions.setServiceUrl(serviceUrl);
             windowsDriver = new WindowsDriver(serviceUrl, DesktopOptions.getWinAppOptions(app));
         }
@@ -41,9 +41,7 @@ public class DesktopManager extends AppiumManager {
 
     public void destroyDriver() {
         if (windowsDriver != null) {
-            windowsDriver.closeApp();
+            windowsDriver.quit();
         }
-        stopAppiumService();
     }
-
 }
