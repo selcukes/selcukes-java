@@ -24,9 +24,7 @@ import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.testng.Assert;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import static io.github.selcukes.core.driver.DriverFactory.getDriver;
 import static io.github.selcukes.core.driver.DriverManager.getManager;
@@ -51,7 +49,10 @@ public class ClassicGridTest {
         getManager().createDriver(DeviceType.BROWSER, browserOptions.getBrowserOptions(driverType, true));
         getDriver().get("https://www.google.com/");
         Assert.assertEquals(getDriver().getTitle(), "Google");
-        DriverFactory.removeAllDrivers();
     }
 
+    @AfterMethod
+    void afterTest() {
+        DriverFactory.removeDriver();
+    }
 }
