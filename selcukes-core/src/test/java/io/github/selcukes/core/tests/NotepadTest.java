@@ -35,7 +35,7 @@ public class NotepadTest {
         GridRunner.startAppiumServer();
     }
 
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void notepadTest() {
         WindowsDriver driver = driverManager.createDriver(DeviceType.DESKTOP);
         WinPage page = new WinPage(driver);
@@ -46,8 +46,8 @@ public class NotepadTest {
 
     @AfterMethod
     public void afterTest() {
-        if (driverManager.getManager() != null)
-            driverManager.getManager().destroyDriver();
+    /*    if (driverManager.getManager() != null)
+            driverManager.getManager().destroyDriver();*/
         GridRunner.stopAppiumServer();
     }
 }

@@ -55,7 +55,7 @@ public class WebDriverBinaryTest {
     @Test
     public void edgeDriverTest() {
 
-        BinaryInfo binaryInfo = WebDriverBinary.edgeDriver().disableAutoCheck().targetPath("temp").setup();
+        BinaryInfo binaryInfo = WebDriverBinary.edgeDriver().targetPath("temp").setup();
         String binProp = binaryInfo.getBinaryProperty();
         assertEquals(binProp, "webdriver.edge.driver");
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");

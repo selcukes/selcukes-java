@@ -90,9 +90,14 @@ abstract class AbstractBinary implements BinaryFactory {
     }
 
     protected void setBrowserVersion(String url) {
-        String localBrowserVersion = new VersionDetector(getBinaryDriverName(),
-            getBinaryEnvironment().getOsNameAndArch(), url).getVersion();
-        setVersion(localBrowserVersion);
+        try {
+            String localBrowserVersion = new VersionDetector(getBinaryDriverName(),
+                getBinaryEnvironment().getOsNameAndArch(), url).getVersion();
+            setVersion(localBrowserVersion);
+        } catch (Exception ignored) {
+            //IGNORE
+        }
+
     }
 
 }

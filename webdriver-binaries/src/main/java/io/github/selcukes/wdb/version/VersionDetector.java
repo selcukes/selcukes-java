@@ -16,7 +16,6 @@
 
 package io.github.selcukes.wdb.version;
 
-import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.commons.exec.ExecResults;
 import io.github.selcukes.commons.exec.Shell;
 import io.github.selcukes.commons.http.WebClient;
@@ -108,7 +107,8 @@ public class VersionDetector {
             return versions;
 
         } catch (Exception e) {
-            throw new WebDriverBinaryException(e);
+            logger.warn(()->"Failed Identifying Compatible Version. Downloading Latest version.");
+            return null;
         }
     }
 
