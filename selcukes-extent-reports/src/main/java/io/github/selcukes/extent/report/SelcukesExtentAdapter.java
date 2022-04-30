@@ -69,7 +69,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     private static final ThreadLocal<Set<String>> scenarioOutlineTagsThreadLocal = new InheritableThreadLocal<>();
     private final TestSourcesModel testSources = new TestSourcesModel();
 
-    private final ThreadLocal<URI> currentFeatureFile = new ThreadLocal<>();
+    private final ThreadLocal<URI> currentFeatureFile = new InheritableThreadLocal<>();
     private final ThreadLocal<Scenario> currentScenarioOutline = new InheritableThreadLocal<>();
     private final ThreadLocal<Examples> currentExamples = new InheritableThreadLocal<>();
 
@@ -79,7 +79,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     private final EventHandler<TestStepFinished> stepFinishedHandler = this::handleTestStepFinished;
     private final EventHandler<EmbedEvent> embedEventHandler = this::handleEmbed;
     private final EventHandler<WriteEvent> writeEventHandler = this::handleWrite;
-    private final EventHandler<TestRunFinished> runFinishedHandler = event -> finishReport();
+    private final EventHandler<TestRunFinished> runFinishedHandler = this::handleTestRunFinished;
 
     public SelcukesExtentAdapter(String arg) {
         ExtentService.getInstance();
@@ -202,6 +202,17 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
         if (text != null && !text.isEmpty()) {
             stepTestThreadLocal.get().info(text);
         }
+    }
+
+    private void handleTestRunFinished(TestRunFinished testRunFinished) {
+        finishReport();
+        featureTestThreadLocal.remove();
+        scenarioThreadLocal.remove();
+        isHookThreadLocal.remove();
+        stepTestThreadLocal.remove();
+        featureTagsThreadLocal.remove();
+        scenarioOutlineTagsThreadLocal.remove();
+        currentFeatureFile.remove();
     }
 
     private void finishReport() {
