@@ -17,8 +17,10 @@
 package io.github.selcukes.core.tests;
 
 import io.github.selcukes.core.driver.DriverManager;
+import io.github.selcukes.core.driver.GridRunner;
 import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.page.WebPage;
+import io.github.selcukes.wdb.enums.DriverType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Assert;
@@ -33,6 +35,7 @@ public class WebTest {
 
     @BeforeTest
     void beforeTest() {
+        GridRunner.startSeleniumServer(DriverType.CHROME);
         driverManager = new DriverManager<>();
         driver = driverManager.createDriver(DeviceType.BROWSER);
     }
