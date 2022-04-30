@@ -28,10 +28,10 @@ import java.net.URL;
 
 @CustomLog
 public class AppiumManager implements RemoteManager {
-    AppiumDriver driver;
 
     @Override
     public AppiumDriver createDriver() {
+        AppiumDriver driver;
         try {
             logger.debug(() -> "Initiating New Mobile Session...");
             Capabilities capabilities = DesktopOptions.getUserOptions();
@@ -44,15 +44,7 @@ public class AppiumManager implements RemoteManager {
         } catch (Exception e) {
             throw new DriverSetupException("Driver was not setup properly.", e);
         }
-
         return driver;
-    }
-
-    @Override
-    public void destroyDriver() {
-        if (driver != null) {
-            driver.quit();
-        }
     }
 
     public URL getServiceUrl() {

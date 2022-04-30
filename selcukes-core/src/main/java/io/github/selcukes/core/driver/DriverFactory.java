@@ -19,20 +19,15 @@ package io.github.selcukes.core.driver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public final class DriverFactory<D extends WebDriver> {
 
     private static final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
 
-    private static final List<Object> STORED_DRIVER = new ArrayList<>();
-
-    static {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> STORED_DRIVER.stream()
-            .filter(Objects::nonNull).forEach(d -> ((RemoteWebDriver) d).quit())));
-    }
+    private static final Set<Object> STORED_DRIVER = new HashSet<>();
 
     private DriverFactory() {
     }
@@ -42,12 +37,29 @@ public final class DriverFactory<D extends WebDriver> {
     }
 
     public static <D extends WebDriver> void setDriver(D driveThread) {
-        STORED_DRIVER.add(driveThread);
+
         DRIVER_THREAD.set(driveThread);
     }
 
     public static void removeDriver() {
-        STORED_DRIVER.remove(DRIVER_THREAD.get());
+        try {
+            getDriver().quit();
+        } finally {
+            STORED_DRIVER.remove(getDriver());
+            DRIVER_THREAD.remove();
+        }
+    }
+
+    public static void removeAllDrivers() {
+        STORED_DRIVER.stream()
+            .filter(Objects::nonNull).forEach(d -> {
+                    try {
+                        ((RemoteWebDriver) d).quit();
+                    } finally {
+                        STORED_DRIVER.remove(d);
+                    }
+                }
+            );
         DRIVER_THREAD.remove();
     }
 }

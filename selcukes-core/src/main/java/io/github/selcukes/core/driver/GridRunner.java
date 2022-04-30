@@ -32,7 +32,7 @@ public class GridRunner {
     public static void startSeleniumServer(DriverType... driverType) {
         Arrays.stream(driverType).distinct().forEach(BrowserOptions::setBinaries);
         HUB_PORT = PortProber.findFreePort();
-        if (isGridRunning()) {
+        if (isGridNotRunning()) {
             logger.debug(() -> "Using Free Hub Port: " + HUB_PORT);
             Main.main(new String[]{"standalone", "--port", String.valueOf(HUB_PORT)});
             isRunning = true;
@@ -41,6 +41,10 @@ public class GridRunner {
     }
 
     static boolean isGridRunning() {
+        return ConfigFactory.getConfig().getWeb().get("remote")
+            .equalsIgnoreCase("true") && GridRunner.isRunning;
+    }
+    static boolean isGridNotRunning() {
         return ConfigFactory.getConfig().getWeb().get("remote")
             .equalsIgnoreCase("true") && !GridRunner.isRunning;
     }

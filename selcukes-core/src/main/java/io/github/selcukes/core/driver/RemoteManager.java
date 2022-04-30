@@ -20,7 +20,4 @@ import org.openqa.selenium.WebDriver;
 
 public interface RemoteManager {
     WebDriver createDriver();
-
-    void destroyDriver();
-
 }

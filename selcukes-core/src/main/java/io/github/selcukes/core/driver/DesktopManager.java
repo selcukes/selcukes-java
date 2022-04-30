@@ -26,10 +26,10 @@ import java.util.Objects;
 
 @CustomLog
 public class DesktopManager extends AppiumManager {
-    private WindowsDriver windowsDriver;
 
     @Override
     public synchronized WindowsDriver createDriver() {
+        WindowsDriver windowsDriver;
         try {
             logger.debug(() -> "Initiating New Desktop Session...");
             String app = ConfigFactory.getConfig().getWindows().get("app");
@@ -40,11 +40,5 @@ public class DesktopManager extends AppiumManager {
             throw new DriverSetupException("Driver was not setup properly.", e);
         }
         return windowsDriver;
-    }
-
-    public void destroyDriver() {
-        if (windowsDriver != null) {
-            windowsDriver.quit();
-        }
     }
 }
