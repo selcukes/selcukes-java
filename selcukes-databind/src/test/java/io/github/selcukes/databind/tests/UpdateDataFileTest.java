@@ -27,10 +27,10 @@ import org.testng.annotations.Test;
 import java.util.Map;
 import java.util.UUID;
 
-public class DataMapperWriteTest {
+public class UpdateDataFileTest {
     @SneakyThrows
     @Test
-    public void testClass() {
+    public void updateDataFile() {
         UUID uuid = UUID.randomUUID();
         TestSample testSample = DataMapper.parse(TestSample.class);
         testSample.getUsers().get("user1").put("password", uuid.toString());

@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class DataMapperTest {
+public class ReadDataFileTest {
     @DataProvider
     public Iterator<Object[]> getTestUsers() {
         final TestUsers testUsers = DataMapper.parse(TestUsers.class);

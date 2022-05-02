@@ -23,6 +23,9 @@ import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.exception.DataMapperException;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static java.lang.System.getProperty;
 import static java.util.Objects.requireNonNull;
@@ -30,6 +33,11 @@ import static java.util.Objects.requireNonNull;
 public class DataFileHelper<T> {
     private final Class<T> dataClass;
     private final DataFile dataFile;
+    private boolean isNewFile;
+
+    public void setNewFile(boolean newFile) {
+        isNewFile = newFile;
+    }
 
     private DataFileHelper(final Class<T> dataClass) {
         this.dataClass = dataClass;
@@ -51,7 +59,10 @@ public class DataFileHelper<T> {
         final File folder = new File(getFolder());
         final File[] files = folder.listFiles((d, f) -> f.startsWith(fileName));
         if (requireNonNull(files).length == 0) {
-            throw new DataMapperException(String.format("File [%s] not found.", fileName));
+            if (isNewFile) {
+                return newFile(fileName);
+            } else
+                throw new DataMapperException(String.format("File [%s] not found.", fileName));
         }
         return files[0].getName();
     }
@@ -83,5 +94,15 @@ public class DataFileHelper<T> {
             throw new DataMapperException(String.format("%s is not a directory.", folder));
         }
         return folder;
+    }
+
+    private String newFile(String fileName) {
+        String newFileName = fileName.contains(".") ? fileName : fileName + ".json";
+        Path newFilePath = Path.of(String.format("%s/%s/%s", getRootFolder(), getFolder(), newFileName));
+        try {
+            return Files.createFile(newFilePath).getFileName().toString();
+        } catch (IOException e) {
+            throw new DataMapperException("Filed to creating new File : " + newFileName);
+        }
     }
 }
