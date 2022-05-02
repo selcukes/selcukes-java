@@ -20,24 +20,23 @@ import io.github.selcukes.commons.exception.DriverSetupException;
 import io.github.selcukes.core.enums.DeviceType;
 import lombok.CustomLog;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @CustomLog
 public class DriverManager {
-    private static final ThreadLocal<DriverManager> DRIVERS = new InheritableThreadLocal<>();
 
-    public static DriverManager getManager() {
-        if (DRIVERS.get() == null) {
-            DRIVERS.set(new DriverManager());
-        }
-        return DRIVERS.get();
-    }
+    private static final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
+    private static final Set<Object> STORED_DRIVER = new HashSet<>();
 
-    public <D extends RemoteWebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
+    public synchronized static <D extends RemoteWebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
         Arrays.stream(capabilities).findAny().ifPresent(DesktopOptions::setUserOptions);
-        if (DriverFactory.getDriver() == null) {
+        if (getDriver() == null) {
             logger.info(() -> String.format("Creating new %s session...", deviceType));
             RemoteManager remoteManager;
             switch (deviceType) {
@@ -53,8 +52,39 @@ public class DriverManager {
                 default:
                     throw new DriverSetupException("Unable to create new driver session for Driver Type[" + deviceType + "]");
             }
-            DriverFactory.setDriver(remoteManager.createDriver());
+            setDriver(remoteManager.createDriver());
         }
-        return DriverFactory.getDriver();
+        return getDriver();
+    }
+
+    public static <D extends WebDriver> D getDriver() {
+        return (D) DRIVER_THREAD.get();
+    }
+
+    public static <D extends WebDriver> void setDriver(D driveThread) {
+
+        DRIVER_THREAD.set(driveThread);
+    }
+
+    public static void removeDriver() {
+        try {
+            if (getDriver() != null) {
+                STORED_DRIVER.remove(getDriver());
+                getDriver().quit();
+            }
+        } finally {
+            DRIVER_THREAD.remove();
+        }
+    }
+
+    public static void removeAllDrivers() {
+        STORED_DRIVER.stream().filter(Objects::nonNull).forEach(d -> {
+            try {
+                ((RemoteWebDriver) d).quit();
+            } finally {
+                STORED_DRIVER.remove(d);
+            }
+        });
+        DRIVER_THREAD.remove();
     }
 }

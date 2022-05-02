@@ -16,7 +16,6 @@
 
 package io.github.selcukes.core.tests;
 
-import io.github.selcukes.core.driver.DriverFactory;
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.page.WebPage;
@@ -29,7 +28,7 @@ public class WebTest extends GridBaseTest {
 
     @Test
     public void remoteTest() {
-        WebDriver driver = DriverManager.getManager().createDriver(DeviceType.BROWSER);
+        WebDriver driver = DriverManager.createDriver(DeviceType.BROWSER);
         WebPage page = new WebPage(driver);
         page.open("https://www.google.com/");
         Assert.assertEquals(page.title(), "Google");
@@ -37,6 +36,6 @@ public class WebTest extends GridBaseTest {
 
     @AfterTest
     void afterTest() {
-        DriverFactory.removeDriver();
+        DriverManager.removeDriver();
     }
 }
