@@ -17,7 +17,6 @@
 package io.github.selcukes.core.tests.grid;
 
 import io.github.selcukes.core.driver.BrowserOptions;
-import io.github.selcukes.core.driver.DriverFactory;
 import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.tests.GridBaseTest;
 import io.github.selcukes.wdb.enums.DriverType;
@@ -28,8 +27,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static io.github.selcukes.core.driver.DriverFactory.getDriver;
-import static io.github.selcukes.core.driver.DriverManager.getManager;
+import static io.github.selcukes.core.driver.DriverManager.*;
 
 @CustomLog
 
@@ -44,13 +42,13 @@ public class ClassicGridTest extends GridBaseTest {
     @Test(dataProvider = "driverTypes")
     public void parallelBrowserTest(DriverType driverType) {
         BrowserOptions browserOptions = new BrowserOptions();
-        getManager().createDriver(DeviceType.BROWSER, browserOptions.getBrowserOptions(driverType, true));
+        createDriver(DeviceType.BROWSER, browserOptions.getBrowserOptions(driverType, true));
         getDriver().get("https://www.google.com/");
         Assert.assertEquals(getDriver().getTitle(), "Google");
     }
 
     @AfterMethod
     void afterTest() {
-        DriverFactory.removeDriver();
+        removeDriver();
     }
 }
