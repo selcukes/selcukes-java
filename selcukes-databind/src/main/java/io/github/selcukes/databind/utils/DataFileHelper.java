@@ -110,7 +110,7 @@ public class DataFileHelper<T> {
 
     private Path findFile(final Path targetDir, final String fileName) {
         try (Stream<Path> stream = Files.list(targetDir)) {
-            return stream.filter((p) -> {
+            return stream.filter(p -> {
                 if (Files.isRegularFile(p)) {
                     return p.getFileName().toString().startsWith(fileName);
                 } else {
