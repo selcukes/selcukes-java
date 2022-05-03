@@ -21,7 +21,6 @@ package io.github.selcukes.databind.utils;
 
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.exception.DataMapperException;
-import lombok.SneakyThrows;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +28,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static java.lang.System.getProperty;
 
@@ -109,14 +109,17 @@ public class DataFileHelper<T> {
         }
     }
 
-    @SneakyThrows
     private Path findFile(Path targetDir, String fileName) {
-        return Files.list(targetDir).filter((p) -> {
-            if (Files.isRegularFile(p)) {
-                return p.getFileName().toString().startsWith(fileName);
-            } else {
-                return false;
-            }
-        }).findFirst().orElse(null);
+        try (Stream<Path> stream = Files.list(targetDir)) {
+            return stream.filter((p) -> {
+                if (Files.isRegularFile(p)) {
+                    return p.getFileName().toString().startsWith(fileName);
+                } else {
+                    return false;
+                }
+            }).findFirst().orElse(null);
+        } catch (IOException exception) {
+            return null;
+        }
     }
 }
