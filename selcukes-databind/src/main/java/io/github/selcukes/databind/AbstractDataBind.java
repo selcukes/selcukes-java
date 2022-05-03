@@ -21,7 +21,7 @@ package io.github.selcukes.databind;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 
-import java.io.File;
+import java.nio.file.Path;
 
 abstract class AbstractDataBind implements DataBind {
     private final ObjectMapper mapper;
@@ -32,13 +32,13 @@ abstract class AbstractDataBind implements DataBind {
 
     @SneakyThrows
     @Override
-    public <T> T parse(final String path, final Class<T> resourceClass) {
-        return this.mapper.readValue(new File(path), resourceClass);
+    public <T> T parse(final Path path, final Class<T> resourceClass) {
+        return this.mapper.readValue(path.toFile(), resourceClass);
     }
 
     @SneakyThrows
     @Override
-    public <T> void write(final String path, final T value) {
-        this.mapper.writerWithDefaultPrettyPrinter().writeValue(new File(path), value);
+    public <T> void write(final Path path, final T value) {
+        this.mapper.writerWithDefaultPrettyPrinter().writeValue(path.toFile(), value);
     }
 }
