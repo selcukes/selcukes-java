@@ -21,14 +21,16 @@ package io.github.selcukes.databind.utils;
 
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.exception.DataMapperException;
+import lombok.SneakyThrows;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
 
 import static java.lang.System.getProperty;
-import static java.util.Objects.requireNonNull;
 
 public class DataFileHelper<T> {
     private final Class<T> dataClass;
@@ -56,15 +58,16 @@ public class DataFileHelper<T> {
             return this.dataFile.fileName();
         }
         final String fileName = StringHelper.toSnakeCase(this.dataClass.getSimpleName());
-        final File folder = new File(getFolder());
-        final File[] files = folder.listFiles((d, f) -> f.startsWith(fileName));
-        if (requireNonNull(files).length == 0) {
+        final Path folder = Paths.get(getFolder());
+
+        Optional<Path> path = Optional.ofNullable(findFile(folder, fileName));
+        if (path.isEmpty()) {
             if (isNewFile) {
                 return newFile(fileName);
             } else
                 throw new DataMapperException(String.format("File [%s] not found.", fileName));
         }
-        return files[0].getName();
+        return path.get().getFileName().toString();
     }
 
     public String getFolder() {
@@ -72,11 +75,11 @@ public class DataFileHelper<T> {
         if (!this.dataFile.folderPath().isEmpty()) {
             folder = this.dataFile.folderPath();
         }
-        return isDirectory(folder);
+        return isDirectory(Paths.get(getRootFolder(), folder).toString());
     }
 
     public String getPath() {
-        return String.format("%s/%s/%s", getRootFolder(), getFolder(), getFileName());
+        return String.format("%s/%s", getFolder(), getFileName());
     }
 
     public String getRootFolder() {
@@ -98,11 +101,22 @@ public class DataFileHelper<T> {
 
     private String newFile(String fileName) {
         String newFileName = fileName.contains(".") ? fileName : fileName + ".json";
-        Path newFilePath = Path.of(String.format("%s/%s/%s", getRootFolder(), getFolder(), newFileName));
+        Path newFilePath = Path.of(String.format("%s/%s", getFolder(), newFileName));
         try {
             return Files.createFile(newFilePath).getFileName().toString();
         } catch (IOException e) {
             throw new DataMapperException("Filed to creating new File : " + newFileName);
         }
+    }
+
+    @SneakyThrows
+    private Path findFile(Path targetDir, String fileName) {
+        return Files.list(targetDir).filter((p) -> {
+            if (Files.isRegularFile(p)) {
+                return p.getFileName().toString().startsWith(fileName);
+            } else {
+                return false;
+            }
+        }).findFirst().orElse(null);
     }
 }
