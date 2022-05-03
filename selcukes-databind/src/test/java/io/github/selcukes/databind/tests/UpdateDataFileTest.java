@@ -16,29 +16,31 @@
  *
  */
 
-package io.github.selcukes.databind;
+package io.github.selcukes.databind.tests;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.selcukes.databind.DataMapper;
+import io.github.selcukes.databind.annotation.DataFile;
+import lombok.Data;
 import lombok.SneakyThrows;
+import org.testng.annotations.Test;
 
-import java.nio.file.Path;
+import java.util.Map;
+import java.util.UUID;
 
-abstract class AbstractDataBind implements DataBind {
-    private final ObjectMapper mapper;
-
-    AbstractDataBind(ObjectMapper mapper) {
-        this.mapper = mapper;
-    }
-
+public class UpdateDataFileTest {
     @SneakyThrows
-    @Override
-    public <T> T parse(final Path path, final Class<T> resourceClass) {
-        return this.mapper.readValue(path.toFile(), resourceClass);
+    @Test
+    public void updateDataFile() {
+        UUID uuid = UUID.randomUUID();
+        TestSample testSample = DataMapper.parse(TestSample.class);
+        testSample.getUsers().get("user1").put("password", uuid.toString());
+        DataMapper.write(testSample);
     }
 
-    @SneakyThrows
-    @Override
-    public <T> void write(final Path path, final T value) {
-        this.mapper.writerWithDefaultPrettyPrinter().writeValue(path.toFile(), value);
+    @Data
+    @DataFile(fileName = "test_sample.yml")
+    static class TestSample {
+        Map<String, Map<String, String>> users;
     }
+
 }

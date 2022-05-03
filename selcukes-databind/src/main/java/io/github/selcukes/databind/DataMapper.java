@@ -34,6 +34,7 @@ public class DataMapper {
 
     public <T> void write(final T value) {
         final DataFileHelper<T> dataFile = (DataFileHelper<T>) DataFileHelper.getInstance(value.getClass());
+        dataFile.setNewFile(true);
         final String fileName = dataFile.getFileName();
         final String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
         final DataBind dataBind = lookup(extension);

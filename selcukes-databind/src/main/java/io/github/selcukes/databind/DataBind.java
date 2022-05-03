@@ -18,8 +18,10 @@
 
 package io.github.selcukes.databind;
 
-interface DataBind {
-    <T> T parse(String path, Class<T> dataClass);
+import java.nio.file.Path;
 
-    <T> void write(final String path, final T value);
+interface DataBind {
+    <T> T parse(final Path path, final Class<T> dataClass);
+
+    <T> void write(final Path path, final T value);
 }

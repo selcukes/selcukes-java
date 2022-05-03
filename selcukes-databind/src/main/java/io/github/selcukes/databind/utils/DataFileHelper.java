@@ -23,13 +23,22 @@ import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.exception.DataMapperException;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import static java.lang.System.getProperty;
-import static java.util.Objects.requireNonNull;
 
 public class DataFileHelper<T> {
     private final Class<T> dataClass;
     private final DataFile dataFile;
+    private boolean isNewFile;
+
+    public void setNewFile(boolean newFile) {
+        isNewFile = newFile;
+    }
 
     private DataFileHelper(final Class<T> dataClass) {
         this.dataClass = dataClass;
@@ -48,27 +57,31 @@ public class DataFileHelper<T> {
             return this.dataFile.fileName();
         }
         final String fileName = StringHelper.toSnakeCase(this.dataClass.getSimpleName());
-        final File folder = new File(getFolder());
-        final File[] files = folder.listFiles((d, f) -> f.startsWith(fileName));
-        if (requireNonNull(files).length == 0) {
-            throw new DataMapperException(String.format("File [%s] not found.", fileName));
+        final Path folder = getFolder();
+
+        Optional<Path> path = Optional.ofNullable(findFile(folder, fileName));
+        if (path.isEmpty()) {
+            if (isNewFile) {
+                return newFile(folder, fileName);
+            } else
+                throw new DataMapperException(String.format("File [%s] not found.", fileName));
         }
-        return files[0].getName();
+        return path.get().getFileName().toString();
     }
 
-    public String getFolder() {
+    public Path getFolder() {
         String folder = "src/test/resources";
         if (!this.dataFile.folderPath().isEmpty()) {
             folder = this.dataFile.folderPath();
         }
-        return isDirectory(folder);
+        return isDirectory(getRootFolder().resolve(folder).toString());
     }
 
-    public String getPath() {
-        return String.format("%s/%s/%s", getRootFolder(), getFolder(), getFileName());
+    public Path getPath() {
+        return getFolder().resolve(Path.of(getFileName()));
     }
 
-    public String getRootFolder() {
+    public Path getRootFolder() {
         String root = getProperty("user.dir");
         if (!this.dataFile.rootFolder().isEmpty()) {
             root = this.dataFile.rootFolder();
@@ -77,11 +90,35 @@ public class DataFileHelper<T> {
         return isDirectory(root);
     }
 
-    private String isDirectory(final String folder) {
+    private Path isDirectory(final String folder) {
         final File dir = new File(folder);
         if (!dir.isDirectory()) {
             throw new DataMapperException(String.format("%s is not a directory.", folder));
         }
-        return folder;
+        return Path.of(folder);
+    }
+
+    private String newFile(final Path folder, final String fileName) {
+        String newFileName = fileName.contains(".") ? fileName : fileName + ".json";
+        Path newFilePath = folder.resolve(newFileName);
+        try {
+            return Files.createFile(newFilePath).getFileName().toString();
+        } catch (IOException e) {
+            throw new DataMapperException("Filed to creating new File : " + newFileName);
+        }
+    }
+
+    private Path findFile(final Path targetDir, final String fileName) {
+        try (Stream<Path> stream = Files.list(targetDir)) {
+            return stream.filter(p -> {
+                if (Files.isRegularFile(p)) {
+                    return p.getFileName().toString().startsWith(fileName);
+                } else {
+                    return false;
+                }
+            }).findFirst().orElse(null);
+        } catch (IOException exception) {
+            return null;
+        }
     }
 }

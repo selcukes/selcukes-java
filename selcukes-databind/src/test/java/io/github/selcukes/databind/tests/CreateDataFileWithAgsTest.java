@@ -1,5 +1,4 @@
 /*
- *
  *  Copyright (c) Ramesh Babu Prudhvi.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,7 +12,6 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
 
 package io.github.selcukes.databind.tests;
@@ -21,26 +19,29 @@ package io.github.selcukes.databind.tests;
 import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.annotation.DataFile;
 import lombok.Data;
-import lombok.SneakyThrows;
 import org.testng.annotations.Test;
 
-import java.util.Map;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-public class DataMapperWriteTest {
-    @SneakyThrows
-    @Test
-    public void testClass() {
-        UUID uuid = UUID.randomUUID();
-        TestSample testSample = DataMapper.parse(TestSample.class);
-        testSample.getUsers().get("user1").put("password", uuid.toString());
-        DataMapper.write(testSample);
+public class CreateDataFileWithAgsTest {
+    private static final String TIMESTAMP_FORMAT = "MM/dd/yyyy hh:mm:ss";
+
+    @Test(enabled = false)
+    public void dataTest() {
+
+        String currentDataTime = LocalDateTime.now()
+            .format(DateTimeFormatter.ofPattern(TIMESTAMP_FORMAT));
+        Resolve resolve = new Resolve();
+        resolve.setChromeVersion("10.11.213");
+        resolve.setDataTime(currentDataTime);
+        DataMapper.write(resolve);
     }
 
     @Data
-    @DataFile(fileName = "test_sample.yml")
-    static class TestSample {
-        Map<String, Map<String, String>> users;
+    @DataFile(folderPath = "WebDrivers", rootFolder = "E:\\New folder")
+    static class Resolve {
+        String chromeVersion;
+        String dataTime;
     }
-
 }
