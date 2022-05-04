@@ -30,21 +30,25 @@ import java.util.Optional;
 
 public class CacheManager {
     private static final Logger logger = LoggerFactory.getLogger(CacheManager.class);
-    private static Path VERSIONS = Path.of("");
-    private static String VERSIONS_PATH;
+    private static Path versionPath = Path.of("");
+    private static String versionFilePath;
+
+    public CacheManager() {
+
+    }
 
     public static void setTargetPath(String targetPath) {
-        VERSIONS = Paths.get(targetPath, "version.properties");
-        VERSIONS_PATH = VERSIONS.toAbsolutePath().toString();
+        versionPath = Paths.get(targetPath, "version.properties");
+        versionFilePath = versionPath.toAbsolutePath().toString();
     }
 
     static Optional<String> resolveVersion(String key) {
-        if (VERSIONS.toFile().exists()) {
-            Map<String, String> props = PropertiesMapper.readAsMap(VERSIONS_PATH);
+        if (versionPath.toFile().exists()) {
+            Map<String, String> props = PropertiesMapper.readAsMap(versionFilePath);
             String timestamp = props.get("timestamp");
             LocalDateTime dateTime = LocalDateTime.parse(timestamp);
             if (dateTime.isBefore(LocalDateTime.now())) {
-                if (VERSIONS.toFile().delete())
+                if (versionPath.toFile().delete())
                     logger.trace(() -> "Cleared cache...");
                 return Optional.empty();
             } else {
@@ -55,14 +59,14 @@ public class CacheManager {
     }
 
     static void createCache(String key, String value) {
-        if (!VERSIONS.toFile().exists()) {
-            FileHelper.createDirectory(VERSIONS.getParent().toString());
+        if (!versionPath.toFile().exists()) {
+            FileHelper.createDirectory(versionPath.getParent().toString());
             Map<String, String> data = new LinkedHashMap<>();
             data.put("chromedriver", "");
             data.put("msedgedriver", "");
             data.put("timestamp", String.valueOf(LocalDateTime.now().plusHours(1)));
-            PropertiesMapper.write(VERSIONS_PATH, data);
+            PropertiesMapper.write(versionFilePath, data);
         }
-        PropertiesMapper.updateProperty(VERSIONS_PATH, key, value);
+        PropertiesMapper.updateProperty(versionFilePath, key, value);
     }
 }
