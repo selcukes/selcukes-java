@@ -16,7 +16,6 @@
 
 package io.github.selcukes.commons.properties;
 
-import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.databind.utils.StringHelper;
 import lombok.CustomLog;
 
@@ -37,8 +36,8 @@ public class SelcukesTestProperties {
     private final Map<String, String> properties;
 
     public SelcukesTestProperties() {
-        properties = ConfigFactory
-            .loadPropertiesMap("selcukes.properties");
+        properties = PropertiesMapper
+            .readAsMap("selcukes.properties");
     }
 
     public String getProperty(String propertyKey) {

@@ -16,21 +16,16 @@
 
 package io.github.selcukes.commons.config;
 
-import io.github.selcukes.commons.exception.ConfigurationException;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.commons.properties.LinkedProperties;
 import io.github.selcukes.databind.DataMapper;
 import lombok.experimental.UtilityClass;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.logging.LogManager;
-import java.util.stream.Collectors;
 
 @UtilityClass
 public class ConfigFactory {
@@ -55,32 +50,18 @@ public class ConfigFactory {
         }
     }
 
-    public static InputStream getStream(final String propertiesFile) {
+    public static InputStream getStream(final String fileName) {
         try {
-            LOGGER.config(() -> String.format("Attempting to read %s as resource.", propertiesFile));
-            InputStream stream = FileHelper.loadThreadResourceAsStream(propertiesFile);
+            LOGGER.config(() -> String.format("Attempting to read %s as resource.", fileName));
+            InputStream stream = FileHelper.loadThreadResourceAsStream(fileName);
             if (stream == null) {
-                LOGGER.config(() -> String.format("Re-attempting to read %s as a local file.", propertiesFile));
-                return new FileInputStream(propertiesFile);
+                LOGGER.config(() -> String.format("Re-attempting to read %s as a local file.", fileName));
+                return new FileInputStream(fileName);
             }
             return stream;
         } catch (Exception ignored) {
             //Gobble exception
         }
         return null;
-    }
-
-    public static Map<String, String> loadPropertiesMap(final String propertiesFile) {
-        LinkedHashMap<String, String> propertiesMap;
-        LinkedProperties properties = new LinkedProperties();
-        try {
-            properties.load(getStream(propertiesFile));
-        } catch (IOException e) {
-            throw new ConfigurationException("Could not parse properties file '" + propertiesFile + "'", e);
-        }
-        propertiesMap = properties.entrySet().stream()
-            .collect(Collectors.toMap(propertyEntry -> (String) propertyEntry.getKey(),
-                propertyEntry -> (String) propertyEntry.getValue(), (a, b) -> b, LinkedHashMap::new));
-        return propertiesMap;
     }
 }

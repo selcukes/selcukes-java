@@ -26,7 +26,7 @@ public class DateHelper {
 
     private static final String DEFAULT_DATE_TIME_PATTERN = "ddMMMyyyy-hh-mm-ss";
     private static final String DEFAULT_DATE_PATTERN = "MM/dd/yyyy";
-    private static final String TIMESTAMP_FORMAT = "MM/dd/yyyy hh:mm:ss";
+    public static final String TIMESTAMP_FORMAT = "MM/dd/yyyy hh:mm:ss";
     private final LocalDateTime localDateTime;
     private DateTimeFormatter dtf;
     private LocalDate localDate;
