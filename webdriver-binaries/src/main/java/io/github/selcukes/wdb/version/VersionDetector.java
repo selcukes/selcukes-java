@@ -53,11 +53,7 @@ public class VersionDetector {
                 return cacheVersion;
             }
         }
-
-        if (Platform.isWindows()) {
-            version = Optional.of(getQuery());
-        } else if (Platform.isLinux()) {
-
+        if (Platform.isLinux()) {
             Shell shell = new Shell();
             String browserName = driverName.contains("chrome") ? "google-chrome" : "microsoft-edge";
             String command = browserName + " --version";
@@ -65,9 +61,9 @@ public class VersionDetector {
             String browserVersion = StringHelper.extractVersionNumber(queryResult);
             logger.info(() -> "Browser Version Number: " + browserVersion);
             return getCompatibleBinaryVersion(browserVersion);
+        } else {
+            return getBrowserVersionFromCommand(getQuery());
         }
-
-        return version.map(this::getBrowserVersionFromCommand).orElse(null);
     }
 
     private String getQuery() {
