@@ -16,13 +16,15 @@
 
 package io.github.selcukes.commons.tests;
 
-import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.properties.LinkedProperties;
+import io.github.selcukes.commons.properties.PropertiesMapper;
 import io.github.selcukes.commons.properties.SelcukesTestProperties;
 import org.testng.annotations.Test;
 
+import java.nio.file.Path;
 import java.util.Map;
 
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.*;
@@ -30,13 +32,31 @@ import static org.testng.Assert.*;
 
 public class PropertiesTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final static String PROPS_FILE = "target/temp.properties";
 
     @Test
     public void loadPropertiesMapTest() {
-        final Map<String, String> propertiesMap = ConfigFactory.loadPropertiesMap("selcukes.properties");
+        final Map<String, String> propertiesMap = PropertiesMapper.readAsMap("selcukes.properties");
         assertEquals(propertiesMap.size(), 11);
         assertEquals(propertiesMap.get(EXCEL_RUNNER), "true");
         assertEquals(propertiesMap.get(EXCEL_SUITE_NAME), "SMOKE");
+        propertiesMap.forEach((k, v) -> logger.info(() -> String.format("Key :[%s]   Value :[%s]", k, v)));
+    }
+
+    @Test
+    public void createPropertyFileTest() {
+        Map<String, String> data = Map.of("userName", "QA",
+            "Time", DateHelper.get().timeStamp());
+        Path filePath = Path.of("target/temp.properties");
+        PropertiesMapper.write(filePath.toAbsolutePath().toString(), data);
+        assertTrue(filePath.toFile().exists());
+    }
+
+    @Test(dependsOnMethods = "createPropertyFileTest")
+    public void updatePropertyFileTest() {
+        PropertiesMapper.updateProperty(PROPS_FILE, "userName", "Master");
+        final Map<String, String> propertiesMap = PropertiesMapper.readAsMap(PROPS_FILE);
+        assertEquals(propertiesMap.get("userName"), "Master");
         propertiesMap.forEach((k, v) -> logger.info(() -> String.format("Key :[%s]   Value :[%s]", k, v)));
     }
 
