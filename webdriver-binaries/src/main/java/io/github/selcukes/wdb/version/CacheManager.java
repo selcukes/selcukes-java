@@ -33,8 +33,8 @@ public class CacheManager {
     private static Path versionPath = Path.of("");
     private static String versionFilePath;
 
-    public CacheManager() {
-
+    private CacheManager() {
+        // Do nothing
     }
 
     public static void setTargetPath(String targetPath) {
