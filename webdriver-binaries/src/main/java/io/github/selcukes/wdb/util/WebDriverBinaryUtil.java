@@ -24,6 +24,7 @@ import io.github.selcukes.commons.os.OsType;
 import io.github.selcukes.wdb.BinaryInfo;
 import io.github.selcukes.wdb.core.BinaryFactory;
 import io.github.selcukes.wdb.enums.DownloaderType;
+import io.github.selcukes.wdb.version.CacheManager;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -38,11 +39,12 @@ public class WebDriverBinaryUtil {
     private File binaryDownloadDirectory;
 
 
-    public WebDriverBinaryUtil(BinaryFactory binaryFactory, String downloadLocation, boolean strictDownload, boolean clearBinaryCache) {
+    public WebDriverBinaryUtil(BinaryFactory binaryFactory, String downloadLocation, boolean strictDownload, boolean clearBinaryCache, boolean autoCheck) {
         this.binaryFactory = binaryFactory;
         this.binaryDownloadDirectory = getBinaryDownloadDirectory(downloadLocation, clearBinaryCache);
         this.strictDownload = strictDownload;
-
+        CacheManager.setTargetPath(binaryDownloadDirectory.getAbsolutePath());
+        this.binaryFactory.browserVersion(autoCheck);
     }
 
     private File getBinaryDownloadDirectory(String downloadLocation, boolean clearBinaryCache) {

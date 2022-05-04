@@ -1,0 +1,68 @@
+/*
+ *  Copyright (c) Ramesh Babu Prudhvi.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+package io.github.selcukes.wdb.version;
+
+import io.github.selcukes.commons.helper.FileHelper;
+import io.github.selcukes.commons.logging.Logger;
+import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.commons.properties.PropertiesMapper;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Optional;
+
+public class CacheManager {
+    private static final Logger logger = LoggerFactory.getLogger(CacheManager.class);
+    private static Path VERSIONS = Path.of("");
+    private static String VERSIONS_PATH;
+
+    public static void setTargetPath(String targetPath) {
+        VERSIONS = Paths.get(targetPath, "version.properties");
+        VERSIONS_PATH = VERSIONS.toAbsolutePath().toString();
+    }
+
+    static Optional<String> resolveVersion(String key) {
+        if (VERSIONS.toFile().exists()) {
+            Map<String, String> props = PropertiesMapper.readAsMap(VERSIONS_PATH);
+            String timestamp = props.get("timestamp");
+            LocalDateTime dateTime = LocalDateTime.parse(timestamp);
+            if (dateTime.isBefore(LocalDateTime.now())) {
+                if (VERSIONS.toFile().delete())
+                    logger.trace(() -> "Cleared cache...");
+                return Optional.empty();
+            } else {
+                return Optional.ofNullable(props.get(key));
+            }
+        }
+        return Optional.empty();
+    }
+
+    static void createCache(String key, String value) {
+        if (!VERSIONS.toFile().exists()) {
+            FileHelper.createDirectory(VERSIONS.getParent().toString());
+            Map<String, String> data = new LinkedHashMap<>();
+            data.put("chromedriver", "");
+            data.put("msedgedriver", "");
+            data.put("timestamp", String.valueOf(LocalDateTime.now().plusHours(1)));
+            PropertiesMapper.write(VERSIONS_PATH, data);
+        }
+        PropertiesMapper.updateProperty(VERSIONS_PATH, key, value);
+    }
+}

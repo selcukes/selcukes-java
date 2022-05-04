@@ -45,7 +45,14 @@ public class VersionDetector {
     }
 
     public String getVersion() {
-        Optional<String> version = Optional.empty();
+        Optional<String> version = CacheManager.resolveVersion(driverName);
+        if (version.isPresent()) {
+            String cacheVersion = version.get();
+            if (!cacheVersion.isBlank()) {
+                logger.debug(() -> "Using cache Binary version : " + cacheVersion);
+                return cacheVersion;
+            }
+        }
 
         if (Platform.isWindows()) {
             version = Optional.of(getQuery());
@@ -129,6 +136,7 @@ public class VersionDetector {
         } else compatibleVersion = browserVersion;
 
         logger.info(() -> String.format("Using %s [%s] for Browser [%s] ", driverName, compatibleVersion, browserVersion));
+        CacheManager.createCache(driverName, compatibleVersion);
         return compatibleVersion;
     }
 
