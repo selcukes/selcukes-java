@@ -48,8 +48,7 @@ public class CacheManager {
             String timestamp = props.get("timestamp");
             LocalDateTime dateTime = LocalDateTime.parse(timestamp);
             if (dateTime.isBefore(LocalDateTime.now())) {
-                if (versionPath.toFile().delete())
-                    logger.trace(() -> "Cleared cache...");
+                FileHelper.deleteFile(versionPath.toFile());
                 return Optional.empty();
             } else {
                 return Optional.ofNullable(props.get(key));
