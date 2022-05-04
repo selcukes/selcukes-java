@@ -17,8 +17,6 @@
 package io.github.selcukes.wdb.version;
 
 import io.github.selcukes.commons.helper.FileHelper;
-import io.github.selcukes.commons.logging.Logger;
-import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.properties.PropertiesMapper;
 
 import java.nio.file.Path;
@@ -29,7 +27,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public class CacheManager {
-    private static final Logger logger = LoggerFactory.getLogger(CacheManager.class);
     private static Path versionPath = Path.of("");
     private static String versionFilePath;
 
@@ -59,7 +56,6 @@ public class CacheManager {
 
     static void createCache(String key, String value) {
         if (!versionPath.toFile().exists()) {
-            FileHelper.createDirectory(versionPath.getParent().toString());
             Map<String, String> data = new LinkedHashMap<>();
             data.put("chromedriver", "");
             data.put("msedgedriver", "");
