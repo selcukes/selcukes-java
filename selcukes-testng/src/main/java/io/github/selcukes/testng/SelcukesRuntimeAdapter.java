@@ -75,7 +75,7 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
             logger.debug(() -> String.format("Using Runtime Cucumber Options:\nFeatures : [%s]\nGlue     : [%s]\nTags     : [%s] " +
                 "\n ", features, glue, tag));
         } catch (Exception exception) {
-            logger.warn(() -> "Failed loading selcukes-test properties. Using default CucumberOptions to execute...");
+            logger.warn(() -> "Failed loading selcukes properties. Using default CucumberOptions to execute...");
         }
     }
 
