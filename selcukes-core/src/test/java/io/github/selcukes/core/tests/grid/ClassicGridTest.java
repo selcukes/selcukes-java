@@ -39,7 +39,7 @@ public class ClassicGridTest extends GridBaseTest {
     }
 
     @SneakyThrows
-    @Test(dataProvider = "driverTypes")
+    @Test(enabled = false,dataProvider = "driverTypes")
     public void parallelBrowserTest(DriverType driverType) {
         BrowserOptions browserOptions = new BrowserOptions();
         createDriver(DeviceType.BROWSER, browserOptions.getBrowserOptions(driverType, true));
