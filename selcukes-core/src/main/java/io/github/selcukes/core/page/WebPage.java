@@ -21,7 +21,7 @@ import org.openqa.selenium.Pdf;
 import org.openqa.selenium.PrintsPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.print.PrintOptions;
-import org.testng.Assert;
+
 
 public class WebPage extends WebAuthenticator implements Page {
     WebDriver driver;
@@ -41,7 +41,6 @@ public class WebPage extends WebAuthenticator implements Page {
         PrintOptions printOptions = new PrintOptions();
         Pdf pdf = pg.print(printOptions);
         String pdfContent = pdf.getContent();
-        Assert.assertTrue(pdfContent.contains("JVBER"));
         FileHelper.createFile(pdfContent, filePath);
     }
 
