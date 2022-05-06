@@ -5,10 +5,10 @@ env: Dev
 proxy: false
 baseUrl:
 web:
-  remote: false
+  remote: true
   browserName: CHROME
   headLess: true
-  serviceUrl: "http://127.0.0.1:8080"
+  serviceUrl: "http://127.0.0.1:"
 windows:
   serviceUrl: "http://127.0.0.1:4723"
   winApp-path: "C:/Program Files/Windows Application Driver/WinAppDriver.exe"
