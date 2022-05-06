@@ -4,18 +4,30 @@ projectName: Selcukes
 env: Dev
 proxy: false
 baseUrl:
+excel:
+  runner:
+  filePath: ""
+  suiteName: "smoke"
+cucumber:
+  module: google
+  features: src/test/resources/features/${module}
+  glue: io.github.selcukes.testng.tests
+  tags:
+  plugin:
 web:
-  remote: true
+  remote: false
   browserName: CHROME
   headLess: true
-  serviceUrl: "http://localhost:"
+  serviceUrl: "http://127.0.0.1:8080"
 windows:
   serviceUrl: "http://127.0.0.1:4723"
   winApp-path: "C:/Program Files (x86)/Windows Application Driver/WinAppDriver.exe"
-  app: "C:\\Windows\\System32\\notepad.exe"
 mobile:
   serviceUrl: "http://127.0.0.1:4723"
-  app: "ApiDemos-debug.apk"
+reports:
+  emailReport: true
+  htmlReport: true
+  reportsPath:
 video:
   recording: false
   recorderType: FFMPEG

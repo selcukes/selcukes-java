@@ -27,21 +27,12 @@ import org.testng.annotations.Test;
 import java.nio.file.Path;
 import java.util.Map;
 
-import static io.github.selcukes.commons.properties.SelcukesTestProperties.*;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.FEATURES;
 import static org.testng.Assert.*;
 
 public class PropertiesTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final static String PROPS_FILE = "target/temp.properties";
-
-    @Test
-    public void loadPropertiesMapTest() {
-        final Map<String, String> propertiesMap = PropertiesMapper.readAsMap("selcukes.properties");
-        assertEquals(propertiesMap.size(), 11);
-        assertEquals(propertiesMap.get(EXCEL_RUNNER), "true");
-        assertEquals(propertiesMap.get(EXCEL_SUITE_NAME), "SMOKE");
-        propertiesMap.forEach((k, v) -> logger.info(() -> String.format("Key :[%s]   Value :[%s]", k, v)));
-    }
 
     @Test
     public void createPropertyFileTest() {
@@ -77,9 +68,6 @@ public class PropertiesTest {
     @Test
     public void selcukesTestPropsTest() {
         SelcukesTestProperties properties = new SelcukesTestProperties();
-        assertEquals(properties.getSubstitutedProperty(FEATURES), "Hello RB Test");
-        assertEquals(properties.getProperty(EXCEL_SUITE_FILE), "TestData.xlsx");
-        assertEquals(properties.getProperty("dummy"), "");
-        assertEquals(properties.getSubstitutedProperty(GLUE), "Sample  of RB Test");
+        logger.info(() -> properties.getSubstitutedConfigProperty(FEATURES));
     }
 }

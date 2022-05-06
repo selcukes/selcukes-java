@@ -23,6 +23,7 @@ import lombok.experimental.UtilityClass;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -40,8 +41,8 @@ public class PropertiesMapper {
 
     public static LinkedProperties getProperties(final String propertyFile) {
         LinkedProperties properties = new LinkedProperties();
-        try {
-            properties.load(ConfigFactory.getStream(propertyFile));
+        try (InputStream stream = ConfigFactory.getStream(propertyFile)) {
+            properties.load(stream);
         } catch (IOException e) {
             throw new ConfigurationException("Could not parse property file '" + propertyFile + "'", e);
         }

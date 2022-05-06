@@ -21,7 +21,7 @@ import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.page.WebPage;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 public class WebTest extends GridBaseTest {
@@ -34,7 +34,7 @@ public class WebTest extends GridBaseTest {
         Assert.assertEquals(page.title(), "Google");
     }
 
-    @AfterTest
+    @AfterMethod
     void afterTest() {
         DriverManager.removeDriver();
     }

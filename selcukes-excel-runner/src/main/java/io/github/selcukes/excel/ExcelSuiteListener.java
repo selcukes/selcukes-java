@@ -24,7 +24,7 @@ public class ExcelSuiteListener implements ISuiteListener {
     @Override
     public void onStart(ISuite suite) {
         SelcukesTestProperties testProperties = new SelcukesTestProperties();
-        if (!testProperties.getProperty(SelcukesTestProperties.EXCEL_RUNNER).equalsIgnoreCase("false"))
+        if (!testProperties.getExcelProperty(SelcukesTestProperties.EXCEL_RUNNER).equalsIgnoreCase("false"))
             ExcelUtils.initTestRunner();
     }
 }

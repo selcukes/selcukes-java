@@ -1,0 +1,22 @@
+# Selcukes Environment Properties
+---
+projectName: Selcukes
+env: Dev
+proxy: false
+baseUrl:
+excel:
+  runner: true
+  fileName: "TestData.xlsx"
+  suiteName: "Smoke"
+cucumber:
+  module:
+  features: src/test/resources/features
+  glue: io.github.selcukes.excel.steps
+  tags:
+  plugin:
+reports:
+  emailReport: true
+  htmlReport: true
+  path: target
+  fileName: TestReport
+  timestamp: false

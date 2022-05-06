@@ -4,23 +4,21 @@ projectName: Selcukes
 env: Dev
 proxy: false
 baseUrl:
-excelRunner:
-  fileName: "TestData.xlsx"
-  suiteName: "Smoke"
 web:
-  remote: false
+  remote: true
   browserName: CHROME
   headLess: true
-  serviceUrl: "http://127.0.0.1:8080"
+  serviceUrl: "http://127.0.0.1:"
 windows:
   serviceUrl: "http://127.0.0.1:4723"
-  winApp-path: "C:/Program Files (x86)/Windows Application Driver/WinAppDriver.exe"
+  winApp-path: "C:/Program Files/Windows Application Driver/WinAppDriver.exe"
+  app: "C:\\Windows\\System32\\notepad.exe"
 mobile:
   serviceUrl: "http://127.0.0.1:4723"
 video:
   recording: false
   recorderType: FFMPEG
-  ffmpegPath:
+  ffmpegPath: D:\\MyProject\support\video\ffmpeg\bin\
   watermarkStatus: false
 notifier:
   notification: false
@@ -28,3 +26,4 @@ notifier:
   webhook-token: WEBHOOKXXXX
   api-token: APIXXXX
   channel: selcukes
+  authorIcon: https://avatars0.githubusercontent.com/u/2510294?s=400&u=5d6412ba1dd13052992ff66317ae28d007a971d3&v=4
