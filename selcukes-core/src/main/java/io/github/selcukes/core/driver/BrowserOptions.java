@@ -30,19 +30,20 @@ import static org.openqa.selenium.remote.CapabilityType.HAS_NATIVE_EVENTS;
 import static org.openqa.selenium.remote.CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR;
 
 public class BrowserOptions {
+
     public Capabilities getBrowserOptions(DriverType driverType, boolean isGrid) {
-        boolean headless = Platform.isLinux();
+        boolean isLinux = Platform.isLinux();
         if (isGrid) {
             setBinaries(driverType);
         }
         switch (driverType) {
             case EDGE:
                 EdgeOptions edgeOptions = new EdgeOptions();
-                edgeOptions.setHeadless(headless);
+                edgeOptions.addArguments("--no-sandbox","--headless", "--disable-dev-shm-usage");
                 return edgeOptions;
             case FIREFOX:
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
-                firefoxOptions.setHeadless(headless);
+                firefoxOptions.setHeadless(isLinux);
                 return firefoxOptions;
             case IEXPLORER:
                 InternetExplorerOptions ieOptions = new InternetExplorerOptions().requireWindowFocus();
@@ -55,7 +56,10 @@ public class BrowserOptions {
                 ieOptions.setCapability("enablePersistentHover", true);
                 return ieOptions;
             default:
-                return new ChromeOptions().setHeadless(headless);
+                ChromeOptions chromeOptions=new ChromeOptions();
+                if (isLinux)
+                chromeOptions.addArguments("--no-sandbox","--headless", "--disable-dev-shm-usage");
+                return chromeOptions;
         }
 
     }
