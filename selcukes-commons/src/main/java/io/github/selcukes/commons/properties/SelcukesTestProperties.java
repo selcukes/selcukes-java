@@ -33,7 +33,7 @@ public class SelcukesTestProperties {
     public static final String EMAIL_REPORT = "selcukes.reports.emailReport";
     public static final String HTML_REPORT = "selcukes.reports.htmlReport";
     public static final String REPORTS_PATH = "selcukes.reports.path";
-    public static final String REPORTS_File = "selcukes.reports.fileName";
+    public static final String REPORTS_FILE = "selcukes.reports.fileName";
     public static final String TIMESTAMP_REPORT = "selcukes.reports.timestamp";
 
     public static void setSystemProperty(String key, String value) {

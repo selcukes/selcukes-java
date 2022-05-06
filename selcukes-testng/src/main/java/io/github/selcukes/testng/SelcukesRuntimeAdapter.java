@@ -45,7 +45,7 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
             String reportsPath = properties.getReportsProperty(REPORTS_PATH);
             String timestampReport = properties.getReportsProperty(TIMESTAMP_REPORT);
             String emailReport = properties.getReportsProperty(EMAIL_REPORT);
-            String reportsFile = properties.getReportsProperty(REPORTS_File);
+            String reportsFile = properties.getReportsProperty(REPORTS_FILE);
             if (isNullOrEmpty(reportsFile))
                 reportsFile = "TestReport";
 
