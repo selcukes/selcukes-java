@@ -35,13 +35,13 @@ public class ExcelUtils {
     private static final Map<String, List<List<String>>> allSheetsDataMap = new LinkedHashMap<>();
     private static Map<String, List<List<String>>> allSheetsMap = new LinkedHashMap<>();
     public static final List<String> runScenarios = new ArrayList<>();
-    private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcelRunner().get("suiteName");
+    private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcel().get("suiteName");
     private static final List<String> IGNORE_SHEETS = new ArrayList<>(
         Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
 
     public static void initTestRunner() {
         ExcelReader excelReader = new ExcelReader(
-            ConfigFactory.getConfig().getExcelRunner().get("fileName"));
+            ConfigFactory.getConfig().getExcel().get("fileName"));
 
         // Store all sheets data
         allSheetsMap = excelReader.getAllSheets().stream()

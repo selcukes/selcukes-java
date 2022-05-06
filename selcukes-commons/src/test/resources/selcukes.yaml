@@ -4,12 +4,14 @@ projectName: Selcukes
 env: Dev
 proxy: false
 baseUrl:
-excelRunner:
+excel:
+  runner:
   filePath: ""
   suiteName: "smoke"
 cucumber:
-  features:
-  glue:
+  module: google
+  features: src/test/resources/features/${module}
+  glue: io.github.selcukes.testng.tests
   tags:
   plugin:
 web:

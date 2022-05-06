@@ -24,12 +24,12 @@ import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-@DataFile(fileName = "selcukes.yaml", folderPath = "src/main/resources")
+@DataFile(fileName = "selcukes.yaml")
 public class Environment {
     private String projectName;
     private String env;
     private String baseUrl;
-    private Map<String, String> excelRunner;
+    private Map<String, String> excel;
     private Map<String, String> cucumber;
     private Map<String, String> web;
     private Map<String, String> windows;

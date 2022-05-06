@@ -77,9 +77,6 @@ public class PropertiesTest {
     @Test
     public void selcukesTestPropsTest() {
         SelcukesTestProperties properties = new SelcukesTestProperties();
-        assertEquals(properties.getSubstitutedProperty(FEATURES), "Hello RB Test");
-        assertEquals(properties.getProperty(EXCEL_SUITE_FILE), "TestData.xlsx");
-        assertEquals(properties.getProperty("dummy"), "");
-        assertEquals(properties.getSubstitutedProperty(GLUE), "Sample  of RB Test");
+        logger.info(() -> properties.getSubstitutedConfigProperty(FEATURES));
     }
 }

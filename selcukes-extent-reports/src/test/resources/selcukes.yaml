@@ -1,0 +1,18 @@
+# Selcukes Environment Properties
+---
+projectName: Selcukes
+env: Dev
+proxy: false
+baseUrl:
+cucumber:
+  module:
+  features: src/test/resources/
+  glue: io.github.selcukes.extent.report.tests.steps
+  tags:
+  plugin:
+reports:
+  emailReport: true
+  htmlReport: true
+  path: target
+  fileName: TestReport
+  timestamp: false
