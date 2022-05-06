@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
 
 public class WebTest extends GridBaseTest {
 
-    @Test(enabled = false)
+    @Test
     public void remoteTest() {
         WebDriver driver = DriverManager.createDriver(DeviceType.BROWSER);
         WebPage page = new WebPage(driver);
