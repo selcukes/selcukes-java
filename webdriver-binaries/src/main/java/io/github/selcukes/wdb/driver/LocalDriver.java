@@ -39,6 +39,7 @@ public class LocalDriver {
             default:
                 WebDriverBinary.chromeDriver().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
+                if(headless)
                 chromeOptions.addArguments("--no-sandbox","--headless", "--disable-dev-shm-usage");
                 return new ChromeDriver(chromeOptions);
         }
