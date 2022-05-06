@@ -6,11 +6,24 @@
 
 ### Added
 
-* [All] Add flexibility to update properties in runtime for different
+### Changed
+
+### Removed
+
+### Fixed
+
+## [2.0.0]
+
+### Added
+
+* [Core] Use Selcukes.yaml file for all configs ([#105](https://github.com/selcukes/selcukes-java/pull/105))
+* [Core] Add flexibility to update properties in runtime for different
   tests ([#95](https://github.com/selcukes/selcukes-java/pull/95))
 * [Selcukes Core] Parallel execution support fixes ([#99](https://github.com/selcukes/selcukes-java/pull/99))
 * [Selcukes DataBind] `DataMapper.write` method will create a new data file if not
   exist([#102](https://github.com/selcukes/selcukes-java/pull/102))
+* [WebDriver Binaries] Added Cache binary management using `version.properties` in WebDrivers
+  folder ([#104](https://github.com/selcukes/selcukes-java/pull/104))
 
 ### Changed
 
@@ -19,15 +32,18 @@
 * [WebDriver Binaries] By default, WebDriverBinary setup method will look for Browser version using commands. This can
   be disabled using `disableAutoCheck` method. ([#97](https://github.com/selcukes/selcukes-java/pull/97))
 * Updated dependency selenium.version to v4.1.4 ([#98](https://github.com/selcukes/selcukes-java/pull/98))
-* Updated dependency cucumber.version to
-    v7.3.4 ([#103](https://github.com/selcukes/selcukes-java/pull/103)) 
+* Updated dependency cucumber.version to v7.3.4 ([#103](https://github.com/selcukes/selcukes-java/pull/103))
 
 ### Removed
+
+* [Selcukes TestNG] Removed selcukes-test properties file support instead use `selcukes.yaml`
+  file ([#105](https://github.com/selcukes/selcukes-java/pull/105))
 
 ### Fixed
 
 * [Selcukes DataBind] Fixed Reading data files from root folder
   issue ([#102](https://github.com/selcukes/selcukes-java/pull/102))
+* [Core] Allow user to start selenium server manually
 
 ## [1.6.0]  (22-04-2022)
 
