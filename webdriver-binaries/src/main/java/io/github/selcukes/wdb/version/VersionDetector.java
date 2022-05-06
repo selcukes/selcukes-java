@@ -49,7 +49,7 @@ public class VersionDetector {
         if (version.isPresent()) {
             String cacheVersion = version.get();
             if (!cacheVersion.isBlank()) {
-                logger.info(() -> String.format("Using cached %s version : [%s]", driverName, cacheVersion));
+                logger.info(() -> String.format("Using cached %s [%s] version", driverName, cacheVersion));
                 return cacheVersion;
             }
         }

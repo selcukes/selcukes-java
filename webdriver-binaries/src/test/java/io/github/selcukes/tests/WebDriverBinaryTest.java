@@ -102,7 +102,7 @@ public class WebDriverBinaryTest {
 
     @Test(priority = 1000)
     public void cleanBinaryCacheTest() {
-        BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().targetPath("temp").clearBinaryCache().setup();
+        BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().clearBinaryCache().setup();
         String binProp = binaryInfo.getBinaryProperty();
         String binaryDownloadedPath = binaryInfo.getBinaryPath();
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + binaryDownloadedPath + "}");
