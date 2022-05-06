@@ -40,13 +40,13 @@ public class GridRunner {
         }
     }
 
-    static boolean isGridRunning() {
+    static boolean isGrid() {
         return ConfigFactory.getConfig().getWeb().get("remote")
-            .equalsIgnoreCase("true") && GridRunner.isRunning;
+            .equalsIgnoreCase("true");
     }
+
     static boolean isGridNotRunning() {
-        return ConfigFactory.getConfig().getWeb().get("remote")
-            .equalsIgnoreCase("true") && !GridRunner.isRunning;
+        return isGrid() && !GridRunner.isRunning;
     }
 
     public static void startAppiumServer() {

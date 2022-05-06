@@ -12,7 +12,7 @@
     <artifactId>webdriver-binaries</artifactId>
 
     <name>webdriver-binaries</name>
-    <description>Automatically downloads and configures Selenium Webdriver binary files</description>
+    <description>Automatically downloads and configures Selenium WebDriver binary files</description>
     <properties>
         <sonar.exclusions>**/VersionComparator.java</sonar.exclusions>
     </properties>
