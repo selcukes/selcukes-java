@@ -30,7 +30,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-@Test(enabled = false)
+
 public class MobileTest {
     MobilePage page;
 
@@ -41,7 +41,7 @@ public class MobileTest {
         page = new MobilePage(driver);
     }
 
-    @Test
+    @Test(enabled = false)
     public void expandAndScrollScreenTest() {
         page.tap(AppiumBy.accessibilityId("Views"))
             .tap(AppiumBy.accessibilityId("Expandable Lists"))
@@ -53,7 +53,7 @@ public class MobileTest {
 
     }
 
-    @Test
+    @Test(enabled = false)
     public void expandAndScrollElementTest() {
         page.tap(AppiumBy.accessibilityId("Views"))
             .swipe(AppiumBy.accessibilityId("Splitting Touches across Views"), SwipeDirection.DOWN)
@@ -64,7 +64,7 @@ public class MobileTest {
             .tap(By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Abbaye de Belloc']"));
     }
 
-    @Test
+    @Test(enabled = false)
     public void alertTest() {
         ((AndroidDriver) DriverManager.getDriver())
             .startActivity(new Activity("io.appium.android.apis", ".app.AlertDialogSamples"));
@@ -74,7 +74,7 @@ public class MobileTest {
             .tap(By.id("android:id/button1"));
     }
 
-    @Test
+    @Test(enabled = false)
     public void searchTest() {
         ((AndroidDriver) DriverManager.getDriver())
             .startActivity(new Activity("io.appium.android.apis", ".app.SearchInvoke"));
