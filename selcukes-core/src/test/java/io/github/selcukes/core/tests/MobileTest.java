@@ -16,29 +16,70 @@
 
 package io.github.selcukes.core.tests;
 
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.android.Activity;
+import io.appium.java_client.android.AndroidDriver;
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.driver.GridRunner;
 import io.github.selcukes.core.enums.DeviceType;
+import io.github.selcukes.core.enums.SwipeDirection;
 import io.github.selcukes.core.page.MobilePage;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+
 public class MobileTest {
+    MobilePage page;
 
     @BeforeMethod
     void beforeTest() {
         GridRunner.startAppiumServer();
+        AppiumDriver driver = DriverManager.createDriver(DeviceType.MOBILE);
+        page = new MobilePage(driver);
     }
 
     @Test(enabled = false)
-    public void remoteTest() {
-        AppiumDriver driver = DriverManager.createDriver(DeviceType.MOBILE);
-        MobilePage page = new MobilePage(driver);
-        page.enableDriverEvents();
-        page.click(By.xpath("//android.widget.TextView[contains(@text,'Views')]"));
+    public void expandAndScrollScreenTest() {
+        page.tap(AppiumBy.accessibilityId("Views"))
+            .tap(AppiumBy.accessibilityId("Expandable Lists"))
+            .tap(AppiumBy.accessibilityId("3. Simple Adapter"))
+            .swipe(By.xpath("//android.widget.TextView[@text='Group 18']"), SwipeDirection.DOWN)
+            .tap(By.xpath("//android.widget.TextView[@text='Group 18']"))
+            .swipe(By.xpath("//android.widget.TextView[@text='Child 13']"), SwipeDirection.DOWN)
+            .swipe(By.xpath("//android.widget.TextView[@text='Group 1']"), SwipeDirection.UP);
+
+    }
+
+    @Test(enabled = false)
+    public void expandAndScrollElementTest() {
+        page.tap(AppiumBy.accessibilityId("Views"))
+            .swipe(AppiumBy.accessibilityId("Splitting Touches across Views"), SwipeDirection.DOWN)
+            .tap(AppiumBy.accessibilityId("Splitting Touches across Views"))
+            .swipe(By.id("io.appium.android.apis:id/list2"), By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Blue']"), SwipeDirection.DOWN)
+            .tap(By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Blue']"))
+            .swipe(By.id("io.appium.android.apis:id/list2"), By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Abbaye de Belloc']"), SwipeDirection.UP)
+            .tap(By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Abbaye de Belloc']"));
+    }
+
+    @Test(enabled = false)
+    public void alertTest() {
+        ((AndroidDriver) DriverManager.getDriver())
+            .startActivity(new Activity("io.appium.android.apis", ".app.AlertDialogSamples"));
+
+        page.tap(By.id("io.appium.android.apis:id/two_buttons"))
+
+            .tap(By.id("android:id/button1"));
+    }
+
+    @Test(enabled = false)
+    public void searchTest() {
+        ((AndroidDriver) DriverManager.getDriver())
+            .startActivity(new Activity("io.appium.android.apis", ".app.SearchInvoke"));
+        page.enter(By.id("txt_query_prefill"), "Hello world!")
+            .tap(By.id("btn_start_search"));
     }
 
     @AfterMethod
