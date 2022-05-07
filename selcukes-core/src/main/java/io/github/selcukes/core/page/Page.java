@@ -20,6 +20,7 @@ import io.github.selcukes.core.listener.EventCapture;
 import io.github.selcukes.core.wait.WaitCondition;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.events.WebDriverListener;
 import org.openqa.selenium.support.ui.Select;
@@ -112,6 +113,26 @@ public interface Page {
         return new Actions(getDriver());
     }
 
+    default TouchActions touchActions() {
+        return new TouchActions(getDriver());
+    }
+
+    default Page tap(By by) {
+        touchActions().singleTap(find(by)).perform();
+        return this;
+    }
+
+    default Page doubleTap(By by) {
+        touchActions().doubleTap(find(by)).perform();
+        return this;
+    }
+
+    default Page swipe(By target) {
+        Point elementLocation = find(target).getLocation();
+        touchActions().scroll(elementLocation.getX(), elementLocation.getY()).perform();
+        return this;
+    }
+
     default List<String> getWindows() {
         return new ArrayList<>(getDriver().getWindowHandles());
     }
@@ -184,4 +205,5 @@ public interface Page {
             .ignoreAll(List.of(StaleElementReferenceException.class, NoSuchElementException.class))
             .until((Function<WebDriver, ?>) condition.getType().apply(locator, arg));
     }
+
 }
