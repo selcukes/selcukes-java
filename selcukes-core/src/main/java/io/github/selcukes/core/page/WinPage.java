@@ -41,11 +41,21 @@ public class WinPage implements Page {
         return find(name).getText();
     }
 
-    public WebElement find(String locator) {
-        return getDriver().findElement(new AppiumBy.ByAccessibilityId(locator));
+    public WebElement find(String accessibilityId) {
+        return find(AppiumBy.accessibilityId(accessibilityId));
     }
 
-    public Page switchWindow(String name) {
+    public WinPage click(String accessibilityId) {
+        click(AppiumBy.accessibilityId(accessibilityId));
+        return this;
+    }
+
+    public WinPage enter(String accessibilityId, CharSequence text) {
+        enter(AppiumBy.accessibilityId(accessibilityId), text);
+        return this;
+    }
+
+    public WinPage switchWindow(String name) {
         WebElement newWindowElement = find(By.name(name));
         String windowId = newWindowElement.getAttribute("NativeWindowHandle");
         String windowIdToHex = Integer.toHexString(Integer.parseInt(windowId));

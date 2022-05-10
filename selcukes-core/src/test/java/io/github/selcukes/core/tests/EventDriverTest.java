@@ -35,7 +35,6 @@ public class EventDriverTest extends BaseTest {
 
     @Test
     public void eventDriverTest() {
-        page.enableDriverEvents();
         page.open("https://techyworks.blogspot.com/");
 
         By search = By.xpath("//span[@class='show-search' or @class='show-mobile-search']");

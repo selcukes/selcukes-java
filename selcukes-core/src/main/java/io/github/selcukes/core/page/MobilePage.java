@@ -16,12 +16,10 @@
 
 package io.github.selcukes.core.page;
 
+import io.appium.java_client.AppiumBy;
 import io.github.selcukes.commons.Await;
 import io.github.selcukes.core.enums.SwipeDirection;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Rectangle;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +36,25 @@ public class MobilePage implements Page {
         return driver;
     }
 
+    public WebElement find(String accessibilityId) {
+        return find(AppiumBy.accessibilityId(accessibilityId));
+    }
+
+    public MobilePage click(String accessibilityId) {
+        click(AppiumBy.accessibilityId(accessibilityId));
+        return this;
+    }
+
+    public MobilePage enter(String accessibilityId, CharSequence text) {
+        enter(AppiumBy.accessibilityId(accessibilityId), text);
+        return this;
+    }
+
+    public MobilePage tap(String accessibilityId) {
+        click(accessibilityId);
+        return this;
+    }
+
     public MobilePage tap(By by) {
         click(by);
         return this;
@@ -48,6 +65,15 @@ public class MobilePage implements Page {
         return this;
     }
 
+    public MobilePage swipe(String targetAccessibilityId, SwipeDirection swipeDirection) {
+        swipe(AppiumBy.accessibilityId(targetAccessibilityId), swipeDirection);
+        return this;
+    }
+
+    public MobilePage swipe(String sourceAccessibilityId, String targetAccessibilityId, SwipeDirection swipeDirection) {
+        swipe(AppiumBy.accessibilityId(sourceAccessibilityId), AppiumBy.accessibilityId(targetAccessibilityId), swipeDirection);
+        return this;
+    }
 
     public MobilePage swipe(By target, SwipeDirection swipeDirection) {
         swipe(null, target, swipeDirection);

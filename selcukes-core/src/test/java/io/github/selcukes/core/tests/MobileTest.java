@@ -16,7 +16,6 @@
 
 package io.github.selcukes.core.tests;
 
-import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
 import io.github.selcukes.core.driver.DriverManager;
@@ -38,16 +37,15 @@ public class MobileTest {
     void beforeTest() {
         GridRunner.startAppiumServer();
         WebDriver driver = DriverManager.createDriver(DeviceType.MOBILE);
-
         page = new MobilePage(driver);
 
     }
 
     @Test(enabled = false)
     public void expandAndScrollScreenTest() {
-        page.tap(AppiumBy.accessibilityId("Views"))
-            .tap(AppiumBy.accessibilityId("Expandable Lists"))
-            .tap(AppiumBy.accessibilityId("3. Simple Adapter"))
+        page.tap("Views")
+            .tap("Expandable Lists")
+            .tap("3. Simple Adapter")
             .swipe(By.xpath("//android.widget.TextView[@text='Group 18']"), SwipeDirection.DOWN)
             .tap(By.xpath("//android.widget.TextView[@text='Group 18']"))
             .swipe(By.xpath("//android.widget.TextView[@text='Child 13']"), SwipeDirection.DOWN)
@@ -57,9 +55,9 @@ public class MobileTest {
 
     @Test(enabled = false)
     public void expandAndScrollElementTest() {
-        page.tap(AppiumBy.accessibilityId("Views"))
-            .swipe(AppiumBy.accessibilityId("Splitting Touches across Views"), SwipeDirection.DOWN)
-            .tap(AppiumBy.accessibilityId("Splitting Touches across Views"))
+        page.tap("Views")
+            .swipe("Splitting Touches across Views", SwipeDirection.DOWN)
+            .tap("Splitting Touches across Views")
             .swipe(By.id("io.appium.android.apis:id/list2"), By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Blue']"), SwipeDirection.DOWN)
             .tap(By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Blue']"))
             .swipe(By.id("io.appium.android.apis:id/list2"), By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Abbaye de Belloc']"), SwipeDirection.UP)
