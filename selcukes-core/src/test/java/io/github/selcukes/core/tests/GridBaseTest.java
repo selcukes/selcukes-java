@@ -22,7 +22,7 @@ import org.testng.annotations.BeforeSuite;
 
 public class GridBaseTest {
     @BeforeSuite
-    public void beforeSuite() {
+    public static void beforeSuite() {
         GridRunner.startSeleniumServer(DriverType.CHROME, DriverType.EDGE);
     }
 }

@@ -12,6 +12,17 @@
 
 ### Fixed
 
+## [2.0.1]
+
+### Added
+
+* [Core] Added Touch Actions Wrappers ([#107](https://github.com/selcukes/selcukes-java/pull/107))
+
+### Fixed
+
+* [Core] Fixed Event Capturing issue for mobile drivers ([#108](https://github.com/selcukes/selcukes-java/pull/108))
+* [Core] Fixed Initiating new Local browser session issue
+
 ## [2.0.0]
 
 ### Added

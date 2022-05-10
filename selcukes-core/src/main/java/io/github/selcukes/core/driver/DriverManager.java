@@ -60,7 +60,7 @@ public class DriverManager {
                 setDriver(wd);
             } else {
                 WebDriverListener eventCapture = new EventCapture();
-                WebDriver eventDriver = new EventFiringDecorator(eventCapture).decorate(remoteManager.createDriver());
+                WebDriver eventDriver = new EventFiringDecorator(eventCapture).decorate(wd);
                 setDriver(eventDriver);
             }
         }
