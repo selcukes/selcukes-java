@@ -31,9 +31,9 @@ import static org.openqa.selenium.remote.CapabilityType.UNEXPECTED_ALERT_BEHAVIO
 
 public class BrowserOptions {
 
-    public Capabilities getBrowserOptions(DriverType driverType, boolean isGrid) {
+    public Capabilities getBrowserOptions(DriverType driverType, boolean ignoreBinarySetup) {
         boolean headless = Platform.isLinux();
-        if (isGrid) {
+        if (!ignoreBinarySetup) {
             setBinaries(driverType);
         }
         switch (driverType) {
