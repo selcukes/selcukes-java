@@ -16,13 +16,10 @@
 
 package io.github.selcukes.core.page;
 
-import io.github.selcukes.core.listener.EventCapture;
 import io.github.selcukes.core.wait.WaitCondition;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.touch.TouchActions;
-import org.openqa.selenium.support.events.EventFiringDecorator;
-import org.openqa.selenium.support.events.WebDriverListener;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -35,11 +32,6 @@ public interface Page {
     int TIMEOUT = 2;
 
     WebDriver getDriver();
-
-    default WebDriver enableDriverEvents() {
-        WebDriverListener eventCapture = new EventCapture();
-        return new EventFiringDecorator(eventCapture).decorate(getDriver());
-    }
 
     default Page open(String url) {
         getDriver().get(url);

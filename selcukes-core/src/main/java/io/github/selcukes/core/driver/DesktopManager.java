@@ -20,6 +20,7 @@ import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.DriverSetupException;
 import lombok.CustomLog;
+import org.openqa.selenium.WebDriver;
 
 import java.net.URL;
 import java.util.Objects;
@@ -28,8 +29,8 @@ import java.util.Objects;
 public class DesktopManager extends AppiumManager {
 
     @Override
-    public synchronized WindowsDriver createDriver() {
-        WindowsDriver windowsDriver;
+    public synchronized WebDriver createDriver() {
+        WebDriver windowsDriver;
         try {
             logger.debug(() -> "Initiating New Desktop Session...");
             String app = ConfigFactory.getConfig().getWindows().get("app");

@@ -16,12 +16,15 @@
 
 package io.github.selcukes.core.driver;
 
+import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.commons.exception.DriverSetupException;
 import io.github.selcukes.core.enums.DeviceType;
+import io.github.selcukes.core.listener.EventCapture;
 import lombok.CustomLog;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.events.EventFiringDecorator;
+import org.openqa.selenium.support.events.WebDriverListener;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -34,7 +37,7 @@ public class DriverManager {
     private static final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
     private static final Set<Object> STORED_DRIVER = new HashSet<>();
 
-    public synchronized static <D extends RemoteWebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
+    public synchronized static <D extends WebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
         Arrays.stream(capabilities).findAny().ifPresent(DesktopOptions::setUserOptions);
         if (getDriver() == null) {
             logger.info(() -> String.format("Creating new %s session...", deviceType));
@@ -52,7 +55,14 @@ public class DriverManager {
                 default:
                     throw new DriverSetupException("Unable to create new driver session for Driver Type[" + deviceType + "]");
             }
-            setDriver(remoteManager.createDriver());
+            WebDriver wd = remoteManager.createDriver();
+            if (wd instanceof WindowsDriver) {
+                setDriver(wd);
+            } else {
+                WebDriverListener eventCapture = new EventCapture();
+                WebDriver eventDriver = new EventFiringDecorator(eventCapture).decorate(wd);
+                setDriver(eventDriver);
+            }
         }
         return getDriver();
     }
@@ -80,7 +90,7 @@ public class DriverManager {
     public static void removeAllDrivers() {
         STORED_DRIVER.stream().filter(Objects::nonNull).forEach(d -> {
             try {
-                ((RemoteWebDriver) d).quit();
+                ((WebDriver) d).quit();
             } finally {
                 STORED_DRIVER.remove(d);
             }
