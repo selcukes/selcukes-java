@@ -17,7 +17,6 @@
 package io.github.selcukes.core.tests;
 
 import io.appium.java_client.AppiumBy;
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
 import io.github.selcukes.core.driver.DriverManager;
@@ -26,6 +25,7 @@ import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.enums.SwipeDirection;
 import io.github.selcukes.core.page.MobilePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -37,8 +37,10 @@ public class MobileTest {
     @BeforeMethod
     void beforeTest() {
         GridRunner.startAppiumServer();
-        AppiumDriver driver = DriverManager.createDriver(DeviceType.MOBILE);
+        WebDriver driver = DriverManager.createDriver(DeviceType.MOBILE);
+
         page = new MobilePage(driver);
+
     }
 
     @Test(enabled = false)

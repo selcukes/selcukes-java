@@ -38,9 +38,8 @@ public class NotepadTest {
     public void notepadTest() {
         WindowsDriver driver = DriverManager.createDriver(DeviceType.DESKTOP);
         WinPage page = new WinPage(driver);
-        page.enableDriverEvents();
         By edit = By.className("Edit");
-        page.enter(edit, "This is sample")
+        page.enter(edit, "Welcome to Selcukes !!!")
             .enter(edit, Keys.ENTER)
             .enter(edit, "Time is")
             .enter(edit, Keys.ENTER)

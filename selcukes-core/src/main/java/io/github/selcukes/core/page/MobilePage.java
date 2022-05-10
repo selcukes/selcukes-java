@@ -16,7 +16,6 @@
 
 package io.github.selcukes.core.page;
 
-import io.appium.java_client.AppiumDriver;
 import io.github.selcukes.commons.Await;
 import io.github.selcukes.core.enums.SwipeDirection;
 import org.openqa.selenium.By;
@@ -28,9 +27,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MobilePage implements Page {
-    private final AppiumDriver driver;
+    private final WebDriver driver;
 
-    public MobilePage(AppiumDriver driver) {
+    public MobilePage(WebDriver driver) {
         this.driver = driver;
     }
 

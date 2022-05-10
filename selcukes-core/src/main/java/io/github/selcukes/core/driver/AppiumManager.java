@@ -16,13 +16,13 @@
 
 package io.github.selcukes.core.driver;
 
-import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.DriverSetupException;
 import io.github.selcukes.commons.helper.FileHelper;
 import lombok.CustomLog;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.WebDriver;
 
 import java.net.URL;
 
@@ -30,8 +30,8 @@ import java.net.URL;
 public class AppiumManager implements RemoteManager {
 
     @Override
-    public AppiumDriver createDriver() {
-        AppiumDriver driver;
+    public WebDriver createDriver() {
+        WebDriver driver;
         try {
             logger.debug(() -> "Initiating New Mobile Session...");
             Capabilities capabilities = DesktopOptions.getUserOptions();
