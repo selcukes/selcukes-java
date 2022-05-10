@@ -41,6 +41,7 @@ public class ClassicGridTest extends GridBaseTest {
     @SneakyThrows
     @Test(dataProvider = "driverTypes")
     public void parallelBrowserTest(DriverType driverType) {
+        logger.debug(driverType::getName);
         BrowserOptions browserOptions = new BrowserOptions();
         createDriver(DeviceType.BROWSER, browserOptions.getBrowserOptions(driverType, true));
         getDriver().get("https://www.google.com/");
