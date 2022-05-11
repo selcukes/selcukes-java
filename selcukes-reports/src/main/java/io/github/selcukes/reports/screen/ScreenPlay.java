@@ -17,7 +17,7 @@
 package io.github.selcukes.reports.screen;
 
 import io.github.selcukes.notifier.enums.NotifierType;
-import io.github.selcukes.reports.enums.RecorderType;
+import io.github.selcukes.video.enums.RecorderType;
 
 import java.io.File;
 import java.util.logging.Level;

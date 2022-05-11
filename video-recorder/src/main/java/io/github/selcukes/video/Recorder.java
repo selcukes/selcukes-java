@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.video;
+package io.github.selcukes.video;
 
 import java.io.File;
 

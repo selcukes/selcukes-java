@@ -21,6 +21,7 @@
         <module>selcukes-extent-reports</module>
         <module>selcukes-snapshot</module>
         <module>selcukes-excel-runner</module>
+        <module>video-recorder</module>
     </modules>
 
     <name>selcukes-java</name>
@@ -142,6 +143,11 @@
             <dependency>
                 <groupId>io.github.selcukes</groupId>
                 <artifactId>selcukes-notifier</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.selcukes</groupId>
+                <artifactId>video-recorder</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

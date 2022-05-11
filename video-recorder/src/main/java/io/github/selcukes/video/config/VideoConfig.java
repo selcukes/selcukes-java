@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.config;
+package io.github.selcukes.video.config;
 
 import io.github.selcukes.commons.config.Environment;
 import lombok.Builder;

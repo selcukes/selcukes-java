@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.enums;
+package io.github.selcukes.video.enums;
 
 public enum RecorderType {
     MONTE,

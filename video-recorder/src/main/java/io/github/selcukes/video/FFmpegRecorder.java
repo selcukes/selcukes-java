@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.video;
+package io.github.selcukes.video;
 
 
 import io.github.selcukes.commons.Await;
@@ -27,7 +27,7 @@ import io.github.selcukes.commons.helper.Preconditions;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.os.Platform;
-import io.github.selcukes.reports.config.VideoConfig;
+import io.github.selcukes.video.config.VideoConfig;
 
 import java.awt.*;
 import java.io.File;
