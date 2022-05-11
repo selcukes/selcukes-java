@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+package io.github.selcukes.video.tests;
+
 import io.github.selcukes.commons.Await;
 import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.video.Recorder;
