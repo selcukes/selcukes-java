@@ -32,6 +32,7 @@ import java.io.File;
 public class VideoTest {
     @Test
     public void recordVideo() {
+        System.setProperty("java.awt.headless", "true");
         Recorder recorder = RecorderFactory.getRecorder(RecorderType.MONTE);
         recorder.start();
         LocalDriver localDriver = new LocalDriver();
