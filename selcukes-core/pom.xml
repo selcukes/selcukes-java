@@ -12,9 +12,7 @@
     <artifactId>selcukes-core</artifactId>
     <name>selcukes-core</name>
     <description>Selenium core</description>
-    <properties>
-        <sonar.skip>true</sonar.skip>
-    </properties>
+
     <dependencies>
         <dependency>
             <groupId>io.appium</groupId>
