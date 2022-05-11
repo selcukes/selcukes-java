@@ -20,8 +20,8 @@ import io.github.selcukes.commons.logging.LogRecordListener;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.notifier.Notifier;
 import io.github.selcukes.notifier.NotifierFactory;
-import io.github.selcukes.reports.video.Recorder;
-import io.github.selcukes.reports.video.RecorderFactory;
+import io.github.selcukes.video.Recorder;
+import io.github.selcukes.video.RecorderFactory;
 
 import java.io.File;
 

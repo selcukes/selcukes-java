@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.video;
+package io.github.selcukes.video;
 
 import io.github.selcukes.commons.exception.RecorderException;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.reports.config.VideoConfig;
+import io.github.selcukes.video.config.VideoConfig;
 import org.monte.media.Format;
 import org.monte.media.FormatKeys;
+import org.monte.media.VideoFormatKeys;
 import org.monte.media.math.Rational;
 import ws.schild.jave.Encoder;
 import ws.schild.jave.EncoderException;
@@ -34,7 +35,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-import static org.monte.media.VideoFormatKeys.*;
+import static org.monte.media.VideoFormatKeys.MediaType;
 
 class MonteRecorder extends VideoRecorder {
     private final Logger logger = LoggerFactory.getLogger(MonteRecorder.class);
@@ -105,15 +106,15 @@ class MonteRecorder extends VideoRecorder {
     private MonteRecorderBuilder getScreenRecorder() {
         int frameRate = videoConfig.getFrameRate();
 
-        Format fileFormat = new Format(MediaTypeKey, MediaType.VIDEO, MimeTypeKey, FormatKeys.MIME_AVI);
-        Format screenFormat = new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey,
-            ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
-            CompressorNameKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
-            DepthKey, 24, FrameRateKey, Rational.valueOf(frameRate),
-            QualityKey, 1.0f,
-            KeyFrameIntervalKey, 15 * 60);
-        Format mouseFormat = new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, "black",
-            FrameRateKey, Rational.valueOf(frameRate));
+        Format fileFormat = new Format(FormatKeys.MediaTypeKey, MediaType.VIDEO, FormatKeys.MimeTypeKey, FormatKeys.MIME_AVI);
+        Format screenFormat = new Format(FormatKeys.MediaTypeKey, MediaType.VIDEO, FormatKeys.EncodingKey,
+            VideoFormatKeys.ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
+            VideoFormatKeys.CompressorNameKey, VideoFormatKeys.ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
+            VideoFormatKeys.DepthKey, 24, FormatKeys.FrameRateKey, Rational.valueOf(frameRate),
+            VideoFormatKeys.QualityKey, 1.0f,
+            FormatKeys.KeyFrameIntervalKey, 15 * 60);
+        Format mouseFormat = new Format(FormatKeys.MediaTypeKey, MediaType.VIDEO, FormatKeys.EncodingKey, "black",
+            FormatKeys.FrameRateKey, Rational.valueOf(frameRate));
 
         Dimension screenSize = videoConfig.getScreenSize();
         int width = screenSize.width;

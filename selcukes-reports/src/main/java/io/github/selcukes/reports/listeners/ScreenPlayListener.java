@@ -18,8 +18,8 @@ package io.github.selcukes.reports.listeners;
 
 import io.github.selcukes.commons.logging.LogRecordListener;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.reports.video.Recorder;
-import io.github.selcukes.reports.video.RecorderFactory;
+import io.github.selcukes.video.Recorder;
+import io.github.selcukes.video.RecorderFactory;
 import org.testng.ITestResult;
 import org.testng.Reporter;
 

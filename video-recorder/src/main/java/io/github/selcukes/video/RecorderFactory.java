@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.reports.video;
+package io.github.selcukes.video;
 
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.reports.enums.RecorderType;
+import io.github.selcukes.video.enums.RecorderType;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass

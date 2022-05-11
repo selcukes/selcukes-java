@@ -118,7 +118,7 @@ package io.github.selcukes.reports.tests;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.reports.enums.RecorderType;
+import io.github.selcukes.video.enums.RecorderType;
 import io.github.selcukes.reports.screen.ScreenPlay;
 import io.github.selcukes.reports.screen.ScreenPlayBuilder;
 import io.github.selcukes.wdb.WebDriverBinary;
