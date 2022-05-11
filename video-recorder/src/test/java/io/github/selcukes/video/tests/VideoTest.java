@@ -16,10 +16,14 @@
 
 package io.github.selcukes.video.tests;
 
-import io.github.selcukes.commons.Await;
 import io.github.selcukes.video.Recorder;
 import io.github.selcukes.video.RecorderFactory;
 import io.github.selcukes.video.enums.RecorderType;
+import io.github.selcukes.wdb.driver.LocalDriver;
+import io.github.selcukes.wdb.enums.DriverType;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -30,7 +34,10 @@ public class VideoTest {
     public void recordVideo() {
         Recorder recorder = RecorderFactory.getRecorder(RecorderType.MONTE);
         recorder.start();
-        Await.until(5);
+        LocalDriver localDriver = new LocalDriver();
+        WebDriver driver = localDriver.createWebDriver(DriverType.CHROME);
+        driver.get("https://www.google.com/");
+        driver.findElement(By.name("q")).sendKeys("Welcome to Selcukes...", Keys.ENTER);
         File file = recorder.stopAndSave("test");
         Assert.assertTrue(file.getAbsolutePath().contains("mp4"));
 
