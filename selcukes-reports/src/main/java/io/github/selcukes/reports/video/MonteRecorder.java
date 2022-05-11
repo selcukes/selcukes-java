@@ -23,6 +23,12 @@ import io.github.selcukes.reports.config.VideoConfig;
 import org.monte.media.Format;
 import org.monte.media.FormatKeys;
 import org.monte.media.math.Rational;
+import ws.schild.jave.Encoder;
+import ws.schild.jave.EncoderException;
+import ws.schild.jave.MultimediaObject;
+import ws.schild.jave.encode.AudioAttributes;
+import ws.schild.jave.encode.EncodingAttributes;
+import ws.schild.jave.encode.VideoAttributes;
 
 import java.awt.*;
 import java.io.File;
@@ -49,8 +55,10 @@ class MonteRecorder extends VideoRecorder {
     @Override
     public File stopAndSave(String filename) {
         File video = writeVideo(filename);
-        logger.info(() -> "Recording finished to " + video.getAbsolutePath());
-        return video;
+        File mp4Video = encodeRecording(video.getAbsolutePath());
+        video.deleteOnExit();
+        logger.info(() -> "Recording finished to " + mp4Video.getAbsolutePath());
+        return mp4Video;
     }
 
     @Override
@@ -58,6 +66,26 @@ class MonteRecorder extends VideoRecorder {
         File video = writeVideo("Temp");
         logger.info(() -> "Deleting recorded video file...");
         video.deleteOnExit();
+    }
+
+    private static File encodeRecording(String sourcePath) {
+        File source = new File(sourcePath);
+        File target = new File(sourcePath.replace("avi", "mp4"));
+        try {
+
+            AudioAttributes audio = new AudioAttributes();
+            audio.setCodec("libvorbis");
+            VideoAttributes video = new VideoAttributes();
+            EncodingAttributes attrs = new EncodingAttributes();
+            attrs.setOutputFormat("mp4");
+            attrs.setAudioAttributes(audio);
+            attrs.setVideoAttributes(video);
+            Encoder encoder = new Encoder();
+            encoder.encode(new MultimediaObject(source), target, attrs);
+        } catch (EncoderException e) {
+            throw new RecorderException("Failed converting Video to mp4 format.");
+        }
+        return target;
     }
 
     private File writeVideo(String filename) {
