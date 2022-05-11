@@ -17,7 +17,6 @@
 package io.github.selcukes.video.tests;
 
 import io.github.selcukes.commons.Await;
-import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.video.Recorder;
 import io.github.selcukes.video.RecorderFactory;
 import io.github.selcukes.video.enums.RecorderType;
@@ -29,13 +28,11 @@ import java.io.File;
 public class VideoTest {
     @Test
     public void recordVideo() {
-        if (Platform.isWindows()) {
-            Recorder recorder = RecorderFactory.getRecorder(RecorderType.MONTE);
-            recorder.start();
-            Await.until(5);
-            File file = recorder.stopAndSave("test");
-            Assert.assertTrue(file.getAbsolutePath().contains("mp4"));
-        }
+        Recorder recorder = RecorderFactory.getRecorder(RecorderType.MONTE);
+        recorder.start();
+        Await.until(5);
+        File file = recorder.stopAndSave("test");
+        Assert.assertTrue(file.getAbsolutePath().contains("mp4"));
 
     }
 }
