@@ -17,8 +17,11 @@
 package io.github.selcukes.excel;
 
 import io.cucumber.testng.Pickle;
+import io.github.selcukes.commons.properties.SelcukesTestProperties;
 import io.github.selcukes.testng.SelcukesTestNGRunner;
 import lombok.CustomLog;
+import org.testng.ITestContext;
+import org.testng.annotations.BeforeClass;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +34,13 @@ import static io.github.selcukes.excel.ExcelUtils.runScenarios;
 
 @CustomLog
 public class ExcelTestRunner extends SelcukesTestNGRunner {
+    @BeforeClass(alwaysRun = true)
+    public void setUpExcel(ITestContext context) {
+        SelcukesTestProperties testProperties = new SelcukesTestProperties();
+        if (!testProperties.getExcelProperty(SelcukesTestProperties.EXCEL_RUNNER).equalsIgnoreCase("false"))
+            ExcelUtils.initTestRunner();
+    }
+
     @Override
     public Object[][] filter(Object[][] scenarios, Predicate<Pickle> accept) {
         Object[][] filteredScenarios = super.filter(scenarios, accept);

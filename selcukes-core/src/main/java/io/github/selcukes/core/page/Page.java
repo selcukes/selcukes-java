@@ -16,10 +16,13 @@
 
 package io.github.selcukes.core.page;
 
+import io.github.selcukes.core.validation.PageValidations;
 import io.github.selcukes.core.wait.WaitCondition;
+import io.github.selcukes.core.wait.WaitManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.touch.TouchActions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -182,17 +185,35 @@ public interface Page {
         return exe.executeScript(script, args);
     }
 
-    default WebDriverWait getWait() {
-        return getWait(TIMEOUT);
+    default Page waitForPageLoading() {
+        new WaitManager(this);
+        return this;
     }
 
-    default WebDriverWait getWait(int seconds) {
-        return new WebDriverWait(getDriver(), Duration.ofSeconds(seconds));
+    default Page waitFor(ExpectedCondition<?> condition, int timeoutSeconds) {
+        waiter(timeoutSeconds).until(condition);
+        return this;
+    }
+
+    default WebDriverWait waiter(int timeoutSeconds) {
+        return new WebDriverWait(getDriver(), Duration.ofSeconds(timeoutSeconds));
+    }
+
+    default WebDriverWait waiter() {
+        return waiter(TIMEOUT);
+    }
+
+    default PageValidations assertThat() {
+        return new PageValidations(this, false);
+    }
+
+    default PageValidations verifyThat() {
+        return new PageValidations(this, true);
     }
 
     @SuppressWarnings("unchecked")
     default <T, V, R> R waitFor(final T locator, final V arg, final WaitCondition condition) {
-        return (R) getWait()
+        return (R) waiter()
             .pollingEvery(Duration.ofMillis(100))
             .ignoreAll(List.of(StaleElementReferenceException.class, NoSuchElementException.class))
             .until((Function<WebDriver, ?>) condition.getType().apply(locator, arg));

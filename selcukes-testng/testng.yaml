@@ -1,0 +1,27 @@
+name: Cucumber Test Suite
+tests:
+  - name: Google Module Test
+    preserveOrder: true
+    parameters: {
+      selcukes.module: "google"
+    }
+    classes:
+      - name: io.github.selcukes.testng.tests.CucumberRunner
+  - name: Yahoo Module Test
+    preserveOrder: true
+    parameters: {
+      selcukes.module: "yahoo"
+    }
+    classes:
+      - name: io.github.selcukes.testng.tests.CucumberRunner
+  - name: No Module Test
+    preserveOrder: true
+    classes:
+      - name: io.github.selcukes.testng.tests.CucumberRunner
+  - name: Tags Test
+    preserveOrder: true
+    parameters: {
+      selcukes.tags: "@abc"
+    }
+    classes:
+      - name: io.github.selcukes.testng.tests.CucumberRunner

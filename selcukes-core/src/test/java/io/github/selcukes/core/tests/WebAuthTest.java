@@ -20,7 +20,6 @@ import io.github.selcukes.core.wait.WaitCondition;
 import lombok.CustomLog;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 import java.util.UUID;
@@ -37,9 +36,8 @@ public class WebAuthTest extends BaseTest {
         logger.info(() -> "Username: " + randomId);
         page.enter(By.id("input-email"), randomId);
         page.click(By.id("register-button"));
-        WebDriverWait wait = page.getWait(20);
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(
-            By.className("popover-body"), "Success! Now try logging in"));
+        page.waitFor(ExpectedConditions.textToBePresentInElementLocated(
+            By.className("popover-body"), "Success! Now try logging in"), 20);
 
         page.click(By.id("login-button"));
         page.waitFor(By.xpath("//*[contains(@class,'main-content')]//h3"), "You're logged in!", WaitCondition.TEXT_TO_BE);
@@ -51,5 +49,6 @@ public class WebAuthTest extends BaseTest {
     public void testBasicAuth() {
         page.basicAuth("admin", "admin");
         page.open("https://the-internet.herokuapp.com/basic_auth");
+        page.assertThat().title("The Internet");
     }
 }
