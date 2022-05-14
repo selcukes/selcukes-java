@@ -17,8 +17,6 @@
 package io.github.selcukes.testng.listeners;
 
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.databind.utils.StringHelper;
-import io.github.selcukes.testng.SelcukesPropertiesProvider;
 import io.github.selcukes.testng.SelcukesRuntimeAdapter;
 import lombok.CustomLog;
 import org.testng.ITestContext;
@@ -36,10 +34,17 @@ public class TestListener implements ITestListener {
     public void onStart(ITestContext context) {
         logger.debug(() -> context.getName() + " Execution started...");
         XmlTest currentXmlTest = context.getCurrentXmlTest();
-        SelcukesPropertiesProvider properties = currentXmlTest::getParameter;
-        String moduleName = properties.get("selcukes.module");
-        if (!StringHelper.isNullOrEmpty(moduleName))
-            ConfigFactory.getConfig().getCucumber().put("module", moduleName);
+        currentXmlTest.getAllParameters().forEach((key, value) -> {
+            if (key.startsWith("selcukes")) {
+                String prop = key.substring(key.lastIndexOf(".") + 1);
+                if (key.startsWith("selcukes.reports"))
+                    ConfigFactory.getConfig().getReports().put(prop, value);
+                else if (key.startsWith("selcukes.excel"))
+                    ConfigFactory.getConfig().getExcel().put(prop, value);
+                else
+                    ConfigFactory.getConfig().getCucumber().put(prop, value);
+            }
+        });
         SelcukesRuntimeAdapter.getInstance().perform();
     }
 }
