@@ -14,17 +14,9 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.excel;
+package io.github.selcukes.testng;
 
-import io.github.selcukes.commons.properties.SelcukesTestProperties;
-import org.testng.ISuite;
-import org.testng.ISuiteListener;
-
-public class ExcelSuiteListener implements ISuiteListener {
-    @Override
-    public void onStart(ISuite suite) {
-        SelcukesTestProperties testProperties = new SelcukesTestProperties();
-        if (!testProperties.getExcelProperty(SelcukesTestProperties.EXCEL_RUNNER).equalsIgnoreCase("false"))
-            ExcelUtils.initTestRunner();
-    }
+@FunctionalInterface
+public interface SelcukesPropertiesProvider {
+    String get(String property);
 }
