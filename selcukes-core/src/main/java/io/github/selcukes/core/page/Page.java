@@ -16,6 +16,7 @@
 
 package io.github.selcukes.core.page;
 
+import io.github.selcukes.core.validation.PageValidations;
 import io.github.selcukes.core.wait.WaitCondition;
 import io.github.selcukes.core.wait.WaitManager;
 import org.openqa.selenium.*;
@@ -200,6 +201,14 @@ public interface Page {
 
     default WebDriverWait waiter() {
         return waiter(TIMEOUT);
+    }
+
+    default PageValidations assertThat() {
+        return new PageValidations(this, false);
+    }
+
+    default PageValidations verifyThat() {
+        return new PageValidations(this, true);
     }
 
     @SuppressWarnings("unchecked")

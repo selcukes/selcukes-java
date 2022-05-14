@@ -49,5 +49,6 @@ public class WebAuthTest extends BaseTest {
     public void testBasicAuth() {
         page.basicAuth("admin", "admin");
         page.open("https://the-internet.herokuapp.com/basic_auth");
+        page.assertThat().title("The Internet");
     }
 }

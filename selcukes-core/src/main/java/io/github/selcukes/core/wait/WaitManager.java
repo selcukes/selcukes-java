@@ -40,8 +40,7 @@ public class WaitManager {
             ExpectedCondition<Boolean> jQueryLoad = null;
             try {
                 // Wait for jQuery to load
-                jQueryLoad = driver -> ((Long) ((JavascriptExecutor) page.getDriver())
-                    .executeScript("return jQuery.active") == 0);
+                jQueryLoad = driver -> ((Long) page.executeScript("return jQuery.active") == 0);
             } catch (NullPointerException e) {
                 // do nothing
             }
