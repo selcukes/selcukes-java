@@ -17,16 +17,18 @@
 package io.github.selcukes.core.validation;
 
 import lombok.CustomLog;
+import lombok.experimental.UtilityClass;
 import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@UtilityClass
 @CustomLog
 public class Validation {
     private static final ThreadLocal<List<String>> FAILED_MESSAGES = InheritableThreadLocal.withInitial(ArrayList::new);
 
-    public synchronized static void failWithMessage(boolean isSoft, String errorMessage, Object... args) {
+    public static void failWithMessage(boolean isSoft, String errorMessage, Object... args) {
         String message = String.format(errorMessage, args);
         logger.info(() -> message);
         if (!isSoft) {
@@ -41,9 +43,10 @@ public class Validation {
         return FAILED_MESSAGES.get();
     }
 
-    public synchronized static void failAll() {
+    public static void failAll() {
         if (!getErrorMessages().isEmpty()) {
             Assert.fail("Test Failed with Below Errors \n" + String.join("\n", getErrorMessages()));
+            FAILED_MESSAGES.remove();
         }
     }
 }
