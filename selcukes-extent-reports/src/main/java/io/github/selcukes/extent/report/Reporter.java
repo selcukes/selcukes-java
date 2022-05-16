@@ -25,7 +25,6 @@ import io.github.selcukes.snapshot.SnapshotImpl;
 import org.openqa.selenium.WebDriver;
 
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.stream.Collectors;
 
 import static io.github.selcukes.databind.utils.StringHelper.nullOrEmpty;
@@ -59,10 +58,14 @@ public class Reporter {
     }
 
 
-    private Reporter attach() {
+    private Reporter attachLog() {
         if (logRecordListener != null) {
-            String infoLogs = logRecordListener.getLogRecords(Level.INFO)
-                .map(LogRecord::getMessage)
+            String infoLogs = logRecordListener.getLogRecords()
+                .filter(logRecord -> logRecord.getLevel() == Level.INFO || logRecord.getLevel() == Level.SEVERE)
+                .map(logRecord -> {
+                    if (logRecord.getLevel() == Level.INFO) return logRecord.getMessage();
+                    else return "<span style=\"color:red;\">" + logRecord.getMessage() + "</span>";
+                })
                 .filter(nullOrEmpty.negate())
                 .collect(Collectors.joining("</li><li>", "<ul><li> ",
                     "</li></ul><br/>"));
@@ -83,12 +86,12 @@ public class Reporter {
     }
 
     void attachAndClear() {
-        attach().stop();
+        attachLog().stop();
 
     }
 
     void attachAndRestart() {
-        attach().stop().start();
+        attachLog().stop().start();
     }
 
     public void attachScreenshot() {
