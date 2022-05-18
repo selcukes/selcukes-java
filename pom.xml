@@ -33,7 +33,7 @@
         <cucumber.version>7.3.4</cucumber.version>
         <selenium.version>4.1.4</selenium.version>
         <appium.version>8.0.0</appium.version>
-        <testng.version>7.5</testng.version>
+        <testng.version>7.6.0</testng.version>
 
         <lombok.version>1.18.24</lombok.version>
         <commons.io.version>2.11.0</commons.io.version>
