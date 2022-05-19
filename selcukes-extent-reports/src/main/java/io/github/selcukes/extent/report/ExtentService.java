@@ -104,7 +104,7 @@ public class ExtentService implements Serializable {
             return StringHelper.isNullOrEmpty(out) ? OUTPUT_PATH + key.split("\\.")[2] + "/" : out;
         }
 
-        public static String getConfigProperty(Properties properties, String propertyKey) {
+        private static String getConfigProperty(Properties properties, String propertyKey) {
             if (System.getProperty(propertyKey) != null)
                 return System.getProperty(propertyKey);
             if (properties != null && properties.getProperty(propertyKey) != null)
@@ -112,7 +112,7 @@ public class ExtentService implements Serializable {
             return null;
         }
 
-        public static boolean getBooleanProperty(Properties properties, String propertyKey) {
+        private static boolean getBooleanProperty(Properties properties, String propertyKey) {
             String value = getConfigProperty(properties, propertyKey);
             return (!StringHelper.isNullOrEmpty(value)
                 && Objects.requireNonNull(value).equalsIgnoreCase("true"));
@@ -121,7 +121,7 @@ public class ExtentService implements Serializable {
         private static void initSpark(Properties properties) {
             String out = getOutputPath(properties, OUT_SPARK_KEY);
             if (getBooleanProperty(properties, TIMESTAMP_REPORT)) {
-                out = out.replace(".", DateHelper.get().dateTime() + ".");
+                out = Objects.requireNonNull(out).replace(".", DateHelper.get().dateTime() + ".");
             }
             ExtentSparkReporter spark = new ExtentSparkReporter(out);
             spark.config().setReportName(REPORT_NAME);
