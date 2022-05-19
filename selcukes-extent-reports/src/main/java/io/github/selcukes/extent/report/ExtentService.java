@@ -24,13 +24,13 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.ReporterConfigurable;
 import com.aventstack.extentreports.reporter.configuration.ViewName;
 import io.github.selcukes.commons.helper.DateHelper;
+import io.github.selcukes.databind.utils.StringHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
-
 
 public class ExtentService implements Serializable {
 
@@ -40,11 +40,6 @@ public class ExtentService implements Serializable {
 
     public static synchronized ExtentReports getInstance() {
         return ExtentReportsLoader.INSTANCE;
-    }
-
-    public static Object getProperty(String key) {
-        String sys = System.getProperty(key);
-        return sys == null ? (properties == null ? null : properties.get(key)) : sys;
     }
 
     private static class ExtentReportsLoader {
@@ -105,36 +100,33 @@ public class ExtentService implements Serializable {
         }
 
         private static String getOutputPath(Properties properties, String key) {
-            String out;
-            if (properties != null && properties.get(key) != null)
-                out = String.valueOf(properties.get(key));
-            else
-                out = System.getProperty(key);
-            out = out == null || out.equals("null") || out.isEmpty() ? OUTPUT_PATH + key.split("\\.")[2] + "/" : out;
-            return out;
+            String out = getConfigProperty(properties, key);
+            return StringHelper.isNullOrEmpty(out) ? OUTPUT_PATH + key.split("\\.")[2] + "/" : out;
         }
 
-        private static boolean isTimeStampReport() {
-            if (properties != null && properties.get(TIMESTAMP_REPORT) != null)
-                return String.valueOf(properties.get(TIMESTAMP_REPORT)).equalsIgnoreCase("true");
-            return false;
+        public static String getConfigProperty(Properties properties, String propertyKey) {
+            if (System.getProperty(propertyKey) != null)
+                return System.getProperty(propertyKey);
+            if (properties != null && properties.getProperty(propertyKey) != null)
+                return properties.getProperty(propertyKey);
+            return null;
         }
 
-        private static boolean isThumbnailReport() {
-            if (properties != null && properties.get(THUMBNAIL_REPORT) != null)
-                return String.valueOf(properties.get(THUMBNAIL_REPORT)).equalsIgnoreCase("true");
-            return false;
+        public static boolean getBooleanProperty(Properties properties, String propertyKey) {
+            String value = getConfigProperty(properties, propertyKey);
+            return (!StringHelper.isNullOrEmpty(value)
+                && Objects.requireNonNull(value).equalsIgnoreCase("true"));
         }
 
         private static void initSpark(Properties properties) {
             String out = getOutputPath(properties, OUT_SPARK_KEY);
-            if (isTimeStampReport()) {
+            if (getBooleanProperty(properties, TIMESTAMP_REPORT)) {
                 out = out.replace(".", DateHelper.get().dateTime() + ".");
             }
             ExtentSparkReporter spark = new ExtentSparkReporter(out);
             spark.config().setReportName(REPORT_NAME);
             spark.config().setDocumentTitle(REPORT_TITLE);
-            spark.config().thumbnailForBase64(isThumbnailReport());
+            spark.config().thumbnailForBase64(getBooleanProperty(properties, THUMBNAIL_REPORT));
             sparkReportViewOrder(spark);
 
             attach(spark, properties);
@@ -142,7 +134,7 @@ public class ExtentService implements Serializable {
 
         private static void sparkReportViewOrder(ExtentSparkReporter spark) {
             try {
-                List<ViewName> viewOrder = Arrays.stream(String.valueOf(getProperty(VIEW_ORDER_SPARK_KEY)).split(","))
+                List<ViewName> viewOrder = Arrays.stream(Objects.requireNonNull(getConfigProperty(properties, VIEW_ORDER_SPARK_KEY)).split(","))
                     .map(v -> ViewName.valueOf(v.toUpperCase())).collect(Collectors.toList());
                 spark.viewConfigurer().viewOrder().as(viewOrder).apply();
             } catch (Exception ignored) {
