@@ -17,7 +17,9 @@
 package io.github.selcukes.testng;
 
 
+import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.helper.DateHelper;
+import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.commons.properties.SelcukesTestProperties;
 import lombok.CustomLog;
 
@@ -69,6 +71,9 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
                 setSystemProperty("extent.reporter.spark.start", "true");
                 setSystemProperty("extent.reporter.spark.out", String.format("%s/%s.html", extentReportPath, reportsFile));
                 setSystemProperty(TIMESTAMP_REPORT, timestampReport);
+                setSystemProperty("extent.reporter.spark.vieworder", "dashboard,test,category,exception,author,device,log");
+                setSystemProperty("systeminfo.OperatingSystem", Platform.getPlatform().getOsName());
+                setSystemProperty("systeminfo.Environment", ConfigFactory.getConfig().getEnv());
                 plugin = plugin + "," + "io.github.selcukes.extent.report.SelcukesExtentAdapter:";
             }
             setSystemProperty("cucumber.plugin", plugin);
