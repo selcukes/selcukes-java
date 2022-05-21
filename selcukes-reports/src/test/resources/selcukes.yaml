@@ -1,24 +1,38 @@
-# Selcukes Environment Properties
----
 projectName: Selcukes
 env: Dev
 proxy: false
 baseUrl:
+excel:
+  runner: false
+  fileName: src/test/resources/TestData.xlsx
+  suiteName: "Smoke"
+cucumber:
+  module:
+  features: src/test/resources/
+  glue: io.github.selcukes.reports.tests.steps
+  tags:
+  plugin: io.github.selcukes.reports.cucumber.CucumberListener
 web:
-  remote: false
+  remote: true
   browserName: CHROME
   headLess: true
   serviceUrl: "http://127.0.0.1:8080"
 windows:
   serviceUrl: "http://127.0.0.1:4723"
-  winApp-path: "C:/Program Files/Windows Application Driver/WinAppDriver.exe"
   app: "C:\\Windows\\System32\\notepad.exe"
 mobile:
   serviceUrl: "http://127.0.0.1:4723"
+  app: "ApiDemos-debug.apk"
+reports:
+  emailReport: flase
+  htmlReport: true
+  path: target
+  fileName: index
+  timestamp: false
 video:
-  recording: false
-  recorderType: FFMPEG
-  ffmpegPath: D:\\MyProject\support\video\ffmpeg\bin\
+  recording: true
+  recorderType: MONTE
+  ffmpegPath:
   watermarkStatus: false
 notifier:
   notification: false
@@ -26,4 +40,3 @@ notifier:
   webhook-token: WEBHOOKXXXX
   api-token: APIXXXX
   channel: selcukes
-  authorIcon: https://avatars0.githubusercontent.com/u/2510294?s=400&u=5d6412ba1dd13052992ff66317ae28d007a971d3&v=4

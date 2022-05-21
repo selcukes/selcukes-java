@@ -71,6 +71,16 @@
             <artifactId>selenium-java</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>io.github.selcukes</groupId>
+            <artifactId>selcukes-testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 </project>

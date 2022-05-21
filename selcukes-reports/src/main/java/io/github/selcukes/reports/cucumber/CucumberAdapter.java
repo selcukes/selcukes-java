@@ -20,6 +20,7 @@ import io.github.selcukes.commons.logging.LogRecordListener;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.notifier.Notifier;
 import io.github.selcukes.notifier.NotifierFactory;
+import io.github.selcukes.reports.html.HtmlReporter;
 import io.github.selcukes.video.Recorder;
 import io.github.selcukes.video.RecorderFactory;
 
@@ -59,11 +60,11 @@ public class CucumberAdapter implements CucumberService {
     public void afterScenario(String scenarioName, boolean status) {
         if (status) {
             File video = recorder.stopAndSave(scenarioName.replace(" ", "_"));
-            notifier.scenarioName(scenarioName)
+    /*        notifier.scenarioName(scenarioName)
                 .scenarioStatus("FAILED")
                 .stepDetails(stepInfo)
                 .path(video.toURI().toString())
-                .pushNotification();
+                .pushNotification();*/
         } else
             recorder.stopAndDelete();
         LoggerFactory.removeListener(logRecordListener);
@@ -71,7 +72,7 @@ public class CucumberAdapter implements CucumberService {
 
     @Override
     public void afterTest() {
-        // Nothing required
+        HtmlReporter.generateReports("target/custom-report");
     }
 }
 

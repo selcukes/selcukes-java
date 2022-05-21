@@ -96,7 +96,7 @@ public class CucumberListener implements ConcurrentEventListener {
         logger.debug(() -> String.format("After Scenario: %n Status [%s] %n Duration [%s] %n Error [%s]",
             event.getResult().getStatus(),
             event.getResult().getDuration(),
-            event.getResult().getError().getMessage()
+            "event.getResult().getError().getMessage()"
         ));
         cucumberService.afterScenario(event.getTestCase().getName(), event.getResult().getStatus().is(Status.FAILED));
     }
