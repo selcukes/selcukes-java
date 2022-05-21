@@ -30,7 +30,7 @@ reports:
   fileName: index
   timestamp: false
 video:
-  recording: true
+  recording: false
   recorderType: MONTE
   ffmpegPath:
   watermarkStatus: false
@@ -40,3 +40,4 @@ notifier:
   webhook-token: WEBHOOKXXXX
   api-token: APIXXXX
   channel: selcukes
+  authorIcon: https://github.com/rameshbabuprudhvi.png
