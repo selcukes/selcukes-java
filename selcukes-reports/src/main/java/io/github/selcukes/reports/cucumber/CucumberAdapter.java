@@ -16,6 +16,7 @@
 
 package io.github.selcukes.reports.cucumber;
 
+import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.logging.LogRecordListener;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.notifier.Notifier;
@@ -31,18 +32,25 @@ public class CucumberAdapter implements CucumberService {
     private LogRecordListener logRecordListener;
     private Notifier notifier;
     private String stepInfo;
+    private boolean isRecordingEnabled;
+    private boolean isNotifierEnabled;
 
     @Override
     public void beforeTest() {
-        recorder = RecorderFactory.getRecorder();
-        notifier = NotifierFactory.getNotifier();
+        isRecordingEnabled = ConfigFactory.getConfig().getVideo().get("recording").equalsIgnoreCase("true");
+        isNotifierEnabled = ConfigFactory.getConfig().getNotifier().get("notification").equalsIgnoreCase("true");
+        if (isRecordingEnabled)
+            recorder = RecorderFactory.getRecorder();
+        if (isNotifierEnabled)
+            notifier = NotifierFactory.getNotifier();
     }
 
     @Override
     public void beforeScenario() {
         logRecordListener = new LogRecordListener();
         LoggerFactory.addListener(logRecordListener);
-        recorder.start();
+        if (isRecordingEnabled)
+            recorder.start();
     }
 
     @Override
@@ -58,15 +66,19 @@ public class CucumberAdapter implements CucumberService {
 
     @Override
     public void afterScenario(String scenarioName, boolean status) {
-        if (status) {
-            File video = recorder.stopAndSave(scenarioName.replace(" ", "_"));
-    /*        notifier.scenarioName(scenarioName)
-                .scenarioStatus("FAILED")
-                .stepDetails(stepInfo)
-                .path(video.toURI().toString())
-                .pushNotification();*/
-        } else
-            recorder.stopAndDelete();
+        if (isRecordingEnabled) {
+            if (status) {
+                File video = recorder.stopAndSave(scenarioName.replace(" ", "_"));
+                if (isNotifierEnabled) {
+                    notifier.scenarioName(scenarioName)
+                        .scenarioStatus("FAILED")
+                        .stepDetails(stepInfo)
+                        .path(video.toURI().toString())
+                        .pushNotification();
+                }
+            } else
+                recorder.stopAndDelete();
+        }
         LoggerFactory.removeListener(logRecordListener);
     }
 
