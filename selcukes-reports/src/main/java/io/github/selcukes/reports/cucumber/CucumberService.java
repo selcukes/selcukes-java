@@ -16,6 +16,8 @@
 
 package io.github.selcukes.reports.cucumber;
 
+import io.cucumber.plugin.event.Status;
+
 public interface CucumberService {
     void beforeTest();
 
@@ -25,7 +27,7 @@ public interface CucumberService {
 
     void afterStep(String step, boolean status);
 
-    void afterScenario(String scenario, boolean status);
+    void afterScenario(String scenario, Status status);
 
     void afterTest();
 }

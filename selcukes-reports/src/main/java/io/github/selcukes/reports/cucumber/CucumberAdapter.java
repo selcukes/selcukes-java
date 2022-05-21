@@ -16,9 +16,7 @@
 
 package io.github.selcukes.reports.cucumber;
 
-import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.commons.logging.LogRecordListener;
-import io.github.selcukes.commons.logging.LoggerFactory;
+import io.cucumber.plugin.event.Status;
 import io.github.selcukes.notifier.Notifier;
 import io.github.selcukes.notifier.NotifierFactory;
 import io.github.selcukes.reports.html.HtmlReporter;
@@ -28,10 +26,11 @@ import io.github.selcukes.video.RecorderFactory;
 import java.io.File;
 
 import static io.github.selcukes.commons.config.ConfigFactory.getConfig;
+import static io.github.selcukes.extent.report.Reporter.getReporter;
 
 public class CucumberAdapter implements CucumberService {
     private Recorder recorder;
-    private LogRecordListener logRecordListener;
+
     private Notifier notifier;
     private String stepInfo;
     private boolean isRecordingEnabled;
@@ -39,8 +38,8 @@ public class CucumberAdapter implements CucumberService {
 
     @Override
     public void beforeTest() {
-        isRecordingEnabled = ConfigFactory.getConfig().getVideo().get("recording").equalsIgnoreCase("true");
-        isNotifierEnabled = ConfigFactory.getConfig().getNotifier().get("notification").equalsIgnoreCase("true");
+        isRecordingEnabled = getConfig().getVideo().get("recording").equalsIgnoreCase("true");
+        isNotifierEnabled = getConfig().getNotifier().get("notification").equalsIgnoreCase("true");
         if (isRecordingEnabled)
             recorder = RecorderFactory.getRecorder();
         if (isNotifierEnabled)
@@ -49,8 +48,6 @@ public class CucumberAdapter implements CucumberService {
 
     @Override
     public void beforeScenario() {
-        logRecordListener = new LogRecordListener();
-        LoggerFactory.addListener(logRecordListener);
         if (isRecordingEnabled)
             recorder.start();
     }
@@ -63,14 +60,15 @@ public class CucumberAdapter implements CucumberService {
     @Override
     public void afterStep(String step, boolean status) {
         if (status) stepInfo = step;
+        getReporter().getLogRecords();
 
     }
 
     @Override
-    public void afterScenario(String scenarioName, boolean status) {
+    public void afterScenario(String scenarioName, Status status) {
         String path = "";
         if (isRecordingEnabled) {
-            if (status) {
+            if (status.is(Status.FAILED)) {
                 File video = recorder.stopAndSave(scenarioName.replace(" ", "_"));
                 path = video.toURI().toString();
             } else
@@ -78,12 +76,11 @@ public class CucumberAdapter implements CucumberService {
         }
         if (isNotifierEnabled) {
             notifier.scenarioName(scenarioName)
-                .scenarioStatus("FAILED")
+                .scenarioStatus(status.name())
                 .stepDetails(stepInfo)
                 .path(path)
                 .pushNotification();
         }
-        LoggerFactory.removeListener(logRecordListener);
     }
 
     @Override
