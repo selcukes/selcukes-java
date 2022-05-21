@@ -16,8 +16,6 @@
 
 package io.github.selcukes.reports.html;
 
-import static io.github.selcukes.commons.config.ConfigFactory.getConfig;
-
 import io.github.selcukes.commons.helper.RandomUtils;
 import io.github.selcukes.commons.os.Platform;
 import lombok.experimental.UtilityClass;
@@ -31,18 +29,18 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
+
+import static io.github.selcukes.commons.config.ConfigFactory.getConfig;
 
 @UtilityClass
 public class HtmlReporter {
     public void generateReports(String cucumberJsonPath) {
-
         File reportOutputDirectory = new File(getConfig().getReports().get("path"));
         List<String> jsonFiles = new ArrayList<>();
         jsonFiles.add(cucumberJsonPath);
 
         String buildNumber = RandomUtils.randomNumeric(4);
-        String projectName =getConfig().getProjectName();
+        String projectName = getConfig().getProjectName();
         Configuration configuration = new Configuration(reportOutputDirectory, projectName);
         configuration.setBuildNumber(buildNumber);
 

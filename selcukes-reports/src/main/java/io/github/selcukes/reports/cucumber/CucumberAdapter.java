@@ -27,6 +27,8 @@ import io.github.selcukes.video.RecorderFactory;
 
 import java.io.File;
 
+import static io.github.selcukes.commons.config.ConfigFactory.getConfig;
+
 public class CucumberAdapter implements CucumberService {
     private Recorder recorder;
     private LogRecordListener logRecordListener;
@@ -86,7 +88,7 @@ public class CucumberAdapter implements CucumberService {
 
     @Override
     public void afterTest() {
-        HtmlReporter.generateReports("target/custom-report");
+        HtmlReporter.generateReports(getConfig().getReports().get("path"));
     }
 }
 
