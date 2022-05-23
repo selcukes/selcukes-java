@@ -57,10 +57,9 @@ public class Reporter {
         snapshot = new SnapshotImpl(driver);
     }
 
-
-    private Reporter attachLog() {
+    public String getLogRecords() {
         if (logRecordListener != null) {
-            String infoLogs = logRecordListener.getLogRecords()
+            return logRecordListener.getLogRecords()
                 .filter(logRecord -> logRecord.getLevel() == Level.INFO || logRecord.getLevel() == Level.SEVERE)
                 .map(logRecord -> {
                     if (logRecord.getLevel() == Level.SEVERE)
@@ -72,9 +71,14 @@ public class Reporter {
                 .filter(nullOrEmpty.negate())
                 .collect(Collectors.joining("</li><li>", "<ul><li> ",
                     "</li></ul><br/>"));
-            if (!infoLogs.equalsIgnoreCase("<ul><li> </li></ul><br/>"))
-                Reporter.log(infoLogs);
         }
+        return "";
+    }
+
+    private Reporter attachLog() {
+        String infoLogs = getLogRecords();
+        if (!infoLogs.equalsIgnoreCase("<ul><li> </li></ul><br/>"))
+            Reporter.log(infoLogs);
         return this;
     }
 

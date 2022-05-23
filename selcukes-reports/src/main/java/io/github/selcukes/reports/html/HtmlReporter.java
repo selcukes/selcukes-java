@@ -16,7 +16,7 @@
 
 package io.github.selcukes.reports.html;
 
-import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.commons.helper.RandomUtils;
 import io.github.selcukes.commons.os.Platform;
 import lombok.experimental.UtilityClass;
 import net.masterthought.cucumber.Configuration;
@@ -30,22 +30,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static io.github.selcukes.commons.config.ConfigFactory.getConfig;
+
 @UtilityClass
 public class HtmlReporter {
     public void generateReports(String cucumberJsonPath) {
-
-        File reportOutputDirectory = new File("target/custom-report");
+        File reportOutputDirectory = new File(getConfig().getReports().get("path"));
         List<String> jsonFiles = new ArrayList<>();
         jsonFiles.add(cucumberJsonPath);
 
-        String buildNumber = "101";
-        String projectName = ConfigFactory.getConfig().getProjectName();
+        String buildNumber = RandomUtils.randomNumeric(4);
+        String projectName = getConfig().getProjectName();
         Configuration configuration = new Configuration(reportOutputDirectory, projectName);
         configuration.setBuildNumber(buildNumber);
 
         configuration.addClassifications("Platform", Platform.getPlatform().getOsName());
-        configuration.addClassifications("Browser", ConfigFactory.getConfig().getWeb().get("browserName"));
-        configuration.addClassifications("Branch", ConfigFactory.getConfig().getEnv());
+        configuration.addClassifications("Environment", getConfig().getEnv());
 
         configuration.setSortingMethod(SortingMethod.NATURAL);
         configuration.setNotFailingStatuses(Collections.singleton(Status.SKIPPED));

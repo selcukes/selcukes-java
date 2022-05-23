@@ -16,13 +16,13 @@
  *
  */
 
-package io.github.selcukes.extent.report.tests.steps;
+package io.github.selcukes.reports.tests.steps;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.github.selcukes.commons.Await;
-import io.github.selcukes.extent.report.tests.pages.Calculator;
+import io.github.selcukes.reports.tests.pages.Calculator;
 import org.testng.Assert;
 
 public class CalculatorSteps {
@@ -50,7 +50,7 @@ public class CalculatorSteps {
     @Then("the result is {double}")
     public void theResultIs(double expected) {
         Assert.assertEquals(expected, calc.value());
-        Await.until(5);
+        Await.until(2);
     }
 
 }
