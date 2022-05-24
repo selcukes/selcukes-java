@@ -20,6 +20,7 @@ import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.entity.mime.FileBody;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 
 public class WebClient {
     private final HttpClient client;
@@ -41,8 +42,13 @@ public class WebClient {
     }
 
     public <T> Response post(T payload) {
-        HttpEntity httpEntity = (payload instanceof FileBody) ?
-            client.createMultipartEntity((FileBody) payload) : client.createStringEntity(payload);
+        HttpEntity httpEntity;
+        if (payload instanceof String)
+            httpEntity = new StringEntity(payload.toString());
+        else if (payload instanceof FileBody)
+            httpEntity = client.createMultipartEntity((FileBody) payload);
+        else
+            httpEntity = client.createStringEntity(payload);
         HttpPost post = client.createHttpPost(url, httpEntity);
         return new Response(client.createClient().execute(post));
     }
