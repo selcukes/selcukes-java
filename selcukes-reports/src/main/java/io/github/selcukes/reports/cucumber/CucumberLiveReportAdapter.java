@@ -18,17 +18,17 @@ package io.github.selcukes.reports.cucumber;
 
 import io.cucumber.plugin.ConcurrentEventListener;
 import io.cucumber.plugin.event.*;
-import io.github.selcukes.commons.logging.Logger;
-import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.extent.report.TestSourcesModel;
 import lombok.Builder;
+import lombok.CustomLog;
 import lombok.Data;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class CucumberLiveReportListener implements ConcurrentEventListener {
-    private final Logger logger = LoggerFactory.getLogger(CucumberLiveReportListener.class);
+@CustomLog
+public class CucumberLiveReportAdapter implements ConcurrentEventListener {
+
     private final TestSourcesModel testSources = new TestSourcesModel();
     private final ThreadLocal<FeatureContext> featureContextThreadLocal = new InheritableThreadLocal<>();
     private final ThreadLocal<List<ScenarioContext>> scenarioContextThreadLocal = new InheritableThreadLocal<>();
@@ -88,7 +88,7 @@ public class CucumberLiveReportListener implements ConcurrentEventListener {
 
 
     private synchronized void beforeStep(TestStepStarted event) {
-      //Do Nothing
+        //Do Nothing
 
     }
 
