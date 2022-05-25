@@ -50,25 +50,22 @@ public class CucumberLiveReportAdapter implements ConcurrentEventListener {
     }
 
     private synchronized void beforeTest(TestRunStarted event) {
-        //Do Nothing
+        logger.trace(() -> String.format("Before Test: %n Event[%s]",
+            event.toString()
+        ));
+
     }
 
 
     private synchronized void beforeScenario(TestCaseStarted event) {
         String currentFeature = Objects.requireNonNull(testSources.getFeature(event.getTestCase().getUri())).getName();
         if (featureContextThreadLocal.get() == null) {
-            scenarioContextThreadLocal.set(new ArrayList<>(Collections.emptyList()));
-            FeatureContext featureContext = FeatureContext.builder()
-                .featureName(currentFeature)
-                .scenarioContexts(scenarioContextThreadLocal.get())
-                .build();
-
-            featureContextThreadLocal.set(featureContext);
+            initFeatureContext(currentFeature);
         }
 
         if (!featureContextThreadLocal.get().getFeatureName().equalsIgnoreCase(currentFeature)) {
             featureContextThreadLocal.get().setStatus(getFeatureStatus(featureContextThreadLocal.get().getScenarioContexts()));
-            logger.info(() -> String.format("Before Scenario: %n Feature[%s] %n Scenarios[%s] %n Status [%s]",
+            logger.debug(() -> String.format("Before Scenario: %n Feature[%s] %n Scenarios[%s] %n Status [%s]",
                 featureContextThreadLocal.get().getFeatureName(),
                 getScenarios(featureContextThreadLocal.get().getScenarioContexts()),
                 featureContextThreadLocal.get().getStatus()
@@ -76,26 +73,29 @@ public class CucumberLiveReportAdapter implements ConcurrentEventListener {
             LiveReportHelper.publishResults(featureContextThreadLocal.get(), "feature");
             featureContextThreadLocal.remove();
             scenarioContextThreadLocal.remove();
-            scenarioContextThreadLocal.set(new ArrayList<>(Collections.emptyList()));
-            FeatureContext featureContext = FeatureContext.builder()
-                .featureName(currentFeature)
-                .scenarioContexts(scenarioContextThreadLocal.get())
-                .build();
-
-            featureContextThreadLocal.set(featureContext);
+            initFeatureContext(currentFeature);
         }
     }
 
+    private synchronized void initFeatureContext(String currentFeature) {
+        scenarioContextThreadLocal.set(new ArrayList<>(Collections.emptyList()));
+        FeatureContext featureContext = FeatureContext.builder()
+            .featureName(currentFeature)
+            .scenarioContexts(scenarioContextThreadLocal.get())
+            .build();
+
+        featureContextThreadLocal.set(featureContext);
+    }
 
     private synchronized void beforeStep(TestStepStarted event) {
-        //Do Nothing
+        logger.debug(() -> String.format("Before Step: [%s]", event.getTestStep().toString()));
 
     }
 
     private synchronized void afterStep(TestStepFinished event) {
         if (event.getTestStep() instanceof PickleStepTestStep) {
             PickleStepTestStep testStep = (PickleStepTestStep) event.getTestStep();
-            logger.info(() -> String.format("After Step: %n Line [%s]%n Step[%s]%n Status[%s]%n Duration[%s]",
+            logger.debug(() -> String.format("After Step: %n Line [%s]%n Step[%s]%n Status[%s]%n Duration[%s]",
                 testStep.getStep().getLine(), testStep.getStep().getText(),
                 event.getResult().getStatus(), event.getResult().getDuration().toMillis() + "ms"
             ));
@@ -126,7 +126,7 @@ public class CucumberLiveReportAdapter implements ConcurrentEventListener {
 
     private synchronized void afterTest(TestRunFinished event) {
         featureContextThreadLocal.get().setStatus(getFeatureStatus(featureContextThreadLocal.get().getScenarioContexts()));
-        logger.info(() -> String.format("After Test: %n Feature[%s] %n Scenarios[%s] %n Status [%s]",
+        logger.debug(() -> String.format("After Test: %n Feature[%s] %n Scenarios[%s] %n Status [%s]",
             featureContextThreadLocal.get().getFeatureName(),
             getScenarios(featureContextThreadLocal.get().getScenarioContexts()),
             featureContextThreadLocal.get().getStatus()
