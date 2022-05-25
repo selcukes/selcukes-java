@@ -94,7 +94,7 @@ public final class TestSourcesModel {
         pathToReadEventMap.put(path, event);
     }
 
-    Feature getFeature(URI path) {
+    public Feature getFeature(URI path) {
         if (!pathToAstMap.containsKey(path)) {
             parseGherkinSource(path);
         }
