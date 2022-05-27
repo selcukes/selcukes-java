@@ -6,7 +6,6 @@ handlers: java.util.logging.FileHandler, java.util.logging.ConsoleHandler
 
 # For example, set the io.github.selcukes.core logger to only log SEVERE
 io.github.selcukes.level: ALL
-io.github.selcukes.devtools.level: SEVERE
 io.github.selcukes.handler: java.util.logging.ConsoleHandler
 
 # Default file output is in user's home directory.

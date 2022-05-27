@@ -18,6 +18,8 @@
 
 package io.github.selcukes.databind.utils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.selcukes.databind.exception.DataMapperException;
 import lombok.experimental.UtilityClass;
 
 import java.util.function.Function;
@@ -63,5 +65,20 @@ public class StringHelper {
     public String extractVersionNumber(String text) {
         String regex = "[^0-9_.]";
         return text.replaceAll(regex, "");
+    }
+
+    public String toJson(Object object) {
+        try {
+            return new ObjectMapper().writeValueAsString(object);
+        } catch (Exception e) {
+            throw new DataMapperException("Failed parsing JSON string from POJO[%s]" + object.getClass().getName(), e);
+        }
+    }
+    public String toPrettyJson(Object object) {
+        try {
+            return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(object);
+        } catch (Exception e) {
+            throw new DataMapperException("Failed parsing JSON string from POJO[%s]" + object.getClass().getName(), e);
+        }
     }
 }

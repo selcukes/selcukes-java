@@ -16,8 +16,6 @@
 
 package io.github.selcukes.commons.http;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.selcukes.commons.exception.SelcukesException;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
@@ -30,7 +28,6 @@ import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.HttpHost;
-import org.apache.hc.core5.http.io.entity.StringEntity;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -91,16 +88,6 @@ class HttpClient {
         try {
             return client.execute(request);
         } catch (IOException e) {
-            throw new SelcukesException(e);
-        }
-    }
-
-    protected HttpEntity createStringEntity(Object payload) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            String message = mapper.writeValueAsString(payload);
-            return new StringEntity(message);
-        } catch (JsonProcessingException e) {
             throw new SelcukesException(e);
         }
     }

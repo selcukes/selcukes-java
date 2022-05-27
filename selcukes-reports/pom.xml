@@ -62,6 +62,10 @@
            </exclusions>
         </dependency>
         <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
@@ -75,11 +79,6 @@
             <groupId>io.github.selcukes</groupId>
             <artifactId>selcukes-testng</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.aventstack</groupId>
-            <artifactId>extentreports</artifactId>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 
