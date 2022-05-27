@@ -38,4 +38,10 @@ public class StringHelperTest {
         Assert.assertEquals(StringHelper.toCamelCase(snakeCase), camelCase);
         Assert.assertEquals(StringHelper.toSnakeCase(camelCase), snakeCase);
     }
+
+    @Test
+    public void jsonTest() {
+        Map<String,String> map=Map.of("a","1","b","2","c","3");
+        System.out.println(StringHelper.toPrettyJson(map));
+    }
 }

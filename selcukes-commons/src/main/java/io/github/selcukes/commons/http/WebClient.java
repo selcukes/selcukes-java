@@ -16,6 +16,7 @@
 
 package io.github.selcukes.commons.http;
 
+import io.github.selcukes.databind.utils.StringHelper;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.entity.mime.FileBody;
 import org.apache.hc.core5.http.ClassicHttpRequest;
@@ -48,7 +49,7 @@ public class WebClient {
         else if (payload instanceof FileBody)
             httpEntity = client.createMultipartEntity((FileBody) payload);
         else
-            httpEntity = client.createStringEntity(payload);
+            httpEntity = new StringEntity(StringHelper.toJson(payload));
         HttpPost post = client.createHttpPost(url, httpEntity);
         return new Response(client.createClient().execute(post));
     }

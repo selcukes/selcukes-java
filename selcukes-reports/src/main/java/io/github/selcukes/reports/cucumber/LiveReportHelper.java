@@ -18,6 +18,7 @@ package io.github.selcukes.reports.cucumber;
 
 import io.github.selcukes.commons.http.Response;
 import io.github.selcukes.commons.http.WebClient;
+import io.github.selcukes.databind.utils.StringHelper;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -29,10 +30,11 @@ import java.nio.charset.StandardCharsets;
 @UtilityClass
 public class LiveReportHelper {
     @SneakyThrows
-    public <T> void publishResults(T json, String key) {
+    public void publishResults(Object object, String key) {
+        logger.debug(() -> StringHelper.toPrettyJson(object));
         String url = "http://localhost:9200/%s/results";
         WebClient client = new WebClient(String.format(url, key));
-        Response response = client.post(json);
+        Response response = client.post(object);
         String responseString = IOUtils.toString(response.getResponseStream(), StandardCharsets.UTF_8);
         logger.debug(() -> responseString);
     }
