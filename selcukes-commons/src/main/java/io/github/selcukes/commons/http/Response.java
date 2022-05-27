@@ -21,19 +21,15 @@ import io.github.selcukes.commons.exception.SelcukesException;
 import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Response {
 
     private final HttpResponse<String> httpResponse;
 
     public Response(HttpResponse<String> httpResponse) {
-
         this.httpResponse = httpResponse;
         logIfError();
-    }
-
-    public List<String> getHeader(String name) {
-        return getHeaders().get(name);
     }
 
     public Map<String, List<String>> getHeaders() {
@@ -46,6 +42,16 @@ public class Response {
 
     public int getStatusCode() {
         return httpResponse.statusCode();
+    }
+
+    public String getToken() {
+        Optional<String> token = httpResponse.headers().firstValue("token");
+        return token.orElse("");
+    }
+
+    public String getHeader(String name) {
+        Optional<String> token = httpResponse.headers().firstValue(name);
+        return token.orElse("");
     }
 
     public void logIfError() {

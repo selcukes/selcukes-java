@@ -20,11 +20,12 @@ import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.util.UrlHelper;
 import io.github.selcukes.wdb.version.VersionComparator;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
+import static org.jsoup.Jsoup.parse;
 
 public class IExplorerBinary extends AbstractBinary {
 
@@ -62,11 +64,12 @@ public class IExplorerBinary extends AbstractBinary {
         String matcher = "IEDriverServer" + "_" + arch;
         List<String> versions = new ArrayList<>();
         Map<String, String> versionMap = new TreeMap<>();
-        try {
-            Document doc = Jsoup.connect(UrlHelper.IEDRIVER_LATEST_RELEASE_URL).get();
-            Elements element = doc.select(
+        String response = sendRequest(UrlHelper.IEDRIVER_LATEST_RELEASE_URL).getBody();
+        try (InputStream downloadStream = new ByteArrayInputStream(response.getBytes())) {
+            Document doc = parse(downloadStream, null, "");
+            Elements elements = doc.select(
                 "Key:contains(" + matcher + ")");
-            for (Element e : element) {
+            for (Element e : elements) {
                 String key = e.text().substring(e.text().indexOf('/'));
                 versionMap.put(key, e.text());
                 String temp = e.text().substring(e.text().indexOf('/') + 1).replaceAll(matcher, "");

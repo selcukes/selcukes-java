@@ -18,16 +18,20 @@ package io.github.selcukes.wdb.version;
 
 import io.github.selcukes.commons.exec.ExecResults;
 import io.github.selcukes.commons.exec.Shell;
+import io.github.selcukes.commons.http.WebClient;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.databind.utils.StringHelper;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.*;
+
+import static org.jsoup.Jsoup.parse;
 
 public class VersionDetector {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -89,13 +93,14 @@ public class VersionDetector {
 
     public List<String> getBinaryVersions(String binaryDownloadUrl, String matcher) {
         List<String> versions = new ArrayList<>();
-
-        try {
-            Document doc = Jsoup.connect(binaryDownloadUrl).get();
-            Elements element = doc.select(
+        WebClient client = new WebClient(binaryDownloadUrl);
+        String response = client.sendRequest().getBody();
+        try (InputStream downloadStream = new ByteArrayInputStream(response.getBytes())) {
+            Document doc = parse(downloadStream, null, "");
+            Elements elements = doc.select(
                 "Key:contains(" + matcher + ")");
-            for (Element e : element) {
-                String versionNum = e.text().substring(0, e.text().indexOf('/'));
+            for (Element ele : elements) {
+                String versionNum = ele.text().substring(0, ele.text().indexOf('/'));
                 versions.add(versionNum);
             }
 
