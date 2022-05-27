@@ -22,9 +22,6 @@ import io.github.selcukes.databind.utils.StringHelper;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
-import org.apache.commons.io.IOUtils;
-
-import java.nio.charset.StandardCharsets;
 
 @CustomLog
 @UtilityClass
@@ -35,7 +32,6 @@ public class LiveReportHelper {
         String url = "http://localhost:9200/%s/results";
         WebClient client = new WebClient(String.format(url, key));
         Response response = client.post(object);
-        String responseString = IOUtils.toString(response.getResponseStream(), StandardCharsets.UTF_8);
-        logger.debug(() -> responseString);
+        logger.debug(response::getBody);
     }
 }

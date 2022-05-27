@@ -76,12 +76,12 @@ abstract class AbstractBinary implements BinaryFactory {
         this.proxyUrl = Optional.ofNullable(proxy);
     }
 
-    protected Response getHttpClient(String binaryDownloadUrl) {
-        return new WebClient(binaryDownloadUrl, getProxy()).sendRequest();
+    protected Response sendRequest(String binaryDownloadUrl) {
+        return new WebClient(binaryDownloadUrl).proxy(getProxy()).sendRequest();
     }
 
     protected String getVersionNumberFromGit(String binaryDownloadUrl) {
-        final String releaseLocation = getHttpClient(binaryDownloadUrl).getHeader("location");
+        final String releaseLocation = sendRequest(binaryDownloadUrl).getHeader("location");
 
         if (releaseLocation == null || releaseLocation.length() < 2 || !releaseLocation.contains("/")) {
             return "";

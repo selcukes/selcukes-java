@@ -27,6 +27,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.*;
 
@@ -91,16 +92,15 @@ public class VersionDetector {
     }
 
     public List<String> getBinaryVersions(String binaryDownloadUrl, String matcher) {
-        WebClient client = new WebClient(binaryDownloadUrl);
-        final InputStream downloadStream = client.sendRequest().getResponseStream();
         List<String> versions = new ArrayList<>();
-
-        try {
+        WebClient client = new WebClient(binaryDownloadUrl);
+        String response = client.sendRequest().getBody();
+        try (InputStream downloadStream = new ByteArrayInputStream(response.getBytes())) {
             Document doc = parse(downloadStream, null, "");
-            Elements element = doc.select(
+            Elements elements = doc.select(
                 "Key:contains(" + matcher + ")");
-            for (Element e : element) {
-                String versionNum = e.text().substring(0, e.text().indexOf('/'));
+            for (Element ele : elements) {
+                String versionNum = ele.text().substring(0, ele.text().indexOf('/'));
                 versions.add(versionNum);
             }
 

@@ -24,6 +24,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -61,14 +62,14 @@ public class IExplorerBinary extends AbstractBinary {
     protected String getLatestRelease() {
         String arch = getBinaryEnvironment().getArchitecture() == 64 ? "x64" : "Win32";
         String matcher = "IEDriverServer" + "_" + arch;
-        final InputStream downloadStream = getHttpClient(UrlHelper.IEDRIVER_LATEST_RELEASE_URL).getResponseStream();
         List<String> versions = new ArrayList<>();
         Map<String, String> versionMap = new TreeMap<>();
-        try {
+        String response = sendRequest(UrlHelper.IEDRIVER_LATEST_RELEASE_URL).getBody();
+        try (InputStream downloadStream = new ByteArrayInputStream(response.getBytes())) {
             Document doc = parse(downloadStream, null, "");
-            Elements element = doc.select(
+            Elements elements = doc.select(
                 "Key:contains(" + matcher + ")");
-            for (Element e : element) {
+            for (Element e : elements) {
                 String key = e.text().substring(e.text().indexOf('/'));
                 versionMap.put(key, e.text());
                 String temp = e.text().substring(e.text().indexOf('/') + 1).replaceAll(matcher, "");

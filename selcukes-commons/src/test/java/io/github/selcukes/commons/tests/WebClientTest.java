@@ -23,10 +23,7 @@ import io.github.selcukes.commons.http.WebClient;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import lombok.SneakyThrows;
-import org.apache.commons.io.IOUtils;
 import org.testng.annotations.Test;
-
-import java.nio.charset.StandardCharsets;
 
 public class WebClientTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -42,8 +39,8 @@ public class WebClientTest {
 
         WebClient client = new WebClient("https://httpbin.org/post");
         Response response = client.post(json);
-        String body = IOUtils.toString(response.getResponseStream(), StandardCharsets.UTF_8);
-        logger.info(() -> body);
+
+        logger.info(response::getBody);
     }
 
     @SneakyThrows
@@ -52,7 +49,26 @@ public class WebClientTest {
 
         WebClient client = new WebClient("https://httpbin.org/get");
         Response response = client.sendRequest();
-        String body = IOUtils.toString(response.getResponseStream(), StandardCharsets.UTF_8);
-        logger.info(() -> body);
+        logger.info(response::getBody);
+    }
+
+    @SneakyThrows
+    @Test
+    public void bearerAuthTest() {
+
+        WebClient client = new WebClient("https://httpbin.org/#/Auth/get_bearer");
+        Response response = client.authenticator("hello")
+            .sendRequest();
+        logger.debug(response::getBody);
+    }
+
+    @SneakyThrows
+    @Test
+    public void authTest() {
+
+        WebClient client = new WebClient("https://httpbin.org/#/Auth/get_basic_auth__user___passwd_");
+        Response response = client.authenticator("hello", "hello")
+            .sendRequest();
+        logger.debug(() -> response.getStatusCode() + "");
     }
 }

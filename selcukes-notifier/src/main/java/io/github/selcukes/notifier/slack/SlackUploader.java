@@ -19,9 +19,8 @@ package io.github.selcukes.notifier.slack;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.notifier.IncomingWebHookRequest;
 import io.github.selcukes.notifier.enums.NotifierEnum;
-import org.apache.hc.client5.http.entity.mime.FileBody;
 
-import java.io.File;
+import java.nio.file.Paths;
 
 public class SlackUploader {
 
@@ -40,11 +39,8 @@ public class SlackUploader {
             .append(slackFileUploader.getChannel())
             .append("&pretty=1");
 
-        File fileToUpload = new File(slackFileUploader.getFilePath());
-        FileBody fileBody = new FileBody(fileToUpload);
-
         IncomingWebHookRequest.forUrl(url.toString())
-            .post(fileBody);
+            .post(Paths.get(slackFileUploader.getFilePath()));
 
     }
 
