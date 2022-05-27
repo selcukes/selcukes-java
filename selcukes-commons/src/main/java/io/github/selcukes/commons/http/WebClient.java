@@ -16,42 +16,89 @@
 
 package io.github.selcukes.commons.http;
 
+
 import io.github.selcukes.databind.utils.StringHelper;
-import org.apache.hc.client5.http.classic.methods.HttpPost;
-import org.apache.hc.client5.http.entity.mime.FileBody;
-import org.apache.hc.core5.http.ClassicHttpRequest;
-import org.apache.hc.core5.http.HttpEntity;
-import org.apache.hc.core5.http.io.entity.StringEntity;
+import lombok.SneakyThrows;
+
+import java.net.*;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.nio.file.Path;
+import java.util.Optional;
+
+import static java.net.http.HttpRequest.BodyPublisher;
+import static java.net.http.HttpRequest.BodyPublishers;
+import static java.net.http.HttpResponse.BodyHandlers.ofString;
 
 public class WebClient {
-    private final HttpClient client;
-    private final String url;
+    private HttpClient.Builder clientBuilder;
+    private HttpRequest.Builder requestBuilder;
 
+    @SneakyThrows
     public WebClient(String url) {
-        this.url = url;
-        this.client = new HttpClient();
+        clientBuilder = HttpClient.newBuilder();
+        requestBuilder = HttpRequest.newBuilder(new URI(url))
+            .header("Content-Type", "application/json")
+            .version(HttpClient.Version.HTTP_2);
     }
 
-    public WebClient(String url, String proxy) {
-        this.url = url;
-        this.client = new HttpClient(proxy);
-    }
-
-    public Response sendRequest() {
-        ClassicHttpRequest request = client.createHttpGet(url);
-        return new Response(client.createClient().execute(request));
-    }
-
-    public <T> Response post(T payload) {
-        HttpEntity httpEntity;
+    @SneakyThrows
+    public Response post(Object payload) {
+        BodyPublisher bodyPublisher;
         if (payload instanceof String)
-            httpEntity = new StringEntity(payload.toString());
-        else if (payload instanceof FileBody)
-            httpEntity = client.createMultipartEntity((FileBody) payload);
+            bodyPublisher = BodyPublishers.ofString(payload.toString());
+        else if (payload instanceof Path)
+            bodyPublisher = BodyPublishers.ofFile((Path) payload);
         else
-            httpEntity = new StringEntity(StringHelper.toJson(payload));
-        HttpPost post = client.createHttpPost(url, httpEntity);
-        return new Response(client.createClient().execute(post));
+            bodyPublisher = BodyPublishers.ofString(StringHelper.toJson(payload));
+        HttpRequest request = requestBuilder.POST(bodyPublisher).build();
+        return execute(request);
     }
 
+    @SneakyThrows
+    private Response execute(HttpRequest request) {
+        return new Response(clientBuilder.build().send(request, ofString()));
+    }
+
+    @SneakyThrows
+    public Response sendRequest() {
+        HttpRequest request = requestBuilder.GET().build();
+        return execute(request);
+    }
+
+    private Optional<URL> getProxyUrl(String proxy) {
+        try {
+            return Optional.of(new URL(proxy));
+        } catch (MalformedURLException e) {
+            return Optional.empty();
+        }
+    }
+
+    public WebClient proxy(String proxy) {
+        Optional<URL> url = getProxyUrl(proxy);
+        if (url.isPresent()) {
+            String proxyHost = url.get().getHost();
+            int proxyPort = url.get().getPort() == -1 ? 80
+                : url.get().getPort();
+            clientBuilder = clientBuilder
+                .proxy(ProxySelector.of(new InetSocketAddress(proxyHost, proxyPort)));
+        }
+        return this;
+    }
+
+    public WebClient authenticator(String username, String password) {
+        Authenticator authenticator = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password.toCharArray());
+            }
+        };
+        clientBuilder = clientBuilder.authenticator(authenticator);
+        return this;
+    }
+
+    public WebClient authenticator(String token) {
+        requestBuilder = requestBuilder.header("Authorization", "Bearer " + token);
+        return this;
+    }
 }
