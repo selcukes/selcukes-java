@@ -44,11 +44,6 @@ public class Response {
         return httpResponse.statusCode();
     }
 
-    public String getToken() {
-        Optional<String> token = httpResponse.headers().firstValue("token");
-        return token.orElse("");
-    }
-
     public String getHeader(String name) {
         Optional<String> token = httpResponse.headers().firstValue(name);
         return token.orElse("");
