@@ -18,9 +18,11 @@ package io.github.selcukes.commons.security;
 
 import io.github.selcukes.commons.exception.EncryptionException;
 import io.github.selcukes.commons.helper.Preconditions;
-import org.apache.commons.codec.binary.Base64;
 
 import java.security.GeneralSecurityException;
+import java.util.Base64;
+
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.CRYPTO_KEY;
 
 public class StringEncryptor implements Encryptor {
 
@@ -40,7 +42,7 @@ public class StringEncryptor implements Encryptor {
         Preconditions.checkNotNull(cryptoKey, "Crypto Key must not be null");
         try {
             byte[] textToEncrypt = ByteEncryptor.encryptData(cryptoKey, text.getBytes());
-            return Base64.encodeBase64String(textToEncrypt);
+            return Base64.getEncoder().encodeToString(textToEncrypt);
         } catch (GeneralSecurityException e) {
             throw new EncryptionException(String.format("Failed Encrypting text[%s]: ", text), e);
         }
@@ -51,7 +53,7 @@ public class StringEncryptor implements Encryptor {
         Preconditions.checkNotNull(encrypted, "Encrypted Text must not be null");
         Preconditions.checkNotNull(cryptoKey, "Crypto Key must not be null");
         try {
-            byte[] textToDecrypt = Base64.decodeBase64(encrypted);
+            byte[] textToDecrypt = Base64.getDecoder().decode(encrypted);
             return new String(ByteEncryptor.decryptData(cryptoKey, textToDecrypt));
         } catch (Exception e) {
             throw new EncryptionException(String.format("Failed Decrypting text[%s] : ", encrypted), e);
@@ -59,7 +61,7 @@ public class StringEncryptor implements Encryptor {
     }
 
     private String getCryptoKey() {
-        return System.getProperty("selcukes.crypto.key");
+        return System.getProperty(CRYPTO_KEY);
     }
 
 
