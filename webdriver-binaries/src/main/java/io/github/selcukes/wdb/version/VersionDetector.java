@@ -18,19 +18,16 @@ package io.github.selcukes.wdb.version;
 
 import io.github.selcukes.commons.exec.ExecResults;
 import io.github.selcukes.commons.exec.Shell;
-import io.github.selcukes.commons.http.WebClient;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.databind.utils.StringHelper;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.InputStream;
 import java.util.*;
-
-import static org.jsoup.Jsoup.parse;
 
 public class VersionDetector {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -91,12 +88,10 @@ public class VersionDetector {
     }
 
     public List<String> getBinaryVersions(String binaryDownloadUrl, String matcher) {
-        WebClient client = new WebClient(binaryDownloadUrl);
-        final InputStream downloadStream = client.sendRequest().getResponseStream();
         List<String> versions = new ArrayList<>();
 
         try {
-            Document doc = parse(downloadStream, null, "");
+            Document doc = Jsoup.connect(binaryDownloadUrl).get();
             Elements element = doc.select(
                 "Key:contains(" + matcher + ")");
             for (Element e : element) {
