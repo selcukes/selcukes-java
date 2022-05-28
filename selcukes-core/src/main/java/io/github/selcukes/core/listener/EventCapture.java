@@ -17,6 +17,7 @@
 package io.github.selcukes.core.listener;
 
 import lombok.CustomLog;
+import lombok.Setter;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -29,7 +30,8 @@ import java.util.regex.Pattern;
 
 @CustomLog
 public class EventCapture implements WebDriverListener {
-    public static String FIELD_ATTRIBUTE = "placeholder";
+    @Setter
+    public static String fieldAttribute = "placeholder";
 
     private static String getLocatorFromElement(WebElement element) {
         String eleText = element.toString();
@@ -63,7 +65,7 @@ public class EventCapture implements WebDriverListener {
 
     @Override
     public void beforeClear(WebElement element) {
-        logger.info(() -> "Clearing " + element.getAttribute(FIELD_ATTRIBUTE));
+        logger.info(() -> "Clearing " + element.getAttribute(fieldAttribute));
     }
 
     @Override
@@ -77,7 +79,7 @@ public class EventCapture implements WebDriverListener {
                     .findFirst().ifPresent(key -> logger.info(() -> key.name() + " Key Pressed"));
             } else {
                 logger.info(() -> (String.format("Entering Text %s in %s Field", Arrays.toString(keysToSend),
-                    element.getAttribute(FIELD_ATTRIBUTE))));
+                    element.getAttribute(fieldAttribute))));
             }
         }
     }

@@ -64,7 +64,7 @@ public class WebManager implements RemoteManager {
                 " Ignore this message if you have started manually...");
             return serviceUrl;
         }
-        String urlString = String.format("%s://%s:%s", serviceUrl.getProtocol(), serviceUrl.getHost(), HUB_PORT);
+        String urlString = String.format("%s://%s:%s", serviceUrl.getProtocol(), serviceUrl.getHost(), hubPort);
         return new URL(urlString);
     }
 }

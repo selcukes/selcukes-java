@@ -21,6 +21,7 @@ import io.github.selcukes.commons.exception.DriverSetupException;
 import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.listener.EventCapture;
 import lombok.CustomLog;
+import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.events.EventFiringDecorator;
@@ -32,12 +33,13 @@ import java.util.Objects;
 import java.util.Set;
 
 @CustomLog
+@UtilityClass
 public class DriverManager {
 
     private static final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
     private static final Set<Object> STORED_DRIVER = new HashSet<>();
 
-    public synchronized static <D extends WebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
+    public static synchronized <D extends WebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
         Arrays.stream(capabilities).findAny().ifPresent(DesktopOptions::setUserOptions);
         if (getDriver() == null) {
             logger.info(() -> String.format("Creating new %s session...", deviceType));

@@ -19,23 +19,25 @@ package io.github.selcukes.core.driver;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
+import lombok.experimental.UtilityClass;
 import org.openqa.selenium.grid.Main;
 import org.openqa.selenium.net.PortProber;
 
 import java.util.Arrays;
 
 @CustomLog
+@UtilityClass
 public class GridRunner {
     private static boolean isRunning = false;
-    protected static int HUB_PORT;
+    static int hubPort;
 
     public static void startSeleniumServer(DriverType... driverType) {
         logger.info(() -> "Starting Selenium Server ...");
         Arrays.stream(driverType).distinct().forEach(BrowserOptions::setBinaries);
-        HUB_PORT = PortProber.findFreePort();
+        hubPort = PortProber.findFreePort();
         if (isGridNotRunning()) {
-            logger.debug(() -> "Using Free Hub Port: " + HUB_PORT);
-            Main.main(new String[]{"standalone", "--port", String.valueOf(HUB_PORT)});
+            logger.debug(() -> "Using Free Hub Port: " + hubPort);
+            Main.main(new String[]{"standalone", "--port", String.valueOf(hubPort)});
             isRunning = true;
             logger.info(() -> "Selenium Server started...");
         }

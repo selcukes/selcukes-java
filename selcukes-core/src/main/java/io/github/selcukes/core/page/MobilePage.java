@@ -26,6 +26,9 @@ import java.util.Map;
 
 public class MobilePage implements Page {
     private final WebDriver driver;
+    private static final String HEIGHT = "height";
+    private static final String PERCENT = "percent";
+    private static final String WIDTH = "width";
 
     public MobilePage(WebDriver driver) {
         this.driver = driver;
@@ -55,11 +58,13 @@ public class MobilePage implements Page {
         return this;
     }
 
+    @Override
     public MobilePage tap(By by) {
         click(by);
         return this;
     }
 
+    @Override
     public MobilePage doubleTap(By by) {
         doubleClick(by);
         return this;
@@ -104,28 +109,28 @@ public class MobilePage implements Page {
         if (source != null) {
             Rectangle elementRectangle = find(source).getRect();
             scrollParameters.put(
-                "height", elementRectangle.getHeight() * 90 / 100
+                HEIGHT, elementRectangle.getHeight() * 90 / 100
             );
 
             switch (swipeDirection) {
                 case UP:
-                    scrollParameters.putAll(Map.of("percent", 0.8, "height",
-                        elementRectangle.getHeight() * 90 / 100, "width", elementRectangle.getWidth(),
+                    scrollParameters.putAll(Map.of(PERCENT, 0.8, HEIGHT,
+                        elementRectangle.getHeight() * 90 / 100, WIDTH, elementRectangle.getWidth(),
                         "left", elementRectangle.getX(), "top", elementRectangle.getHeight() - 100));
                     break;
                 case DOWN:
-                    scrollParameters.putAll(Map.of("percent", 0.8, "height",
-                        elementRectangle.getHeight() * 90 / 100, "width", elementRectangle.getWidth(),
+                    scrollParameters.putAll(Map.of(PERCENT, 0.8, HEIGHT,
+                        elementRectangle.getHeight() * 90 / 100, WIDTH, elementRectangle.getWidth(),
                         "left", elementRectangle.getX(), "top", 100));
                     break;
                 case RIGHT:
-                    scrollParameters.putAll(Map.of("percent", 1, "height",
-                        elementRectangle.getHeight(), "width", elementRectangle.getWidth() * 70 / 100,
+                    scrollParameters.putAll(Map.of(PERCENT, 1, HEIGHT,
+                        elementRectangle.getHeight(), WIDTH, elementRectangle.getWidth() * 70 / 100,
                         "left", 100, "top", elementRectangle.getY()));
                     break;
                 case LEFT:
-                    scrollParameters.putAll(Map.of("percent", 1, "height",
-                        elementRectangle.getHeight(), "width", elementRectangle.getWidth(),
+                    scrollParameters.putAll(Map.of(PERCENT, 1, HEIGHT,
+                        elementRectangle.getHeight(), WIDTH, elementRectangle.getWidth(),
                         "left", elementRectangle.getX() + (elementRectangle.getWidth() * 50 / 100),
                         "top", elementRectangle.getY()));
                     break;
@@ -133,7 +138,7 @@ public class MobilePage implements Page {
         } else {
 
             scrollParameters.putAll(Map.of(
-                "width", screenSize.getWidth(), "height", screenSize.getHeight() * 90 / 100,
+                WIDTH, screenSize.getWidth(), HEIGHT, screenSize.getHeight() * 90 / 100,
                 "percent", 0.8
             ));
             switch (swipeDirection) {
