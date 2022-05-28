@@ -122,8 +122,8 @@ public class ExtentService implements Serializable {
             if (!isNullOrEmpty(configPath))
                 try {
                     reporterConfigurable.loadXMLConfig(configPath);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (IOException ignored) {
+                    //Gobble exception
                 }
             INSTANCE.attachReporter((ExtentObserver<?>) reporterConfigurable);
         }
