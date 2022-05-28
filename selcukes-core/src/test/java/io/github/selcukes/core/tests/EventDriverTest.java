@@ -23,7 +23,6 @@ import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
@@ -36,6 +35,7 @@ public class EventDriverTest extends BaseTest {
     @Test
     public void eventDriverTest() {
         page.open("https://techyworks.blogspot.com/");
+        page.assertThat().title("Techy Works - Free Online Training Tutorials");
 
         By search = By.xpath("//span[@class='show-search' or @class='show-mobile-search']");
         page.click(search);
@@ -45,7 +45,7 @@ public class EventDriverTest extends BaseTest {
     @SneakyThrows
     @AfterMethod
     public void afterTest() {
-        File srcFile = ((TakesScreenshot) page.getDriver()).getScreenshotAs(OutputType.FILE);
+        File srcFile = page.screenshotAs(OutputType.FILE);
         File reportDirectory = new File("target/screenshots");
         FileHelper.createDirectory(reportDirectory);
         String filePath = reportDirectory + File.separator + "screenshot_" + DateHelper.get().dateTime() + ".png";

@@ -16,6 +16,7 @@
 
 package io.github.selcukes.core.page;
 
+import io.github.selcukes.commons.http.WebClient;
 import io.github.selcukes.core.validation.PageValidations;
 import io.github.selcukes.core.wait.WaitCondition;
 import io.github.selcukes.core.wait.WaitManager;
@@ -23,6 +24,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -128,8 +130,37 @@ public interface Page {
         return this;
     }
 
+    default Alert alert() {
+        waitFor(ExpectedConditions.alertIsPresent(), TIMEOUT);
+        return getDriver().switchTo().alert();
+    }
+
+    default Page acceptAlert() {
+        alert().accept();
+        return this;
+    }
+
+    default Page dismissAlert() {
+        alert().dismiss();
+        return this;
+    }
+
+    default String getAlertText() {
+        return alert().getText();
+    }
+
+    default Page enterTextInAlert(String text) {
+        alert().sendKeys(text);
+        return this;
+    }
+
     default List<String> getWindows() {
         return new ArrayList<>(getDriver().getWindowHandles());
+    }
+
+    default Page parentWindow() {
+        getDriver().switchTo().defaultContent();
+        return this;
     }
 
     default Page switchWindow(int index) {
@@ -137,12 +168,22 @@ public interface Page {
         return this;
     }
 
-    default void openNewBrowserWindow() {
+    default void openNewWindow() {
         getDriver().switchTo().newWindow(WindowType.WINDOW);
     }
 
-    default void openNewBrowserTab() {
+    default void openNewTab() {
         getDriver().switchTo().newWindow(WindowType.TAB);
+    }
+
+    default Page switchFrame(String name) {
+        getDriver().switchTo().frame(name);
+        return this;
+    }
+
+    default Page parentFrame() {
+        getDriver().switchTo().parentFrame();
+        return this;
     }
 
     default Page back() {
@@ -160,8 +201,8 @@ public interface Page {
         return this;
     }
 
-    default Page screenshot() {
-        return this;
+    default <X> X screenshotAs(OutputType<X> target) {
+        return ((TakesScreenshot) getDriver()).getScreenshotAs(target);
     }
 
     default WebElement find(By by) {
@@ -217,6 +258,10 @@ public interface Page {
             .pollingEvery(Duration.ofMillis(100))
             .ignoreAll(List.of(StaleElementReferenceException.class, NoSuchElementException.class))
             .until((Function<WebDriver, ?>) condition.getType().apply(locator, arg));
+    }
+
+    default WebClient api(String url) {
+        return new WebClient(url);
     }
 
 }

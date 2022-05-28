@@ -35,6 +35,7 @@ public class SelcukesTestProperties {
     public static final String REPORTS_PATH = "selcukes.reports.path";
     public static final String REPORTS_FILE = "selcukes.reports.fileName";
     public static final String TIMESTAMP_REPORT = "selcukes.reports.timestamp";
+    public static final String THUMBNAIL_REPORT = "selcukes.reports.thumbnail";
     public static final String CRYPTO_KEY = "selcukes.crypto.key";
 
     public static void setSystemProperty(String key, String value) {
@@ -42,12 +43,14 @@ public class SelcukesTestProperties {
             System.setProperty(key, value);
         }
     }
+
     public String getExcelProperty(String propertyKey) {
         if (System.getProperty(propertyKey) != null)
             return System.getProperty(propertyKey);
         String key = propertyKey.substring(propertyKey.lastIndexOf(".") + 1);
         return getConfig().getExcel().getOrDefault(key, "");
     }
+
     public String getCucumberProperty(String propertyKey) {
         if (System.getProperty(propertyKey) != null)
             return System.getProperty(propertyKey);

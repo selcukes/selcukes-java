@@ -20,12 +20,12 @@ package io.github.selcukes.commons.helper;
 
 import lombok.experimental.UtilityClass;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.security.SecureRandom;
 
 @UtilityClass
 public class RandomUtils {
-    private ThreadLocalRandom random() {
-        return ThreadLocalRandom.current();
+    private SecureRandom random() {
+        return new SecureRandom();
     }
 
     public String randomChars(final int leftLimit, final int rightLimit, final int length) {

@@ -35,7 +35,7 @@ public class BaseTest {
     }
 
     @AfterMethod
-    public void teardown(){
+    public void teardown() {
         Await.until(3);
         driver.quit();
     }
