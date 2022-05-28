@@ -25,5 +25,5 @@ public enum Architecture {
     X64(64);
 
     @Getter
-    int value;
+    final int value;
 }

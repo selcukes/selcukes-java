@@ -9,7 +9,7 @@ io.github.selcukes.level: ALL
 io.github.selcukes.handler: java.util.logging.ConsoleHandler
 
 # Default file output is in user's home directory.
-java.util.logging.FileHandler.pattern: selcukes.log
+java.util.logging.FileHandler.pattern: target/selcukes.log
 java.util.logging.FileHandler.limit: 50000
 java.util.logging.FileHandler.count: 1
 java.util.logging.FileHandler.formatter: io.github.selcukes.commons.logging.SelcukesLoggerFormatter
