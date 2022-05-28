@@ -60,17 +60,20 @@ public class ExtentService implements Serializable {
         private static final String REPORT_TITLE = "Automation Report";
 
         static {
+            initProperties();
+            if ("true".equals(getProperty(INIT_SPARK_KEY)))
+                initSpark();
+            addSystemInfo();
+        }
 
+        @SuppressWarnings("rawtypes")
+        private static void initProperties() {
             try {
                 propertiesMap = PropertiesMapper.readAsMap("extent.properties");
             } catch (Exception ignored) {
                 Map temp = System.getProperties();
                 propertiesMap = (Map<String, String>) temp;
-
             }
-            if ("true".equals(getProperty(INIT_SPARK_KEY)))
-                initSpark();
-            addSystemInfo();
         }
 
         private static String getProperty(String propertyKey) {
