@@ -200,8 +200,8 @@ public interface Page {
         return this;
     }
 
-    default Page screenshot() {
-        return this;
+    default <X> X getScreenshotAs(OutputType<X> target) {
+        return ((TakesScreenshot) getDriver()).getScreenshotAs(target);
     }
 
     default WebElement find(By by) {
