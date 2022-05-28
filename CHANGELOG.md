@@ -6,9 +6,24 @@
 
 ### Added
 
+* [Video Recorder] Added support to generate MONTE recorder as MP4
+  video ([#109](https://github.com/selcukes/selcukes-java/pull/109))
+* [Selcukes Reports] Real-time reporting for cucumber tests using Elastic Search and
+  Kibana ([#119](https://github.com/selcukes/selcukes-java/pull/119))
+* [Core] Added Page Validations and Wait Wrappers ([#113](https://github.com/selcukes/selcukes-java/pull/113))
+* [Core] Added Alert and Frame Actions to Page ([#122](https://github.com/selcukes/selcukes-java/pull/122))
+
 ### Changed
 
+* Update dependency com.fasterxml.jackson.dataformat to
+  v2.13.3 ([#114](https://github.com/selcukes/selcukes-java/pull/114))
+* Update dependency org.jsoup:jsoup to v1.15.1 ([#115](https://github.com/selcukes/selcukes-java/pull/115))
+* Update dependency org.testng:testng to v7.6.0 ([#116](https://github.com/selcukes/selcukes-java/pull/116))
+
 ### Removed
+
+* [Core] Removed Apache HttpClient instead using Java
+  HttpClient ([#121](https://github.com/selcukes/selcukes-java/pull/121))
 
 ### Fixed
 
