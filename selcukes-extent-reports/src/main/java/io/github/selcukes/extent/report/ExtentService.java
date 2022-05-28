@@ -24,117 +24,90 @@ import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.ReporterConfigurable;
 import com.aventstack.extentreports.reporter.configuration.ViewName;
 import io.github.selcukes.commons.helper.DateHelper;
-import io.github.selcukes.databind.utils.StringHelper;
+import io.github.selcukes.commons.properties.PropertiesMapper;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.THUMBNAIL_REPORT;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.TIMESTAMP_REPORT;
+import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
 
 public class ExtentService implements Serializable {
 
     private static final long serialVersionUID = -5008231199972325650L;
 
-    private static Properties properties;
+    private static Map<String, String> propertiesMap;
 
     public static synchronized ExtentReports getInstance() {
         return ExtentReportsLoader.INSTANCE;
     }
 
     private static class ExtentReportsLoader {
-        private static final String THUMBNAIL_REPORT = "selcukes.reports.thumbnail";
-        private static final String TIMESTAMP_REPORT = "selcukes.reports.timestamp";
         private static final ExtentReports INSTANCE = new ExtentReports();
-        private static final String[] DEFAULT_SETUP_PATH = new String[]{"extent.properties",
-            "com/aventstack/adapter/extent.properties"};
         private static final String SYS_INFO_MARKER = "systeminfo.";
         private static final String OUTPUT_PATH = "target/";
-        private static final String EXTENT_REPORTER = "extent.reporter";
-        private static final String START = "start";
-        private static final String CONFIG = "config";
-        private static final String OUT = "out";
-        private static final String VIEW_ORDER = "vieworder";
-        private static final String DELIM = ".";
-        private static final String SPARK = "spark";
-
-        private static final String INIT_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + START;
-        private static final String CONFIG_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + CONFIG;
-        private static final String OUT_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + OUT;
-
-        private static final String VIEW_ORDER_SPARK_KEY = EXTENT_REPORTER + DELIM + SPARK + DELIM + VIEW_ORDER;
+        private static final String INIT_SPARK_KEY = "extent.reporter.spark.start";
+        private static final String CONFIG_SPARK_KEY = "extent.reporter.spark.config";
+        private static final String OUT_SPARK_KEY = "extent.reporter.spark.out";
+        private static final String VIEW_ORDER_SPARK_KEY = "extent.reporter.spark.vieworder";
         private static final String REPORT_NAME = "Automation Report";
         private static final String REPORT_TITLE = "Automation Report";
 
         static {
-            createViaSystem();
-            createViaProperties();
-        }
 
-        private static void createViaProperties() {
+            try {
+                propertiesMap = PropertiesMapper.readAsMap("extent.properties");
+            } catch (Exception ignored) {
+                Map temp = System.getProperties();
+                propertiesMap = (Map<String, String>) temp;
 
-            ClassLoader loader = ExtentReportsLoader.class.getClassLoader();
-            Optional<InputStream> is = Arrays.stream(DEFAULT_SETUP_PATH).map(loader::getResourceAsStream)
-                .filter(Objects::nonNull).findFirst();
-            if (is.isPresent()) {
-                Properties properties = new Properties();
-                try {
-                    properties.load(is.get());
-                    ExtentService.properties = properties;
-
-                    if (properties.containsKey(INIT_SPARK_KEY)
-                        && "true".equals(String.valueOf(properties.get(INIT_SPARK_KEY))))
-                        initSpark(properties);
-
-                    addSystemInfo(properties);
-                } catch (Exception ignored) {
-                    //Gobble exception
-                }
             }
+            if ("true".equals(getProperty(INIT_SPARK_KEY)))
+                initSpark();
+            addSystemInfo();
         }
 
-        private static void createViaSystem() {
-            if ("true".equals(System.getProperty(INIT_SPARK_KEY)))
-                initSpark(null);
-            addSystemInfo(System.getProperties());
-        }
-
-        private static String getOutputPath(Properties properties, String key) {
-            String out = getConfigProperty(properties, key);
-            return StringHelper.isNullOrEmpty(out) ? OUTPUT_PATH + key.split("\\.")[2] + "/" : out;
-        }
-
-        private static String getConfigProperty(Properties properties, String propertyKey) {
+        private static String getProperty(String propertyKey) {
             if (System.getProperty(propertyKey) != null)
                 return System.getProperty(propertyKey);
-            if (properties != null && properties.getProperty(propertyKey) != null)
-                return properties.getProperty(propertyKey);
-            return null;
+            return propertiesMap.get(propertyKey);
         }
 
-        private static boolean getBooleanProperty(Properties properties, String propertyKey) {
-            String value = getConfigProperty(properties, propertyKey);
-            return (!StringHelper.isNullOrEmpty(value)
+        private static String getOutputPath() {
+            String out = getProperty(ExtentReportsLoader.OUT_SPARK_KEY);
+            return isNullOrEmpty(out) ? OUTPUT_PATH + ExtentReportsLoader.OUT_SPARK_KEY.split("\\.")[2] + "/" : out;
+        }
+
+
+        private static boolean getBooleanProperty(String propertyKey) {
+            String value = getProperty(propertyKey);
+            return (!isNullOrEmpty(value)
                 && Objects.requireNonNull(value).equalsIgnoreCase("true"));
         }
 
-        private static void initSpark(Properties properties) {
-            String out = getOutputPath(properties, OUT_SPARK_KEY);
-            if (getBooleanProperty(properties, TIMESTAMP_REPORT)) {
+        private static void initSpark() {
+            String out = getOutputPath();
+            if (getBooleanProperty(TIMESTAMP_REPORT)) {
                 out = Objects.requireNonNull(out).replace(".", DateHelper.get().dateTime() + ".");
             }
             ExtentSparkReporter spark = new ExtentSparkReporter(out);
             spark.config().setReportName(REPORT_NAME);
             spark.config().setDocumentTitle(REPORT_TITLE);
-            spark.config().thumbnailForBase64(getBooleanProperty(properties, THUMBNAIL_REPORT));
+            spark.config().thumbnailForBase64(getBooleanProperty(THUMBNAIL_REPORT));
             sparkReportViewOrder(spark);
-
-            attach(spark, properties);
+            attach(spark);
         }
+
 
         private static void sparkReportViewOrder(ExtentSparkReporter spark) {
             try {
-                List<ViewName> viewOrder = Arrays.stream(Objects.requireNonNull(getConfigProperty(properties, VIEW_ORDER_SPARK_KEY)).split(","))
+                List<ViewName> viewOrder = Arrays.stream(getProperty(VIEW_ORDER_SPARK_KEY).split(","))
                     .map(v -> ViewName.valueOf(v.toUpperCase())).collect(Collectors.toList());
                 spark.viewConfigurer().viewOrder().as(viewOrder).apply();
             } catch (Exception ignored) {
@@ -142,20 +115,19 @@ public class ExtentService implements Serializable {
             }
         }
 
-        private static void attach(ReporterConfigurable r, Properties properties) {
-            Object configPath = properties == null ? System.getProperty(CONFIG_SPARK_KEY)
-                : properties.get(CONFIG_SPARK_KEY);
-            if (configPath != null && !String.valueOf(configPath).isEmpty())
+        private static void attach(ReporterConfigurable reporterConfigurable) {
+            String configPath = getProperty(CONFIG_SPARK_KEY);
+            if (!isNullOrEmpty(configPath))
                 try {
-                    r.loadXMLConfig(String.valueOf(configPath));
+                    reporterConfigurable.loadXMLConfig(configPath);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            INSTANCE.attachReporter((ExtentObserver<?>) r);
+            INSTANCE.attachReporter((ExtentObserver<?>) reporterConfigurable);
         }
 
-        private static void addSystemInfo(Properties properties) {
-            properties.forEach((k, v) -> {
+        private static void addSystemInfo() {
+            propertiesMap.forEach((k, v) -> {
                 String key = String.valueOf(k);
                 if (key.startsWith(SYS_INFO_MARKER)) {
                     key = key.substring(key.indexOf('.') + 1);
