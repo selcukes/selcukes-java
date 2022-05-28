@@ -16,6 +16,7 @@
 
 package io.github.selcukes.core.page;
 
+import io.github.selcukes.commons.http.WebClient;
 import io.github.selcukes.core.validation.PageValidations;
 import io.github.selcukes.core.wait.WaitCondition;
 import io.github.selcukes.core.wait.WaitManager;
@@ -200,7 +201,7 @@ public interface Page {
         return this;
     }
 
-    default <X> X getScreenshotAs(OutputType<X> target) {
+    default <X> X screenshotAs(OutputType<X> target) {
         return ((TakesScreenshot) getDriver()).getScreenshotAs(target);
     }
 
@@ -257,6 +258,10 @@ public interface Page {
             .pollingEvery(Duration.ofMillis(100))
             .ignoreAll(List.of(StaleElementReferenceException.class, NoSuchElementException.class))
             .until((Function<WebDriver, ?>) condition.getType().apply(locator, arg));
+    }
+
+    default WebClient api(String url) {
+        return new WebClient(url);
     }
 
 }
