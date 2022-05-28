@@ -69,6 +69,7 @@ public class DriverManager {
         return getDriver();
     }
 
+    @SuppressWarnings("unchecked")
     public static <D extends WebDriver> D getDriver() {
         return (D) DRIVER_THREAD.get();
     }

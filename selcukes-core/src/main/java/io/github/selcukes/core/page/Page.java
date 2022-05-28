@@ -23,6 +23,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -128,8 +129,37 @@ public interface Page {
         return this;
     }
 
+    default Alert alert() {
+        waitFor(ExpectedConditions.alertIsPresent(), TIMEOUT);
+        return getDriver().switchTo().alert();
+    }
+
+    default Page acceptAlert() {
+        alert().accept();
+        return this;
+    }
+
+    default Page dismissAlert() {
+        alert().dismiss();
+        return this;
+    }
+
+    default String getAlertText() {
+        return alert().getText();
+    }
+
+    default Page enterTextInAlert(String text) {
+        alert().sendKeys(text);
+        return this;
+    }
+
     default List<String> getWindows() {
         return new ArrayList<>(getDriver().getWindowHandles());
+    }
+
+    default Page parentWindow() {
+        getDriver().switchTo().defaultContent();
+        return this;
     }
 
     default Page switchWindow(int index) {
@@ -137,12 +167,22 @@ public interface Page {
         return this;
     }
 
-    default void openNewBrowserWindow() {
+    default void openNewWindow() {
         getDriver().switchTo().newWindow(WindowType.WINDOW);
     }
 
-    default void openNewBrowserTab() {
+    default void openNewTab() {
         getDriver().switchTo().newWindow(WindowType.TAB);
+    }
+
+    default Page switchFrame(String name) {
+        getDriver().switchTo().frame(name);
+        return this;
+    }
+
+    default Page parentFrame() {
+        getDriver().switchTo().parentFrame();
+        return this;
     }
 
     default Page back() {

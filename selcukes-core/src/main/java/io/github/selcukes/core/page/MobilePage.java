@@ -139,7 +139,7 @@ public class MobilePage implements Page {
 
             scrollParameters.putAll(Map.of(
                 WIDTH, screenSize.getWidth(), HEIGHT, screenSize.getHeight() * 90 / 100,
-                "percent", 0.8
+                PERCENT, 0.8
             ));
             switch (swipeDirection) {
                 case UP:

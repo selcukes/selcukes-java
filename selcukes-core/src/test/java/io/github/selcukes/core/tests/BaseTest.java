@@ -17,10 +17,12 @@
 package io.github.selcukes.core.tests;
 
 import io.github.selcukes.commons.Await;
+import io.github.selcukes.core.driver.DriverManager;
+import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.page.WebPage;
-import io.github.selcukes.wdb.driver.LocalDriver;
-import io.github.selcukes.wdb.enums.DriverType;
+import io.github.selcukes.wdb.WebDriverBinary;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
@@ -30,12 +32,15 @@ public class BaseTest {
 
     @BeforeMethod
     public void setup() {
-        driver = new LocalDriver().createWebDriver(DriverType.CHROME, true);
+        WebDriverBinary.chromeDriver().setup();
+        ChromeOptions options = new ChromeOptions();
+        options.setHeadless(true);
+        driver = DriverManager.createDriver(DeviceType.BROWSER, options);
         page = new WebPage(driver);
     }
 
     @AfterMethod
-    public void teardown(){
+    public void teardown() {
         Await.until(3);
         driver.quit();
     }
