@@ -41,6 +41,15 @@ public class CollectionUtils {
             .filter(i -> !isNullOrEmpty(keys.get(i))).collect(Collectors.toMap(keys::get, values::get));
     }
 
+    public Map<String, String> toMap(Properties properties) {
+        return properties.entrySet().stream().collect(
+            Collectors.toMap(
+                entry -> String.valueOf(entry.getKey()),
+                entry -> String.valueOf(entry.getValue()),
+                (prev, next) -> next, LinkedHashMap::new
+            ));
+    }
+
     public List<String> trim(List<String> list) {
         return list.stream()
             .map(String::trim)

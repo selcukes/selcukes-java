@@ -23,6 +23,7 @@ import com.aventstack.extentreports.observer.ExtentObserver;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.ReporterConfigurable;
 import com.aventstack.extentreports.reporter.configuration.ViewName;
+import io.github.selcukes.commons.helper.CollectionUtils;
 import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.properties.PropertiesMapper;
 
@@ -66,13 +67,11 @@ public class ExtentService implements Serializable {
             addSystemInfo();
         }
 
-        @SuppressWarnings("rawtypes")
         private static void initProperties() {
             try {
                 propertiesMap = PropertiesMapper.readAsMap("extent.properties");
-            } catch (Exception ignored) {
-                Map temp = System.getProperties();
-                propertiesMap = (Map<String, String>) temp;
+            } catch (Exception e) {
+                propertiesMap = CollectionUtils.toMap(System.getProperties());
             }
         }
 

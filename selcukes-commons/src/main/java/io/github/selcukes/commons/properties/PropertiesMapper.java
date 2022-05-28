@@ -18,6 +18,7 @@ package io.github.selcukes.commons.properties;
 
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ConfigurationException;
+import io.github.selcukes.commons.helper.CollectionUtils;
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
 
@@ -25,18 +26,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @CustomLog
 @UtilityClass
 public class PropertiesMapper {
 
     public static Map<String, String> readAsMap(final String propertyFile) {
-        return getProperties(propertyFile).entrySet().stream()
-            .collect(Collectors.toMap(propertyEntry -> (String) propertyEntry.getKey(),
-                propertyEntry -> (String) propertyEntry.getValue(), (a, b) -> b, LinkedHashMap::new));
+        return CollectionUtils.toMap(getProperties(propertyFile));
     }
 
     public static LinkedProperties getProperties(final String propertyFile) {
