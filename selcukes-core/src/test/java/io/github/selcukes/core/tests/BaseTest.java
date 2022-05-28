@@ -17,6 +17,7 @@
 package io.github.selcukes.core.tests;
 
 import io.github.selcukes.commons.Await;
+import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.page.WebPage;
@@ -32,6 +33,7 @@ public class BaseTest {
 
     @BeforeMethod
     public void setup() {
+        ConfigFactory.getConfig().getWeb().put("remote","false");
         WebDriverBinary.chromeDriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.setHeadless(true);
