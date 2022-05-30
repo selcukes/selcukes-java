@@ -13,6 +13,7 @@ windows:
   serviceUrl: "http://127.0.0.1:4723"
   app: "C:\\Windows\\System32\\notepad.exe"
 mobile:
+  remote: false
   serviceUrl: "http://127.0.0.1:4723"
   app: "ApiDemos-debug.apk"
 video:

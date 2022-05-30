@@ -6,6 +6,16 @@
 
 ### Added
 
+### Changed
+
+### Removed
+
+### Fixed
+
+## [2.0.2]
+
+### Added
+
 * [Video Recorder] Added support to generate MONTE recorder as MP4
   video ([#109](https://github.com/selcukes/selcukes-java/pull/109))
 * [Selcukes Reports] Real-time reporting for cucumber tests using Elastic Search and
@@ -24,8 +34,6 @@
 
 * [Core] Removed Apache HttpClient instead using Java
   HttpClient ([#121](https://github.com/selcukes/selcukes-java/pull/121))
-
-### Fixed
 
 ## [2.0.1]
 
