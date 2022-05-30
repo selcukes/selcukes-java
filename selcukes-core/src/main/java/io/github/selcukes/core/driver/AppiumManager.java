@@ -21,6 +21,7 @@ import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.DriverSetupException;
 import io.github.selcukes.commons.helper.FileHelper;
 import lombok.CustomLog;
+import lombok.SneakyThrows;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 
@@ -47,8 +48,15 @@ public class AppiumManager implements RemoteManager {
         return driver;
     }
 
+    @SneakyThrows
     public URL getServiceUrl() {
-        return AppiumEngine.getInstance().getServiceUrl();
+        URL serviceUrl = new URL(ConfigFactory.getConfig().getMobile().get("serviceUrl"));
+        if (ConfigFactory.getConfig().getMobile().get("remote").equalsIgnoreCase("true")) {
+            logger.info(() -> String.format("Using ServiceUrl[%s]", serviceUrl));
+            return serviceUrl;
+        } else {
+            return AppiumEngine.getInstance().getServiceUrl();
+        }
     }
 
 }
