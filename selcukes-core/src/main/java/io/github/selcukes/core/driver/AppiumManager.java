@@ -29,6 +29,9 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URL;
 
+import static io.github.selcukes.core.driver.RunMode.isCloudAppium;
+import static io.github.selcukes.core.driver.RunMode.isLocalAppium;
+
 @CustomLog
 public class AppiumManager implements RemoteManager {
 
@@ -40,13 +43,16 @@ public class AppiumManager implements RemoteManager {
 
     @SneakyThrows
     public URL getServiceUrl() {
-        URL serviceUrl = new URL(ConfigFactory.getConfig().getMobile().get("serviceUrl"));
-        if (ConfigFactory.getConfig().getMobile().get("remote").equalsIgnoreCase("true")) {
-            logger.debug(() -> String.format("Using Cloud ServiceUrl[%s://%s:%s]", serviceUrl.getProtocol(), serviceUrl.getHost(), serviceUrl.getPort()));
-            return serviceUrl;
-        } else {
-            return AppiumEngine.getInstance().getServiceUrl();
-        }
+        URL serviceUrl;
+
+        if (isLocalAppium()) {
+            serviceUrl = AppiumEngine.getInstance().getServiceUrl();
+        } else if (isCloudAppium()) {
+            serviceUrl = new URL(CloudOptions.browserStackUrl());
+        } else
+            serviceUrl = new URL(ConfigFactory.getConfig().getMobile().get("serviceUrl"));
+        logger.debug(() -> String.format("Using ServiceUrl[%s://%s:%s]", serviceUrl.getProtocol(), serviceUrl.getHost(), serviceUrl.getPort()));
+        return serviceUrl;
     }
 
     public WebDriver createBrowserDriver(String browser) {
@@ -55,7 +61,10 @@ public class AppiumManager implements RemoteManager {
             logger.debug(() -> "Initiating New Mobile Browser Session...");
             Capabilities capabilities = AppiumOptions.getUserOptions();
             if (capabilities == null) {
-                capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser), false);
+                capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser), isCloudAppium());
+                if (isCloudAppium()) {
+                    capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions());
+                }
 
             }
             driver = new RemoteWebDriver(getServiceUrl(), capabilities);
@@ -75,6 +84,9 @@ public class AppiumManager implements RemoteManager {
                 String app = FileHelper.loadThreadResource(ConfigFactory.getConfig()
                     .getMobile().get("app")).getAbsolutePath();
                 capabilities = AppiumOptions.getAndroidOptions(app);
+                if (isCloudAppium()) {
+                    capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions());
+                }
             }
             driver = new AndroidDriver(getServiceUrl(), capabilities);
         } catch (Exception e) {

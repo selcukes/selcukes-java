@@ -24,6 +24,8 @@ import lombok.CustomLog;
 
 import java.net.URL;
 
+import static io.github.selcukes.core.driver.RunMode.isCloudAppium;
+
 @CustomLog
 class AppiumEngine {
     private AppiumDriverLocalService service;
@@ -44,18 +46,20 @@ class AppiumEngine {
     }
 
     void startLocalServer() {
-        try {
-            service = new AppiumServiceBuilder()
-                .withIPAddress("127.0.0.1")
-                .usingAnyFreePort()
-                .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-                .withArgument(GeneralServerFlag.BASEPATH, "/wd/")
-                .build();
-            logger.info(() -> "Starting Appium server...");
-            service.start();
-            logger.debug(() -> String.format("Using Local ServiceUrl[%s]", service.getUrl()));
-        } catch (Exception e) {
-            throw new DriverSetupException("Failed starting Appium Server..", e);
+        if (!isCloudAppium()) {
+            try {
+                service = new AppiumServiceBuilder()
+                    .withIPAddress("127.0.0.1")
+                    .usingAnyFreePort()
+                    .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+                    .withArgument(GeneralServerFlag.BASEPATH, "/wd/")
+                    .build();
+                logger.info(() -> "Starting Appium server...");
+                service.start();
+                logger.debug(() -> String.format("Using Local ServiceUrl[%s]", service.getUrl()));
+            } catch (Exception e) {
+                throw new DriverSetupException("Failed starting Appium Server..", e);
+            }
         }
 
     }

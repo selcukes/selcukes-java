@@ -16,7 +16,6 @@
 
 package io.github.selcukes.core.driver;
 
-import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
@@ -25,6 +24,9 @@ import org.openqa.selenium.net.PortProber;
 
 import java.util.Arrays;
 
+import static io.github.selcukes.core.driver.RunMode.isCloudBrowser;
+import static io.github.selcukes.core.driver.RunMode.isLocalBrowser;
+
 @CustomLog
 @UtilityClass
 public class GridRunner {
@@ -32,24 +34,22 @@ public class GridRunner {
     static int hubPort;
 
     public static void startSelenium(DriverType... driverType) {
-        logger.info(() -> "Starting Selenium Server ...");
-        Arrays.stream(driverType).distinct().forEach(BrowserOptions::setBinaries);
-        hubPort = PortProber.findFreePort();
-        if (isSeleniumServerNotRunning()) {
-            logger.debug(() -> "Using Free Hub Port: " + hubPort);
-            Main.main(new String[]{"standalone", "--port", String.valueOf(hubPort)});
-            isRunning = true;
-            logger.info(() -> "Selenium Server started...");
+        if (!isCloudBrowser() || !isLocalBrowser()) {
+            logger.info(() -> "Starting Selenium Server ...");
+            Arrays.stream(driverType).distinct().forEach(BrowserOptions::setBinaries);
+            hubPort = PortProber.findFreePort();
+            if (isSeleniumServerNotRunning()) {
+                logger.debug(() -> "Using Free Hub Port: " + hubPort);
+                Main.main(new String[]{"standalone", "--port", String.valueOf(hubPort)});
+                isRunning = true;
+                logger.info(() -> "Selenium Server started...");
+            }
         }
     }
 
-    static boolean isCloud() {
-        return ConfigFactory.getConfig().getWeb().get("remote")
-            .equalsIgnoreCase("true");
-    }
 
     static boolean isSeleniumServerNotRunning() {
-        return isCloud() && !GridRunner.isRunning;
+        return !isLocalBrowser() && !GridRunner.isRunning;
     }
 
     public static void startAppium() {
