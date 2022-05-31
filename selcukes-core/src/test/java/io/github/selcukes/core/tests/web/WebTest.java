@@ -32,7 +32,7 @@ public class WebTest {
         GridRunner.startSelenium(DriverType.CHROME);
     }
 
-    @Test
+    @Test(enabled = false)
     public void remoteWebTest() {
         WebDriver driver = DriverManager.createDriver(DeviceType.BROWSER);
         WebPage page = new WebPage(driver);
