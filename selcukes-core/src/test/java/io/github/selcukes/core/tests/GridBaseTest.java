@@ -16,13 +16,13 @@
 
 package io.github.selcukes.core.tests;
 
-import io.github.selcukes.core.driver.GridRunner;
+import io.github.selcukes.core.driver.LocalServer;
 import io.github.selcukes.wdb.enums.DriverType;
 import org.testng.annotations.BeforeSuite;
 
 public class GridBaseTest {
     @BeforeSuite
     public static void beforeSuite() {
-        GridRunner.startSeleniumServer(DriverType.CHROME, DriverType.EDGE);
+        LocalServer.startSelenium(DriverType.CHROME, DriverType.EDGE);
     }
 }

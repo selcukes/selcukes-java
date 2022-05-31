@@ -35,8 +35,8 @@ public class DesktopManager extends AppiumManager {
             logger.debug(() -> "Initiating New Desktop Session...");
             String app = ConfigFactory.getConfig().getWindows().get("app");
             URL serviceUrl = Objects.requireNonNull(getServiceUrl());
-            DesktopOptions.setServiceUrl(serviceUrl);
-            windowsDriver = new WindowsDriver(serviceUrl, DesktopOptions.getWinAppOptions(app));
+            AppiumOptions.setServiceUrl(serviceUrl);
+            windowsDriver = new WindowsDriver(serviceUrl, AppiumOptions.getWinAppOptions(app));
         } catch (Exception e) {
             throw new DriverSetupException("Driver was not setup properly.", e);
         }

@@ -20,43 +20,71 @@ import io.appium.java_client.android.AndroidDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.DriverSetupException;
 import io.github.selcukes.commons.helper.FileHelper;
+import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URL;
+
+import static io.github.selcukes.core.driver.LocalServer.isAppiumServerRunning;
 
 @CustomLog
 public class AppiumManager implements RemoteManager {
 
     @Override
     public WebDriver createDriver() {
-        WebDriver driver;
-        try {
-            logger.debug(() -> "Initiating New Mobile Session...");
-            Capabilities capabilities = DesktopOptions.getUserOptions();
-            if (capabilities == null) {
-                String app = FileHelper.loadThreadResource(ConfigFactory.getConfig()
-                    .getMobile().get("app")).getAbsolutePath();
-                capabilities = DesktopOptions.getAndroidOptions(app);
-            }
-            driver = new AndroidDriver(getServiceUrl(), capabilities);
-        } catch (Exception e) {
-            throw new DriverSetupException("Driver was not setup properly.", e);
-        }
-        return driver;
+        String browser = ConfigFactory.getConfig().getMobile().get("browserName");
+        return browser.equalsIgnoreCase("APP") ? createAppDriver() : createBrowserDriver(browser);
     }
 
     @SneakyThrows
     public URL getServiceUrl() {
         URL serviceUrl = new URL(ConfigFactory.getConfig().getMobile().get("serviceUrl"));
         if (ConfigFactory.getConfig().getMobile().get("remote").equalsIgnoreCase("true")) {
-            logger.info(() -> String.format("Using ServiceUrl[%s]", serviceUrl));
+            logger.debug(() -> String.format("Using Cloud ServiceUrl[%s://%s:%s]", serviceUrl.getProtocol(), serviceUrl.getHost(), serviceUrl.getPort()));
             return serviceUrl;
-        } else {
+        } else if (isAppiumServerRunning()) {
             return AppiumEngine.getInstance().getServiceUrl();
+        } else {
+            throw new DriverSetupException("Appium Local server is not started...\n" +
+                "Please use 'LocalEngine.startAppiumServer' method to start automatically.\n");
         }
+    }
+
+    public WebDriver createBrowserDriver(String browser) {
+        WebDriver driver;
+        try {
+            logger.debug(() -> "Initiating New Mobile Browser Session...");
+            Capabilities capabilities = AppiumOptions.getUserOptions();
+            if (capabilities == null) {
+                capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser), false);
+            }
+            driver = new RemoteWebDriver(getServiceUrl(), capabilities);
+        } catch (Exception e) {
+            throw new DriverSetupException("Driver was not setup properly.", e);
+        }
+        return driver;
+    }
+
+    public WebDriver createAppDriver() {
+
+        WebDriver driver;
+        try {
+            logger.debug(() -> "Initiating New Mobile App Session...");
+            Capabilities capabilities = AppiumOptions.getUserOptions();
+            if (capabilities == null) {
+                String app = FileHelper.loadThreadResource(ConfigFactory.getConfig()
+                    .getMobile().get("app")).getAbsolutePath();
+                capabilities = AppiumOptions.getAndroidOptions(app);
+            }
+            driver = new AndroidDriver(getServiceUrl(), capabilities);
+        } catch (Exception e) {
+            throw new DriverSetupException("Driver was not setup properly.", e);
+        }
+        return driver;
     }
 
 }

@@ -26,9 +26,9 @@ import io.github.selcukes.commons.exception.DriverSetupException;
 import io.github.selcukes.core.enums.AppiumDriverType;
 import org.openqa.selenium.Capabilities;
 
-public class MobileOptions extends BrowserOptions {
+public class MobileOptions {
 
-    public Capabilities getMobileOptions(AppiumDriverType appiumDriverType) {
+    public Capabilities getAppiumOptions(AppiumDriverType appiumDriverType) {
         switch (appiumDriverType) {
             case SAFARI:
                 return new SafariOptions();

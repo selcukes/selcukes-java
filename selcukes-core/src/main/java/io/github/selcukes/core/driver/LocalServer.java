@@ -27,15 +27,15 @@ import java.util.Arrays;
 
 @CustomLog
 @UtilityClass
-public class GridRunner {
+public class LocalServer {
     private static boolean isRunning = false;
     static int hubPort;
 
-    public static void startSeleniumServer(DriverType... driverType) {
+    public static void startSelenium(DriverType... driverType) {
         logger.info(() -> "Starting Selenium Server ...");
         Arrays.stream(driverType).distinct().forEach(BrowserOptions::setBinaries);
         hubPort = PortProber.findFreePort();
-        if (isGridNotRunning()) {
+        if (isSeleniumServerNotRunning()) {
             logger.debug(() -> "Using Free Hub Port: " + hubPort);
             Main.main(new String[]{"standalone", "--port", String.valueOf(hubPort)});
             isRunning = true;
@@ -43,20 +43,26 @@ public class GridRunner {
         }
     }
 
-    static boolean isGrid() {
+    static boolean isCloud() {
         return ConfigFactory.getConfig().getWeb().get("remote")
             .equalsIgnoreCase("true");
     }
 
-    static boolean isGridNotRunning() {
-        return isGrid() && !GridRunner.isRunning;
+    static boolean isSeleniumServerNotRunning() {
+        return isCloud() && !LocalServer.isRunning;
     }
 
-    public static void startAppiumServer() {
+    static boolean isAppiumServerRunning() {
+        return !ConfigFactory.getConfig().getMobile().get("remote")
+            .equalsIgnoreCase("true") && LocalServer.isRunning;
+    }
+
+    public static void startAppium() {
         AppiumEngine.getInstance().startLocalServer();
+        LocalServer.isRunning = true;
     }
 
-    public static void stopAppiumServer() {
+    public static void stopAppium() {
         AppiumEngine.getInstance().stopServer();
     }
 
