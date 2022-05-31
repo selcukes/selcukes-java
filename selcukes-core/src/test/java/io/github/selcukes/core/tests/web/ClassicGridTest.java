@@ -28,8 +28,8 @@ import org.testng.annotations.*;
 import static io.github.selcukes.core.driver.DriverManager.*;
 
 @CustomLog
-
-public class ClassicGridTest{
+@Listeners(SampleTestListener.class)
+public class ClassicGridTest {
     @BeforeClass
     public static void beforeClass() {
         GridRunner.startSelenium(DriverType.CHROME, DriverType.EDGE);
@@ -49,8 +49,8 @@ public class ClassicGridTest{
         Assert.assertEquals(getDriver().getTitle(), "Google");
     }
 
-    @AfterClass
-    void afterClass() {
+    @AfterMethod
+    public void afterMethod() {
         removeDriver();
     }
 }

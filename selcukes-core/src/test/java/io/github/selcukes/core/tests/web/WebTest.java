@@ -42,7 +42,7 @@ public class WebTest {
     }
 
     @AfterClass
-    void afterClass() {
+    public static void afterClass() {
         DriverManager.removeDriver();
     }
 }
