@@ -2,7 +2,7 @@
 handlers: java.util.logging.FileHandler, java.util.logging.ConsoleHandler
 
 #.level: INFO
-.level: INFO
+.level: SEVERE
 
 # For example, set the io.github.selcukes.core logger to only log SEVERE
 io.github.selcukes.level: ALL

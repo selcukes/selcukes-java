@@ -31,7 +31,7 @@ public class NotepadTest {
 
     @BeforeMethod
     public void beforeTest() {
-        GridRunner.startAppiumServer();
+        GridRunner.startAppium();
     }
 
     @Test(enabled = false)
@@ -51,6 +51,6 @@ public class NotepadTest {
     @AfterMethod
     public void afterTest() {
         DriverManager.removeDriver();
-        GridRunner.stopAppiumServer();
+        GridRunner.stopAppium();
     }
 }

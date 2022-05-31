@@ -14,19 +14,26 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.core.tests;
+package io.github.selcukes.core.tests.web;
 
 import io.github.selcukes.core.driver.DriverManager;
+import io.github.selcukes.core.driver.GridRunner;
 import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.page.WebPage;
+import io.github.selcukes.wdb.enums.DriverType;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-public class WebTest extends GridBaseTest {
+public class WebTest {
+    @BeforeSuite
+    public void beforeClass() {
+        GridRunner.startSelenium(DriverType.CHROME);
+    }
 
-    @Test
-    public void remoteTest() {
+    @Test(enabled = false)
+    public void remoteWebTest() {
         WebDriver driver = DriverManager.createDriver(DeviceType.BROWSER);
         WebPage page = new WebPage(driver);
         page.open("https://www.google.com/")
@@ -34,7 +41,7 @@ public class WebTest extends GridBaseTest {
     }
 
     @AfterMethod
-    void afterTest() {
+    public void afterClass() {
         DriverManager.removeDriver();
     }
 }

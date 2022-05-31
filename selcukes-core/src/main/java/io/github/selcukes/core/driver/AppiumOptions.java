@@ -16,15 +16,16 @@
 
 package io.github.selcukes.core.driver;
 
+import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.windows.options.WindowsOptions;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
 
 import java.net.URL;
-import java.util.Map;
 
 @UtilityClass
-public class DesktopOptions {
+public class AppiumOptions {
     URL serviceUrl;
     Capabilities caps;
 
@@ -37,22 +38,30 @@ public class DesktopOptions {
     }
 
     public Capabilities setAppTopLevelWindow(String windowId) {
+
         return setCapability("appTopLevelWindow", windowId);
     }
 
     public MutableCapabilities getWinAppOptions(String app) {
-        return new MutableCapabilities(Map.of("platformName", "Windows",
-            "deviceName", "WindowsPC", "app", app));
+        WindowsOptions windowsOptions = new WindowsOptions();
+        windowsOptions.setApp(app);
+        return merge(windowsOptions);
     }
 
     public MutableCapabilities getAndroidOptions(String app) {
-        return setCapability("app", app);
+        UiAutomator2Options uiAutomator2Options = new UiAutomator2Options();
+        uiAutomator2Options.setApp(app);
+        return merge(uiAutomator2Options);
     }
 
     public MutableCapabilities setCapability(String capabilityName, String value) {
         MutableCapabilities capabilities = new MutableCapabilities();
         capabilities.setCapability(capabilityName, value);
         return capabilities;
+    }
+
+    private MutableCapabilities merge(Capabilities capabilities) {
+        return new MutableCapabilities().merge(capabilities);
     }
 
     public void setUserOptions(Capabilities capabilities) {

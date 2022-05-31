@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.core.tests;
+package io.github.selcukes.core.tests.web;
 
 import org.testng.annotations.Test;
 

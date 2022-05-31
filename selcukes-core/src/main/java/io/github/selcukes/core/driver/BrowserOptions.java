@@ -19,6 +19,7 @@ package io.github.selcukes.core.driver;
 import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.wdb.WebDriverBinary;
 import io.github.selcukes.wdb.enums.DriverType;
+import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
@@ -26,9 +27,10 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 
+@UtilityClass
 public class BrowserOptions {
 
-    public Capabilities getBrowserOptions(DriverType driverType, boolean ignoreBinarySetup) {
+    public static synchronized Capabilities getBrowserOptions(DriverType driverType, boolean ignoreBinarySetup) {
         boolean headless = Platform.isLinux();
         if (!ignoreBinarySetup) {
             setBinaries(driverType);
@@ -58,7 +60,7 @@ public class BrowserOptions {
 
     }
 
-    public static void setBinaries(DriverType driverType) {
+    public static synchronized void setBinaries(DriverType driverType) {
         switch (driverType) {
             case EDGE:
                 WebDriverBinary.edgeDriver().setup();

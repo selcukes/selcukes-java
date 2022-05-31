@@ -40,7 +40,7 @@ public class DriverManager {
     private static final Set<Object> STORED_DRIVER = new HashSet<>();
 
     public static synchronized <D extends WebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
-        Arrays.stream(capabilities).findAny().ifPresent(DesktopOptions::setUserOptions);
+        Arrays.stream(capabilities).findAny().ifPresent(AppiumOptions::setUserOptions);
         if (getDriver() == null) {
             logger.info(() -> String.format("Creating new %s session...", deviceType));
             RemoteManager remoteManager;

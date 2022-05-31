@@ -14,24 +14,26 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.core.tests.grid;
+package io.github.selcukes.core.tests.web;
 
 import io.github.selcukes.core.driver.BrowserOptions;
+import io.github.selcukes.core.driver.GridRunner;
 import io.github.selcukes.core.enums.DeviceType;
-import io.github.selcukes.core.tests.GridBaseTest;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import static io.github.selcukes.core.driver.DriverManager.*;
 
 @CustomLog
-
-public class ClassicGridTest extends GridBaseTest {
+@Listeners(SampleTestListener.class)
+public class ClassicGridTest {
+    @BeforeClass
+    public static void beforeClass() {
+        GridRunner.startSelenium(DriverType.CHROME, DriverType.EDGE);
+    }
 
     @DataProvider(parallel = true)
     public Object[][] driverTypes() {
@@ -39,17 +41,16 @@ public class ClassicGridTest extends GridBaseTest {
     }
 
     @SneakyThrows
-    @Test(dataProvider = "driverTypes")
+    @Test(enabled = false, dataProvider = "driverTypes")
     public void parallelBrowserTest(DriverType driverType) {
         logger.debug(driverType::getName);
-        BrowserOptions browserOptions = new BrowserOptions();
-        createDriver(DeviceType.BROWSER, browserOptions.getBrowserOptions(driverType, true));
+        createDriver(DeviceType.BROWSER, BrowserOptions.getBrowserOptions(driverType, true));
         getDriver().get("https://www.google.com/");
         Assert.assertEquals(getDriver().getTitle(), "Google");
     }
 
     @AfterMethod
-    void afterTest() {
+    public void afterMethod() {
         removeDriver();
     }
 }

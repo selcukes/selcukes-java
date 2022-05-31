@@ -20,43 +20,79 @@ import io.appium.java_client.android.AndroidDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.DriverSetupException;
 import io.github.selcukes.commons.helper.FileHelper;
+import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URL;
+
+import static io.github.selcukes.core.driver.RunMode.isCloudAppium;
+import static io.github.selcukes.core.driver.RunMode.isLocalAppium;
 
 @CustomLog
 public class AppiumManager implements RemoteManager {
 
     @Override
     public WebDriver createDriver() {
+        String browser = ConfigFactory.getConfig().getMobile().get("browserName");
+        return browser.equalsIgnoreCase("APP") ? createAppDriver() : createBrowserDriver(browser);
+    }
+
+    @SneakyThrows
+    public URL getServiceUrl() {
+        URL serviceUrl;
+
+        if (isLocalAppium()) {
+            serviceUrl = AppiumEngine.getInstance().getServiceUrl();
+        } else if (isCloudAppium()) {
+            serviceUrl = new URL(CloudOptions.browserStackUrl());
+        } else
+            serviceUrl = new URL(ConfigFactory.getConfig().getMobile().get("serviceUrl"));
+        logger.debug(() -> String.format("Using ServiceUrl[%s://%s:%s]", serviceUrl.getProtocol(), serviceUrl.getHost(), serviceUrl.getPort()));
+        return serviceUrl;
+    }
+
+    public WebDriver createBrowserDriver(String browser) {
         WebDriver driver;
         try {
-            logger.debug(() -> "Initiating New Mobile Session...");
-            Capabilities capabilities = DesktopOptions.getUserOptions();
+            logger.debug(() -> "Initiating New Mobile Browser Session...");
+            Capabilities capabilities = AppiumOptions.getUserOptions();
             if (capabilities == null) {
-                String app = FileHelper.loadThreadResource(ConfigFactory.getConfig()
-                    .getMobile().get("app")).getAbsolutePath();
-                capabilities = DesktopOptions.getAndroidOptions(app);
+                capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser), isCloudAppium());
+                if (isCloudAppium()) {
+                    capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions());
+                }
+
             }
-            driver = new AndroidDriver(getServiceUrl(), capabilities);
+            driver = new RemoteWebDriver(getServiceUrl(), capabilities);
         } catch (Exception e) {
             throw new DriverSetupException("Driver was not setup properly.", e);
         }
         return driver;
     }
 
-    @SneakyThrows
-    public URL getServiceUrl() {
-        URL serviceUrl = new URL(ConfigFactory.getConfig().getMobile().get("serviceUrl"));
-        if (ConfigFactory.getConfig().getMobile().get("remote").equalsIgnoreCase("true")) {
-            logger.info(() -> String.format("Using ServiceUrl[%s]", serviceUrl));
-            return serviceUrl;
-        } else {
-            return AppiumEngine.getInstance().getServiceUrl();
+    public WebDriver createAppDriver() {
+
+        WebDriver driver;
+        try {
+            logger.debug(() -> "Initiating New Mobile App Session...");
+            Capabilities capabilities = AppiumOptions.getUserOptions();
+            if (capabilities == null) {
+                String app = FileHelper.loadThreadResource(ConfigFactory.getConfig()
+                    .getMobile().get("app")).getAbsolutePath();
+                capabilities = AppiumOptions.getAndroidOptions(app);
+                if (isCloudAppium()) {
+                    capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions());
+                }
+            }
+            driver = new AndroidDriver(getServiceUrl(), capabilities);
+        } catch (Exception e) {
+            throw new DriverSetupException("Driver was not setup properly.", e);
         }
+        return driver;
     }
 
 }

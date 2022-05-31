@@ -14,15 +14,13 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.core.tests;
+package io.github.selcukes.commons.db;
 
-import io.github.selcukes.core.driver.GridRunner;
-import io.github.selcukes.wdb.enums.DriverType;
-import org.testng.annotations.BeforeSuite;
-
-public class GridBaseTest {
-    @BeforeSuite
-    public static void beforeSuite() {
-        GridRunner.startSeleniumServer(DriverType.CHROME, DriverType.EDGE);
-    }
+public enum DataBaseType {
+    MY_SQL,
+    SQL_SERVER,
+    POST_GRE_SQL,
+    ORACLE,
+    ORACLE_SERVICE_NAME,
+    IBM_DB2
 }

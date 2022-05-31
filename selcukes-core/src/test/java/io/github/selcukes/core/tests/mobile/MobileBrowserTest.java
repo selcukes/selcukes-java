@@ -14,29 +14,27 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.core.tests;
+package io.github.selcukes.core.tests.mobile;
 
-import io.github.selcukes.commons.Await;
-import io.github.selcukes.core.page.WebPage;
-import io.github.selcukes.wdb.driver.LocalDriver;
-import io.github.selcukes.wdb.enums.DriverType;
+import io.github.selcukes.core.driver.DriverManager;
+import io.github.selcukes.core.enums.DeviceType;
+import io.github.selcukes.core.page.MobilePage;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
-public class BaseTest {
-    WebDriver driver;
-    WebPage page;
+public class MobileBrowserTest {
 
-    @BeforeMethod
-    public void setup() {
-        driver = new LocalDriver().createWebDriver(DriverType.CHROME, true);
-        page = new WebPage(driver);
+    @Test(enabled = false)
+    public void mobileBrowserTest() {
+        WebDriver driver = DriverManager.createDriver(DeviceType.MOBILE);
+        MobilePage page = new MobilePage(driver);
+        page.open("https://www.google.com/")
+            .assertThat().title("Google");
     }
 
     @AfterMethod
-    public void teardown() {
-        Await.until(3);
-        driver.quit();
+    void afterTest() {
+        DriverManager.removeDriver();
     }
 }

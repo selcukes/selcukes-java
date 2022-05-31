@@ -28,7 +28,10 @@ import org.openqa.selenium.remote.RemoteWebDriverBuilder;
 
 import java.net.URL;
 
-import static io.github.selcukes.core.driver.GridRunner.*;
+import static io.github.selcukes.core.driver.GridRunner.hubPort;
+import static io.github.selcukes.core.driver.GridRunner.isSeleniumServerNotRunning;
+import static io.github.selcukes.core.driver.RunMode.isCloudBrowser;
+import static io.github.selcukes.core.driver.RunMode.isLocalBrowser;
 
 @CustomLog
 public class WebManager implements RemoteManager {
@@ -38,13 +41,16 @@ public class WebManager implements RemoteManager {
         WebDriver driver;
         try {
             logger.debug(() -> "Initiating New Browser Session...");
-            Capabilities capabilities = DesktopOptions.getUserOptions();
+            Capabilities capabilities = AppiumOptions.getUserOptions();
             if (capabilities == null) {
-                BrowserOptions browserOptions = new BrowserOptions();
-                capabilities = browserOptions.getBrowserOptions(DriverType.valueOf(browser), isGrid());
+                capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser),
+                    !isLocalBrowser() || !isCloudBrowser());
+                if (isCloudBrowser()) {
+                    capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions());
+                }
             }
             RemoteWebDriverBuilder driverBuilder = RemoteWebDriver.builder().oneOf(capabilities);
-            if (isGrid())
+            if (isLocalBrowser())
                 driverBuilder.address(getServiceUrl());
 
             driver = driverBuilder.build();
@@ -57,14 +63,20 @@ public class WebManager implements RemoteManager {
 
     @SneakyThrows
     public URL getServiceUrl() {
-        URL serviceUrl = new URL(ConfigFactory.getConfig().getWeb().get("serviceUrl"));
-        if (isGridNotRunning()) {
-            logger.warn(() -> "Selenium server not started...\n" +
-                "Please use 'GridRunner.startSeleniumServer' method to start automatically.\n" +
-                " Ignore this message if you have started manually...");
-            return serviceUrl;
+        URL serviceUrl;
+        if (isCloudBrowser())
+            serviceUrl = new URL(CloudOptions.browserStackUrl());
+        else {
+            serviceUrl = new URL(ConfigFactory.getConfig().getWeb().get("serviceUrl"));
+            if (isSeleniumServerNotRunning()) {
+                logger.warn(() -> "Selenium server not started...\n" +
+                    "Please use 'GridRunner.startSeleniumServer' method to start automatically.\n" +
+                    " Ignore this message if you have started manually or executing in Cloud...");
+            } else {
+                String urlString = String.format("%s://%s:%s", serviceUrl.getProtocol(), serviceUrl.getHost(), hubPort);
+                serviceUrl = new URL(urlString);
+            }
         }
-        String urlString = String.format("%s://%s:%s", serviceUrl.getProtocol(), serviceUrl.getHost(), hubPort);
-        return new URL(urlString);
+        return serviceUrl;
     }
 }

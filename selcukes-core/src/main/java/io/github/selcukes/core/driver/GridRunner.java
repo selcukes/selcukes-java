@@ -16,7 +16,6 @@
 
 package io.github.selcukes.core.driver;
 
-import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
@@ -25,38 +24,39 @@ import org.openqa.selenium.net.PortProber;
 
 import java.util.Arrays;
 
+import static io.github.selcukes.core.driver.RunMode.isCloudBrowser;
+import static io.github.selcukes.core.driver.RunMode.isLocalBrowser;
+
 @CustomLog
 @UtilityClass
 public class GridRunner {
     private static boolean isRunning = false;
     static int hubPort;
 
-    public static void startSeleniumServer(DriverType... driverType) {
-        logger.info(() -> "Starting Selenium Server ...");
-        Arrays.stream(driverType).distinct().forEach(BrowserOptions::setBinaries);
-        hubPort = PortProber.findFreePort();
-        if (isGridNotRunning()) {
-            logger.debug(() -> "Using Free Hub Port: " + hubPort);
-            Main.main(new String[]{"standalone", "--port", String.valueOf(hubPort)});
-            isRunning = true;
-            logger.info(() -> "Selenium Server started...");
+    public static synchronized void startSelenium(DriverType... driverType) {
+        if (!isCloudBrowser() || !isLocalBrowser()) {
+            logger.info(() -> "Starting Selenium Server ...");
+            Arrays.stream(driverType).distinct().forEach(BrowserOptions::setBinaries);
+            hubPort = PortProber.findFreePort();
+            if (isSeleniumServerNotRunning()) {
+                logger.debug(() -> "Using Free Hub Port: " + hubPort);
+                Main.main(new String[]{"standalone", "--port", String.valueOf(hubPort)});
+                isRunning = true;
+                logger.info(() -> "Selenium Server started...");
+            }
         }
     }
 
-    static boolean isGrid() {
-        return ConfigFactory.getConfig().getWeb().get("remote")
-            .equalsIgnoreCase("true");
+
+    static boolean isSeleniumServerNotRunning() {
+        return !isLocalBrowser() && !GridRunner.isRunning;
     }
 
-    static boolean isGridNotRunning() {
-        return isGrid() && !GridRunner.isRunning;
-    }
-
-    public static void startAppiumServer() {
+    public static void startAppium() {
         AppiumEngine.getInstance().startLocalServer();
     }
 
-    public static void stopAppiumServer() {
+    public static void stopAppium() {
         AppiumEngine.getInstance().stopServer();
     }
 
