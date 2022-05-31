@@ -34,7 +34,7 @@ public class NotepadTest {
         GridRunner.startAppium();
     }
 
-    @Test//(enabled = false)
+    @Test(enabled = false)
     public void notepadTest() {
         WindowsDriver driver = DriverManager.createDriver(DeviceType.DESKTOP);
         WinPage page = new WinPage(driver);
