@@ -26,6 +26,7 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
+
 @UtilityClass
 public class BrowserOptions {
 
@@ -54,7 +55,6 @@ public class BrowserOptions {
             default:
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.setHeadless(headless);
-                chromeOptions.setPlatformName("android");
                 return chromeOptions;
         }
 
