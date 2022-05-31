@@ -38,12 +38,10 @@ public class GridRunner {
             logger.info(() -> "Starting Selenium Server ...");
             Arrays.stream(driverType).distinct().forEach(BrowserOptions::setBinaries);
             hubPort = PortProber.findFreePort();
-            if (isSeleniumServerNotRunning()) {
-                logger.debug(() -> "Using Free Hub Port: " + hubPort);
-                Main.main(new String[]{"standalone", "--port", String.valueOf(hubPort)});
-                isRunning = true;
-                logger.info(() -> "Selenium Server started...");
-            }
+            logger.debug(() -> "Using Free Hub Port: " + hubPort);
+            Main.main(new String[]{"standalone", "--port", String.valueOf(hubPort)});
+            isRunning = true;
+            logger.info(() -> "Selenium Server started...");
         }
     }
 
