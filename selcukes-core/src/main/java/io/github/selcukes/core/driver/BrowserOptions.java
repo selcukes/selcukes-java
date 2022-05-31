@@ -54,6 +54,7 @@ public class BrowserOptions {
             default:
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.setHeadless(headless);
+                chromeOptions.setPlatformName("android");
                 return chromeOptions;
         }
 

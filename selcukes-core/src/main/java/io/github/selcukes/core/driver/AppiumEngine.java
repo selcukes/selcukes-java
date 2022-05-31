@@ -37,20 +37,27 @@ class AppiumEngine {
 
     URL getServiceUrl() {
         if (service == null) {
-            throw new DriverSetupException("Appium server not started...");
+            throw new DriverSetupException("Appium Local server is not started...\n" +
+                "Please use 'LocalServer.startAppium' method to start.");
         }
         return service.getUrl();
     }
 
     void startLocalServer() {
-        service = new AppiumServiceBuilder()
-            .withIPAddress("127.0.0.1")
-            .usingAnyFreePort()
-            .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-            .withArgument(GeneralServerFlag.BASEPATH, "/wd/")
-            .build();
-        logger.info(() -> "Starting Appium server...");
-        service.start();
+        try {
+            service = new AppiumServiceBuilder()
+                .withIPAddress("127.0.0.1")
+                .usingAnyFreePort()
+                .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+                .withArgument(GeneralServerFlag.BASEPATH, "/wd/")
+                .build();
+            logger.info(() -> "Starting Appium server...");
+            service.start();
+            logger.debug(() -> String.format("Using Local ServiceUrl[%s]", service.getUrl()));
+        } catch (Exception e) {
+            throw new DriverSetupException("Failed starting Appium Server..", e);
+        }
+
     }
 
     void stopServer() {

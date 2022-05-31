@@ -29,8 +29,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URL;
 
-import static io.github.selcukes.core.driver.LocalServer.isAppiumServerRunning;
-
 @CustomLog
 public class AppiumManager implements RemoteManager {
 
@@ -46,11 +44,8 @@ public class AppiumManager implements RemoteManager {
         if (ConfigFactory.getConfig().getMobile().get("remote").equalsIgnoreCase("true")) {
             logger.debug(() -> String.format("Using Cloud ServiceUrl[%s://%s:%s]", serviceUrl.getProtocol(), serviceUrl.getHost(), serviceUrl.getPort()));
             return serviceUrl;
-        } else if (isAppiumServerRunning()) {
-            return AppiumEngine.getInstance().getServiceUrl();
         } else {
-            throw new DriverSetupException("Appium Local server is not started...\n" +
-                "Please use 'LocalEngine.startAppiumServer' method to start automatically.\n");
+            return AppiumEngine.getInstance().getServiceUrl();
         }
     }
 
@@ -61,6 +56,7 @@ public class AppiumManager implements RemoteManager {
             Capabilities capabilities = AppiumOptions.getUserOptions();
             if (capabilities == null) {
                 capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser), false);
+
             }
             driver = new RemoteWebDriver(getServiceUrl(), capabilities);
         } catch (Exception e) {

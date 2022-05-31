@@ -52,14 +52,8 @@ public class LocalServer {
         return isCloud() && !LocalServer.isRunning;
     }
 
-    static boolean isAppiumServerRunning() {
-        return !ConfigFactory.getConfig().getMobile().get("remote")
-            .equalsIgnoreCase("true") && LocalServer.isRunning;
-    }
-
     public static void startAppium() {
         AppiumEngine.getInstance().startLocalServer();
-        LocalServer.isRunning = true;
     }
 
     public static void stopAppium() {
