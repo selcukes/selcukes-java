@@ -13,8 +13,8 @@ windows:
   serviceUrl: "http://127.0.0.1:4723"
   app: "C:\\Windows\\System32\\notepad.exe"
 mobile:
-  runMode: LOCAL
-  browserName: APP
+  runMode: CLOUD
+  browserName: CHROME
   serviceUrl: "http://127.0.0.1:4723"
   app: "ApiDemos-debug.apk"
 video:
