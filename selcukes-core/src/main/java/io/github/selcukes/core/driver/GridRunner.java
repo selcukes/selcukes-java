@@ -33,7 +33,7 @@ public class GridRunner {
     private static boolean isRunning = false;
     static int hubPort;
 
-    public static void startSelenium(DriverType... driverType) {
+    public static synchronized void startSelenium(DriverType... driverType) {
         if (!isCloudBrowser() || !isLocalBrowser()) {
             logger.info(() -> "Starting Selenium Server ...");
             Arrays.stream(driverType).distinct().forEach(BrowserOptions::setBinaries);

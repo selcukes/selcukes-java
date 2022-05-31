@@ -30,7 +30,7 @@ import org.openqa.selenium.ie.InternetExplorerOptions;
 @UtilityClass
 public class BrowserOptions {
 
-    public static Capabilities getBrowserOptions(DriverType driverType, boolean ignoreBinarySetup) {
+    public static synchronized Capabilities getBrowserOptions(DriverType driverType, boolean ignoreBinarySetup) {
         boolean headless = Platform.isLinux();
         if (!ignoreBinarySetup) {
             setBinaries(driverType);
@@ -60,7 +60,7 @@ public class BrowserOptions {
 
     }
 
-    public static void setBinaries(DriverType driverType) {
+    public static synchronized void setBinaries(DriverType driverType) {
         switch (driverType) {
             case EDGE:
                 WebDriverBinary.edgeDriver().setup();
