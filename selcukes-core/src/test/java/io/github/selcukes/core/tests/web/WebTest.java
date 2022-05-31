@@ -14,29 +14,35 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.core.tests;
+package io.github.selcukes.core.tests.web;
 
-import io.github.selcukes.commons.Await;
+import io.github.selcukes.core.driver.DriverManager;
+import io.github.selcukes.core.driver.GridRunner;
+import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.page.WebPage;
-import io.github.selcukes.wdb.driver.LocalDriver;
 import io.github.selcukes.wdb.enums.DriverType;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
-public class BaseTest {
-    WebDriver driver;
-    WebPage page;
-
-    @BeforeMethod
-    public void setup() {
-        driver = new LocalDriver().createWebDriver(DriverType.CHROME, true);
-        page = new WebPage(driver);
+public class WebTest {
+    @BeforeClass
+    public static void beforeClass() {
+        GridRunner.startSelenium(DriverType.CHROME);
     }
 
-    @AfterMethod
-    public void teardown() {
-        Await.until(3);
-        driver.quit();
+    @Test
+    public void remoteTest() {
+        WebDriver driver = DriverManager.createDriver(DeviceType.BROWSER);
+        WebPage page = new WebPage(driver);
+        page.open("https://www.google.com/")
+            .assertThat().title("Google");
+    }
+
+    @AfterClass
+    void afterClass() {
+        DriverManager.removeDriver();
     }
 }

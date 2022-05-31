@@ -14,15 +14,14 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.core.tests;
+package io.github.selcukes.core.tests.web;
 
-import io.github.selcukes.core.driver.GridRunner;
-import io.github.selcukes.wdb.enums.DriverType;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
 
-public class GridBaseTest {
-    @BeforeSuite
-    public static void beforeSuite() {
-        GridRunner.startSelenium(DriverType.CHROME, DriverType.EDGE);
+public class PrintTest extends BaseTest {
+    @Test
+    public void testPrint() {
+        page.open("https://techyworks.blogspot.com/2022/03/get-browser-session-storage-data-using-selenium.html");
+        page.printPage("target/print.pdf");
     }
 }

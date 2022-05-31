@@ -14,24 +14,26 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.core.tests.grid;
+package io.github.selcukes.core.tests.web;
 
 import io.github.selcukes.core.driver.BrowserOptions;
+import io.github.selcukes.core.driver.GridRunner;
 import io.github.selcukes.core.enums.DeviceType;
-import io.github.selcukes.core.tests.GridBaseTest;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import static io.github.selcukes.core.driver.DriverManager.*;
 
 @CustomLog
 
-public class ClassicGridTest extends GridBaseTest {
+public class ClassicGridTest{
+    @BeforeClass
+    public static void beforeClass() {
+        GridRunner.startSelenium(DriverType.CHROME, DriverType.EDGE);
+    }
 
     @DataProvider(parallel = true)
     public Object[][] driverTypes() {
@@ -47,8 +49,8 @@ public class ClassicGridTest extends GridBaseTest {
         Assert.assertEquals(getDriver().getTitle(), "Google");
     }
 
-    @AfterMethod
-    void afterTest() {
+    @AfterClass
+    void afterClass() {
         removeDriver();
     }
 }
