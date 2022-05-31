@@ -19,7 +19,7 @@ package io.github.selcukes.core.tests;
 import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
 import io.github.selcukes.core.driver.DriverManager;
-import io.github.selcukes.core.driver.LocalServer;
+import io.github.selcukes.core.driver.GridRunner;
 import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.enums.SwipeDirection;
 import io.github.selcukes.core.page.MobilePage;
@@ -35,7 +35,7 @@ public class MobileTest {
 
     @BeforeMethod
     void beforeTest() {
-        LocalServer.startAppium();
+        GridRunner.startAppium();
         WebDriver driver = DriverManager.createDriver(DeviceType.MOBILE);
         page = new MobilePage(driver);
 
@@ -85,6 +85,6 @@ public class MobileTest {
     @AfterMethod
     void afterTest() {
         DriverManager.removeDriver();
-        LocalServer.stopAppium();
+        GridRunner.stopAppium();
     }
 }

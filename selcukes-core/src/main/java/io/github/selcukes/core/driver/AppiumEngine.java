@@ -38,7 +38,7 @@ class AppiumEngine {
     URL getServiceUrl() {
         if (service == null) {
             throw new DriverSetupException("Appium Local server is not started...\n" +
-                "Please use 'LocalServer.startAppium' method to start.");
+                "Please use 'GridRunner.startAppium' method to start.");
         }
         return service.getUrl();
     }

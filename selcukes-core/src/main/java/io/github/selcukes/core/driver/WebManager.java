@@ -28,7 +28,7 @@ import org.openqa.selenium.remote.RemoteWebDriverBuilder;
 
 import java.net.URL;
 
-import static io.github.selcukes.core.driver.LocalServer.*;
+import static io.github.selcukes.core.driver.GridRunner.*;
 
 @CustomLog
 public class WebManager implements RemoteManager {
@@ -59,7 +59,7 @@ public class WebManager implements RemoteManager {
         URL serviceUrl = new URL(ConfigFactory.getConfig().getWeb().get("serviceUrl"));
         if (isSeleniumServerNotRunning()) {
             logger.warn(() -> "Selenium server not started...\n" +
-                "Please use 'LocalEngine.startSeleniumServer' method to start automatically.\n" +
+                "Please use 'GridRunner.startSeleniumServer' method to start automatically.\n" +
                 " Ignore this message if you have started manually or executing in Cloud...");
             return serviceUrl;
         }

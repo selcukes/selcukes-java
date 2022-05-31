@@ -27,7 +27,7 @@ import java.util.Arrays;
 
 @CustomLog
 @UtilityClass
-public class LocalServer {
+public class GridRunner {
     private static boolean isRunning = false;
     static int hubPort;
 
@@ -49,7 +49,7 @@ public class LocalServer {
     }
 
     static boolean isSeleniumServerNotRunning() {
-        return isCloud() && !LocalServer.isRunning;
+        return isCloud() && !GridRunner.isRunning;
     }
 
     public static void startAppium() {

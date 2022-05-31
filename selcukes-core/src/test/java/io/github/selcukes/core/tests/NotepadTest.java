@@ -18,7 +18,7 @@ package io.github.selcukes.core.tests;
 
 import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.core.driver.DriverManager;
-import io.github.selcukes.core.driver.LocalServer;
+import io.github.selcukes.core.driver.GridRunner;
 import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.page.WinPage;
 import org.openqa.selenium.By;
@@ -31,7 +31,7 @@ public class NotepadTest {
 
     @BeforeMethod
     public void beforeTest() {
-        LocalServer.startAppium();
+        GridRunner.startAppium();
     }
 
     @Test//(enabled = false)
@@ -51,6 +51,6 @@ public class NotepadTest {
     @AfterMethod
     public void afterTest() {
         DriverManager.removeDriver();
-        LocalServer.stopAppium();
+        GridRunner.stopAppium();
     }
 }
