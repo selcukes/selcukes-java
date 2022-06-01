@@ -16,10 +16,12 @@
 
 package io.github.selcukes.core.driver;
 
+import io.github.selcukes.databind.utils.StringHelper;
 import io.github.selcukes.wdb.WebDriverBinary;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -37,6 +39,10 @@ public class BrowserOptions {
         if (!ignoreBinarySetup) {
             setBinaries(driverType);
         }
+        if (StringHelper.isNullOrEmpty(platform)) {
+            platform = Platform.getCurrent().name();
+        }
+
         switch (driverType) {
             case EDGE:
                 EdgeOptions edgeOptions = new EdgeOptions();
