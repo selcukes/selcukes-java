@@ -19,7 +19,6 @@ package io.github.selcukes.core.driver;
 import io.appium.java_client.android.AndroidDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.DriverSetupException;
-import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
@@ -37,8 +36,8 @@ public class AppiumManager implements RemoteManager {
 
     @Override
     public WebDriver createDriver() {
-        String browser = ConfigFactory.getConfig().getMobile().get("browserName");
-        return browser.equalsIgnoreCase("APP") ? createAppDriver() : createBrowserDriver(browser);
+        String target = ConfigFactory.getConfig().getMobile().getBrowser();
+        return target.equalsIgnoreCase("APP") ? createAppDriver() : createBrowserDriver(target);
     }
 
     @SneakyThrows
@@ -50,7 +49,7 @@ public class AppiumManager implements RemoteManager {
         } else if (isCloudAppium()) {
             serviceUrl = new URL(CloudOptions.browserStackUrl());
         } else
-            serviceUrl = new URL(ConfigFactory.getConfig().getMobile().get("serviceUrl"));
+            serviceUrl = new URL(ConfigFactory.getConfig().getMobile().getServiceUrl());
         logger.debug(() -> String.format("Using ServiceUrl[%s://%s:%s]", serviceUrl.getProtocol(), serviceUrl.getHost(), serviceUrl.getPort()));
         return serviceUrl;
     }
@@ -81,8 +80,8 @@ public class AppiumManager implements RemoteManager {
             logger.debug(() -> "Initiating New Mobile App Session...");
             Capabilities capabilities = AppiumOptions.getUserOptions();
             if (capabilities == null) {
-                String app = FileHelper.loadThreadResource(ConfigFactory.getConfig()
-                    .getMobile().get("app")).getAbsolutePath();
+                String app = ConfigFactory.getConfig()
+                    .getMobile().getApp();
                 capabilities = AppiumOptions.getAndroidOptions(app);
                 if (isCloudAppium()) {
                     capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions());

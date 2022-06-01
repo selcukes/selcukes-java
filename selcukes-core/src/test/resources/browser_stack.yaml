@@ -1,4 +1,4 @@
 url: "https://${browserstack.user}:${browserstack.key}@hub-cloud.browserstack.com/wd/hub"
-options:
-  buildName: Test
-  sessionName: Test1
+capabilities:
+  build: Selcukes BrowserStack Build
+  name: Selcukes BrowserStack Session

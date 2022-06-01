@@ -30,10 +30,5 @@ public class ConfigTest {
         logger.info(() -> ConfigFactory.getConfig().getEnv());
         logger.info(() -> ConfigFactory.getConfig().getBaseUrl());
         logger.info(() -> ConfigFactory.getConfig().getProjectName());
-        ConfigFactory.getConfig().getWeb().forEach((k, v) -> logger.info(() -> String.format("Key :[%s]   Value :[%s]", k, v)));
-        ConfigFactory.getConfig().getWindows().forEach((k, v) -> logger.info(() -> String.format("Key :[%s]   Value :[%s]", k, v)));
-        ConfigFactory.getConfig().getMobile().forEach((k, v) -> logger.info(() -> String.format("Key :[%s]   Value :[%s]", k, v)));
-        ConfigFactory.getConfig().getVideo().forEach((k, v) -> logger.info(() -> String.format("Key :[%s]   Value :[%s]", k, v)));
-        ConfigFactory.getConfig().getNotifier().forEach((k, v) -> logger.info(() -> String.format("Key :[%s]   Value :[%s]", k, v)));
     }
 }

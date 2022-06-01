@@ -27,7 +27,7 @@ import io.github.selcukes.commons.helper.Preconditions;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.os.Platform;
-import io.github.selcukes.video.config.VideoConfig;
+import io.github.selcukes.video.config.DefaultVideoOptions;
 
 import java.awt.*;
 import java.io.File;
@@ -37,16 +37,16 @@ class FFmpegRecorder extends VideoRecorder {
     private static final Logger logger = LoggerFactory.getLogger(FFmpegRecorder.class);
     private static final String FFMPEG = "ffmpeg";
     private static final String EXTENSION = ".mp4";
-    private final VideoConfig videoConfig;
+    private final DefaultVideoOptions videoConfig;
     private final Shell shell;
     private File tempFile;
     private String ffmpegFolderPath = "";
 
     public FFmpegRecorder() {
         shell = new Shell();
-        this.videoConfig = conf();
-        if (ConfigFactory.getConfig().getVideo().get("ffmpegPath") != null)
-            ffmpegFolderPath = ConfigFactory.getConfig().getVideo().get("ffmpegPath");
+        this.videoConfig = videoConfig();
+        if (ConfigFactory.getConfig().getVideo().getFfmpegPath() != null)
+            ffmpegFolderPath = ConfigFactory.getConfig().getVideo().getFfmpegPath();
     }
 
     public void start() {
@@ -71,7 +71,7 @@ class FFmpegRecorder extends VideoRecorder {
         stop();
         Preconditions.checkArgument(tempFile.exists(), "Video recording wasn't started");
         File videoFile = getFile(filename);
-        if (ConfigFactory.getConfig().getVideo().get("watermarkStatus").equalsIgnoreCase("true")) {
+        if (ConfigFactory.getConfig().getVideo().isWatermark()) {
             File waterMark = FileHelper.getWaterMarkFile();
             String command = ffmpegFolderPath + FFMPEG + " -i " + tempFile.getAbsolutePath() +
                 " -i " + waterMark.getAbsolutePath() +

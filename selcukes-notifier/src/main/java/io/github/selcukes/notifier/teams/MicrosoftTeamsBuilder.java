@@ -72,12 +72,12 @@ public class MicrosoftTeamsBuilder {
             .activityTitle(activityTitle)
             .activitySubtitle(activitySubtitle)
             .activityText(activityText)
-            .activityImage(ConfigFactory.getConfig().getNotifier().get("authorIcon"))
+            .activityImage(ConfigFactory.getConfig().getNotifier().getAuthorIcon())
             .facts(fieldList)
             .images(Collections.singletonList(image))
             .build();
 
-        String hookUri = ConfigFactory.getConfig().getNotifier().get("webhook-token");
+        String hookUri = ConfigFactory.getConfig().getNotifier().getWebhookToken();
         MicrosoftTeamsCard teamsCard = MicrosoftTeamsCard.builder()
             .type(NotifierEnum.MESSAGE_CARD.getValue())
             .themeColor(NotifierHelper.getThemeColor(scenarioStatus))

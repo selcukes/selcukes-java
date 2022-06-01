@@ -16,7 +16,6 @@
 
 package io.github.selcukes.core.driver;
 
-import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.wdb.WebDriverBinary;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.experimental.UtilityClass;
@@ -31,7 +30,7 @@ import org.openqa.selenium.ie.InternetExplorerOptions;
 public class BrowserOptions {
 
     public static synchronized Capabilities getBrowserOptions(DriverType driverType, boolean ignoreBinarySetup) {
-        boolean headless = Platform.isLinux();
+        boolean headless = RunMode.isHeadless();
         if (!ignoreBinarySetup) {
             setBinaries(driverType);
         }
