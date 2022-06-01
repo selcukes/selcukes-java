@@ -1,4 +1,4 @@
-url: "https://${BROWSERSTACK_USERNAME}:${BROWSERSTACK_ACCESS_KEY}@hub-cloud.browserstack.com/wd/hub"
+url: "https://${browserstack.user}:${browserstack.key}@hub-cloud.browserstack.com/wd/hub"
 options:
   buildName: Test
   sessionName: Test1
