@@ -17,6 +17,7 @@
 package io.github.selcukes.core.driver;
 
 import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.commons.os.Platform;
 import lombok.experimental.UtilityClass;
 
 import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
@@ -42,6 +43,6 @@ public class RunMode {
     }
 
     static boolean isHeadless() {
-        return ConfigFactory.getConfig().getWeb().isHeadLess();
+        return Platform.isLinux();
     }
 }

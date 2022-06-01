@@ -27,6 +27,8 @@ public class MobileBrowserTest {
 
     @Test
     public void mobileBrowserTest() {
+        System.setProperty("browserstack.user", "rprudhvi_YCJkSB");
+        System.setProperty("browserstack.key", "xq8A9GkKQwKDosdNDYdY");
         WebDriver driver = DriverManager.createDriver(DeviceType.MOBILE);
         MobilePage page = new MobilePage(driver);
         page.open("https://www.google.com/")

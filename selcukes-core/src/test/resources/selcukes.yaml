@@ -16,7 +16,7 @@ windows:
 mobile:
   remote: true
   cloud: BROWSER_STACK
-  platform: ANDROID
+  platform: Android
   browser: CHROME
   serviceUrl: "http://127.0.0.1:4723"
   app: "src/test/resources/android-app.apk"

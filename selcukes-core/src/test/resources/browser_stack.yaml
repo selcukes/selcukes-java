@@ -1,4 +1,5 @@
 url: "https://${browserstack.user}:${browserstack.key}@hub-cloud.browserstack.com/wd/hub"
 capabilities:
-  build: Selcukes BrowserStack Build
-  name: Selcukes BrowserStack Session
+  deviceName: Google Pixel 6
+  buildName: Selcukes BrowserStack Build
+  sessionName: Selcukes BrowserStack Session

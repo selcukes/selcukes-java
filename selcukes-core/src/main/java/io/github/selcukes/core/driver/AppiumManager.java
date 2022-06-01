@@ -60,7 +60,8 @@ public class AppiumManager implements RemoteManager {
             logger.debug(() -> "Initiating New Mobile Browser Session...");
             Capabilities capabilities = AppiumOptions.getUserOptions();
             if (capabilities == null) {
-                capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser), isCloudAppium());
+                String platform = ConfigFactory.getConfig().getMobile().getPlatform();
+                capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser), isCloudAppium(), platform);
                 if (isCloudAppium()) {
                     capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions());
                 }
