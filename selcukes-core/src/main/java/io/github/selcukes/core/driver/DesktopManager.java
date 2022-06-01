@@ -33,7 +33,7 @@ public class DesktopManager extends AppiumManager {
         WebDriver windowsDriver;
         try {
             logger.debug(() -> "Initiating New Desktop Session...");
-            String app = ConfigFactory.getConfig().getWindows().get("app");
+            String app = ConfigFactory.getConfig().getWindows().getApp();
             URL serviceUrl = Objects.requireNonNull(getServiceUrl());
             AppiumOptions.setServiceUrl(serviceUrl);
             windowsDriver = new WindowsDriver(serviceUrl, AppiumOptions.getWinAppOptions(app));
