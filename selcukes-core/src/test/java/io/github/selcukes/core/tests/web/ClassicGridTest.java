@@ -23,15 +23,17 @@ import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 import static io.github.selcukes.core.driver.DriverManager.*;
 
 @CustomLog
-@Listeners(SampleTestListener.class)
 public class ClassicGridTest {
-    @BeforeClass(alwaysRun = true)
-    public static void beforeClass() {
+    @BeforeSuite
+    public static void beforeSuite() {
         GridRunner.startSelenium(DriverType.CHROME, DriverType.EDGE);
     }
 
@@ -41,7 +43,7 @@ public class ClassicGridTest {
     }
 
     @SneakyThrows
-    @Test( dataProvider = "driverTypes")
+    @Test(dataProvider = "driverTypes")
     public void parallelBrowserTest(DriverType driverType) {
         logger.debug(driverType::getName);
         createDriver(DeviceType.BROWSER, BrowserOptions.getBrowserOptions(driverType, true));
