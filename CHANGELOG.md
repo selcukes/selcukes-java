@@ -12,6 +12,23 @@
 
 ### Fixed
 
+## [2.0.3]
+
+### Added
+
+* [Core] Added BrowserStack Support ([#129](https://github.com/selcukes/selcukes-java/pull/129))
+
+### Changed
+
+* Update dependency selenium.version to v4.2.1([#128](https://github.com/selcukes/selcukes-java/pull/128))
+* Update dependency net.masterthought:cucumber-reporting to v5.7.1 ([#123](https://github.com/selcukes/selcukes-java/pull/123))
+* Update dependency io.appium:java-client to v8.1.0 ([#126](https://github.com/selcukes/selcukes-java/pull/126))
+
+### Fixed
+
+* [Core] Replaced deprecated DesiredCapabilities with Options classes
+  video ([#127](https://github.com/selcukes/selcukes-java/pull/127))
+
 ## [2.0.2]
 
 ### Added
