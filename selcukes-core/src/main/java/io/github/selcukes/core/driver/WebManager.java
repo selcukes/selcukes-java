@@ -37,7 +37,7 @@ import static io.github.selcukes.core.driver.RunMode.isLocalBrowser;
 public class WebManager implements RemoteManager {
 
     public synchronized WebDriver createDriver() {
-        String browser = ConfigFactory.getConfig().getWeb().get("browserName");
+        String browser = ConfigFactory.getConfig().getWeb().getBrowser();
         WebDriver driver;
         try {
             logger.debug(() -> "Initiating New Browser Session...");
@@ -67,7 +67,7 @@ public class WebManager implements RemoteManager {
         if (isCloudBrowser())
             serviceUrl = new URL(CloudOptions.browserStackUrl());
         else {
-            serviceUrl = new URL(ConfigFactory.getConfig().getWeb().get("serviceUrl"));
+            serviceUrl = new URL(ConfigFactory.getConfig().getWeb().getServiceUrl());
             if (isSeleniumServerNotRunning()) {
                 logger.warn(() -> "Selenium server not started...\n" +
                     "Please use 'GridRunner.startSeleniumServer' method to start automatically.\n" +

@@ -16,7 +16,7 @@
 
 package io.github.selcukes.core.driver;
 
-import io.github.selcukes.commons.os.Platform;
+import io.github.selcukes.databind.utils.StringHelper;
 import io.github.selcukes.wdb.WebDriverBinary;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.experimental.UtilityClass;
@@ -29,16 +29,23 @@ import org.openqa.selenium.ie.InternetExplorerOptions;
 
 @UtilityClass
 public class BrowserOptions {
+    public static Capabilities getBrowserOptions(DriverType driverType, boolean ignoreBinarySetup) {
+        return getBrowserOptions(driverType, ignoreBinarySetup, "");
+    }
 
-    public static synchronized Capabilities getBrowserOptions(DriverType driverType, boolean ignoreBinarySetup) {
-        boolean headless = Platform.isLinux();
+    public static Capabilities getBrowserOptions(DriverType driverType, boolean ignoreBinarySetup, String platform) {
+        boolean headless = RunMode.isHeadless();
         if (!ignoreBinarySetup) {
             setBinaries(driverType);
         }
+
         switch (driverType) {
             case EDGE:
+
                 EdgeOptions edgeOptions = new EdgeOptions();
                 edgeOptions.setHeadless(headless);
+                if (!StringHelper.isNullOrEmpty(platform))
+                    edgeOptions.setPlatformName(platform);
                 return edgeOptions;
             case FIREFOX:
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
@@ -55,12 +62,14 @@ public class BrowserOptions {
             default:
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.setHeadless(headless);
+                if (!StringHelper.isNullOrEmpty(platform))
+                    chromeOptions.setPlatformName(platform);
                 return chromeOptions;
         }
 
     }
 
-    public static synchronized void setBinaries(DriverType driverType) {
+    public static void setBinaries(DriverType driverType) {
         switch (driverType) {
             case EDGE:
                 WebDriverBinary.edgeDriver().setup();

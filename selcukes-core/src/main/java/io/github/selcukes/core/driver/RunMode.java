@@ -17,31 +17,32 @@
 package io.github.selcukes.core.driver;
 
 import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.commons.os.Platform;
 import lombok.experimental.UtilityClass;
+
+import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
 
 @UtilityClass
 public class RunMode {
-    final String RUN_MODE = "runMode";
-    final String CLOUD = "CLOUD";
-    final String LOCAL = "LOCAL";
-
     static boolean isCloudAppium() {
-        return ConfigFactory.getConfig().getMobile().get(RUN_MODE)
-            .equalsIgnoreCase(CLOUD);
+        String cloud = ConfigFactory.getConfig().getMobile().getCloud();
+        return !isNullOrEmpty(cloud);
     }
 
     static boolean isLocalAppium() {
-        return ConfigFactory.getConfig().getMobile().get(RUN_MODE)
-            .equalsIgnoreCase(LOCAL);
+        return !ConfigFactory.getConfig().getMobile().isRemote();
     }
 
     static boolean isLocalBrowser() {
-        return ConfigFactory.getConfig().getWeb().get(RUN_MODE)
-            .equalsIgnoreCase(LOCAL);
+        return !ConfigFactory.getConfig().getWeb().isRemote();
     }
 
     static boolean isCloudBrowser() {
-        return ConfigFactory.getConfig().getWeb().get(RUN_MODE)
-            .equalsIgnoreCase(CLOUD);
+        String cloud = ConfigFactory.getConfig().getWeb().getCloud();
+        return !isNullOrEmpty(cloud);
+    }
+
+    static boolean isHeadless() {
+        return Platform.isLinux();
     }
 }

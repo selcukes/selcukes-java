@@ -26,8 +26,8 @@ public class SlackUploader {
 
     public void uploadFile(String filePath) {
         SlackFileUploader slackFileUploader = SlackFileUploader.builder()
-            .channel(ConfigFactory.getConfig().getNotifier().get("channel"))
-            .token(ConfigFactory.getConfig().getNotifier().get("api-token"))
+            .channel(ConfigFactory.getConfig().getNotifier().getChannel())
+            .token(ConfigFactory.getConfig().getNotifier().getApiToken())
             .filePath(filePath)
             .fileName("Sample")
             .build();

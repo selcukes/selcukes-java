@@ -5,27 +5,18 @@ env: Dev
 proxy: false
 baseUrl:
 web:
-  runMode: REMOTE
-  browserName: CHROME
+  remote: true
+  cloud:
+  browser: CHROME
   headLess: true
   serviceUrl: "http://127.0.0.1:4444"
 windows:
   serviceUrl: "http://127.0.0.1:4723"
   app: "C:\\Windows\\System32\\notepad.exe"
 mobile:
-  runMode: LOCAL
-  browserName: APP
+  remote: true
+  cloud: BROWSER_STACK
+  platform: Android
+  browser: CHROME
   serviceUrl: "http://127.0.0.1:4723"
-  app: "ApiDemos-debug.apk"
-video:
-  recording: false
-  recorderType: FFMPEG
-  ffmpegPath: D:\\MyProject\support\video\ffmpeg\bin\
-  watermarkStatus: false
-notifier:
-  notification: false
-  type: slack
-  webhook-token: WEBHOOKXXXX
-  api-token: APIXXXX
-  channel: selcukes
-  authorIcon: https://avatars0.githubusercontent.com/u/2510294?s=400&u=5d6412ba1dd13052992ff66317ae28d007a971d3&v=4
+  app: "src/test/resources/android-app.apk"

@@ -31,10 +31,53 @@ public class Environment {
     private String baseUrl;
     private Map<String, String> excel;
     private Map<String, String> cucumber;
-    private Map<String, String> web;
-    private Map<String, String> windows;
-    private Map<String, String> mobile;
+    private WebConfig web;
+    private WindowsConfig windows;
+    private MobileConfig mobile;
     private Map<String, String> reports;
-    private Map<String, String> video;
-    private Map<String, String> notifier;
+    private VideoConfig video;
+    private NotifierConfig notifier;
+
+    @Data
+    public static class MobileConfig {
+        boolean remote;
+        String cloud;
+        String platform;
+        String browser;
+        String serviceUrl;
+        String app;
+    }
+
+    @Data
+    public static class WebConfig {
+        boolean remote;
+        String cloud;
+        String browser;
+        boolean headLess;
+        String serviceUrl;
+        String app;
+    }
+
+    @Data
+    public static class WindowsConfig {
+        String serviceUrl;
+        String app;
+    }
+
+    @Data
+    public static class NotifierConfig {
+        boolean notification;
+        String type;
+        String webhookToken;
+        String apiToken;
+        String channel;
+        String authorIcon;
+    }
+    @Data
+    public static class VideoConfig {
+        boolean recording;
+        String type;
+        String ffmpegPath;
+        boolean watermark;
+    }
 }

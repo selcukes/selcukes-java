@@ -55,7 +55,7 @@ public class SlackMessageBuilder {
             .pretext(NotifierEnum.PRETEXT.getValue())
             .authorName(NotifierEnum.AUTHOR.getValue())
             .authorLink(NotifierEnum.TECHYWORKS.getValue())
-            .authorIcon(ConfigFactory.getConfig().getNotifier().get("authorIcon"))
+            .authorIcon(ConfigFactory.getConfig().getNotifier().getAuthorIcon())
             .title(scenarioTitle)
             .titleLink(NotifierEnum.TECHYWORKS.getValue())
             .text(error)
@@ -75,8 +75,6 @@ public class SlackMessageBuilder {
 
     private String getSlackWebHookUrl() {
         return NotifierEnum.WEB_HOOKS_URL.getValue() +
-            ConfigFactory.getConfig().getNotifier().get("webhook-token");
+            ConfigFactory.getConfig().getNotifier().getWebhookToken();
     }
-
-
 }

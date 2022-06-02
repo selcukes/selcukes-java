@@ -91,6 +91,7 @@ public class DriverManager {
     }
 
     public static void removeAllDrivers() {
+        logger.debug(() -> String.format("Closing [%d] stored drivers..", STORED_DRIVER.size()));
         STORED_DRIVER.stream().filter(Objects::nonNull).forEach(d -> {
             try {
                 ((WebDriver) d).quit();

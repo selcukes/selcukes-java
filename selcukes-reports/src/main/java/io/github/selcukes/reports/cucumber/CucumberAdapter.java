@@ -38,8 +38,8 @@ public class CucumberAdapter implements CucumberService {
 
     @Override
     public void beforeTest() {
-        isRecordingEnabled = getConfig().getVideo().get("recording").equalsIgnoreCase("true");
-        isNotifierEnabled = getConfig().getNotifier().get("notification").equalsIgnoreCase("true");
+        isRecordingEnabled = getConfig().getVideo().isRecording();
+        isNotifierEnabled = getConfig().getNotifier().isNotification();
         if (isRecordingEnabled)
             recorder = RecorderFactory.getRecorder();
         if (isNotifierEnabled)

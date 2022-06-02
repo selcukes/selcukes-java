@@ -26,7 +26,7 @@ import java.awt.*;
 @Getter
 @Setter
 @Builder
-public class VideoConfig extends Environment {
+public class DefaultVideoOptions extends Environment {
     @Builder.Default
     String videoFolder = "video-report";
     @Builder.Default

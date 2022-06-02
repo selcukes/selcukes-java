@@ -17,18 +17,17 @@
 package io.github.selcukes.video;
 
 import io.github.selcukes.commons.os.Platform;
-import io.github.selcukes.video.config.VideoConfig;
+import io.github.selcukes.video.config.DefaultVideoOptions;
 
 
 public abstract class VideoRecorder implements Recorder {
 
-    public static VideoConfig conf() {
-        VideoConfig config = VideoConfig.builder()
-            .build();
+    public static DefaultVideoOptions videoConfig() {
+        DefaultVideoOptions.DefaultVideoOptionsBuilder optionsBuilder = DefaultVideoOptions.builder();
         if (Platform.isLinux()) {
-            config.setFfmpegFormat("x11grab");
-            config.setFfmpegDisplay(":0.0");
+            optionsBuilder.ffmpegFormat("x11grab");
+            optionsBuilder.ffmpegDisplay(":0.0");
         }
-        return config;
+        return optionsBuilder.build();
     }
 }

@@ -19,7 +19,7 @@ package io.github.selcukes.video;
 import io.github.selcukes.commons.exception.RecorderException;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.video.config.VideoConfig;
+import io.github.selcukes.video.config.DefaultVideoOptions;
 import org.monte.media.Format;
 import org.monte.media.FormatKeys;
 import org.monte.media.VideoFormatKeys;
@@ -40,10 +40,10 @@ import static org.monte.media.VideoFormatKeys.MediaType;
 class MonteRecorder extends VideoRecorder {
     private final Logger logger = LoggerFactory.getLogger(MonteRecorder.class);
     private final MonteRecorderBuilder recorderBuilder;
-    private final VideoConfig videoConfig;
+    private final DefaultVideoOptions videoConfig;
 
     public MonteRecorder() {
-        this.videoConfig = conf();
+        this.videoConfig = videoConfig();
         this.recorderBuilder = getScreenRecorder();
     }
 

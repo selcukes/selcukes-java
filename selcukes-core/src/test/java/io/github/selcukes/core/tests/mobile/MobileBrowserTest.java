@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 
 public class MobileBrowserTest {
 
-    @Test(enabled = false)
+    @Test
     public void mobileBrowserTest() {
         WebDriver driver = DriverManager.createDriver(DeviceType.MOBILE);
         MobilePage page = new MobilePage(driver);

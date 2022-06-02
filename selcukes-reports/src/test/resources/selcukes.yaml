@@ -31,13 +31,13 @@ reports:
   timestamp: false
 video:
   recording: false
-  recorderType: MONTE
+  type: MONTE
   ffmpegPath:
-  watermarkStatus: false
+  watermark: false
 notifier:
   notification: false
   type: slack
-  webhook-token: WEBHOOKXXXX
-  api-token: APIXXXX
+  webhookToken: WEBHOOKXXXX
+  apiToken: APIXXXX
   channel: selcukes
   authorIcon: https://github.com/rameshbabuprudhvi.png
