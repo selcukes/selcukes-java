@@ -45,7 +45,7 @@ public class ClassicGridTest {
     @SneakyThrows
     @Test(dataProvider = "driverTypes")
     public void parallelBrowserTest(DriverType driverType) {
-        logger.debug(driverType::getName);
+        logger.debug(() -> "In Parallel Test for " + driverType.getName());
         createDriver(DeviceType.BROWSER, BrowserOptions.getBrowserOptions(driverType, true));
         getDriver().get("https://www.google.com/");
         Assert.assertEquals(getDriver().getTitle(), "Google");
