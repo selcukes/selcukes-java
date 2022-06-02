@@ -76,7 +76,7 @@ public class Environment {
     @Data
     public static class VideoConfig {
         boolean recording;
-        String recorderType;
+        String type;
         String ffmpegPath;
         boolean watermark;
     }

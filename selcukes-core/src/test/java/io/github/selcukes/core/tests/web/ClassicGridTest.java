@@ -30,7 +30,7 @@ import static io.github.selcukes.core.driver.DriverManager.*;
 @CustomLog
 @Listeners(SampleTestListener.class)
 public class ClassicGridTest {
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public static void beforeClass() {
         GridRunner.startSelenium(DriverType.CHROME, DriverType.EDGE);
     }

@@ -29,7 +29,7 @@ public class NotifierFactory {
     }
 
     public synchronized Notifier getNotifier() {
-        return ConfigFactory.getConfig().getNotifier().get("type").equalsIgnoreCase("SLACK") ?
+        return ConfigFactory.getConfig().getNotifier().getType().equalsIgnoreCase("SLACK") ?
             new Slack() : new MicrosoftTeams();
     }
 
