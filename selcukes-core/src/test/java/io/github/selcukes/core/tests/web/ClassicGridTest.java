@@ -43,7 +43,7 @@ public class ClassicGridTest {
     }
 
     @SneakyThrows
-    @Test(dataProvider = "driverTypes")
+    @Test(enabled = false, dataProvider = "driverTypes")
     public void parallelBrowserTest(DriverType driverType) {
         logger.debug(() -> "In Parallel Test for " + driverType.getName());
         createDriver(DeviceType.BROWSER, BrowserOptions.getBrowserOptions(driverType, true));
