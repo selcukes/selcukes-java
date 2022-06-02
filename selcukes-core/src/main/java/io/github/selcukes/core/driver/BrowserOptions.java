@@ -21,7 +21,6 @@ import io.github.selcukes.wdb.WebDriverBinary;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -39,15 +38,14 @@ public class BrowserOptions {
         if (!ignoreBinarySetup) {
             setBinaries(driverType);
         }
-        if (StringHelper.isNullOrEmpty(platform)) {
-            platform = Platform.getCurrent().name();
-        }
 
         switch (driverType) {
             case EDGE:
+
                 EdgeOptions edgeOptions = new EdgeOptions();
                 edgeOptions.setHeadless(headless);
-                edgeOptions.setPlatformName(platform);
+                if (!StringHelper.isNullOrEmpty(platform))
+                    edgeOptions.setPlatformName(platform);
                 return edgeOptions;
             case FIREFOX:
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
@@ -64,7 +62,8 @@ public class BrowserOptions {
             default:
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.setHeadless(headless);
-                chromeOptions.setPlatformName(platform);
+                if (!StringHelper.isNullOrEmpty(platform))
+                    chromeOptions.setPlatformName(platform);
                 return chromeOptions;
         }
 
