@@ -29,11 +29,11 @@ import org.openqa.selenium.ie.InternetExplorerOptions;
 
 @UtilityClass
 public class BrowserOptions {
-    public static synchronized Capabilities getBrowserOptions(DriverType driverType, boolean ignoreBinarySetup) {
+    public static Capabilities getBrowserOptions(DriverType driverType, boolean ignoreBinarySetup) {
         return getBrowserOptions(driverType, ignoreBinarySetup, "");
     }
 
-    public static synchronized Capabilities getBrowserOptions(DriverType driverType, boolean ignoreBinarySetup, String platform) {
+    public static Capabilities getBrowserOptions(DriverType driverType, boolean ignoreBinarySetup, String platform) {
         boolean headless = RunMode.isHeadless();
         if (!ignoreBinarySetup) {
             setBinaries(driverType);
@@ -69,7 +69,7 @@ public class BrowserOptions {
 
     }
 
-    public static synchronized void setBinaries(DriverType driverType) {
+    public static void setBinaries(DriverType driverType) {
         switch (driverType) {
             case EDGE:
                 WebDriverBinary.edgeDriver().setup();
