@@ -32,6 +32,7 @@ public class DataMapper {
         return dataBind.parse(dataFile.getPath(), resourceClass);
     }
 
+    @SuppressWarnings("unchecked")
     public <T> void write(final T value) {
         final DataFileHelper<T> dataFile = (DataFileHelper<T>) DataFileHelper.getInstance(value.getClass());
         dataFile.setNewFile(true);

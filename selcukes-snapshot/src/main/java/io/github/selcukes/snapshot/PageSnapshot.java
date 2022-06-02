@@ -69,6 +69,7 @@ class PageSnapshot extends DefaultPageSnapshot {
         return outputType.convertFromPngBytes(ImageUtil.toByteArray(finalImage));
     }
 
+    @SuppressWarnings("unchecked")
     private <X> X getFullScreenshot(OutputType<X> outputType) {
         defineCustomCommand(new CommandInfo("/session/:sessionId/chromium/send_command_and_get_result", HttpMethod.POST));
         Object metrics = sendEvaluate(
@@ -109,7 +110,7 @@ class PageSnapshot extends DefaultPageSnapshot {
         }
     }
 
-
+    @SuppressWarnings("unchecked")
     protected Object sendEvaluate(String script) {
         Object response = sendCommand("Runtime.evaluate", Map.of("returnByValue", true, "expression", script));
         Object result = ((Map<String, ?>) response).get("result");
