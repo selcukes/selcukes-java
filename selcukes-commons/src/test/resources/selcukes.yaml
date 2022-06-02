@@ -29,7 +29,7 @@ reports:
   reportsPath:
 video:
   recording: false
-  recorderType: FFMPEG
+  type: FFMPEG
   ffmpegPath:
   watermark: false
 notifier:
