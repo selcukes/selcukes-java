@@ -24,8 +24,6 @@ import lombok.CustomLog;
 
 import java.net.URL;
 
-import static io.github.selcukes.core.driver.RunMode.isCloudAppium;
-
 @CustomLog
 class AppiumEngine {
     private AppiumDriverLocalService service;
@@ -39,29 +37,26 @@ class AppiumEngine {
 
     URL getServiceUrl() {
         if (service == null) {
-            throw new DriverSetupException("Appium Local server is not started...\n" +
-                "Please use 'GridRunner.startAppium' method to start.");
+            logger.debug(() -> "Appium server is not started yet. \nStarting Appium Server now...");
+            startLocalServer();
         }
         return service.getUrl();
     }
 
     void startLocalServer() {
-        if (!isCloudAppium()) {
-            try {
-                service = new AppiumServiceBuilder()
-                    .withIPAddress("127.0.0.1")
-                    .usingAnyFreePort()
-                    .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-                    .withArgument(GeneralServerFlag.BASEPATH, "/wd/")
-                    .build();
-                logger.info(() -> "Starting Appium server...");
-                service.start();
-                logger.debug(() -> String.format("Using Local ServiceUrl[%s]", service.getUrl()));
-            } catch (Exception e) {
-                throw new DriverSetupException("Failed starting Appium Server..", e);
-            }
+        try {
+            service = new AppiumServiceBuilder()
+                .withIPAddress("127.0.0.1")
+                .usingAnyFreePort()
+                .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+                .withArgument(GeneralServerFlag.BASEPATH, "/wd/")
+                .build();
+            logger.info(() -> "Starting Appium server...");
+            service.start();
+            logger.debug(() -> String.format("Using Local ServiceUrl[%s]", service.getUrl()));
+        } catch (Exception e) {
+            throw new DriverSetupException("Failed starting Appium Server..", e);
         }
-
     }
 
     void stopServer() {

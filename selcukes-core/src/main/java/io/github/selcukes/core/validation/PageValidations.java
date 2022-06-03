@@ -16,6 +16,7 @@
 
 package io.github.selcukes.core.validation;
 
+import io.appium.java_client.AppiumBy;
 import io.github.selcukes.core.page.Page;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -43,6 +44,9 @@ public class PageValidations {
         }
     }
 
+    public ElementValidation element(String accessibilityId) {
+        return new ElementValidation(isSoft, page, page.find(AppiumBy.accessibilityId(accessibilityId)));
+    }
     public ElementValidation element(By by) {
         return new ElementValidation(isSoft, page, page.find(by));
     }
