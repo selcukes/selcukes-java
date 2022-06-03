@@ -54,12 +54,12 @@
         <dependency>
             <groupId>net.masterthought</groupId>
             <artifactId>cucumber-reporting</artifactId>
-           <exclusions>
-              <exclusion>
-                 <groupId>com.google.guava</groupId>
-                 <artifactId>guava</artifactId>
-              </exclusion>
-           </exclusions>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.aventstack</groupId>
@@ -76,10 +76,16 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>io.appium</groupId>
+            <artifactId>java-client</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>io.github.selcukes</groupId>
             <artifactId>selcukes-testng</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
 </project>

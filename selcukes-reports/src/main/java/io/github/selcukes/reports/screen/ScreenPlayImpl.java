@@ -16,7 +16,12 @@
 
 package io.github.selcukes.reports.screen;
 
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidStartScreenRecordingOptions;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.IOSStartScreenRecordingOptions;
 import io.cucumber.java.Scenario;
+import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.helper.Preconditions;
 import io.github.selcukes.commons.logging.LogRecordListener;
 import io.github.selcukes.commons.logging.Logger;
@@ -34,6 +39,8 @@ import org.testng.ITestResult;
 import org.testng.Reporter;
 
 import java.io.File;
+import java.time.Duration;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.stream.Collectors;
@@ -49,9 +56,13 @@ class ScreenPlayImpl implements ScreenPlay {
     private Scenario scenario;
     private ScreenPlayResult result;
     private ITestResult iTestResult;
+    boolean isNativeDevice;
+    WebDriver driver;
 
     public ScreenPlayImpl(WebDriver driver) {
+        this.driver = driver;
         capture = new SnapshotImpl(driver);
+        isNativeDevice = driver instanceof AndroidDriver || driver instanceof IOSDriver;
         isFailedOnly = true;
         startReadingLogs();
     }
@@ -65,7 +76,8 @@ class ScreenPlayImpl implements ScreenPlay {
     public ScreenPlay attachScreenshot() {
 
         if (result.getTestType().equals(TestType.CUCUMBER)) {
-            attach(capture.shootPageAsBytes(), "image/png");
+            byte[] screenshot = isNativeDevice ? capture.shootVisiblePageAsBytes() : capture.shootPageAsBytes();
+            attach(screenshot, "image/png");
 
         } else {
             String screenshotPath = takeScreenshot();
@@ -79,18 +91,61 @@ class ScreenPlayImpl implements ScreenPlay {
     public ScreenPlay attachVideo() {
         if (isAttachable()) {
             String videoPath = stop().getAbsolutePath();
-            String htmlToEmbed = "<video width=\"864\" height=\"576\" controls>" +
-                "<source src=" + videoPath + " type=\"video/mp4\">" +
-                "Your browser does not support the video tag." +
-                "</video>";
+            String htmlToEmbed = "<video width=\"864\" height=\"576\" controls>"
+                + "<source src=" + videoPath + " type=\"video/mp4\">"
+                + "Your browser does not support the video tag." + "</video>";
             attach(htmlToEmbed);
-        } else recorder.stopAndDelete();
+        } else {
+            if (isNativeDevice) {
+                stopAndDeleteVideo();
+            } else recorder.stopAndDelete();
+        }
         return this;
+    }
+
+    private void startNativeVideo() {
+        if (driver instanceof AndroidDriver) {
+            ((AndroidDriver) driver)
+                .startRecordingScreen(new AndroidStartScreenRecordingOptions()
+                    .withVideoSize("540x960").withBitRate(2000000)
+                    .withTimeLimit(Duration.ofMinutes(30)));
+        } else if (driver instanceof IOSDriver) {
+            ((IOSDriver) driver)
+                .startRecordingScreen(new IOSStartScreenRecordingOptions()
+                    .withVideoType("libx264")
+                    .withVideoQuality(IOSStartScreenRecordingOptions.VideoQuality.MEDIUM)
+                    .withTimeLimit(Duration.ofMinutes(30)));
+
+        }
+        logger.info(() -> "Native Recording started");
+    }
+
+    private void stopAndDeleteVideo() {
+        File tempVideo = stopAndSaveNativeVideo(UUID.randomUUID().toString());
+        tempVideo.deleteOnExit();
+        logger.info(() -> "Deleting recorded video file...");
+    }
+
+    private File stopAndSaveNativeVideo(String fileName) {
+        String encodedVideo = "";
+        if (driver instanceof AndroidDriver) {
+            encodedVideo = ((AndroidDriver) driver).stopRecordingScreen();
+        } else if (driver instanceof IOSDriver) {
+            encodedVideo = ((IOSDriver) driver).stopRecordingScreen();
+        }
+        String path = "video-report/" + fileName + ".mp4";
+        File video = FileHelper.createFile(encodedVideo, path);
+        logger.info(() -> "Recording finished to " + video.getAbsolutePath());
+        return video;
     }
 
     @Override
     public ScreenPlay start() {
-        if (recorder == null) {
+
+        if (isNativeDevice) {
+            startNativeVideo();
+            return this;
+        } else if (recorder == null) {
             logger.warn(() -> "RecorderType not configured. Using Default RecorderType as MONTE");
             withRecorder(RecorderType.MONTE);
         }
@@ -100,6 +155,9 @@ class ScreenPlayImpl implements ScreenPlay {
 
     @Override
     public File stop() {
+        if (isNativeDevice) {
+            return stopAndSaveNativeVideo(result.getTestName());
+        }
         Preconditions.checkNotNull(recorder, "Recording not started...");
         return recorder.stopAndSave(result.getTestName());
     }
@@ -129,8 +187,7 @@ class ScreenPlayImpl implements ScreenPlay {
         if (isAttachable()) {
             String infoLogs = loggerListener.getLogRecords(Level.INFO)
                 .map(LogRecord::getMessage)
-                .collect(Collectors.joining("</li><li>", "<ul><li> ",
-                    "</li></ul><br/>"));
+                .collect(Collectors.joining("</li><li>", "<ul><li> ", "</li></ul><br/>"));
             write(infoLogs);
         }
         stopReadingLogs();
@@ -141,8 +198,7 @@ class ScreenPlayImpl implements ScreenPlay {
         if (isAttachable()) {
             String logs = loggerListener.getLogRecords(level)
                 .map(LogRecord::getMessage)
-                .collect(Collectors.joining("</li><li>", "<ul><li> ",
-                    "</li></ul><br/>"));
+                .collect(Collectors.joining("</li><li>", "<ul><li> ", "</li></ul><br/>"));
             write(logs);
         }
         stopReadingLogs();
