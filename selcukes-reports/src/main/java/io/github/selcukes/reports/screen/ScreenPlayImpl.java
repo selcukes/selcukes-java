@@ -91,7 +91,9 @@ class ScreenPlayImpl implements ScreenPlay {
     public ScreenPlay attachVideo() {
         if (isAttachable()) {
             String videoPath = stop().getAbsolutePath();
-            String htmlToEmbed = "<video width=\"864\" height=\"576\" controls>" + "<source src=" + videoPath + " type=\"video/mp4\">" + "Your browser does not support the video tag." + "</video>";
+            String htmlToEmbed = "<video width=\"864\" height=\"576\" controls>"
+                + "<source src=" + videoPath + " type=\"video/mp4\">"
+                + "Your browser does not support the video tag." + "</video>";
             attach(htmlToEmbed);
         } else {
             if (isNativeDevice) {
@@ -103,9 +105,16 @@ class ScreenPlayImpl implements ScreenPlay {
 
     private void startNativeVideo() {
         if (driver instanceof AndroidDriver) {
-            ((AndroidDriver) driver).startRecordingScreen(new AndroidStartScreenRecordingOptions().withVideoSize("540x960").withBitRate(2000000).withTimeLimit(Duration.ofMinutes(30)));
+            ((AndroidDriver) driver)
+                .startRecordingScreen(new AndroidStartScreenRecordingOptions()
+                    .withVideoSize("540x960").withBitRate(2000000)
+                    .withTimeLimit(Duration.ofMinutes(30)));
         } else if (driver instanceof IOSDriver) {
-            ((IOSDriver) driver).startRecordingScreen(new IOSStartScreenRecordingOptions().withVideoType("libx264").withVideoQuality(IOSStartScreenRecordingOptions.VideoQuality.MEDIUM).withTimeLimit(Duration.ofMinutes(30)));
+            ((IOSDriver) driver)
+                .startRecordingScreen(new IOSStartScreenRecordingOptions()
+                    .withVideoType("libx264")
+                    .withVideoQuality(IOSStartScreenRecordingOptions.VideoQuality.MEDIUM)
+                    .withTimeLimit(Duration.ofMinutes(30)));
 
         }
         logger.info(() -> "Native Recording started");
@@ -160,9 +169,13 @@ class ScreenPlayImpl implements ScreenPlay {
             withNotifier(NotifierType.TEAMS);
         }
 
-        notifier.scenarioName(result.getTestName()).scenarioStatus(result.getStatus()).stepDetails(message).path(takeScreenshot());
+        notifier.scenarioName(result.getTestName())
+            .scenarioStatus(result.getStatus())
+            .stepDetails(message)
+            .path(takeScreenshot());
 
-        if (result.getErrorMessage() != null) notifier.errorMessage(result.getErrorMessage());
+        if (result.getErrorMessage() != null)
+            notifier.errorMessage(result.getErrorMessage());
 
         notifier.pushNotification();
         return this;
@@ -172,7 +185,9 @@ class ScreenPlayImpl implements ScreenPlay {
     @Override
     public void attachLogs() {
         if (isAttachable()) {
-            String infoLogs = loggerListener.getLogRecords(Level.INFO).map(LogRecord::getMessage).collect(Collectors.joining("</li><li>", "<ul><li> ", "</li></ul><br/>"));
+            String infoLogs = loggerListener.getLogRecords(Level.INFO)
+                .map(LogRecord::getMessage)
+                .collect(Collectors.joining("</li><li>", "<ul><li> ", "</li></ul><br/>"));
             write(infoLogs);
         }
         stopReadingLogs();
@@ -181,7 +196,9 @@ class ScreenPlayImpl implements ScreenPlay {
     @Override
     public void attachLogs(Level level) {
         if (isAttachable()) {
-            String logs = loggerListener.getLogRecords(level).map(LogRecord::getMessage).collect(Collectors.joining("</li><li>", "<ul><li> ", "</li></ul><br/>"));
+            String logs = loggerListener.getLogRecords(level)
+                .map(LogRecord::getMessage)
+                .collect(Collectors.joining("</li><li>", "<ul><li> ", "</li></ul><br/>"));
             write(logs);
         }
         stopReadingLogs();
