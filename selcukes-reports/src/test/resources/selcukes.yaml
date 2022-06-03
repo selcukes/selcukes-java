@@ -14,7 +14,7 @@ cucumber:
   plugin: io.github.selcukes.reports.cucumber.CucumberListener
 web:
   remote: true
-  browserName: CHROME
+  browser: CHROME
   headLess: true
   serviceUrl: "http://127.0.0.1:8080"
 windows:

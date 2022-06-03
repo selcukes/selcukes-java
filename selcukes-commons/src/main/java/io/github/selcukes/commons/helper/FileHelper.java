@@ -182,11 +182,12 @@ public class FileHelper {
     }
 
     @SneakyThrows
-    public void createFile(String fileContent, String filePath) {
+    public File createFile(String fileContent, String filePath) {
         byte[] decodedFile = Base64.getDecoder()
             .decode(fileContent.getBytes(StandardCharsets.UTF_8));
         Path destinationFile = Paths.get(filePath);
         Files.write(destinationFile, decodedFile);
+        return destinationFile.toFile();
     }
 }
 
