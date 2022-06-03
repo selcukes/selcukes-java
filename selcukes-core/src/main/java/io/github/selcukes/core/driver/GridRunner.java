@@ -24,8 +24,7 @@ import org.openqa.selenium.net.PortProber;
 
 import java.util.Arrays;
 
-import static io.github.selcukes.core.driver.RunMode.isCloudBrowser;
-import static io.github.selcukes.core.driver.RunMode.isLocalBrowser;
+import static io.github.selcukes.core.driver.RunMode.*;
 
 @CustomLog
 @UtilityClass
@@ -47,14 +46,13 @@ public class GridRunner {
         }
     }
 
-
     static boolean isSeleniumServerNotRunning() {
         return !isLocalBrowser() && !GridRunner.isRunning;
     }
 
     public static void startAppium() {
-        AppiumEngine.getInstance().startLocalServer();
-    }
+        if (!isCloudAppium())
+            AppiumEngine.getInstance().startLocalServer();    }
 
     public static void stopAppium() {
         AppiumEngine.getInstance().stopServer();

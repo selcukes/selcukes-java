@@ -79,7 +79,7 @@ public class DriverManager {
         DRIVER_THREAD.set(driveThread);
     }
 
-    public static void removeDriver() {
+    public static synchronized void removeDriver() {
         try {
             if (getDriver() != null) {
                 STORED_DRIVER.remove(getDriver());
@@ -90,7 +90,7 @@ public class DriverManager {
         }
     }
 
-    public static void removeAllDrivers() {
+    public static synchronized void removeAllDrivers() {
         logger.debug(() -> String.format("Closing [%d] stored drivers..", STORED_DRIVER.size()));
         STORED_DRIVER.stream().filter(Objects::nonNull).forEach(d -> {
             try {

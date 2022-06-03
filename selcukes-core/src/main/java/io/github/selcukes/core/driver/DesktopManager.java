@@ -20,6 +20,7 @@ import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.DriverSetupException;
 import lombok.CustomLog;
+import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
 
 import java.net.URL;
@@ -41,5 +42,11 @@ public class DesktopManager extends AppiumManager {
             throw new DriverSetupException("Driver was not setup properly.", e);
         }
         return windowsDriver;
+    }
+
+    @SneakyThrows
+    @Override
+    public URL getServiceUrl() {
+        return AppiumEngine.getInstance().getServiceUrl();
     }
 }
