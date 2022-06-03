@@ -45,6 +45,7 @@ public class DesktopManager extends AppiumManager {
     }
 
     @SneakyThrows
+    @Override
     public URL getServiceUrl() {
         return AppiumEngine.getInstance().getServiceUrl();
     }
