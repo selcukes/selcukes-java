@@ -21,6 +21,8 @@ public interface Snapshot {
 
     byte[] shootPageAsBytes();
 
+    byte[] shootVisiblePageAsBytes();
+
     Snapshot withAddressBar();
 
     Snapshot withText(String text);

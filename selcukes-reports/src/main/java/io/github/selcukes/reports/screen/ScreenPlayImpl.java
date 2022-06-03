@@ -76,7 +76,8 @@ class ScreenPlayImpl implements ScreenPlay {
     public ScreenPlay attachScreenshot() {
 
         if (result.getTestType().equals(TestType.CUCUMBER)) {
-            attach(capture.shootPageAsBytes(), "image/png");
+            byte[] screenshot = isNativeDevice ? capture.shootVisiblePageAsBytes() : capture.shootPageAsBytes();
+            attach(screenshot, "image/png");
 
         } else {
             String screenshotPath = takeScreenshot();

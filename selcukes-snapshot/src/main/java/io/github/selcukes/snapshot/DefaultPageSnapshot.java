@@ -64,7 +64,7 @@ class DefaultPageSnapshot {
         Await.until(TimeUnit.MILLISECONDS, 1);
     }
 
-    private byte[] takeScreenshot() {
+    protected byte[] takeScreenshot() {
         return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
     }
 
