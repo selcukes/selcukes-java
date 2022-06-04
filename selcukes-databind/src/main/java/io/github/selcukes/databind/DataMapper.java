@@ -22,8 +22,18 @@ import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.DataFileHelper;
 import lombok.experimental.UtilityClass;
 
+/**
+ * The type Data mapper.
+ */
 @UtilityClass
 public class DataMapper {
+    /**
+     * Parses the data file according to POJO Class.
+     *
+     * @param <T>           the Class type.
+     * @param resourceClass the resource class
+     * @return the POJO class object
+     */
     public <T> T parse(final Class<T> resourceClass) {
         final DataFileHelper<T> dataFile = DataFileHelper.getInstance(resourceClass);
         final String fileName = dataFile.getFileName();
@@ -32,6 +42,12 @@ public class DataMapper {
         return dataBind.parse(dataFile.getPath(), resourceClass);
     }
 
+    /**
+     * Write POJO class to a file
+     *
+     * @param <T>   the Class type
+     * @param value Object of a class or variable
+     */
     @SuppressWarnings("unchecked")
     public <T> void write(final T value) {
         final DataFileHelper<T> dataFile = (DataFileHelper<T>) DataFileHelper.getInstance(value.getClass());

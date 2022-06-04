@@ -20,26 +20,8 @@ package io.github.selcukes.databind;
 
 import java.nio.file.Path;
 
-/**
- * The interface Data bind.
- */
 interface DataBind {
-    /**
-     * Parse t.
-     *
-     * @param <T>       the type parameter
-     * @param path      the path
-     * @param dataClass the data class
-     * @return the t
-     */
     <T> T parse(final Path path, final Class<T> dataClass);
 
-    /**
-     * Write.
-     *
-     * @param <T>   the type parameter
-     * @param path  the path
-     * @param value the value
-     */
     <T> void write(final Path path, final T value);
 }
