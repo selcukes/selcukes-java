@@ -14,34 +14,23 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.reports.tests.steps;
+package io.github.selcukes.reports;
 
-import io.cucumber.java.*;
-import lombok.CustomLog;
+import org.openqa.selenium.WebDriver;
 
-@CustomLog
-public class ReporterHooks {
+public class ReportDriver {
+    private static final ThreadLocal<WebDriver> DRIVER_THREAD = new InheritableThreadLocal<>();
 
-    @Before
-    public void beforeTest(Scenario scenario) {
-
-        logger.info(() -> "Starting Scenario .." + scenario.getName());
+    public static <D extends WebDriver> void setReportDriver(D driver) {
+        DRIVER_THREAD.set(driver);
     }
 
-    @BeforeStep
-    public void beforeStep() {
-        logger.info(() -> "Before Step");
-
+    @SuppressWarnings("unchecked")
+    public static <D extends WebDriver> D getReportDriver() {
+        return (D) DRIVER_THREAD.get();
     }
 
-    @AfterStep
-    public void afterStep() {
-        logger.info(() -> "After Step");
+    public static void removeDriver() {
+        DRIVER_THREAD.remove();
     }
-
-    @After
-    public void afterTest(Scenario scenario) {
-        logger.info(() -> "Completed Scenario .." + scenario.getName());
-    }
-
 }

@@ -18,14 +18,13 @@ package io.github.selcukes.reports.cucumber;
 
 import io.cucumber.plugin.ConcurrentEventListener;
 import io.cucumber.plugin.event.*;
-import io.github.selcukes.commons.logging.Logger;
-import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.extent.report.TestSourcesModel;
+import lombok.CustomLog;
 
 import java.util.Optional;
 
+@CustomLog
 public class CucumberListener implements ConcurrentEventListener {
-    private final Logger logger = LoggerFactory.getLogger(CucumberListener.class);
     private final TestSourcesModel testSources = new TestSourcesModel();
     private CucumberService cucumberService;
 
@@ -44,44 +43,26 @@ public class CucumberListener implements ConcurrentEventListener {
 
     private void getTestSourceReadHandler(TestSourceRead event) {
         testSources.addTestSourceReadEvent(event.getUri(), event);
-        logger.trace(() -> String.format("TestSource Test: %n  Source [%s] URI [%s]",
-            event.getSource(),
-            event.getUri()
-        ));
     }
 
     private void beforeTest(TestRunStarted event) {
         cucumberService = EventFiringCucumber.getService();
-        logger.trace(() -> String.format("Before Test: %n Event[%s]",
-            event.toString()
-
-        ));
         cucumberService.beforeTest();
     }
 
 
     private void beforeScenario(TestCaseStarted event) {
-        logger.debug(() -> String.format("Before Scenario: %n Scenario Name[%s] %n Keyword [%s] %n Steps [%s]",
-            event.getTestCase().getName(),
-            event.getTestCase().getKeyword(),
-            event.getTestCase().getTestSteps().toString()
-        ));
         cucumberService.beforeScenario();
     }
 
     private void beforeStep(TestStepStarted event) {
-        logger.debug(() -> String.format("Before Step: [%s]", event.getTestStep().toString()));
         cucumberService.beforeStep();
     }
 
     private void afterStep(TestStepFinished event) {
-        logger.debug(() -> String.format("After Step: [%s]",
-            event.getTestStep().toString()
-        ));
         StringBuilder stepsReport = new StringBuilder();
         if (event.getTestStep() instanceof PickleStepTestStep) {
             PickleStepTestStep testStep = (PickleStepTestStep) event.getTestStep();
-
             stepsReport.append("Cucumber Step Failed : ")
                 .append(testStep.getStep().getText()).append("  [")
                 .append(testStep.getStep().getLine()).append("] ");
@@ -93,11 +74,6 @@ public class CucumberListener implements ConcurrentEventListener {
 
 
     private void afterScenario(TestCaseFinished event) {
-        logger.debug(() -> String.format("After Scenario: %n Status [%s] %n Duration [%s] %n Error [%s]",
-            event.getResult().getStatus(),
-            event.getResult().getDuration(),
-            "event.getResult().getError().getMessage()"
-        ));
         cucumberService.afterScenario(event.getTestCase().getName(), event.getResult().getStatus());
     }
 

@@ -65,7 +65,11 @@ class DefaultPageSnapshot {
     }
 
     protected byte[] takeScreenshot() {
-        return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+        return takeScreenshot(OutputType.BYTES);
+    }
+
+    protected <X> X takeScreenshot(OutputType<X> outputType) {
+        return ((TakesScreenshot) driver).getScreenshotAs(outputType);
     }
 
     private String getCurrentUrl() {

@@ -19,6 +19,8 @@ package io.github.selcukes.snapshot;
 public interface Snapshot {
     String shootPage();
 
+    String shootVisiblePage();
+
     byte[] shootPageAsBytes();
 
     byte[] shootVisiblePageAsBytes();

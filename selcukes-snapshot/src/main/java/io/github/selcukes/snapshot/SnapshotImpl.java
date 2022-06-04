@@ -39,11 +39,19 @@ public class SnapshotImpl extends PageSnapshot implements Snapshot {
 
     @Override
     public String shootPage() {
+        return copyFile(false);
+    }
 
+    @Override
+    public String shootVisiblePage() {
+        return copyFile(true);
+    }
+
+    private String copyFile(boolean isVisible) {
         File destFile = getScreenshotPath().toFile();
         logger.debug(() -> "Capturing screenshot...");
         try {
-            File srcFile = getScreenshot(OutputType.FILE);
+            File srcFile = isVisible ? takeScreenshot(OutputType.FILE) : getScreenshot(OutputType.FILE);
             FileUtils.copyFile(srcFile, destFile);
             logger.debug(() -> "Screenshot saved at  :" + destFile.getAbsolutePath());
         } catch (IOException e) {
@@ -57,6 +65,7 @@ public class SnapshotImpl extends PageSnapshot implements Snapshot {
     public byte[] shootPageAsBytes() {
         return getScreenshot(OutputType.BYTES);
     }
+
     @Override
     public byte[] shootVisiblePageAsBytes() {
         return takeScreenshot();

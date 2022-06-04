@@ -20,7 +20,6 @@ import io.github.selcukes.notifier.enums.NotifierType;
 import io.github.selcukes.video.enums.RecorderType;
 
 import java.io.File;
-import java.util.logging.Level;
 
 public interface ScreenPlay {
     /**
@@ -54,16 +53,10 @@ public interface ScreenPlay {
     ScreenPlay sendNotification(String step);
 
     /**
-     * Attach INFO Level Logs to cucumber report
+     * Attach INFO and ERROR Level Logs to cucumber report
      * scenario.log(String message);
      */
     void attachLogs();
-
-    /**
-     * Attach Logs to cucumber report
-     * scenario.log(String message);
-     */
-    void attachLogs(Level level);
 
     /**
      * Get Recorder object by Type
