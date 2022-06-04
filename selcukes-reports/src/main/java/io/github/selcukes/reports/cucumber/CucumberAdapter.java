@@ -18,21 +18,18 @@ package io.github.selcukes.reports.cucumber;
 
 import io.cucumber.java.Scenario;
 import io.cucumber.plugin.event.Status;
+import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.reports.screen.ScreenPlay;
 import io.github.selcukes.reports.screen.ScreenPlayBuilder;
-import org.openqa.selenium.WebDriver;
-
-import static io.github.selcukes.extent.report.Reporter.getReporter;
 
 public class CucumberAdapter implements CucumberService {
     ScreenPlay play;
     private String stepInfo;
-    WebDriver driver;
     Scenario scenario;
 
     @Override
     public void beforeTest() {
-        play = ScreenPlayBuilder.getScreenPlay(driver);
+        play = ScreenPlayBuilder.getScreenPlay();
     }
 
     @Override
@@ -48,10 +45,10 @@ public class CucumberAdapter implements CucumberService {
     @Override
     public void afterStep(String step, boolean status) {
         if (status) stepInfo = step;
-        getReporter().getLogRecords();
         play.withResult(scenario)
-            .attachScreenshot()
-            .sendNotification(stepInfo);
+            .attachScreenshot();
+        if (ConfigFactory.getConfig().getNotifier().isNotification())
+            play.sendNotification(stepInfo);
     }
 
     @Override

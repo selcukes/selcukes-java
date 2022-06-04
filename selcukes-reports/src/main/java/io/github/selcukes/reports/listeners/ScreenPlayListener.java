@@ -30,7 +30,7 @@ public class ScreenPlayListener implements IInvokedMethodListener {
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
         if (ReportDriver.getReportDriver() != null)
             if (play == null) {
-                play = ScreenPlayBuilder.getScreenPlay(ReportDriver.getReportDriver())
+                play = ScreenPlayBuilder.getScreenPlay()
                     .start();
             }
     }
