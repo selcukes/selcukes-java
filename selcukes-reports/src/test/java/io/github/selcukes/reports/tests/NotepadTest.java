@@ -16,27 +16,27 @@
 
 package io.github.selcukes.reports.tests;
 
-import io.appium.java_client.AppiumBy;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
+import io.appium.java_client.windows.WindowsDriver;
+import io.appium.java_client.windows.options.WindowsOptions;
 import io.github.selcukes.reports.ReportDriver;
 import io.github.selcukes.reports.listeners.ScreenPlayListener;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import java.nio.file.Paths;
-
 @CustomLog
 @Listeners(ScreenPlayListener.class)
-public class AppiumVideoTest {
+public class NotepadTest {
     private WebDriver driver;
     private AppiumDriverLocalService service;
 
@@ -51,19 +51,22 @@ public class AppiumVideoTest {
             .build();
         service.start();
 
-        UiAutomator2Options options = new UiAutomator2Options();
-        String app = Paths.get("src/test/resources/android-app.apk").toFile().getAbsolutePath();
-        System.out.println(app);
+        WindowsOptions options = new WindowsOptions();
+        String app = "C:\\Windows\\System32\\notepad.exe";
         options.setApp(app);
-        driver = new AndroidDriver(service.getUrl(), options);
+        driver = new WindowsDriver(service.getUrl(), options);
+
         ReportDriver.setReportDriver(driver);
     }
 
     @Test(enabled = false)
-    public void mobileVideoTest() {
-        driver.findElement(AppiumBy.accessibilityId("Views")).click();
-        driver.findElement(AppiumBy.accessibilityId("Expandable Lists")).click();
-        driver.findElement(AppiumBy.accessibilityId("3. Simple Adapter")).click();
+    public void noteTest() {
+        WebElement edit = driver.findElement(By.className("Edit"));
+        edit.sendKeys("Welcome to Selcukes !!!");
+
+        edit.sendKeys(Keys.CONTROL + "w" + Keys.CONTROL);
+        driver.findElement(By.name("Don't Save")).click();
+
     }
 
 
