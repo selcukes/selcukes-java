@@ -35,13 +35,25 @@ import java.util.Base64;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * The type File helper.
+ */
 @UtilityClass
 public class FileHelper {
 
+    /**
+     * The Resource separator.
+     */
     public final String RESOURCE_SEPARATOR = "/";
     private final Logger LOGGER = LoggerFactory.getLogger(FileHelper.class);
     private final String SUPPORT_FOLDER = "support";
 
+    /**
+     * Drivers folder string.
+     *
+     * @param path the path
+     * @return the string
+     */
     public String driversFolder(String path) {
         File file = new File(path);
         for (String item : Objects.requireNonNull(file.list())) {
@@ -53,6 +65,11 @@ public class FileHelper {
         return driversFolder(file.getParent());
     }
 
+    /**
+     * Sets file executable.
+     *
+     * @param filePath the file path
+     */
     public void setFileExecutable(String filePath) {
         try {
             final Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(Paths.get(filePath));
@@ -63,6 +80,12 @@ public class FileHelper {
         }
     }
 
+    /**
+     * System file path string.
+     *
+     * @param filePath the file path
+     * @return the string
+     */
     public String systemFilePath(String filePath) {
         String fileSeparator = System.getProperty("file.separator");
 
@@ -79,6 +102,11 @@ public class FileHelper {
         return filePath;
     }
 
+    /**
+     * Create directory.
+     *
+     * @param directory the directory
+     */
     public void createDirectory(File directory) {
         if (directory.exists()) {
             if (!directory.isDirectory()) {
@@ -89,6 +117,12 @@ public class FileHelper {
         }
     }
 
+    /**
+     * Create directory path.
+     *
+     * @param directory the directory
+     * @return the path
+     */
     public Path createDirectory(String directory) {
         try {
             Path path = Paths.get(directory);
@@ -98,6 +132,11 @@ public class FileHelper {
         }
     }
 
+    /**
+     * Delete files in directory.
+     *
+     * @param dirName the dir name
+     */
     public void deleteFilesInDirectory(File dirName) {
         try {
             FileUtils.cleanDirectory(dirName);
@@ -107,17 +146,33 @@ public class FileHelper {
         }
     }
 
+    /**
+     * Delete file.
+     *
+     * @param fileName the file name
+     */
     public void deleteFile(File fileName) {
         if (fileName.exists())
             FileUtils.deleteQuietly(fileName);
     }
 
+    /**
+     * Rename file.
+     *
+     * @param from the from
+     * @param to   the to
+     */
     public void renameFile(File from, File to) {
         if (!from.renameTo(to)) {
             throw new SelcukesException("Failed to rename " + from + " to " + to);
         }
     }
 
+    /**
+     * Create temp directory path.
+     *
+     * @return the path
+     */
     public Path createTempDirectory() {
         try {
             return Files.createTempDirectory(null);
@@ -126,6 +181,11 @@ public class FileHelper {
         }
     }
 
+    /**
+     * Create temp file file.
+     *
+     * @return the file
+     */
     public File createTempFile() {
         try {
             File tempFile = File.createTempFile("WDB", ".temp");
@@ -136,6 +196,12 @@ public class FileHelper {
         }
     }
 
+    /**
+     * To byte array byte [ ].
+     *
+     * @param filePath the file path
+     * @return the byte [ ]
+     */
     public byte[] toByteArray(String filePath) {
         try {
             return Files.readAllBytes(Paths.get(filePath));
@@ -144,30 +210,70 @@ public class FileHelper {
         }
     }
 
+    /**
+     * Gets temp dir.
+     *
+     * @return the temp dir
+     */
     public String getTempDir() {
         return createTempFile().getParent();
     }
 
+    /**
+     * Load resource file.
+     *
+     * @param file the file
+     * @return the file
+     */
     public File loadResource(String file) {
         return new File(Objects.requireNonNull(FileHelper.class.getClassLoader().getResource(file)).getFile());
     }
 
+    /**
+     * Load thread resource file.
+     *
+     * @param file the file
+     * @return the file
+     */
     public File loadThreadResource(String file) {
         return new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource(file)).getFile());
     }
 
+    /**
+     * Load thread resource as stream input stream.
+     *
+     * @param file the file
+     * @return the input stream
+     */
     public InputStream loadThreadResourceAsStream(String file) {
         return Thread.currentThread().getContextClassLoader().getResourceAsStream(file);
     }
 
+    /**
+     * Load resource as stream input stream.
+     *
+     * @param file the file
+     * @return the input stream
+     */
     public InputStream loadResourceAsStream(String file) {
         return FileHelper.class.getClassLoader().getResourceAsStream(file);
     }
 
+    /**
+     * Load resource from jar input stream.
+     *
+     * @param file the file
+     * @return the input stream
+     */
     public InputStream loadResourceFromJar(String file) {
         return FileHelper.class.getResourceAsStream("/" + file);
     }
 
+    /**
+     * Gets watermark file.
+     *
+     * @return the watermark file
+     */
     public File getWaterMarkFile() {
         String waterMark = "target/selcukes-watermark.png";
         File waterMarkFile = new File(waterMark);
@@ -181,6 +287,13 @@ public class FileHelper {
         return waterMarkFile;
     }
 
+    /**
+     * Create new file from String fileContent.
+     *
+     * @param fileContent the file content
+     * @param filePath    the file path
+     * @return the file
+     */
     @SneakyThrows
     public File createFile(String fileContent, String filePath) {
         byte[] decodedFile = Base64.getDecoder()
