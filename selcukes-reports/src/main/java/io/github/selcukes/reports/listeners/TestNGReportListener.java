@@ -24,15 +24,13 @@ import org.testng.IInvokedMethod;
 import org.testng.IInvokedMethodListener;
 import org.testng.ITestResult;
 
-public class ScreenPlayListener implements IInvokedMethodListener {
+public class TestNGReportListener implements IInvokedMethodListener {
     ScreenPlay play;
 
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
-        if (ReportDriver.getReportDriver() != null)
-            if (play == null) {
-                play = ScreenPlayBuilder.getScreenPlay()
-                    .start();
-            }
+        if (ReportDriver.getReportDriver() != null && play == null)
+            play = ScreenPlayBuilder.getScreenPlay()
+                .start();
     }
 
     public void afterInvocation(IInvokedMethod method, ITestResult testResult) {

@@ -23,7 +23,7 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.github.selcukes.reports.ReportDriver;
-import io.github.selcukes.reports.listeners.ScreenPlayListener;
+import io.github.selcukes.reports.listeners.TestNGReportListener;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
 import java.nio.file.Paths;
 
 @CustomLog
-@Listeners(ScreenPlayListener.class)
+@Listeners(TestNGReportListener.class)
 public class AppiumVideoTest {
     private WebDriver driver;
     private AppiumDriverLocalService service;

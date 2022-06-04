@@ -22,7 +22,7 @@ import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.appium.java_client.windows.WindowsDriver;
 import io.appium.java_client.windows.options.WindowsOptions;
 import io.github.selcukes.reports.ReportDriver;
-import io.github.selcukes.reports.listeners.ScreenPlayListener;
+import io.github.selcukes.reports.listeners.TestNGReportListener;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.By;
@@ -35,7 +35,7 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 @CustomLog
-@Listeners(ScreenPlayListener.class)
+@Listeners(TestNGReportListener.class)
 public class NotepadTest {
     private WebDriver driver;
     private AppiumDriverLocalService service;
