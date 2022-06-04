@@ -16,58 +16,36 @@
 
 package io.github.selcukes.reports.listeners;
 
-import io.github.selcukes.commons.logging.LogRecordListener;
-import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.video.Recorder;
-import io.github.selcukes.video.RecorderFactory;
+import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.reports.ReportDriver;
+import io.github.selcukes.reports.screen.ScreenPlay;
+import io.github.selcukes.reports.screen.ScreenPlayBuilder;
+import org.testng.IInvokedMethod;
+import org.testng.IInvokedMethodListener;
 import org.testng.ITestResult;
-import org.testng.Reporter;
 
-import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.stream.Collectors;
+public class ScreenPlayListener implements IInvokedMethodListener {
+    ScreenPlay play;
 
-public class ScreenPlayListener extends SelcukesTestNGListener {
-    private Recorder recorder;
-    private LogRecordListener logRecordListener;
-
-    @Override
-    public void onTestStart(ITestResult result) {
-        logRecordListener = new LogRecordListener();
-        LoggerFactory.addListener(logRecordListener);
-        recorder = RecorderFactory.getRecorder();
-        recorder.start();
+    public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
+        if (ReportDriver.getReportDriver() != null)
+            if (play == null) {
+                play = ScreenPlayBuilder.getScreenPlay(ReportDriver.getReportDriver())
+                    .start();
+            }
     }
 
-    @Override
-    public void onTestSuccess(ITestResult result) {
-        recorder.stopAndDelete();
-        Reporter.log(getLogs(Level.INFO));
-        LoggerFactory.removeListener(logRecordListener);
-    }
+    public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
+        if (ReportDriver.getReportDriver() != null && play != null) {
+            play.withResult(testResult)
+                .ignoreCondition()
+                .attachScreenshot();
+            if (ConfigFactory.getConfig().getNotifier().isNotification())
+                play.sendNotification(testResult.getTestName());
 
-    @Override
-    public void onTestFailure(ITestResult result) {
-        File video = recorder.stopAndSave(result.getName().replace(" ", "_"));
-        attachVideo(video.getAbsolutePath());
-        Reporter.log(getLogs(Level.FINE));
-        LoggerFactory.removeListener(logRecordListener);
-    }
+            play.attachVideo();
 
-    private String getLogs(Level level) {
-        return logRecordListener.getLogRecords(level)
-            .map(LogRecord::getMessage)
-            .collect(Collectors.joining("<br/>  --> ", "<br/> Logs: <br/>   --> ", "<br/> --End Of Logs--"));
+        }
 
     }
-
-    private void attachVideo(String videoPath) {
-        String htmlToEmbed = "<video width=\"864\" height=\"576\" controls>" +
-            "<source src=" + videoPath + " type=\"video/mp4\">" +
-            "Your browser does not support the video tag." +
-            "</video>";
-        Reporter.log(htmlToEmbed);
-    }
-
 }

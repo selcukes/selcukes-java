@@ -20,12 +20,10 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidStartScreenRecordingOptions;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSStartScreenRecordingOptions;
+import io.appium.java_client.windows.WindowsDriver;
 import io.cucumber.java.Scenario;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.helper.Preconditions;
-import io.github.selcukes.commons.logging.LogRecordListener;
-import io.github.selcukes.commons.logging.Logger;
-import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.notifier.Notifier;
 import io.github.selcukes.notifier.NotifierFactory;
 import io.github.selcukes.notifier.enums.NotifierType;
@@ -34,6 +32,7 @@ import io.github.selcukes.snapshot.SnapshotImpl;
 import io.github.selcukes.video.Recorder;
 import io.github.selcukes.video.RecorderFactory;
 import io.github.selcukes.video.enums.RecorderType;
+import lombok.CustomLog;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.Reporter;
@@ -41,15 +40,14 @@ import org.testng.Reporter;
 import java.io.File;
 import java.time.Duration;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.stream.Collectors;
 
+import static io.github.selcukes.extent.report.Reporter.getReporter;
+
+@CustomLog
 class ScreenPlayImpl implements ScreenPlay {
 
-    private final Logger logger = LoggerFactory.getLogger(ScreenPlayImpl.class);
     private final SnapshotImpl capture;
-    protected LogRecordListener loggerListener;
+
     protected Recorder recorder;
     protected Notifier notifier;
     boolean isFailedOnly;
@@ -57,32 +55,46 @@ class ScreenPlayImpl implements ScreenPlay {
     private ScreenPlayResult result;
     private ITestResult iTestResult;
     boolean isNativeDevice;
+    boolean isDesktop;
     WebDriver driver;
 
     public ScreenPlayImpl(WebDriver driver) {
         this.driver = driver;
         capture = new SnapshotImpl(driver);
         isNativeDevice = driver instanceof AndroidDriver || driver instanceof IOSDriver;
+        isDesktop = driver instanceof WindowsDriver;
         isFailedOnly = true;
-        startReadingLogs();
     }
 
     @Override
     public String takeScreenshot() {
-        return capture.shootPage();
+        try {
+            return isNativeDevice || isDesktop ? capture.shootVisiblePage() : capture.shootPage();
+        } catch (Exception e) {
+            logger.warn(e::getMessage);
+            return "";
+        }
+
     }
 
     @Override
     public ScreenPlay attachScreenshot() {
 
         if (result.getTestType().equals(TestType.CUCUMBER)) {
-            byte[] screenshot = isNativeDevice ? capture.shootVisiblePageAsBytes() : capture.shootPageAsBytes();
-            attach(screenshot, "image/png");
+            try {
+                byte[] screenshot = isNativeDevice || isDesktop ? capture.shootVisiblePageAsBytes() : capture.shootPageAsBytes();
+                attach(screenshot, "image/png");
+            } catch (Exception e) {
+                logger.warn(e::getMessage);
+            }
 
         } else {
             String screenshotPath = takeScreenshot();
-            String htmlToEmbed = "<br>  <img src='" + screenshotPath + "' height='100' width='100' /><br>";
-            attach(htmlToEmbed);
+            if (screenshotPath.isEmpty()) {
+                String htmlToEmbed = "<br>  <img src='" + screenshotPath + "' height='100' width='100' /><br>";
+                attach(htmlToEmbed);
+            }
+
         }
         return this;
     }
@@ -185,23 +197,8 @@ class ScreenPlayImpl implements ScreenPlay {
     @Override
     public void attachLogs() {
         if (isAttachable()) {
-            String infoLogs = loggerListener.getLogRecords(Level.INFO)
-                .map(LogRecord::getMessage)
-                .collect(Collectors.joining("</li><li>", "<ul><li> ", "</li></ul><br/>"));
-            write(infoLogs);
+            write(getReporter().getLogRecords());
         }
-        stopReadingLogs();
-    }
-
-    @Override
-    public void attachLogs(Level level) {
-        if (isAttachable()) {
-            String logs = loggerListener.getLogRecords(level)
-                .map(LogRecord::getMessage)
-                .collect(Collectors.joining("</li><li>", "<ul><li> ", "</li></ul><br/>"));
-            write(logs);
-        }
-        stopReadingLogs();
     }
 
     @Override
@@ -236,11 +233,6 @@ class ScreenPlayImpl implements ScreenPlay {
     }
 
 
-    private void startReadingLogs() {
-        this.loggerListener = new LogRecordListener();
-        LoggerFactory.addListener(loggerListener);
-    }
-
     private void write(String text) {
         if (result.getTestType().equals(TestType.CUCUMBER)) {
 
@@ -269,10 +261,6 @@ class ScreenPlayImpl implements ScreenPlay {
 
     private void attach(byte[] objToEmbed, String mediaType) {
         scenario.attach(objToEmbed, mediaType, scenario.getName());
-    }
-
-    public void stopReadingLogs() {
-        LoggerFactory.removeListener(loggerListener);
     }
 
     boolean isAttachable() {

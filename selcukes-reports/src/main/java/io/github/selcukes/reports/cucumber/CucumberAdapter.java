@@ -16,40 +16,28 @@
 
 package io.github.selcukes.reports.cucumber;
 
+import io.cucumber.java.Scenario;
 import io.cucumber.plugin.event.Status;
-import io.github.selcukes.notifier.Notifier;
-import io.github.selcukes.notifier.NotifierFactory;
-import io.github.selcukes.reports.html.HtmlReporter;
-import io.github.selcukes.video.Recorder;
-import io.github.selcukes.video.RecorderFactory;
+import io.github.selcukes.reports.screen.ScreenPlay;
+import io.github.selcukes.reports.screen.ScreenPlayBuilder;
+import org.openqa.selenium.WebDriver;
 
-import java.io.File;
-
-import static io.github.selcukes.commons.config.ConfigFactory.getConfig;
 import static io.github.selcukes.extent.report.Reporter.getReporter;
 
 public class CucumberAdapter implements CucumberService {
-    private Recorder recorder;
-
-    private Notifier notifier;
+    ScreenPlay play;
     private String stepInfo;
-    private boolean isRecordingEnabled;
-    private boolean isNotifierEnabled;
+    WebDriver driver;
+    Scenario scenario;
 
     @Override
     public void beforeTest() {
-        isRecordingEnabled = getConfig().getVideo().isRecording();
-        isNotifierEnabled = getConfig().getNotifier().isNotification();
-        if (isRecordingEnabled)
-            recorder = RecorderFactory.getRecorder();
-        if (isNotifierEnabled)
-            notifier = NotifierFactory.getNotifier();
+        play = ScreenPlayBuilder.getScreenPlay(driver);
     }
 
     @Override
     public void beforeScenario() {
-        if (isRecordingEnabled)
-            recorder.start();
+        play.start();
     }
 
     @Override
@@ -61,31 +49,19 @@ public class CucumberAdapter implements CucumberService {
     public void afterStep(String step, boolean status) {
         if (status) stepInfo = step;
         getReporter().getLogRecords();
-
+        play.withResult(scenario)
+            .attachScreenshot()
+            .sendNotification(stepInfo);
     }
 
     @Override
     public void afterScenario(String scenarioName, Status status) {
-        String path = "";
-        if (isRecordingEnabled) {
-            if (status.is(Status.FAILED)) {
-                File video = recorder.stopAndSave(scenarioName.replace(" ", "_"));
-                path = video.toURI().toString();
-            } else
-                recorder.stopAndDelete();
-        }
-        if (isNotifierEnabled) {
-            notifier.scenarioName(scenarioName)
-                .scenarioStatus(status.name())
-                .stepDetails(stepInfo)
-                .path(path)
-                .pushNotification();
-        }
+        play.attachVideo();
     }
 
     @Override
     public void afterTest() {
-        HtmlReporter.generateReports(getConfig().getReports().get("path"));
+        //Do Nothing
     }
 }
 
