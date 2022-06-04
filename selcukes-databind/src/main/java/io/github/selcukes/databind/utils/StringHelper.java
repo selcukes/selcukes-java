@@ -27,20 +27,44 @@ import java.util.function.Predicate;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
+/**
+ * The type String helper.
+ */
 @UtilityClass
 public class StringHelper {
+    /**
+     * The constant nullOrEmpty.
+     */
     public static final Predicate<String> nullOrEmpty = StringHelper::isNullOrEmpty;
 
+    /**
+     * Is null or empty boolean.
+     *
+     * @param text the text
+     * @return the boolean
+     */
     public boolean isNullOrEmpty(String text) {
         return text == null || text.isEmpty() || text.isBlank();
     }
 
+    /**
+     * To snake case string.
+     *
+     * @param text the text
+     * @return the string
+     */
     public String toSnakeCase(String text) {
         String regex = "([a-z])([A-Z]+)";
         String replacement = "$1_$2";
         return text.replaceAll(regex, replacement).toLowerCase();
     }
 
+    /**
+     * To camel case string.
+     *
+     * @param text the text
+     * @return the string
+     */
     public String toCamelCase(String text) {
         String regex = "[^a-zA-Z0-9]";
         final StringBuilder stringBuilder = new StringBuilder(text.length());
@@ -55,6 +79,13 @@ public class StringHelper {
         return stringBuilder.toString();
     }
 
+    /**
+     * Interpolate string.
+     *
+     * @param text     the text
+     * @param replacer the replacer
+     * @return the string
+     */
     public String interpolate(String text, Function<MatchResult, String> replacer) {
         String regex = "\\$\\{(.+?)\\}";
         return Pattern.compile(regex)
@@ -62,11 +93,23 @@ public class StringHelper {
             .replaceAll(replacer);
     }
 
+    /**
+     * Extract version number string.
+     *
+     * @param text the text
+     * @return the string
+     */
     public String extractVersionNumber(String text) {
         String regex = "[^0-9_.]";
         return text.replaceAll(regex, "");
     }
 
+    /**
+     * To json string.
+     *
+     * @param object the object
+     * @return the string
+     */
     public String toJson(Object object) {
         try {
             return new ObjectMapper().writeValueAsString(object);
@@ -74,6 +117,13 @@ public class StringHelper {
             throw new DataMapperException("Failed parsing JSON string from POJO[%s]" + object.getClass().getName(), e);
         }
     }
+
+    /**
+     * To pretty json string.
+     *
+     * @param object the object
+     * @return the string
+     */
     public String toPrettyJson(Object object) {
         try {
             return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(object);
