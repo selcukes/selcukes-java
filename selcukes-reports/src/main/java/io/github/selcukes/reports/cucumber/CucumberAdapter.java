@@ -34,7 +34,8 @@ public class CucumberAdapter implements CucumberService {
 
     @Override
     public void beforeScenario() {
-        play.start();
+        if (ConfigFactory.getConfig().getVideo().isRecording())
+            play.start();
     }
 
     @Override
@@ -53,7 +54,8 @@ public class CucumberAdapter implements CucumberService {
 
     @Override
     public void afterScenario(String scenarioName, Status status) {
-        play.attachVideo();
+        if (ConfigFactory.getConfig().getVideo().isRecording())
+            play.attachVideo();
     }
 
     @Override

@@ -22,11 +22,9 @@ import lombok.CustomLog;
 @CustomLog
 public class ReporterHooks {
 
-
     @Before
     public void beforeTest(Scenario scenario) {
 
-        //  .initSnapshot(driver); //Initialise Full page screenshot
         logger.info(() -> "Starting Scenario .." + scenario.getName());
     }
 
@@ -38,9 +36,7 @@ public class ReporterHooks {
 
     @AfterStep
     public void afterStep() {
-
-        // getReport().attachScreenshot(); //Attach Full page screenshot
-
+        logger.info(() -> "After Step");
     }
 
     @After

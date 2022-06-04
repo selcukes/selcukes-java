@@ -11,7 +11,7 @@ cucumber:
   features: src/test/resources/
   glue: io.github.selcukes.reports.tests.steps
   tags:
-  plugin: io.github.selcukes.reports.cucumber.CucumberListener
+  plugin:
 web:
   remote: true
   browser: CHROME
