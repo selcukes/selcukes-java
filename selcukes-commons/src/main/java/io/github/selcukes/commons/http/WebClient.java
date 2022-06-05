@@ -62,6 +62,11 @@ public class WebClient {
         return execute(request);
     }
 
+    public Response put(Object payload) {
+        HttpRequest request = requestBuilder.PUT(bodyPublisher(payload)).build();
+        return execute(request);
+    }
+
     @SneakyThrows
     private BodyPublisher bodyPublisher(Object payload) {
         if (payload instanceof String)
