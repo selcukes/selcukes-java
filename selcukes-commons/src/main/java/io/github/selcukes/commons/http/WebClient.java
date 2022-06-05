@@ -64,7 +64,6 @@ public class WebClient {
 
     @SneakyThrows
     private BodyPublisher bodyPublisher(Object payload) {
-        BodyPublisher bodyPublisher;
         if (payload instanceof String)
             bodyPublisher = BodyPublishers.ofString(payload.toString());
         else if (payload instanceof Path)
