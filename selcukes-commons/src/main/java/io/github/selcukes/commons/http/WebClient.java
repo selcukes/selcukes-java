@@ -23,8 +23,10 @@ import lombok.SneakyThrows;
 import java.net.*;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
+import java.util.*;
 
 import static java.net.http.HttpRequest.BodyPublisher;
 import static java.net.http.HttpRequest.BodyPublishers;
@@ -33,26 +35,75 @@ import static java.net.http.HttpResponse.BodyHandlers.ofString;
 public class WebClient {
     private HttpClient.Builder clientBuilder;
     private HttpRequest.Builder requestBuilder;
+    private BodyPublisher bodyPublisher;
 
     @SneakyThrows
     public WebClient(String url) {
         clientBuilder = HttpClient.newBuilder();
-        requestBuilder = HttpRequest.newBuilder(new URI(url))
-            .header("Content-Type", "application/json")
-            .version(HttpClient.Version.HTTP_2);
+        requestBuilder = HttpRequest.newBuilder()
+            .uri(new URI(url));
     }
 
     @SneakyThrows
     public Response post(Object payload) {
-        BodyPublisher bodyPublisher;
+        contentType("application/json");
+        HttpRequest request = requestBuilder.POST(bodyPublisher(payload)).build();
+        return execute(request);
+    }
+
+    @SneakyThrows
+    public Response post() {
+        HttpRequest request = requestBuilder.POST(bodyPublisher).build();
+        return execute(request);
+    }
+
+    public Response delete() {
+        HttpRequest request = requestBuilder.DELETE().build();
+        return execute(request);
+    }
+
+    public Response put(Object payload) {
+        HttpRequest request = requestBuilder.PUT(bodyPublisher(payload)).build();
+        return execute(request);
+    }
+
+    @SneakyThrows
+    private BodyPublisher bodyPublisher(Object payload) {
         if (payload instanceof String)
             bodyPublisher = BodyPublishers.ofString(payload.toString());
         else if (payload instanceof Path)
             bodyPublisher = BodyPublishers.ofFile((Path) payload);
         else
             bodyPublisher = BodyPublishers.ofString(StringHelper.toJson(payload));
-        HttpRequest request = requestBuilder.POST(bodyPublisher).build();
-        return execute(request);
+        return bodyPublisher;
+    }
+
+
+    @SneakyThrows
+    private BodyPublisher multiPartBody(Map<Object, Object> data, String boundary) {
+        var byteArrays = new ArrayList<byte[]>();
+        byte[] separator = ("--" + boundary
+            + "\r\nContent-Disposition: form-data; name=")
+            .getBytes(StandardCharsets.UTF_8);
+        for (Map.Entry<Object, Object> entry : data.entrySet()) {
+            byteArrays.add(separator);
+
+            if (entry.getValue() instanceof Path) {
+                var path = (Path) entry.getValue();
+                String mimeType = Files.probeContentType(path);
+                byteArrays.add(("\"" + entry.getKey() + "\"; filename=\""
+                    + path.getFileName() + "\"\r\nContent-Type: " + mimeType
+                    + "\r\n\r\n").getBytes(StandardCharsets.UTF_8));
+                byteArrays.add(Files.readAllBytes(path));
+                byteArrays.add("\r\n".getBytes(StandardCharsets.UTF_8));
+            } else {
+                byteArrays.add(
+                    ("\"" + entry.getKey() + "\"\r\n\r\n" + entry.getValue()
+                        + "\r\n").getBytes(StandardCharsets.UTF_8));
+            }
+        }
+        byteArrays.add(("--" + boundary + "--").getBytes(StandardCharsets.UTF_8));
+        return BodyPublishers.ofByteArrays(byteArrays);
     }
 
     @SneakyThrows
@@ -87,18 +138,32 @@ public class WebClient {
     }
 
     public WebClient authenticator(String username, String password) {
-        Authenticator authenticator = new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password.toCharArray());
-            }
-        };
-        clientBuilder = clientBuilder.authenticator(authenticator);
+        String encodedAuth = Base64.getEncoder()
+            .encodeToString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
+        header("Authorization", "Basic " + encodedAuth);
         return this;
     }
 
     public WebClient authenticator(String token) {
-        requestBuilder = requestBuilder.header("Authorization", "Bearer " + token);
+        header("Authorization", "Bearer " + token);
         return this;
     }
+
+    public WebClient header(String name, String value) {
+        requestBuilder = requestBuilder.header(name, value);
+        return this;
+    }
+
+    public WebClient multiPart(Map<Object, Object> data) {
+        String boundary = "-------------" + UUID.randomUUID();
+        contentType("multipart/form-data; boundary=" + boundary);
+        bodyPublisher = multiPartBody(data, boundary);
+        return this;
+    }
+
+    public WebClient contentType(String type) {
+        header("Content-Type", type);
+        return this;
+    }
+
 }
