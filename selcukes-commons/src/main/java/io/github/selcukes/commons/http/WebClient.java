@@ -41,13 +41,12 @@ public class WebClient {
     public WebClient(String url) {
         clientBuilder = HttpClient.newBuilder();
         requestBuilder = HttpRequest.newBuilder()
-            .uri(new URI(url))
-            .version(HttpClient.Version.HTTP_2);
+            .uri(new URI(url));
     }
 
     @SneakyThrows
     public Response post(Object payload) {
-        header("Content-Type", "application/json");
+        contentType("application/json");
         HttpRequest request = requestBuilder.POST(bodyPublisher(payload)).build();
         return execute(request);
     }
@@ -55,6 +54,11 @@ public class WebClient {
     @SneakyThrows
     public Response post() {
         HttpRequest request = requestBuilder.POST(bodyPublisher).build();
+        return execute(request);
+    }
+
+    public Response delete() {
+        HttpRequest request = requestBuilder.DELETE().build();
         return execute(request);
     }
 
@@ -72,8 +76,7 @@ public class WebClient {
 
 
     @SneakyThrows
-    public BodyPublisher multiPartBody(Map<Object, Object> data,
-                                       String boundary) {
+    private BodyPublisher multiPartBody(Map<Object, Object> data, String boundary) {
         var byteArrays = new ArrayList<byte[]>();
         byte[] separator = ("--" + boundary
             + "\r\nContent-Disposition: form-data; name=")
@@ -95,8 +98,7 @@ public class WebClient {
                         + "\r\n").getBytes(StandardCharsets.UTF_8));
             }
         }
-        byteArrays
-            .add(("--" + boundary + "--").getBytes(StandardCharsets.UTF_8));
+        byteArrays.add(("--" + boundary + "--").getBytes(StandardCharsets.UTF_8));
         return BodyPublishers.ofByteArrays(byteArrays);
     }
 
@@ -150,8 +152,14 @@ public class WebClient {
 
     public WebClient multiPart(Map<Object, Object> data) {
         String boundary = "-------------" + UUID.randomUUID();
-        header("Content-Type", "multipart/form-data; boundary=" + boundary);
+        contentType("multipart/form-data; boundary=" + boundary);
         bodyPublisher = multiPartBody(data, boundary);
         return this;
     }
+
+    public WebClient contentType(String type) {
+        header("Content-Type", type);
+        return this;
+    }
+
 }
