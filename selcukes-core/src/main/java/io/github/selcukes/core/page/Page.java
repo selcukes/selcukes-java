@@ -52,7 +52,7 @@ public interface Page {
         return getDriver().getTitle();
     }
 
-    default String read(By by) {
+    default String text(By by) {
         return find(by).getText();
     }
 

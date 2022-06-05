@@ -18,9 +18,13 @@
 
 package io.github.selcukes.databind;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.DataFileHelper;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+
+import static com.fasterxml.jackson.databind.PropertyNamingStrategies.SNAKE_CASE;
 
 /**
  * The type Data mapper.
@@ -56,6 +60,21 @@ public class DataMapper {
         final String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
         final DataBind dataBind = lookup(extension);
         dataBind.write(dataFile.getPath(), value);
+    }
+
+    /**
+     * Parse Json String to a Pojo class
+     *
+     * @param <T>           the type parameter
+     * @param content       the content
+     * @param resourceClass the resource class
+     * @return the t
+     */
+    @SneakyThrows
+    public <T> T parse(String content, Class<T> resourceClass) {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(SNAKE_CASE);
+        return mapper.readValue(content, resourceClass);
     }
 
     private DataBind lookup(final String extension) {

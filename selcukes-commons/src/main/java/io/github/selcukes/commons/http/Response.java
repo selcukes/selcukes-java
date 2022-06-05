@@ -17,6 +17,7 @@
 package io.github.selcukes.commons.http;
 
 import io.github.selcukes.commons.exception.SelcukesException;
+import io.github.selcukes.databind.DataMapper;
 
 import java.net.http.HttpResponse;
 import java.util.List;
@@ -38,6 +39,10 @@ public class Response {
 
     public String getBody() {
         return httpResponse.body();
+    }
+
+    public <T> T getBodyAs(Class<T> responseType) {
+        return DataMapper.parse(getBody(), responseType);
     }
 
     public int getStatusCode() {

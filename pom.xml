@@ -22,9 +22,10 @@
         <module>selcukes-snapshot</module>
         <module>selcukes-excel-runner</module>
         <module>video-recorder</module>
+        <module>selcukes-java</module>
     </modules>
 
-    <name>selcukes-java</name>
+    <name>selcukes-framework</name>
     <description>selcukes-framework</description>
     <url>https://github.com/selcukes/selcukes-java</url>
     <inceptionYear>2019</inceptionYear>
@@ -230,7 +231,6 @@
                 <groupId>com.aventstack</groupId>
                 <artifactId>extentreports</artifactId>
                 <version>${extentreports.version}</version>
-                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.poi</groupId>
