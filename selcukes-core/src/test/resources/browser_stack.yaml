@@ -3,3 +3,7 @@ capabilities:
   deviceName: Google Pixel 6
   buildName: Selcukes BrowserStack Build
   sessionName: Selcukes BrowserStack Session
+environments:
+  os_version: "12.0"
+  deviceName: Google Pixel 6
+  app: "selcukes_android-app.apk"

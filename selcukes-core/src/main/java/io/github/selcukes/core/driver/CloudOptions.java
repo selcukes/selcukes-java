@@ -48,6 +48,7 @@ public class CloudOptions {
 
     public Capabilities getBrowserStackOptions() {
         MutableCapabilities capabilities = new MutableCapabilities();
+        getBrowserStack().getEnvironments().forEach(capabilities::setCapability);
         capabilities.setCapability("bstack:options", getBrowserStack().getCapabilities());
         return capabilities;
     }
@@ -62,5 +63,6 @@ public class CloudOptions {
     static class BrowserStack {
         String url;
         Map<String, String> capabilities;
+        Map<String, String> environments;
     }
 }
