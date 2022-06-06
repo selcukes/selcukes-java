@@ -16,8 +16,10 @@
 
 package io.github.selcukes.commons.http;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.github.selcukes.commons.exception.SelcukesException;
 import io.github.selcukes.databind.DataMapper;
+import io.github.selcukes.databind.utils.StringHelper;
 
 import java.net.http.HttpResponse;
 import java.util.List;
@@ -39,6 +41,10 @@ public class Response {
 
     public String getBody() {
         return httpResponse.body();
+    }
+
+    public JsonNode getBodyAsJson() {
+        return StringHelper.toJson(httpResponse.body());
     }
 
     public <T> T getBodyAs(Class<T> responseType) {

@@ -18,8 +18,12 @@
 
 package io.github.selcukes.databind.utils;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.selcukes.databind.exception.DataMapperException;
+import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
 import java.util.function.Function;
@@ -110,7 +114,7 @@ public class StringHelper {
      * @param object the object
      * @return the string
      */
-    public String toJson(Object object) {
+    public String toJson(@NonNull Object object) {
         try {
             return new ObjectMapper().writeValueAsString(object);
         } catch (Exception e) {
@@ -124,11 +128,22 @@ public class StringHelper {
      * @param object the object
      * @return the string
      */
-    public String toPrettyJson(Object object) {
+    public String toPrettyJson(@NonNull Object object) {
         try {
             return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(object);
         } catch (Exception e) {
             throw new DataMapperException("Failed parsing JSON string from POJO[%s]" + object.getClass().getName(), e);
+        }
+    }
+
+    public JsonNode toJson(@NonNull String content) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonFactory factory = mapper.getFactory();
+            JsonParser parser = factory.createParser(content);
+            return mapper.readTree(parser);
+        } catch (Exception e) {
+            throw new DataMapperException("Failed parsing string to JsonNode:\n" + content, e);
         }
     }
 }
