@@ -41,7 +41,7 @@ public class MobileAppTest {
 
     }
 
-    @Test(enabled = false)
+    @Test
     public void expandAndScrollScreenTest() {
         page.tap("Views")
             .tap("Expandable Lists")
