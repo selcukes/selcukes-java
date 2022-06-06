@@ -65,7 +65,7 @@ public class AppiumManager implements RemoteManager {
                 String platform = ConfigFactory.getConfig().getMobile().getPlatform();
                 capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser), isCloudAppium(), platform);
                 if (isCloudAppium()) {
-                    capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions());
+                    capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions(false));
                 }
 
             }
@@ -84,7 +84,7 @@ public class AppiumManager implements RemoteManager {
             Capabilities capabilities = AppiumOptions.getUserOptions();
             if (capabilities == null) {
                 if (isCloudAppium()) {
-                    capabilities = CloudOptions.getBrowserStackOptions();
+                    capabilities = CloudOptions.getBrowserStackOptions(true);
                 } else {
                     Path appPath = Paths.get(ConfigFactory.getConfig()
                         .getMobile().getApp());
