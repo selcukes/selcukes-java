@@ -46,7 +46,7 @@ public class WebManager implements RemoteManager {
                 capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser),
                     !isLocalBrowser() || !isCloudBrowser());
                 if (isCloudBrowser()) {
-                    capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions());
+                    capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions(false));
                 }
             }
             RemoteWebDriverBuilder driverBuilder = RemoteWebDriver.builder().oneOf(capabilities);

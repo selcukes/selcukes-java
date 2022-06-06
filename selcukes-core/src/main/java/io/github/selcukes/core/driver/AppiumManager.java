@@ -19,7 +19,6 @@ package io.github.selcukes.core.driver;
 import io.appium.java_client.android.AndroidDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.DriverSetupException;
-import io.github.selcukes.core.helper.ApiHelper;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
@@ -66,7 +65,7 @@ public class AppiumManager implements RemoteManager {
                 String platform = ConfigFactory.getConfig().getMobile().getPlatform();
                 capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser), isCloudAppium(), platform);
                 if (isCloudAppium()) {
-                    capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions());
+                    capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions(false));
                 }
 
             }
@@ -84,13 +83,14 @@ public class AppiumManager implements RemoteManager {
             logger.debug(() -> "Initiating New Mobile App Session...");
             Capabilities capabilities = AppiumOptions.getUserOptions();
             if (capabilities == null) {
-                Path appPath = Paths.get(ConfigFactory.getConfig()
-                    .getMobile().getApp());
-                String app = isCloudAppium() ? ApiHelper.getAppUrl(appPath) : appPath.toAbsolutePath().toString();
-                logger.info(() -> "Using APP: " + app);
-                capabilities = AppiumOptions.getAndroidOptions(app);
                 if (isCloudAppium()) {
-                    capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions());
+                    capabilities = CloudOptions.getBrowserStackOptions(true);
+                } else {
+                    Path appPath = Paths.get(ConfigFactory.getConfig()
+                        .getMobile().getApp());
+                    String app = appPath.toAbsolutePath().toString();
+                    logger.info(() -> "Using APP: " + app);
+                    capabilities = AppiumOptions.getAndroidOptions(app);
                 }
             }
             driver = new AndroidDriver(getServiceUrl(), capabilities);
