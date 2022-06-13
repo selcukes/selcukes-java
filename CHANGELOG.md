@@ -12,6 +12,25 @@
 
 ### Fixed
 
+## [2.1.0]
+
+### Added
+
+* [Reports] Native mobile video and screenshot support  ([#133](https://github.com/selcukes/selcukes-java/pull/133))
+
+### Changed
+
+* Update dependency selenium.version to v4.2.2([#138](https://github.com/selcukes/selcukes-java/pull/138))
+* Update dependency io.appium:java-client to v8.1.1 ([#137](https://github.com/selcukes/selcukes-java/pull/137))
+
+### Fixed
+
+* [Core] Add Support to build Multipart Http Request  ([#135](https://github.com/selcukes/selcukes-java/pull/135))
+* [Reports]Enable on demand Video Recording option for Mobile
+  Tests ([#131](https://github.com/selcukes/selcukes-java/pull/131))
+* [Reports]Desktop Automation-Local Appium Server is not started when mobile configured as
+  Cloud ([#130](https://github.com/selcukes/selcukes-java/pull/130))
+
 ## [2.0.3]
 
 ### Added
@@ -21,7 +40,8 @@
 ### Changed
 
 * Update dependency selenium.version to v4.2.1([#128](https://github.com/selcukes/selcukes-java/pull/128))
-* Update dependency net.masterthought:cucumber-reporting to v5.7.1 ([#123](https://github.com/selcukes/selcukes-java/pull/123))
+* Update dependency net.masterthought:cucumber-reporting to
+  v5.7.1 ([#123](https://github.com/selcukes/selcukes-java/pull/123))
 * Update dependency io.appium:java-client to v8.1.0 ([#126](https://github.com/selcukes/selcukes-java/pull/126))
 
 ### Fixed
