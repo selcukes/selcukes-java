@@ -60,7 +60,7 @@ class PageSnapshot extends DefaultPageSnapshot {
         BufferedImage screenshotImage = ImageUtil.toBufferedImage(getFullScreenshotAs(OutputType.BYTES));
         BufferedImage textImage = ImageUtil.generateImageWithLogo(getScreenshotText(), screenshotImage);
         BufferedImage finalImage;
-        if (!Platform.isLinux()) {
+        if (!Platform.isLinux() && isAddressBar) {
             finalImage = ImageUtil.generateImageWithAddressBar(captureAddressBar(textImage.getWidth()), textImage);
 
         } else {
