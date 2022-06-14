@@ -90,7 +90,7 @@ class ScreenPlayImpl implements ScreenPlay {
 
         } else {
             String screenshotPath = takeScreenshot();
-            if (screenshotPath.isEmpty()) {
+            if (!screenshotPath.isEmpty()) {
                 String htmlToEmbed = "<br>  <img src='" + screenshotPath + "' height='100' width='100' /><br>";
                 attach(htmlToEmbed);
             }
