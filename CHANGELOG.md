@@ -12,6 +12,13 @@
 
 ### Fixed
 
+## [2.1.1]
+
+### Added
+
+* [Core] Fixed issue initiate local browser
+* [Reports] Fixed attaching screenshot for testng
+
 ## [2.1.0]
 
 ### Added
