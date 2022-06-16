@@ -61,10 +61,5 @@ public class LinkedProperties extends Properties {
         return linkMap.containsKey(key);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        return linkMap.equals(o);
-    }
-
 }
 
