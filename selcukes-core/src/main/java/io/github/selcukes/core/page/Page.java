@@ -51,6 +51,9 @@ public interface Page {
     default String title() {
         return getDriver().getTitle();
     }
+    default String currentUrl() {
+        return getDriver().getCurrentUrl();
+    }
 
     default String text(By by) {
         return find(by).getText();

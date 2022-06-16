@@ -44,9 +44,22 @@ public class PageValidations {
         }
     }
 
+    public void url(String url) {
+        if (!page.currentUrl().equalsIgnoreCase(url)) {
+            failWithMessage(isSoft, "Expected Page URL should be [%s] but was [%s]", url, page.currentUrl());
+        }
+    }
+
+    public void urlContains(String expectedValue) {
+        if (!page.currentUrl().contains(expectedValue)) {
+            failWithMessage(isSoft, "Expected Page URL contains text [%s] but was [%s]", expectedValue, page.currentUrl());
+        }
+    }
+
     public ElementValidation element(String accessibilityId) {
         return new ElementValidation(isSoft, page, page.find(AppiumBy.accessibilityId(accessibilityId)));
     }
+
     public ElementValidation element(By by) {
         return new ElementValidation(isSoft, page, page.find(by));
     }
