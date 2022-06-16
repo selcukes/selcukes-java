@@ -26,7 +26,7 @@ import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.events.WebDriverListener;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-
+@SuppressWarnings("all")
 public class BaseTest {
     WebDriver driver;
     WebPage page;

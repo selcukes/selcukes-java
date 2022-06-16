@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 @UtilityClass
 public class SelcukesBanner {
-
+    @SuppressWarnings("all")
     public void printBanner() {
         try (InputStream inputStream = FileHelper.loadResourceFromJar("banner.txt");
              BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {

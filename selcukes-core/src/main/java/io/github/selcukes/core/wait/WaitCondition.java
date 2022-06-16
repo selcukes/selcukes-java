@@ -35,6 +35,7 @@ public enum WaitCondition {
     TEXT_TO_BE((BiFunction<By, String, ExpectedCondition<?>>) ExpectedConditions::textToBe);
     private final BiFunction<?, ?, ExpectedCondition<?>> type;
 
+    @SuppressWarnings("all")
     <T, V> WaitCondition(final Function<T, ExpectedCondition<?>> type) {
         this((T arg1, V arg2) -> type.apply(arg1));
     }
