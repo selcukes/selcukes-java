@@ -34,7 +34,7 @@ import java.util.Map;
 public class CloudOptions {
     private static BrowserStack browserStack;
 
-    private BrowserStack getBrowserStack() {
+    private static BrowserStack getBrowserStack() {
         if (browserStack == null) {
             try {
                 browserStack = DataMapper.parse(BrowserStack.class);

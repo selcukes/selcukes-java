@@ -58,7 +58,7 @@ public class ExceptionHelper {
         return null;
     }
 
-    public ErrorCodes getErrorCodes() {
+    public static ErrorCodes getErrorCodes() {
         if (errorCodes == null) {
             errorCodes = DataMapper.parse(ErrorCodes.class);
         }

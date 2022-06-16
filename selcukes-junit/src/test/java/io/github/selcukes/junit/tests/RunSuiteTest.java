@@ -22,7 +22,8 @@ import org.junit.jupiter.api.Test;
 @Cucumber
 class RunSuiteTest {
     @Test
-    public void testing() {
+    @SuppressWarnings("all")
+    void testing() {
 
     }
 }

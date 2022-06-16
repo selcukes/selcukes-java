@@ -14,7 +14,7 @@
 
 ## [2.1.1]
 
-### Added
+### Fixed
 
 * [Core] Fixed issue initiate local browser
 * [Reports] Fixed attaching screenshot for testng

@@ -18,13 +18,11 @@ package io.github.selcukes.video.config;
 
 import io.github.selcukes.commons.config.Environment;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.awt.*;
 
-@Getter
-@Setter
+@Data
 @Builder
 public class DefaultVideoOptions extends Environment {
     @Builder.Default

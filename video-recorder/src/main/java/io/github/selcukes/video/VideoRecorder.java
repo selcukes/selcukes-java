@@ -19,7 +19,6 @@ package io.github.selcukes.video;
 import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.video.config.DefaultVideoOptions;
 
-
 public abstract class VideoRecorder implements Recorder {
 
     public static DefaultVideoOptions videoConfig() {

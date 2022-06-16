@@ -27,12 +27,14 @@ import org.testng.ITestResult;
 public class TestNGReportListener implements IInvokedMethodListener {
     ScreenPlay play;
 
+    @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
         if (ReportDriver.getReportDriver() != null && play == null)
             play = ScreenPlayBuilder.getScreenPlay()
                 .start();
     }
 
+    @Override
     public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
         if (ReportDriver.getReportDriver() != null && play != null) {
             play.withResult(testResult)

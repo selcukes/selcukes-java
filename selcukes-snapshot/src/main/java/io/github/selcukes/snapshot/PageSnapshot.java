@@ -87,6 +87,7 @@ class PageSnapshot extends DefaultPageSnapshot {
         return outputType.convertFromBase64Png(base64EncodedPng);
     }
 
+    @SuppressWarnings("squid:S3011")
     private void defineCustomCommand(CommandInfo info) {
         try {
             unwrapDriver();
@@ -98,7 +99,7 @@ class PageSnapshot extends DefaultPageSnapshot {
         }
     }
 
-
+    @SuppressWarnings("squid:S3011")
     private Object sendCommand(String cmd, Object params) {
         try {
             Method execute = RemoteWebDriver.class.getDeclaredMethod("execute", String.class, Map.class);

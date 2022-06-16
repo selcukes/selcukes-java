@@ -22,11 +22,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 @AllArgsConstructor
 @Getter
 @ToString
 @Builder(builderClassName = "Builder")
-class Field {
+class Field implements Serializable {
     private final String title;
     private final String value;
     @JsonProperty("short")

@@ -16,8 +16,10 @@
 
 package io.github.selcukes.reports;
 
+import lombok.experimental.UtilityClass;
 import org.openqa.selenium.WebDriver;
 
+@UtilityClass
 public class ReportDriver {
     private static final ThreadLocal<WebDriver> DRIVER_THREAD = new InheritableThreadLocal<>();
 
