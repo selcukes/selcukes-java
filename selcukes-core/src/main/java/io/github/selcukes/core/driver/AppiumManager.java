@@ -38,8 +38,8 @@ public class AppiumManager implements RemoteManager {
 
     @Override
     public WebDriver createDriver() {
-        String target = ConfigFactory.getConfig().getMobile().getBrowser();
-        return target.equalsIgnoreCase("APP") ? createAppDriver() : createBrowserDriver(target);
+        String target = ConfigFactory.getConfig().getMobile().getBrowser().toUpperCase();
+        return target.equals("APP") ? createAppDriver() : createBrowserDriver(target);
     }
 
     @SneakyThrows
