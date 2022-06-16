@@ -33,7 +33,7 @@ import java.awt.*;
 import java.io.File;
 
 
-class FFmpegRecorder extends VideoRecorder {
+class FFmpegRecorder implements VideoRecorder {
     private static final Logger logger = LoggerFactory.getLogger(FFmpegRecorder.class);
     private static final String FFMPEG = "ffmpeg";
     private static final String EXTENSION = ".mp4";
@@ -44,7 +44,7 @@ class FFmpegRecorder extends VideoRecorder {
 
     public FFmpegRecorder() {
         shell = new Shell();
-        this.videoConfig = videoConfig();
+        this.videoConfig = VideoRecorder.videoConfig();
         if (ConfigFactory.getConfig().getVideo().getFfmpegPath() != null)
             ffmpegFolderPath = ConfigFactory.getConfig().getVideo().getFfmpegPath();
     }

@@ -34,7 +34,7 @@ public class ExcelUtils {
     private static final String EXAMPLE = " - Example";
     private static final Map<String, List<List<String>>> allSheetsDataMap = new LinkedHashMap<>();
     private static Map<String, List<List<String>>> allSheetsMap = new LinkedHashMap<>();
-    public static final List<String> runScenarios = new ArrayList<>();
+    static final List<String> runScenarios = new ArrayList<>();
     private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcel().get("suiteName");
     private static final List<String> IGNORE_SHEETS = new ArrayList<>(
         Arrays.asList("Master", "Smoke", "Regression", "StaticData"));

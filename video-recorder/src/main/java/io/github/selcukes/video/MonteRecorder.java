@@ -37,13 +37,13 @@ import java.io.IOException;
 
 import static org.monte.media.VideoFormatKeys.MediaType;
 
-class MonteRecorder extends VideoRecorder {
+class MonteRecorder implements VideoRecorder {
     private final Logger logger = LoggerFactory.getLogger(MonteRecorder.class);
     private final MonteRecorderBuilder recorderBuilder;
     private final DefaultVideoOptions videoConfig;
 
     public MonteRecorder() {
-        this.videoConfig = videoConfig();
+        this.videoConfig = VideoRecorder.videoConfig();
         this.recorderBuilder = getScreenRecorder();
     }
 

@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 import static io.github.selcukes.databind.utils.StringHelper.nullOrEmpty;
 
 public class Reporter {
-    private static Snapshot snapshot;
+    private Snapshot snapshot;
     private LogRecordListener logRecordListener;
     private static final ThreadLocal<Reporter> reporterThreadLocal = new InheritableThreadLocal<>();
 
