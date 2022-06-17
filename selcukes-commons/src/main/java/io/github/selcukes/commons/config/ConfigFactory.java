@@ -31,13 +31,17 @@ import java.util.logging.LogManager;
 public class ConfigFactory {
     private static final String DEFAULT_LOG_BACK_FILE = "selcukes-logback.yaml";
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigFactory.class);
-    private static final ThreadLocal<Environment> ENVIRONMENT =new InheritableThreadLocal<>();
+    private static final ThreadLocal<Environment> ENVIRONMENT = new InheritableThreadLocal<>();
 
     public static Environment getConfig() {
         if (ENVIRONMENT.get() == null) {
             ENVIRONMENT.set(DataMapper.parse(Environment.class));
         }
         return ENVIRONMENT.get();
+    }
+
+    public static void cleanupConfig() {
+        ENVIRONMENT.remove();
     }
 
     public static void loadLoggerProperties() {
