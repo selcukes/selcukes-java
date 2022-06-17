@@ -17,14 +17,14 @@
 package io.github.selcukes.testng.listeners;
 
 import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.commons.exception.BusinessException;
 import io.github.selcukes.testng.SelcukesRuntimeAdapter;
 import lombok.CustomLog;
-import org.testng.ITestContext;
-import org.testng.ITestListener;
+import org.testng.*;
 import org.testng.xml.XmlTest;
 
 @CustomLog
-public class TestListener implements ITestListener {
+public class TestListener implements ITestListener, IInvokedMethodListener {
     @Override
     public void onFinish(ITestContext context) {
         logger.debug(() -> context.getName() + " Execution finished...");
@@ -46,5 +46,19 @@ public class TestListener implements ITestListener {
             }
         });
         SelcukesRuntimeAdapter.getInstance().perform();
+    }
+
+    @Override
+    public void afterInvocation(IInvokedMethod method, ITestResult result) {
+        if (!result.isSuccess()) {
+            try {
+                final Throwable throwable = result.getThrowable();
+                BusinessException exception = new BusinessException(throwable.getMessage(), throwable);
+                logger.error(throwable, exception.logError());
+            } catch (Exception ignored) {
+                //Ignore this
+            }
+
+        }
     }
 }
