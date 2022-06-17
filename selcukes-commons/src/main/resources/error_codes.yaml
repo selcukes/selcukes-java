@@ -1,18 +1,35 @@
 errors:
-  no_such_element_exception: |
+  NoSuchElementException: |
     * Wrong locator might be used
     Make sure that you are using a unique locator.
     * The web page was not completely loaded and the element is not found
     you can use Selenium explicit waits, and wait until the element can be found on the page.
-  element_not_visible_exception: |
+  ElementNotVisibleException: |
     * Locator might finds more elements and the first one is not visible
     Make sure that you are using a unique locator.
     * The element is hidden
     If your locator is good, then you can add a wait, that checks when the element is visible.
-  stale_element_reference_exception: |
+  StaleElementReferenceException: |
     * The element was either deleted from the DOM or no longer attached to the DOM.
     Try to find the element after page refresh
     Add explicit wait for the element to load before you manipulate
-  timeout_exception: |
+  TimeoutException: |
     * This exception will be thrown when the page or element was not loaded after the specified wait time.
     To overcome this, you can increase the wait time, if you are using an implicit wait, or better yet, replace the implicit wait with an explicit wait
+  MoveTargetOutOfBoundsException: |
+    * The intended element is out of page view range.
+    Please scroll and make the element viewable and perform this action/step.
+  UnreachableBrowserException: |
+    * The browser connection is lost. Either the browser is closed by the user or the connection is terminated.
+    To overcome this, please start new browser session or
+  UnhandledAlertException: |
+    * There is an unhandled Alert in this page which is obstructing actions on the page/element.
+    To overcome this, please use alertAccept/dismiss.
+  NoAlertPresentException: |
+    * There is no Alert present in this page.
+  NoSuchWindowException: |
+    * The Window target is not available. 
+    Please verify the Window availability. Make sure window/tab is present while executing this test.
+  NoSuchFrameException: |
+    * The Frame is not available in current page. 
+    Please verify the frame availability.
