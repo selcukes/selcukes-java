@@ -24,7 +24,7 @@ import lombok.Data;
 import java.util.Map;
 
 @Data
-@DataFile(folderPath = "src/main/resources")
+@DataFile(fileName = "error_codes.yaml", streamLoader = true)
 public class ErrorCodes {
     private Map<String, String> errors;
 

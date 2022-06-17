@@ -24,6 +24,7 @@ import io.github.selcukes.databind.exception.DataMapperException;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
@@ -56,6 +57,9 @@ public class DataFileHelper<T> {
         if (!this.dataFile.fileName().isEmpty()) {
             return this.dataFile.fileName();
         }
+        if (isStream()) {
+            throw new DataMapperException("Please provide fileName to perform stream loader");
+        }
         final String fileName = StringHelper.toSnakeCase(this.dataClass.getSimpleName());
         final Path folder = getFolder();
 
@@ -69,19 +73,31 @@ public class DataFileHelper<T> {
         return path.get().getFileName().toString();
     }
 
+    public InputStream fileStream() {
+        try {
+            return Thread.currentThread().getContextClassLoader().getResourceAsStream(getFileName());
+        } catch (Exception e) {
+            throw new DataMapperException(String.format("Failed to perform stream loader for a File [%s].", getFileName()));
+        }
+    }
+
+    public boolean isStream() {
+        return this.dataFile.streamLoader();
+    }
+
     public Path getFolder() {
         String folder = "src/test/resources";
         if (!this.dataFile.folderPath().isEmpty()) {
             folder = this.dataFile.folderPath();
         }
-        return isDirectory(getRootFolder().resolve(folder).toString());
+        return this.isDirectory(this.getRootFolder().resolve(folder).toString());
     }
 
     public Path getPath() {
         return getFolder().resolve(Path.of(getFileName()));
     }
 
-    public Path getRootFolder() {
+    private Path getRootFolder() {
         String root = getProperty("user.dir");
         if (!this.dataFile.rootFolder().isEmpty()) {
             root = this.dataFile.rootFolder();
