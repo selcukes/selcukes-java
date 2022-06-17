@@ -16,9 +16,9 @@
 
 package io.github.selcukes.core.tests.unit;
 
-import io.github.selcukes.core.driver.DriverManager;
-import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.page.WebPage;
+import io.github.selcukes.wdb.driver.LocalDriver;
+import io.github.selcukes.wdb.enums.DriverType;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -28,7 +28,7 @@ public class ShadowRootTest {
     @Test
     public void shadowElementTest() {
 
-        WebDriver driver = DriverManager.createDriver(DeviceType.BROWSER);
+        WebDriver driver = new LocalDriver().createWebDriver(DriverType.CHROME);
         WebPage page = new WebPage(driver);
 
         page.open("http://watir.com/examples/shadow_dom.html");
