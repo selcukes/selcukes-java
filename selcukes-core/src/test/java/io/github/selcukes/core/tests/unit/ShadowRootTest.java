@@ -16,7 +16,6 @@
 
 package io.github.selcukes.core.tests.unit;
 
-import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.page.WebPage;
@@ -28,7 +27,7 @@ import org.testng.annotations.Test;
 public class ShadowRootTest {
     @Test
     public void shadowElementTest() {
-        ConfigFactory.getConfig().getWeb().setRemote(false);
+
         WebDriver driver = DriverManager.createDriver(DeviceType.BROWSER);
         WebPage page = new WebPage(driver);
 
