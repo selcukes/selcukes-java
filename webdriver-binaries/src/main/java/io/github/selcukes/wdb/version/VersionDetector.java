@@ -94,7 +94,7 @@ public class VersionDetector {
     public List<String> getBinaryVersions(String binaryDownloadUrl, String matcher) {
         List<String> versions = new ArrayList<>();
         WebClient client = new WebClient(binaryDownloadUrl);
-        String response = client.sendRequest().getBody();
+        String response = client.get().getBody();
         try (InputStream downloadStream = new ByteArrayInputStream(response.getBytes())) {
             Document doc = parse(downloadStream, null, "");
             Elements elements = doc.select(

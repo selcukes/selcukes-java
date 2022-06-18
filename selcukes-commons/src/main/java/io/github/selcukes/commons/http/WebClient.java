@@ -112,7 +112,7 @@ public class WebClient {
     }
 
     @SneakyThrows
-    public Response sendRequest() {
+    public Response get() {
         HttpRequest request = requestBuilder.GET().build();
         return execute(request);
     }
