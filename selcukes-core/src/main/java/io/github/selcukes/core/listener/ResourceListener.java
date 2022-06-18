@@ -18,14 +18,26 @@ package io.github.selcukes.core.listener;
 
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.core.driver.DriverManager;
+import lombok.CustomLog;
 import org.testng.IInvokedMethod;
 import org.testng.IInvokedMethodListener;
 import org.testng.ITestResult;
 
+@CustomLog
 public class ResourceListener implements IInvokedMethodListener {
     @Override
-    public void afterInvocation(IInvokedMethod method, ITestResult result) {
-        DriverManager.removeDriver();
-        ConfigFactory.cleanupConfig();
+    public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
+        logger.debug(() -> "Before invocation of " + method.getTestMethod().getMethodName());
     }
+
+    @Override
+    public void afterInvocation(IInvokedMethod method, ITestResult result) {
+        logger.debug(() -> "After invocation of " + method.getTestMethod().getMethodName());
+        if (!method.isConfigurationMethod()) {
+            logger.debug(() -> "Cleanup Resource");
+            DriverManager.removeDriver();
+            ConfigFactory.cleanupConfig();
+        }
+    }
+
 }
