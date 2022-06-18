@@ -33,5 +33,7 @@ public @interface DataFile {
     String folderPath() default "";
 
     String rootFolder() default "";
+
+    boolean streamLoader() default false;
 }
 

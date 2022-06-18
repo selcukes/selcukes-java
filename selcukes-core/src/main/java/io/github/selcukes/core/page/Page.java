@@ -52,6 +52,10 @@ public interface Page {
         return getDriver().getTitle();
     }
 
+    default String currentUrl() {
+        return getDriver().getCurrentUrl();
+    }
+
     default String text(By by) {
         return find(by).getText();
     }
@@ -219,6 +223,26 @@ public interface Page {
 
     default List<WebElement> findAll(By by, final WaitCondition condition) {
         return waitFor(by, "", condition);
+    }
+
+    default List<WebElement> findAllChildren(By parent, By child) {
+        return find(parent, WaitCondition.VISIBLE).findElements(child);
+    }
+
+    default WebElement findChild(By parent, By child) {
+        return find(parent, WaitCondition.VISIBLE).findElement(child);
+    }
+
+    default WebElement findChild(WebElement parent, By child) {
+        return parent.findElement(child);
+    }
+
+    default WebElement findShadowChild(WebElement parent, By child) {
+        return parent.getShadowRoot().findElement(child);
+    }
+
+    default WebElement findShadowChild(By parent, By child) {
+        return find(parent, WaitCondition.VISIBLE).getShadowRoot().findElement(child);
     }
 
     default Object executeScript(String script, Object... args) {

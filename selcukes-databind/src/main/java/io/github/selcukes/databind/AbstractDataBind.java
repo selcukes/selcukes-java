@@ -21,6 +21,7 @@ package io.github.selcukes.databind;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 
+import java.io.InputStream;
 import java.nio.file.Path;
 
 abstract class AbstractDataBind implements DataBind {
@@ -34,6 +35,11 @@ abstract class AbstractDataBind implements DataBind {
     @Override
     public <T> T parse(final Path path, final Class<T> resourceClass) {
         return this.mapper.readValue(path.toFile(), resourceClass);
+    }
+    @SneakyThrows
+    @Override
+    public <T> T parse(final InputStream inputStream, final Class<T> resourceClass) {
+        return this.mapper.readValue(inputStream, resourceClass);
     }
 
     @SneakyThrows

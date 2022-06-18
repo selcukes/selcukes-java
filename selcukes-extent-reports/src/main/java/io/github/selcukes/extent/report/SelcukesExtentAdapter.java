@@ -37,6 +37,7 @@ import io.cucumber.plugin.event.TestStepFinished;
 import io.cucumber.plugin.event.TestStepStarted;
 import io.cucumber.plugin.event.*;
 import io.github.selcukes.commons.helper.CollectionUtils;
+import io.github.selcukes.commons.helper.ExceptionHelper;
 import lombok.SneakyThrows;
 
 import java.net.URI;
@@ -137,6 +138,10 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     private synchronized void handleTestStepFinished(TestStepFinished event) {
         getReporter().attachAndRestart();
         updateResult(event.getResult());
+        if (!event.getResult().getStatus().isOk() && event.getResult().getError() != null) {
+            ExceptionHelper.handleException(event.getResult().getError());
+        }
+
     }
 
     private synchronized void updateResult(Result result) {

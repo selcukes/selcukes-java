@@ -1,5 +1,4 @@
 /*
- *
  *  Copyright (c) Ramesh Babu Prudhvi.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,22 +12,26 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
 
-package io.github.selcukes.commons.helper;
+package io.github.selcukes.core.page;
 
-import io.github.selcukes.databind.annotation.DataFile;
-import lombok.Data;
+import io.github.selcukes.core.driver.DriverManager;
+import io.github.selcukes.core.enums.DeviceType;
 
-import java.util.Map;
+public class Pages {
+    public static WebPage webPage() {
+        DriverManager.createDriver(DeviceType.BROWSER);
+        return new WebPage(DriverManager.getDriver());
+    }
 
-@Data
-@DataFile(fileName = "error_codes.yaml", streamLoader = true)
-public class ErrorCodes {
-    private Map<String, String> errors;
+    public static WinPage winPage() {
+        DriverManager.createDriver(DeviceType.DESKTOP);
+        return new WinPage(DriverManager.getDriver());
+    }
 
-    public String getMessage(final String code) {
-        return this.errors.getOrDefault(code, "Solution not found in error_code.yaml file");
+    public static MobilePage mobilePage() {
+        DriverManager.createDriver(DeviceType.MOBILE);
+        return new MobilePage(DriverManager.getDriver());
     }
 }

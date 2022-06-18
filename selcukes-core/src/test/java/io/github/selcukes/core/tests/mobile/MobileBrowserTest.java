@@ -17,9 +17,8 @@
 package io.github.selcukes.core.tests.mobile;
 
 import io.github.selcukes.core.driver.DriverManager;
-import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.page.MobilePage;
-import org.openqa.selenium.WebDriver;
+import io.github.selcukes.core.page.Pages;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
@@ -27,8 +26,7 @@ public class MobileBrowserTest {
 
     @Test(enabled = false)
     public void mobileBrowserTest() {
-        WebDriver driver = DriverManager.createDriver(DeviceType.MOBILE);
-        MobilePage page = new MobilePage(driver);
+        MobilePage page = Pages.mobilePage();
         page.open("https://www.google.com/")
             .assertThat().title("Google");
     }

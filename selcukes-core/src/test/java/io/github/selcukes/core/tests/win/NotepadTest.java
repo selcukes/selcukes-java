@@ -16,10 +16,9 @@
 
 package io.github.selcukes.core.tests.win;
 
-import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.driver.GridRunner;
-import io.github.selcukes.core.enums.DeviceType;
+import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WinPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -36,8 +35,8 @@ public class NotepadTest {
 
     @Test(enabled = false)
     public void notepadTest() {
-        WindowsDriver driver = DriverManager.createDriver(DeviceType.DESKTOP);
-        WinPage page = new WinPage(driver);
+
+        WinPage page = Pages.winPage();
         By edit = By.className("Edit");
         page.enter(edit, "Welcome to Selcukes !!!")
             .enter(edit, Keys.ENTER)

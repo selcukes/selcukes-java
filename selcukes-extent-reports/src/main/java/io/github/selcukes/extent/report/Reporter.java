@@ -27,6 +27,7 @@ import org.openqa.selenium.WebDriver;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
 import static io.github.selcukes.databind.utils.StringHelper.nullOrEmpty;
 
 public class Reporter {
@@ -35,7 +36,7 @@ public class Reporter {
     private static final ThreadLocal<Reporter> reporterThreadLocal = new InheritableThreadLocal<>();
 
     public static void log(String message) {
-        if (message != null) {
+        if (!isNullOrEmpty(message)) {
             SelcukesExtentAdapter.addTestStepLog(message);
         }
     }
@@ -63,7 +64,7 @@ public class Reporter {
                 .filter(logRecord -> logRecord.getLevel() == Level.INFO || logRecord.getLevel() == Level.SEVERE)
                 .map(logRecord -> {
                     if (logRecord.getLevel() == Level.SEVERE)
-                        return "<span style=\"color:red;\">" + logRecord.getMessage() + "</span>";
+                        return "<span style=\"color:red;\">" + logRecord.getMessage().replace("\n", "<br/>") + "</span>";
                     else
                         return logRecord.getMessage();
 

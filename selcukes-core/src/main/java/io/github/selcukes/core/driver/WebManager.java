@@ -37,7 +37,7 @@ import static io.github.selcukes.core.driver.RunMode.isLocalBrowser;
 public class WebManager implements RemoteManager {
 
     public synchronized WebDriver createDriver() {
-        String browser = ConfigFactory.getConfig().getWeb().getBrowser();
+        String browser = ConfigFactory.getConfig().getWeb().getBrowser().toUpperCase();
         WebDriver driver;
         try {
             logger.debug(() -> "Initiating New Browser Session...");
