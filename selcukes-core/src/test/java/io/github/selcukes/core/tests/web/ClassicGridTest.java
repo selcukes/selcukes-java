@@ -22,7 +22,6 @@ import io.github.selcukes.core.listener.ResourceListener;
 import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
-import lombok.SneakyThrows;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
@@ -41,8 +40,7 @@ public class ClassicGridTest {
         return new Object[][]{{DriverType.CHROME}, {DriverType.EDGE}};
     }
 
-    @SneakyThrows
-    @Test(enabled = false, dataProvider = "driverTypes")
+    @Test(dataProvider = "driverTypes")
     public void parallelBrowserTest(DriverType driverType) {
         logger.debug(() -> "In Parallel Test for " + driverType.getName());
         ConfigFactory.getConfig().getWeb().setBrowser(driverType.getName());
