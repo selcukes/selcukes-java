@@ -19,16 +19,18 @@ package io.github.selcukes.core.listener;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.core.driver.DriverManager;
 import lombok.CustomLog;
-import org.testng.ITestContext;
-import org.testng.ITestListener;
+import org.testng.IClassListener;
+import org.testng.ITestClass;
 
 @CustomLog
-public class TestResourceListener implements ITestListener {
-    public void onStart(ITestContext context) {
+public class ClassResourceListener implements IClassListener {
+    public void onBeforeClass(ITestClass testClass) {
+        logger.info(() -> "Before Class of " + testClass.getName());
     }
 
-    public void onFinish(ITestContext context) {
-        logger.debug(() -> "Cleanup Resource");
+    public void onAfterClass(ITestClass testClass) {
+        logger.info(() -> "After Class of " + testClass.getName());
+        logger.info(() -> "Cleanup Resource");
         DriverManager.removeDriver();
         ConfigFactory.cleanupConfig();
     }

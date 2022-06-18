@@ -18,33 +18,34 @@ package io.github.selcukes.core.tests.web;
 
 import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.helper.FileHelper;
-import io.github.selcukes.core.listener.TestResourceListener;
-import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WebPage;
+import io.github.selcukes.wdb.driver.LocalDriver;
+import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.nio.file.Paths;
 
 @CustomLog
-@Listeners(TestResourceListener.class)
 public class EventDriverTest {
     WebPage page;
+    WebDriver driver;
 
     @BeforeMethod
-    public void setup() {
-        page = Pages.webPage();
+    private void setup() {
+        driver = new LocalDriver().createWebDriver(DriverType.CHROME);
+        page = new WebPage(driver);
     }
 
-    @Test
+    @Test(description = "TechyWorks Web Test")
     public void eventDriverTest() {
         page.open("https://techyworks.blogspot.com/");
         page.assertThat().title("Techy Works - Free Online Training Tutorials");
@@ -56,11 +57,13 @@ public class EventDriverTest {
 
     @SneakyThrows
     @AfterMethod
-    public void afterTest() {
+    private void afterMethod() {
         File srcFile = page.screenshotAs(OutputType.FILE);
         File reportDirectory = new File("target/screenshots");
         FileHelper.createDirectory(reportDirectory);
         String filePath = reportDirectory + File.separator + "screenshot_" + DateHelper.get().dateTime() + ".png";
         FileUtils.copyFile(srcFile, Paths.get(filePath).toFile());
+        if (driver != null)
+            driver.quit();
     }
 }

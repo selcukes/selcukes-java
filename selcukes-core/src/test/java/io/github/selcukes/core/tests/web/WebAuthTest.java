@@ -16,29 +16,35 @@
 
 package io.github.selcukes.core.tests.web;
 
-import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.core.listener.MethodResourceListener;
-import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WebPage;
 import io.github.selcukes.core.wait.WaitCondition;
+import io.github.selcukes.wdb.driver.LocalDriver;
+import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.util.UUID;
 
 @CustomLog
-@Listeners(MethodResourceListener.class)
 public class WebAuthTest {
     WebPage page;
+    WebDriver driver;
 
     @BeforeMethod
-    public void setup() {
-        ConfigFactory.getConfig().getWeb().setRemote(false);
-        page = Pages.webPage();
+    private void setup() {
+        driver = new LocalDriver().createWebDriver(DriverType.CHROME);
+        page = new WebPage(driver);
+    }
+
+    @AfterMethod
+    private void tearDown() {
+        if (driver != null)
+            driver.quit();
     }
 
     @Test
