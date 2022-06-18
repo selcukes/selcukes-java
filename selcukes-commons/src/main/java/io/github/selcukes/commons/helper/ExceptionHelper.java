@@ -17,6 +17,7 @@
 package io.github.selcukes.commons.helper;
 
 
+import io.github.selcukes.commons.exception.BusinessException;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.databind.DataMapper;
@@ -63,5 +64,10 @@ public class ExceptionHelper {
             errorCodes = DataMapper.parse(ErrorCodes.class);
         }
         return errorCodes;
+    }
+
+    public static void handleException(Throwable throwable) {
+        BusinessException exception = new BusinessException(throwable.getMessage(), throwable);
+        logger.error(throwable, exception.logError());
     }
 }
