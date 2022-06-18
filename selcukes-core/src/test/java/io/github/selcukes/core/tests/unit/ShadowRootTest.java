@@ -16,25 +16,31 @@
 
 package io.github.selcukes.core.tests.unit;
 
+import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.core.driver.DriverManager;
+import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WebPage;
-import io.github.selcukes.wdb.driver.LocalDriver;
-import io.github.selcukes.wdb.enums.DriverType;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 public class ShadowRootTest {
     @Test
     public void shadowElementTest() {
-
-        WebDriver driver = new LocalDriver().createWebDriver(DriverType.CHROME);
-        WebPage page = new WebPage(driver);
+        ConfigFactory.getConfig().getWeb().setRemote(false);
+        WebPage page = Pages.webPage();
 
         page.open("http://watir.com/examples/shadow_dom.html");
 
         WebElement shadowContent = page.findShadowChild(By.cssSelector("#shadow_host"), By.cssSelector("#shadow_content"));
         page.assertThat().element(shadowContent).textAs("some text");
 
+    }
+
+    @AfterMethod
+    public void afterMethod() {
+        DriverManager.removeDriver();
+        ConfigFactory.cleanupConfig();
     }
 }

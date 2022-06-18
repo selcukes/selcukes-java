@@ -18,7 +18,9 @@ package io.github.selcukes.core.page;
 
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.enums.DeviceType;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class Pages {
     public static WebPage webPage() {
         DriverManager.createDriver(DeviceType.BROWSER);
