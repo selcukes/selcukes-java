@@ -18,7 +18,7 @@ package io.github.selcukes.core.tests.web;
 
 import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.helper.FileHelper;
-import io.github.selcukes.core.listener.ResourceListener;
+import io.github.selcukes.core.listener.TestResourceListener;
 import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WebPage;
 import lombok.CustomLog;
@@ -35,8 +35,8 @@ import java.io.File;
 import java.nio.file.Paths;
 
 @CustomLog
-@Listeners(ResourceListener.class)
-public class EventDriverTest{
+@Listeners(TestResourceListener.class)
+public class EventDriverTest {
     WebPage page;
 
     @BeforeMethod

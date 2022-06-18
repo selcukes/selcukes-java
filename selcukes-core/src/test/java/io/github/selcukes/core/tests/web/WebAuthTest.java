@@ -16,7 +16,7 @@
 
 package io.github.selcukes.core.tests.web;
 
-import io.github.selcukes.core.listener.ResourceListener;
+import io.github.selcukes.core.listener.MethodResourceListener;
 import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WebPage;
 import io.github.selcukes.core.wait.WaitCondition;
@@ -30,7 +30,7 @@ import org.testng.annotations.Test;
 import java.util.UUID;
 
 @CustomLog
-@Listeners(ResourceListener.class)
+@Listeners(MethodResourceListener.class)
 public class WebAuthTest{
     WebPage page;
 

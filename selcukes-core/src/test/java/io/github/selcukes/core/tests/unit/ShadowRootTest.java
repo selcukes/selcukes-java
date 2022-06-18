@@ -17,7 +17,7 @@
 package io.github.selcukes.core.tests.unit;
 
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.core.listener.ResourceListener;
+import io.github.selcukes.core.listener.MethodResourceListener;
 import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WebPage;
 import org.openqa.selenium.By;
@@ -25,7 +25,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-@Listeners(ResourceListener.class)
+@Listeners(MethodResourceListener.class)
 public class ShadowRootTest {
     @Test
     public void shadowElementTest() {

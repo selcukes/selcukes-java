@@ -16,20 +16,22 @@
 
 package io.github.selcukes.core.tests.web;
 
-import io.github.selcukes.core.listener.ResourceListener;
+import io.github.selcukes.core.listener.MethodResourceListener;
 import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WebPage;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-@Listeners(ResourceListener.class)
-public class PrintTest{
+
+@Listeners(MethodResourceListener.class)
+public class PrintTest {
     WebPage page;
 
     @BeforeMethod
     public void setup() {
         page = Pages.webPage();
     }
+
     @Test
     public void testPrint() {
         page.open("https://techyworks.blogspot.com/2022/03/get-browser-session-storage-data-using-selenium.html");
