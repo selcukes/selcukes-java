@@ -18,10 +18,9 @@ package io.github.selcukes.core.tests.web;
 
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.driver.GridRunner;
-import io.github.selcukes.core.enums.DeviceType;
+import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WebPage;
 import io.github.selcukes.wdb.enums.DriverType;
-import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -34,8 +33,8 @@ public class WebTest {
 
     @Test(enabled = false)
     public void remoteWebTest() {
-        WebDriver driver = DriverManager.createDriver(DeviceType.BROWSER);
-        WebPage page = new WebPage(driver);
+
+        WebPage page = Pages.webPage();
         page.open("https://www.google.com/")
             .assertThat().title("Google");
     }

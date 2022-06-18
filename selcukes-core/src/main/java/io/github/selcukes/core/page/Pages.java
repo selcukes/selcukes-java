@@ -14,25 +14,24 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.core.tests.mobile;
+package io.github.selcukes.core.page;
 
 import io.github.selcukes.core.driver.DriverManager;
-import io.github.selcukes.core.page.MobilePage;
-import io.github.selcukes.core.page.Pages;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Test;
+import io.github.selcukes.core.enums.DeviceType;
 
-public class MobileBrowserTest {
-
-    @Test(enabled = false)
-    public void mobileBrowserTest() {
-        MobilePage page = Pages.mobilePage();
-        page.open("https://www.google.com/")
-            .assertThat().title("Google");
+public class Pages {
+    public static WebPage webPage() {
+        DriverManager.createDriver(DeviceType.BROWSER);
+        return new WebPage(DriverManager.getDriver());
     }
 
-    @AfterMethod
-    void afterTest() {
-        DriverManager.removeDriver();
+    public static WinPage winPage() {
+        DriverManager.createDriver(DeviceType.DESKTOP);
+        return new WinPage(DriverManager.getDriver());
+    }
+
+    public static MobilePage mobilePage() {
+        DriverManager.createDriver(DeviceType.MOBILE);
+        return new MobilePage(DriverManager.getDriver());
     }
 }
