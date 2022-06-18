@@ -38,4 +38,8 @@ public class Pages {
         WebDriver driver = DriverManager.createDriver(DeviceType.MOBILE);
         return new MobilePage(driver);
     }
+
+    public static synchronized ApiPage apiPage() {
+        return new ApiPage();
+    }
 }

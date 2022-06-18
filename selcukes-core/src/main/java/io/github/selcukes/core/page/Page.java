@@ -284,7 +284,7 @@ public interface Page {
             .until((Function<WebDriver, ?>) condition.getType().apply(locator, arg));
     }
 
-    default WebClient api(String url) {
+    default WebClient request(String url) {
         return new WebClient(url);
     }
 

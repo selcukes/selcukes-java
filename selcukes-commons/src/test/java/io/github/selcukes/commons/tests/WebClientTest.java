@@ -48,7 +48,7 @@ public class WebClientTest {
     public void requestTest() {
 
         WebClient client = new WebClient("https://httpbin.org/get");
-        Response response = client.sendRequest();
+        Response response = client.get();
         logger.info(response::getBody);
     }
 
@@ -58,7 +58,7 @@ public class WebClientTest {
 
         WebClient client = new WebClient("https://httpbin.org/#/Auth/get_bearer");
         Response response = client.authenticator("hello")
-            .sendRequest();
+            .get();
         logger.debug(response::getBody);
     }
 
@@ -68,7 +68,7 @@ public class WebClientTest {
 
         WebClient client = new WebClient("https://httpbin.org/#/Auth/get_basic_auth__user___passwd_");
         Response response = client.authenticator("hello", "hello")
-            .sendRequest();
+            .get();
         logger.debug(() -> response.getStatusCode() + "");
     }
 }
