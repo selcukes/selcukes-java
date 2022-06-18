@@ -23,19 +23,15 @@ import io.github.selcukes.commons.helper.ExceptionHelper;
 import java.util.function.Supplier;
 
 public class BusinessException extends SelcukesException {
-    private String code;
+    private final String code;
 
     public BusinessException(String message, Throwable cause) {
         super(message, cause);
-        this.setCode(cause.getClass().getSimpleName());
+        this.code = cause.getClass().getSimpleName();
     }
 
     public String getCode() {
         return ExceptionHelper.getErrorCodes().getMessage(code);
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public Supplier<String> logError() {
