@@ -82,6 +82,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     private final EventHandler<WriteEvent> writeEventHandler = this::handleWrite;
     private final EventHandler<TestRunFinished> runFinishedHandler = this::handleTestRunFinished;
 
+    @SuppressWarnings("unused")
     public SelcukesExtentAdapter(String arg) {
         ExtentService.getInstance();
     }

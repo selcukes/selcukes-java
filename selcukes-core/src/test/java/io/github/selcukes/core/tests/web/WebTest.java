@@ -16,31 +16,26 @@
 
 package io.github.selcukes.core.tests.web;
 
-import io.github.selcukes.core.driver.DriverManager;
-import io.github.selcukes.core.driver.GridRunner;
+import io.github.selcukes.core.listener.MethodResourceListener;
 import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WebPage;
-import io.github.selcukes.wdb.enums.DriverType;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+@Listeners(MethodResourceListener.class)
 public class WebTest {
-    @BeforeSuite
-    public void beforeClass() {
-        GridRunner.startSelenium(DriverType.CHROME);
+    WebPage page;
+
+    @BeforeMethod
+    public void setup() {
+        page = Pages.webPage();
     }
 
-    @Test(enabled = false)
+    @Test
     public void remoteWebTest() {
-
-        WebPage page = Pages.webPage();
         page.open("https://www.google.com/")
             .assertThat().title("Google");
     }
 
-    @AfterMethod
-    public void afterClass() {
-        DriverManager.removeDriver();
-    }
 }

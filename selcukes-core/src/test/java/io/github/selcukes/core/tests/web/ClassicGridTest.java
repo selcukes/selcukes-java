@@ -16,21 +16,19 @@
 
 package io.github.selcukes.core.tests.web;
 
-import io.github.selcukes.core.driver.BrowserOptions;
+import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.core.driver.GridRunner;
-import io.github.selcukes.core.enums.DeviceType;
+import io.github.selcukes.core.listener.MethodResourceListener;
+import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
-import lombok.SneakyThrows;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import static io.github.selcukes.core.driver.DriverManager.*;
-
 @CustomLog
+@Listeners(MethodResourceListener.class)
 public class ClassicGridTest {
     @BeforeSuite
     public static void beforeSuite() {
@@ -42,17 +40,12 @@ public class ClassicGridTest {
         return new Object[][]{{DriverType.CHROME}, {DriverType.EDGE}};
     }
 
-    @SneakyThrows
-    @Test(enabled = false, dataProvider = "driverTypes")
+    @Test(dataProvider = "driverTypes")
     public void parallelBrowserTest(DriverType driverType) {
         logger.debug(() -> "In Parallel Test for " + driverType.getName());
-        createDriver(DeviceType.BROWSER, BrowserOptions.getBrowserOptions(driverType, true));
-        getDriver().get("https://www.google.com/");
-        Assert.assertEquals(getDriver().getTitle(), "Google");
+        ConfigFactory.getConfig().getWeb().setBrowser(driverType.getName());
+        Pages.webPage().open("https://www.google.com/")
+            .assertThat().title("Google");
     }
 
-    @AfterMethod
-    public void afterMethod() {
-        removeDriver();
-    }
 }
