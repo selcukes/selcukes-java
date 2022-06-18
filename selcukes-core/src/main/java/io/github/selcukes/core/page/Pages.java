@@ -16,24 +16,26 @@
 
 package io.github.selcukes.core.page;
 
+import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.enums.DeviceType;
 import lombok.experimental.UtilityClass;
+import org.openqa.selenium.WebDriver;
 
 @UtilityClass
 public class Pages {
-    public static WebPage webPage() {
-        DriverManager.createDriver(DeviceType.BROWSER);
-        return new WebPage(DriverManager.getDriver());
+    public static synchronized WebPage webPage() {
+        WebDriver driver = DriverManager.createDriver(DeviceType.BROWSER);
+        return new WebPage(driver);
     }
 
-    public static WinPage winPage() {
-        DriverManager.createDriver(DeviceType.DESKTOP);
-        return new WinPage(DriverManager.getDriver());
+    public static synchronized WinPage winPage() {
+        WindowsDriver driver = DriverManager.createDriver(DeviceType.DESKTOP);
+        return new WinPage(driver);
     }
 
-    public static MobilePage mobilePage() {
-        DriverManager.createDriver(DeviceType.MOBILE);
-        return new MobilePage(DriverManager.getDriver());
+    public static synchronized MobilePage mobilePage() {
+        WebDriver driver = DriverManager.createDriver(DeviceType.MOBILE);
+        return new MobilePage(driver);
     }
 }
