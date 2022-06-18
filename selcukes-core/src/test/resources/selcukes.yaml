@@ -5,7 +5,7 @@ env: Dev
 proxy: false
 baseUrl:
 web:
-  remote: false
+  remote: true
   cloud:
   browser: CHROME
   headLess: true
