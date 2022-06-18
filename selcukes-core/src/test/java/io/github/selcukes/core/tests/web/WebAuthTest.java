@@ -16,17 +16,28 @@
 
 package io.github.selcukes.core.tests.web;
 
+import io.github.selcukes.core.listener.ResourceListener;
+import io.github.selcukes.core.page.Pages;
+import io.github.selcukes.core.page.WebPage;
 import io.github.selcukes.core.wait.WaitCondition;
 import lombok.CustomLog;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.util.UUID;
 
 @CustomLog
-public class WebAuthTest extends BaseTest {
+@Listeners(ResourceListener.class)
+public class WebAuthTest{
+    WebPage page;
 
+    @BeforeMethod
+    public void setup() {
+        page = Pages.webPage();
+    }
     @Test
     public void testVirtualAuth() {
         page.open("https://webauthn.io/");

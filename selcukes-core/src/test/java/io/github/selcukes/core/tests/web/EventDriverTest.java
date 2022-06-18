@@ -18,19 +18,31 @@ package io.github.selcukes.core.tests.web;
 
 import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.helper.FileHelper;
+import io.github.selcukes.core.listener.ResourceListener;
+import io.github.selcukes.core.page.Pages;
+import io.github.selcukes.core.page.WebPage;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.nio.file.Paths;
 
 @CustomLog
-public class EventDriverTest extends BaseTest {
+@Listeners(ResourceListener.class)
+public class EventDriverTest{
+    WebPage page;
+
+    @BeforeMethod
+    public void setup() {
+        page = Pages.webPage();
+    }
 
     @Test
     public void eventDriverTest() {
