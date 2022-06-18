@@ -35,7 +35,7 @@ public class ResponseValidation {
     }
 
     public ResponseValidation isOK() {
-        if (response.getStatusCode() == 200) {
+        if (response.getStatusCode() != 200) {
             failWithMessage(isSoft, "Expected Response Status should be [%s] but was [%s]", "OK", getReasonPhrase(response.getStatusCode()));
         }
         return this;
