@@ -16,6 +16,7 @@
 
 package io.github.selcukes.core.tests.web;
 
+import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.core.listener.MethodResourceListener;
 import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WebPage;
@@ -31,13 +32,15 @@ import java.util.UUID;
 
 @CustomLog
 @Listeners(MethodResourceListener.class)
-public class WebAuthTest{
+public class WebAuthTest {
     WebPage page;
 
     @BeforeMethod
     public void setup() {
+        ConfigFactory.getConfig().getWeb().setRemote(false);
         page = Pages.webPage();
     }
+
     @Test
     public void testVirtualAuth() {
         page.open("https://webauthn.io/");
