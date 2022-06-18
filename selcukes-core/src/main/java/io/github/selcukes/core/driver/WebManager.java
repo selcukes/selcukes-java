@@ -50,8 +50,12 @@ public class WebManager implements RemoteManager {
                 }
             }
             RemoteWebDriverBuilder driverBuilder = RemoteWebDriver.builder().oneOf(capabilities);
-            if (!isLocalBrowser())
+            if (!isLocalBrowser()) {
+                logger.info(() -> "Starting Remote WebDriver session...");
                 driverBuilder.address(getServiceUrl());
+            } else {
+                logger.info(() -> "Starting Local WebDriver session...");
+            }
 
             driver = driverBuilder.build();
         } catch (Exception e) {
