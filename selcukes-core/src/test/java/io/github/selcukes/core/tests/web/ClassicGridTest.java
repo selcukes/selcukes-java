@@ -22,6 +22,7 @@ import io.github.selcukes.core.listener.MethodResourceListener;
 import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -29,7 +30,7 @@ import org.testng.annotations.Test;
 @CustomLog
 @Listeners(MethodResourceListener.class)
 public class ClassicGridTest {
-   // @BeforeSuite
+    @BeforeSuite
     public static void beforeSuite() {
         GridRunner.startSelenium(DriverType.CHROME, DriverType.EDGE);
     }
