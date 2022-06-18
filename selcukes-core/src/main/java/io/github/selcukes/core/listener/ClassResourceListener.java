@@ -24,10 +24,12 @@ import org.testng.ITestClass;
 
 @CustomLog
 public class ClassResourceListener implements IClassListener {
+    @Override
     public void onBeforeClass(ITestClass testClass) {
         logger.info(() -> "Before Class of " + testClass.getName());
     }
 
+    @Override
     public void onAfterClass(ITestClass testClass) {
         logger.info(() -> "After Class of " + testClass.getName());
         logger.info(() -> "Cleanup Resource");
