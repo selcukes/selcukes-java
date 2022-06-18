@@ -30,7 +30,7 @@ import org.testng.annotations.Test;
 @CustomLog
 @Listeners(ResourceListener.class)
 public class ClassicGridTest {
-    @BeforeSuite
+   // @BeforeSuite
     public static void beforeSuite() {
         GridRunner.startSelenium(DriverType.CHROME, DriverType.EDGE);
     }
