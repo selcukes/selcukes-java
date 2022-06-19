@@ -64,7 +64,8 @@ public class IExplorerBinary extends AbstractBinary {
             throw new WebDriverBinaryException("Unable to Find Latest IE Version.");
         }
         latestVersionUrl = version.get();
-        return latestVersionUrl.substring(0, latestVersionUrl.indexOf('/'));
+        String temp = latestVersionUrl.substring(latestVersionUrl.indexOf('/') + 1).replaceAll(matcher, "");
+        return temp.substring(1, temp.length() - 4);
     }
 
 }
