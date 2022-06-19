@@ -36,6 +36,7 @@ public class XmlHelper {
     public static Document toXml(InputStream inputStream) {
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+            builderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true) ;
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
             return builder.parse(new InputSource(inputStream));
         } catch (Exception e) {
