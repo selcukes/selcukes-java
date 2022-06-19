@@ -40,7 +40,6 @@
         <commons.io.version>2.11.0</commons.io.version>
         <jackson.version>2.13.3</jackson.version>
         <commons-compress.version>1.21</commons-compress.version>
-        <jsoup.version>1.15.1</jsoup.version>
 
         <poi.version>5.2.2</poi.version>
         <cucumber-reporting.version>5.7.1</cucumber-reporting.version>
@@ -175,11 +174,6 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-compress</artifactId>
                 <version>${commons-compress.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jsoup</groupId>
-                <artifactId>jsoup</artifactId>
-                <version>${jsoup.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.cucumber</groupId>

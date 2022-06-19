@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static io.github.selcukes.wdb.util.HtmlReader.versionsList;
+import static io.github.selcukes.wdb.util.XmlReader.versionsList;
 
 public class VersionDetector {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -89,7 +89,13 @@ public class VersionDetector {
 
     public String getCompatibleBinaryVersion(String browserVersion) {
         logger.info(() -> String.format("Identifying Compatible %s version for Browser [%s] ", driverName, browserVersion));
-        List<String> versions = versionsList(this.binaryDownloadUrl, this.driverName + "_" + this.osNameAndArch);
+        String matcher = this.driverName + "_" + this.osNameAndArch;
+        String expression = "//s3:Contents/s3:Key";
+        if (this.driverName.contains("edge")) {
+            expression = "//Blob/Name";
+            matcher = matcher.substring(2);
+        }
+        List<String> versions = versionsList(this.binaryDownloadUrl, expression, matcher);
         if (versions.isEmpty()) {
             logger.warn(() -> "Failed Identifying Compatible Version. Downloading Latest version.");
             return "";

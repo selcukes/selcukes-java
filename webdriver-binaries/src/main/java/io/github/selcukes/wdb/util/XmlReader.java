@@ -18,60 +18,63 @@ package io.github.selcukes.wdb.util;
 
 import io.github.selcukes.commons.http.Response;
 import io.github.selcukes.commons.http.WebClient;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.jsoup.Jsoup.parse;
+import static io.github.selcukes.commons.helper.XmlHelper.filterElements;
 
-public class HtmlReader {
+public class XmlReader {
 
 
-    private HtmlReader() {
+    private XmlReader() {
 
     }
 
     public static Response sendRequest(String binaryDownloadUrl, String proxy) {
         return new WebClient(binaryDownloadUrl).proxy(proxy).get();
     }
-
+/*
     public static Elements xmlElements(String url, String matcher) throws IOException {
         try (InputStream downloadStream = sendRequest(url, null).bodyStream()) {
             Document doc = parse(downloadStream, null, "");
             return doc.select("Key:contains(" + matcher + ")");
         }
-    }
+    }*/
 
-    public static Map<String, String> versionsMap(String url, String matcher) {
+    public static Map<String, String> versionsMap(String url, String expression, String matcher) {
         try {
-            return xmlElements(url, matcher)
-                .stream().map(Element::text)
-                .collect(Collectors.toMap(
-                    entry -> entry.substring(entry.indexOf('/')),
-                    entry -> entry,
-                    (prev, next) -> next, TreeMap::new
-                ));
+            Document xmlDocument = sendRequest(url, null)
+                .bodyXml();
+            XPath xPath = XPathFactory.newInstance().newXPath();
+            NodeList nodes = (NodeList) xPath.compile(expression).evaluate(xmlDocument, XPathConstants.NODESET);
+            List<String> versions = filterElements(nodes, matcher);
+            return
+                versions
+                    .stream()
+                    .collect(Collectors.toMap(
+                        entry -> entry.substring(0,entry.indexOf('/')),
+                        entry -> entry,
+                        (prev, next) -> next, TreeMap::new
+                    ));
         } catch (Exception e) {
             return Collections.emptyMap();
         }
 
     }
 
-    public static List<String> versionsList(String url, String matcher) {
+    public static List<String> versionsList(String url, String expression, String matcher) {
         try {
-            return xmlElements(url, matcher).stream()
-                .map(ele -> ele.text().substring(0, ele.text().indexOf('/')))
-                .collect(Collectors.toList());
+            return new ArrayList<>(versionsMap(url, expression, matcher).keySet());
         } catch (Exception e) {
             return Collections.emptyList();
         }
     }
+
+
 }

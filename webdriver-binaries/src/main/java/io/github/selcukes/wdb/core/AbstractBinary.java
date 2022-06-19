@@ -22,7 +22,7 @@ import io.github.selcukes.wdb.version.VersionDetector;
 
 import java.util.Optional;
 
-import static io.github.selcukes.wdb.util.HtmlReader.sendRequest;
+import static io.github.selcukes.wdb.util.XmlReader.sendRequest;
 import static io.github.selcukes.wdb.util.OptionalUtil.orElse;
 import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
 

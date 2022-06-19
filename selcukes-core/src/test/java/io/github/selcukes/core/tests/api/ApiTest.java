@@ -35,7 +35,7 @@ public class ApiTest {
         Response response = page.request("https://reqres.in/api/register")
             .post(user);
         page.assertThat().response(response).isOk();
-        logger.info(() -> "Token is: " + response.getBodyAs(ResponseBody.class).getToken());
+        logger.info(() -> "Token is: " + response.bodyAs(ResponseBody.class).getToken());
     }
 
     @Data
