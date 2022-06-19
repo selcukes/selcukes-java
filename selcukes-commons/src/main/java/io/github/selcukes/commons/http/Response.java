@@ -20,14 +20,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.github.selcukes.commons.exception.SelcukesException;
 import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.utils.StringHelper;
+import lombok.Getter;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public class Response {
-
+    @Getter
     private final HttpResponse<String> httpResponse;
 
     public Response(HttpResponse<String> httpResponse) {
@@ -41,6 +45,10 @@ public class Response {
 
     public String getBody() {
         return httpResponse.body();
+    }
+
+    public InputStream bodyStream() {
+        return new ByteArrayInputStream(getBody().getBytes(StandardCharsets.UTF_8));
     }
 
     public JsonNode getBodyAsJson() {

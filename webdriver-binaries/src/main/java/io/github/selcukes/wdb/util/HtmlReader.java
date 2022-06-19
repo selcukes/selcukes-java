@@ -1,0 +1,77 @@
+/*
+ *  Copyright (c) Ramesh Babu Prudhvi.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+package io.github.selcukes.wdb.util;
+
+import io.github.selcukes.commons.http.Response;
+import io.github.selcukes.commons.http.WebClient;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+
+import static org.jsoup.Jsoup.parse;
+
+public class HtmlReader {
+
+
+    private HtmlReader() {
+
+    }
+
+    public static Response sendRequest(String binaryDownloadUrl, String proxy) {
+        return new WebClient(binaryDownloadUrl).proxy(proxy).get();
+    }
+
+    public static Elements xmlElements(String url, String matcher) throws IOException {
+        try (InputStream downloadStream = sendRequest(url, null).bodyStream()) {
+            Document doc = parse(downloadStream, null, "");
+            return doc.select("Key:contains(" + matcher + ")");
+        }
+    }
+
+    public static Map<String, String> versionsMap(String url, String matcher) {
+        try {
+            return xmlElements(url, matcher)
+                .stream().map(Element::text)
+                .collect(Collectors.toMap(
+                    entry -> entry.substring(entry.indexOf('/')),
+                    entry -> entry,
+                    (prev, next) -> next, TreeMap::new
+                ));
+        } catch (Exception e) {
+            return Collections.emptyMap();
+        }
+
+    }
+
+    public static List<String> versionsList(String url, String matcher) {
+        try {
+            return xmlElements(url, matcher).stream()
+                .map(ele -> ele.text().substring(0, ele.text().indexOf('/')))
+                .collect(Collectors.toList());
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
+    }
+}

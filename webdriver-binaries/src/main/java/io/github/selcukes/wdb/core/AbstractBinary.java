@@ -16,14 +16,13 @@
 
 package io.github.selcukes.wdb.core;
 
-import io.github.selcukes.commons.http.Response;
-import io.github.selcukes.commons.http.WebClient;
 import io.github.selcukes.commons.os.Architecture;
 import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.wdb.version.VersionDetector;
 
 import java.util.Optional;
 
+import static io.github.selcukes.wdb.util.HtmlReader.sendRequest;
 import static io.github.selcukes.wdb.util.OptionalUtil.orElse;
 import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
 
@@ -76,12 +75,8 @@ abstract class AbstractBinary implements BinaryFactory {
         this.proxyUrl = Optional.ofNullable(proxy);
     }
 
-    protected Response sendRequest(String binaryDownloadUrl) {
-        return new WebClient(binaryDownloadUrl).proxy(getProxy()).get();
-    }
-
     protected String getVersionNumberFromGit(String binaryDownloadUrl) {
-        final String releaseLocation = sendRequest(binaryDownloadUrl).getHeader("location");
+        final String releaseLocation = sendRequest(binaryDownloadUrl, getProxy()).getHeader("location");
 
         if (releaseLocation == null || releaseLocation.length() < 2 || !releaseLocation.contains("/")) {
             return "";
@@ -90,14 +85,10 @@ abstract class AbstractBinary implements BinaryFactory {
     }
 
     protected void setBrowserVersion(String url) {
-        try {
-            String localBrowserVersion = new VersionDetector(getBinaryDriverName(),
-                getBinaryEnvironment().getOsNameAndArch(), url).getVersion();
+        String localBrowserVersion = new VersionDetector(getBinaryDriverName(),
+            getBinaryEnvironment().getOsNameAndArch(), url).getVersion();
+        if (!localBrowserVersion.isEmpty())
             setVersion(localBrowserVersion);
-        } catch (Exception ignored) {
-            //IGNORE
-        }
-
     }
 
 }
