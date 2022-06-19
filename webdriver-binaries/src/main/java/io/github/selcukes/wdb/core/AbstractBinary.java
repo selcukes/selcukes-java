@@ -27,7 +27,6 @@ import static io.github.selcukes.wdb.util.OptionalUtil.orElse;
 import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
 
 abstract class AbstractBinary implements BinaryFactory {
-    protected String latestVersionUrl;
     protected boolean isAutoDetectBrowserVersion = true;
     private Optional<String> release = Optional.empty();
     private Optional<Architecture> targetArch = Optional.empty();

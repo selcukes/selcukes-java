@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class IExplorerBinary extends AbstractBinary {
+    String latestVersionUrl;
 
     @Override
     public URL getDownloadURL() {
@@ -52,7 +53,7 @@ public class IExplorerBinary extends AbstractBinary {
     @Override
     protected String getLatestRelease() {
         String arch = getBinaryEnvironment().getArchitecture() == 64 ? "x64" : "Win32";
-        String matcher = "IEDriverServer" + "_" + arch;
+        String matcher = getBinaryDriverName() + "_" + arch;
 
         Map<String, String> versionsMap = HtmlReader.versionsMap(UrlHelper.IEDRIVER_LATEST_RELEASE_URL, matcher);
 
@@ -62,7 +63,8 @@ public class IExplorerBinary extends AbstractBinary {
         if (version.isEmpty()) {
             throw new WebDriverBinaryException("Unable to Find Latest IE Version.");
         }
-        return version.get();
+        latestVersionUrl = version.get();
+        return latestVersionUrl.substring(0, latestVersionUrl.indexOf('/'));
     }
 
 }
