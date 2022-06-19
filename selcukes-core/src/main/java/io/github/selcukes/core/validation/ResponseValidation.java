@@ -35,7 +35,8 @@ public class ResponseValidation {
 
     public ResponseValidation isOk() {
         int statusCode = response.getStatusCode();
-        if (statusCode == 0 || (statusCode >= 200 && statusCode <= 299)) {
+        boolean isOk = statusCode == 0 || (statusCode >= 200 && statusCode <= 299);
+        if (!isOk) {
             failWithMessage(isSoft, "Expected Response Status should be [%s] but was [%s]", "OK", getReasonPhrase(statusCode));
         }
         return this;
