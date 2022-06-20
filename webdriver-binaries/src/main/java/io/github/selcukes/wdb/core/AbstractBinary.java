@@ -22,9 +22,9 @@ import io.github.selcukes.wdb.version.VersionDetector;
 
 import java.util.Optional;
 
-import static io.github.selcukes.wdb.util.XmlReader.sendRequest;
 import static io.github.selcukes.wdb.util.OptionalUtil.orElse;
 import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
+import static io.github.selcukes.wdb.util.XmlHelper.sendRequest;
 
 abstract class AbstractBinary implements BinaryFactory {
     protected boolean isAutoDetectBrowserVersion = true;
@@ -81,6 +81,10 @@ abstract class AbstractBinary implements BinaryFactory {
             return "";
         }
         return releaseLocation.substring(releaseLocation.lastIndexOf('/') + 1);
+    }
+
+    protected String getVersionNumberFromXml(String binaryDownloadUrl) {
+        return sendRequest(binaryDownloadUrl, getProxy()).body();
     }
 
     protected void setBrowserVersion(String url) {

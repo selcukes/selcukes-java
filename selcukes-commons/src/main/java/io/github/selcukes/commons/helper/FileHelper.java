@@ -24,13 +24,17 @@ import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.nio.channels.Channels;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Objects;
 import java.util.Set;
@@ -182,7 +186,7 @@ public class FileHelper {
     }
 
     /**
-     * Create temp file file.
+     * Create Temp file.
      *
      * @return the file
      */
@@ -197,10 +201,10 @@ public class FileHelper {
     }
 
     /**
-     * To byte array byte [ ].
+     * To byte array byte[].
      *
      * @param filePath the file path
-     * @return the byte [ ]
+     * @return the byte[]
      */
     public byte[] toByteArray(String filePath) {
         try {
@@ -277,13 +281,9 @@ public class FileHelper {
     public File getWaterMarkFile() {
         String waterMark = "target/selcukes-watermark.png";
         File waterMarkFile = new File(waterMark);
-        try {
-            if (!waterMarkFile.exists())
-                FileUtils.copyURLToFile(Objects.requireNonNull(FileHelper.class.
-                    getClassLoader().getResource("selcukes-watermark.png")), waterMarkFile);
-        } catch (IOException e) {
-            throw new SelcukesException("Unable to copy file to local folder  : ", e);
-        }
+        if (!waterMarkFile.exists())
+            download(Objects.requireNonNull(FileHelper.class.
+                getClassLoader().getResource("selcukes-watermark.png")), waterMarkFile);
         return waterMarkFile;
     }
 
@@ -301,6 +301,37 @@ public class FileHelper {
         Path destinationFile = Paths.get(filePath);
         Files.write(destinationFile, decodedFile);
         return destinationFile.toFile();
+    }
+
+    /**
+     * Download a file from url.
+     *
+     * @param source      the source
+     * @param destination the destination
+     */
+    public void download(URL source, File destination) {
+        if (destination.exists())
+            return;
+        try (
+            var urlStream = source.openStream();
+            var readableByteChannel = Channels.newChannel(urlStream);
+            var fileOutputStream = new FileOutputStream(destination);
+        ) {
+            fileOutputStream.getChannel().transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+        } catch (Exception e) {
+            throw new SelcukesException(String.format("Unable to download a file from URL [%s]", source));
+        }
+    }
+
+    @SneakyThrows
+    public String downloadToUsersFolder(String url) {
+        var fileName = Arrays.stream(url.split("/")).reduce((first, second) -> second).orElse(null);
+        var userHomeDir = System.getProperty("user.home");
+        var file = Paths.get(userHomeDir, fileName).toFile();
+        if (file.exists())
+            return file.getPath();
+        download(new URL(url), file);
+        return file.getPath();
     }
 }
 

@@ -24,11 +24,11 @@ import org.w3c.dom.NodeList;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static io.github.selcukes.commons.helper.XmlHelper.filterElements;
-import static io.github.selcukes.commons.helper.XmlHelper.getNodes;
+import static io.github.selcukes.commons.helper.XmlMapper.filterElements;
+import static io.github.selcukes.commons.helper.XmlMapper.getNodes;
 
-public class XmlReader {
-    private XmlReader() {
+public class XmlHelper {
+    private XmlHelper() {
 
     }
 
