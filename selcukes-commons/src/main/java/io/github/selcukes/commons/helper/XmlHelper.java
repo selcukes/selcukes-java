@@ -44,7 +44,6 @@ public class XmlHelper {
             builderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             builderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
             builderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
-            // builderFactory.setNamespaceAware(true);
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
             return builder.parse(new InputSource(inputStream));
         } catch (Exception e) {
@@ -65,7 +64,6 @@ public class XmlHelper {
     @SneakyThrows
     public static NodeList getNodes(Document xmlDocument, String expression) {
         XPath xPath = XPathFactory.newInstance().newXPath();
-        //  xPath.setNamespaceContext(new NamespaceResolver(xmlDocument));
         return (NodeList) xPath.compile(expression).evaluate(xmlDocument, XPathConstants.NODESET);
     }
 }

@@ -28,8 +28,6 @@ import static io.github.selcukes.commons.helper.XmlHelper.filterElements;
 import static io.github.selcukes.commons.helper.XmlHelper.getNodes;
 
 public class XmlReader {
-
-
     private XmlReader() {
 
     }
@@ -37,13 +35,6 @@ public class XmlReader {
     public static Response sendRequest(String binaryDownloadUrl, String proxy) {
         return new WebClient(binaryDownloadUrl).proxy(proxy).get();
     }
-/*
-    public static Elements xmlElements(String url, String matcher) throws IOException {
-        try (InputStream downloadStream = sendRequest(url, null).bodyStream()) {
-            Document doc = parse(downloadStream, null, "");
-            return doc.select("Key:contains(" + matcher + ")");
-        }
-    }*/
 
     public static Map<String, String> versionsMap(String url, String expression, String matcher) {
         try {
