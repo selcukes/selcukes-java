@@ -90,7 +90,7 @@ public class VersionDetector {
     public String getCompatibleBinaryVersion(String browserVersion) {
         logger.info(() -> String.format("Identifying Compatible %s version for Browser [%s] ", driverName, browserVersion));
         String matcher = this.driverName + "_" + this.osNameAndArch;
-        String expression = "//s3:Contents/s3:Key";
+        String expression = "//Key";
         if (this.driverName.contains("edge")) {
             expression = "//Blob/Name";
             matcher = matcher.substring(2);
