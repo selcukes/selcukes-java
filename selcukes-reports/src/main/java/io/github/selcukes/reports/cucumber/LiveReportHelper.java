@@ -32,6 +32,6 @@ public class LiveReportHelper {
         String url = "http://localhost:9200/%s/results";
         WebClient client = new WebClient(String.format(url, key));
         Response response = client.post(object);
-        logger.debug(response::getBody);
+        logger.debug(response::body);
     }
 }

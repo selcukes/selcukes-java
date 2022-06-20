@@ -25,7 +25,6 @@ import static io.github.selcukes.core.validation.Validation.failWithMessage;
 public class ResponseValidation {
     Response response;
     Page page;
-
     boolean isSoft;
 
     public ResponseValidation(boolean isSoft, Page page, Response response) {
@@ -34,16 +33,18 @@ public class ResponseValidation {
         this.isSoft = isSoft;
     }
 
-    public ResponseValidation isOK() {
-        if (response.getStatusCode() != 200) {
-            failWithMessage(isSoft, "Expected Response Status should be [%s] but was [%s]", "OK", getReasonPhrase(response.getStatusCode()));
+    public ResponseValidation isOk() {
+        int statusCode = response.statusCode();
+        boolean isOk = statusCode == 0 || (statusCode >= 200 && statusCode <= 299);
+        if (!isOk) {
+            failWithMessage(isSoft, "Expected Response Status should be [%s] but was [%s]", "OK", getReasonPhrase(statusCode));
         }
         return this;
     }
 
     public ResponseValidation containsText(String expectedText) {
-        if (!response.getBody().contains(expectedText)) {
-            failWithMessage(isSoft, "Expected Response should contain text [%s] but actual text was [%s]", expectedText, response.getBody());
+        if (!response.body().contains(expectedText)) {
+            failWithMessage(isSoft, "Expected Response should contain text [%s] but actual text was [%s]", expectedText, response.body());
         }
         return this;
     }

@@ -20,14 +20,22 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.github.selcukes.commons.exception.SelcukesException;
 import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.utils.StringHelper;
+import lombok.Getter;
+import lombok.SneakyThrows;
+import org.w3c.dom.Document;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class Response {
+import static io.github.selcukes.commons.helper.XmlHelper.toXml;
 
+public class Response {
+    @Getter
     private final HttpResponse<String> httpResponse;
 
     public Response(HttpResponse<String> httpResponse) {
@@ -39,19 +47,28 @@ public class Response {
         return httpResponse.headers().map();
     }
 
-    public String getBody() {
+    public String body() {
         return httpResponse.body();
     }
 
-    public JsonNode getBodyAsJson() {
+    public InputStream bodyStream() {
+        return new ByteArrayInputStream(body().getBytes(StandardCharsets.UTF_8));
+    }
+
+    @SneakyThrows
+    public Document bodyXml() {
+        return toXml(bodyStream());
+    }
+
+    public JsonNode bodyJson() {
         return StringHelper.toJson(httpResponse.body());
     }
 
-    public <T> T getBodyAs(Class<T> responseType) {
-        return DataMapper.parse(getBody(), responseType);
+    public <T> T bodyAs(Class<T> responseType) {
+        return DataMapper.parse(body(), responseType);
     }
 
-    public int getStatusCode() {
+    public int statusCode() {
         return httpResponse.statusCode();
     }
 
@@ -61,7 +78,7 @@ public class Response {
     }
 
     public void logIfError() {
-        int responseCode = getStatusCode();
+        int responseCode = statusCode();
         if (responseCode >= 400) {
             throw new SelcukesException(String.format("HttpResponseException : Response Code[%s] Reason Phrase[%s]",
                 responseCode, getReasonPhrase(responseCode)));

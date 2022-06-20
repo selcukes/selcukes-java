@@ -18,20 +18,16 @@ package io.github.selcukes.wdb.version;
 
 import io.github.selcukes.commons.exec.ExecResults;
 import io.github.selcukes.commons.exec.Shell;
-import io.github.selcukes.commons.http.WebClient;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.databind.utils.StringHelper;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
-import static org.jsoup.Jsoup.parse;
+import static io.github.selcukes.wdb.util.XmlReader.versionsList;
 
 public class VersionDetector {
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -91,31 +87,19 @@ public class VersionDetector {
         return getCompatibleBinaryVersion(browserVersion);
     }
 
-    public List<String> getBinaryVersions(String binaryDownloadUrl, String matcher) {
-        List<String> versions = new ArrayList<>();
-        WebClient client = new WebClient(binaryDownloadUrl);
-        String response = client.get().getBody();
-        try (InputStream downloadStream = new ByteArrayInputStream(response.getBytes())) {
-            Document doc = parse(downloadStream, null, "");
-            Elements elements = doc.select(
-                "Key:contains(" + matcher + ")");
-            for (Element ele : elements) {
-                String versionNum = ele.text().substring(0, ele.text().indexOf('/'));
-                versions.add(versionNum);
-            }
-
-            return versions;
-
-        } catch (Exception e) {
-            logger.warn(() -> "Failed Identifying Compatible Version. Downloading Latest version.");
-            return Collections.emptyList();
-        }
-    }
-
     public String getCompatibleBinaryVersion(String browserVersion) {
         logger.info(() -> String.format("Identifying Compatible %s version for Browser [%s] ", driverName, browserVersion));
-        List<String> versions = getBinaryVersions(this.binaryDownloadUrl, this.driverName + "_" + this.osNameAndArch);
-
+        String matcher = this.driverName + "_" + this.osNameAndArch;
+        String expression = "//s3:Contents/s3:Key";
+        if (this.driverName.contains("edge")) {
+            expression = "//Blob/Name";
+            matcher = matcher.substring(2);
+        }
+        List<String> versions = versionsList(this.binaryDownloadUrl, expression, matcher);
+        if (versions.isEmpty()) {
+            logger.warn(() -> "Failed Identifying Compatible Version. Downloading Latest version.");
+            return "";
+        }
         String browserVersionPrefix = browserVersion.split("\\.")[0];
         String compatibleVersion;
         if (!versions.contains(browserVersion)) {
