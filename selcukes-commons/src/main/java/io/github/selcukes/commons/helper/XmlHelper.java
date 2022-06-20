@@ -42,6 +42,8 @@ public class XmlHelper {
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             builderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            builderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            builderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
             // builderFactory.setNamespaceAware(true);
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
             return builder.parse(new InputSource(inputStream));
