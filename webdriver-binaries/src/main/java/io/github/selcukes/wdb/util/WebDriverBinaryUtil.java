@@ -99,7 +99,13 @@ public class WebDriverBinaryUtil {
             new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()),
             binaryFactory.getCompressedBinaryType());
         if (Objects.equals(binaryFactory.getBinaryEnvironment().getOSType(), OsType.LINUX)) {
-            FileHelper.setFileExecutable(getWebDriverBinary().getAbsolutePath());
+            try {
+                FileHelper.setFileExecutable(getWebDriverBinary().getAbsolutePath());
+            } catch (Exception ignored) {
+                logger.warn(
+                    () -> String.format("Unable to WebDriver Binary file[%s] as executable..", getWebDriverBinary().getAbsolutePath()));
+            }
+
         }
 
     }

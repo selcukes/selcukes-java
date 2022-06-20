@@ -40,7 +40,7 @@ public class WebClientTest {
         WebClient client = new WebClient("https://httpbin.org/post");
         Response response = client.post(json);
 
-        logger.info(response::getBody);
+        logger.info(response::body);
     }
 
     @SneakyThrows
@@ -49,7 +49,7 @@ public class WebClientTest {
 
         WebClient client = new WebClient("https://httpbin.org/get");
         Response response = client.get();
-        logger.info(response::getBody);
+        logger.info(response::body);
     }
 
     @SneakyThrows
@@ -59,7 +59,7 @@ public class WebClientTest {
         WebClient client = new WebClient("https://httpbin.org/#/Auth/get_bearer");
         Response response = client.authenticator("hello")
             .get();
-        logger.debug(response::getBody);
+        logger.debug(response::body);
     }
 
     @SneakyThrows
@@ -69,6 +69,6 @@ public class WebClientTest {
         WebClient client = new WebClient("https://httpbin.org/#/Auth/get_basic_auth__user___passwd_");
         Response response = client.authenticator("hello", "hello")
             .get();
-        logger.debug(() -> response.getStatusCode() + "");
+        logger.debug(() -> response.statusCode() + "");
     }
 }

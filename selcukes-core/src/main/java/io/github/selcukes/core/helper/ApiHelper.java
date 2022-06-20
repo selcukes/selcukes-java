@@ -44,7 +44,7 @@ public class ApiHelper {
             .authenticator(user, key)
             .multiPart(data)
             .post();
-        ResponseBody body = response.getBodyAs(ResponseBody.class);
+        ResponseBody body = response.bodyAs(ResponseBody.class);
         return body.getAppUrl();
     }
     @JsonIgnoreProperties(ignoreUnknown = true)

@@ -18,25 +18,17 @@ package io.github.selcukes.wdb.core;
 
 import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.enums.DriverType;
+import io.github.selcukes.wdb.util.XmlReader;
 import io.github.selcukes.wdb.util.UrlHelper;
 import io.github.selcukes.wdb.version.VersionComparator;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
-
-import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
-import static org.jsoup.Jsoup.parse;
+import java.util.Optional;
 
 public class IExplorerBinary extends AbstractBinary {
+    String latestVersionUrl;
 
     @Override
     public URL getDownloadURL() {
@@ -61,33 +53,19 @@ public class IExplorerBinary extends AbstractBinary {
     @Override
     protected String getLatestRelease() {
         String arch = getBinaryEnvironment().getArchitecture() == 64 ? "x64" : "Win32";
-        String matcher = "IEDriverServer" + "_" + arch;
-        List<String> versions = new ArrayList<>();
-        Map<String, String> versionMap = new TreeMap<>();
-        String response = sendRequest(UrlHelper.IEDRIVER_LATEST_RELEASE_URL).getBody();
-        try (InputStream downloadStream = new ByteArrayInputStream(response.getBytes())) {
-            Document doc = parse(downloadStream, null, "");
-            Elements elements = doc.select(
-                "Key:contains(" + matcher + ")");
-            for (Element e : elements) {
-                String key = e.text().substring(e.text().indexOf('/'));
-                versionMap.put(key, e.text());
-                String temp = e.text().substring(e.text().indexOf('/') + 1).replaceAll(matcher, "");
-                String versionNum = temp.substring(1, temp.length() - 4);
-                versions.add(versionNum);
-            }
+        String matcher = getBinaryDriverName() + "_" + arch;
 
-            versions.sort(new VersionComparator());
+        Map<String, String> versionsMap = XmlReader.versionsMap(UrlHelper.IEDRIVER_LATEST_RELEASE_URL,"//Key", matcher);
 
-            String version = versions.get(versions.size() - 1);
-            latestVersionUrl = unwrap(versionMap.entrySet().stream()
-                .filter(map -> map.getValue().contains(version)).findFirst()).getValue();
-
-            return version;
-
-        } catch (Exception e) {
-            throw new WebDriverBinaryException(e);
+        Optional<String> version = versionsMap.keySet().stream()
+            .sorted(new VersionComparator()).reduce((first, second) -> second)
+            .map(key -> versionsMap.values().stream().filter(value -> value.contains(key)).findFirst().orElse(""));
+        if (version.isEmpty()) {
+            throw new WebDriverBinaryException("Unable to Find Latest IE Version.");
         }
+        latestVersionUrl = version.get();
+        String temp = latestVersionUrl.substring(latestVersionUrl.indexOf('/') + 1).replaceAll(matcher, "");
+        return temp.substring(1, temp.length() - 4);
     }
 
 }

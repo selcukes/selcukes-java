@@ -76,7 +76,7 @@ public class FileHelper {
             permissions.add(PosixFilePermission.OWNER_EXECUTE);
             Files.setPosixFilePermissions(Paths.get(filePath), permissions);
         } catch (Exception e) {
-            LOGGER.warn(e, () -> "Unable to set WebDriver Binary file as executable");
+            throw new SelcukesException("Unable to set file as executable..");
         }
     }
 
