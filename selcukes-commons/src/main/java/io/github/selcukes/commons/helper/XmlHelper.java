@@ -17,15 +17,19 @@
 package io.github.selcukes.commons.helper;
 
 import io.github.selcukes.commons.exception.SelcukesException;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import javax.xml.XMLConstants;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,14 +41,15 @@ public class XmlHelper {
     public static Document toXml(InputStream inputStream) {
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-            builderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true) ;
-            builderFactory.setNamespaceAware(true);
+            builderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            // builderFactory.setNamespaceAware(true);
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
             return builder.parse(new InputSource(inputStream));
         } catch (Exception e) {
             throw new SelcukesException("Failed parsing to XML Document : ", e);
         }
     }
+
     public static List<String> filterElements(NodeList nodeList, String matcher) {
         return IntStream.range(0, nodeList.getLength())
             .mapToObj(nodeList::item)
@@ -53,5 +58,12 @@ public class XmlHelper {
             .map(e -> e.getChildNodes().item(0).getNodeValue())
             .filter(nodeValue -> nodeValue.contains(matcher))
             .collect(Collectors.toList());
+    }
+
+    @SneakyThrows
+    public static NodeList getNodes(Document xmlDocument, String expression) {
+        XPath xPath = XPathFactory.newInstance().newXPath();
+        //  xPath.setNamespaceContext(new NamespaceResolver(xmlDocument));
+        return (NodeList) xPath.compile(expression).evaluate(xmlDocument, XPathConstants.NODESET);
     }
 }

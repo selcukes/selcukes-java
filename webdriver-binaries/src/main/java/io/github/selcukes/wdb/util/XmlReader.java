@@ -21,13 +21,11 @@ import io.github.selcukes.commons.http.WebClient;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathFactory;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static io.github.selcukes.commons.helper.XmlHelper.filterElements;
+import static io.github.selcukes.commons.helper.XmlHelper.getNodes;
 
 public class XmlReader {
 
@@ -51,14 +49,13 @@ public class XmlReader {
         try {
             Document xmlDocument = sendRequest(url, null)
                 .bodyXml();
-            XPath xPath = XPathFactory.newInstance().newXPath();
-            NodeList nodes = (NodeList) xPath.compile(expression).evaluate(xmlDocument, XPathConstants.NODESET);
+            NodeList nodes = getNodes(xmlDocument, expression);
             List<String> versions = filterElements(nodes, matcher);
             return
                 versions
                     .stream()
                     .collect(Collectors.toMap(
-                        entry -> entry.substring(0,entry.indexOf('/')),
+                        entry -> entry.substring(0, entry.indexOf('/')),
                         entry -> entry,
                         (prev, next) -> next, TreeMap::new
                     ));
