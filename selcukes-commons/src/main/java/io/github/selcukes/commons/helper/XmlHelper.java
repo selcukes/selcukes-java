@@ -38,6 +38,7 @@ public class XmlHelper {
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             builderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true) ;
+            builderFactory.setNamespaceAware(true);
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
             return builder.parse(new InputSource(inputStream));
         } catch (Exception e) {
