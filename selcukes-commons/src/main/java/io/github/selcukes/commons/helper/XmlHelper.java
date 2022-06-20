@@ -39,7 +39,7 @@ import java.util.stream.IntStream;
 public class XmlHelper {
 
     public static Document toXml(InputStream inputStream) {
-        try {
+        try (inputStream) {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             builderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             builderFactory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");

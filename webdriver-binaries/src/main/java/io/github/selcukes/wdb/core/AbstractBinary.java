@@ -75,7 +75,7 @@ abstract class AbstractBinary implements BinaryFactory {
     }
 
     protected String getVersionNumberFromGit(String binaryDownloadUrl) {
-        final String releaseLocation = sendRequest(binaryDownloadUrl, getProxy()).getHeader("location");
+        final String releaseLocation = sendRequest(binaryDownloadUrl, getProxy()).header("location");
 
         if (releaseLocation == null || releaseLocation.length() < 2 || !releaseLocation.contains("/")) {
             return "";
