@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @UtilityClass
-public class XmlHelper {
+public class XmlMapper {
 
     public static Document toXml(InputStream inputStream) {
         try (inputStream) {

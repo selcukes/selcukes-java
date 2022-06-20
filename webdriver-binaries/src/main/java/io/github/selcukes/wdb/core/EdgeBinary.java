@@ -18,7 +18,6 @@ package io.github.selcukes.wdb.core;
 
 import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.enums.DriverType;
-import io.github.selcukes.wdb.util.BinaryDownloader;
 import io.github.selcukes.wdb.util.UrlHelper;
 
 import java.net.MalformedURLException;
@@ -61,12 +60,8 @@ public class EdgeBinary extends AbstractBinary {
 
     @Override
     protected String getLatestRelease() {
-        try {
-            String latestVersion = BinaryDownloader.downloadAndReadFile(new URL(UrlHelper.EDGE_DRIVER_LATEST_RELEASE_URL));
-            return latestVersion.replaceAll("[^A-Za-z0-9_\\\\.]", "");
-        } catch (MalformedURLException e) {
-            throw new WebDriverBinaryException(e);
-        }
+        String latestVersion = getVersionNumberFromXml(UrlHelper.EDGE_DRIVER_LATEST_RELEASE_URL);
+        return latestVersion.replaceAll("[^A-Za-z0-9_\\\\.]", "");
     }
 
 }

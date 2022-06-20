@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static io.github.selcukes.commons.helper.XmlHelper.toXml;
+import static io.github.selcukes.commons.helper.XmlMapper.toXml;
 
 /**
  * Represents a HTTP response.

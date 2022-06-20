@@ -18,7 +18,7 @@ package io.github.selcukes.wdb.core;
 
 import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.enums.DriverType;
-import io.github.selcukes.wdb.util.XmlReader;
+import io.github.selcukes.wdb.util.XmlHelper;
 import io.github.selcukes.wdb.util.UrlHelper;
 import io.github.selcukes.wdb.version.VersionComparator;
 
@@ -55,7 +55,7 @@ public class IExplorerBinary extends AbstractBinary {
         String arch = getBinaryEnvironment().getArchitecture() == 64 ? "x64" : "Win32";
         String matcher = getBinaryDriverName() + "_" + arch;
 
-        Map<String, String> versionsMap = XmlReader.versionsMap(UrlHelper.IEDRIVER_LATEST_RELEASE_URL,"//Key", matcher);
+        Map<String, String> versionsMap = XmlHelper.versionsMap(UrlHelper.IEDRIVER_LATEST_RELEASE_URL,"//Key", matcher);
 
         Optional<String> version = versionsMap.keySet().stream()
             .sorted(new VersionComparator()).reduce((first, second) -> second)

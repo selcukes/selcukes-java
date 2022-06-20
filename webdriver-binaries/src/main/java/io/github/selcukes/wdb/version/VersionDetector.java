@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static io.github.selcukes.wdb.util.XmlReader.versionsList;
+import static io.github.selcukes.wdb.util.XmlHelper.versionsList;
 
 public class VersionDetector {
     private final Logger logger = LoggerFactory.getLogger(getClass());
