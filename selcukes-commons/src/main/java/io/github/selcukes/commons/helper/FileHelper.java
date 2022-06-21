@@ -17,8 +17,6 @@
 package io.github.selcukes.commons.helper;
 
 import io.github.selcukes.commons.exception.SelcukesException;
-import io.github.selcukes.commons.logging.Logger;
-import io.github.selcukes.commons.logging.LoggerFactory;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FileUtils;
@@ -49,7 +47,6 @@ public class FileHelper {
      * The Resource separator.
      */
     public final String RESOURCE_SEPARATOR = "/";
-    private final Logger LOGGER = LoggerFactory.getLogger(FileHelper.class);
     private final String SUPPORT_FOLDER = "support";
 
     /**
@@ -145,7 +142,6 @@ public class FileHelper {
         try {
             FileUtils.cleanDirectory(dirName);
         } catch (IOException e) {
-            LOGGER.error(e::getMessage);
             throw new SelcukesException("'" + dirName + "' is not a directory or a file to delete.", e);
         }
     }
@@ -315,7 +311,7 @@ public class FileHelper {
         try (
             var urlStream = source.openStream();
             var readableByteChannel = Channels.newChannel(urlStream);
-            var fileOutputStream = new FileOutputStream(destination);
+            var fileOutputStream = new FileOutputStream(destination)
         ) {
             fileOutputStream.getChannel().transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
         } catch (Exception e) {

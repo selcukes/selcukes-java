@@ -18,14 +18,12 @@ package io.github.selcukes.wdb.util;
 
 import io.github.selcukes.commons.http.Response;
 import io.github.selcukes.commons.http.WebClient;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static io.github.selcukes.commons.helper.XmlMapper.filterElements;
-import static io.github.selcukes.commons.helper.XmlMapper.getNodes;
+import static io.github.selcukes.commons.xml.XmlMapper.filterElements;
+import static io.github.selcukes.commons.xml.XmlMapper.selectElements;
 
 public class XmlHelper {
     private XmlHelper() {
@@ -38,18 +36,16 @@ public class XmlHelper {
 
     public static Map<String, String> versionsMap(String url, String expression, String matcher) {
         try {
-            Document xmlDocument = sendRequest(url, null)
+            var xmlDocument = sendRequest(url, null)
                 .bodyXml();
-            NodeList nodes = getNodes(xmlDocument, expression);
-            List<String> versions = filterElements(nodes, matcher);
-            return
-                versions
-                    .stream()
-                    .collect(Collectors.toMap(
-                        entry -> entry.substring(0, entry.indexOf('/')),
-                        entry -> entry,
-                        (prev, next) -> next, TreeMap::new
-                    ));
+            var elements = selectElements(xmlDocument, expression);
+            var versions = filterElements(elements, matcher);
+            return versions
+                .collect(Collectors.toMap(
+                    entry -> entry.substring(0, entry.indexOf('/')),
+                    entry -> entry,
+                    (prev, next) -> next, TreeMap::new
+                ));
         } catch (Exception e) {
             return Collections.emptyMap();
         }
@@ -63,6 +59,4 @@ public class XmlHelper {
             return Collections.emptyList();
         }
     }
-
-
 }

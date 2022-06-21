@@ -18,6 +18,7 @@ package io.github.selcukes.commons.http;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.github.selcukes.commons.exception.SelcukesException;
+import io.github.selcukes.commons.xml.XmlMapper;
 import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.utils.StringHelper;
 import lombok.Getter;
@@ -32,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static io.github.selcukes.commons.helper.XmlMapper.toXml;
 
 /**
  * Represents a HTTP response.
@@ -85,7 +85,7 @@ public class Response {
      */
     @SneakyThrows
     public Document bodyXml() {
-        return toXml(bodyStream());
+        return XmlMapper.parse(bodyStream());
     }
 
     /**
