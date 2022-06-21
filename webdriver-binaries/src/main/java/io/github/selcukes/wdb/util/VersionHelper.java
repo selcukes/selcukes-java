@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 import static io.github.selcukes.commons.xml.XmlMapper.filterElements;
 import static io.github.selcukes.commons.xml.XmlMapper.selectElements;
 
-public class XmlHelper {
-    private XmlHelper() {
+public class VersionHelper {
+    private VersionHelper() {
 
     }
 

@@ -24,7 +24,7 @@ import java.util.Optional;
 
 import static io.github.selcukes.wdb.util.OptionalUtil.orElse;
 import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
-import static io.github.selcukes.wdb.util.XmlHelper.sendRequest;
+import static io.github.selcukes.wdb.util.VersionHelper.sendRequest;
 
 abstract class AbstractBinary implements BinaryFactory {
     protected boolean isAutoDetectBrowserVersion = true;
