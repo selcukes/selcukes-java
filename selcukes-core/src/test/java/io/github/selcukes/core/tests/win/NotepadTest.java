@@ -16,22 +16,16 @@
 
 package io.github.selcukes.core.tests.win;
 
-import io.github.selcukes.core.driver.DriverManager;
-import io.github.selcukes.core.driver.GridRunner;
+import io.github.selcukes.core.listener.TestLifecyclePerClass;
 import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WinPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+@Listeners(TestLifecyclePerClass.class)
 public class NotepadTest {
-
-    @BeforeMethod
-    public void beforeTest() {
-        GridRunner.startAppium();
-    }
 
     @Test(enabled = false)
     public void notepadTest() {
@@ -47,9 +41,4 @@ public class NotepadTest {
             .click(By.name("Don't Save"));
     }
 
-    @AfterMethod
-    public void afterTest() {
-        DriverManager.removeDriver();
-        GridRunner.stopAppium();
-    }
 }

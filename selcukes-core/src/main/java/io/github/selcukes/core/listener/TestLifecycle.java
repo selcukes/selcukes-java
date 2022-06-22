@@ -16,24 +16,21 @@
 
 package io.github.selcukes.core.listener;
 
-import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.core.driver.DriverManager;
+import io.github.selcukes.core.driver.GridRunner;
 import lombok.CustomLog;
-import org.testng.IClassListener;
-import org.testng.ITestClass;
+import org.testng.ISuite;
+import org.testng.ISuiteListener;
 
 @CustomLog
-public class ClassResourceListener implements IClassListener {
-    @Override
-    public void onBeforeClass(ITestClass testClass) {
-        logger.info(() -> "Before Class of " + testClass.getName());
+public class TestLifecycle implements ISuiteListener {
+    public void onStart(ISuite suite) {
+        logger.debug(() -> "Test Suite Execution started...");
     }
 
-    @Override
-    public void onAfterClass(ITestClass testClass) {
-        logger.info(() -> "After Class of " + testClass.getName());
-        logger.info(() -> "Cleanup Resource");
-        DriverManager.removeDriver();
-        ConfigFactory.cleanupConfig();
+    public void onFinish(ISuite suite) {
+        DriverManager.removeAllDrivers();
+        GridRunner.stopAppium();
+        logger.debug(() -> "Test Suite Execution finished...");
     }
 }

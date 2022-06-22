@@ -18,6 +18,7 @@ package io.github.selcukes.core.driver;
 
 import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.commons.exception.DriverSetupException;
+import io.github.selcukes.commons.helper.Preconditions;
 import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.listener.EventCapture;
 import lombok.CustomLog;
@@ -28,16 +29,16 @@ import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.events.WebDriverListener;
 
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 @CustomLog
 @UtilityClass
 public class DriverManager {
 
     private static final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
-    private static final Set<Object> STORED_DRIVER = new HashSet<>();
+    private static final Map<Integer, Object> STORED_DRIVER = new ConcurrentHashMap<>();
 
     public static synchronized <D extends WebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
         Arrays.stream(capabilities).findAny().ifPresent(AppiumOptions::setUserOptions);
@@ -74,15 +75,15 @@ public class DriverManager {
         return (D) DRIVER_THREAD.get();
     }
 
-    public static <D extends WebDriver> void setDriver(D driveThread) {
-
-        DRIVER_THREAD.set(driveThread);
+    public static <D extends WebDriver> void setDriver(D driver) {
+        DRIVER_THREAD.set(driver);
+        STORED_DRIVER.putIfAbsent(driver.hashCode(), driver);
     }
 
     public static synchronized void removeDriver() {
         try {
             if (getDriver() != null) {
-                STORED_DRIVER.remove(getDriver());
+                STORED_DRIVER.remove(getDriver().hashCode());
                 getDriver().quit();
             }
         } finally {
@@ -92,11 +93,11 @@ public class DriverManager {
 
     public static synchronized void removeAllDrivers() {
         logger.debug(() -> String.format("Closing [%d] stored drivers..", STORED_DRIVER.size()));
-        STORED_DRIVER.stream().filter(Objects::nonNull).forEach(d -> {
+        STORED_DRIVER.values().stream().filter(Objects::nonNull).forEach(d -> {
             try {
                 ((WebDriver) d).quit();
             } finally {
-                STORED_DRIVER.remove(d);
+                STORED_DRIVER.remove(d.hashCode());
             }
         });
         DRIVER_THREAD.remove();

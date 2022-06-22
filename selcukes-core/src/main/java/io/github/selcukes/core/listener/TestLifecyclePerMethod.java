@@ -24,7 +24,7 @@ import org.testng.IInvokedMethodListener;
 import org.testng.ITestResult;
 
 @CustomLog
-public class MethodResourceListener implements IInvokedMethodListener {
+public class TestLifecyclePerMethod extends TestLifecycle implements IInvokedMethodListener {
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
         logger.debug(() -> "Before invocation of " + method.getTestMethod().getMethodName());

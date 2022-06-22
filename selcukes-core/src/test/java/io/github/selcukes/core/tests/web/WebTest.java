@@ -16,14 +16,14 @@
 
 package io.github.selcukes.core.tests.web;
 
-import io.github.selcukes.core.listener.MethodResourceListener;
+import io.github.selcukes.core.listener.TestLifecyclePerMethod;
 import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WebPage;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-@Listeners(MethodResourceListener.class)
+@Listeners(TestLifecyclePerMethod.class)
 public class WebTest {
     WebPage page;
 
