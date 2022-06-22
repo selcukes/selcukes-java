@@ -24,10 +24,12 @@ import org.testng.ISuiteListener;
 
 @CustomLog
 public class TestLifecycle implements ISuiteListener {
+    @Override
     public void onStart(ISuite suite) {
         logger.debug(() -> "Test Suite Execution started...");
     }
 
+    @Override
     public void onFinish(ISuite suite) {
         DriverManager.removeAllDrivers();
         GridRunner.stopAppium();
