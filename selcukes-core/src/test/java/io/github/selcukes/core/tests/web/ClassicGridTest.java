@@ -18,7 +18,7 @@ package io.github.selcukes.core.tests.web;
 
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.core.driver.GridRunner;
-import io.github.selcukes.core.listener.MethodResourceListener;
+import io.github.selcukes.core.listener.TestLifecyclePerMethod;
 import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
@@ -28,7 +28,7 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 @CustomLog
-@Listeners(MethodResourceListener.class)
+@Listeners(TestLifecyclePerMethod.class)
 public class ClassicGridTest {
     @BeforeSuite
     public static void beforeSuite() {

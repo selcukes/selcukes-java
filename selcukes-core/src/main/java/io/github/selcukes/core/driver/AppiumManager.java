@@ -18,7 +18,6 @@ package io.github.selcukes.core.driver;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.commons.exception.DriverSetupException;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
@@ -57,47 +56,35 @@ public class AppiumManager implements RemoteManager {
     }
 
     public WebDriver createBrowserDriver(String browser) {
-        WebDriver driver;
-        try {
-            logger.debug(() -> "Initiating New Mobile Browser Session...");
-            Capabilities capabilities = AppiumOptions.getUserOptions();
-            if (capabilities == null) {
-                String platform = ConfigFactory.getConfig().getMobile().getPlatform();
-                capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser), isCloudAppium(), platform);
-                if (isCloudAppium()) {
-                    capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions(false));
-                }
-
+        logger.debug(() -> "Initiating New Mobile Browser Session...");
+        Capabilities capabilities = AppiumOptions.getUserOptions();
+        if (capabilities == null) {
+            String platform = ConfigFactory.getConfig().getMobile().getPlatform();
+            capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser), isCloudAppium(), platform);
+            if (isCloudAppium()) {
+                capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions(false));
             }
-            driver = new RemoteWebDriver(getServiceUrl(), capabilities);
-        } catch (Exception e) {
-            throw new DriverSetupException("Driver was not setup properly.", e);
+
         }
-        return driver;
+        return new RemoteWebDriver(getServiceUrl(), capabilities);
     }
 
     public WebDriver createAppDriver() {
 
-        WebDriver driver;
-        try {
-            logger.debug(() -> "Initiating New Mobile App Session...");
-            Capabilities capabilities = AppiumOptions.getUserOptions();
-            if (capabilities == null) {
-                if (isCloudAppium()) {
-                    capabilities = CloudOptions.getBrowserStackOptions(true);
-                } else {
-                    Path appPath = Paths.get(ConfigFactory.getConfig()
-                        .getMobile().getApp());
-                    String app = appPath.toAbsolutePath().toString();
-                    logger.info(() -> "Using APP: " + app);
-                    capabilities = AppiumOptions.getAndroidOptions(app);
-                }
+        logger.debug(() -> "Initiating New Mobile App Session...");
+        Capabilities capabilities = AppiumOptions.getUserOptions();
+        if (capabilities == null) {
+            if (isCloudAppium()) {
+                capabilities = CloudOptions.getBrowserStackOptions(true);
+            } else {
+                Path appPath = Paths.get(ConfigFactory.getConfig()
+                    .getMobile().getApp());
+                String app = appPath.toAbsolutePath().toString();
+                logger.info(() -> "Using APP: " + app);
+                capabilities = AppiumOptions.getAndroidOptions(app);
             }
-            driver = new AndroidDriver(getServiceUrl(), capabilities);
-        } catch (Exception e) {
-            throw new DriverSetupException("Driver was not setup properly.", e);
         }
-        return driver;
+        return new AndroidDriver(getServiceUrl(), capabilities);
     }
 
 }

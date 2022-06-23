@@ -18,7 +18,6 @@ package io.github.selcukes.core.driver;
 
 import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.commons.exception.DriverSetupException;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
@@ -31,17 +30,12 @@ public class DesktopManager extends AppiumManager {
 
     @Override
     public synchronized WebDriver createDriver() {
-        WebDriver windowsDriver;
-        try {
-            logger.debug(() -> "Initiating New Desktop Session...");
-            String app = ConfigFactory.getConfig().getWindows().getApp();
-            URL serviceUrl = Objects.requireNonNull(getServiceUrl());
-            AppiumOptions.setServiceUrl(serviceUrl);
-            windowsDriver = new WindowsDriver(serviceUrl, AppiumOptions.getWinAppOptions(app));
-        } catch (Exception e) {
-            throw new DriverSetupException("Driver was not setup properly.", e);
-        }
-        return windowsDriver;
+
+        logger.debug(() -> "Initiating New Desktop Session...");
+        String app = ConfigFactory.getConfig().getWindows().getApp();
+        URL serviceUrl = Objects.requireNonNull(getServiceUrl());
+        AppiumOptions.setServiceUrl(serviceUrl);
+        return new WindowsDriver(serviceUrl, AppiumOptions.getWinAppOptions(app));
     }
 
     @SneakyThrows

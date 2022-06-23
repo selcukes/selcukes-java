@@ -23,16 +23,16 @@ import org.testng.IClassListener;
 import org.testng.ITestClass;
 
 @CustomLog
-public class ClassResourceListener implements IClassListener {
+public class TestLifecyclePerClass extends TestLifecycle implements IClassListener {
     @Override
     public void onBeforeClass(ITestClass testClass) {
-        logger.info(() -> "Before Class of " + testClass.getName());
+        logger.debug(() -> "Before Class of " + testClass.getClass().getSimpleName());
     }
 
     @Override
     public void onAfterClass(ITestClass testClass) {
-        logger.info(() -> "After Class of " + testClass.getName());
-        logger.info(() -> "Cleanup Resource");
+        logger.debug(() -> "After Class of " + testClass.getClass().getSimpleName());
+        logger.debug(() -> "Cleanup Resource");
         DriverManager.removeDriver();
         ConfigFactory.cleanupConfig();
     }
