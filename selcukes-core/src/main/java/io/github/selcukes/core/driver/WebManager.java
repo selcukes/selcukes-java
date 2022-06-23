@@ -17,7 +17,6 @@
 package io.github.selcukes.core.driver;
 
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.commons.exception.DriverSetupException;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
@@ -38,31 +37,24 @@ public class WebManager implements RemoteManager {
 
     public synchronized WebDriver createDriver() {
         String browser = ConfigFactory.getConfig().getWeb().getBrowser().toUpperCase();
-        WebDriver driver;
-        try {
-            logger.debug(() -> "Initiating New Browser Session...");
-            Capabilities capabilities = AppiumOptions.getUserOptions();
-            if (capabilities == null) {
-                capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser),
-                    !(isLocalBrowser() || isCloudBrowser()));
-                if (isCloudBrowser()) {
-                    capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions(false));
-                }
+        logger.debug(() -> "Initiating New Browser Session...");
+        Capabilities capabilities = AppiumOptions.getUserOptions();
+        if (capabilities == null) {
+            capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser),
+                !(isLocalBrowser() || isCloudBrowser()));
+            if (isCloudBrowser()) {
+                capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions(false));
             }
-            RemoteWebDriverBuilder driverBuilder = RemoteWebDriver.builder().oneOf(capabilities);
-            if (!isLocalBrowser()) {
-                logger.info(() -> "Starting Remote WebDriver session...");
-                driverBuilder.address(getServiceUrl());
-            } else {
-                logger.info(() -> "Starting Local WebDriver session...");
-            }
-
-            driver = driverBuilder.build();
-        } catch (Exception e) {
-            throw new DriverSetupException("Driver was not setup properly.", e);
+        }
+        RemoteWebDriverBuilder driverBuilder = RemoteWebDriver.builder().oneOf(capabilities);
+        if (!isLocalBrowser()) {
+            logger.info(() -> "Starting Remote WebDriver session...");
+            driverBuilder.address(getServiceUrl());
+        } else {
+            logger.info(() -> "Starting Local WebDriver session...");
         }
 
-        return driver;
+        return driverBuilder.build();
     }
 
     @SneakyThrows
