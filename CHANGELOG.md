@@ -6,6 +6,16 @@
 
 ### Added
 
+### Changed
+
+### Removed
+
+### Fixed
+
+## [2.1.2]
+
+### Added
+
 * [DataBind] Added streamLoader support to load data files using Thread Resource
   Stream ([#139](https://github.com/selcukes/selcukes-java/pull/139))
 * [Core] Added support to handle Exceptions on the test
