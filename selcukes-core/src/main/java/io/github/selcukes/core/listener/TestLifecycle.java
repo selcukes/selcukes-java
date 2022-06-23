@@ -14,28 +14,25 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.core.tests.web;
+package io.github.selcukes.core.listener;
 
-import io.github.selcukes.core.listener.TestLifecyclePerMethod;
-import io.github.selcukes.core.page.Pages;
-import io.github.selcukes.core.page.WebPage;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
-import org.testng.annotations.Test;
+import io.github.selcukes.core.driver.DriverManager;
+import io.github.selcukes.core.driver.GridRunner;
+import lombok.CustomLog;
+import org.testng.ISuite;
+import org.testng.ISuiteListener;
 
-@Listeners(TestLifecyclePerMethod.class)
-public class WebTest {
-    WebPage page;
-
-    @BeforeMethod
-    public void setup() {
-        page = Pages.webPage();
+@CustomLog
+public class TestLifecycle implements ISuiteListener {
+    @Override
+    public void onStart(ISuite suite) {
+        logger.debug(() -> "Test Suite Execution started...");
     }
 
-    @Test
-    public void remoteWebTest() {
-        page.open("https://www.google.com/")
-            .assertThat().title("Google");
+    @Override
+    public void onFinish(ISuite suite) {
+        DriverManager.removeAllDrivers();
+        GridRunner.stopAppium();
+        logger.debug(() -> "Test Suite Execution finished...");
     }
-
 }
