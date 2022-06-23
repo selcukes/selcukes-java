@@ -6,11 +6,29 @@
 
 ### Added
 
+* [DataBind] Added streamLoader support to load data files using Thread Resource
+  Stream ([#139](https://github.com/selcukes/selcukes-java/pull/139))
+* [Core] Added support to handle Exceptions on the test
+  failures ([#139](https://github.com/selcukes/selcukes-java/pull/139))
+* [Core]  Added `Pages` class to quick start testing using `Pages.webPage()`, `Pages.winPage()`
+  , `Pages.mobilePage()` ([#139](https://github.com/selcukes/selcukes-java/pull/139))
+* [Core] Added `ApiPage` class to perform API testing
+  using `Pages.apiPage()` ([#141](https://github.com/selcukes/selcukes-java/pull/141))
+* [Core] Added TestLifecycle testng listeners for better instance
+  management ([#145](https://github.com/selcukes/selcukes-java/pull/145))
+
 ### Changed
+
+* Update dependency cucumber.version to v7.4.0([#138](https://github.com/selcukes/selcukes-java/pull/147))
 
 ### Removed
 
+* [WebDriver Binaries] Removed `org.jsoup` ([#142](https://github.com/selcukes/selcukes-java/pull/142)) in favour of XML
+  Mapper ([#144](https://github.com/selcukes/selcukes-java/pull/144))
+
 ### Fixed
+
+* [Core] Selcukes test properties thread safety
 
 ## [2.1.1]
 
