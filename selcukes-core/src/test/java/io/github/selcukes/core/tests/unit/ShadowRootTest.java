@@ -33,7 +33,7 @@ public class ShadowRootTest {
 
     @BeforeMethod
     private void setup() {
-        driver = new LocalDriver().createWebDriver(DriverType.CHROME);
+        driver = new LocalDriver().createWebDriver(DriverType.CHROME, false);
         page = new WebPage(driver);
     }
 
@@ -49,6 +49,16 @@ public class ShadowRootTest {
         page.open("http://watir.com/examples/shadow_dom.html");
         WebElement shadowContent = page.findShadowChild(By.cssSelector("#shadow_host"), By.cssSelector("#shadow_content"));
         page.assertThat().element(shadowContent).textAs("some text");
+
+    }
+
+    @Test
+    public void dragAndDropTest() {
+        By source = By.xpath(".//*[@id='draggable']");
+        By target = By.xpath(".//*[@id='droppable']");
+        page.open("http://jqueryui.com/resources/demos/droppable/default.html")
+            .dragAndDrop(source, target)
+            .assertThat().element(target).textAs("Dropped!");
 
     }
 

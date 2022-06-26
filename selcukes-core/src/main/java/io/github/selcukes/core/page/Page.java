@@ -123,6 +123,16 @@ public interface Page {
         return new Actions(getDriver());
     }
 
+    default Page dragAndDrop(WebElement source, WebElement target) {
+        actions().dragAndDrop(source, target).perform();
+        return this;
+    }
+
+    default Page dragAndDrop(By source, By target) {
+        dragAndDrop(find(source, WaitCondition.VISIBLE), find(target, WaitCondition.VISIBLE));
+        return this;
+    }
+
     default Alert alert() {
         waitFor(ExpectedConditions.alertIsPresent(), TIMEOUT);
         return getDriver().switchTo().alert();
