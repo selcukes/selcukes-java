@@ -36,8 +36,8 @@ public class WinPage implements Page {
         return driver;
     }
 
-    public WinPage switchWindow(String name) {
-        WebElement newWindowElement = find(By.name(name));
+    public WinPage switchWindow(Object locator) {
+        WebElement newWindowElement = find(locator);
         String windowId = newWindowElement.getAttribute("NativeWindowHandle");
         String windowIdToHex = Integer.toHexString(Integer.parseInt(windowId));
         logger.info(() -> "Window Id: " + windowId + "After: " + windowIdToHex);

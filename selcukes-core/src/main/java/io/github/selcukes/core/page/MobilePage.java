@@ -42,11 +42,13 @@ public class MobilePage implements Page {
         return driver;
     }
 
+    @Override
     public MobilePage swipe(Object target, SwipeDirection swipeDirection) {
         swipe(null, target, swipeDirection);
         return this;
     }
 
+    @Override
     public MobilePage swipe(Object source, Object target, SwipeDirection swipeDirection) {
         boolean isElementFound = false;
         boolean isScrollable = true;
