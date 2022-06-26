@@ -23,6 +23,7 @@ import io.github.selcukes.core.driver.GridRunner;
 import io.github.selcukes.core.enums.SwipeDirection;
 import io.github.selcukes.core.page.MobilePage;
 import io.github.selcukes.core.page.Pages;
+import io.github.selcukes.core.wait.WaitCondition;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -57,14 +58,14 @@ public class MobileAppTest {
             .swipe("Splitting Touches across Views", SwipeDirection.DOWN)
             .click("Splitting Touches across Views")
             .swipe(By.id("io.appium.android.apis:id/list2"), By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Blue']"), SwipeDirection.DOWN)
-            .click(By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Blue']"));
+            .click(By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Blue']"), WaitCondition.PRESENT);
         page.swipe(By.id("io.appium.android.apis:id/list2"), By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Abbaye de Belloc']"), SwipeDirection.UP)
             .click(By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Abbaye de Belloc']"));
     }
 
     @Test(enabled = false)
     public void alertTest() {
-        ((AndroidDriver) DriverManager.getDriver())
+        ((AndroidDriver) DriverManager.getWrappedDriver())
             .startActivity(new Activity("io.appium.android.apis", ".app.AlertDialogSamples"));
 
         page.click(By.id("io.appium.android.apis:id/two_buttons"))
@@ -74,7 +75,7 @@ public class MobileAppTest {
 
     @Test(enabled = false)
     public void searchTest() {
-        ((AndroidDriver) DriverManager.getDriver())
+        ((AndroidDriver) DriverManager.getWrappedDriver())
             .startActivity(new Activity("io.appium.android.apis", ".app.SearchInvoke"));
         page.enter(By.id("txt_query_prefill"), "Hello world!")
             .click(By.id("btn_start_search"));

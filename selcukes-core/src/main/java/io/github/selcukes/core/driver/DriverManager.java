@@ -24,6 +24,7 @@ import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.events.WebDriverListener;
 
@@ -72,6 +73,12 @@ public class DriverManager {
     @SuppressWarnings("unchecked")
     public static <D extends WebDriver> D getDriver() {
         return (D) DRIVER_THREAD.get();
+    }
+
+    public static WebDriver getWrappedDriver() {
+        if (getDriver() instanceof WrapsDriver)
+            return ((WrapsDriver) getDriver()).getWrappedDriver();
+        return getDriver();
     }
 
     public static <D extends WebDriver> void setDriver(D driver) {
