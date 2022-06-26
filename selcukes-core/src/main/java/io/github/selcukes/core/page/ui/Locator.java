@@ -26,11 +26,11 @@ import org.openqa.selenium.By;
 public class Locator {
 
     public static By resolve(Object locator) {
-        return (locator instanceof By) ? (By) locator : parse((String) locator);
+        return (locator instanceof String) ? parse((String) locator) : (By) locator;
     }
 
     private By parse(String locator) {
-        Preconditions.checkArgument(!locator.contains(":"), "Invalid Locator");
+        Preconditions.checkArgument(locator.contains(":"), "Invalid Locator");
         String locatorType = locator.split(":")[0];
         String locatorValue = locator.split(":")[1];
         switch (locatorType.toLowerCase()) {
