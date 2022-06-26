@@ -52,4 +52,14 @@ public class ShadowRootTest {
 
     }
 
+    @Test
+    public void dragAndDropTest() {
+        By source = By.xpath(".//*[@id='draggable']");
+        By target = By.xpath(".//*[@id='droppable']");
+        page.open("http://jqueryui.com/resources/demos/droppable/default.html")
+            .dragAndDrop(source, target)
+            .assertThat().element(target).textAs("Dropped!");
+
+    }
+
 }

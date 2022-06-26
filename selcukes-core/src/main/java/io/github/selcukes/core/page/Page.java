@@ -22,7 +22,6 @@ import io.github.selcukes.core.wait.WaitCondition;
 import io.github.selcukes.core.wait.WaitManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -45,6 +44,16 @@ public interface Page {
 
     default Page navigateTo(String url) {
         getDriver().navigate().to(url);
+        return this;
+    }
+
+    default Page maximize() {
+        getDriver().manage().window().maximize();
+        return this;
+    }
+
+    default Page implicitlyWait() {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(1));
         return this;
     }
 
@@ -114,23 +123,13 @@ public interface Page {
         return new Actions(getDriver());
     }
 
-    default TouchActions touchActions() {
-        return new TouchActions(getDriver());
-    }
-
-    default Page tap(By by) {
-        touchActions().singleTap(find(by)).perform();
+    default Page dragAndDrop(WebElement source, WebElement target) {
+        actions().dragAndDrop(source, target).perform();
         return this;
     }
 
-    default Page doubleTap(By by) {
-        touchActions().doubleTap(find(by)).perform();
-        return this;
-    }
-
-    default Page swipe(By target) {
-        Point elementLocation = find(target).getLocation();
-        touchActions().scroll(elementLocation.getX(), elementLocation.getY()).perform();
+    default Page dragAndDrop(By source, By target) {
+        dragAndDrop(find(source, WaitCondition.VISIBLE), find(target, WaitCondition.VISIBLE));
         return this;
     }
 
