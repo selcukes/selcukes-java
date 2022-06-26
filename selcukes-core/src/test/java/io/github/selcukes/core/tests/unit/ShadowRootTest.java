@@ -33,7 +33,7 @@ public class ShadowRootTest {
 
     @BeforeMethod
     private void setup() {
-        driver = new LocalDriver().createWebDriver(DriverType.CHROME, false);
+        driver = new LocalDriver().createWebDriver(DriverType.CHROME);
         page = new WebPage(driver);
     }
 
