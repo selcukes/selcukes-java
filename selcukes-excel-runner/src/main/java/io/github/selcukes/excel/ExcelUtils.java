@@ -20,7 +20,6 @@ import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ExcelConfigException;
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
-import org.apache.poi.ss.usermodel.Sheet;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -44,8 +43,7 @@ public class ExcelUtils {
             ConfigFactory.getConfig().getExcel().get("fileName"));
 
         // Store all sheets data
-        allSheetsMap = excelReader.getAllSheets().stream()
-            .collect(Collectors.toMap(Sheet::getSheetName, excelReader::getSheetData));
+        allSheetsMap = excelReader.getAllSheetsDataMap();
 
         // Replace Empty test name with previous row test name and if it is examples test then add Example row
         allSheetsMap.keySet().forEach(sheet -> allSheetsDataMap.put(sheet, modifySheetFirstColumn(sheet)));

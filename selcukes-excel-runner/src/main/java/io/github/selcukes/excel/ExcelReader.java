@@ -22,8 +22,10 @@ import io.github.selcukes.commons.helper.CollectionUtils;
 import org.apache.poi.ss.usermodel.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ExcelReader {
     private final Workbook workbook;
@@ -40,9 +42,12 @@ public class ExcelReader {
         }
     }
 
-    public List<Sheet> getAllSheets() {
-        return CollectionUtils.toStream(workbook.iterator())
-            .collect(Collectors.toList());
+    public Stream<Sheet> getAllSheets() {
+        return CollectionUtils.toStream(workbook.iterator());
+    }
+
+    public Map<String, List<List<String>>> getAllSheetsDataMap() {
+        return getAllSheets().collect(Collectors.toMap(Sheet::getSheetName, this::getSheetData));
     }
 
     public List<List<String>> getSheetData(Sheet sheet) {
