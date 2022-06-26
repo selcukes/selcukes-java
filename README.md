@@ -12,8 +12,8 @@
 
 ## Getting started
 
-- [Installation](https://github.com/selcukes/selcukes-java/wiki/Installation)
-- [Documentation](https://github.com/selcukes/selcukes-java/wiki)
+- [Installation](https://selcukes.github.io/docs)
+- [Documentation](https://selcukes.github.io/docs)
 - [Example Project](https://github.com/selcukes/selcukes-java-skeleton)
 
 If you like this project, please give it a star ⭐! This helps the project be more visible, gain relevance and encourages
