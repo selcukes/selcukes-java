@@ -18,7 +18,6 @@ package io.github.selcukes.core.page;
 
 import io.github.selcukes.commons.http.WebClient;
 import io.github.selcukes.core.enums.SwipeDirection;
-import io.github.selcukes.core.page.ui.Locator;
 import io.github.selcukes.core.validation.PageValidations;
 import io.github.selcukes.core.wait.WaitCondition;
 import io.github.selcukes.core.wait.WaitManager;
@@ -33,6 +32,9 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import static io.github.selcukes.core.page.ui.Locator.resolve;
 
 public interface Page {
     int TIMEOUT = 2;
@@ -219,35 +221,35 @@ public interface Page {
     }
 
     default WebElement find(Object locator) {
-        return getDriver().findElement(Locator.resolve(locator));
+        return getDriver().findElement(resolve(locator));
     }
 
     default List<WebElement> findAll(Object locator) {
-        return getDriver().findElements(Locator.resolve(locator));
+        return getDriver().findElements(resolve(locator));
     }
 
     default WebElement find(Object locator, final WaitCondition condition) {
-        return waitFor(Locator.resolve(locator), "", condition);
+        return waitFor(resolve(locator), "", condition);
     }
 
     default List<WebElement> findAll(Object locator, final WaitCondition condition) {
-        return waitFor(Locator.resolve(locator), "", condition);
+        return waitFor(resolve(locator), "", condition);
     }
 
-    default List<WebElement> findAllChildren(By parent, By child) {
-        return find(parent, WaitCondition.VISIBLE).findElements(child);
+    default List<WebElement> findAllChildren(Object parent, Object child) {
+        return find(parent, WaitCondition.VISIBLE).findElements(resolve(child));
     }
 
-    default WebElement findChild(By parent, By child) {
-        return find(parent, WaitCondition.VISIBLE).findElement(child);
+    default WebElement findChild(Object parent, Object child) {
+        return find(parent, WaitCondition.VISIBLE).findElement(resolve(child));
     }
 
-    default WebElement findChild(WebElement parent, By child) {
-        return parent.findElement(child);
+    default WebElement findChild(WebElement parent, Object child) {
+        return parent.findElement(resolve(child));
     }
 
-    default WebElement findShadowChild(WebElement parent, By child) {
-        return parent.getShadowRoot().findElement(child);
+    default WebElement findShadowChild(WebElement parent, Object child) {
+        return parent.getShadowRoot().findElement(resolve(child));
     }
 
     default WebElement findShadowChild(By parent, By child) {
@@ -297,4 +299,15 @@ public interface Page {
         return new WebClient(url);
     }
 
+    private List<String> getValues(Object locator, Function<WebElement, String> function) {
+        return findAll(locator).stream().map(function).collect(Collectors.toList());
+    }
+
+    default List<String> textValues(Object locator) {
+        return getValues(locator, WebElement::getText);
+    }
+
+    default List<String> attributeValues(Object locator, String name) {
+        return getValues(locator, e -> e.getAttribute(name));
+    }
 }
