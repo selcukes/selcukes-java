@@ -17,6 +17,8 @@
 package io.github.selcukes.core.page;
 
 import io.github.selcukes.commons.http.WebClient;
+import io.github.selcukes.core.enums.SwipeDirection;
+import io.github.selcukes.core.page.ui.Locator;
 import io.github.selcukes.core.validation.PageValidations;
 import io.github.selcukes.core.wait.WaitCondition;
 import io.github.selcukes.core.wait.WaitManager;
@@ -65,46 +67,46 @@ public interface Page {
         return getDriver().getCurrentUrl();
     }
 
-    default String text(By by) {
-        return find(by).getText();
+    default String text(Object locator) {
+        return find(locator).getText();
     }
 
-    default Page enter(By by, CharSequence text) {
-        find(by, WaitCondition.VISIBLE).sendKeys(text);
+    default Page enter(Object locator, CharSequence text) {
+        find(locator, WaitCondition.VISIBLE).sendKeys(text);
         return this;
     }
 
-    default Page clear(By by) {
-        find(by, WaitCondition.VISIBLE).clear();
+    default Page clear(Object locator) {
+        find(locator, WaitCondition.VISIBLE).clear();
         return this;
     }
 
-    default Page click(By by) {
-        click(by, WaitCondition.CLICKABLE);
+    default Page click(Object locator) {
+        click(locator, WaitCondition.CLICKABLE);
         return this;
     }
 
-    default Page selectText(By by, String text) {
-        select(by).selectByVisibleText(text);
+    default Page selectText(Object locator, String text) {
+        select(locator).selectByVisibleText(text);
         return this;
     }
 
-    default Page selectValue(By by, String value) {
-        select(by).selectByValue(value);
+    default Page selectValue(Object locator, String value) {
+        select(locator).selectByValue(value);
         return this;
     }
 
-    default Select select(By by) {
-        return new Select(find(by));
+    default Select select(Object locator) {
+        return new Select(find(locator));
     }
 
-    default Page click(By by, final WaitCondition condition) {
-        find(by, condition).click();
+    default Page click(Object locator, final WaitCondition condition) {
+        find(locator, condition).click();
         return this;
     }
 
-    default Page doubleClick(By by) {
-        actions().doubleClick(find(by)).perform();
+    default Page doubleClick(Object locator) {
+        actions().doubleClick(find(locator)).perform();
         return this;
 
     }
@@ -116,6 +118,14 @@ public interface Page {
     default Page selectMenu(By menu, By subMenu) {
         WebElement menuOption = find(menu);
         actions().moveToElement(menuOption).perform();
+        return this;
+    }
+
+    default Page swipe(Object target, SwipeDirection swipeDirection) {
+        return this;
+    }
+
+    default Page swipe(Object source, Object target, SwipeDirection swipeDirection) {
         return this;
     }
 
@@ -208,20 +218,20 @@ public interface Page {
         return ((TakesScreenshot) getDriver()).getScreenshotAs(target);
     }
 
-    default WebElement find(By by) {
-        return getDriver().findElement(by);
+    default WebElement find(Object locator) {
+        return getDriver().findElement(Locator.resolve(locator));
     }
 
-    default List<WebElement> findAll(By by) {
-        return getDriver().findElements(by);
+    default List<WebElement> findAll(Object locator) {
+        return getDriver().findElements(Locator.resolve(locator));
     }
 
-    default WebElement find(By by, final WaitCondition condition) {
-        return waitFor(by, "", condition);
+    default WebElement find(Object locator, final WaitCondition condition) {
+        return waitFor(Locator.resolve(locator), "", condition);
     }
 
-    default List<WebElement> findAll(By by, final WaitCondition condition) {
-        return waitFor(by, "", condition);
+    default List<WebElement> findAll(Object locator, final WaitCondition condition) {
+        return waitFor(Locator.resolve(locator), "", condition);
     }
 
     default List<WebElement> findAllChildren(By parent, By child) {

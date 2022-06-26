@@ -42,24 +42,24 @@ public class MobileAppTest {
 
     @Test(enabled = false)
     public void expandAndScrollScreenTest() {
-        page.click("Views")
-            .click("Expandable Lists")
-            .click("3. Simple Adapter")
+        page.click("aid:Views")
+            .click("aid:Expandable Lists")
+            .click("aid:3. Simple Adapter")
             .swipe(By.xpath("//android.widget.TextView[@text='Group 18']"), SwipeDirection.DOWN)
-            .click(By.xpath("//android.widget.TextView[@text='Group 18']"));
-        page.swipe(By.xpath("//android.widget.TextView[@text='Child 13']"), SwipeDirection.DOWN)
+            .click(By.xpath("//android.widget.TextView[@text='Group 18']"))
+            .swipe(By.xpath("//android.widget.TextView[@text='Child 13']"), SwipeDirection.DOWN)
             .swipe(By.xpath("//android.widget.TextView[@text='Group 1']"), SwipeDirection.UP);
 
     }
 
     @Test(enabled = false)
     public void expandAndScrollElementTest() {
-        page.click("Views")
-            .swipe("Splitting Touches across Views", SwipeDirection.DOWN)
-            .click("Splitting Touches across Views")
+        page.click("aid:Views")
+            .swipe("aid:Splitting Touches across Views", SwipeDirection.DOWN)
+            .click("aid:Splitting Touches across Views")
             .swipe(By.id("io.appium.android.apis:id/list2"), By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Blue']"), SwipeDirection.DOWN)
-            .click(By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Blue']"), WaitCondition.PRESENT);
-        page.swipe(By.id("io.appium.android.apis:id/list2"), By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Abbaye de Belloc']"), SwipeDirection.UP)
+            .click(By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Blue']"), WaitCondition.PRESENT)
+            .swipe(By.id("io.appium.android.apis:id/list2"), By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Abbaye de Belloc']"), SwipeDirection.UP)
             .click(By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Abbaye de Belloc']"));
     }
 
@@ -69,7 +69,6 @@ public class MobileAppTest {
             .startActivity(new Activity("io.appium.android.apis", ".app.AlertDialogSamples"));
 
         page.click(By.id("io.appium.android.apis:id/two_buttons"))
-
             .click(By.id("android:id/button1"));
     }
 

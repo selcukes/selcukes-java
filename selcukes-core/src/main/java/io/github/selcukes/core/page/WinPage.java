@@ -16,7 +16,6 @@
 
 package io.github.selcukes.core.page;
 
-import io.appium.java_client.AppiumBy;
 import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.core.driver.AppiumOptions;
 import lombok.CustomLog;
@@ -35,24 +34,6 @@ public class WinPage implements Page {
     @Override
     public WebDriver getDriver() {
         return driver;
-    }
-
-    public String read(String name) {
-        return find(name).getText();
-    }
-
-    public WebElement find(String accessibilityId) {
-        return find(AppiumBy.accessibilityId(accessibilityId));
-    }
-
-    public WinPage click(String accessibilityId) {
-        click(AppiumBy.accessibilityId(accessibilityId));
-        return this;
-    }
-
-    public WinPage enter(String accessibilityId, CharSequence text) {
-        enter(AppiumBy.accessibilityId(accessibilityId), text);
-        return this;
     }
 
     public WinPage switchWindow(String name) {
