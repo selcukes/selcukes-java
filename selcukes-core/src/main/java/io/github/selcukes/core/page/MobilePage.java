@@ -53,23 +53,6 @@ public class MobilePage implements Page {
         return this;
     }
 
-    public MobilePage tap(String accessibilityId) {
-        click(accessibilityId);
-        return this;
-    }
-
-    @Override
-    public MobilePage tap(By by) {
-        click(by);
-        return this;
-    }
-
-    @Override
-    public MobilePage doubleTap(By by) {
-        doubleClick(by);
-        return this;
-    }
-
     public MobilePage swipe(String targetAccessibilityId, SwipeDirection swipeDirection) {
         swipe(AppiumBy.accessibilityId(targetAccessibilityId), swipeDirection);
         return this;
