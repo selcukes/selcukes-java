@@ -6,7 +6,12 @@
 
 ### Added
 
+* [Core] Added String Locator support ([#151](https://github.com/selcukes/selcukes-java/pull/151))
+
 ### Changed
+
+* Update dependency cucumber.version to v7.4.1([#149](https://github.com/selcukes/selcukes-java/pull/149))
+* Update dependency selenium.version to v4.3.0([#150](https://github.com/selcukes/selcukes-java/pull/150))
 
 ### Removed
 
@@ -29,7 +34,7 @@
 
 ### Changed
 
-* Update dependency cucumber.version to v7.4.0([#138](https://github.com/selcukes/selcukes-java/pull/147))
+* Update dependency cucumber.version to v7.4.0([#147](https://github.com/selcukes/selcukes-java/pull/147))
 
 ### Removed
 
