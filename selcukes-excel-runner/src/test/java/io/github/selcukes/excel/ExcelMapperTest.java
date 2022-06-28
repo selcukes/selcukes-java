@@ -17,6 +17,7 @@
 package io.github.selcukes.excel;
 
 import io.github.selcukes.databind.annotation.DataFile;
+import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.excel.annotation.Column;
 import lombok.Data;
 import org.testng.annotations.Test;
@@ -26,7 +27,7 @@ import java.util.stream.Stream;
 public class ExcelMapperTest {
 
     @Data
-    @DataFile(fileName = "TestData.xlsx",sheetName = "Smoke")
+    @DataFile(fileName = "TestData.xlsx", sheetName = "Smoke")
     static class Pojo {
         @Column(name = "Screen")
         private String screen;
@@ -42,6 +43,18 @@ public class ExcelMapperTest {
     public void excelMapperTest() {
         Stream<Pojo> pojoStream = ExcelMapper.parse(Pojo.class);
         pojoStream.forEach(System.out::println);
+    }
+
+    @Test(expectedExceptions = DataMapperException.class)
+    public void excelMapperNegativeTest() {
+       ExcelMapper.parse(Selcukes.class);
+
+    }
+
+    @Data
+    @DataFile(sheetName = "Smoke")
+    static class Selcukes {
+
     }
 
 }

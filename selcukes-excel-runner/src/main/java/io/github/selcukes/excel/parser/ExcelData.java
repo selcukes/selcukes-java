@@ -17,7 +17,6 @@
 package io.github.selcukes.excel.parser;
 
 
-import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.helper.CollectionUtils;
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.exception.DataMapperException;
@@ -27,8 +26,9 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import java.io.FileInputStream;
+import java.nio.file.Path;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -63,8 +63,8 @@ public class ExcelData<T> {
             .collect(Collectors.toList());
     }
 
-    public Stream<T> parse(String fileName) {
-        try (var workbook = WorkbookFactory.create(Objects.requireNonNull(ConfigFactory.getStream(fileName)))) {
+    public Stream<T> parse(Path filePath) {
+        try (var workbook = WorkbookFactory.create(new FileInputStream(filePath.toFile()))) {
             var formatter = new DataFormatter();
             var startIndex = 0;
             var skip = 1;

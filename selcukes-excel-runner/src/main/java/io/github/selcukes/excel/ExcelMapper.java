@@ -16,6 +16,7 @@
 
 package io.github.selcukes.excel;
 
+import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.DataFileHelper;
 import io.github.selcukes.excel.parser.ExcelData;
 import lombok.experimental.UtilityClass;
@@ -34,7 +35,13 @@ public class ExcelMapper {
     public static <T> Stream<T> parse(final Class<T> entityClass) {
         final DataFileHelper<T> dataFile = DataFileHelper.getInstance(entityClass);
         final String fileName = dataFile.getFileName();
+        int extensionIndex = fileName.lastIndexOf('.');
+        final String extension = fileName.substring(extensionIndex + 1);
+        if (!extension.equalsIgnoreCase("xlsx")) {
+            throw new DataMapperException(String.format("File [%s] not found.",
+                fileName.substring(0, extensionIndex) + ".xlsx"));
+        }
         ExcelData<T> excelMapper = new ExcelData<>(entityClass);
-        return excelMapper.parse(fileName);
+        return excelMapper.parse(dataFile.getPath());
     }
 }
