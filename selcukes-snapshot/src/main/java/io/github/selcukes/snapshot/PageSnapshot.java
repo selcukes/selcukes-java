@@ -37,6 +37,8 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import static io.github.selcukes.commons.helper.ReflectionHelper.getDeclaredMethod;
+
 class PageSnapshot extends DefaultPageSnapshot {
     private WebDriver driver;
 
@@ -87,26 +89,24 @@ class PageSnapshot extends DefaultPageSnapshot {
         return outputType.convertFromBase64Png(base64EncodedPng);
     }
 
-    @SuppressWarnings("squid:S3011")
+
     private void defineCustomCommand(CommandInfo info) {
         try {
             unwrapDriver();
-            Method defineCommand = HttpCommandExecutor.class.getDeclaredMethod("defineCommand", String.class, CommandInfo.class);
-            defineCommand.setAccessible(true);
+            Method defineCommand = getDeclaredMethod(HttpCommandExecutor.class, "defineCommand", String.class, CommandInfo.class);
             defineCommand.invoke(((RemoteWebDriver) this.driver).getCommandExecutor(), "sendCommand", info);
-        } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
+        } catch (InvocationTargetException | IllegalAccessException e) {
             throw new SnapshotException(e);
         }
     }
 
-    @SuppressWarnings("squid:S3011")
+
     private Object sendCommand(String cmd, Object params) {
         try {
-            Method execute = RemoteWebDriver.class.getDeclaredMethod("execute", String.class, Map.class);
-            execute.setAccessible(true);
+            Method execute = getDeclaredMethod(RemoteWebDriver.class, "execute", String.class, Map.class);
             Response res = (Response) execute.invoke(driver, "sendCommand", Map.of("cmd", cmd, "params", params));
             return res.getValue();
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (InvocationTargetException | IllegalAccessException e) {
             throw new SnapshotException(e);
         }
     }

@@ -1,5 +1,4 @@
 /*
- *
  *  Copyright (c) Ramesh Babu Prudhvi.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,29 +12,24 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
 
-package io.github.selcukes.databind.annotation;
+package io.github.selcukes.excel.annotation;
 
+
+import io.github.selcukes.excel.converters.StringConverter;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.TYPE)
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface DataFile {
+public @interface Column {
+    String name();
 
-    String fileName() default "";
+    String format() default "";
 
-    String folderPath() default "";
-
-    String rootFolder() default "";
-
-    boolean streamLoader() default false;
-
-    String sheetName() default "";
+    Class<?> converter() default StringConverter.class;
 }
-
