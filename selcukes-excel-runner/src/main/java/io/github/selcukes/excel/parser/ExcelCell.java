@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.excel;
+package io.github.selcukes.excel.parser;
 
 import io.github.selcukes.excel.annotation.Column;
 import io.github.selcukes.excel.converters.Converter;
@@ -34,7 +34,7 @@ import static java.util.Optional.ofNullable;
 import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.RETURN_BLANK_AS_NULL;
 
 
-public class ExcelCell<T> {
+class ExcelCell<T> {
     private final int index;
     private final Field field;
     private final Converter<T> converter;

@@ -19,8 +19,7 @@ package io.github.selcukes.excel.parser;
 
 import io.github.selcukes.commons.helper.CollectionUtils;
 import io.github.selcukes.commons.helper.FileHelper;
-import io.github.selcukes.excel.ExcelCell;
-import io.github.selcukes.excel.annotation.Sheet;
+import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.excel.converters.*;
 import lombok.Getter;
 import org.apache.poi.ss.usermodel.Cell;
@@ -68,8 +67,8 @@ public class ExcelData<T> {
             var startIndex = 0;
             var skip = 1;
 
-            var sheet = ofNullable(entityClass.getDeclaredAnnotation(Sheet.class))
-                .map(annotation -> workbook.getSheet(annotation.name()))
+            var sheet = ofNullable(entityClass.getDeclaredAnnotation(DataFile.class))
+                .map(annotation -> workbook.getSheet(annotation.sheetName()))
                 .orElse(workbook.getSheetAt(startIndex));
 
             var headers = CollectionUtils.toStream(sheet.getRow(startIndex).cellIterator())

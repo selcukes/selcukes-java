@@ -18,16 +18,15 @@ package io.github.selcukes.excel;
 
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.excel.annotation.Column;
-import io.github.selcukes.excel.annotation.Sheet;
 import lombok.Data;
 import org.testng.annotations.Test;
 
 import java.util.stream.Stream;
 
 public class ExcelMapperTest {
-    @Sheet(name = "Master")
+
     @Data
-    @DataFile(fileName = "TestData.xlsx")
+    @DataFile(fileName = "TestData.xlsx",sheetName = "Smoke")
     static class Pojo {
         @Column(name = "Screen")
         private String screen;

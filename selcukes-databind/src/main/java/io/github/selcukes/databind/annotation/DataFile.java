@@ -35,5 +35,7 @@ public @interface DataFile {
     String rootFolder() default "";
 
     boolean streamLoader() default false;
+
+    String sheetName() default "";
 }
 
