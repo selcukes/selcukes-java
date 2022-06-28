@@ -20,6 +20,7 @@ package io.github.selcukes.excel.parser;
 import io.github.selcukes.commons.helper.CollectionUtils;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.databind.annotation.DataFile;
+import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.excel.converters.*;
 import lombok.Getter;
 import org.apache.poi.ss.usermodel.Cell;
@@ -84,7 +85,7 @@ public class ExcelData<T> {
                 .map(row -> cellMappers.stream().map(cellMapper -> cellMapper.parse(row)).collect(Collectors.toList()))
                 .map(this::initEntity);
         } catch (Exception ex) {
-            throw new IllegalArgumentException(format("Unable to read Excel data to %s.", entityClass), ex);
+            throw new DataMapperException(format("Unable to parse Excel data to %s.", entityClass), ex);
         }
     }
 

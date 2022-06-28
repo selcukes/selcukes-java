@@ -21,8 +21,16 @@ import io.github.selcukes.excel.parser.ExcelData;
 import lombok.experimental.UtilityClass;
 
 import java.util.stream.Stream;
+
 @UtilityClass
 public class ExcelMapper {
+    /**
+     * Parses the Excel file to an Entity Class.
+     *
+     * @param <T>         the Class type.
+     * @param entityClass the entity class
+     * @return the Stream of Entity class objects
+     */
     public static <T> Stream<T> parse(final Class<T> entityClass) {
         final DataFileHelper<T> dataFile = DataFileHelper.getInstance(entityClass);
         final String fileName = dataFile.getFileName();
