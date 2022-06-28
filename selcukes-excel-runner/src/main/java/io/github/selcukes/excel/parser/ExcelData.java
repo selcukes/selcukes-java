@@ -96,7 +96,7 @@ public class ExcelData<T> {
             throw new IllegalStateException(format("%s must have default constructor.", entityClass.getSimpleName()));
         }
 
-        var entity = (T) newInstance(entityClass);
+        var entity = newInstance(entityClass);
         mappers.forEach(mapper -> mapper.assignValue(entity));
 
         return entity;

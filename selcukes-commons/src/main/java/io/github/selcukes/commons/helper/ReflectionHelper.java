@@ -47,15 +47,6 @@ public class ReflectionHelper {
             Class<?> clazz = object == null ? Object.class : object.getClass();
             Field field = clazz.getDeclaredField(fieldName);
             field.setAccessible(true);
-            if ((field.getModifiers() & Modifier.FINAL) == Modifier.FINAL) {
-                try {
-                    Field modifiersField = Field.class.getDeclaredField("modifiers");
-                    modifiersField.setAccessible(true);
-                    modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-                } catch (NoSuchFieldException ignored) {
-                    //IGNORE
-                }
-            }
             field.set(object, value);
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
