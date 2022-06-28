@@ -17,8 +17,8 @@
 package io.github.selcukes.excel.parser;
 
 
+import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.helper.CollectionUtils;
-import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.excel.converters.*;
@@ -28,6 +28,7 @@ import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -63,7 +64,7 @@ public class ExcelData<T> {
     }
 
     public Stream<T> parse(String fileName) {
-        try (var workbook = WorkbookFactory.create(FileHelper.loadThreadResourceAsStream(fileName))) {
+        try (var workbook = WorkbookFactory.create(Objects.requireNonNull(ConfigFactory.getStream(fileName)))) {
             var formatter = new DataFormatter();
             var startIndex = 0;
             var skip = 1;
@@ -76,7 +77,6 @@ public class ExcelData<T> {
                 .collect(Collectors.toMap(cell -> formatter.formatCellValue(cell).trim(), Cell::getColumnIndex));
 
             var cellMappers = Stream.of(entityClass.getDeclaredFields())
-
                 .map(field -> new ExcelCell<>(field, headers, defaultIConverters))
                 .collect(Collectors.toList());
 
