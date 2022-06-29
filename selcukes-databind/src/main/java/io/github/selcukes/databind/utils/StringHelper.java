@@ -36,6 +36,11 @@ import java.util.regex.Pattern;
  */
 @UtilityClass
 public class StringHelper {
+    private static final String SNAKE_CASE_REGEX = "([a-z])([A-Z]+)";
+    private static final String CAMEL_CASE_REGEX = "[^a-zA-Z0-9]";
+    private static final String INTERPOLATE_REGEX = "\\$\\{(.+?)\\}";
+    private static final String VERSION_NUMBER_REGEX = "[^0-9_.]";
+
     /**
      * The constant nullOrEmpty.
      */
@@ -58,9 +63,8 @@ public class StringHelper {
      * @return the string
      */
     public String toSnakeCase(String text) {
-        String regex = "([a-z])([A-Z]+)";
         String replacement = "$1_$2";
-        return text.replaceAll(regex, replacement).toLowerCase();
+        return text.replaceAll(SNAKE_CASE_REGEX, replacement).toLowerCase();
     }
 
     /**
@@ -70,10 +74,10 @@ public class StringHelper {
      * @return the string
      */
     public String toCamelCase(String text) {
-        String regex = "[^a-zA-Z0-9]";
+
         final StringBuilder stringBuilder = new StringBuilder(text.length());
 
-        for (final String word : text.replaceAll(regex, "_").split("_")) {
+        for (final String word : text.replaceAll(CAMEL_CASE_REGEX, "_").split("_")) {
             if (!word.isEmpty()) {
                 stringBuilder.append(Character.toUpperCase(word.charAt(0)));
                 stringBuilder.append(word.substring(1).toLowerCase());
@@ -84,6 +88,17 @@ public class StringHelper {
     }
 
     /**
+     * Convert text to a field name.
+     *
+     * @param text the text
+     * @return the string
+     */
+    public static String toFieldName(String text) {
+        text = text.replaceAll(CAMEL_CASE_REGEX, "");
+        return text.length() > 0 ? text.substring(0, 1).toLowerCase() + text.substring(1) : null;
+    }
+
+    /**
      * Interpolate string.
      *
      * @param text     the text
@@ -91,8 +106,8 @@ public class StringHelper {
      * @return the string
      */
     public String interpolate(String text, Function<MatchResult, String> replacer) {
-        String regex = "\\$\\{(.+?)\\}";
-        return Pattern.compile(regex)
+
+        return Pattern.compile(INTERPOLATE_REGEX)
             .matcher(text)
             .replaceAll(replacer);
     }
@@ -104,8 +119,7 @@ public class StringHelper {
      * @return the string
      */
     public String extractVersionNumber(String text) {
-        String regex = "[^0-9_.]";
-        return text.replaceAll(regex, "");
+        return text.replaceAll(VERSION_NUMBER_REGEX, "");
     }
 
     /**

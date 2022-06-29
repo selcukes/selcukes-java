@@ -26,9 +26,12 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import static io.github.selcukes.commons.helper.ReflectionHelper.newInstance;
 import static io.github.selcukes.commons.helper.ReflectionHelper.setField;
+import static io.github.selcukes.databind.utils.StringHelper.toFieldName;
+import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.RETURN_BLANK_AS_NULL;
@@ -50,10 +53,12 @@ class ExcelCell<T> {
     ) {
         this.field = field;
         this.defaultIConverters = defaultIConverters;
-        this.index = getColumn()
+        String header = getColumn()
             .map(Column::name)
-            .filter(headers::containsKey)
-            .map(headers::get)
+            .orElse(toFieldName(getFieldName()));
+        Map<String, Integer> treeMap = new TreeMap<>(CASE_INSENSITIVE_ORDER);
+        treeMap.putAll(headers);
+        this.index = ofNullable(treeMap.get(header))
             .orElseThrow(() -> new IllegalArgumentException(format("Column %s not found", field.getName())));
         this.converter = findMatchingConverter();
         this.formatter = new DataFormatter();

@@ -35,7 +35,7 @@ public class ExcelMapperTest {
         private String feature;
         @Column(name = "Test")
         private String test;
-        @Column(name = "Run")
+       // @Column(name = "Run")
         private String run;
     }
 
