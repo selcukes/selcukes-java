@@ -21,7 +21,6 @@ import io.github.selcukes.commons.helper.CollectionUtils;
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.excel.converters.*;
-import lombok.Getter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -36,17 +35,14 @@ import static io.github.selcukes.commons.helper.ReflectionHelper.newInstance;
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 
-
 public class ExcelData<T> {
-    @Getter
-    private final Class<T> entityClass;
 
-    private final List<Converter<T>> defaultIConverters;
+    private final Class<T> entityClass;
+    private final List<Converter<T>> defaultConverters;
 
     public ExcelData(final Class<T> entityClass) {
         this.entityClass = entityClass;
-
-        this.defaultIConverters = defaultConverters();
+        this.defaultConverters = defaultConverters();
     }
 
     @SuppressWarnings("unchecked")
@@ -77,7 +73,7 @@ public class ExcelData<T> {
                 .collect(Collectors.toMap(cell -> formatter.formatCellValue(cell).trim(), Cell::getColumnIndex));
 
             var cellMappers = Stream.of(entityClass.getDeclaredFields())
-                .map(field -> new ExcelCell<>(field, headers, defaultIConverters))
+                .map(field -> new ExcelCell<>(field, headers, defaultConverters))
                 .collect(Collectors.toList());
 
             return CollectionUtils.toStream(sheet.iterator())

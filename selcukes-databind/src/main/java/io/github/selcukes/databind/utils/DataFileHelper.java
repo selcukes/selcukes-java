@@ -30,7 +30,9 @@ import java.nio.file.Path;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static java.lang.String.format;
 import static java.lang.System.getProperty;
+import static java.util.Optional.ofNullable;
 
 public class DataFileHelper<T> {
     private final Class<T> dataClass;
@@ -43,10 +45,10 @@ public class DataFileHelper<T> {
 
     private DataFileHelper(final Class<T> dataClass) {
         this.dataClass = dataClass;
-        if (!this.dataClass.isAnnotationPresent(DataFile.class)) {
-            throw new DataMapperException(String.format("Data Class[%s] must have @DataFile annotation.", dataClass.getSimpleName()));
-        }
-        this.dataFile = dataClass.getAnnotation(DataFile.class);
+        this.dataFile = ofNullable(dataClass.getDeclaredAnnotation(DataFile.class))
+            .orElseThrow(() -> new DataMapperException(format("Data Class[%s] must have @DataFile annotation.",
+                dataClass.getSimpleName())
+            ));
     }
 
     public static <T> DataFileHelper<T> getInstance(final Class<T> dataClass) {
@@ -63,7 +65,7 @@ public class DataFileHelper<T> {
         final String fileName = StringHelper.toSnakeCase(this.dataClass.getSimpleName());
         final Path folder = getFolder();
 
-        Optional<Path> path = Optional.ofNullable(findFile(folder, fileName));
+        Optional<Path> path = ofNullable(findFile(folder, fileName));
         if (path.isEmpty()) {
             if (isNewFile) {
                 return newFile(folder, fileName);
