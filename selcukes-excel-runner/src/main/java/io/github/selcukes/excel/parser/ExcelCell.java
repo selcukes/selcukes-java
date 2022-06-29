@@ -53,13 +53,7 @@ class ExcelCell<T> {
     ) {
         this.field = field;
         this.defaultIConverters = defaultIConverters;
-        String header = getColumn()
-            .map(Column::name)
-            .orElse(toFieldName(getFieldName()));
-        Map<String, Integer> treeMap = new TreeMap<>(CASE_INSENSITIVE_ORDER);
-        treeMap.putAll(headers);
-        this.index = ofNullable(treeMap.get(header))
-            .orElseThrow(() -> new IllegalArgumentException(format("Column %s not found", field.getName())));
+        this.index = getIndex(headers);
         this.converter = findMatchingConverter();
         this.formatter = new DataFormatter();
     }
@@ -70,6 +64,16 @@ class ExcelCell<T> {
             .orElse("");
         this.convertedValue = converter.convert(cellValue, getColumn().map(Column::format).orElse(""));
         return this;
+    }
+
+    private int getIndex(Map<String, Integer> headers) {
+        String header = getColumn()
+            .map(Column::name)
+            .orElse(toFieldName(getFieldName()));
+        Map<String, Integer> headersMap = new TreeMap<>(CASE_INSENSITIVE_ORDER);
+        headersMap.putAll(headers);
+        return ofNullable(headersMap.get(header))
+            .orElseThrow(() -> new IllegalArgumentException(format("Column %s not found", field.getName())));
     }
 
     public <R> void assignValue(final R instance) {
