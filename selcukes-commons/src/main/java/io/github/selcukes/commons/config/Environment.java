@@ -16,13 +16,11 @@
 
 package io.github.selcukes.commons.config;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.github.selcukes.databind.annotation.DataFile;
 import lombok.Data;
 
 import java.util.Map;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @DataFile(fileName = "selcukes.yaml")
 public class Environment {
@@ -73,6 +71,7 @@ public class Environment {
         String channel;
         String authorIcon;
     }
+
     @Data
     public static class VideoConfig {
         boolean recording;

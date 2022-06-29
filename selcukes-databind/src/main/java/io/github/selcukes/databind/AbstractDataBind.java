@@ -24,11 +24,14 @@ import lombok.SneakyThrows;
 import java.io.InputStream;
 import java.nio.file.Path;
 
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
+
 abstract class AbstractDataBind implements DataBind {
     private final ObjectMapper mapper;
 
     AbstractDataBind(ObjectMapper mapper) {
         this.mapper = mapper;
+        this.mapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     @SneakyThrows
@@ -36,6 +39,7 @@ abstract class AbstractDataBind implements DataBind {
     public <T> T parse(final Path path, final Class<T> resourceClass) {
         return this.mapper.readValue(path.toFile(), resourceClass);
     }
+
     @SneakyThrows
     @Override
     public <T> T parse(final InputStream inputStream, final Class<T> resourceClass) {
