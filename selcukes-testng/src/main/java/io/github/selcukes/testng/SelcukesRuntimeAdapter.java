@@ -25,6 +25,7 @@ import lombok.CustomLog;
 
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.*;
 import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
+import static java.util.Optional.ofNullable;
 
 @CustomLog
 public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
@@ -40,26 +41,20 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
     public void perform() {
         try {
             SelcukesTestProperties properties = new SelcukesTestProperties();
-            String features = properties.getSubstitutedConfigProperty(FEATURES);
-            String glue = properties.getCucumberProperty(GLUE);
-            String tag = properties.getCucumberProperty(TAGS);
+            String features = ofNullable(properties.getSubstitutedConfigProperty(FEATURES)).orElse("");
+            String glue = ofNullable(properties.getCucumberProperty(GLUE)).orElse("");
+            String tag = ofNullable(properties.getCucumberProperty(TAGS)).orElse("");
             String additionalPlugin = properties.getCucumberProperty(PLUGIN);
-            String reportsPath = properties.getReportsProperty(REPORTS_PATH);
+            String reportsPath = ofNullable(properties.getReportsProperty(REPORTS_PATH)).orElse("target");
             String timestampReport = properties.getReportsProperty(TIMESTAMP_REPORT);
             String emailReport = properties.getReportsProperty(EMAIL_REPORT);
-            String reportsFile = properties.getReportsProperty(REPORTS_FILE);
-            if (isNullOrEmpty(reportsFile))
-                reportsFile = "TestReport";
+            String reportsFile = ofNullable(properties.getReportsProperty(REPORTS_FILE)).orElse("TestReport");
 
-            if (isNullOrEmpty(reportsPath)) {
-                reportsPath = "target";
-            }
             String cucumberReportPath = reportsPath + "/cucumber-reports";
             String extentReportPath = reportsPath + "/extent-reports";
 
             String timestamp = timestampReport.equalsIgnoreCase("true") ?
                 "-" + DateHelper.get().dateTime() : "";
-
 
             String plugin = String.format("html:%s/%s%s.html, json:%s/cucumber%s.json",
                 cucumberReportPath, reportsFile, timestamp, cucumberReportPath, timestamp);

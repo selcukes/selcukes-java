@@ -23,11 +23,11 @@ import lombok.CustomLog;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static io.github.selcukes.excel.ExcelUtils.NAME_SEPARATOR;
 import static io.github.selcukes.excel.ExcelUtils.runScenarios;
@@ -48,11 +48,11 @@ public class ExcelTestRunner extends SelcukesTestNGRunner {
             logger.info(() -> "No scenario is selected to execute.");
             return filteredScenarios;
         } else {
-            List<String> excelSuiteScenarios = runScenarios.stream()
-                .map(s -> s.split(NAME_SEPARATOR)[1]).collect(Collectors.toList());
-            List<Object[]> allScenarios = Arrays.asList(filteredScenarios);
-            List<Object[]> excelFilteredScenarios = excelSuiteScenarios.stream()
-                .map(excelScenario -> allScenarios.stream()
+            Stream<String> excelSuiteScenarios = runScenarios.stream()
+                .map(s -> s.split(NAME_SEPARATOR)[1]);
+
+            List<Object[]> excelFilteredScenarios = excelSuiteScenarios
+                .map(excelScenario -> Stream.of(filteredScenarios)
                     .filter(scenario -> scenario[0].toString().replace("\"", "")
                         .equalsIgnoreCase(excelScenario)).findAny())
                 .filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
