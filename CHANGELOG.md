@@ -6,16 +6,24 @@
 
 ### Added
 
+### Changed
+
+### Removed
+
+### Fixed
+
+## [2.1.3] (30-06-2022)
+
+### Added
+
 * [Core] Added String Locator support ([#151](https://github.com/selcukes/selcukes-java/pull/151))
+* [Excel Runner] Added support to parse Excel sheet to entity
+  class ([#152](https://github.com/selcukes/selcukes-java/pull/152))
 
 ### Changed
 
 * Update dependency cucumber.version to v7.4.1([#149](https://github.com/selcukes/selcukes-java/pull/149))
 * Update dependency selenium.version to v4.3.0([#150](https://github.com/selcukes/selcukes-java/pull/150))
-
-### Removed
-
-### Fixed
 
 ## [2.1.2]
 
