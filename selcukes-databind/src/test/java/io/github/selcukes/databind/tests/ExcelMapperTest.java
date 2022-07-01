@@ -14,15 +14,16 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.excel;
+package io.github.selcukes.databind.tests;
 
-import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.ExcelMapper;
 import io.github.selcukes.databind.annotation.Column;
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.exception.DataMapperException;
 import lombok.Data;
 import org.testng.annotations.Test;
+
+import java.util.stream.Stream;
 
 public class ExcelMapperTest {
 
@@ -41,8 +42,8 @@ public class ExcelMapperTest {
 
     @Test
     public void excelMapperTest() {
-        Pojo pojoStream = DataMapper.parse(Pojo.class);
-        // pojoStream.forEach(System.out::println);
+        Stream<Pojo> pojoStream = ExcelMapper.parse(Pojo.class);
+        pojoStream.forEach(System.out::println);
     }
 
     @Test(expectedExceptions = DataMapperException.class)
