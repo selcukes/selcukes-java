@@ -14,11 +14,11 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.excel;
+package io.github.selcukes.databind;
 
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.DataFileHelper;
-import io.github.selcukes.excel.parser.ExcelData;
+import io.github.selcukes.databind.excel.ExcelParser;
 import lombok.experimental.UtilityClass;
 
 import java.util.stream.Stream;
@@ -41,7 +41,7 @@ public class ExcelMapper {
             throw new DataMapperException(String.format("File [%s] not found.",
                 fileName.substring(0, extensionIndex) + ".xlsx"));
         }
-        ExcelData<T> excelMapper = new ExcelData<>(entityClass);
+        ExcelParser<T> excelMapper = new ExcelParser<>(entityClass);
         return excelMapper.parse(dataFile.getPath());
     }
 }

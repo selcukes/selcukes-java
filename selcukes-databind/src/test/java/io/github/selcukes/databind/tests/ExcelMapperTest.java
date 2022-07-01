@@ -14,11 +14,12 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.excel;
+package io.github.selcukes.databind.tests;
 
+import io.github.selcukes.databind.ExcelMapper;
+import io.github.selcukes.databind.annotation.Column;
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.exception.DataMapperException;
-import io.github.selcukes.excel.annotation.Column;
 import lombok.Data;
 import org.testng.annotations.Test;
 
@@ -35,7 +36,7 @@ public class ExcelMapperTest {
         private String feature;
         @Column(name = "Test")
         private String test;
-       // @Column(name = "Run")
+        // @Column(name = "Run")
         private String run;
     }
 
@@ -47,7 +48,7 @@ public class ExcelMapperTest {
 
     @Test(expectedExceptions = DataMapperException.class)
     public void excelMapperNegativeTest() {
-       ExcelMapper.parse(Selcukes.class);
+        ExcelMapper.parse(Selcukes.class);
 
     }
 

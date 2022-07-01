@@ -35,16 +35,16 @@ public class DataMapper {
      * Parses the data file according to POJO Class.
      *
      * @param <T>           the Class type.
-     * @param resourceClass the resource class
+     * @param entityClass the resource class
      * @return the POJO class object
      */
-    public <T> T parse(final Class<T> resourceClass) {
-        final DataFileHelper<T> dataFile = DataFileHelper.getInstance(resourceClass);
+    public <T> T parse(final Class<T> entityClass) {
+        final DataFileHelper<T> dataFile = DataFileHelper.getInstance(entityClass);
         final String fileName = dataFile.getFileName();
         final String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
         final DataBind dataBind = lookup(extension);
-        return dataFile.isStream() ? dataBind.parse(dataFile.fileStream(), resourceClass) :
-            dataBind.parse(dataFile.getPath(), resourceClass);
+        return dataFile.isStream() ? dataBind.parse(dataFile.fileStream(), entityClass) :
+            dataBind.parse(dataFile.getPath(), entityClass);
     }
 
     /**
@@ -68,14 +68,14 @@ public class DataMapper {
      *
      * @param <T>           the type parameter
      * @param content       the content
-     * @param resourceClass the resource class
+     * @param entityClass the resource class
      * @return the t
      */
     @SneakyThrows
-    public <T> T parse(String content, Class<T> resourceClass) {
+    public <T> T parse(String content, Class<T> entityClass) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setPropertyNamingStrategy(SNAKE_CASE);
-        return mapper.readValue(content, resourceClass);
+        return mapper.readValue(content, entityClass);
     }
 
     private DataBind lookup(final String extension) {

@@ -14,20 +14,24 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.excel.converters;
+package io.github.selcukes.databind.converters;
 
-import java.lang.reflect.Type;
+import java.time.LocalDate;
 
-import static java.lang.Boolean.parseBoolean;
+import static java.time.LocalDate.parse;
+import static java.time.format.DateTimeFormatter.ofPattern;
+import static java.util.Optional.ofNullable;
 
-public class BooleanConverter extends DefaultConverter<Boolean> {
+public class LocalDateConverter extends DefaultConverter<LocalDate> {
+    private static final String DEFAULT_FORMAT = "yyyy-MM-dd";
+
     @Override
-    public Boolean convert(final String value) {
-        return parseBoolean(value);
+    public LocalDate convert(final String value) {
+        return convert(value, DEFAULT_FORMAT);
     }
 
     @Override
-    public Type getType() {
-        return Boolean.TYPE;
+    public LocalDate convert(final String value, final String format) {
+        return parse(value, ofPattern(ofNullable(format).filter(f -> !f.isEmpty()).orElse(DEFAULT_FORMAT)));
     }
 }

@@ -14,16 +14,20 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.excel.converters;
+package io.github.selcukes.databind.converters;
 
 import java.lang.reflect.Type;
 
-public interface Converter<T> {
-    T convert(String value);
+public abstract class DefaultConverter<T> implements Converter<T> {
+    private final Type type;
 
-    Type getType();
+    @SafeVarargs
+    protected DefaultConverter(final T... values) {
+        this.type = values.getClass().getComponentType();
+    }
 
-    default T convert(final String value, final String format) {
-        return convert(value);
+    @Override
+    public Type getType() {
+        return type;
     }
 }

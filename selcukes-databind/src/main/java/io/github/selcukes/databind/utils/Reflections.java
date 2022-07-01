@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.commons.helper;
+package io.github.selcukes.databind.utils;
 
 import lombok.experimental.UtilityClass;
 
@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 @UtilityClass
-public class ReflectionHelper {
+public class Reflections {
     @SuppressWarnings("all")
     public static <T> T newInstance(Class<T> clazz) {
         try {

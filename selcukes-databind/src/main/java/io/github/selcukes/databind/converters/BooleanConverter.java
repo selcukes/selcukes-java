@@ -14,20 +14,20 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.excel.converters;
+package io.github.selcukes.databind.converters;
 
 import java.lang.reflect.Type;
 
-import static java.lang.Integer.parseInt;
+import static java.lang.Boolean.parseBoolean;
 
-public class IntegerConverter extends DefaultConverter<Integer> {
+public class BooleanConverter extends DefaultConverter<Boolean> {
     @Override
-    public Integer convert(final String value) {
-        return parseInt(value);
+    public Boolean convert(final String value) {
+        return parseBoolean(value);
     }
 
     @Override
     public Type getType() {
-        return Integer.TYPE;
+        return Boolean.TYPE;
     }
 }

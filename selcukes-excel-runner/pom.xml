@@ -12,10 +12,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.github.selcukes</groupId>
             <artifactId>selcukes-testng</artifactId>
         </dependency>
