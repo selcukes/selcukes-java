@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 @UtilityClass
-public class ReflectionHelper {
+public class Reflections {
     @SuppressWarnings("all")
     public static <T> T newInstance(Class<T> clazz) {
         try {

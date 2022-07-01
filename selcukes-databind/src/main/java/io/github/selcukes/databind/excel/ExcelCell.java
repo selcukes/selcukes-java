@@ -29,8 +29,8 @@ import java.util.Optional;
 import java.util.TreeMap;
 
 
-import static io.github.selcukes.databind.utils.ReflectionHelper.newInstance;
-import static io.github.selcukes.databind.utils.ReflectionHelper.setField;
+import static io.github.selcukes.databind.utils.Reflections.newInstance;
+import static io.github.selcukes.databind.utils.Reflections.setField;
 import static io.github.selcukes.databind.utils.StringHelper.toFieldName;
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static java.lang.String.format;

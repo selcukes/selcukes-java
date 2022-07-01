@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static io.github.selcukes.databind.utils.ReflectionHelper.newInstance;
+import static io.github.selcukes.databind.utils.Reflections.newInstance;
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 
