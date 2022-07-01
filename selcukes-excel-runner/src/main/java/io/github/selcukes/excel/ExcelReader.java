@@ -18,7 +18,6 @@ package io.github.selcukes.excel;
 
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ExcelConfigException;
-import io.github.selcukes.commons.helper.CollectionUtils;
 import io.github.selcukes.databind.utils.Streams;
 import org.apache.poi.ss.usermodel.*;
 
