@@ -19,6 +19,7 @@ package io.github.selcukes.excel;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ExcelConfigException;
 import io.github.selcukes.commons.helper.CollectionUtils;
+import io.github.selcukes.databind.utils.Streams;
 import org.apache.poi.ss.usermodel.*;
 
 import java.util.List;
@@ -43,7 +44,7 @@ public class ExcelReader {
     }
 
     public Stream<Sheet> getAllSheets() {
-        return CollectionUtils.toStream(workbook.iterator());
+        return Streams.of(workbook.iterator());
     }
 
     public Map<String, List<List<String>>> getAllSheetsDataMap() {
@@ -51,7 +52,7 @@ public class ExcelReader {
     }
 
     public List<List<String>> getSheetData(Sheet sheet) {
-        return CollectionUtils.toStream(sheet.iterator())
+        return Streams.of(sheet.iterator())
             .map(this::getRowData)
             .collect(Collectors.toList());
     }
@@ -59,7 +60,7 @@ public class ExcelReader {
     private List<String> getRowData(Row row) {
         DataFormatter df = new DataFormatter();
         FormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
-        return CollectionUtils.toStream(row.iterator())
+        return Streams.of(row.iterator())
             .map(cell -> {
                 if (cell == null) {
                     return "";

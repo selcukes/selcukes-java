@@ -14,10 +14,10 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.excel.parser;
+package io.github.selcukes.databind.excel;
 
-import io.github.selcukes.excel.annotation.Column;
-import io.github.selcukes.excel.converters.Converter;
+import io.github.selcukes.databind.annotation.Column;
+import io.github.selcukes.databind.converters.Converter;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 
@@ -28,8 +28,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 
-import static io.github.selcukes.commons.helper.ReflectionHelper.newInstance;
-import static io.github.selcukes.commons.helper.ReflectionHelper.setField;
+
+import static io.github.selcukes.databind.utils.ReflectionHelper.newInstance;
+import static io.github.selcukes.databind.utils.ReflectionHelper.setField;
 import static io.github.selcukes.databind.utils.StringHelper.toFieldName;
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static java.lang.String.format;

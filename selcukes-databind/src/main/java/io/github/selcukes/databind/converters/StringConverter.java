@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.excel.converters;
+package io.github.selcukes.databind.converters;
 
 public class StringConverter extends DefaultConverter<String> {
     @Override

@@ -23,8 +23,6 @@ import lombok.experimental.UtilityClass;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
 
@@ -60,8 +58,4 @@ public class CollectionUtils {
         return Arrays.stream(enumData.getEnumConstants()).map(Enum::toString).collect(Collectors.toList());
     }
 
-    public <T> Stream<T> toStream(Iterator<? extends T> iterator) {
-        return StreamSupport
-            .stream(Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED), false);
-    }
 }

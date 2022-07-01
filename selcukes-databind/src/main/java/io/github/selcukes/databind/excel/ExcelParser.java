@@ -14,13 +14,13 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.excel.parser;
+package io.github.selcukes.databind.excel;
 
 
-import io.github.selcukes.commons.helper.CollectionUtils;
 import io.github.selcukes.databind.annotation.DataFile;
+import io.github.selcukes.databind.converters.*;
 import io.github.selcukes.databind.exception.DataMapperException;
-import io.github.selcukes.excel.converters.*;
+import io.github.selcukes.databind.utils.Streams;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -31,16 +31,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static io.github.selcukes.commons.helper.ReflectionHelper.newInstance;
+import static io.github.selcukes.databind.utils.ReflectionHelper.newInstance;
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 
-public class ExcelData<T> {
+public class ExcelParser<T> {
 
     private final Class<T> entityClass;
     private final List<Converter<T>> defaultConverters;
 
-    public ExcelData(final Class<T> entityClass) {
+    public ExcelParser(final Class<T> entityClass) {
         this.entityClass = entityClass;
         this.defaultConverters = defaultConverters();
     }
@@ -69,14 +69,14 @@ public class ExcelData<T> {
                 .map(annotation -> workbook.getSheet(annotation.sheetName()))
                 .orElse(workbook.getSheetAt(startIndex));
 
-            var headers = CollectionUtils.toStream(sheet.getRow(startIndex).cellIterator())
+            var headers = Streams.of(sheet.getRow(startIndex).cellIterator())
                 .collect(Collectors.toMap(cell -> formatter.formatCellValue(cell).trim(), Cell::getColumnIndex));
 
             var cellMappers = Stream.of(entityClass.getDeclaredFields())
                 .map(field -> new ExcelCell<>(field, headers, defaultConverters))
                 .collect(Collectors.toList());
 
-            return CollectionUtils.toStream(sheet.iterator())
+            return Streams.of(sheet.iterator())
                 .skip(skip)
                 .map(row -> cellMappers.stream().map(cellMapper -> cellMapper.parse(row)).collect(Collectors.toList()))
                 .map(this::initEntity);

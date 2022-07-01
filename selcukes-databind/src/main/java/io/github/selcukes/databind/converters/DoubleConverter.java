@@ -14,22 +14,24 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.excel.annotation;
+package io.github.selcukes.databind.converters;
 
 
-import io.github.selcukes.excel.converters.StringConverter;
+import lombok.SneakyThrows;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.reflect.Type;
+import java.text.NumberFormat;
+import java.util.Locale;
 
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Column {
-    String name();
+public class DoubleConverter extends DefaultConverter<Double> {
+    @SneakyThrows
+    @Override
+    public Double convert(final String value) {
+        return NumberFormat.getInstance(Locale.getDefault()).parse(value).doubleValue();
+    }
 
-    String format() default "";
-
-    Class<?> converter() default StringConverter.class;
+    @Override
+    public Type getType() {
+        return Double.TYPE;
+    }
 }

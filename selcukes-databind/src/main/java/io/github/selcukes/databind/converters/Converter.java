@@ -14,24 +14,16 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.excel.converters;
-
-
-import lombok.SneakyThrows;
+package io.github.selcukes.databind.converters;
 
 import java.lang.reflect.Type;
-import java.text.NumberFormat;
-import java.util.Locale;
 
-public class DoubleConverter extends DefaultConverter<Double> {
-    @SneakyThrows
-    @Override
-    public Double convert(final String value) {
-        return NumberFormat.getInstance(Locale.getDefault()).parse(value).doubleValue();
-    }
+public interface Converter<T> {
+    T convert(String value);
 
-    @Override
-    public Type getType() {
-        return Double.TYPE;
+    Type getType();
+
+    default T convert(final String value, final String format) {
+        return convert(value);
     }
 }

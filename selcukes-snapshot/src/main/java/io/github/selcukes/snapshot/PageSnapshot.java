@@ -37,7 +37,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static io.github.selcukes.commons.helper.ReflectionHelper.getDeclaredMethod;
+import static io.github.selcukes.databind.utils.ReflectionHelper.getDeclaredMethod;
 
 class PageSnapshot extends DefaultPageSnapshot {
     private WebDriver driver;
