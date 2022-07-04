@@ -34,7 +34,7 @@
         <cucumber.version>7.4.1</cucumber.version>
         <selenium.version>4.3.0</selenium.version>
         <appium.version>8.1.1</appium.version>
-        <testng.version>7.6.0</testng.version>
+        <testng.version>7.6.1</testng.version>
 
         <lombok.version>1.18.24</lombok.version>
         <commons.io.version>2.11.0</commons.io.version>
@@ -45,7 +45,7 @@
         <cucumber-reporting.version>5.7.1</cucumber-reporting.version>
         <extentreports.version>5.0.9</extentreports.version>
         <recorder.version>0.7.7.0</recorder.version>
-        <slfj4.version>2.17.2</slfj4.version>
+        <slfj4.version>2.18.0</slfj4.version>
 
         <!-- sonar -->
         <sonar.organization>selcukes</sonar.organization>
