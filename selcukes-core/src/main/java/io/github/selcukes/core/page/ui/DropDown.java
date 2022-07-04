@@ -25,6 +25,7 @@ import org.openqa.selenium.support.ui.Select;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
+import static io.github.selcukes.core.page.ui.Locator.LOCATOR_SEPARATOR;
 import static java.lang.Integer.parseInt;
 
 @UtilityClass
@@ -45,9 +46,10 @@ public class DropDown {
     }
 
     public void select(Select select, String optionLocator) {
-        Preconditions.checkArgument(optionLocator.contains(":"), "Invalid Locator");
-        String locatorType = optionLocator.split(":")[0];
-        String locatorValue = optionLocator.split(":")[1];
+        Preconditions.checkArgument(optionLocator.contains(LOCATOR_SEPARATOR), "Invalid Locator");
+        String[] output = optionLocator.split(LOCATOR_SEPARATOR);
+        String locatorType = output[0];
+        String locatorValue = output[1];
         SelectionType type = SelectionType.valueOf(locatorType);
         type.getSelector().accept(select, locatorValue);
     }

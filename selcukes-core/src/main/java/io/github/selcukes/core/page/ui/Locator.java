@@ -24,15 +24,17 @@ import org.openqa.selenium.By;
 
 @UtilityClass
 public class Locator {
+    public static final String LOCATOR_SEPARATOR = ":";
 
     public static By resolve(Object locator) {
         return (locator instanceof String) ? parse((String) locator) : (By) locator;
     }
 
     private By parse(String locator) {
-        Preconditions.checkArgument(locator.contains(":"), "Invalid Locator");
-        String locatorType = locator.split(":")[0];
-        String locatorValue = locator.split(":")[1];
+        Preconditions.checkArgument(locator.contains(LOCATOR_SEPARATOR), "Invalid Locator");
+        String[] output = locator.split(LOCATOR_SEPARATOR);
+        String locatorType = output[0];
+        String locatorValue = output[1];
         switch (locatorType.toLowerCase()) {
             case "id":
                 return By.id(locatorValue);
