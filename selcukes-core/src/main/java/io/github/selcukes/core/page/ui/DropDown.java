@@ -34,9 +34,9 @@ public class DropDown {
 
     @AllArgsConstructor
     enum SelectionType {
-        label(Select::selectByVisibleText, select -> select.getFirstSelectedOption().getText()),
-        value(Select::selectByValue, select -> select.getFirstSelectedOption().getAttribute(ATTRIBUTE)),
-        index((select, value) -> select.selectByIndex(parseInt(value)), select -> select.getOptions().
+        LABEL(Select::selectByVisibleText, select -> select.getFirstSelectedOption().getText()),
+        VALUE(Select::selectByValue, select -> select.getFirstSelectedOption().getAttribute(ATTRIBUTE)),
+        INDEX((select, value) -> select.selectByIndex(parseInt(value)), select -> select.getOptions().
             indexOf(select.getFirstSelectedOption()));
         @Getter
         private final BiConsumer<Select, String> selector;
@@ -50,12 +50,12 @@ public class DropDown {
         String[] output = optionLocator.split(LOCATOR_SEPARATOR);
         String locatorType = output[0];
         String locatorValue = output[1];
-        SelectionType type = SelectionType.valueOf(locatorType);
+        SelectionType type = SelectionType.valueOf(locatorType.toUpperCase());
         type.getSelector().accept(select, locatorValue);
     }
 
     public Object selected(Select select, String optionLocator) {
-        SelectionType type = SelectionType.valueOf(optionLocator);
+        SelectionType type = SelectionType.valueOf(optionLocator.toUpperCase());
         return type.getRetriever().apply(select);
     }
 }
