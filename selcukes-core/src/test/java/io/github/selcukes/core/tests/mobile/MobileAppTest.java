@@ -19,25 +19,30 @@ package io.github.selcukes.core.tests.mobile;
 import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
 import io.github.selcukes.core.driver.DriverManager;
-import io.github.selcukes.core.driver.GridRunner;
-import io.github.selcukes.core.enums.SwipeDirection;
+import io.github.selcukes.core.listener.TestLifecyclePerMethod;
 import io.github.selcukes.core.page.MobilePage;
 import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.wait.WaitCondition;
 import org.openqa.selenium.By;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import static io.github.selcukes.core.enums.SwipeDirection.DOWN;
+import static io.github.selcukes.core.enums.SwipeDirection.UP;
+import static java.lang.String.format;
 
+@Listeners(TestLifecyclePerMethod.class)
 public class MobileAppTest {
     MobilePage page;
 
     @BeforeMethod
     void beforeTest() {
-        GridRunner.startAppium();
         page = Pages.mobilePage();
+    }
 
+    private By textView(String text) {
+        return By.xpath(format("//android.widget.TextView[@text='%s']", text));
     }
 
     @Test(enabled = false)
@@ -45,22 +50,28 @@ public class MobileAppTest {
         page.click("aid:Views")
             .click("aid:Expandable Lists")
             .click("aid:3. Simple Adapter")
-            .swipe(By.xpath("//android.widget.TextView[@text='Group 18']"), SwipeDirection.DOWN)
-            .click(By.xpath("//android.widget.TextView[@text='Group 18']"))
-            .swipe(By.xpath("//android.widget.TextView[@text='Child 13']"), SwipeDirection.DOWN)
-            .swipe(By.xpath("//android.widget.TextView[@text='Group 1']"), SwipeDirection.UP);
+            .swipe(textView("Group 18"), DOWN)
+            .click(textView("Group 18"))
+            .swipe(textView("Child 13"), DOWN)
+            .swipe(textView("Group 1"), UP);
 
     }
 
     @Test(enabled = false)
     public void expandAndScrollElementTest() {
+        String splittingTouches = "aid:Splitting Touches across Views";
+        String listTextView = "//android.widget.ListView[2]/android.widget.TextView[@text='%s']";
+        By blueText = By.xpath(format(listTextView, "Blue"));
+        By sublimeText = By.xpath(format(listTextView, "Abbaye de Belloc"));
+        By list2 = By.id("io.appium.android.apis:id/list2");
+
         page.click("aid:Views")
-            .swipe("aid:Splitting Touches across Views", SwipeDirection.DOWN)
-            .click("aid:Splitting Touches across Views")
-            .swipe(By.id("io.appium.android.apis:id/list2"), By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Blue']"), SwipeDirection.DOWN)
-            .click(By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Blue']"), WaitCondition.PRESENT)
-            .swipe(By.id("io.appium.android.apis:id/list2"), By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Abbaye de Belloc']"), SwipeDirection.UP)
-            .click(By.xpath("//android.widget.ListView[2]/android.widget.TextView[@text='Abbaye de Belloc']"));
+            .swipe(splittingTouches, DOWN)
+            .click(splittingTouches)
+            .swipe(list2, blueText, DOWN)
+            .click(blueText, WaitCondition.PRESENT)
+            .swipe(list2, sublimeText, UP)
+            .click(sublimeText);
     }
 
     @Test(enabled = false)
@@ -80,9 +91,4 @@ public class MobileAppTest {
             .click(By.id("btn_start_search"));
     }
 
-    @AfterMethod
-    void afterTest() {
-        DriverManager.removeDriver();
-        GridRunner.stopAppium();
-    }
 }
