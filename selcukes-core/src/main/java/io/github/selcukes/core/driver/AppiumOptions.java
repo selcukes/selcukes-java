@@ -22,23 +22,11 @@ import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
 
-import java.net.URL;
-
 @UtilityClass
 public class AppiumOptions {
-    URL serviceUrl;
     Capabilities caps;
 
-    public URL getServiceUrl() {
-        return serviceUrl;
-    }
-
-    public void setServiceUrl(URL url) {
-        serviceUrl = url;
-    }
-
     public Capabilities setAppTopLevelWindow(String windowId) {
-
         return setCapability("appTopLevelWindow", windowId);
     }
 

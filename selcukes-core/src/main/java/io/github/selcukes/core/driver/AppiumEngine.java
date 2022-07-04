@@ -37,7 +37,6 @@ class AppiumEngine {
 
     URL getServiceUrl() {
         if (service == null) {
-            logger.debug(() -> "Appium server is not started yet. \nStarting Appium Server now...");
             startLocalServer();
         }
         return service.getUrl();

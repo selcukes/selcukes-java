@@ -18,8 +18,9 @@ package io.github.selcukes.core.page;
 
 import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.core.driver.AppiumOptions;
+import io.github.selcukes.core.driver.DriverManager;
+import io.github.selcukes.core.enums.DeviceType;
 import lombok.CustomLog;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -41,7 +42,7 @@ public class WinPage implements Page {
         String windowId = newWindowElement.getAttribute("NativeWindowHandle");
         String windowIdToHex = Integer.toHexString(Integer.parseInt(windowId));
         logger.info(() -> "Window Id: " + windowId + "After: " + windowIdToHex);
-        driver = new WindowsDriver(AppiumOptions.getServiceUrl(), AppiumOptions.setAppTopLevelWindow(windowIdToHex));
+        driver = DriverManager.createDriver(DeviceType.DESKTOP, AppiumOptions.setAppTopLevelWindow(windowIdToHex));
         driver.switchTo().activeElement();
         return this;
     }
