@@ -371,7 +371,7 @@ public interface Page {
      * @param index the index
      * @return the page
      */
-    default Page switchWindow(int index) {
+    default Page switchToWindow(int index) {
         getDriver().switchTo().window(getWindows().get(index));
         return this;
     }
@@ -396,7 +396,7 @@ public interface Page {
      * @param name the name
      * @return the page
      */
-    default Page switchFrame(String name) {
+    default Page switchToFrame(String name) {
         getDriver().switchTo().frame(name);
         return this;
     }
