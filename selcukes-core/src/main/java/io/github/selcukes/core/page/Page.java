@@ -37,6 +37,10 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static io.github.selcukes.core.page.ui.Locator.resolve;
+import static io.github.selcukes.core.wait.WaitCondition.CLICKABLE;
+import static io.github.selcukes.core.wait.WaitCondition.VISIBLE;
+import static org.openqa.selenium.WindowType.TAB;
+import static org.openqa.selenium.WindowType.WINDOW;
 
 /**
  * The interface Page.
@@ -132,7 +136,7 @@ public interface Page {
      * @return the page
      */
     default Page enter(Object locator, CharSequence text) {
-        find(locator, WaitCondition.VISIBLE).sendKeys(text);
+        find(locator, VISIBLE).sendKeys(text);
         return this;
     }
 
@@ -143,7 +147,7 @@ public interface Page {
      * @return the page
      */
     default Page clear(Object locator) {
-        find(locator, WaitCondition.VISIBLE).clear();
+        find(locator, VISIBLE).clear();
         return this;
     }
 
@@ -154,7 +158,7 @@ public interface Page {
      * @return the page
      */
     default Page click(Object locator) {
-        click(locator, WaitCondition.CLICKABLE);
+        click(locator, CLICKABLE);
         return this;
     }
 
@@ -237,6 +241,7 @@ public interface Page {
     default Page selectMenu(By menu, By subMenu) {
         WebElement menuOption = find(menu);
         actions().moveToElement(menuOption).perform();
+        click(subMenu);
         return this;
     }
 
@@ -292,7 +297,7 @@ public interface Page {
      * @return the page
      */
     default Page dragAndDrop(By source, By target) {
-        dragAndDrop(find(source, WaitCondition.VISIBLE), find(target, WaitCondition.VISIBLE));
+        dragAndDrop(find(source, VISIBLE), find(target, VISIBLE));
         return this;
     }
 
@@ -380,14 +385,14 @@ public interface Page {
      * Open new window.
      */
     default void openNewWindow() {
-        getDriver().switchTo().newWindow(WindowType.WINDOW);
+        getDriver().switchTo().newWindow(WINDOW);
     }
 
     /**
      * Open new tab.
      */
     default void openNewTab() {
-        getDriver().switchTo().newWindow(WindowType.TAB);
+        getDriver().switchTo().newWindow(TAB);
     }
 
     /**
@@ -502,7 +507,7 @@ public interface Page {
      * @return the list
      */
     default List<WebElement> findAllChildren(Object parent, Object child) {
-        return find(parent, WaitCondition.VISIBLE).findElements(resolve(child));
+        return find(parent, VISIBLE).findElements(resolve(child));
     }
 
     /**
@@ -513,7 +518,7 @@ public interface Page {
      * @return the web element
      */
     default WebElement findChild(Object parent, Object child) {
-        return find(parent, WaitCondition.VISIBLE).findElement(resolve(child));
+        return find(parent, VISIBLE).findElement(resolve(child));
     }
 
     /**
@@ -546,7 +551,7 @@ public interface Page {
      * @return the web element
      */
     default WebElement findShadowChild(By parent, By child) {
-        return find(parent, WaitCondition.VISIBLE).getShadowRoot().findElement(child);
+        return find(parent, VISIBLE).getShadowRoot().findElement(child);
     }
 
     /**
