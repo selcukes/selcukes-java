@@ -24,6 +24,7 @@ import io.github.selcukes.core.wait.WaitCondition;
 import io.github.selcukes.core.wait.WaitManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -39,6 +40,7 @@ import java.util.stream.Collectors;
 import static io.github.selcukes.core.page.ui.Locator.resolve;
 import static io.github.selcukes.core.wait.WaitCondition.CLICKABLE;
 import static io.github.selcukes.core.wait.WaitCondition.VISIBLE;
+import static org.openqa.selenium.Keys.ESCAPE;
 import static org.openqa.selenium.WindowType.TAB;
 import static org.openqa.selenium.WindowType.WINDOW;
 
@@ -677,5 +679,18 @@ public interface Page {
      */
     default List<String> attributeValues(Object locator, String name) {
         return getValues(locator, e -> e.getAttribute(name));
+    }
+
+    default WebElement activeElement() {
+        return getDriver().switchTo().activeElement();
+    }
+
+    default void removeFocus() {
+        activeElement().sendKeys(ESCAPE);
+    }
+
+    default String getColor(WebElement element) {
+        String color = element.getCssValue("color");
+        return Color.fromString(color).asHex();
     }
 }
