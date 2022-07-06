@@ -84,6 +84,17 @@ public class MobileAppTest {
     }
 
     @Test(enabled = false)
+    public void dragAndDrop() {
+        By from = By.id("io.appium.android.apis:id/drag_dot_1");
+        By to = By.id("io.appium.android.apis:id/drag_dot_2");
+        By dragText = By.id("io.appium.android.apis:id/drag_result_text");
+        page.click("aid:Views")
+            .click("aid:Drag and Drop")
+            .dragAndDrop(from, to)
+            .assertThat().element(dragText).textAs("DraggableDot");
+    }
+
+    @Test(enabled = false)
     public void searchTest() {
         ((AndroidDriver) DriverManager.getWrappedDriver())
             .startActivity(new Activity("io.appium.android.apis", ".app.SearchInvoke"));

@@ -30,6 +30,10 @@ public class AppiumOptions {
         return setCapability("appTopLevelWindow", windowId);
     }
 
+    public Capabilities appRoot() {
+        return setCapability("app", "Root");
+    }
+
     public MutableCapabilities getWinAppOptions(String app) {
         WindowsOptions windowsOptions = new WindowsOptions();
         windowsOptions.setApp(app);

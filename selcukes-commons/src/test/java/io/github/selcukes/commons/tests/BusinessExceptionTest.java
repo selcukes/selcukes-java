@@ -37,7 +37,7 @@ public class BusinessExceptionTest {
         }
     }
 
-    @Test
+    @Test(enabled = false)
     public void testException() {
         try {
             createException();

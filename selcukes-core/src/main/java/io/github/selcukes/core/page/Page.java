@@ -24,6 +24,7 @@ import io.github.selcukes.core.wait.WaitCondition;
 import io.github.selcukes.core.wait.WaitManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -37,6 +38,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static io.github.selcukes.core.page.ui.Locator.resolve;
+import static io.github.selcukes.core.wait.WaitCondition.CLICKABLE;
+import static io.github.selcukes.core.wait.WaitCondition.VISIBLE;
+import static org.openqa.selenium.Keys.ESCAPE;
+import static org.openqa.selenium.WindowType.TAB;
+import static org.openqa.selenium.WindowType.WINDOW;
 
 /**
  * The interface Page.
@@ -132,7 +138,7 @@ public interface Page {
      * @return the page
      */
     default Page enter(Object locator, CharSequence text) {
-        find(locator, WaitCondition.VISIBLE).sendKeys(text);
+        find(locator, VISIBLE).sendKeys(text);
         return this;
     }
 
@@ -143,7 +149,7 @@ public interface Page {
      * @return the page
      */
     default Page clear(Object locator) {
-        find(locator, WaitCondition.VISIBLE).clear();
+        find(locator, VISIBLE).clear();
         return this;
     }
 
@@ -154,7 +160,7 @@ public interface Page {
      * @return the page
      */
     default Page click(Object locator) {
-        click(locator, WaitCondition.CLICKABLE);
+        click(locator, CLICKABLE);
         return this;
     }
 
@@ -237,6 +243,7 @@ public interface Page {
     default Page selectMenu(By menu, By subMenu) {
         WebElement menuOption = find(menu);
         actions().moveToElement(menuOption).perform();
+        click(subMenu);
         return this;
     }
 
@@ -292,7 +299,7 @@ public interface Page {
      * @return the page
      */
     default Page dragAndDrop(By source, By target) {
-        dragAndDrop(find(source, WaitCondition.VISIBLE), find(target, WaitCondition.VISIBLE));
+        dragAndDrop(find(source, VISIBLE), find(target, VISIBLE));
         return this;
     }
 
@@ -371,7 +378,7 @@ public interface Page {
      * @param index the index
      * @return the page
      */
-    default Page switchWindow(int index) {
+    default Page switchToWindow(int index) {
         getDriver().switchTo().window(getWindows().get(index));
         return this;
     }
@@ -380,14 +387,14 @@ public interface Page {
      * Open new window.
      */
     default void openNewWindow() {
-        getDriver().switchTo().newWindow(WindowType.WINDOW);
+        getDriver().switchTo().newWindow(WINDOW);
     }
 
     /**
      * Open new tab.
      */
     default void openNewTab() {
-        getDriver().switchTo().newWindow(WindowType.TAB);
+        getDriver().switchTo().newWindow(TAB);
     }
 
     /**
@@ -396,7 +403,7 @@ public interface Page {
      * @param name the name
      * @return the page
      */
-    default Page switchFrame(String name) {
+    default Page switchToFrame(String name) {
         getDriver().switchTo().frame(name);
         return this;
     }
@@ -502,7 +509,7 @@ public interface Page {
      * @return the list
      */
     default List<WebElement> findAllChildren(Object parent, Object child) {
-        return find(parent, WaitCondition.VISIBLE).findElements(resolve(child));
+        return find(parent, VISIBLE).findElements(resolve(child));
     }
 
     /**
@@ -513,7 +520,7 @@ public interface Page {
      * @return the web element
      */
     default WebElement findChild(Object parent, Object child) {
-        return find(parent, WaitCondition.VISIBLE).findElement(resolve(child));
+        return find(parent, VISIBLE).findElement(resolve(child));
     }
 
     /**
@@ -546,7 +553,7 @@ public interface Page {
      * @return the web element
      */
     default WebElement findShadowChild(By parent, By child) {
-        return find(parent, WaitCondition.VISIBLE).getShadowRoot().findElement(child);
+        return find(parent, VISIBLE).getShadowRoot().findElement(child);
     }
 
     /**
@@ -672,5 +679,18 @@ public interface Page {
      */
     default List<String> attributeValues(Object locator, String name) {
         return getValues(locator, e -> e.getAttribute(name));
+    }
+
+    default WebElement activeElement() {
+        return getDriver().switchTo().activeElement();
+    }
+
+    default void removeFocus() {
+        activeElement().sendKeys(ESCAPE);
+    }
+
+    default String getColor(WebElement element) {
+        String color = element.getCssValue("color");
+        return Color.fromString(color).asHex();
     }
 }

@@ -21,6 +21,10 @@ import io.github.selcukes.commons.exception.SelcukesException;
 import io.github.selcukes.commons.helper.Preconditions;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @UtilityClass
 public class Locator {
@@ -28,6 +32,15 @@ public class Locator {
 
     public static By resolve(Object locator) {
         return (locator instanceof String) ? parse((String) locator) : (By) locator;
+    }
+
+    public static String of(WebElement element) {
+        String eleText = element.toString();
+        Matcher matcher = Pattern.compile("->\\s(.*)(?=\\])")
+            .matcher(eleText);
+        return matcher.find() && matcher.groupCount() > 0
+            ? matcher.group(1)
+            : eleText;
     }
 
     private By parse(String locator) {
