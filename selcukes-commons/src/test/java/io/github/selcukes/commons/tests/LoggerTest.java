@@ -19,7 +19,7 @@ package io.github.selcukes.commons.tests;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import org.testng.annotations.Test;
-
+@Test(enabled = false)
 public class LoggerTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final Exception exception = new Exception();
