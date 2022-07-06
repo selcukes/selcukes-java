@@ -17,19 +17,20 @@
 package io.github.selcukes.core.validation;
 
 import io.github.selcukes.commons.http.Response;
-import io.github.selcukes.core.page.Page;
+import lombok.CustomLog;
 
 import static io.github.selcukes.commons.http.Response.getReasonPhrase;
 import static io.github.selcukes.core.validation.Validation.failWithMessage;
 
+@CustomLog
 public class ResponseValidation {
-    Response response;
-    Page page;
-    boolean isSoft;
+    private final Response response;
+    private final boolean isSoft;
+    private final String responseBody;
 
-    public ResponseValidation(boolean isSoft, Page page, Response response) {
+    public ResponseValidation(boolean isSoft, Response response) {
         this.response = response;
-        this.page = page;
+        responseBody = response.body();
         this.isSoft = isSoft;
     }
 
@@ -43,8 +44,9 @@ public class ResponseValidation {
     }
 
     public ResponseValidation containsText(String expectedText) {
-        if (!response.body().contains(expectedText)) {
-            failWithMessage(isSoft, "Expected Response should contain text [%s] but actual text was [%s]", expectedText, response.body());
+        logger.info(() -> String.format("Verifying Response should contains text [%s]", expectedText));
+        if (!responseBody.contains(expectedText)) {
+            failWithMessage(isSoft, "Expected Response should contain text [%s] but actual response was [%s]", expectedText, responseBody);
         }
         return this;
     }

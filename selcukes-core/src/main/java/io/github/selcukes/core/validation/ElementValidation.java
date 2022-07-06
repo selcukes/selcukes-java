@@ -16,39 +16,45 @@
 
 package io.github.selcukes.core.validation;
 
-import io.github.selcukes.core.page.Page;
 import io.github.selcukes.core.page.ui.Locator;
+import lombok.CustomLog;
 import org.openqa.selenium.WebElement;
 
 import static io.github.selcukes.core.validation.Validation.failWithMessage;
 
+@CustomLog
 public class ElementValidation {
-    Page page;
-    WebElement element;
-    boolean isSoft;
 
-    public ElementValidation(boolean isSoft, Page page, WebElement element) {
-        this.page = page;
+    private final WebElement element;
+    boolean isSoft;
+    private final String elementLocator;
+
+    public ElementValidation(boolean isSoft, WebElement element) {
+
         this.element = element;
         this.isSoft = isSoft;
+        this.elementLocator = Locator.of(element);
     }
 
     public ElementValidation textAs(String expectedText) {
+        logger.info(() -> String.format("Verifying element [%s] should have text [%s]", elementLocator, expectedText));
         String actual = element.getText();
         if (!actual.equalsIgnoreCase(expectedText)) {
-            failWithMessage(isSoft, "Expected element [%s] should have text [%s] but was [%s]", Locator.of(element), expectedText, actual);
+            failWithMessage(isSoft, "Expected element [%s] should have text [%s] but was [%s]", elementLocator, expectedText, actual);
         }
         return this;
     }
 
     public ElementValidation containsText(String expectedText) {
+        logger.info(() -> String.format("Verifying element [%s] should contains text [%s]", elementLocator, expectedText));
         if (!element.getText().contains(expectedText)) {
-            failWithMessage(isSoft, "Expected element [%s] to contain text [%s] but actual text was [%s]", Locator.of(element), expectedText, element.getText());
+            failWithMessage(isSoft, "Expected element [%s] to contain text [%s] but actual text was [%s]", elementLocator, expectedText, element.getText());
         }
         return this;
     }
 
     public ElementValidation notContainsText(String expectedText) {
+        logger.info(() -> String.format("Verifying element [%s] should not contains text [%s]", elementLocator, expectedText));
         if (element.getText().contains(expectedText)) {
             failWithMessage(isSoft, "Expected element [%s] should not contains text [%s] but actual text was [%s]", expectedText, element.getText());
         }
@@ -56,38 +62,39 @@ public class ElementValidation {
     }
 
     public ElementValidation valueAs(String expectedValue) {
-        String actual = element.getAttribute("value");
-        if (!actual.equalsIgnoreCase(expectedValue)) {
-            failWithMessage(isSoft, "Expected element [%s] should have value [%s] but was [%s]", Locator.of(element), expectedValue, actual);
-        }
+        attributeValueAs("value", expectedValue);
         return this;
     }
 
     public ElementValidation attributeValueAs(String attribute, String expectedValue) {
+        logger.info(() -> String.format("Verifying attribute [%s] value as [%s]", attribute, expectedValue));
         String actual = element.getAttribute(attribute);
         if (!actual.equalsIgnoreCase(expectedValue)) {
-            failWithMessage(isSoft, "Expected element [%s] should have [%s] value [%s] but was [%s]", Locator.of(element), attribute, expectedValue, actual);
+            failWithMessage(isSoft, "Expected element [%s] should have [%s] attribute with value [%s] but was [%s]", elementLocator, attribute, expectedValue, actual);
         }
         return this;
     }
 
     public ElementValidation isVisible() {
+        logger.info(() -> String.format("Verifying element [%s] is visible", elementLocator));
         if (!element.isDisplayed()) {
-            failWithMessage(isSoft, "Expected element [%s] to be visible", element);
+            failWithMessage(isSoft, "Expected element [%s] to be visible", elementLocator);
         }
         return this;
     }
 
     public ElementValidation isEnabled() {
+        logger.info(() -> String.format("Verifying element [%s] is enabled", elementLocator));
         if (!element.isDisplayed()) {
-            failWithMessage(isSoft, "Expected element [%s] to be enabled", element);
+            failWithMessage(isSoft, "Expected element [%s] to be enabled", elementLocator);
         }
         return this;
     }
 
     public ElementValidation isSelected() {
+        logger.info(() -> String.format("Verifying element [%s] is selected", elementLocator));
         if (!element.isSelected()) {
-            failWithMessage(isSoft, "Expected element [%s] to be selected", element);
+            failWithMessage(isSoft, "Expected element [%s] to be selected", elementLocator);
         }
         return this;
     }
