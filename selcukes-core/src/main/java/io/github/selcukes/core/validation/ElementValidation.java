@@ -17,6 +17,7 @@
 package io.github.selcukes.core.validation;
 
 import io.github.selcukes.core.page.Page;
+import io.github.selcukes.core.page.ui.Locator;
 import org.openqa.selenium.WebElement;
 
 import static io.github.selcukes.core.validation.Validation.failWithMessage;
@@ -35,14 +36,14 @@ public class ElementValidation {
     public ElementValidation textAs(String expectedText) {
         String actual = element.getText();
         if (!actual.equalsIgnoreCase(expectedText)) {
-            failWithMessage(isSoft, "Expected element [%s] should have text [%s] but was [%s]", element, expectedText, actual);
+            failWithMessage(isSoft, "Expected element [%s] should have text [%s] but was [%s]", Locator.of(element), expectedText, actual);
         }
         return this;
     }
 
     public ElementValidation containsText(String expectedText) {
         if (!element.getText().contains(expectedText)) {
-            failWithMessage(isSoft, "Expected element [%s] to contain text [%s] but actual text was [%s]", element, expectedText, element.getText());
+            failWithMessage(isSoft, "Expected element [%s] to contain text [%s] but actual text was [%s]", Locator.of(element), expectedText, element.getText());
         }
         return this;
     }
@@ -57,7 +58,7 @@ public class ElementValidation {
     public ElementValidation valueAs(String expectedValue) {
         String actual = element.getAttribute("value");
         if (!actual.equalsIgnoreCase(expectedValue)) {
-            failWithMessage(isSoft, "Expected element [%s] should have value [%s] but was [%s]", element, expectedValue, actual);
+            failWithMessage(isSoft, "Expected element [%s] should have value [%s] but was [%s]", Locator.of(element), expectedValue, actual);
         }
         return this;
     }
@@ -65,7 +66,7 @@ public class ElementValidation {
     public ElementValidation attributeValueAs(String attribute, String expectedValue) {
         String actual = element.getAttribute(attribute);
         if (!actual.equalsIgnoreCase(expectedValue)) {
-            failWithMessage(isSoft, "Expected element [%s] should have [%s] value [%s] but was [%s]", element, attribute, expectedValue, actual);
+            failWithMessage(isSoft, "Expected element [%s] should have [%s] value [%s] but was [%s]", Locator.of(element), attribute, expectedValue, actual);
         }
         return this;
     }

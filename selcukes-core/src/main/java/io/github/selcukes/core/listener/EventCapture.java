@@ -16,6 +16,7 @@
 
 package io.github.selcukes.core.listener;
 
+import io.github.selcukes.core.page.ui.Locator;
 import lombok.CustomLog;
 import lombok.Setter;
 import org.openqa.selenium.Keys;
@@ -25,22 +26,11 @@ import org.openqa.selenium.support.events.WebDriverListener;
 
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @CustomLog
 public class EventCapture implements WebDriverListener {
     @Setter
     public static String fieldAttribute = "placeholder";
-
-    private static String getLocatorFromElement(WebElement element) {
-        String eleText = element.toString();
-        Matcher matcher = Pattern.compile("->\\s(.*)(?=\\])")
-            .matcher(eleText);
-        return matcher.find() && matcher.groupCount() > 0
-            ? matcher.group(1)
-            : eleText;
-    }
 
     @Override
     public void afterGetTitle(WebDriver driver, String result) {
@@ -60,7 +50,7 @@ public class EventCapture implements WebDriverListener {
     @Override
     public void beforeClick(WebElement element) {
         String elementName = element.getText();
-        logger.info(() -> "Clicking on " + (elementName.isBlank() ? getLocatorFromElement(element) : elementName));
+        logger.info(() -> "Clicking on " + (elementName.isBlank() ? Locator.of(element) : elementName));
     }
 
     @Override
@@ -70,7 +60,7 @@ public class EventCapture implements WebDriverListener {
 
     @Override
     public void beforeSendKeys(WebElement element, CharSequence... keysToSend) {
-        logger.debug(() -> "Entering Text using locator " + getLocatorFromElement(element));
+        logger.debug(() -> "Entering Text using locator " + Locator.of(element));
         if (keysToSend != null) {
             Optional<CharSequence> keyChar = Arrays.stream(keysToSend).filter(Keys.class::isInstance).findFirst();
 
