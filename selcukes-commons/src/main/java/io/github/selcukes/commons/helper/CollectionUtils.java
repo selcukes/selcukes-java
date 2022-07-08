@@ -20,11 +20,9 @@ package io.github.selcukes.commons.helper;
 
 import lombok.experimental.UtilityClass;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
 
 @UtilityClass
 public class CollectionUtils {
@@ -32,20 +30,6 @@ public class CollectionUtils {
         return cells.stream()
             .map(row -> row.toArray(String[]::new))
             .toArray(String[][]::new);
-    }
-
-    public Map<String, String> toMap(List<String> keys, List<String> values) {
-        return IntStream.range(0, keys.size()).boxed()
-            .filter(i -> !isNullOrEmpty(keys.get(i))).collect(Collectors.toMap(keys::get, values::get));
-    }
-
-    public Map<String, String> toMap(Properties properties) {
-        return properties.entrySet().stream().collect(
-            Collectors.toMap(
-                entry -> String.valueOf(entry.getKey()),
-                entry -> String.valueOf(entry.getValue()),
-                (prev, next) -> next, LinkedHashMap::new
-            ));
     }
 
     public List<String> trim(List<String> list) {

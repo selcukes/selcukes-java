@@ -19,9 +19,13 @@ package io.github.selcukes.databind.utils;
 import lombok.experimental.UtilityClass;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
 
 @UtilityClass
 public class Maps {
@@ -32,5 +36,10 @@ public class Maps {
                 entry -> String.valueOf(entry.getValue()),
                 (prev, next) -> next, LinkedHashMap::new
             ));
+    }
+
+    public Map<String, String> of(List<String> keys, List<String> values) {
+        return IntStream.range(0, keys.size()).boxed()
+            .filter(i -> !isNullOrEmpty(keys.get(i))).collect(Collectors.toMap(keys::get, values::get));
     }
 }
