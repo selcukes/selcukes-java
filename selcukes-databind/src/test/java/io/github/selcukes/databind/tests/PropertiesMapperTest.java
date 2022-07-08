@@ -17,6 +17,7 @@
 package io.github.selcukes.databind.tests;
 
 import io.github.selcukes.databind.annotation.DataFile;
+import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.properties.PropertiesMapper;
 import lombok.Data;
 import org.testng.annotations.Test;
@@ -32,6 +33,8 @@ public class PropertiesMapperTest {
         if (testConfig.isTest())
             System.out.println(testConfig.getDate());
 
+        System.out.println(testConfig.getJim());
+
     }
 
     @DataFile
@@ -41,5 +44,7 @@ public class PropertiesMapperTest {
         boolean isTest;
         String password;
         LocalDate date;
+        @Key(name = "selcukes.jim")
+        int jim;
     }
 }

@@ -16,12 +16,15 @@
 
 package io.github.selcukes.databind.properties;
 
-import io.github.selcukes.databind.converters.Converter;
 import io.github.selcukes.databind.DataField;
+import io.github.selcukes.databind.annotation.Key;
+import io.github.selcukes.databind.converters.Converter;
 
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Properties;
+
+import static io.github.selcukes.databind.utils.StringHelper.toFieldName;
 
 class PropertyField<T> extends DataField<T> {
     private final Properties properties;
@@ -32,7 +35,10 @@ class PropertyField<T> extends DataField<T> {
     }
 
     public PropertyField<T> parse() {
-        setConvertedValue(getConverter().convert(properties.getProperty(getFieldName())));
+        String fieldName = getColumn()
+            .map(Key::name)
+            .orElse(toFieldName(getFieldName()));
+        setConvertedValue(getConverter().convert(properties.getProperty(fieldName)));
         return this;
     }
 

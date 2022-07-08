@@ -17,7 +17,7 @@
 package io.github.selcukes.databind.tests;
 
 import io.github.selcukes.databind.excel.ExcelMapper;
-import io.github.selcukes.databind.annotation.Column;
+import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.exception.DataMapperException;
 import lombok.Data;
@@ -30,11 +30,11 @@ public class ExcelMapperTest {
     @Data
     @DataFile(fileName = "TestData.xlsx", sheetName = "Smoke")
     static class Pojo {
-        @Column(name = "Screen")
+        @Key(name = "Screen")
         private String screen;
-        @Column(name = "Feature")
+        @Key(name = "Feature")
         private String feature;
-        @Column(name = "Test")
+        @Key(name = "Test")
         private String test;
         // @Column(name = "Run")
         private String run;

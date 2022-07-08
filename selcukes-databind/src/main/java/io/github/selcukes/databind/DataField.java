@@ -16,7 +16,7 @@
 
 package io.github.selcukes.databind;
 
-import io.github.selcukes.databind.annotation.Column;
+import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.converters.Converter;
 import lombok.Getter;
 import lombok.Setter;
@@ -62,14 +62,14 @@ public class DataField<T> {
         return field.getType();
     }
 
-    public Optional<Column> getColumn() {
-        return ofNullable(field.getDeclaredAnnotation(Column.class));
+    public Optional<Key> getColumn() {
+        return ofNullable(field.getDeclaredAnnotation(Key.class));
     }
 
     @SuppressWarnings("unchecked")
     private Converter<T> findMatchingConverter() {
         return getColumn()
-            .map(Column::converter)
+            .map(Key::converter)
             .map(converterClass -> (Converter<T>) newInstance(converterClass))
             .filter(converterInstance -> converterInstance.getType().equals(getFieldType()))
             .orElseGet(() -> defaultConverters.stream()
