@@ -25,11 +25,9 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
-
 @UtilityClass
 public class Maps {
-    public Map<String, String> of(Properties properties) {
+    public static Map<String, String> of(Properties properties) {
         return properties.entrySet().stream().collect(
             Collectors.toMap(
                 entry -> String.valueOf(entry.getKey()),
@@ -38,8 +36,8 @@ public class Maps {
             ));
     }
 
-    public Map<String, String> of(List<String> keys, List<String> values) {
+    public static Map<String, String> of(List<String> keys, List<String> values) {
         return IntStream.range(0, keys.size()).boxed()
-            .filter(i -> !isNullOrEmpty(keys.get(i))).collect(Collectors.toMap(keys::get, values::get));
+            .filter(i -> !StringHelper.isNullOrEmpty(keys.get(i))).collect(Collectors.toMap(keys::get, values::get));
     }
 }
