@@ -23,6 +23,7 @@ import lombok.Data;
 import org.testng.annotations.Test;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class PropertiesMapperTest {
 
@@ -34,7 +35,7 @@ public class PropertiesMapperTest {
             System.out.println(testConfig.getDate());
 
         System.out.println(testConfig.getJim());
-
+        System.out.println(testConfig.getMass());
     }
 
     @DataFile
@@ -46,5 +47,7 @@ public class PropertiesMapperTest {
         LocalDate date;
         @Key(name = "selcukes.jim")
         int jim;
+        @Key(name = "mass", converter = ListStringConverter.class)
+        List<String> mass;
     }
 }
