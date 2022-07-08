@@ -46,7 +46,7 @@ public class PropertiesTest {
     @Test(dependsOnMethods = "createPropertyFileTest")
     public void updatePropertyFileTest() {
         PropertiesMapper.updateProperty(PROPS_FILE, "userName", "Master");
-        final Map<String, String> propertiesMap = PropertiesMapper.readAsMap(PROPS_FILE);
+        final Map<String, String> propertiesMap = PropertiesMapper.parse(PROPS_FILE);
         assertEquals(propertiesMap.get("userName"), "Master");
         propertiesMap.forEach((k, v) -> logger.info(() -> String.format("Key :[%s]   Value :[%s]", k, v)));
     }

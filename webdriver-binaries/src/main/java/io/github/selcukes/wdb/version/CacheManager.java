@@ -41,7 +41,7 @@ public class CacheManager {
 
     static Optional<String> resolveVersion(String key) {
         if (versionPath.toFile().exists()) {
-            Map<String, String> props = PropertiesMapper.readAsMap(versionFilePath);
+            Map<String, String> props = PropertiesMapper.parse(versionFilePath);
             String timestamp = props.get("timestamp");
             LocalDateTime dateTime = LocalDateTime.parse(timestamp);
             if (dateTime.isBefore(LocalDateTime.now())) {

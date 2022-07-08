@@ -48,7 +48,7 @@ public class PropertiesMapper {
         return propertiesParser.parse(dataFile.getPath());
     }
 
-    public static Map<String, String> readAsMap(final String propertyFile) {
+    public static Map<String, String> parse(final String propertyFile) {
         return Maps.of(PropertiesLoader.linkedProperties(propertyFile));
     }
 

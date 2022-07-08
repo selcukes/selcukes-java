@@ -69,7 +69,7 @@ public class ExtentService implements Serializable {
 
         private static void initProperties() {
             try {
-                propertiesMap = PropertiesMapper.readAsMap("extent.properties");
+                propertiesMap = PropertiesMapper.parse("extent.properties");
             } catch (Exception e) {
                 propertiesMap = Maps.of(System.getProperties());
             }
