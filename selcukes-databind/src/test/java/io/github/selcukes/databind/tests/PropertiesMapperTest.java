@@ -16,22 +16,30 @@
 
 package io.github.selcukes.databind.tests;
 
-import io.github.selcukes.databind.properties.PropertiesMapper;
 import io.github.selcukes.databind.annotation.DataFile;
+import io.github.selcukes.databind.properties.PropertiesMapper;
 import lombok.Data;
 import org.testng.annotations.Test;
+
+import java.time.LocalDate;
 
 public class PropertiesMapperTest {
 
     @Test
     public void testProperties() {
-        TestConfig temp = PropertiesMapper.parse(TestConfig.class);
-        System.out.println(temp.getUserName());
+        var testConfig = PropertiesMapper.parse(TestConfig.class);
+        System.out.println(testConfig.getUserName());
+        if (testConfig.isTest())
+            System.out.println(testConfig.getDate());
+
     }
 
     @DataFile
     @Data
     static class TestConfig {
         String userName;
+        boolean isTest;
+        String password;
+        LocalDate date;
     }
 }
