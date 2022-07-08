@@ -1,6 +1,6 @@
 # Selcukes DataBind
 
-selcukes-databind helps to parse Json and Yml files
+selcukes-databind helps to parse Json, Yml, Properties, Excel files
 
 To use add the `selcukes-databind` dependency to your pom.xml:
 
