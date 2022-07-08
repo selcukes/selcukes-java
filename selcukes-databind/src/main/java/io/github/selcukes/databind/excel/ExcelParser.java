@@ -36,7 +36,7 @@ import static io.github.selcukes.databind.utils.Reflections.newInstance;
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 
-public class ExcelParser<T> {
+class ExcelParser<T> {
 
     private final Class<T> entityClass;
     private final List<Converter<T>> defaultConverters;

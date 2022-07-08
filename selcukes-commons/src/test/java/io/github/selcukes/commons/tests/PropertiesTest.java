@@ -20,7 +20,7 @@ import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.properties.SelcukesTestProperties;
-import io.github.selcukes.databind.PropertiesMapper;
+import io.github.selcukes.databind.properties.PropertiesMapper;
 import io.github.selcukes.databind.properties.LinkedProperties;
 import org.testng.annotations.Test;
 

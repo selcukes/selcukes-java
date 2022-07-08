@@ -17,7 +17,7 @@
 package io.github.selcukes.wdb.version;
 
 import io.github.selcukes.commons.helper.FileHelper;
-import io.github.selcukes.databind.PropertiesMapper;
+import io.github.selcukes.databind.properties.PropertiesMapper;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

@@ -27,7 +27,7 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 @UtilityClass
-public class PropertiesLoader {
+class PropertiesLoader {
     public static Properties getProperties(Path filePath) {
         var properties = new Properties();
         try (InputStream stream = new FileInputStream(filePath.toFile())) {

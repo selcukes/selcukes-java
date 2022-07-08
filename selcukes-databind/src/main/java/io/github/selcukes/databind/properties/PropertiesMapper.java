@@ -14,12 +14,9 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind;
+package io.github.selcukes.databind.properties;
 
 import io.github.selcukes.databind.exception.DataMapperException;
-import io.github.selcukes.databind.properties.LinkedProperties;
-import io.github.selcukes.databind.properties.PropertiesLoader;
-import io.github.selcukes.databind.properties.PropertiesParser;
 import io.github.selcukes.databind.utils.DataFileHelper;
 import io.github.selcukes.databind.utils.Maps;
 import lombok.experimental.UtilityClass;
@@ -27,8 +24,6 @@ import lombok.experimental.UtilityClass;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Map;
-
-import static io.github.selcukes.databind.properties.PropertiesLoader.linkedProperties;
 
 
 @UtilityClass

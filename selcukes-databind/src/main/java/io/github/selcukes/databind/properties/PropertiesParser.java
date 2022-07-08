@@ -27,7 +27,7 @@ import static io.github.selcukes.databind.properties.PropertiesLoader.getPropert
 import static io.github.selcukes.databind.utils.Reflections.newInstance;
 import static java.lang.String.format;
 
-public class PropertiesParser<T> {
+class PropertiesParser<T> {
 
     private final Class<T> entityClass;
 

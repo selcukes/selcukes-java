@@ -14,11 +14,10 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind;
+package io.github.selcukes.databind.excel;
 
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.DataFileHelper;
-import io.github.selcukes.databind.excel.ExcelParser;
 import lombok.experimental.UtilityClass;
 
 import java.util.stream.Stream;

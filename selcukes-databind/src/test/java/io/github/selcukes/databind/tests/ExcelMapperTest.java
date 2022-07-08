@@ -16,7 +16,7 @@
 
 package io.github.selcukes.databind.tests;
 
-import io.github.selcukes.databind.ExcelMapper;
+import io.github.selcukes.databind.excel.ExcelMapper;
 import io.github.selcukes.databind.annotation.Column;
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.exception.DataMapperException;

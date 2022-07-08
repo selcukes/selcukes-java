@@ -16,7 +16,7 @@
 
 package io.github.selcukes.databind.tests;
 
-import io.github.selcukes.databind.PropertiesMapper;
+import io.github.selcukes.databind.properties.PropertiesMapper;
 import io.github.selcukes.databind.annotation.DataFile;
 import lombok.Data;
 import org.testng.annotations.Test;
