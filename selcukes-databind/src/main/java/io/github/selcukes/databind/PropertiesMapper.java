@@ -1,0 +1,86 @@
+/*
+ *  Copyright (c) Ramesh Babu Prudhvi.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+package io.github.selcukes.databind;
+
+import io.github.selcukes.databind.exception.DataMapperException;
+import io.github.selcukes.databind.properties.LinkedProperties;
+import io.github.selcukes.databind.properties.PropertiesLoader;
+import io.github.selcukes.databind.properties.PropertiesParser;
+import io.github.selcukes.databind.utils.DataFileHelper;
+import io.github.selcukes.databind.utils.Maps;
+import lombok.experimental.UtilityClass;
+
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.Map;
+
+import static io.github.selcukes.databind.properties.PropertiesLoader.linkedProperties;
+
+
+@UtilityClass
+public class PropertiesMapper {
+    /**
+     * Parses the Properties file to an Entity Class.
+     *
+     * @param <T>         the Class type.
+     * @param entityClass the entity class
+     * @return the Entity class objects
+     */
+    public static <T> T parse(final Class<T> entityClass) {
+        final DataFileHelper<T> dataFile = DataFileHelper.getInstance(entityClass);
+        final String fileName = dataFile.getFileName();
+        int extensionIndex = fileName.lastIndexOf('.');
+        final String extension = fileName.substring(extensionIndex + 1);
+        if (!extension.equalsIgnoreCase("properties")) {
+            throw new DataMapperException(String.format("File [%s] not found.",
+                fileName.substring(0, extensionIndex) + ".properties"));
+        }
+        PropertiesParser<T> propertiesParser = new PropertiesParser<>(entityClass);
+        return propertiesParser.parse(dataFile.getPath());
+    }
+
+    public static Map<String, String> readAsMap(final String propertyFile) {
+        return Maps.of(PropertiesLoader.linkedProperties(propertyFile));
+    }
+
+    public static void write(String propertyFile, Map<String, String> dataMap) {
+        write(propertyFile, new LinkedProperties(), dataMap);
+    }
+
+    private static void write(String propertyFile, LinkedProperties linkedProperties, Map<String, String> dataMap) {
+        dataMap.forEach(linkedProperties::setProperty);
+        write(propertyFile, linkedProperties);
+    }
+
+    private static void write(String propertyFile, LinkedProperties properties) {
+        try (OutputStream output = new FileOutputStream(propertyFile)) {
+            properties.store(output, null);
+        } catch (Exception e) {
+            throw new DataMapperException("Could not write property file '" + propertyFile + "'", e);
+        }
+    }
+
+    public static void updateProperty(String propertyFile, String key, String value) {
+        LinkedProperties properties = PropertiesLoader.linkedProperties(propertyFile);
+        properties.setProperty(key, value);
+        write(propertyFile, properties);
+    }
+
+    public static void updateProperties(String propertyFile, Map<String, String> dataMap) {
+        write(propertyFile, PropertiesLoader.linkedProperties(propertyFile), dataMap);
+    }
+}

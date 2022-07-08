@@ -25,7 +25,7 @@ import com.aventstack.extentreports.reporter.ReporterConfigurable;
 import com.aventstack.extentreports.reporter.configuration.ViewName;
 import io.github.selcukes.commons.helper.CollectionUtils;
 import io.github.selcukes.commons.helper.DateHelper;
-import io.github.selcukes.commons.properties.PropertiesMapper;
+import io.github.selcukes.databind.PropertiesMapper;
 
 import java.io.IOException;
 import java.io.Serializable;
