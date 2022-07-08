@@ -14,36 +14,42 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.commons.properties;
+package io.github.selcukes.databind.properties;
 
-import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.commons.exception.ConfigurationException;
-import io.github.selcukes.commons.helper.CollectionUtils;
-import lombok.CustomLog;
+import io.github.selcukes.databind.exception.DataMapperException;
+import io.github.selcukes.databind.utils.DataFileHelper;
+import io.github.selcukes.databind.utils.Maps;
 import lombok.experimental.UtilityClass;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Map;
 
-@CustomLog
+
 @UtilityClass
 public class PropertiesMapper {
-
-    public static Map<String, String> readAsMap(final String propertyFile) {
-        return CollectionUtils.toMap(getProperties(propertyFile));
+    /**
+     * Parses the Properties file to an Entity Class.
+     *
+     * @param <T>         the Class type.
+     * @param entityClass the entity class
+     * @return the Entity class objects
+     */
+    public static <T> T parse(final Class<T> entityClass) {
+        final DataFileHelper<T> dataFile = DataFileHelper.getInstance(entityClass);
+        final String fileName = dataFile.getFileName();
+        int extensionIndex = fileName.lastIndexOf('.');
+        final String extension = fileName.substring(extensionIndex + 1);
+        if (!extension.equalsIgnoreCase("properties")) {
+            throw new DataMapperException(String.format("File [%s] not found.",
+                fileName.substring(0, extensionIndex) + ".properties"));
+        }
+        PropertiesParser<T> propertiesParser = new PropertiesParser<>(entityClass);
+        return propertiesParser.parse(dataFile.getPath());
     }
 
-    public static LinkedProperties getProperties(final String propertyFile) {
-        LinkedProperties properties = new LinkedProperties();
-        try (InputStream stream = ConfigFactory.getStream(propertyFile)) {
-            properties.load(stream);
-        } catch (IOException e) {
-            throw new ConfigurationException("Could not parse property file '" + propertyFile + "'", e);
-        }
-        return properties;
+    public static Map<String, String> parse(final String propertyFile) {
+        return Maps.of(PropertiesLoader.linkedProperties(propertyFile));
     }
 
     public static void write(String propertyFile, Map<String, String> dataMap) {
@@ -59,17 +65,17 @@ public class PropertiesMapper {
         try (OutputStream output = new FileOutputStream(propertyFile)) {
             properties.store(output, null);
         } catch (Exception e) {
-            throw new ConfigurationException("Could not write property file '" + propertyFile + "'", e);
+            throw new DataMapperException("Could not write property file '" + propertyFile + "'", e);
         }
     }
 
     public static void updateProperty(String propertyFile, String key, String value) {
-        LinkedProperties properties = getProperties(propertyFile);
+        LinkedProperties properties = PropertiesLoader.linkedProperties(propertyFile);
         properties.setProperty(key, value);
         write(propertyFile, properties);
     }
 
     public static void updateProperties(String propertyFile, Map<String, String> dataMap) {
-        write(propertyFile, getProperties(propertyFile), dataMap);
+        write(propertyFile, PropertiesLoader.linkedProperties(propertyFile), dataMap);
     }
 }

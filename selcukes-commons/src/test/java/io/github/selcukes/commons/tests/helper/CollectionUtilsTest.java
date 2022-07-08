@@ -17,6 +17,7 @@
 package io.github.selcukes.commons.tests.helper;
 
 import io.github.selcukes.commons.helper.CollectionUtils;
+import io.github.selcukes.databind.utils.Maps;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -48,9 +49,10 @@ public class CollectionUtilsTest {
 
     @Test
     public void mapTest() {
-        Map<String,String> stringMap=CollectionUtils.toMap(headers,values);
+        Map<String, String> stringMap = Maps.of(headers, values);
         Assert.assertEquals(stringMap.get("WAITING"), "4");
     }
+
     @Test
     public void trimTest() {
         Assert.assertEquals(CollectionUtils.trim(values).get(5), "6");

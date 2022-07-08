@@ -23,9 +23,9 @@ import com.aventstack.extentreports.observer.ExtentObserver;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.ReporterConfigurable;
 import com.aventstack.extentreports.reporter.configuration.ViewName;
-import io.github.selcukes.commons.helper.CollectionUtils;
 import io.github.selcukes.commons.helper.DateHelper;
-import io.github.selcukes.commons.properties.PropertiesMapper;
+import io.github.selcukes.databind.properties.PropertiesMapper;
+import io.github.selcukes.databind.utils.Maps;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -69,9 +69,9 @@ public class ExtentService implements Serializable {
 
         private static void initProperties() {
             try {
-                propertiesMap = PropertiesMapper.readAsMap("extent.properties");
+                propertiesMap = PropertiesMapper.parse("extent.properties");
             } catch (Exception e) {
-                propertiesMap = CollectionUtils.toMap(System.getProperties());
+                propertiesMap = Maps.of(System.getProperties());
             }
         }
 

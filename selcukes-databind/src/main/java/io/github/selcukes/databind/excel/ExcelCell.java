@@ -16,21 +16,17 @@
 
 package io.github.selcukes.databind.excel;
 
-import io.github.selcukes.databind.annotation.Column;
+import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.converters.Converter;
+import io.github.selcukes.databind.DataField;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.TreeMap;
 
-
-import static io.github.selcukes.databind.utils.Reflections.newInstance;
-import static io.github.selcukes.databind.utils.Reflections.setField;
 import static io.github.selcukes.databind.utils.StringHelper.toFieldName;
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static java.lang.String.format;
@@ -38,24 +34,17 @@ import static java.util.Optional.ofNullable;
 import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.RETURN_BLANK_AS_NULL;
 
 
-class ExcelCell<T> {
+class ExcelCell<T> extends DataField<T> {
     private final int index;
-    private final Field field;
-    private final Converter<T> converter;
     private final DataFormatter formatter;
-    private final List<Converter<T>> defaultIConverters;
-
-    private T convertedValue;
 
     public ExcelCell(
         final Field field,
         final Map<String, Integer> headers,
-        final List<Converter<T>> defaultIConverters
+        final List<Converter<T>> defaultConverters
     ) {
-        this.field = field;
-        this.defaultIConverters = defaultIConverters;
+        super(field, defaultConverters);
         this.index = getIndex(headers);
-        this.converter = findMatchingConverter();
         this.formatter = new DataFormatter();
     }
 
@@ -63,50 +52,18 @@ class ExcelCell<T> {
         var cellValue = ofNullable(row.getCell(index, RETURN_BLANK_AS_NULL))
             .map(cell -> formatter.formatCellValue(cell).trim())
             .orElse("");
-        this.convertedValue = converter.convert(cellValue, getColumn().map(Column::format).orElse(""));
+        setConvertedValue(getConverter().convert(cellValue, getColumn().map(Key::format).orElse("")));
         return this;
     }
 
     private int getIndex(Map<String, Integer> headers) {
         String header = getColumn()
-            .map(Column::name)
+            .map(Key::name)
             .orElse(toFieldName(getFieldName()));
         Map<String, Integer> headersMap = new TreeMap<>(CASE_INSENSITIVE_ORDER);
         headersMap.putAll(headers);
         return ofNullable(headersMap.get(header))
-            .orElseThrow(() -> new IllegalArgumentException(format("Column %s not found", field.getName())));
-    }
-
-    public <R> void assignValue(final R instance) {
-        ofNullable(convertedValue)
-            .ifPresent(value -> setField(instance, getFieldName(), value));
-    }
-
-    private String getFieldName() {
-        return field.getName();
-    }
-
-    private Type getFieldType() {
-        return field.getType();
-    }
-
-    private Optional<Column> getColumn() {
-        return ofNullable(field.getDeclaredAnnotation(Column.class));
-    }
-
-    @SuppressWarnings("unchecked")
-    private Converter<T> findMatchingConverter() {
-        return getColumn()
-            .map(Column::converter)
-            .map(converterClass -> (Converter<T>) newInstance(converterClass))
-            .filter(converterInstance -> converterInstance.getType().equals(getFieldType()))
-            .orElseGet(() -> defaultIConverters.stream()
-                .filter(converterInstance -> converterInstance.getType().equals(getFieldType()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException(format(
-                    "There's no matching converter found for %s field of type %s", getFieldName(), getFieldType()))
-                )
-            );
+            .orElseThrow(() -> new IllegalArgumentException(format("Column %s not found", getFieldName())));
     }
 }
 

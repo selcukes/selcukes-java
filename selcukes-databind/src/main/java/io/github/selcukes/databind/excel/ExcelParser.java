@@ -18,7 +18,7 @@ package io.github.selcukes.databind.excel;
 
 
 import io.github.selcukes.databind.annotation.DataFile;
-import io.github.selcukes.databind.converters.*;
+import io.github.selcukes.databind.converters.Converter;
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.Streams;
 import org.apache.poi.ss.usermodel.Cell;
@@ -31,11 +31,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static io.github.selcukes.databind.converters.Converters.defaultConverters;
 import static io.github.selcukes.databind.utils.Reflections.newInstance;
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 
-public class ExcelParser<T> {
+class ExcelParser<T> {
 
     private final Class<T> entityClass;
     private final List<Converter<T>> defaultConverters;
@@ -43,20 +44,6 @@ public class ExcelParser<T> {
     public ExcelParser(final Class<T> entityClass) {
         this.entityClass = entityClass;
         this.defaultConverters = defaultConverters();
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T> List<Converter<T>> defaultConverters() {
-        return Stream.of(
-                BooleanConverter.class,
-                StringConverter.class,
-                IntegerConverter.class,
-                DoubleConverter.class,
-                LocalDateConverter.class,
-                LocalDateTimeConverter.class
-            )
-            .map(cls -> (Converter<T>) newInstance(cls))
-            .collect(Collectors.toList());
     }
 
     public Stream<T> parse(Path filePath) {

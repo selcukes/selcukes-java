@@ -17,7 +17,7 @@
 package io.github.selcukes.wdb.version;
 
 import io.github.selcukes.commons.helper.FileHelper;
-import io.github.selcukes.commons.properties.PropertiesMapper;
+import io.github.selcukes.databind.properties.PropertiesMapper;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,7 +41,7 @@ public class CacheManager {
 
     static Optional<String> resolveVersion(String key) {
         if (versionPath.toFile().exists()) {
-            Map<String, String> props = PropertiesMapper.readAsMap(versionFilePath);
+            Map<String, String> props = PropertiesMapper.parse(versionFilePath);
             String timestamp = props.get("timestamp");
             LocalDateTime dateTime = LocalDateTime.parse(timestamp);
             if (dateTime.isBefore(LocalDateTime.now())) {
