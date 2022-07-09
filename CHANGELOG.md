@@ -12,6 +12,22 @@
 
 ### Fixed
 
+## [2.1.4] (10-07-2022)
+
+### Added
+
+*[DataBind] Added support to Parse Properties to entityClass([#159](https://github.com/selcukes/selcukes-java/pull/159))
+*[DataBind] Added Data Substitutor support for Excel and Properties
+Mapper([#160](https://github.com/selcukes/selcukes-java/pull/160))
+
+### Changed
+
+* [Excel Runner] Moved Excel Mapper to `DataBind` module([#153](https://github.com/selcukes/selcukes-java/pull/152))
+* Update dependency org.testng:testng to v7.6.1 ([#154](https://github.com/selcukes/selcukes-java/pull/154))
+* Update dependency net.masterthought:cucumber-reporting to
+  v5.7.2 ([#157](https://github.com/selcukes/selcukes-java/pull/157))
+* [Commons] Moved XML Mapper to `DataBind` module([#161](https://github.com/selcukes/selcukes-java/pull/161))
+
 ## [2.1.3] (30-06-2022)
 
 ### Added
