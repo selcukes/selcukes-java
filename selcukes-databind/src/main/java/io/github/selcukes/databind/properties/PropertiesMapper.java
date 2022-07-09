@@ -24,6 +24,7 @@ import lombok.experimental.UtilityClass;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Map;
+import java.util.Properties;
 
 
 /**
@@ -105,5 +106,11 @@ public class PropertiesMapper {
      */
     public static void updateProperties(final String propertyFile, Map<String, String> dataMap) {
         write(propertyFile, PropertiesLoader.linkedProperties(propertyFile), dataMap);
+    }
+
+    public static Properties systemProperties() {
+        var properties = System.getProperties();
+        properties.putAll(System.getenv());
+        return properties;
     }
 }

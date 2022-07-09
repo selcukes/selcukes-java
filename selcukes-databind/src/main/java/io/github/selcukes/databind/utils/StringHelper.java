@@ -26,11 +26,12 @@ import io.github.selcukes.databind.exception.DataMapperException;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
-import java.util.Properties;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
+
+import static io.github.selcukes.databind.properties.PropertiesMapper.systemProperties;
 
 /**
  * The type String helper.
@@ -167,12 +168,6 @@ public class StringHelper {
             return Clocks.date(format);
         } else if (value.equalsIgnoreCase("datetime")) {
             return Clocks.dateTime(format);
-        } else return sysProperties().getProperty(value);
-    }
-
-    public Properties sysProperties() {
-        var properties = System.getProperties();
-        properties.putAll(System.getenv());
-        return properties;
+        } else return systemProperties().getProperty(value);
     }
 }
