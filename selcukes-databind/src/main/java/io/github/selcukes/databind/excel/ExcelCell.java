@@ -19,16 +19,14 @@ package io.github.selcukes.databind.excel;
 import io.github.selcukes.databind.DataField;
 import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.converters.Converter;
+import io.github.selcukes.databind.utils.Maps;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
-import static io.github.selcukes.databind.utils.StringHelper.toFieldName;
-import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.RETURN_BLANK_AS_NULL;
@@ -63,9 +61,7 @@ class ExcelCell<T> extends DataField<T> {
         String header = getColumn()
             .map(Key::name)
             .orElse(getFieldName());
-        Map<String, Integer> headersMap = new TreeMap<>(CASE_INSENSITIVE_ORDER);
-        headersMap.putAll(headers);
-        return ofNullable(headersMap.get(header))
+        return ofNullable(Maps.caseInsensitive(headers).get(header))
             .orElseThrow(() -> new IllegalArgumentException(format("Column %s not found", getFieldName())));
     }
 }
