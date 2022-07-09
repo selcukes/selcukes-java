@@ -16,9 +16,9 @@
 
 package io.github.selcukes.databind.excel;
 
+import io.github.selcukes.databind.DataField;
 import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.converters.Converter;
-import io.github.selcukes.databind.DataField;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 
@@ -52,14 +52,17 @@ class ExcelCell<T> extends DataField<T> {
         var cellValue = ofNullable(row.getCell(index, RETURN_BLANK_AS_NULL))
             .map(cell -> formatter.formatCellValue(cell).trim())
             .orElse("");
-        setConvertedValue(getConverter().convert(cellValue, getColumn().map(Key::format).orElse("")));
+        var substituted = getSubstitutor().replace(cellValue);
+        var format = getColumn().map(Key::format).orElse("");
+        var converted = getConverter().convert(substituted, format);
+        setConvertedValue(converted);
         return this;
     }
 
     private int getIndex(Map<String, Integer> headers) {
         String header = getColumn()
             .map(Key::name)
-            .orElse(toFieldName(getFieldName()));
+            .orElse(getFieldName());
         Map<String, Integer> headersMap = new TreeMap<>(CASE_INSENSITIVE_ORDER);
         headersMap.putAll(headers);
         return ofNullable(headersMap.get(header))

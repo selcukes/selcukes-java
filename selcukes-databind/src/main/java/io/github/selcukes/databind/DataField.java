@@ -19,6 +19,9 @@ package io.github.selcukes.databind;
 import io.github.selcukes.databind.annotation.Interpolate;
 import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.converters.Converter;
+import io.github.selcukes.databind.substitute.DefaultSubstitutor;
+import io.github.selcukes.databind.substitute.Substitutor;
+import io.github.selcukes.databind.utils.Reflections;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -68,9 +71,17 @@ public class DataField<T> {
     }
 
     @SuppressWarnings("unchecked")
-    public Optional<Interpolate> getSubstitutor() {
+    private Optional<Interpolate> getInterpolate() {
         Class<T> entityClass = (Class<T>) field.getDeclaringClass();
         return ofNullable(entityClass.getDeclaredAnnotation(Interpolate.class));
+    }
+
+    public Substitutor getSubstitutor() {
+        return getInterpolate()
+            .map(Interpolate::substitutor)
+            .map(Reflections::newInstance)
+            .map(Substitutor.class::cast)
+            .orElseGet(DefaultSubstitutor::new);
     }
 
     @SuppressWarnings("unchecked")

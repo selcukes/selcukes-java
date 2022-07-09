@@ -22,4 +22,9 @@ public class DefaultSubstitutor implements Substitutor {
     public String replace(Properties variables, String key) {
         return variables.getProperty(key);
     }
+
+    @Override
+    public String replace(String strToReplace) {
+        return strToReplace;
+    }
 }

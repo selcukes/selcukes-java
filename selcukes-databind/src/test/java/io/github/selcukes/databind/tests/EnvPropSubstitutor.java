@@ -31,4 +31,11 @@ public class EnvPropSubstitutor extends DefaultSubstitutor {
                 LocalDate.now().toString() : System.getenv(matcher.group(1))
         );
     }
+
+    @Override
+    public String replace(String strToReplace) {
+        return StringHelper.interpolate(strToReplace,
+            matcher -> matcher.group(1).equals("DATE") ?
+                LocalDate.now().toString() : System.getenv(matcher.group(1)));
+    }
 }

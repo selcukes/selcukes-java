@@ -17,18 +17,12 @@
 package io.github.selcukes.databind.properties;
 
 import io.github.selcukes.databind.DataField;
-import io.github.selcukes.databind.annotation.Interpolate;
 import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.converters.Converter;
-import io.github.selcukes.databind.substitute.DefaultSubstitutor;
-import io.github.selcukes.databind.substitute.Substitutor;
-import io.github.selcukes.databind.utils.Reflections;
 
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Properties;
-
-import static io.github.selcukes.databind.utils.StringHelper.toFieldName;
 
 class PropertyField<T> extends DataField<T> {
     private final Properties properties;
@@ -45,15 +39,8 @@ class PropertyField<T> extends DataField<T> {
     public PropertyField<T> parse() {
         String keyName = getColumn()
             .map(Key::name)
-            .orElse(toFieldName(getFieldName()));
-
-        var substitute = getSubstitutor()
-            .map(Interpolate::substitutor)
-            .map(Reflections::newInstance)
-            .map(Substitutor.class::cast)
-            .orElseGet(DefaultSubstitutor::new);
-
-        var substituted = substitute.replace(properties, keyName);
+            .orElse(getFieldName());
+        var substituted = getSubstitutor().replace(properties, keyName);
         setConvertedValue(getConverter().convert(substituted));
         return this;
     }

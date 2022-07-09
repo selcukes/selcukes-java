@@ -21,4 +21,5 @@ import java.util.Properties;
 
 public interface Substitutor {
     String replace(Properties variables, String key);
+    String replace(String strToReplace);
 }
