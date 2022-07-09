@@ -28,7 +28,7 @@ public class EnvPropSubstitutor extends DefaultSubstitutor {
         String value = variables.getProperty(key);
         return StringHelper.interpolate(value,
             matcher -> matcher.group(1).equals("DATE") ?
-                LocalDate.now().toString() : System.getenv(matcher.group(1))
+                LocalDate.now().toString() : System.getProperty(matcher.group(1))
         );
     }
 

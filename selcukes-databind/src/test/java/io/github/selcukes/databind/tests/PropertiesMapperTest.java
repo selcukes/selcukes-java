@@ -34,7 +34,7 @@ public class PropertiesMapperTest {
         System.out.println(testConfig.getUserName());
         if (testConfig.isTest())
             System.out.println(testConfig.getDate());
-
+        System.out.println(testConfig.getOsName());
         System.out.println(testConfig.getJim());
         System.out.println(testConfig.getMass());
     }
@@ -44,12 +44,14 @@ public class PropertiesMapperTest {
     @Data
     static class TestConfig {
         String userName;
-        boolean isTest;
         String password;
+        boolean isTest;
+        String osName;
         LocalDate date;
         @Key(name = "selcukes.jim")
         int jim;
         @Key(name = "mass", converter = ListStringConverter.class)
         List<String> mass;
     }
+
 }
