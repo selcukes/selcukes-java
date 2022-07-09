@@ -14,23 +14,23 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.converters;
+package io.github.selcukes.databind.substitute;
 
-import java.time.LocalDate;
+import io.github.selcukes.databind.utils.StringHelper;
 
-import static io.github.selcukes.databind.utils.StringHelper.DATE_FORMAT;
-import static java.time.LocalDate.parse;
-import static java.time.format.DateTimeFormatter.ofPattern;
-import static java.util.Optional.ofNullable;
+import java.util.Properties;
 
-public class LocalDateConverter extends DefaultConverter<LocalDate> {
+public class StringSubstitutor extends DefaultSubstitutor {
+
     @Override
-    public LocalDate convert(final String value) {
-        return convert(value, DATE_FORMAT);
+    public String replace(Properties variables, String key, final String format) {
+        String value = variables.getProperty(key);
+        return StringHelper.interpolate(value, matcher -> StringHelper.substitute(matcher.group(1), format));
     }
 
     @Override
-    public LocalDate convert(final String value, final String format) {
-        return parse(value, ofPattern(ofNullable(format).filter(f -> !f.isEmpty()).orElse(DATE_FORMAT)));
+    public String replace(String strToReplace, final String format) {
+        return StringHelper.interpolate(strToReplace, matcher -> StringHelper.substitute(matcher.group(1), format));
     }
+
 }

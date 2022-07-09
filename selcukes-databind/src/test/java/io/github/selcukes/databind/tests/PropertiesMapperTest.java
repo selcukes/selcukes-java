@@ -20,6 +20,7 @@ import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.annotation.Interpolate;
 import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.properties.PropertiesMapper;
+import io.github.selcukes.databind.substitute.StringSubstitutor;
 import lombok.Data;
 import org.testng.annotations.Test;
 
@@ -37,9 +38,11 @@ public class PropertiesMapperTest {
         System.out.println(testConfig.getOsName());
         System.out.println(testConfig.getJim());
         System.out.println(testConfig.getMass());
+        System.out.println(testConfig.getHelloDate());
+
     }
 
-    @Interpolate(substitutor = EnvPropSubstitutor.class)
+    @Interpolate(substitutor = StringSubstitutor.class)
     @DataFile
     @Data
     static class TestConfig {
@@ -48,6 +51,8 @@ public class PropertiesMapperTest {
         boolean isTest;
         String osName;
         LocalDate date;
+        @Key(name = "helloDate",format = "MM/dd/yyyy")
+        LocalDate helloDate;
         @Key(name = "selcukes.jim")
         int jim;
         @Key(name = "mass", converter = ListStringConverter.class)

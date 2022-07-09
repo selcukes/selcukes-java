@@ -26,10 +26,16 @@ import io.github.selcukes.databind.exception.DataMapperException;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Properties;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
+
+import static java.time.format.DateTimeFormatter.ofPattern;
+import static java.util.Optional.ofNullable;
 
 /**
  * The type String helper.
@@ -40,6 +46,8 @@ public class StringHelper {
     private static final String CAMEL_CASE_REGEX = "[^a-zA-Z0-9]";
     private static final String INTERPOLATE_REGEX = "\\$\\{(.+?)\\}";
     private static final String VERSION_NUMBER_REGEX = "[^0-9_.]";
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     /**
      * The constant nullOrEmpty.
@@ -159,5 +167,26 @@ public class StringHelper {
         } catch (Exception e) {
             throw new DataMapperException("Failed parsing string to JsonNode:\n" + content, e);
         }
+    }
+
+    public String substitute(String value, String format) {
+        if (value.equals("date")) {
+            var dtf = ofPattern(ofNullable(format)
+                .filter(f -> !f.isEmpty())
+                .orElse(DATE_FORMAT));
+            return LocalDate.now().format(dtf);
+        }
+        if (value.equals("datetime")) {
+            var dtf = ofPattern(ofNullable(format)
+                .filter(f -> !f.isEmpty())
+                .orElse(DATE_TIME_FORMAT));
+            return LocalDateTime.now().format(dtf);
+        } else return sysProperties().getProperty(value);
+    }
+
+    public Properties sysProperties() {
+        var properties = System.getProperties();
+        properties.putAll(System.getenv());
+        return properties;
     }
 }
