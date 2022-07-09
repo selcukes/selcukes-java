@@ -16,6 +16,7 @@
 
 package io.github.selcukes.databind;
 
+import io.github.selcukes.databind.annotation.Interpolate;
 import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.converters.Converter;
 import lombok.Getter;
@@ -64,6 +65,12 @@ public class DataField<T> {
 
     public Optional<Key> getColumn() {
         return ofNullable(field.getDeclaredAnnotation(Key.class));
+    }
+
+    @SuppressWarnings("unchecked")
+    public Optional<Interpolate> getSubstitutor() {
+        Class<T> entityClass = (Class<T>) field.getDeclaringClass();
+        return ofNullable(entityClass.getDeclaredAnnotation(Interpolate.class));
     }
 
     @SuppressWarnings("unchecked")

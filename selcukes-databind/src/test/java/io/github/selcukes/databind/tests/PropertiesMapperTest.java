@@ -17,6 +17,7 @@
 package io.github.selcukes.databind.tests;
 
 import io.github.selcukes.databind.annotation.DataFile;
+import io.github.selcukes.databind.annotation.Interpolate;
 import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.properties.PropertiesMapper;
 import lombok.Data;
@@ -38,6 +39,7 @@ public class PropertiesMapperTest {
         System.out.println(testConfig.getMass());
     }
 
+    @Interpolate(substitutor = EnvPropSubstitutor.class)
     @DataFile
     @Data
     static class TestConfig {
