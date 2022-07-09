@@ -24,21 +24,24 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Properties;
 
-import static io.github.selcukes.databind.utils.StringHelper.toFieldName;
-
 class PropertyField<T> extends DataField<T> {
     private final Properties properties;
 
-    public PropertyField(final Field field, final Properties properties, final List<Converter<T>> defaultConverters) {
+    public PropertyField(
+        final Field field,
+        final Properties properties,
+        final List<Converter<T>> defaultConverters
+    ) {
         super(field, defaultConverters);
         this.properties = properties;
     }
 
     public PropertyField<T> parse() {
-        String fieldName = getColumn()
+        String keyName = getColumn()
             .map(Key::name)
-            .orElse(toFieldName(getFieldName()));
-        setConvertedValue(getConverter().convert(properties.getProperty(fieldName)));
+            .orElse(getFieldName());
+        var substituted = getSubstitutor().replace(properties, keyName);
+        setConvertedValue(getConverter().convert(substituted));
         return this;
     }
 

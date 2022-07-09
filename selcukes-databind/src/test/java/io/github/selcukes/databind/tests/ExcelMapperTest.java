@@ -16,9 +16,10 @@
 
 package io.github.selcukes.databind.tests;
 
-import io.github.selcukes.databind.excel.ExcelMapper;
-import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.annotation.DataFile;
+import io.github.selcukes.databind.annotation.Interpolate;
+import io.github.selcukes.databind.annotation.Key;
+import io.github.selcukes.databind.excel.ExcelMapper;
 import io.github.selcukes.databind.exception.DataMapperException;
 import lombok.Data;
 import org.testng.annotations.Test;
@@ -29,27 +30,42 @@ public class ExcelMapperTest {
 
     @Data
     @DataFile(fileName = "TestData.xlsx", sheetName = "Smoke")
-    static class Pojo {
+    static class SampleExcel {
         @Key(name = "Screen")
         private String screen;
         @Key(name = "Feature")
         private String feature;
         @Key(name = "Test")
         private String test;
-        // @Column(name = "Run")
         private String run;
     }
 
     @Test
     public void excelMapperTest() {
-        Stream<Pojo> pojoStream = ExcelMapper.parse(Pojo.class);
+        Stream<SampleExcel> pojoStream = ExcelMapper.parse(SampleExcel.class);
         pojoStream.forEach(System.out::println);
+    }
+
+    @Interpolate(substitutor = EnvPropSubstitutor.class)
+    @Data
+    @DataFile(fileName = "TestData.xlsx", sheetName = "Yahoo")
+    static class SampleExcel1 {
+        @Key(name = "First Name")
+        String firstName;
+        @Key(name = "Last Name")
+        String lastName;
+        String date;
+    }
+
+    @Test
+    public void interpolateExcelMapperTest() {
+        Stream<SampleExcel1> excelStream = ExcelMapper.parse(SampleExcel1.class);
+        excelStream.forEach(System.out::println);
     }
 
     @Test(expectedExceptions = DataMapperException.class)
     public void excelMapperNegativeTest() {
         ExcelMapper.parse(Selcukes.class);
-
     }
 
     @Data

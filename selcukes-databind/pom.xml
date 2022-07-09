@@ -11,7 +11,7 @@
 
     <artifactId>selcukes-databind</artifactId>
     <name>selcukes-databind</name>
-    <description>Selcukes Databind helps to parser JSON, YML, XML and Excel files.</description>
+    <description>Selcukes Databind helps to parser JSON, YML, XML, Properties and Excel files.</description>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
