@@ -20,6 +20,6 @@ package io.github.selcukes.databind.substitute;
 import java.util.Properties;
 
 public interface Substitutor {
-    String replace(Properties variables, String key);
-    String replace(String strToReplace);
+    String replace(Properties variables, String key,final String format);
+    String replace(String strToReplace,final String format);
 }

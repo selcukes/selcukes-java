@@ -29,7 +29,6 @@ public class CreateDataFileWithAgsTest {
 
     @Test(enabled = false)
     public void dataTest() {
-
         String currentDataTime = LocalDateTime.now()
             .format(DateTimeFormatter.ofPattern(TIMESTAMP_FORMAT));
         Resolve resolve = new Resolve();
@@ -39,7 +38,7 @@ public class CreateDataFileWithAgsTest {
     }
 
     @Data
-    @DataFile(folderPath = "WebDrivers", rootFolder = "E:\\New folder")
+    @DataFile(folderPath = "E:/New folder/WebDrivers")
     static class Resolve {
         String chromeVersion;
         String dataTime;

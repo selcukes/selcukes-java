@@ -50,8 +50,8 @@ class ExcelCell<T> extends DataField<T> {
         var cellValue = ofNullable(row.getCell(index, RETURN_BLANK_AS_NULL))
             .map(cell -> formatter.formatCellValue(cell).trim())
             .orElse("");
-        var substituted = getSubstitutor().replace(cellValue);
         var format = getColumn().map(Key::format).orElse("");
+        var substituted = getSubstitutor().replace(cellValue,format);
         var converted = getConverter().convert(substituted, format);
         setConvertedValue(converted);
         return this;

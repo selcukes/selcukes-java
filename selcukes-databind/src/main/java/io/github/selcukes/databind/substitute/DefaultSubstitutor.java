@@ -19,12 +19,12 @@ package io.github.selcukes.databind.substitute;
 import java.util.Properties;
 
 public class DefaultSubstitutor implements Substitutor {
-    public String replace(Properties variables, String key) {
+    public String replace(Properties variables, String key,final String format) {
         return variables.getProperty(key);
     }
 
     @Override
-    public String replace(String strToReplace) {
+    public String replace(String strToReplace,final String format) {
         return strToReplace;
     }
 }

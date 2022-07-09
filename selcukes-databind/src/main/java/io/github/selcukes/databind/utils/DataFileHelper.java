@@ -22,13 +22,10 @@ package io.github.selcukes.databind.utils;
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.exception.DataMapperException;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 import static java.lang.String.format;
 import static java.lang.System.getProperty;
@@ -62,25 +59,25 @@ public class DataFileHelper<T> {
         if (isStream()) {
             throw new DataMapperException("Please provide fileName to perform stream loader");
         }
-        final String fileName = StringHelper.toSnakeCase(this.dataClass.getSimpleName());
-        final Path folder = getFolder();
+        final var fileName = StringHelper.toSnakeCase(this.dataClass.getSimpleName());
+        final var folder = getFolder();
 
-        Optional<Path> path = ofNullable(findFile(folder, fileName));
-        if (path.isEmpty()) {
-            if (isNewFile) {
-                return newFile(folder, fileName);
-            } else
-                throw new DataMapperException(String.format("File [%s] not found.", fileName));
-        }
-        return path.get().getFileName().toString();
+        return ofNullable(findFile(folder, fileName))
+            .map(path -> path.getFileName().toString())
+            .orElseGet(() -> {
+                if (isNewFile) {
+                    return newFile(folder, fileName);
+                } else
+                    throw new DataMapperException(format("File [%s] not found.", fileName));
+            });
     }
 
     public InputStream fileStream() {
-        try {
-            return Thread.currentThread().getContextClassLoader().getResourceAsStream(getFileName());
-        } catch (Exception e) {
-            throw new DataMapperException(String.format("Failed to perform stream loader for a File [%s].", getFileName()));
-        }
+        return ofNullable(Thread.currentThread().getContextClassLoader().getResourceAsStream(getFileName()))
+            .orElseThrow(
+                () -> new DataMapperException(format("Failed to perform stream loader for a File [%s].",
+                    getFileName())
+                ));
     }
 
     public boolean isStream() {
@@ -88,37 +85,29 @@ public class DataFileHelper<T> {
     }
 
     public Path getFolder() {
-        String folder = "src/test/resources";
-        if (!this.dataFile.folderPath().isEmpty()) {
-            folder = this.dataFile.folderPath();
+        var folder = this.dataFile.folderPath();
+        if (folder.isEmpty()) {
+            folder = "src/test/resources";
         }
-        return this.isDirectory(this.getRootFolder().resolve(folder).toString());
+        var folderPath = Path.of(folder).isAbsolute() ?
+            Path.of(folder) : Path.of(getProperty("user.dir")).resolve(folder);
+        return this.isDirectory(folderPath);
     }
 
     public Path getPath() {
         return getFolder().resolve(Path.of(getFileName()));
     }
 
-    private Path getRootFolder() {
-        String root = getProperty("user.dir");
-        if (!this.dataFile.rootFolder().isEmpty()) {
-            root = this.dataFile.rootFolder();
+    private Path isDirectory(final Path folder) {
+        if (!Files.isDirectory(folder)) {
+            throw new DataMapperException(format("%s is not a directory.", folder));
         }
-
-        return isDirectory(root);
-    }
-
-    private Path isDirectory(final String folder) {
-        final File dir = new File(folder);
-        if (!dir.isDirectory()) {
-            throw new DataMapperException(String.format("%s is not a directory.", folder));
-        }
-        return Path.of(folder);
+        return folder;
     }
 
     private String newFile(final Path folder, final String fileName) {
-        String newFileName = fileName.contains(".") ? fileName : fileName + ".json";
-        Path newFilePath = folder.resolve(newFileName);
+        var newFileName = fileName.contains(".") ? fileName : fileName + ".json";
+        var newFilePath = folder.resolve(newFileName);
         try {
             return Files.createFile(newFilePath).getFileName().toString();
         } catch (IOException e) {
@@ -127,7 +116,7 @@ public class DataFileHelper<T> {
     }
 
     private Path findFile(final Path targetDir, final String fileName) {
-        try (Stream<Path> stream = Files.list(targetDir)) {
+        try (var stream = Files.list(targetDir)) {
             return stream.filter(p -> {
                 if (Files.isRegularFile(p)) {
                     return p.getFileName().toString().startsWith(fileName);

@@ -31,6 +31,8 @@ import java.util.function.Predicate;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
+import static io.github.selcukes.databind.properties.PropertiesMapper.systemProperties;
+
 /**
  * The type String helper.
  */
@@ -159,5 +161,13 @@ public class StringHelper {
         } catch (Exception e) {
             throw new DataMapperException("Failed parsing string to JsonNode:\n" + content, e);
         }
+    }
+
+    public String substitute(String value, String format) {
+        if (value.equalsIgnoreCase("date")) {
+            return Clocks.date(format);
+        } else if (value.equalsIgnoreCase("datetime")) {
+            return Clocks.dateTime(format);
+        } else return systemProperties().getProperty(value);
     }
 }

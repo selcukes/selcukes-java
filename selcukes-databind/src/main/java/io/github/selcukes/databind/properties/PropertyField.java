@@ -40,8 +40,9 @@ class PropertyField<T> extends DataField<T> {
         String keyName = getColumn()
             .map(Key::name)
             .orElse(getFieldName());
-        var substituted = getSubstitutor().replace(properties, keyName);
-        setConvertedValue(getConverter().convert(substituted));
+        var format = getColumn().map(Key::format).orElse("");
+        var substituted = getSubstitutor().replace(properties, keyName,format);
+        setConvertedValue(getConverter().convert(substituted, format));
         return this;
     }
 

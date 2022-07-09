@@ -14,28 +14,23 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.tests;
+package io.github.selcukes.databind.substitute;
 
-import io.github.selcukes.databind.substitute.DefaultSubstitutor;
 import io.github.selcukes.databind.utils.StringHelper;
 
-import java.time.LocalDate;
 import java.util.Properties;
 
-public class EnvPropSubstitutor extends DefaultSubstitutor {
+public class StringSubstitutor extends DefaultSubstitutor {
+
     @Override
-    public String replace(Properties variables, String key) {
+    public String replace(Properties variables, String key, final String format) {
         String value = variables.getProperty(key);
-        return StringHelper.interpolate(value,
-            matcher -> matcher.group(1).equals("DATE") ?
-                LocalDate.now().toString() : System.getProperty(matcher.group(1))
-        );
+        return StringHelper.interpolate(value, matcher -> StringHelper.substitute(matcher.group(1), format));
     }
 
     @Override
-    public String replace(String strToReplace) {
-        return StringHelper.interpolate(strToReplace,
-            matcher -> matcher.group(1).equals("DATE") ?
-                LocalDate.now().toString() : System.getenv(matcher.group(1)));
+    public String replace(String strToReplace, final String format) {
+        return StringHelper.interpolate(strToReplace, matcher -> StringHelper.substitute(matcher.group(1), format));
     }
+
 }

@@ -24,8 +24,12 @@ import lombok.experimental.UtilityClass;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Map;
+import java.util.Properties;
 
 
+/**
+ * The type Properties mapper.
+ */
 @UtilityClass
 public class PropertiesMapper {
     /**
@@ -48,20 +52,32 @@ public class PropertiesMapper {
         return propertiesParser.parse(dataFile.getPath());
     }
 
+    /**
+     * Parses the Properties file to a map.
+     *
+     * @param propertyFile the property file
+     * @return the map
+     */
     public static Map<String, String> parse(final String propertyFile) {
         return Maps.of(PropertiesLoader.linkedProperties(propertyFile));
     }
 
-    public static void write(String propertyFile, Map<String, String> dataMap) {
+    /**
+     * Writes a Properties file.
+     *
+     * @param propertyFile the property file
+     * @param dataMap      the data map
+     */
+    public static void write(final String propertyFile, Map<String, String> dataMap) {
         write(propertyFile, new LinkedProperties(), dataMap);
     }
 
-    private static void write(String propertyFile, LinkedProperties linkedProperties, Map<String, String> dataMap) {
+    private static void write(final String propertyFile, LinkedProperties linkedProperties, Map<String, String> dataMap) {
         dataMap.forEach(linkedProperties::setProperty);
         write(propertyFile, linkedProperties);
     }
 
-    private static void write(String propertyFile, LinkedProperties properties) {
+    private static void write(final String propertyFile, LinkedProperties properties) {
         try (OutputStream output = new FileOutputStream(propertyFile)) {
             properties.store(output, null);
         } catch (Exception e) {
@@ -69,13 +85,32 @@ public class PropertiesMapper {
         }
     }
 
-    public static void updateProperty(String propertyFile, String key, String value) {
+    /**
+     * Update Property file.
+     *
+     * @param propertyFile the property file
+     * @param key          the key
+     * @param value        the value
+     */
+    public static void updateProperty(final String propertyFile, String key, String value) {
         LinkedProperties properties = PropertiesLoader.linkedProperties(propertyFile);
         properties.setProperty(key, value);
         write(propertyFile, properties);
     }
 
-    public static void updateProperties(String propertyFile, Map<String, String> dataMap) {
+    /**
+     * Update properties.
+     *
+     * @param propertyFile the property file
+     * @param dataMap      the data map
+     */
+    public static void updateProperties(final String propertyFile, Map<String, String> dataMap) {
         write(propertyFile, PropertiesLoader.linkedProperties(propertyFile), dataMap);
+    }
+
+    public static Properties systemProperties() {
+        var properties = System.getProperties();
+        properties.putAll(System.getenv());
+        return properties;
     }
 }
