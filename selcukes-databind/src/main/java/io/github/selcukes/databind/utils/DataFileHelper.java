@@ -22,7 +22,6 @@ package io.github.selcukes.databind.utils;
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.exception.DataMapperException;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -90,27 +89,20 @@ public class DataFileHelper<T> {
         if (folder.isEmpty()) {
             folder = "src/test/resources";
         }
-        return this.isDirectory(this.getRootFolder().resolve(folder).toString());
+        var folderPath = Path.of(folder).isAbsolute() ?
+            Path.of(folder) : Path.of(getProperty("user.dir")).resolve(folder);
+        return this.isDirectory(folderPath);
     }
 
     public Path getPath() {
         return getFolder().resolve(Path.of(getFileName()));
     }
 
-    private Path getRootFolder() {
-        var root = this.dataFile.rootFolder();
-        if (root.isEmpty()) {
-            root = getProperty("user.dir");
-        }
-        return isDirectory(root);
-    }
-
-    private Path isDirectory(final String folder) {
-        final var dir = new File(folder);
-        if (!dir.isDirectory()) {
+    private Path isDirectory(final Path folder) {
+        if (!Files.isDirectory(folder)) {
             throw new DataMapperException(format("%s is not a directory.", folder));
         }
-        return Path.of(folder);
+        return folder;
     }
 
     private String newFile(final Path folder, final String fileName) {
