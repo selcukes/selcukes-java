@@ -19,6 +19,7 @@ package io.github.selcukes.databind.tests;
 import io.github.selcukes.databind.substitute.DefaultSubstitutor;
 import io.github.selcukes.databind.utils.StringHelper;
 
+import java.time.LocalDate;
 import java.util.Properties;
 
 public class EnvPropSubstitutor extends DefaultSubstitutor {
@@ -26,6 +27,8 @@ public class EnvPropSubstitutor extends DefaultSubstitutor {
     public String replace(Properties variables, String key) {
         String value = variables.getProperty(key);
         return StringHelper.interpolate(value,
-            matcher -> System.getenv(matcher.group(1)));
+            matcher -> matcher.group(1).equals("DATE") ?
+                LocalDate.now().toString() : System.getenv(matcher.group(1))
+        );
     }
 }
