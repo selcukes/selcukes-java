@@ -16,12 +16,12 @@
 
 package io.github.selcukes.databind.converters;
 
+import io.github.selcukes.databind.utils.Clocks;
+
 import java.time.LocalDate;
 
-import static io.github.selcukes.databind.utils.StringHelper.DATE_FORMAT;
+import static io.github.selcukes.databind.utils.Clocks.DATE_FORMAT;
 import static java.time.LocalDate.parse;
-import static java.time.format.DateTimeFormatter.ofPattern;
-import static java.util.Optional.ofNullable;
 
 public class LocalDateConverter extends DefaultConverter<LocalDate> {
     @Override
@@ -31,6 +31,6 @@ public class LocalDateConverter extends DefaultConverter<LocalDate> {
 
     @Override
     public LocalDate convert(final String value, final String format) {
-        return parse(value, ofPattern(ofNullable(format).filter(f -> !f.isEmpty()).orElse(DATE_FORMAT)));
+        return parse(value, Clocks.dateTimeFormatter(format, DATE_FORMAT));
     }
 }
