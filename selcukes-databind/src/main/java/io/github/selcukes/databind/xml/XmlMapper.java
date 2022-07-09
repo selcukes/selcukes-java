@@ -14,9 +14,10 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.commons.xml;
+package io.github.selcukes.databind.xml;
 
-import io.github.selcukes.commons.exception.SelcukesException;
+
+import io.github.selcukes.databind.exception.DataMapperException;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.w3c.dom.Document;
@@ -45,7 +46,7 @@ public class XmlMapper {
             var documentBuilder = factory.newDocumentBuilder();
             return documentBuilder.parse(new InputSource(inputStream));
         } catch (Exception e) {
-            throw new SelcukesException("Failed to parse InputStream to XML Document : ", e);
+            throw new DataMapperException("Failed to parse InputStream to XML Document : ", e);
         }
     }
 

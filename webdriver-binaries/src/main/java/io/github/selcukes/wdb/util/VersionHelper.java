@@ -22,8 +22,8 @@ import io.github.selcukes.commons.http.WebClient;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static io.github.selcukes.commons.xml.XmlMapper.filterElements;
-import static io.github.selcukes.commons.xml.XmlMapper.selectElements;
+import static io.github.selcukes.databind.xml.XmlMapper.filterElements;
+import static io.github.selcukes.databind.xml.XmlMapper.selectElements;
 
 public class VersionHelper {
     private VersionHelper() {
