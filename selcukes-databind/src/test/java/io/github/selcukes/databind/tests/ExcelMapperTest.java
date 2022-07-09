@@ -21,6 +21,7 @@ import io.github.selcukes.databind.annotation.Interpolate;
 import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.excel.ExcelMapper;
 import io.github.selcukes.databind.exception.DataMapperException;
+import io.github.selcukes.databind.substitute.StringSubstitutor;
 import lombok.Data;
 import org.testng.annotations.Test;
 
@@ -46,7 +47,7 @@ public class ExcelMapperTest {
         pojoStream.forEach(System.out::println);
     }
 
-    @Interpolate(substitutor = EnvPropSubstitutor.class)
+    @Interpolate(substitutor = StringSubstitutor.class)
     @Data
     @DataFile(fileName = "TestData.xlsx", sheetName = "Yahoo")
     static class SampleExcel1 {
