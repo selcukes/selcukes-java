@@ -69,16 +69,16 @@ public class DataFileHelper<T> {
                 if (isNewFile) {
                     return newFile(folder, fileName);
                 } else
-                    throw new DataMapperException(String.format("File [%s] not found.", fileName));
+                    throw new DataMapperException(format("File [%s] not found.", fileName));
             });
     }
 
     public InputStream fileStream() {
-        try {
-            return Thread.currentThread().getContextClassLoader().getResourceAsStream(getFileName());
-        } catch (Exception e) {
-            throw new DataMapperException(String.format("Failed to perform stream loader for a File [%s].", getFileName()));
-        }
+        return ofNullable(Thread.currentThread().getContextClassLoader().getResourceAsStream(getFileName()))
+            .orElseThrow(
+                () -> new DataMapperException(format("Failed to perform stream loader for a File [%s].",
+                    getFileName())
+                ));
     }
 
     public boolean isStream() {
@@ -108,7 +108,7 @@ public class DataFileHelper<T> {
     private Path isDirectory(final String folder) {
         final var dir = new File(folder);
         if (!dir.isDirectory()) {
-            throw new DataMapperException(String.format("%s is not a directory.", folder));
+            throw new DataMapperException(format("%s is not a directory.", folder));
         }
         return Path.of(folder);
     }
