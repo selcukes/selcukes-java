@@ -12,24 +12,25 @@
     <properties>
         <junit.jupiter.version>5.8.2</junit.jupiter.version>
         <cucumber.version>7.4.1</cucumber.version>
-        <junit-platform-suite.version>1.8.2</junit-platform-suite.version>
+
+        <junit-platform.version>1.8.2</junit-platform.version>
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.jupiter.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>io.github.selcukes</groupId>
-            <artifactId>selcukes-testng</artifactId>
+            <artifactId>selcukes-commons</artifactId>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-suite</artifactId>
-            <version>${junit-platform-suite.version}</version>
-            <scope>test</scope>
+            <version>${junit-platform.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>${junit-platform.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
@@ -43,7 +44,12 @@
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
 </project>

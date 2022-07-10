@@ -16,14 +16,9 @@
 
 package io.github.selcukes.junit.tests;
 
-import io.cucumber.junit.platform.engine.Cucumber;
-import org.junit.jupiter.api.Test;
+import org.junit.platform.suite.api.Suite;
 
-@Cucumber
-class RunSuiteTest {
-    @Test
-    @SuppressWarnings("all")
-    void testing() {
+@Suite
+class TestRunner {
 
-    }
 }
