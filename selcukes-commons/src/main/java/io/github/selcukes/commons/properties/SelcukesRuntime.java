@@ -1,44 +1,35 @@
 /*
- * Copyright (c) Ramesh Babu Prudhvi.
+ *  Copyright (c) Ramesh Babu Prudhvi.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *         http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 
-package io.github.selcukes.testng;
-
+package io.github.selcukes.commons.properties;
 
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.os.Platform;
-import io.github.selcukes.commons.properties.SelcukesTestProperties;
 import lombok.CustomLog;
+import lombok.experimental.UtilityClass;
 
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.*;
 import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
 import static java.util.Optional.ofNullable;
 
 @CustomLog
-public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
-    private static SelcukesRuntimeOptions runtimeOptions;
-
-    public static SelcukesRuntimeOptions getInstance() {
-        if (runtimeOptions == null)
-            runtimeOptions = new SelcukesRuntimeAdapter();
-        return runtimeOptions;
-    }
-
-    @Override
-    public void perform() {
+@UtilityClass
+public class SelcukesRuntime {
+    public static void loadOptions() {
         try {
             SelcukesTestProperties properties = new SelcukesTestProperties();
             String features = ofNullable(properties.getSubstitutedConfigProperty(FEATURES)).orElse("");
@@ -83,6 +74,4 @@ public class SelcukesRuntimeAdapter implements SelcukesRuntimeOptions {
             logger.warn(() -> "Failed loading selcukes properties. Using default CucumberOptions to execute...");
         }
     }
-
-
 }

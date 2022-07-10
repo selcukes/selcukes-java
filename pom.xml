@@ -35,6 +35,7 @@
         <selenium.version>4.3.0</selenium.version>
         <appium.version>8.1.1</appium.version>
         <testng.version>7.6.1</testng.version>
+        <junit-platform.version>1.8.2</junit-platform.version>
 
         <lombok.version>1.18.24</lombok.version>
         <commons.io.version>2.11.0</commons.io.version>
@@ -190,7 +191,11 @@
                 <artifactId>cucumber-picocontainer</artifactId>
                 <version>${cucumber.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-junit-platform-engine</artifactId>
+                <version>${cucumber.version}</version>
+            </dependency>
             <dependency>
                 <groupId>net.masterthought</groupId>
                 <artifactId>cucumber-reporting</artifactId>
@@ -230,6 +235,16 @@
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi-ooxml</artifactId>
                 <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-suite</artifactId>
+                <version>${junit-platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-launcher</artifactId>
+                <version>${junit-platform.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>

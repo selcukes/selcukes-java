@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-package io.github.selcukes.testng;
+package io.github.selcukes.junit.tests;
 
-public interface SelcukesRuntimeOptions {
-    void perform();
+import org.junit.platform.suite.api.Suite;
+
+@Suite
+class TestRunner {
+
 }
