@@ -17,7 +17,7 @@
 package io.github.selcukes.testng.listeners;
 
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.testng.SelcukesRuntimeAdapter;
+import io.github.selcukes.commons.properties.SelcukesRuntime;
 import lombok.CustomLog;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
@@ -45,6 +45,6 @@ public class TestListener implements ITestListener {
                     ConfigFactory.getConfig().getCucumber().put(prop, value);
             }
         });
-        SelcukesRuntimeAdapter.getInstance().perform();
+        SelcukesRuntime.loadOptions();
     }
 }
