@@ -23,6 +23,7 @@ import org.junit.platform.launcher.LauncherDiscoveryRequest;
 
 @CustomLog
 public class SuiteListener implements LauncherDiscoveryListener {
+    @Override
     public void launcherDiscoveryStarted(LauncherDiscoveryRequest request) {
         SelcukesRuntime.loadOptions();
     }

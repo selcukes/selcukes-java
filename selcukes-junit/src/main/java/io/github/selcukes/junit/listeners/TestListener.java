@@ -24,19 +24,23 @@ import org.junit.platform.launcher.TestPlan;
 
 @CustomLog
 public class TestListener implements TestExecutionListener {
+    @Override
     public void testPlanExecutionStarted(TestPlan testPlan) {
         logger.debug(() -> "TestPlan Execution started...");
     }
 
+    @Override
     public void testPlanExecutionFinished(TestPlan testPlan) {
         logger.debug(() -> "TestPlan Execution finished...");
     }
 
+    @Override
     public void executionStarted(TestIdentifier testIdentifier) {
         if (testIdentifier.isTest())
             logger.debug(() -> "Test Execution started..." + testIdentifier.getDisplayName());
     }
 
+    @Override
     public void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
         if (testIdentifier.isTest())
             logger.debug(() -> "Test Execution Finished..." + testIdentifier.getDisplayName());
