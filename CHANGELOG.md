@@ -12,7 +12,12 @@
 
 ### Fixed
 
+## [2.1.5] (11-07-2022)
+
+### Fixed
+
 *[DataBind] Fixed Data Rows overlapping issue
+*[JUnit] Fixed Cucumber junit-platform-suite runner ([#162](https://github.com/selcukes/selcukes-java/pull/162))
 
 ## [2.1.4] (10-07-2022)
 
