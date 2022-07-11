@@ -27,34 +27,34 @@ import static java.util.Optional.ofNullable;
 
 abstract class AbstractBinary implements BinaryFactory {
     protected boolean isAutoDetectBrowserVersion = true;
-    private Optional<String> release = Optional.empty();
-    private Optional<Architecture> targetArch = Optional.empty();
-    private Optional<String> proxyUrl = Optional.empty();
+    private String release;
+    private Architecture targetArch;
+    private String proxyUrl;
 
     @Override
     public Platform getBinaryEnvironment() {
         Platform platform = Platform.getPlatform();
-        targetArch.ifPresent(arch -> platform.setArchitecture(arch.getValue()));
+        getTargetArch().ifPresent(arch -> platform.setArchitecture(arch.getValue()));
         return platform;
     }
 
     @Override
     public String getBinaryVersion() {
-        return release.orElse(getLatestRelease());
+        return ofNullable(release).orElse(getLatestRelease());
     }
 
     @Override
     public void setVersion(String version) {
-        this.release = ofNullable(version);
+        this.release = version;
     }
 
     public Optional<Architecture> getTargetArch() {
-        return this.targetArch;
+        return ofNullable(this.targetArch);
     }
 
     @Override
     public void setTargetArch(Architecture targetArch) {
-        this.targetArch = ofNullable(targetArch);
+        this.targetArch = targetArch;
     }
 
     @Override
@@ -65,12 +65,12 @@ abstract class AbstractBinary implements BinaryFactory {
     protected abstract String getLatestRelease();
 
     protected String getProxy() {
-        return proxyUrl.orElse(null);
+        return proxyUrl;
     }
 
     @Override
     public void setProxy(String proxy) {
-        this.proxyUrl = ofNullable(proxy);
+        this.proxyUrl = proxy;
     }
 
     protected String getVersionNumberFromGit(String binaryDownloadUrl) {
