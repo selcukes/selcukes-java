@@ -16,16 +16,17 @@
 
 ### Fixed
 
-*[DataBind] Fixed Data Rows overlapping issue
-*[JUnit] Fixed Cucumber junit-platform-suite runner ([#162](https://github.com/selcukes/selcukes-java/pull/162))
+* [DataBind] Fixed Data Rows overlapping issue.
+
+* [JUnit] Fixed Cucumber junit-platform-suite runner ([#162](https://github.com/selcukes/selcukes-java/pull/162))
 
 ## [2.1.4] (10-07-2022)
 
 ### Added
 
-*[DataBind] Added support to Parse Properties to entityClass([#159](https://github.com/selcukes/selcukes-java/pull/159))
-*[DataBind] Added Data Substitutor support for Excel and Properties
-Mapper([#160](https://github.com/selcukes/selcukes-java/pull/160))
+* [DataBind] Added support to Parse Properties to entityClass([#159](https://github.com/selcukes/selcukes-java/pull/159))
+
+* [DataBind] Added Data Substitutor support for Excel and PropertiesMapper([#160](https://github.com/selcukes/selcukes-java/pull/160))
 
 ### Changed
 
