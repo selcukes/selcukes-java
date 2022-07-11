@@ -12,6 +12,8 @@
 
 ### Fixed
 
+*[DataBind] Fixed Data Rows overlapping issue
+
 ## [2.1.4] (10-07-2022)
 
 ### Added

@@ -22,9 +22,8 @@ import io.github.selcukes.wdb.version.VersionDetector;
 
 import java.util.Optional;
 
-import static io.github.selcukes.wdb.util.OptionalUtil.orElse;
-import static io.github.selcukes.wdb.util.OptionalUtil.unwrap;
 import static io.github.selcukes.wdb.util.VersionHelper.sendRequest;
+import static java.util.Optional.ofNullable;
 
 abstract class AbstractBinary implements BinaryFactory {
     protected boolean isAutoDetectBrowserVersion = true;
@@ -41,12 +40,12 @@ abstract class AbstractBinary implements BinaryFactory {
 
     @Override
     public String getBinaryVersion() {
-        return orElse(release, getLatestRelease());
+        return release.orElse(getLatestRelease());
     }
 
     @Override
     public void setVersion(String version) {
-        this.release = Optional.ofNullable(version);
+        this.release = ofNullable(version);
     }
 
     public Optional<Architecture> getTargetArch() {
@@ -55,7 +54,7 @@ abstract class AbstractBinary implements BinaryFactory {
 
     @Override
     public void setTargetArch(Architecture targetArch) {
-        this.targetArch = Optional.ofNullable(targetArch);
+        this.targetArch = ofNullable(targetArch);
     }
 
     @Override
@@ -66,12 +65,12 @@ abstract class AbstractBinary implements BinaryFactory {
     protected abstract String getLatestRelease();
 
     protected String getProxy() {
-        return unwrap(proxyUrl);
+        return proxyUrl.orElse(null);
     }
 
     @Override
     public void setProxy(String proxy) {
-        this.proxyUrl = Optional.ofNullable(proxy);
+        this.proxyUrl = ofNullable(proxy);
     }
 
     protected String getVersionNumberFromGit(String binaryDownloadUrl) {
