@@ -26,6 +26,7 @@ import io.github.selcukes.wdb.util.UrlHelper;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
+import java.util.Optional;
 
 public class ChromeBinary extends AbstractBinary {
     private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/chromedriver_%s.zip";
@@ -47,8 +48,9 @@ public class ChromeBinary extends AbstractBinary {
     @Override
     public Platform getBinaryEnvironment() {
         Platform platform = Platform.getPlatform();
-        if (getTargetArch().isPresent())
-            platform.setArchitecture(getTargetArch().get().getValue());
+        Optional<Architecture> arch = getTargetArch();
+        if (arch.isPresent())
+            platform.setArchitecture(arch.get().getValue());
         else if (Objects.equals(platform.getOSType(), OsType.WIN))
             platform.setArchitecture(Architecture.X32.getValue());
         return platform;
