@@ -47,6 +47,7 @@ public class ApiHelper {
         ResponseBody body = response.bodyAs(ResponseBody.class);
         return body.getAppUrl();
     }
+
     @JsonIgnoreProperties(ignoreUnknown = true)
     @Data
     class ResponseBody {

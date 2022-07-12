@@ -51,7 +51,7 @@ class ExcelCell<T> extends DataField<T> {
             .map(cell -> formatter.formatCellValue(cell).trim())
             .orElse("");
         var format = getColumn().map(Key::format).orElse("");
-        var substituted = getSubstitutor().replace(cellValue,format);
+        var substituted = getSubstitutor().replace(cellValue, format);
         var converted = getConverter().convert(substituted, format);
         setConvertedValue(converted);
         return this;

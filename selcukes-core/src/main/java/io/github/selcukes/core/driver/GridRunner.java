@@ -52,7 +52,8 @@ public class GridRunner {
 
     public static void startAppium() {
         if (!isCloudAppium())
-            AppiumEngine.getInstance().startLocalServer();    }
+            AppiumEngine.getInstance().startLocalServer();
+    }
 
     public static void stopAppium() {
         AppiumEngine.getInstance().stopServer();

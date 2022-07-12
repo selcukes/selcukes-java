@@ -41,7 +41,7 @@ public class Maps {
     }
 
     public static <V> Map<String, V> caseInsensitive(Map<String, V> map) {
-        var newMap = new TreeMap<String,V>(CASE_INSENSITIVE_ORDER);
+        var newMap = new TreeMap<String, V>(CASE_INSENSITIVE_ORDER);
         newMap.putAll(map);
         return newMap;
     }

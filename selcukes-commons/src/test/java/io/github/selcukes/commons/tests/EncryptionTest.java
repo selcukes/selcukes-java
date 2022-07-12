@@ -16,6 +16,7 @@
 
 package io.github.selcukes.commons.tests;
 
+import io.github.selcukes.commons.helper.Singleton;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.security.Encryptor;
@@ -32,7 +33,7 @@ public class EncryptionTest {
 
     @BeforeTest
     public void beforeTest() {
-        encryptor = new StringEncryptor();
+        encryptor = Singleton.instanceOf(StringEncryptor.class);
         System.setProperty("selcukes.crypto.key", "Hello");
     }
 

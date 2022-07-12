@@ -41,6 +41,15 @@ public class Reflections {
 
     }
 
+    @SuppressWarnings("all")
+    public static <T> T newInstance(Class<T> clazz, Object... initArgs) {
+        try {
+            return (T) clazz.getConstructors()[0].newInstance(initArgs);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
     @SuppressWarnings("squid:S3011")
     public static void setField(Object object, String fieldName, Object value) {
         try {

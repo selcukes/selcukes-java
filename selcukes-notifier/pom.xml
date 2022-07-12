@@ -12,7 +12,17 @@
     <artifactId>selcukes-notifier</artifactId>
     <name>selcukes-notifier</name>
     <description>Selcukes Notifier to send test status notifications using Slack and Microsoft teams.</description>
-
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.github.selcukes</groupId>
+                <artifactId>selcukes-bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>io.github.selcukes</groupId>
