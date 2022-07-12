@@ -18,6 +18,7 @@ package io.github.selcukes.databind.properties;
 
 
 import java.util.*;
+
 @SuppressWarnings("all")
 public class LinkedProperties extends Properties {
 

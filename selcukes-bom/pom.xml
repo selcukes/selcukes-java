@@ -17,7 +17,7 @@
     <properties>
         <faker.version>0.0.1</faker.version>
     </properties>
-    
+
     <dependencyManagement>
         <dependencies>
             <dependency>

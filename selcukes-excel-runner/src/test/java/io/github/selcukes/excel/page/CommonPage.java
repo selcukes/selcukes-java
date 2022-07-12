@@ -23,8 +23,7 @@ import java.util.Map;
 
 public class CommonPage {
 
-    public Map<String,String> getScenarioData()
-    {
+    public Map<String, String> getScenarioData() {
         return ExcelUtils.getTestDataAsMap(Hooks.testName.get());
     }
 }

@@ -41,7 +41,7 @@ class PropertyField<T> extends DataField<T> {
             .map(Key::name)
             .orElse(getFieldName());
         var format = getColumn().map(Key::format).orElse("");
-        var substituted = getSubstitutor().replace(properties, keyName,format);
+        var substituted = getSubstitutor().replace(properties, keyName, format);
         setConvertedValue(getConverter().convert(substituted, format));
         return this;
     }

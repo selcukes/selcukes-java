@@ -51,7 +51,7 @@ public class PropertiesMapperTest {
         boolean isTest;
         String osName;
         LocalDate date;
-        @Key(name = "helloDate",format = "MM/dd/yyyy")
+        @Key(name = "helloDate", format = "MM/dd/yyyy")
         LocalDate helloDate;
         @Key(name = "selcukes.jim")
         int jim;

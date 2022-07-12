@@ -18,9 +18,9 @@ package io.github.selcukes.commons.http;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.github.selcukes.commons.exception.SelcukesException;
-import io.github.selcukes.databind.xml.XmlMapper;
 import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.utils.StringHelper;
+import io.github.selcukes.databind.xml.XmlMapper;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.w3c.dom.Document;

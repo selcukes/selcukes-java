@@ -24,9 +24,11 @@
 
 ### Added
 
-* [DataBind] Added support to Parse Properties to entityClass([#159](https://github.com/selcukes/selcukes-java/pull/159))
+* [DataBind] Added support to Parse Properties to
+  entityClass([#159](https://github.com/selcukes/selcukes-java/pull/159))
 
-* [DataBind] Added Data Substitutor support for Excel and PropertiesMapper([#160](https://github.com/selcukes/selcukes-java/pull/160))
+* [DataBind] Added Data Substitutor support for Excel and
+  PropertiesMapper([#160](https://github.com/selcukes/selcukes-java/pull/160))
 
 ### Changed
 

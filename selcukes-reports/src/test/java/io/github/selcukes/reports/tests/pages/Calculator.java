@@ -34,7 +34,7 @@ public class Calculator {
     public void push(Object arg) {
 
         if (OPS.contains(arg)) {
-            logger.info(() -> String.format("Operator: [%s]" , arg));
+            logger.info(() -> String.format("Operator: [%s]", arg));
 
             Number y = stack.removeLast();
             Number x = stack.isEmpty() ? 0 : stack.removeLast();
@@ -50,7 +50,7 @@ public class Calculator {
             }
             push(val);
         } else {
-            logger.info(() -> String.format("Push: [%s]" , arg));
+            logger.info(() -> String.format("Push: [%s]", arg));
             stack.add((Number) arg);
         }
     }

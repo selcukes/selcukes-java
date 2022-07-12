@@ -34,7 +34,7 @@ public class DataMapper {
     /**
      * Parses the data file according to POJO Class.
      *
-     * @param <T>           the Class type.
+     * @param <T>         the Class type.
      * @param entityClass the resource class
      * @return the POJO class object
      */
@@ -66,8 +66,8 @@ public class DataMapper {
     /**
      * Parse Json String to a Pojo class
      *
-     * @param <T>           the type parameter
-     * @param content       the content
+     * @param <T>         the type parameter
+     * @param content     the content
      * @param entityClass the resource class
      * @return the t
      */
