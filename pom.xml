@@ -23,6 +23,7 @@
         <module>selcukes-excel-runner</module>
         <module>video-recorder</module>
         <module>selcukes-java</module>
+        <module>selcukes-bom</module>
     </modules>
 
     <name>selcukes-framework</name>
@@ -35,7 +36,7 @@
         <selenium.version>4.3.0</selenium.version>
         <appium.version>8.1.1</appium.version>
         <testng.version>7.6.1</testng.version>
-        <junit-platform.version>1.8.2</junit-platform.version>
+        <junit.version>5.8.2</junit.version>
 
         <lombok.version>1.18.24</lombok.version>
         <commons.io.version>2.11.0</commons.io.version>
@@ -111,59 +112,16 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>io.github.selcukes</groupId>
-                <artifactId>selcukes-snapshot</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.selcukes</groupId>
-                <artifactId>selcukes-databind</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.selcukes</groupId>
-                <artifactId>selcukes-commons</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.selcukes</groupId>
-                <artifactId>selcukes-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.selcukes</groupId>
-                <artifactId>selcukes-testng</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.selcukes</groupId>
-                <artifactId>webdriver-binaries</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.selcukes</groupId>
-                <artifactId>selcukes-notifier</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.selcukes</groupId>
-                <artifactId>video-recorder</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.selcukes</groupId>
-                <artifactId>selcukes-extent-reports</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons.io.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.fasterxml.jackson.dataformat</groupId>
-                <artifactId>jackson-dataformat-yaml</artifactId>
+                <groupId>com.fasterxml.jackson</groupId>
+                <artifactId>jackson-bom</artifactId>
                 <version>${jackson.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
@@ -178,23 +136,10 @@
             </dependency>
             <dependency>
                 <groupId>io.cucumber</groupId>
-                <artifactId>cucumber-java</artifactId>
+                <artifactId>cucumber-bom</artifactId>
                 <version>${cucumber.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.cucumber</groupId>
-                <artifactId>cucumber-testng</artifactId>
-                <version>${cucumber.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.cucumber</groupId>
-                <artifactId>cucumber-picocontainer</artifactId>
-                <version>${cucumber.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.cucumber</groupId>
-                <artifactId>cucumber-junit-platform-engine</artifactId>
-                <version>${cucumber.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>net.masterthought</groupId>
@@ -237,14 +182,11 @@
                 <version>${poi.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.junit.platform</groupId>
-                <artifactId>junit-platform-suite</artifactId>
-                <version>${junit-platform.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.platform</groupId>
-                <artifactId>junit-platform-launcher</artifactId>
-                <version>${junit-platform.version}</version>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>

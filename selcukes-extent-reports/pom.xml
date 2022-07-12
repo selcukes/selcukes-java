@@ -12,6 +12,17 @@
     <artifactId>selcukes-extent-reports</artifactId>
     <name>selcukes-extent-reports</name>
     <description>Selcukes Adapter for Extent Reports</description>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.github.selcukes</groupId>
+                <artifactId>selcukes-bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>

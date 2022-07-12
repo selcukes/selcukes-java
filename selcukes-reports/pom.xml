@@ -12,7 +12,17 @@
     <artifactId>selcukes-reports</artifactId>
     <name>selcukes-reports</name>
     <description>Selcukes Reports</description>
-
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.github.selcukes</groupId>
+                <artifactId>selcukes-bom</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>io.github.selcukes</groupId>
