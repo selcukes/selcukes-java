@@ -23,7 +23,7 @@
     <dependencies>
         <dependency>
             <groupId>io.github.selcukes</groupId>
-            <artifactId>selcukes-commons</artifactId>
+            <artifactId>selcukes-core</artifactId>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>

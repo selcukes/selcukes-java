@@ -20,15 +20,22 @@ import io.github.selcukes.commons.exception.ConfigurationException;
 import io.github.selcukes.databind.utils.Streams;
 import lombok.experimental.UtilityClass;
 
+import java.util.List;
 import java.util.ServiceLoader;
+import java.util.stream.Collectors;
 
 @UtilityClass
 public class ServiceLoaderUtils {
-    public <T> T load(final Class<T> type, final ClassLoader classLoader) {
+    public <T> T loadFirst(final Class<T> type, final ClassLoader classLoader) {
         return Streams.of(ServiceLoader.load(type, classLoader).iterator())
             .findFirst()
             .orElseThrow(
                 () -> new ConfigurationException("Could not load {" + type + "}")
             );
+    }
+
+    public <T> List<T> load(final Class<T> type, final ClassLoader classLoader) {
+        return Streams.of(ServiceLoader.load(type, classLoader).iterator())
+            .collect(Collectors.toList());
     }
 }

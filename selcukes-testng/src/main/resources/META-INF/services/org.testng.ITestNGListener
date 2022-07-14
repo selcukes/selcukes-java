@@ -1,1 +1,2 @@
 io.github.selcukes.testng.listeners.TestListener
+io.github.selcukes.testng.listeners.SelcukesListener
