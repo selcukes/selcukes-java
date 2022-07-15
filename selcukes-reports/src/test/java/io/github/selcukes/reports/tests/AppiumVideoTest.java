@@ -22,20 +22,19 @@ import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
+import io.github.selcukes.commons.annotation.Lifecycle;
 import io.github.selcukes.reports.ReportDriver;
-import io.github.selcukes.reports.listeners.TestNGReportListener;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.nio.file.Paths;
 
 @CustomLog
-@Listeners(TestNGReportListener.class)
+@Lifecycle
 public class AppiumVideoTest {
     private WebDriver driver;
     private AppiumDriverLocalService service;

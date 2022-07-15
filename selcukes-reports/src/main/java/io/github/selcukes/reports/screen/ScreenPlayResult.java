@@ -22,6 +22,8 @@ import io.github.selcukes.commons.helper.ExceptionHelper;
 import io.github.selcukes.reports.enums.TestType;
 import lombok.Getter;
 
+import java.util.function.Predicate;
+
 @Getter
 class ScreenPlayResult {
 
@@ -30,6 +32,7 @@ class ScreenPlayResult {
     private TestType testType;
     private String errorMessage;
     private boolean failed;
+    private static final Predicate<String> IS_NOT_PASS = s -> !s.equalsIgnoreCase("PASSED");
 
     public <T> ScreenPlayResult(T result) {
         extractResult(result);
@@ -47,13 +50,13 @@ class ScreenPlayResult {
             status = testResult.getStatus();
             testType = TestType.TESTNG;
             errorMessage = getError(testResult);
-            failed = !testResult.getStatus().equalsIgnoreCase("PASS");
+            failed = IS_NOT_PASS.test(testResult.getStatus());
         }
     }
 
 
     private String getError(TestResult result) {
-        if (!result.getStatus().equalsIgnoreCase("PASS")) {
+        if (IS_NOT_PASS.test(result.getStatus())) {
             return "Exception: " + ExceptionHelper.getExceptionTitle(result.getThrowable());
         }
         return null;
