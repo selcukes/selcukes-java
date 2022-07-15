@@ -18,21 +18,20 @@ package io.github.selcukes.core.tests.mobile;
 
 import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
+import io.github.selcukes.commons.annotation.Lifecycle;
 import io.github.selcukes.core.driver.DriverManager;
-import io.github.selcukes.core.listener.TestLifecyclePerMethod;
 import io.github.selcukes.core.page.MobilePage;
 import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.wait.WaitCondition;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import static io.github.selcukes.core.enums.SwipeDirection.DOWN;
 import static io.github.selcukes.core.enums.SwipeDirection.UP;
 import static java.lang.String.format;
 
-@Listeners(TestLifecyclePerMethod.class)
+@Lifecycle
 public class MobileAppTest {
     MobilePage page;
 

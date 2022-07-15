@@ -26,9 +26,12 @@ import org.openqa.selenium.WebElement;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.lang.String.format;
+
 @UtilityClass
 public class Locator {
     public static final String LOCATOR_SEPARATOR = ":";
+    public static final String INVALID_LOCATOR = "Invalid Locator[%s]";
 
     public static By resolve(Object locator) {
         return (locator instanceof String) ? parse((String) locator) : (By) locator;
@@ -44,7 +47,7 @@ public class Locator {
     }
 
     private By parse(String locator) {
-        Preconditions.checkArgument(locator.contains(LOCATOR_SEPARATOR), "Invalid Locator");
+        Preconditions.checkArgument(locator.contains(LOCATOR_SEPARATOR), format(INVALID_LOCATOR, locator));
         String[] output = locator.split(LOCATOR_SEPARATOR);
         String locatorType = output[0];
         String locatorValue = output[1];

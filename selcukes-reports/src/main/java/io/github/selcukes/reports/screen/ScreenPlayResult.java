@@ -17,10 +17,12 @@
 package io.github.selcukes.reports.screen;
 
 import io.cucumber.java.Scenario;
+import io.github.selcukes.commons.fixer.TestResult;
 import io.github.selcukes.commons.helper.ExceptionHelper;
 import io.github.selcukes.reports.enums.TestType;
 import lombok.Getter;
-import org.testng.ITestResult;
+
+import java.util.function.Predicate;
 
 @Getter
 class ScreenPlayResult {
@@ -30,6 +32,7 @@ class ScreenPlayResult {
     private TestType testType;
     private String errorMessage;
     private boolean failed;
+    private static final Predicate<String> IS_NOT_PASS = s -> !s.equalsIgnoreCase("PASSED");
 
     public <T> ScreenPlayResult(T result) {
         extractResult(result);
@@ -41,29 +44,19 @@ class ScreenPlayResult {
             status = ((Scenario) result).getStatus().toString();
             testType = TestType.CUCUMBER;
             failed = ((Scenario) result).isFailed();
-        } else if (result instanceof ITestResult) {
-            testName = ((ITestResult) result).getName().replace(" ", "_");
-            status = getTestStatus(((ITestResult) result));
+        } else if (result instanceof TestResult) {
+            var testResult = ((TestResult) result);
+            testName = testResult.getName().replace(" ", "_");
+            status = testResult.getStatus();
             testType = TestType.TESTNG;
-            errorMessage = getError((ITestResult) result);
-            failed = !((ITestResult) result).isSuccess();
+            errorMessage = getError(testResult);
+            failed = IS_NOT_PASS.test(testResult.getStatus());
         }
     }
 
-    private String getTestStatus(ITestResult result) {
-        String testStatus;
-        if (result.isSuccess()) {
-            testStatus = "PASSED";
-        } else if (result.getStatus() == ITestResult.FAILURE) {
-            testStatus = "FAILED";
-        } else {
-            testStatus = "SKIPPED";
-        }
-        return testStatus;
-    }
 
-    private String getError(ITestResult result) {
-        if (!result.isSuccess()) {
+    private String getError(TestResult result) {
+        if (IS_NOT_PASS.test(result.getStatus())) {
             return "Exception: " + ExceptionHelper.getExceptionTitle(result.getThrowable());
         }
         return null;

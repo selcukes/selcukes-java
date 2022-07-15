@@ -14,19 +14,31 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.core.tests.mobile;
+package io.github.selcukes.commons.listener;
 
-import io.github.selcukes.commons.annotation.Lifecycle;
-import io.github.selcukes.core.page.MobilePage;
-import io.github.selcukes.core.page.Pages;
-import org.testng.annotations.Test;
-@Lifecycle
-public class MobileBrowserTest {
+import io.github.selcukes.commons.fixer.TestResult;
 
-    @Test(enabled = false)
-    public void mobileBrowserTest() {
-        MobilePage page = Pages.mobilePage();
-        page.open("https://www.google.com/")
-            .assertThat().title("Google");
+public interface TestLifecycleListener {
+    default void beforeSuite(TestResult result) {
+        //do nothing
+    }
+
+    default void afterSuite(TestResult result) {
+        //do nothing
+    }
+
+    default void beforeTest(TestResult result) {
+        //do nothing
+    }
+
+    default void afterTest(TestResult result) {
+        //do nothing
+    }
+    default void beforeStep(TestResult result) {
+        //do nothing
+    }
+
+    default void afterStep(TestResult result) {
+        //do nothing
     }
 }

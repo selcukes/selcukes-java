@@ -14,25 +14,21 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.core.listener;
+package io.github.selcukes.commons.annotation;
 
-import io.github.selcukes.core.driver.DriverManager;
-import io.github.selcukes.core.driver.GridRunner;
-import lombok.CustomLog;
-import org.testng.ISuite;
-import org.testng.ISuiteListener;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-@CustomLog
-public class TestLifecycle implements ISuiteListener {
-    @Override
-    public void onStart(ISuite suite) {
-        logger.debug(() -> "Test Suite Execution started...");
-    }
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Lifecycle {
+    Type type() default Type.METHOD;
 
-    @Override
-    public void onFinish(ISuite suite) {
-        DriverManager.removeAllDrivers();
-        GridRunner.stopAppium();
-        logger.debug(() -> "Test Suite Execution finished...");
+    enum Type {
+        METHOD,
+        CLASS,
+        NONE
     }
 }

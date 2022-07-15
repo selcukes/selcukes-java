@@ -17,22 +17,35 @@
 package io.github.selcukes.core.listener;
 
 import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.commons.listener.TestLifecycleListener;
+import io.github.selcukes.commons.fixer.TestResult;
 import io.github.selcukes.core.driver.DriverManager;
+import io.github.selcukes.core.driver.GridRunner;
 import lombok.CustomLog;
-import org.testng.IClassListener;
-import org.testng.ITestClass;
 
 @CustomLog
-public class TestLifecyclePerClass extends TestLifecycle implements IClassListener {
+public class ResourceCleanupProvider implements TestLifecycleListener {
+
     @Override
-    public void onBeforeClass(ITestClass testClass) {
-        logger.debug(() -> "Before Class of " + testClass.getClass().getSimpleName());
+    public void beforeSuite(TestResult result) {
+        logger.debug(() -> "Test Suite Execution started...");
     }
 
     @Override
-    public void onAfterClass(ITestClass testClass) {
-        logger.debug(() -> "After Class of " + testClass.getClass().getSimpleName());
-        logger.debug(() -> "Cleanup Resource");
+    public void afterSuite(TestResult result) {
+        DriverManager.removeAllDrivers();
+        GridRunner.stopAppium();
+        logger.debug(() -> "Test Suite Execution finished...");
+    }
+
+    @Override
+    public void beforeTest(TestResult result) {
+        logger.debug(() -> "Before invocation of " + result.getName());
+    }
+
+    @Override
+    public void afterTest(TestResult result) {
+        logger.debug(() -> "Cleanup Test Resource...");
         DriverManager.removeDriver();
         ConfigFactory.cleanupConfig();
     }

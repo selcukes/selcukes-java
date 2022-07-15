@@ -17,19 +17,18 @@
 package io.github.selcukes.core.tests.mobile;
 
 import io.appium.java_client.android.options.UiAutomator2Options;
+import io.github.selcukes.commons.annotation.Lifecycle;
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.enums.DeviceType;
-import io.github.selcukes.core.listener.TestLifecyclePerMethod;
 import io.github.selcukes.core.page.MobilePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-@Listeners(TestLifecyclePerMethod.class)
+@Lifecycle
 public class AndroidCalculatorTest {
     MobilePage page;
 

@@ -22,6 +22,8 @@ import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSStartScreenRecordingOptions;
 import io.appium.java_client.windows.WindowsDriver;
 import io.cucumber.java.Scenario;
+import io.github.selcukes.commons.fixer.SelcukesFixer;
+import io.github.selcukes.commons.fixer.TestResult;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.helper.Preconditions;
 import io.github.selcukes.notifier.Notifier;
@@ -34,8 +36,6 @@ import io.github.selcukes.video.RecorderFactory;
 import io.github.selcukes.video.enums.RecorderType;
 import lombok.CustomLog;
 import org.openqa.selenium.WebDriver;
-import org.testng.ITestResult;
-import org.testng.Reporter;
 
 import java.io.File;
 import java.time.Duration;
@@ -53,7 +53,6 @@ class ScreenPlayImpl implements ScreenPlay {
     boolean isFailedOnly;
     private Scenario scenario;
     private ScreenPlayResult result;
-    private ITestResult iTestResult;
     boolean isNativeDevice;
     boolean isDesktop;
     WebDriver driver;
@@ -219,8 +218,8 @@ class ScreenPlayImpl implements ScreenPlay {
         if (scenario instanceof Scenario) {
             this.scenario = (Scenario) scenario;
 
-        } else if (scenario instanceof ITestResult) {
-            iTestResult = (ITestResult) scenario;
+        } else if (scenario instanceof TestResult) {
+            SelcukesFixer.setReporter(scenario.getClass());
         }
         return this;
     }
@@ -239,7 +238,7 @@ class ScreenPlayImpl implements ScreenPlay {
             scenario.log(text);
             logger.info(() -> "Attached Logs to Cucumber Report");
         } else {
-            Reporter.log(text);
+            SelcukesFixer.attach(text);
             logger.info(() -> "Attached Logs to TestNG Report");
         }
     }
@@ -251,8 +250,7 @@ class ScreenPlayImpl implements ScreenPlay {
                 attach(objToEmbed, "text/html");
                 logger.info(() -> "Attached Video to Cucumber Report");
             } else {
-                Reporter.setCurrentTestResult(iTestResult);
-                Reporter.log(attachment);
+                SelcukesFixer.attach(attachment);
                 String contentType = attachment.contains("video") ? "Video" : "Screenshot";
                 logger.info(() -> "Attached " + contentType + " to TestNG Report");
             }

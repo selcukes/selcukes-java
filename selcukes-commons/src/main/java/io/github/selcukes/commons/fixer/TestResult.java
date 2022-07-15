@@ -14,19 +14,15 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.core.tests.mobile;
+package io.github.selcukes.commons.fixer;
 
-import io.github.selcukes.commons.annotation.Lifecycle;
-import io.github.selcukes.core.page.MobilePage;
-import io.github.selcukes.core.page.Pages;
-import org.testng.annotations.Test;
-@Lifecycle
-public class MobileBrowserTest {
+import lombok.Builder;
+import lombok.Getter;
 
-    @Test(enabled = false)
-    public void mobileBrowserTest() {
-        MobilePage page = Pages.mobilePage();
-        page.open("https://www.google.com/")
-            .assertThat().title("Google");
-    }
+@Builder
+@Getter
+public class TestResult {
+    String name;
+    String status;
+    Throwable throwable;
 }

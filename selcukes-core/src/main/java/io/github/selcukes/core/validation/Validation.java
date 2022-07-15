@@ -18,10 +18,11 @@ package io.github.selcukes.core.validation;
 
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
-import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static io.github.selcukes.commons.fixer.SelcukesFixer.fail;
 
 @UtilityClass
 @CustomLog
@@ -32,7 +33,7 @@ public class Validation {
         String message = String.format(errorMessage, args);
         logger.info(() -> message);
         if (!isSoft) {
-            Assert.fail(message);
+            fail(message);
         } else {
             getErrorMessages().add(message);
             FAILED_MESSAGES.set(getErrorMessages());
@@ -45,7 +46,7 @@ public class Validation {
 
     public static void failAll() {
         if (!getErrorMessages().isEmpty()) {
-            Assert.fail("Test Failed with Below Errors \n" + String.join("\n", getErrorMessages()));
+            fail("Test Failed with Below Errors \n" + String.join("\n", getErrorMessages()));
             FAILED_MESSAGES.remove();
         }
     }
