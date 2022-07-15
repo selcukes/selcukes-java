@@ -53,7 +53,6 @@ class ScreenPlayImpl implements ScreenPlay {
     boolean isFailedOnly;
     private Scenario scenario;
     private ScreenPlayResult result;
-    private TestResult testResult;
     boolean isNativeDevice;
     boolean isDesktop;
     WebDriver driver;
@@ -220,7 +219,7 @@ class ScreenPlayImpl implements ScreenPlay {
             this.scenario = (Scenario) scenario;
 
         } else if (scenario instanceof TestResult) {
-            testResult = (TestResult) scenario;
+            SelcukesFixer.setReporter(scenario.getClass());
         }
         return this;
     }
