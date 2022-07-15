@@ -31,7 +31,7 @@ public class WebTest {
         page = Pages.webPage();
     }
 
-    @Test
+    @Test(enabled = false)
     public void remoteWebTest() {
         page.open("https://www.google.com/")
             .assertThat().title("Google");

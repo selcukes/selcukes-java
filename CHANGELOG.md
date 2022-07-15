@@ -6,6 +6,8 @@
 
 ### Added
 
+[BOM] Added Selcukes Bill of Materials (BOM) ([#167](https://github.com/selcukes/selcukes-java/pull/167))
+
 ### Changed
 
 ### Removed
