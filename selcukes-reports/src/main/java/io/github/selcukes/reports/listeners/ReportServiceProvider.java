@@ -17,25 +17,26 @@
 package io.github.selcukes.reports.listeners;
 
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.commons.listener.TestLifecycleListener;
 import io.github.selcukes.commons.fixture.TestResult;
-import io.github.selcukes.reports.ReportDriver;
+import io.github.selcukes.commons.listener.TestLifecycleListener;
 import io.github.selcukes.reports.screen.ScreenPlay;
 import io.github.selcukes.reports.screen.ScreenPlayBuilder;
+
+import static io.github.selcukes.commons.fixture.FixtureDriver.getFixtureDriver;
 
 public class ReportServiceProvider implements TestLifecycleListener {
     ScreenPlay play;
 
     @Override
     public void beforeTest(TestResult result) {
-        if (ReportDriver.getReportDriver() != null && play == null)
+        if (getFixtureDriver() != null && play == null)
             play = ScreenPlayBuilder.getScreenPlay()
                 .start();
     }
 
     @Override
     public void afterTest(TestResult result) {
-        if (ReportDriver.getReportDriver() != null && play != null) {
+        if (getFixtureDriver() != null && play != null) {
             play.withResult(result) //This will break Screenplay
                 .ignoreCondition()
                 .attachScreenshot();
