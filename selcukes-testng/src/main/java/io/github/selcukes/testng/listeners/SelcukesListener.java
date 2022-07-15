@@ -19,6 +19,7 @@ package io.github.selcukes.testng.listeners;
 import io.github.selcukes.commons.annotation.Lifecycle;
 import io.github.selcukes.commons.listener.LifecycleManager;
 import io.github.selcukes.commons.result.TestResult;
+import io.github.selcukes.commons.result.Validator;
 import org.testng.*;
 
 import static io.github.selcukes.commons.SelcukesLifecycle.getDefaultLifecycle;
@@ -30,6 +31,7 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
     @Override
     public void onStart(ISuite suite) {
         lifecycleManager = getDefaultLifecycle();
+        Validator.setClazz(Assert.class);
         var result = TestResult.builder()
             .name(suite.getName())
             .build();
@@ -51,7 +53,7 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
             if (type == Lifecycle.Type.METHOD) {
                 var result = TestResult.builder()
                     .name(method.getTestMethod().getMethodName())
-                    .status(testResult.getStatus() + "")
+                    .status(getTestStatus(testResult))
                     .build();
                 lifecycleManager.beforeTest(result);
             }
@@ -66,7 +68,7 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
             if (type == Lifecycle.Type.METHOD) {
                 var result = TestResult.builder()
                     .name(method.getTestMethod().getMethodName())
-                    .status(testResult.getStatus() + "")
+                    .status(getTestStatus(testResult))
                     .build();
                 lifecycleManager.afterTest(result);
             }
@@ -93,5 +95,17 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
                 .build();
             lifecycleManager.afterTest(result);
         }
+    }
+
+    private String getTestStatus(ITestResult result) {
+        String testStatus;
+        if (result.isSuccess()) {
+            testStatus = "PASSED";
+        } else if (result.getStatus() == ITestResult.FAILURE) {
+            testStatus = "FAILED";
+        } else {
+            testStatus = "SKIPPED";
+        }
+        return testStatus;
     }
 }
