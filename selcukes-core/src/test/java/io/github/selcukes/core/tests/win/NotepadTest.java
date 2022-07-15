@@ -16,15 +16,14 @@
 
 package io.github.selcukes.core.tests.win;
 
-import io.github.selcukes.core.listener.TestLifecyclePerClass;
+import io.github.selcukes.commons.annotation.Lifecycle;
 import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WinPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-@Listeners(TestLifecyclePerClass.class)
+@Lifecycle
 public class NotepadTest {
 
     @Test(enabled = false)

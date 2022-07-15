@@ -28,6 +28,7 @@ public @interface Lifecycle {
 
     enum Type {
         METHOD,
-        CLASS
+        CLASS,
+        NONE
     }
 }

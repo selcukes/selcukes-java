@@ -16,12 +16,11 @@
 
 package io.github.selcukes.core.tests.mobile;
 
-import io.github.selcukes.core.driver.DriverManager;
+import io.github.selcukes.commons.annotation.Lifecycle;
 import io.github.selcukes.core.page.MobilePage;
 import io.github.selcukes.core.page.Pages;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
-
+@Lifecycle
 public class MobileBrowserTest {
 
     @Test(enabled = false)
@@ -29,10 +28,5 @@ public class MobileBrowserTest {
         MobilePage page = Pages.mobilePage();
         page.open("https://www.google.com/")
             .assertThat().title("Google");
-    }
-
-    @AfterMethod
-    void afterTest() {
-        DriverManager.removeDriver();
     }
 }
