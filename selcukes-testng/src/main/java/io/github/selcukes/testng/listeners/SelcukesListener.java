@@ -46,11 +46,11 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
             .build();
         lifecycleManager.afterSuite(result);
     }
-
+    @SuppressWarnings("all")
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
         if (!method.isConfigurationMethod()) {
-            var type = getLifecycleType(method.getClass());
+            var type = getLifecycleType(method.getTestMethod().getRealClass());
             if (type == Lifecycle.Type.METHOD) {
                 var result = TestResult.builder()
                     .name(method.getTestMethod().getMethodName())
@@ -62,11 +62,12 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
 
     }
 
+    @SuppressWarnings("all")
     @Override
     public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
         if (!method.isConfigurationMethod()) {
             Reporter.setCurrentTestResult(testResult);
-            var type = getLifecycleType(method.getClass());
+            var type = getLifecycleType(method.getTestMethod().getRealClass());
             if (type == Lifecycle.Type.METHOD) {
                 var result = TestResult.builder()
                     .name(method.getTestMethod().getMethodName())
@@ -79,7 +80,7 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
 
     @Override
     public void onBeforeClass(ITestClass testClass) {
-        var type = getLifecycleType(testClass.getClass());
+        var type = getLifecycleType(testClass.getRealClass());
         if (type == Lifecycle.Type.CLASS) {
             var result = TestResult.builder()
                 .name(testClass.getName())
@@ -90,7 +91,7 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
 
     @Override
     public void onAfterClass(ITestClass testClass) {
-        var type = getLifecycleType(testClass.getClass());
+        var type = getLifecycleType(testClass.getRealClass());
         if (type == Lifecycle.Type.CLASS) {
             var result = TestResult.builder()
                 .name(testClass.getName())
