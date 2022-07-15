@@ -31,9 +31,19 @@ public class SelcukesFixer {
     @Getter
     @Setter
     private Class<?> reporter;
-    public static <T> void fail(String param) {
+
+    public static void fail(String param) {
         try {
             Method method = getValidator().getMethod("fail", String.class);
+            method.invoke(null, param);
+        } catch (Exception e) {
+            throw new SelcukesException(e.getCause());
+        }
+    }
+
+    public static void attach(String param) {
+        try {
+            Method method = getReporter().getMethod("log", String.class);
             method.invoke(null, param);
         } catch (Exception e) {
             throw new SelcukesException(e.getCause());

@@ -64,6 +64,7 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
     @Override
     public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
         if (!method.isConfigurationMethod()) {
+            Reporter.setCurrentTestResult(testResult);
             var type = getLifecycleType(method.getClass());
             if (type == Lifecycle.Type.METHOD) {
                 var result = TestResult.builder()

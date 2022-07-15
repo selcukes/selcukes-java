@@ -17,10 +17,10 @@
 package io.github.selcukes.reports.screen;
 
 import io.cucumber.java.Scenario;
+import io.github.selcukes.commons.fixer.TestResult;
 import io.github.selcukes.commons.helper.ExceptionHelper;
 import io.github.selcukes.reports.enums.TestType;
 import lombok.Getter;
-import org.testng.ITestResult;
 
 @Getter
 class ScreenPlayResult {
@@ -41,29 +41,19 @@ class ScreenPlayResult {
             status = ((Scenario) result).getStatus().toString();
             testType = TestType.CUCUMBER;
             failed = ((Scenario) result).isFailed();
-        } else if (result instanceof ITestResult) {
-            testName = ((ITestResult) result).getName().replace(" ", "_");
-            status = getTestStatus(((ITestResult) result));
+        } else if (result instanceof TestResult) {
+            var testResult = ((TestResult) result);
+            testName = testResult.getName().replace(" ", "_");
+            status = testResult.getStatus();
             testType = TestType.TESTNG;
-            errorMessage = getError((ITestResult) result);
-            failed = !((ITestResult) result).isSuccess();
+            errorMessage = getError(testResult);
+            failed = !testResult.getStatus().equalsIgnoreCase("PASS");
         }
     }
 
-    private String getTestStatus(ITestResult result) {
-        String testStatus;
-        if (result.isSuccess()) {
-            testStatus = "PASSED";
-        } else if (result.getStatus() == ITestResult.FAILURE) {
-            testStatus = "FAILED";
-        } else {
-            testStatus = "SKIPPED";
-        }
-        return testStatus;
-    }
 
-    private String getError(ITestResult result) {
-        if (!result.isSuccess()) {
+    private String getError(TestResult result) {
+        if (!result.getStatus().equalsIgnoreCase("PASS")) {
             return "Exception: " + ExceptionHelper.getExceptionTitle(result.getThrowable());
         }
         return null;
