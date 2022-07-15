@@ -23,7 +23,7 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.github.selcukes.commons.annotation.Lifecycle;
-import io.github.selcukes.reports.ReportDriver;
+import io.github.selcukes.commons.fixture.FixtureDriver;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.WebDriver;
@@ -55,7 +55,7 @@ public class AppiumVideoTest {
         System.out.println(app);
         options.setApp(app);
         driver = new AndroidDriver(service.getUrl(), options);
-        ReportDriver.setReportDriver(driver);
+        FixtureDriver.setFixtureDriver(driver);
     }
 
     @Test(enabled = false)
@@ -69,7 +69,7 @@ public class AppiumVideoTest {
     @AfterMethod
     public void afterTest() {
         try {
-            ReportDriver.removeDriver();
+            FixtureDriver.removeFixtureDriver();
             if (driver != null)
                 driver.quit();
 

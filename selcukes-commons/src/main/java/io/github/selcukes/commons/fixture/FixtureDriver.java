@@ -14,15 +14,24 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.commons.fixer;
+package io.github.selcukes.commons.fixture;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.experimental.UtilityClass;
 
-@Builder
-@Getter
-public class TestResult {
-    String name;
-    String status;
-    Throwable throwable;
+@UtilityClass
+public class FixtureDriver {
+
+    private static final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
+
+    public static void setFixtureDriver(Object driver) {
+        DRIVER_THREAD.set(driver);
+    }
+
+    public static Object getFixtureDriver() {
+        return DRIVER_THREAD.get();
+    }
+
+    public static void removeFixtureDriver() {
+        DRIVER_THREAD.remove();
+    }
 }

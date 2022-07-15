@@ -16,7 +16,7 @@
 
 package io.github.selcukes.commons.listener;
 
-import io.github.selcukes.commons.fixer.TestResult;
+import io.github.selcukes.commons.fixture.TestResult;
 import lombok.CustomLog;
 
 import java.util.List;
@@ -50,6 +50,11 @@ public class LifecycleManager implements TestLifecycleListener {
     @Override
     public void afterTest(TestResult result) {
         runSafely(testListeners, TestLifecycleListener::afterTest, result);
+    }
+
+    @Override
+    public void beforeAfterTest(TestResult result) {
+        runSafely(testListeners, TestLifecycleListener::beforeAfterTest, result);
     }
 
     @Override

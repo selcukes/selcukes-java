@@ -14,25 +14,15 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.reports;
+package io.github.selcukes.commons.fixture;
 
-import lombok.experimental.UtilityClass;
-import org.openqa.selenium.WebDriver;
+import lombok.Builder;
+import lombok.Getter;
 
-@UtilityClass
-public class ReportDriver {
-    private static final ThreadLocal<WebDriver> DRIVER_THREAD = new InheritableThreadLocal<>();
-
-    public static <D extends WebDriver> void setReportDriver(D driver) {
-        DRIVER_THREAD.set(driver);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <D extends WebDriver> D getReportDriver() {
-        return (D) DRIVER_THREAD.get();
-    }
-
-    public static void removeDriver() {
-        DRIVER_THREAD.remove();
-    }
+@Builder
+@Getter
+public class TestResult {
+    String name;
+    String status;
+    Throwable throwable;
 }

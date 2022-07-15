@@ -95,12 +95,6 @@
             <artifactId>java-client</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>io.github.selcukes</groupId>
-            <artifactId>selcukes-testng</artifactId>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
 </project>

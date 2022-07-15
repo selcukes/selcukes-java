@@ -17,8 +17,9 @@
 package io.github.selcukes.core.listener;
 
 import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.commons.fixture.FixtureDriver;
+import io.github.selcukes.commons.fixture.TestResult;
 import io.github.selcukes.commons.listener.TestLifecycleListener;
-import io.github.selcukes.commons.fixer.TestResult;
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.driver.GridRunner;
 import lombok.CustomLog;
@@ -46,6 +47,7 @@ public class ResourceCleanupProvider implements TestLifecycleListener {
     @Override
     public void afterTest(TestResult result) {
         logger.debug(() -> "Cleanup Test Resource...");
+        FixtureDriver.removeFixtureDriver();
         DriverManager.removeDriver();
         ConfigFactory.cleanupConfig();
     }

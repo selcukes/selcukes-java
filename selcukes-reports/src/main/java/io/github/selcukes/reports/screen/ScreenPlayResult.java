@@ -17,7 +17,7 @@
 package io.github.selcukes.reports.screen;
 
 import io.cucumber.java.Scenario;
-import io.github.selcukes.commons.fixer.TestResult;
+import io.github.selcukes.commons.fixture.TestResult;
 import io.github.selcukes.commons.helper.ExceptionHelper;
 import io.github.selcukes.reports.enums.TestType;
 import lombok.Getter;

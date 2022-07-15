@@ -16,7 +16,7 @@
 
 package io.github.selcukes.reports.screen;
 
-import io.github.selcukes.reports.ReportDriver;
+import io.github.selcukes.commons.fixture.FixtureDriver;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.WebDriver;
 
@@ -28,7 +28,7 @@ public class ScreenPlayBuilder {
     }
 
     public ScreenPlay getScreenPlay() {
-        return new ScreenPlayImpl(ReportDriver.getReportDriver());
+        return new ScreenPlayImpl((WebDriver) FixtureDriver.getFixtureDriver());
     }
 
 }
