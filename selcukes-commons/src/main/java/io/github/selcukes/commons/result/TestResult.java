@@ -17,8 +17,10 @@
 package io.github.selcukes.commons.result;
 
 import lombok.Builder;
+import lombok.Getter;
 
 @Builder
+@Getter
 public class TestResult {
     String name;
     String status;

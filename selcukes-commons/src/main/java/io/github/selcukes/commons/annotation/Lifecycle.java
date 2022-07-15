@@ -14,18 +14,20 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.commons;
+package io.github.selcukes.commons.annotation;
 
-import io.github.selcukes.commons.helper.ServiceLoaderUtils;
-import io.github.selcukes.commons.listener.LifecycleManager;
-import io.github.selcukes.commons.listener.TestLifecycleListener;
-import lombok.experimental.UtilityClass;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-@UtilityClass
-public class SelcukesLifecycle {
-    public static LifecycleManager getDefaultLifecycle() {
-        final var classLoader = Thread.currentThread().getContextClassLoader();
-        var listeners = ServiceLoaderUtils.load(TestLifecycleListener.class, classLoader);
-        return new LifecycleManager(listeners);
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Lifecycle {
+    Type type() default Type.METHOD;
+
+    enum Type {
+        METHOD,
+        CLASS
     }
 }

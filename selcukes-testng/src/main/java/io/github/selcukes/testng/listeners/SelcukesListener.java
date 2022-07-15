@@ -41,8 +41,10 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener 
             .build();
         lifecycleManager.afterSuite(result);
     }
+
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
+
         if (!method.isConfigurationMethod()) {
             var result = TestResult.builder()
                 .name(method.getTestMethod().getMethodName())
@@ -51,6 +53,7 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener 
             lifecycleManager.beforeTest(result);
         }
     }
+
     @Override
     public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
         if (!method.isConfigurationMethod()) {
