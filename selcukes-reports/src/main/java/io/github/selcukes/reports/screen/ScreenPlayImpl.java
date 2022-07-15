@@ -23,7 +23,6 @@ import io.appium.java_client.ios.IOSStartScreenRecordingOptions;
 import io.appium.java_client.windows.WindowsDriver;
 import io.cucumber.java.Scenario;
 import io.github.selcukes.commons.fixture.SelcukesFixture;
-import io.github.selcukes.commons.fixture.TestResult;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.helper.Preconditions;
 import io.github.selcukes.notifier.Notifier;
@@ -218,8 +217,6 @@ class ScreenPlayImpl implements ScreenPlay {
         if (scenario instanceof Scenario) {
             this.scenario = (Scenario) scenario;
 
-        } else if (scenario instanceof TestResult) {
-            SelcukesFixture.setReporter(scenario.getClass());
         }
         return this;
     }
