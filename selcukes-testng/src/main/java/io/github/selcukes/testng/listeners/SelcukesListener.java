@@ -18,8 +18,8 @@ package io.github.selcukes.testng.listeners;
 
 import io.github.selcukes.commons.annotation.Lifecycle;
 import io.github.selcukes.commons.listener.LifecycleManager;
-import io.github.selcukes.commons.result.TestResult;
-import io.github.selcukes.commons.result.Validator;
+import io.github.selcukes.commons.fixer.TestResult;
+import io.github.selcukes.commons.fixer.SelcukesFixer;
 import org.testng.*;
 
 import static io.github.selcukes.commons.SelcukesLifecycle.getDefaultLifecycle;
@@ -31,7 +31,7 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
     @Override
     public void onStart(ISuite suite) {
         lifecycleManager = getDefaultLifecycle();
-        Validator.setClazz(Assert.class);
+        SelcukesFixer.setValidator(Assert.class);
         var result = TestResult.builder()
             .name(suite.getName())
             .build();

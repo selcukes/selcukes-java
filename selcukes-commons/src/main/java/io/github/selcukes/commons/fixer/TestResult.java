@@ -14,27 +14,15 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.commons.result;
+package io.github.selcukes.commons.fixer;
 
-import io.github.selcukes.commons.exception.SelcukesException;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.UtilityClass;
 
-import java.lang.reflect.Method;
-
-@UtilityClass
-public class Validator {
-    @Getter
-    @Setter
-    private Class<?> clazz;
-
-    public static <T> void fail(String param) {
-        try {
-            Method method = getClazz().getMethod("fail", String.class);
-            method.invoke(null, param);
-        } catch (Exception e) {
-            throw new SelcukesException(e.getCause());
-        }
-    }
+@Builder
+@Getter
+public class TestResult {
+    String name;
+    String status;
+    Throwable throwable;
 }
