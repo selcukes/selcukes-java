@@ -16,10 +16,13 @@
 
 package io.github.selcukes.commons;
 
+import io.github.selcukes.commons.annotation.Lifecycle;
 import io.github.selcukes.commons.helper.ServiceLoaderUtils;
 import io.github.selcukes.commons.listener.LifecycleManager;
 import io.github.selcukes.commons.listener.TestLifecycleListener;
 import lombok.experimental.UtilityClass;
+
+import static java.util.Optional.ofNullable;
 
 @UtilityClass
 public class SelcukesLifecycle {
@@ -27,5 +30,11 @@ public class SelcukesLifecycle {
         final var classLoader = Thread.currentThread().getContextClassLoader();
         var listeners = ServiceLoaderUtils.load(TestLifecycleListener.class, classLoader);
         return new LifecycleManager(listeners);
+    }
+
+    public static <T> Lifecycle.Type getLifecycleType(Class<T> clazz) {
+        return ofNullable(clazz.getDeclaredAnnotation(Lifecycle.class))
+            .map(Lifecycle::type)
+            .orElse(Lifecycle.Type.METHOD);
     }
 }

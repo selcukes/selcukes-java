@@ -21,10 +21,8 @@ import io.github.selcukes.commons.listener.LifecycleManager;
 import io.github.selcukes.commons.result.TestResult;
 import org.testng.*;
 
-import java.util.Optional;
-
 import static io.github.selcukes.commons.SelcukesLifecycle.getDefaultLifecycle;
-import static java.util.Optional.ofNullable;
+import static io.github.selcukes.commons.SelcukesLifecycle.getLifecycleType;
 
 public class SelcukesListener implements ISuiteListener, IInvokedMethodListener, IClassListener {
     LifecycleManager lifecycleManager;
@@ -95,15 +93,5 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
                 .build();
             lifecycleManager.afterTest(result);
         }
-    }
-
-    private <T> Optional<Lifecycle> getLifecycle(Class<T> clazz) {
-        return ofNullable(clazz.getDeclaredAnnotation(Lifecycle.class));
-    }
-
-    private <T> Lifecycle.Type getLifecycleType(Class<T> clazz) {
-        return getLifecycle(clazz)
-            .map(Lifecycle::type)
-            .orElse(Lifecycle.Type.METHOD);
     }
 }
