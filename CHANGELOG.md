@@ -12,7 +12,13 @@
 
 ### Removed
 
+[Core] Removed Listeners `TestLifecyclePerMethod`, `TestLifecyclePerClass`, `TestNGReportListener` instead
+use `@Lifecycle`
+
 ### Fixed
+
+[Reports] Add ReportDriver in TestLifecycle ([#169](https://github.com/selcukes/selcukes-java/pull/169))
+[All] Remove TestNG Bindings from Core and Report modules ([#168](https://github.com/selcukes/selcukes-java/pull/168))
 
 ## [2.1.5] (11-07-2022)
 
