@@ -18,7 +18,7 @@ package io.github.selcukes.core.listener;
 
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.listener.TestLifecycleListener;
-import io.github.selcukes.commons.fixer.TestResult;
+import io.github.selcukes.commons.fixture.TestResult;
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.driver.GridRunner;
 import lombok.CustomLog;

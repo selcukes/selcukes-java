@@ -16,7 +16,7 @@
 
 package io.github.selcukes.commons.listener;
 
-import io.github.selcukes.commons.fixer.TestResult;
+import io.github.selcukes.commons.fixture.TestResult;
 import lombok.CustomLog;
 
 import java.util.List;

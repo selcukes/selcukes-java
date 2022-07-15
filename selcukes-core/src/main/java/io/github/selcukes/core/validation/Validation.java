@@ -22,7 +22,7 @@ import lombok.experimental.UtilityClass;
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.github.selcukes.commons.fixer.SelcukesFixer.fail;
+import static io.github.selcukes.commons.fixture.SelcukesFixture.fail;
 
 @UtilityClass
 @CustomLog

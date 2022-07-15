@@ -18,7 +18,7 @@ package io.github.selcukes.reports.listeners;
 
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.listener.TestLifecycleListener;
-import io.github.selcukes.commons.fixer.TestResult;
+import io.github.selcukes.commons.fixture.TestResult;
 import io.github.selcukes.reports.ReportDriver;
 import io.github.selcukes.reports.screen.ScreenPlay;
 import io.github.selcukes.reports.screen.ScreenPlayBuilder;

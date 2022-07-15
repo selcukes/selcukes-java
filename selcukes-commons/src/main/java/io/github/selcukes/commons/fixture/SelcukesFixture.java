@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.commons.fixer;
+package io.github.selcukes.commons.fixture;
 
 import io.github.selcukes.commons.exception.SelcukesException;
 import lombok.Getter;
@@ -24,7 +24,7 @@ import lombok.experimental.UtilityClass;
 import java.lang.reflect.Method;
 
 @UtilityClass
-public class SelcukesFixer {
+public class SelcukesFixture {
     @Getter
     @Setter
     private Class<?> validator;

@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.commons.fixer;
+package io.github.selcukes.commons.fixture;
 
 import lombok.Builder;
 import lombok.Getter;

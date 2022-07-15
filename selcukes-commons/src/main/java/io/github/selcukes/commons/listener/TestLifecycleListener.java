@@ -16,7 +16,7 @@
 
 package io.github.selcukes.commons.listener;
 
-import io.github.selcukes.commons.fixer.TestResult;
+import io.github.selcukes.commons.fixture.TestResult;
 
 public interface TestLifecycleListener {
     default void beforeSuite(TestResult result) {

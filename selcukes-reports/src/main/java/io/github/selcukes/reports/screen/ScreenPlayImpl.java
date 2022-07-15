@@ -22,8 +22,8 @@ import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSStartScreenRecordingOptions;
 import io.appium.java_client.windows.WindowsDriver;
 import io.cucumber.java.Scenario;
-import io.github.selcukes.commons.fixer.SelcukesFixer;
-import io.github.selcukes.commons.fixer.TestResult;
+import io.github.selcukes.commons.fixture.SelcukesFixture;
+import io.github.selcukes.commons.fixture.TestResult;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.helper.Preconditions;
 import io.github.selcukes.notifier.Notifier;
@@ -219,7 +219,7 @@ class ScreenPlayImpl implements ScreenPlay {
             this.scenario = (Scenario) scenario;
 
         } else if (scenario instanceof TestResult) {
-            SelcukesFixer.setReporter(scenario.getClass());
+            SelcukesFixture.setReporter(scenario.getClass());
         }
         return this;
     }
@@ -238,7 +238,7 @@ class ScreenPlayImpl implements ScreenPlay {
             scenario.log(text);
             logger.info(() -> "Attached Logs to Cucumber Report");
         } else {
-            SelcukesFixer.attach(text);
+            SelcukesFixture.attach(text);
             logger.info(() -> "Attached Logs to TestNG Report");
         }
     }
@@ -250,7 +250,7 @@ class ScreenPlayImpl implements ScreenPlay {
                 attach(objToEmbed, "text/html");
                 logger.info(() -> "Attached Video to Cucumber Report");
             } else {
-                SelcukesFixer.attach(attachment);
+                SelcukesFixture.attach(attachment);
                 String contentType = attachment.contains("video") ? "Video" : "Screenshot";
                 logger.info(() -> "Attached " + contentType + " to TestNG Report");
             }
