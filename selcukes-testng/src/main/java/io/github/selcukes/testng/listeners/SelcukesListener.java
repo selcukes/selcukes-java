@@ -16,13 +16,17 @@
 
 package io.github.selcukes.testng.listeners;
 
+import io.github.selcukes.commons.annotation.Lifecycle;
 import io.github.selcukes.commons.listener.LifecycleManager;
 import io.github.selcukes.commons.result.TestResult;
 import org.testng.*;
 
-import static io.github.selcukes.commons.SelcukesLifecycle.getDefaultLifecycle;
+import java.util.Optional;
 
-public class SelcukesListener implements ISuiteListener, IInvokedMethodListener {
+import static io.github.selcukes.commons.SelcukesLifecycle.getDefaultLifecycle;
+import static java.util.Optional.ofNullable;
+
+public class SelcukesListener implements ISuiteListener, IInvokedMethodListener, IClassListener {
     LifecycleManager lifecycleManager;
 
     @Override
@@ -44,24 +48,62 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener 
 
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
-
         if (!method.isConfigurationMethod()) {
+            var type = getLifecycleType(method.getClass());
+            if (type == Lifecycle.Type.METHOD) {
+                var result = TestResult.builder()
+                    .name(method.getTestMethod().getMethodName())
+                    .status(testResult.getStatus() + "")
+                    .build();
+                lifecycleManager.beforeTest(result);
+            }
+        }
+
+    }
+
+    @Override
+    public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
+        if (!method.isConfigurationMethod()) {
+            var type = getLifecycleType(method.getClass());
+            if (type == Lifecycle.Type.METHOD) {
+                var result = TestResult.builder()
+                    .name(method.getTestMethod().getMethodName())
+                    .status(testResult.getStatus() + "")
+                    .build();
+                lifecycleManager.afterTest(result);
+            }
+        }
+    }
+
+    @Override
+    public void onBeforeClass(ITestClass testClass) {
+        var type = getLifecycleType(testClass.getClass());
+        if (type == Lifecycle.Type.CLASS) {
             var result = TestResult.builder()
-                .name(method.getTestMethod().getMethodName())
-                .status(testResult.getStatus() + "")
+                .name(testClass.getName())
                 .build();
             lifecycleManager.beforeTest(result);
         }
     }
 
     @Override
-    public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
-        if (!method.isConfigurationMethod()) {
+    public void onAfterClass(ITestClass testClass) {
+        var type = getLifecycleType(testClass.getClass());
+        if (type == Lifecycle.Type.CLASS) {
             var result = TestResult.builder()
-                .name(method.getTestMethod().getMethodName())
-                .status(testResult.getStatus() + "")
+                .name(testClass.getName())
                 .build();
             lifecycleManager.afterTest(result);
         }
+    }
+
+    private <T> Optional<Lifecycle> getLifecycle(Class<T> clazz) {
+        return ofNullable(clazz.getDeclaredAnnotation(Lifecycle.class));
+    }
+
+    private <T> Lifecycle.Type getLifecycleType(Class<T> clazz) {
+        return getLifecycle(clazz)
+            .map(Lifecycle::type)
+            .orElse(Lifecycle.Type.METHOD);
     }
 }
