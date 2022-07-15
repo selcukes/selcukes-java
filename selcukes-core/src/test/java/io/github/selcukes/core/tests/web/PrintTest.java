@@ -31,7 +31,7 @@ public class PrintTest {
         page = Pages.webPage();
     }
 
-    @Test(enabled = false)
+    @Test
     public void testPrint() {
         page.open("https://techyworks.blogspot.com/2022/03/get-browser-session-storage-data-using-selenium.html");
         page.printPage("target/print.pdf");
