@@ -21,30 +21,36 @@ import io.github.selcukes.commons.fixture.TestResult;
 import io.github.selcukes.commons.listener.TestLifecycleListener;
 import io.github.selcukes.reports.screen.ScreenPlay;
 import io.github.selcukes.reports.screen.ScreenPlayBuilder;
+import lombok.CustomLog;
 
 import static io.github.selcukes.commons.fixture.FixtureDriver.getFixtureDriver;
 
+@CustomLog
 public class ReportServiceProvider implements TestLifecycleListener {
     ScreenPlay play;
 
     @Override
     public void beforeTest(TestResult result) {
-        if (getFixtureDriver() != null && play == null)
+        logger.debug(() -> "Initiating Screenplay..");
+        if (getFixtureDriver() != null && play == null) {
             play = ScreenPlayBuilder.getScreenPlay()
                 .start();
+            logger.debug(() -> "Initiated Screenplay..");
+        }
     }
 
     @Override
-    public void afterTest(TestResult result) {
+    public void beforeAfterTest(TestResult result) {
+        logger.debug(() -> "Performing Screenplay Actions..");
         if (getFixtureDriver() != null && play != null) {
-            play.withResult(result) //This will break Screenplay
+            play.withResult(result)
                 .ignoreCondition()
                 .attachScreenshot();
             if (ConfigFactory.getConfig().getNotifier().isNotification())
                 play.sendNotification(result.getName());
 
             play.attachVideo();
-
+            logger.debug(() -> "Completed Screenplay Actions..");
         }
 
     }
