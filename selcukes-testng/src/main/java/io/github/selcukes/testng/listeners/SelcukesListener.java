@@ -46,6 +46,7 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
             .build();
         lifecycleManager.afterSuite(result);
     }
+
     @SuppressWarnings("all")
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
@@ -65,6 +66,22 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
     @SuppressWarnings("all")
     @Override
     public void afterInvocation(IInvokedMethod method, ITestResult testResult) {
+        if (!method.isConfigurationMethod()) {
+            Reporter.setCurrentTestResult(testResult);
+            var type = getLifecycleType(method.getTestMethod().getRealClass());
+            if (type == Lifecycle.Type.METHOD) {
+                var result = TestResult.builder()
+                    .name(method.getTestMethod().getMethodName())
+                    .status(getTestStatus(testResult))
+                    .build();
+                lifecycleManager.beforeAfterTest(result);
+            }
+        }
+    }
+
+    @SuppressWarnings("all")
+    @Override
+    public void afterInvocation(IInvokedMethod method, ITestResult testResult, ITestContext context) {
         if (!method.isConfigurationMethod()) {
             Reporter.setCurrentTestResult(testResult);
             var type = getLifecycleType(method.getTestMethod().getRealClass());

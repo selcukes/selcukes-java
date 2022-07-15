@@ -53,6 +53,11 @@ public class LifecycleManager implements TestLifecycleListener {
     }
 
     @Override
+    public void beforeAfterTest(TestResult result) {
+        runSafely(testListeners, TestLifecycleListener::beforeAfterTest, result);
+    }
+
+    @Override
     public void beforeStep(TestResult result) {
         runSafely(testListeners, TestLifecycleListener::beforeStep, result);
     }
