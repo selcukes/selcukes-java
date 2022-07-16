@@ -18,7 +18,7 @@ package io.github.selcukes.core.driver;
 
 import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.commons.exception.DriverSetupException;
-import io.github.selcukes.commons.fixture.FixtureDriver;
+import io.github.selcukes.commons.fixture.DriverFixture;
 import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.listener.EventCapture;
 import lombok.CustomLog;
@@ -84,7 +84,7 @@ public class DriverManager {
 
     public static <D extends WebDriver> void setDriver(D driver) {
         DRIVER_THREAD.set(driver);
-        FixtureDriver.setFixtureDriver(driver);
+        DriverFixture.setDriverFixture(driver);
         STORED_DRIVER.putIfAbsent(driver.hashCode(), driver);
     }
 

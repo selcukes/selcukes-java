@@ -19,19 +19,19 @@ package io.github.selcukes.commons.fixture;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class FixtureDriver {
+public class DriverFixture {
 
     private static final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
 
-    public static void setFixtureDriver(Object driver) {
+    public static void setDriverFixture(Object driver) {
         DRIVER_THREAD.set(driver);
     }
 
-    public static Object getFixtureDriver() {
+    public static Object getDriverFixture() {
         return DRIVER_THREAD.get();
     }
 
-    public static void removeFixtureDriver() {
+    public static void removeDriverFixture() {
         DRIVER_THREAD.remove();
     }
 }

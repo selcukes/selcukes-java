@@ -22,7 +22,7 @@ import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.appium.java_client.windows.WindowsDriver;
 import io.appium.java_client.windows.options.WindowsOptions;
 import io.github.selcukes.commons.annotation.Lifecycle;
-import io.github.selcukes.commons.fixture.FixtureDriver;
+import io.github.selcukes.commons.fixture.DriverFixture;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.By;
@@ -55,7 +55,7 @@ public class NotepadTest {
         options.setApp(app);
         driver = new WindowsDriver(service.getUrl(), options);
 
-        FixtureDriver.setFixtureDriver(driver);
+        DriverFixture.setDriverFixture(driver);
     }
 
     @Test(enabled = false)
@@ -72,7 +72,7 @@ public class NotepadTest {
     @AfterMethod
     public void afterTest() {
         try {
-            FixtureDriver.removeFixtureDriver();
+            DriverFixture.removeDriverFixture();
             if (driver != null)
                 driver.quit();
 
