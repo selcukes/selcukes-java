@@ -16,6 +16,7 @@
 
 package io.github.selcukes.databind.utils;
 
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
 import java.lang.reflect.Constructor;
@@ -72,6 +73,12 @@ public class Reflections {
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
+    }
+
+    @SneakyThrows
+    public static void invoke(Class<?> clazz, String methodName, String param) {
+        Method method = clazz.getMethod(methodName, String.class);
+        method.invoke(null, param);
     }
 }
 

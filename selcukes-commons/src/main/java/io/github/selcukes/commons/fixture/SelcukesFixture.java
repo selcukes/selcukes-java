@@ -17,11 +17,10 @@
 package io.github.selcukes.commons.fixture;
 
 import io.github.selcukes.commons.exception.SelcukesException;
+import io.github.selcukes.databind.utils.Reflections;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.UtilityClass;
-
-import java.lang.reflect.Method;
 
 @UtilityClass
 public class SelcukesFixture {
@@ -34,17 +33,15 @@ public class SelcukesFixture {
 
     public static void fail(String param) {
         try {
-            Method method = getValidator().getMethod("fail", String.class);
-            method.invoke(null, param);
+            Reflections.invoke(getValidator(), "fail", param);
         } catch (Exception e) {
-            throw new SelcukesException(e.getCause());
+            throw new AssertionError(e.getCause());
         }
     }
 
     public static void attach(String param) {
         try {
-            Method method = getReporter().getMethod("log", String.class);
-            method.invoke(null, param);
+            Reflections.invoke(getReporter(), "log", param);
         } catch (Exception e) {
             throw new SelcukesException(e.getCause());
         }
