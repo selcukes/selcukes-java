@@ -394,18 +394,26 @@ public interface Page {
         return this;
     }
 
-    /**
-     * Open new window.
-     */
-    default void openNewWindow() {
-        getDriver().switchTo().newWindow(WINDOW);
-    }
 
     /**
-     * Open new tab.
+     * Open new window page.
+     *
+     * @return the page
      */
-    default void openNewTab() {
+    default Page openNewWindow() {
+        getDriver().switchTo().newWindow(WINDOW);
+        return this;
+    }
+
+
+    /**
+     * Open new tab page.
+     *
+     * @return the page
+     */
+    default Page openNewTab() {
         getDriver().switchTo().newWindow(TAB);
+        return this;
     }
 
     /**
@@ -693,7 +701,7 @@ public interface Page {
     }
 
     /**
-     * Active element web element.
+     * Get Active element.
      *
      * @return the web element
      */
@@ -701,11 +709,15 @@ public interface Page {
         return getDriver().switchTo().activeElement();
     }
 
+
     /**
-     * Remove focus.
+     * Remove focus page.
+     *
+     * @return the page
      */
-    default void removeFocus() {
+    default Page removeFocus() {
         activeElement().sendKeys(ESCAPE);
+        return this;
     }
 
     /**
@@ -719,20 +731,27 @@ public interface Page {
         return Color.fromString(color).asHex();
     }
 
-    /**
-     * Delete all cookies.
-     */
-    default void deleteAllCookies() {
-        getDriver().manage().deleteAllCookies();
-    }
 
     /**
-     * Delete cookie.
+     * Delete all cookies page.
+     *
+     * @return the page
+     */
+    default Page deleteAllCookies() {
+        getDriver().manage().deleteAllCookies();
+        return this;
+    }
+
+
+    /**
+     * Delete cookie page.
      *
      * @param name the name
+     * @return the page
      */
-    default void deleteCookie(String name) {
+    default Page deleteCookie(String name) {
         getDriver().manage().deleteCookieNamed(name);
+        return this;
     }
 
     /**
