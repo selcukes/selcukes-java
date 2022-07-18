@@ -384,6 +384,17 @@ public interface Page {
     }
 
     /**
+     * Switch to window page.
+     *
+     * @param nameOrHandle the name or handle
+     * @return the page
+     */
+    default Page switchToWindow(String nameOrHandle) {
+        getDriver().switchTo().window(nameOrHandle);
+        return this;
+    }
+
+    /**
      * Open new window.
      */
     default void openNewWindow() {
@@ -681,16 +692,68 @@ public interface Page {
         return getValues(locator, e -> e.getAttribute(name));
     }
 
+    /**
+     * Active element web element.
+     *
+     * @return the web element
+     */
     default WebElement activeElement() {
         return getDriver().switchTo().activeElement();
     }
 
+    /**
+     * Remove focus.
+     */
     default void removeFocus() {
         activeElement().sendKeys(ESCAPE);
     }
 
+    /**
+     * Gets color of an element.
+     *
+     * @param element the element
+     * @return the color
+     */
     default String getColor(WebElement element) {
         String color = element.getCssValue("color");
         return Color.fromString(color).asHex();
+    }
+
+    /**
+     * Delete all cookies.
+     */
+    default void deleteAllCookies() {
+        getDriver().manage().deleteAllCookies();
+    }
+
+    /**
+     * Delete cookie.
+     *
+     * @param name the name
+     */
+    default void deleteCookie(String name) {
+        getDriver().manage().deleteCookieNamed(name);
+    }
+
+    /**
+     * Get all Cookies.
+     *
+     * @return the list of cookies
+     */
+    default List<String> cookies() {
+        return getDriver().manage().getCookies()
+            .stream()
+            .map(Cookie::getName)
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Get Cookie.
+     *
+     * @param name the name
+     * @return the cookie
+     */
+    default Cookie cookie(String name) {
+        return getDriver().manage().getCookieNamed(name);
     }
 }

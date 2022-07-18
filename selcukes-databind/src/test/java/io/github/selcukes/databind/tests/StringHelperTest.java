@@ -49,4 +49,10 @@ public class StringHelperTest {
         String expected = "{\"a\":\"1\",\"b\":\"2\",\"c\":\"3\"}";
         Assert.assertEquals(StringHelper.toJson(map), expected);
     }
+
+    @Test
+    public void normalizeTextTest() {
+        String text="Hello\nbe";
+        Assert.assertEquals(StringHelper.normalizeText(text),"Hello be");
+    }
 }

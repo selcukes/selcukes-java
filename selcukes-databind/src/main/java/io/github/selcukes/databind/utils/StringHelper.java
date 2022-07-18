@@ -170,4 +170,8 @@ public class StringHelper {
             return Clocks.dateTime(format);
         } else return systemProperties().getProperty(value);
     }
+
+    public static String normalizeText(String text) {
+        return text != null ? text.replaceAll("\u00A0|\\r\\n|\\r|\\n", " ").trim() : null;
+    }
 }
