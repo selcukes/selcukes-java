@@ -17,7 +17,6 @@
 package io.github.selcukes.core.tests.web;
 
 import io.github.selcukes.commons.annotation.Lifecycle;
-import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WebPage;
 import org.openqa.selenium.By;
@@ -30,7 +29,6 @@ public class CookiesTest {
 
     @BeforeMethod
     public void setup() {
-        ConfigFactory.getConfig().getWeb().setRemote(false);
         page = Pages.webPage();
     }
 
