@@ -19,13 +19,12 @@ package io.github.selcukes.junit.listeners;
 import io.github.selcukes.commons.fixture.SelcukesFixture;
 import io.github.selcukes.commons.properties.SelcukesRuntime;
 import lombok.CustomLog;
-import lombok.SneakyThrows;
 import org.junit.platform.launcher.LauncherDiscoveryListener;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
 
 @CustomLog
 public class SuiteListener implements LauncherDiscoveryListener {
-    @SneakyThrows
+
     @Override
     public void launcherDiscoveryStarted(LauncherDiscoveryRequest request) {
         SelcukesFixture.setValidator("org.junit.jupiter.api.Assertions");
