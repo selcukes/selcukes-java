@@ -16,9 +16,10 @@
 
 package io.github.selcukes.junit.tests;
 
-import org.junit.platform.suite.api.Suite;
+import org.junit.platform.commons.annotation.Testable;
 
-@Suite
+@Testable
+
 class TestRunner {
 
 }
