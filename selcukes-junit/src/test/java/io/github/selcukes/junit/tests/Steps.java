@@ -18,7 +18,6 @@ package io.github.selcukes.junit.tests;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.github.selcukes.core.validation.Validation;
 import lombok.CustomLog;
 
 @CustomLog
@@ -32,6 +31,5 @@ public class Steps {
     @Then("the Maker waits for a Breaker to join")
     public void theMakerWaitsForABreakerToJoin() {
         logger.info(() -> "the Maker waits for a Breaker to join");
-       // Validation.failWithMessage(false,"hey");
     }
 }
