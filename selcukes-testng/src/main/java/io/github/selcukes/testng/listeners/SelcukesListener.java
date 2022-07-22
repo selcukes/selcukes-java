@@ -31,7 +31,7 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
     @Override
     public void onStart(ISuite suite) {
         lifecycleManager = getDefaultLifecycle();
-        SelcukesFixture.setValidator(Assert.class);
+        SelcukesFixture.setValidator("org.testng.Assert");
         SelcukesFixture.setReporter(Reporter.class);
         var result = TestResult.builder()
             .name(suite.getName())

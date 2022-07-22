@@ -28,7 +28,7 @@ public class SuiteListener implements LauncherDiscoveryListener {
     @SneakyThrows
     @Override
     public void launcherDiscoveryStarted(LauncherDiscoveryRequest request) {
-        SelcukesFixture.setValidator(Class.forName("org.assertj.core.api.Assertions"));
+        SelcukesFixture.setValidator("org.junit.jupiter.api.Assertions");
         SelcukesRuntime.loadOptions();
     }
 }

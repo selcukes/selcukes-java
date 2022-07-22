@@ -16,10 +16,13 @@
 
 package io.github.selcukes.junit.tests;
 
-import org.junit.platform.commons.annotation.Testable;
+import org.junit.platform.suite.api.IncludeEngines;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
-@Testable
-
+@Suite
+@IncludeEngines({"junit-jupiter"}) //This is ensures cucumber tests not executed twice.
+@SelectClasses(JunitTest.class)
 class TestRunner {
 
 }
