@@ -20,9 +20,9 @@ import lombok.CustomLog;
 import org.junit.jupiter.api.Test;
 
 @CustomLog
-public class JunitTest {
+public class SampleJunitTest {
     @Test
-    public void sampleTest() {
+    void sampleTest() {
         logger.info(() -> "This is sample test");
     }
 }
