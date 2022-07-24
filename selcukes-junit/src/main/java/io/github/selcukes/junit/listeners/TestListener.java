@@ -42,7 +42,9 @@ public class TestListener implements TestExecutionListener {
 
     @Override
     public void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
-        if (testIdentifier.isTest())
+        if (testIdentifier.isTest()) {
             logger.debug(() -> "Test Execution Finished..." + testIdentifier.getDisplayName());
+            logger.debug(() -> "Test Execution Status..."+testExecutionResult.getStatus());
+        }
     }
 }

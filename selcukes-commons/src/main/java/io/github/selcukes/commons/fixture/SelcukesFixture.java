@@ -26,14 +26,14 @@ import lombok.experimental.UtilityClass;
 public class SelcukesFixture {
     @Getter
     @Setter
-    private Class<?> validator;
+    private String validator;
     @Getter
     @Setter
     private Class<?> reporter;
 
     public static void fail(String param) {
         try {
-            Reflections.invoke(getValidator(), "fail", param);
+            Reflections.invoke(Class.forName(getValidator()), "fail", param);
         } catch (Exception e) {
             throw new AssertionError(e.getCause());
         }

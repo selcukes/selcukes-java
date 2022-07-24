@@ -14,16 +14,17 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.commons.tests;
+package io.github.selcukes.junit;
 
-import io.github.selcukes.commons.fixture.SelcukesFixture;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.platform.commons.annotation.Testable;
 
-public class FixtureTest {
-    @Test(expectedExceptions = {AssertionError.class})
-    public void testVerification() {
-        SelcukesFixture.setValidator("org.testng.Assert");
-        SelcukesFixture.fail("Hello");
-    }
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE})
+@Testable
+public @interface Selcukes {
 }

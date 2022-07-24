@@ -18,16 +18,18 @@ package io.github.selcukes.junit.tests;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import lombok.CustomLog;
 
+@CustomLog
 public class Steps {
     @When("the Maker starts a game")
     public void theMakerStartsAGame() {
-        System.out.println("the Maker starts a game");
+        logger.info(() -> "the Maker starts a game");
 
     }
 
     @Then("the Maker waits for a Breaker to join")
     public void theMakerWaitsForABreakerToJoin() {
-        System.out.println("the Maker waits for a Breaker to join");
+        logger.info(() -> "the Maker waits for a Breaker to join");
     }
 }

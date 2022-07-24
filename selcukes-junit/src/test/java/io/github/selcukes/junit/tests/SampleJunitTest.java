@@ -14,16 +14,15 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.commons.tests;
+package io.github.selcukes.junit.tests;
 
-import io.github.selcukes.commons.fixture.SelcukesFixture;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import lombok.CustomLog;
+import org.junit.jupiter.api.Test;
 
-public class FixtureTest {
-    @Test(expectedExceptions = {AssertionError.class})
-    public void testVerification() {
-        SelcukesFixture.setValidator("org.testng.Assert");
-        SelcukesFixture.fail("Hello");
+@CustomLog
+class SampleJunitTest {
+    @Test
+    void sampleTest() {
+        logger.info(() -> "This is sample test");
     }
 }
