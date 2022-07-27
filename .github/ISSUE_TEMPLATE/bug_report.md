@@ -2,37 +2,51 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: ''
+labels: ':bug: bug'
 assignees: ''
 
 ---
+<!-- 
+Thanks for letting us know about a bug! 💖
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+Use the questions below to help explain what you think is wrong, and what we should do to fix it.
+-->
 
-**To Reproduce**
+### 👓 What did you see?
+
+<!-- A clear and concise description of what you saw happen. -->
+
+### ✅ What did you expect to see?
+
+<!-- Describe what you would like to have happened instead. -->
+
+### 📦 Which tool/library version are you using?
+
+<!-- What version of Cucumber/GoDog/etc. are you running? What version of your programming language platform? Anything else that might be relevant? -->
+
+### 🔬 How could we reproduce it?
+
+<!-- 
+It order to fix the problem, we need to be able to reproduce it.
+
+A Minimal Reproducible Example can be really helpful for anyone
+trying to diagnose and fix the problem.
+
+See https://stackoverflow.com/help/minimal-reproducible-example
+
+Please outline the steps below:
+-->
+
 Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+1. Install '...' version '...'
+2. Create a file called '....'
+3. Run command '....'
+4. See error '....'
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+<!-- you can add screenshots if that would be useful -->
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+### 📚 Any additional context?
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+<!-- Add any other context, references or screenshots about the problem here. -->
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
-
-**Additional context**
-Add any other context about the problem here.
+----
