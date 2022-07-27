@@ -2,19 +2,30 @@
 name: Feature request
 about: Suggest an idea for this project
 title: ''
-labels: ''
+labels: ':zap: enhancement'
 assignees: ''
 
 ---
+<!-- 
+Thanks for suggesting an improvement to Selcukes! 💖
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+Use the questions below to help explain why you think this change is needed.
+-->
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+### 🤔 What's the problem you're trying to solve?
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+<!-- A clear and concise description of what the problem is. Ex. I'm always frustrated when [...] -->
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+### ✨ What's your proposed solution?
+
+<!-- A clear and concise description of what you want to happen. -->
+
+### ⛏ Have you considered any alternatives or workarounds?
+
+<!-- A clear and concise description of any alternative solutions or features you've considered. -->
+
+### 📚 Any additional context?
+
+<!-- Add any other context, references or screenshots about the feature request here. -->
+
+----
