@@ -62,7 +62,7 @@ class PageSnapshot extends DefaultPageSnapshot {
     }
 
     private <X> X getFullScreenshot(OutputType<X> outputType) {
-        screenOptions = screenOptions();
+        screenOptions = getScreenOptions();
         var screenViewOptions = Map.of(
                 "clip", Map.of(
                         "x", 0,

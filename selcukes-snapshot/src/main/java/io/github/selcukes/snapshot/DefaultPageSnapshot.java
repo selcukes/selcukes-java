@@ -41,7 +41,7 @@ class DefaultPageSnapshot {
     }
 
     protected <X> X getDefaultPageSnapshot(OutputType<X> outputType) {
-        screenOptions = screenOptions();
+        screenOptions = getScreenOptions();
         BufferedImage defaultPageScreenshot = defaultPageScreenshot();
         return outputType.convertFromPngBytes(ImageUtil.toByteArray(defaultPageScreenshot));
     }
@@ -51,7 +51,7 @@ class DefaultPageSnapshot {
         return (T) ((JavascriptExecutor) driver).executeScript(script, args);
     }
 
-    protected Map<String, Object> screenOptions() {
+    protected Map<String, Object> getScreenOptions() {
         String js = "return " + FileHelper.readContent("screen-size.js");
         return executeJS(js);
     }

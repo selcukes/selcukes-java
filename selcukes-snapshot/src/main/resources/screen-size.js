@@ -4,5 +4,5 @@
   const viewWidth = window.innerWidth;
   const viewHeight = window.innerHeight;
   const exceedViewport = fullWidth > viewWidth || fullHeight > viewHeight;
-  return {fullWidth, fullHeight, viewHeight,exceedViewport};
-})()
+  return {fullWidth, fullHeight, viewHeight, exceedViewport};
+})();
