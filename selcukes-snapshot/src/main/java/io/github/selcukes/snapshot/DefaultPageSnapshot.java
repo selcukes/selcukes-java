@@ -38,10 +38,10 @@ class DefaultPageSnapshot {
 
     public DefaultPageSnapshot(WebDriver driver) {
         this.driver = driver;
-        screenOptions = screenOptions();
     }
 
     protected <X> X getDefaultPageSnapshot(OutputType<X> outputType) {
+        screenOptions = screenOptions();
         BufferedImage defaultPageScreenshot = defaultPageScreenshot();
         return outputType.convertFromPngBytes(ImageUtil.toByteArray(defaultPageScreenshot));
     }
@@ -61,7 +61,7 @@ class DefaultPageSnapshot {
         return fullHeight.intValue();
     }
 
-    protected boolean isViewportExceed() {
+    protected boolean isNotViewport() {
         return (boolean) screenOptions.get("exceedViewport");
     }
 
