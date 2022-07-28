@@ -28,9 +28,9 @@ class PropertyField<T> extends DataField<T> {
     private final Properties properties;
 
     public PropertyField(
-        final Field field,
-        final Properties properties,
-        final List<Converter<T>> defaultConverters
+            final Field field,
+            final Properties properties,
+            final List<Converter<T>> defaultConverters
     ) {
         super(field, defaultConverters);
         this.properties = properties;
@@ -38,8 +38,8 @@ class PropertyField<T> extends DataField<T> {
 
     public PropertyField<T> parse() {
         String keyName = getColumn()
-            .map(Key::name)
-            .orElse(getFieldName());
+                .map(Key::name)
+                .orElse(getFieldName());
         var format = getColumn().map(Key::format).orElse("");
         var substituted = getSubstitutor().replace(properties, keyName, format);
         setConvertedValue(getConverter().convert(substituted, format));

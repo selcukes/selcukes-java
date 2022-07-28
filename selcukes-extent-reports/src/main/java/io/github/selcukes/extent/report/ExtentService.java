@@ -90,7 +90,7 @@ public class ExtentService implements Serializable {
         private static boolean getBooleanProperty(String propertyKey) {
             String value = getProperty(propertyKey);
             return (!isNullOrEmpty(value)
-                && Objects.requireNonNull(value).equalsIgnoreCase("true"));
+                    && Objects.requireNonNull(value).equalsIgnoreCase("true"));
         }
 
         private static void initSpark() {
@@ -110,7 +110,7 @@ public class ExtentService implements Serializable {
         private static void sparkReportViewOrder(ExtentSparkReporter spark) {
             try {
                 List<ViewName> viewOrder = Arrays.stream(getProperty(VIEW_ORDER_SPARK_KEY).split(","))
-                    .map(v -> ViewName.valueOf(v.toUpperCase())).collect(Collectors.toList());
+                        .map(v -> ViewName.valueOf(v.toUpperCase())).collect(Collectors.toList());
                 spark.viewConfigurer().viewOrder().as(viewOrder).apply();
             } catch (Exception ignored) {
                 //Gobble exception

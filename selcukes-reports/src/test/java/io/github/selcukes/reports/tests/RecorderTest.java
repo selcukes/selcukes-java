@@ -45,9 +45,9 @@ public class RecorderTest {
         driver = new LocalDriver().createWebDriver(CHROME);
         driver.manage().window().maximize();
         screenPlay = ScreenPlayBuilder
-            .getScreenPlay(driver)
-            .withRecorder(RecorderType.FFMPEG)
-            .start();
+                .getScreenPlay(driver)
+                .withRecorder(RecorderType.FFMPEG)
+                .start();
     }
 
 
@@ -62,11 +62,11 @@ public class RecorderTest {
     @AfterMethod
     public void afterMethod(ITestResult result) {
         screenPlay
-            .withResult(result)
-            .ignoreCondition()
-            .attachScreenshot()
-            .withNotifier(NotifierType.SLACK) //Default Notifier is TEAMS
-            .sendNotification("This is sample Test Step");
+                .withResult(result)
+                .ignoreCondition()
+                .attachScreenshot()
+                .withNotifier(NotifierType.SLACK) //Default Notifier is TEAMS
+                .sendNotification("This is sample Test Step");
 
     }
 
@@ -75,7 +75,7 @@ public class RecorderTest {
         if (driver != null)
             driver.quit();
         screenPlay
-            .attachVideo()
-            .attachLogs();
+                .attachVideo()
+                .attachLogs();
     }
 }

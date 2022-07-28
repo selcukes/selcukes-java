@@ -669,9 +669,9 @@ public interface Page {
     @SuppressWarnings("unchecked")
     default <T, V, R> R waitFor(final T locator, final V arg, final WaitCondition condition) {
         return (R) waiter()
-            .pollingEvery(Duration.ofMillis(100))
-            .ignoreAll(List.of(StaleElementReferenceException.class, NoSuchElementException.class))
-            .until((Function<WebDriver, ?>) condition.getType().apply(locator, arg));
+                .pollingEvery(Duration.ofMillis(100))
+                .ignoreAll(List.of(StaleElementReferenceException.class, NoSuchElementException.class))
+                .until((Function<WebDriver, ?>) condition.getType().apply(locator, arg));
     }
 
     /**
@@ -770,9 +770,9 @@ public interface Page {
      */
     default List<String> cookies() {
         return getDriver().manage().getCookies()
-            .stream()
-            .map(Cookie::getName)
-            .collect(Collectors.toList());
+                .stream()
+                .map(Cookie::getName)
+                .collect(Collectors.toList());
     }
 
     /**

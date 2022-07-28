@@ -28,12 +28,12 @@ public class ApiTest {
     @Test
     public void authTest() {
         String user = "{\n" +
-            "    \"email\": \"eve.holt@reqres.in\",\n" +
-            "    \"password\": \"admin\"\n" +
-            "}";
+                "    \"email\": \"eve.holt@reqres.in\",\n" +
+                "    \"password\": \"admin\"\n" +
+                "}";
         ApiPage page = Pages.apiPage();
         Response response = page.request("https://reqres.in/api/register")
-            .post(user);
+                .post(user);
         page.assertThat().response(response).isOk();
         logger.info(() -> "Token is: " + response.bodyAs(ResponseBody.class).getToken());
     }

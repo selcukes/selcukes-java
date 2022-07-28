@@ -30,7 +30,7 @@ public class CreateDataFileWithAgsTest {
     @Test(enabled = false)
     public void dataTest() {
         String currentDataTime = LocalDateTime.now()
-            .format(DateTimeFormatter.ofPattern(TIMESTAMP_FORMAT));
+                .format(DateTimeFormatter.ofPattern(TIMESTAMP_FORMAT));
         Resolve resolve = new Resolve();
         resolve.setChromeVersion("10.11.213");
         resolve.setDataTime(currentDataTime);

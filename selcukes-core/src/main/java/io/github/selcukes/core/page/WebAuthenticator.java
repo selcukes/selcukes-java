@@ -38,7 +38,7 @@ class WebAuthenticator {
 
     private void getVirtualAuthenticator() {
         this.virtualAuthenticator = ((HasVirtualAuthenticator) driver)
-            .addVirtualAuthenticator(new VirtualAuthenticatorOptions());
+                .addVirtualAuthenticator(new VirtualAuthenticatorOptions());
     }
 
     public void removeVirtualAuthenticator() {

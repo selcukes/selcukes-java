@@ -71,7 +71,7 @@ public class ImageUtil {
             return stitchedImage;
         } else {
             BufferedImage stitchedImage = new BufferedImage(image1.getWidth(), image1.getHeight() + image2.getHeight(),
-                BufferedImage.TYPE_INT_RGB);
+                    BufferedImage.TYPE_INT_RGB);
             Graphics graphics = stitchedImage.getGraphics();
             graphics.drawImage(image1, 0, 0, null);
             graphics.drawImage(image2, 0, image1.getHeight(), null);

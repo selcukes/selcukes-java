@@ -48,6 +48,6 @@ public class MySteps {
     @Then("I am very happy")
     public void happy() {
         commonPage.getScenarioData()
-            .forEach((k, v) -> logger.info(() -> String.format("Key: [%s] Values: [%s]%n", k, v)));
+                .forEach((k, v) -> logger.info(() -> String.format("Key: [%s] Values: [%s]%n", k, v)));
     }
 }

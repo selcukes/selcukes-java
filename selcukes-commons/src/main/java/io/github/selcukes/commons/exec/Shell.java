@@ -38,7 +38,7 @@ public class Shell {
         try {
             logger.info(() -> String.format("Executing the command [%s]", command));
             process = new ProcessBuilder(command.split("\\s"))
-                .start();
+                    .start();
             results = interactWithProcess(process);
         } catch (IOException e) {
             logger.error(e, () -> "There was a problem executing command : " + command);

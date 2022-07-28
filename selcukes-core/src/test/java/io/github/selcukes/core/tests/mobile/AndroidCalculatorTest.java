@@ -46,9 +46,9 @@ public class AndroidCalculatorTest {
     @Test(enabled = false)
     void calculator() {
         page.click(By.id("digit_2"))
-            .click(By.id("op_add"))
-            .click(By.id("digit_4"))
-            .click(By.id("eq"))
-            .assertThat().element(By.id("result")).textAs("6");
+                .click(By.id("op_add"))
+                .click(By.id("digit_4"))
+                .click(By.id("eq"))
+                .assertThat().element(By.id("result")).textAs("6");
     }
 }

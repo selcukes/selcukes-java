@@ -63,7 +63,7 @@ public class DataBaseDriver {
             connection = DriverManager.getConnection(connectionUrl, username, password);
             if (!dataBaseType.toString().equals("MY_SQL") && !dataBaseType.toString().equals("POST_GRE_SQL")) {
                 connection.setNetworkTimeout(Executors.newFixedThreadPool(1),
-                    timeout * 60000);
+                        timeout * 60000);
             }
         } catch (Exception e) {
             throw new SelcukesException("Failed to connect DataBase using url[" + connectionUrl + "]");

@@ -28,6 +28,6 @@ import java.util.stream.StreamSupport;
 public class Streams {
     public <T> Stream<T> of(Iterator<? extends T> iterator) {
         return StreamSupport
-            .stream(Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED), false);
+                .stream(Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED), false);
     }
 }

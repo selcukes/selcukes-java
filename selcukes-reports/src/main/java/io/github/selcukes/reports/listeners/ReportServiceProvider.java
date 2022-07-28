@@ -34,7 +34,7 @@ public class ReportServiceProvider implements TestLifecycleListener {
         logger.debug(() -> "Initiating Screenplay..");
         if (getDriverFixture() != null && play == null) {
             play = ScreenPlayBuilder.getScreenPlay()
-                .start();
+                    .start();
             logger.debug(() -> "Initiated Screenplay..");
         }
     }
@@ -44,8 +44,8 @@ public class ReportServiceProvider implements TestLifecycleListener {
         logger.debug(() -> "Performing Screenplay Actions..");
         if (getDriverFixture() != null && play != null) {
             play.withResult(result)
-                .ignoreCondition()
-                .attachScreenshot();
+                    .ignoreCondition()
+                    .attachScreenshot();
             if (ConfigFactory.getConfig().getNotifier().isNotification())
                 play.sendNotification(result.getName());
 

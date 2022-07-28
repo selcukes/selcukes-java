@@ -77,10 +77,10 @@ public class CucumberLiveReportAdapter implements ConcurrentEventListener {
     private synchronized void initFeatureContext(Feature currentFeature) {
         scenarioContextThreadLocal.set(new ArrayList<>(Collections.emptyList()));
         FeatureContext featureContext = FeatureContext.builder()
-            .featureName(currentFeature.getName())
-            .description(currentFeature.getDescription())
-            .scenarioContexts(scenarioContextThreadLocal.get())
-            .build();
+                .featureName(currentFeature.getName())
+                .description(currentFeature.getDescription())
+                .scenarioContexts(scenarioContextThreadLocal.get())
+                .build();
 
         featureContextThreadLocal.set(featureContext);
     }
@@ -89,10 +89,10 @@ public class CucumberLiveReportAdapter implements ConcurrentEventListener {
         if (event.getTestStep() instanceof PickleStepTestStep) {
             PickleStepTestStep testStep = (PickleStepTestStep) event.getTestStep();
             StepContext stepContext = StepContext.builder()
-                .stepName(testStep.getStep().getText())
-                .status(event.getResult().getStatus().name())
-                .duration(event.getResult().getDuration().toMillis() + "ms")
-                .build();
+                    .stepName(testStep.getStep().getText())
+                    .status(event.getResult().getStatus().name())
+                    .duration(event.getResult().getDuration().toMillis() + "ms")
+                    .build();
             LiveReportHelper.publishResults(stepContext, "step");
         }
 
@@ -101,13 +101,13 @@ public class CucumberLiveReportAdapter implements ConcurrentEventListener {
 
     private synchronized void afterScenario(TestCaseFinished event) {
         String error = event.getResult().getStatus().is(Status.FAILED) ?
-            event.getResult().getError().getMessage() : "";
+                event.getResult().getError().getMessage() : "";
         ScenarioContext scenarioContext = ScenarioContext.builder()
-            .scenarioName(event.getTestCase().getName())
-            .status(event.getResult().getStatus().name())
-            .duration(event.getResult().getDuration().toMillis() + "ms")
-            .error(error)
-            .build();
+                .scenarioName(event.getTestCase().getName())
+                .status(event.getResult().getStatus().name())
+                .duration(event.getResult().getDuration().toMillis() + "ms")
+                .error(error)
+                .build();
 
         LiveReportHelper.publishResults(scenarioContext, "scenario");
         featureContextThreadLocal.get().getScenarioContexts().add(scenarioContext);
@@ -123,7 +123,7 @@ public class CucumberLiveReportAdapter implements ConcurrentEventListener {
 
     private synchronized String getFeatureStatus(List<ScenarioContext> scenarioContexts) {
         Optional<ScenarioContext> contextOptional = scenarioContexts.stream()
-            .filter(scenarioContext -> scenarioContext.getStatus().equalsIgnoreCase("FAILED")).findFirst();
+                .filter(scenarioContext -> scenarioContext.getStatus().equalsIgnoreCase("FAILED")).findFirst();
         return contextOptional.isPresent() ? contextOptional.get().getStatus() : "PASSED";
     }
 

@@ -49,7 +49,7 @@ public class WebClient {
     public WebClient(String url) {
         clientBuilder = HttpClient.newBuilder();
         requestBuilder = HttpRequest.newBuilder()
-            .uri(new URI(url));
+                .uri(new URI(url));
     }
 
     @SneakyThrows
@@ -91,8 +91,8 @@ public class WebClient {
     private BodyPublisher multiPartBody(Map<Object, Object> data, String boundary) {
         var byteArrays = new ArrayList<byte[]>();
         byte[] separator = ("--" + boundary
-            + "\r\nContent-Disposition: form-data; name=")
-            .getBytes(StandardCharsets.UTF_8);
+                + "\r\nContent-Disposition: form-data; name=")
+                .getBytes(StandardCharsets.UTF_8);
         for (Map.Entry<Object, Object> entry : data.entrySet()) {
             byteArrays.add(separator);
 
@@ -100,14 +100,14 @@ public class WebClient {
                 var path = (Path) entry.getValue();
                 String mimeType = Files.probeContentType(path);
                 byteArrays.add(("\"" + entry.getKey() + "\"; filename=\""
-                    + path.getFileName() + "\"\r\nContent-Type: " + mimeType
-                    + "\r\n\r\n").getBytes(StandardCharsets.UTF_8));
+                        + path.getFileName() + "\"\r\nContent-Type: " + mimeType
+                        + "\r\n\r\n").getBytes(StandardCharsets.UTF_8));
                 byteArrays.add(Files.readAllBytes(path));
                 byteArrays.add("\r\n".getBytes(StandardCharsets.UTF_8));
             } else {
                 byteArrays.add(
-                    ("\"" + entry.getKey() + "\"\r\n\r\n" + entry.getValue()
-                        + "\r\n").getBytes(StandardCharsets.UTF_8));
+                        ("\"" + entry.getKey() + "\"\r\n\r\n" + entry.getValue()
+                                + "\r\n").getBytes(StandardCharsets.UTF_8));
             }
         }
         byteArrays.add(("--" + boundary + "--").getBytes(StandardCharsets.UTF_8));
@@ -138,16 +138,16 @@ public class WebClient {
         if (url.isPresent()) {
             String proxyHost = url.get().getHost();
             int proxyPort = url.get().getPort() == -1 ? 80
-                : url.get().getPort();
+                    : url.get().getPort();
             clientBuilder = clientBuilder
-                .proxy(ProxySelector.of(new InetSocketAddress(proxyHost, proxyPort)));
+                    .proxy(ProxySelector.of(new InetSocketAddress(proxyHost, proxyPort)));
         }
         return this;
     }
 
     public WebClient authenticator(String username, String password) {
         String encodedAuth = Base64.getEncoder()
-            .encodeToString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
+                .encodeToString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
         header("Authorization", "Basic " + encodedAuth);
         return this;
     }

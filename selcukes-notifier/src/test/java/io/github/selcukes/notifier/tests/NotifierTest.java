@@ -23,11 +23,11 @@ public class NotifierTest {
     @Test(enabled = false)
     public void testNotifications() {
         NotifierFactory.getNotifier()
-            .scenarioName("This is sample scenario")
-            .scenarioStatus("FAILED")
-            .stepDetails("This is sample test step")
-            .errorMessage("NullPointerException")
-            .path("")
-            .pushNotification();
+                .scenarioName("This is sample scenario")
+                .scenarioStatus("FAILED")
+                .stepDetails("This is sample test step")
+                .errorMessage("NullPointerException")
+                .path("")
+                .pushNotification();
     }
 }

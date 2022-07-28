@@ -53,20 +53,20 @@ class ExcelParser<T> {
             var skip = 1;
 
             var sheet = ofNullable(entityClass.getDeclaredAnnotation(DataFile.class))
-                .map(annotation -> workbook.getSheet(annotation.sheetName()))
-                .orElse(workbook.getSheetAt(startIndex));
+                    .map(annotation -> workbook.getSheet(annotation.sheetName()))
+                    .orElse(workbook.getSheetAt(startIndex));
 
             var headers = Streams.of(sheet.getRow(startIndex).cellIterator())
-                .collect(Collectors.toMap(cell -> formatter.formatCellValue(cell).trim(), Cell::getColumnIndex));
+                    .collect(Collectors.toMap(cell -> formatter.formatCellValue(cell).trim(), Cell::getColumnIndex));
 
             var cellMappers = Stream.of(entityClass.getDeclaredFields())
-                .map(field -> new ExcelCell<>(field, headers, defaultConverters))
-                .collect(Collectors.toList());
+                    .map(field -> new ExcelCell<>(field, headers, defaultConverters))
+                    .collect(Collectors.toList());
 
             return Streams.of(sheet.iterator())
-                .skip(skip)
-                .map(row -> cellMappers.stream().map(cellMapper -> cellMapper.parse(row)).collect(Collectors.toList()))
-                .map(this::initEntity);
+                    .skip(skip)
+                    .map(row -> cellMappers.stream().map(cellMapper -> cellMapper.parse(row)).collect(Collectors.toList()))
+                    .map(this::initEntity);
         } catch (Exception ex) {
             throw new DataMapperException(format("Unable to parse Excel data to %s.", entityClass), ex);
         }
@@ -74,7 +74,7 @@ class ExcelParser<T> {
 
     public T initEntity(final List<ExcelCell<T>> mappers) {
         var hasDefaultConstructor = Stream.of(entityClass.getDeclaredConstructors())
-            .anyMatch(constructor -> constructor.getParameterCount() == 0);
+                .anyMatch(constructor -> constructor.getParameterCount() == 0);
         if (!hasDefaultConstructor) {
             throw new IllegalStateException(format("%s must have default constructor.", entityClass.getSimpleName()));
         }

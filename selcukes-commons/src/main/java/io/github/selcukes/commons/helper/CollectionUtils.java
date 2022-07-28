@@ -28,14 +28,14 @@ import java.util.stream.Collectors;
 public class CollectionUtils {
     public String[][] toArray(List<List<String>> cells) {
         return cells.stream()
-            .map(row -> row.toArray(String[]::new))
-            .toArray(String[][]::new);
+                .map(row -> row.toArray(String[]::new))
+                .toArray(String[][]::new);
     }
 
     public List<String> trim(List<String> list) {
         return list.stream()
-            .map(String::trim)
-            .collect(Collectors.toList());
+                .map(String::trim)
+                .collect(Collectors.toList());
     }
 
     public List<String> toList(Class<? extends Enum<?>> enumData) {

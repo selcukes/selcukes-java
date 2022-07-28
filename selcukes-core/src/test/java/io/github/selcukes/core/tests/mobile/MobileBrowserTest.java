@@ -28,6 +28,6 @@ public class MobileBrowserTest {
     public void mobileBrowserTest() {
         MobilePage page = Pages.mobilePage();
         page.open("https://www.google.com/")
-            .assertThat().title("Google");
+                .assertThat().title("Google");
     }
 }

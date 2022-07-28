@@ -78,7 +78,7 @@ public class AppiumManager implements RemoteManager {
                 capabilities = CloudOptions.getBrowserStackOptions(true);
             } else {
                 Path appPath = Paths.get(ConfigFactory.getConfig()
-                    .getMobile().getApp());
+                        .getMobile().getApp());
                 String app = appPath.toAbsolutePath().toString();
                 logger.info(() -> "Using APP: " + app);
                 capabilities = AppiumOptions.getAndroidOptions(app);

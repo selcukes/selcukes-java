@@ -58,8 +58,8 @@ public class IExplorerBinary extends AbstractBinary {
         Map<String, String> versionsMap = VersionHelper.versionsMap(UrlHelper.IEDRIVER_LATEST_RELEASE_URL, "//Key", matcher);
 
         Optional<String> version = versionsMap.keySet().stream()
-            .sorted(new VersionComparator()).reduce((first, second) -> second)
-            .map(key -> versionsMap.values().stream().filter(value -> value.contains(key)).findFirst().orElse(""));
+                .sorted(new VersionComparator()).reduce((first, second) -> second)
+                .map(key -> versionsMap.values().stream().filter(value -> value.contains(key)).findFirst().orElse(""));
         if (version.isEmpty()) {
             throw new WebDriverBinaryException("Unable to Find Latest IE Version.");
         }

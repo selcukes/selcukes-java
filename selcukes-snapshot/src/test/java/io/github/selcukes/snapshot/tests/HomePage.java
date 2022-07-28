@@ -38,11 +38,11 @@ public class HomePage {
         logger.info(() -> "Navigated to " + url);
         Snapshot snapshot = new SnapshotImpl(driver);
         String screenshotFilePath = snapshot
-            .withText("Browser: " + browser + "\nThis sample text message displayed in Screenshot." +
-                "\nThis second line of text message displayed in Screenshot")
-            .shootPage();
+                .withText("Browser: " + browser + "\nThis sample text message displayed in Screenshot." +
+                        "\nThis second line of text message displayed in Screenshot")
+                .shootPage();
         logger.info(() -> String.format("Captured full page screenshot for %s browser and placed at %s ",
-            browser, screenshotFilePath));
+                browser, screenshotFilePath));
     }
 
 }

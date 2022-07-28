@@ -71,7 +71,7 @@ public class WaitManager {
 
         // Wait for ANGULAR to load
         ExpectedCondition<Boolean> angularLoad = driver -> Boolean
-            .valueOf(((JavascriptExecutor) Objects.requireNonNull(driver)).executeScript(angularReadyScript).toString());
+                .valueOf(((JavascriptExecutor) Objects.requireNonNull(driver)).executeScript(angularReadyScript).toString());
 
         // Get Angular is Ready
         boolean angularReady = Boolean.parseBoolean(page.executeScript(angularReadyScript).toString());
@@ -95,7 +95,7 @@ public class WaitManager {
             Boolean angularDefined = !((Boolean) page.executeScript("return window.angular === undefined"));
             if (Boolean.TRUE.equals(angularDefined)) {
                 Boolean angularInjectorDefined = !((Boolean) page
-                    .executeScript("return angular.element(document).injector() === undefined"));
+                        .executeScript("return angular.element(document).injector() === undefined"));
 
                 if (Boolean.TRUE.equals(angularInjectorDefined)) {
                     waitForAngularLoad();

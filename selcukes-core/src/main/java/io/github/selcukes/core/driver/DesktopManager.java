@@ -38,7 +38,7 @@ public class DesktopManager extends AppiumManager {
         String app = ConfigFactory.getConfig().getWindows().getApp();
         URL serviceUrl = Objects.requireNonNull(getServiceUrl());
         Capabilities capabilities = ofNullable(AppiumOptions.getUserOptions())
-            .orElse(AppiumOptions.getWinAppOptions(app));
+                .orElse(AppiumOptions.getWinAppOptions(app));
         return new WindowsDriver(serviceUrl, capabilities);
     }
 

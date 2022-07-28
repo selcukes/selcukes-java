@@ -53,10 +53,10 @@ public class SelcukesRuntime {
             String extentReportPath = reportsPath + "/extent-reports";
 
             String timestamp = timestampReport.equalsIgnoreCase("true") ?
-                "-" + DateHelper.get().dateTime() : "";
+                    "-" + DateHelper.get().dateTime() : "";
 
             String plugin = String.format("html:%s/%s%s.html, json:%s/cucumber%s.json",
-                cucumberReportPath, reportsFile, timestamp, cucumberReportPath, timestamp);
+                    cucumberReportPath, reportsFile, timestamp, cucumberReportPath, timestamp);
 
             if (!isNullOrEmpty(additionalPlugin)) {
                 plugin = plugin + "," + additionalPlugin;
@@ -77,7 +77,7 @@ public class SelcukesRuntime {
             setSystemProperty("cucumber.publish.quiet", "true");
 
             logger.debug(() -> String.format("Using Runtime Cucumber Options:\nFeatures : [%s]\nGlue     : [%s]\nTags     : [%s] " +
-                "\n ", features, glue, tag));
+                    "\n ", features, glue, tag));
         } catch (Exception exception) {
             logger.warn(() -> "Failed loading selcukes properties. Using default CucumberOptions to execute...");
         }

@@ -31,8 +31,8 @@ public class Reflections {
         try {
             Constructor<T> constructor = clazz.getDeclaredConstructor();
             if ((!Modifier.isPublic(constructor.getModifiers()) ||
-                !Modifier.isPublic(constructor.getDeclaringClass().getModifiers())) &&
-                !constructor.isAccessible()) {
+                    !Modifier.isPublic(constructor.getDeclaringClass().getModifiers())) &&
+                    !constructor.isAccessible()) {
                 constructor.setAccessible(true);
             }
             return constructor.newInstance();

@@ -41,15 +41,15 @@ public class VersionHelper {
     public static Map<String, String> versionsMap(String url, String expression, String matcher) {
         try {
             var xmlDocument = sendRequest(url, null)
-                .bodyXml();
+                    .bodyXml();
             var elements = selectElements(xmlDocument, expression);
             var versions = filterElements(elements, matcher);
             return versions
-                .collect(Collectors.toMap(
-                    entry -> entry.substring(0, entry.indexOf('/')),
-                    entry -> entry,
-                    (prev, next) -> next, TreeMap::new
-                ));
+                    .collect(Collectors.toMap(
+                            entry -> entry.substring(0, entry.indexOf('/')),
+                            entry -> entry,
+                            (prev, next) -> next, TreeMap::new
+                    ));
         } catch (Exception e) {
             return Collections.emptyMap();
         }

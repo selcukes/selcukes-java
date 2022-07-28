@@ -35,10 +35,10 @@ public class ChromeBinary extends AbstractBinary {
     public URL getDownloadURL() {
         try {
             return new URL(String.format(
-                BINARY_DOWNLOAD_URL_PATTERN,
-                UrlHelper.CHROMEDRIVER_URL,
-                getBinaryVersion(),
-                getBinaryEnvironment().getOsNameAndArch()));
+                    BINARY_DOWNLOAD_URL_PATTERN,
+                    UrlHelper.CHROMEDRIVER_URL,
+                    getBinaryVersion(),
+                    getBinaryEnvironment().getOsNameAndArch()));
 
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);

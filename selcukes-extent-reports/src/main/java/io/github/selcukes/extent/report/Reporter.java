@@ -61,17 +61,17 @@ public class Reporter {
     public String getLogRecords() {
         if (logRecordListener != null) {
             return logRecordListener.getLogRecords()
-                .filter(logRecord -> logRecord.getLevel() == Level.INFO || logRecord.getLevel() == Level.SEVERE)
-                .map(logRecord -> {
-                    if (logRecord.getLevel() == Level.SEVERE)
-                        return "<span style=\"color:red;\">" + logRecord.getMessage().replace("\n", "<br/>") + "</span>";
-                    else
-                        return logRecord.getMessage();
+                    .filter(logRecord -> logRecord.getLevel() == Level.INFO || logRecord.getLevel() == Level.SEVERE)
+                    .map(logRecord -> {
+                        if (logRecord.getLevel() == Level.SEVERE)
+                            return "<span style=\"color:red;\">" + logRecord.getMessage().replace("\n", "<br/>") + "</span>";
+                        else
+                            return logRecord.getMessage();
 
-                })
-                .filter(nullOrEmpty.negate())
-                .collect(Collectors.joining("</li><li>", "<ul><li> ",
-                    "</li></ul><br/>"));
+                    })
+                    .filter(nullOrEmpty.negate())
+                    .collect(Collectors.joining("</li><li>", "<ul><li> ",
+                            "</li></ul><br/>"));
         }
         return "";
     }

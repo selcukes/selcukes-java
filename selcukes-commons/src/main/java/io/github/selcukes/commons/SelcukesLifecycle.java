@@ -34,7 +34,7 @@ public class SelcukesLifecycle {
 
     public static <T> Lifecycle.Type getLifecycleType(Class<T> clazz) {
         return ofNullable(clazz.getDeclaredAnnotation(Lifecycle.class))
-            .map(Lifecycle::type)
-            .orElse(Lifecycle.Type.NONE);
+                .map(Lifecycle::type)
+                .orElse(Lifecycle.Type.NONE);
     }
 }

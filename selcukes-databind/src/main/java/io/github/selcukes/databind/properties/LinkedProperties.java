@@ -48,7 +48,7 @@ public class LinkedProperties extends Properties {
     @Override
     public synchronized Enumeration<Object> elements() {
         throw new UnsupportedOperationException(
-            "Please use keySet() or entrySet() instead of Enumeration.");
+                "Please use keySet() or entrySet() instead of Enumeration.");
     }
 
     @Override

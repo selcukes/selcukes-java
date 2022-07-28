@@ -53,7 +53,7 @@ public class DropDown {
         LABEL(Select::selectByVisibleText, select -> select.getFirstSelectedOption().getText()),
         VALUE(Select::selectByValue, select -> select.getFirstSelectedOption().getAttribute(ATTRIBUTE)),
         INDEX((select, value) -> select.selectByIndex(parseInt(value)), select -> select.getOptions().
-            indexOf(select.getFirstSelectedOption()));
+                indexOf(select.getFirstSelectedOption()));
         @Getter
         private final BiConsumer<Select, String> selector;
         @Getter

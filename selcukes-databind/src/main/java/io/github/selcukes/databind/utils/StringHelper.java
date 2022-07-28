@@ -109,8 +109,8 @@ public class StringHelper {
     public String interpolate(String text, Function<MatchResult, String> replacer) {
 
         return Pattern.compile(INTERPOLATE_REGEX)
-            .matcher(text)
-            .replaceAll(replacer);
+                .matcher(text)
+                .replaceAll(replacer);
     }
 
     /**

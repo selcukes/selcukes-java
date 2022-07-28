@@ -235,7 +235,7 @@ public class Response {
         int responseCode = statusCode();
         if (responseCode >= 400) {
             throw new SelcukesException(String.format("HttpResponseException : Response Code[%s] Reason Phrase[%s]",
-                responseCode, getReasonPhrase(responseCode)));
+                    responseCode, getReasonPhrase(responseCode)));
         }
     }
 }

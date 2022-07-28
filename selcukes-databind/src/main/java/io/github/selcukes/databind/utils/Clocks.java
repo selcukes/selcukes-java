@@ -40,7 +40,7 @@ public class Clocks {
 
     public static DateTimeFormatter dateTimeFormatter(String format, String defaultFormat) {
         return ofPattern(ofNullable(format)
-            .filter(f -> !f.isEmpty())
-            .orElse(defaultFormat));
+                .filter(f -> !f.isEmpty())
+                .orElse(defaultFormat));
     }
 }

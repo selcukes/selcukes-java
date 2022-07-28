@@ -47,12 +47,12 @@ public class MobileAppTest {
     @Test(enabled = false)
     public void expandAndScrollScreenTest() {
         page.click("aid:Views")
-            .click("aid:Expandable Lists")
-            .click("aid:3. Simple Adapter")
-            .swipe(textView("Group 18"), DOWN)
-            .click(textView("Group 18"))
-            .swipe(textView("Child 13"), DOWN)
-            .swipe(textView("Group 1"), UP);
+                .click("aid:Expandable Lists")
+                .click("aid:3. Simple Adapter")
+                .swipe(textView("Group 18"), DOWN)
+                .click(textView("Group 18"))
+                .swipe(textView("Child 13"), DOWN)
+                .swipe(textView("Group 1"), UP);
 
     }
 
@@ -65,21 +65,21 @@ public class MobileAppTest {
         By list2 = By.id("io.appium.android.apis:id/list2");
 
         page.click("aid:Views")
-            .swipe(splittingTouches, DOWN)
-            .click(splittingTouches)
-            .swipe(list2, blueText, DOWN)
-            .click(blueText, WaitCondition.PRESENT)
-            .swipe(list2, sublimeText, UP)
-            .click(sublimeText);
+                .swipe(splittingTouches, DOWN)
+                .click(splittingTouches)
+                .swipe(list2, blueText, DOWN)
+                .click(blueText, WaitCondition.PRESENT)
+                .swipe(list2, sublimeText, UP)
+                .click(sublimeText);
     }
 
     @Test(enabled = false)
     public void alertTest() {
         ((AndroidDriver) DriverManager.getWrappedDriver())
-            .startActivity(new Activity("io.appium.android.apis", ".app.AlertDialogSamples"));
+                .startActivity(new Activity("io.appium.android.apis", ".app.AlertDialogSamples"));
 
         page.click(By.id("io.appium.android.apis:id/two_buttons"))
-            .click(By.id("android:id/button1"));
+                .click(By.id("android:id/button1"));
     }
 
     @Test(enabled = false)
@@ -88,17 +88,17 @@ public class MobileAppTest {
         By to = By.id("io.appium.android.apis:id/drag_dot_2");
         By dragText = By.id("io.appium.android.apis:id/drag_result_text");
         page.click("aid:Views")
-            .click("aid:Drag and Drop")
-            .dragAndDrop(from, to)
-            .assertThat().element(dragText).textAs("DraggableDot");
+                .click("aid:Drag and Drop")
+                .dragAndDrop(from, to)
+                .assertThat().element(dragText).textAs("DraggableDot");
     }
 
     @Test(enabled = false)
     public void searchTest() {
         ((AndroidDriver) DriverManager.getWrappedDriver())
-            .startActivity(new Activity("io.appium.android.apis", ".app.SearchInvoke"));
+                .startActivity(new Activity("io.appium.android.apis", ".app.SearchInvoke"));
         page.enter(By.id("txt_query_prefill"), "Hello world!")
-            .click(By.id("btn_start_search"));
+                .click(By.id("btn_start_search"));
     }
 
 }

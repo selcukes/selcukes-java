@@ -65,10 +65,10 @@ public class WebDriverBinaryUtil {
 
     private File getWebDriverBinary() {
         return new File(binaryDownloadDirectory.getAbsolutePath() +
-            File.separator +
-            binaryFactory.getBinaryDirectory() +
-            File.separator +
-            binaryFactory.getBinaryFileName());
+                File.separator +
+                binaryFactory.getBinaryDirectory() +
+                File.separator +
+                binaryFactory.getBinaryFileName());
     }
 
     private WebDriverBinaryUtil downloadAndExtract() {
@@ -96,15 +96,15 @@ public class WebDriverBinaryUtil {
 
     private void decompressBinary() {
         FileExtractUtil.extractFile(
-            binaryFactory.getCompressedBinaryFile(),
-            new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()),
-            binaryFactory.getCompressedBinaryType());
+                binaryFactory.getCompressedBinaryFile(),
+                new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()),
+                binaryFactory.getCompressedBinaryType());
         if (Objects.equals(binaryFactory.getBinaryEnvironment().getOSType(), OsType.LINUX)) {
             try {
                 FileHelper.setFileExecutable(getWebDriverBinary().getAbsolutePath());
             } catch (Exception ignored) {
                 logger.warn(
-                    () -> String.format("Unable to WebDriver Binary file[%s] as executable..", getWebDriverBinary().getAbsolutePath()));
+                        () -> String.format("Unable to WebDriver Binary file[%s] as executable..", getWebDriverBinary().getAbsolutePath()));
             }
 
         }
@@ -115,9 +115,9 @@ public class WebDriverBinaryUtil {
         StringBuilder binaryPropertyName = new StringBuilder();
 
         binaryPropertyName.append(WEBDRIVER)
-            .append(".")
-            .append(binaryFactory.getDriverType().getName())
-            .append(".driver");
+                .append(".")
+                .append(binaryFactory.getDriverType().getName())
+                .append(".driver");
 
         System.setProperty(binaryPropertyName.toString(), getWebDriverBinary().getAbsolutePath());
         return binaryPropertyName.toString();

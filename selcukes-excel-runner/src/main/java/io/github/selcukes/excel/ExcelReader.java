@@ -58,23 +58,23 @@ public class ExcelReader {
 
     public List<List<String>> getSheetData(Sheet sheet) {
         return Streams.of(sheet.iterator())
-            .map(this::getRowData)
-            .collect(Collectors.toList());
+                .map(this::getRowData)
+                .collect(Collectors.toList());
     }
 
     private List<String> getRowData(Row row) {
         DataFormatter df = new DataFormatter();
         FormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
         return Streams.of(row.iterator())
-            .map(cell -> {
-                if (cell == null) {
-                    return "";
-                } else if (cell.getCellType().equals(CellType.FORMULA)) {
-                    return df.formatCellValue(cell, formulaEvaluator);
-                } else {
-                    return df.formatCellValue(cell);
-                }
-            }).collect(Collectors.toList());
+                .map(cell -> {
+                    if (cell == null) {
+                        return "";
+                    } else if (cell.getCellType().equals(CellType.FORMULA)) {
+                        return df.formatCellValue(cell, formulaEvaluator);
+                    } else {
+                        return df.formatCellValue(cell);
+                    }
+                }).collect(Collectors.toList());
     }
 
 

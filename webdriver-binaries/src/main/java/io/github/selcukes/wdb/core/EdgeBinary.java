@@ -30,10 +30,10 @@ public class EdgeBinary extends AbstractBinary {
     public URL getDownloadURL() {
         try {
             return new URL(String.format(
-                BINARY_DOWNLOAD_URL_PATTERN,
-                UrlHelper.EDGE_DRIVER_URL,
-                getBinaryVersion(),
-                getBinaryEnvironment().getOsNameAndArch()
+                    BINARY_DOWNLOAD_URL_PATTERN,
+                    UrlHelper.EDGE_DRIVER_URL,
+                    getBinaryVersion(),
+                    getBinaryEnvironment().getOsNameAndArch()
             ));
 
         } catch (MalformedURLException e) {

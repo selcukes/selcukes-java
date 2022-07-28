@@ -66,10 +66,10 @@ public class VersionDetector {
     private String getQuery() {
         String wmicQuery = "wmic datafile where name='%s' get version";
         Map<String, String> browserPath = Map.of(
-            "chromedriver", "C:\\\\Program Files (x86)\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe",
-            "geckodriver", "C:\\\\program files\\\\Mozilla Firefox\\\\firefox.exe",
-            "msedgedriver", "C:\\\\Program Files (x86)\\\\Microsoft\\\\Edge\\\\Application\\\\msedge.exe",
-            "IEDriverServer", "C:\\\\Program Files\\\\Internet Explorer\\\\iexplore.exe"
+                "chromedriver", "C:\\\\Program Files (x86)\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe",
+                "geckodriver", "C:\\\\program files\\\\Mozilla Firefox\\\\firefox.exe",
+                "msedgedriver", "C:\\\\Program Files (x86)\\\\Microsoft\\\\Edge\\\\Application\\\\msedge.exe",
+                "IEDriverServer", "C:\\\\Program Files\\\\Internet Explorer\\\\iexplore.exe"
         );
         return String.format(wmicQuery, browserPath.get(driverName));
     }

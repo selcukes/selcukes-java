@@ -34,11 +34,11 @@ public interface BinaryFactory {
 
     default File getCompressedBinaryFile() {
         String file = FileHelper.getTempDir() +
-            "/" +
-            getBinaryDriverName().toLowerCase() +
-            "_" +
-            getBinaryVersion() +
-            "." + getCompressedBinaryType().getName();
+                "/" +
+                getBinaryDriverName().toLowerCase() +
+                "_" +
+                getBinaryVersion() +
+                "." + getCompressedBinaryType().getName();
         return new File(file);
     }
 

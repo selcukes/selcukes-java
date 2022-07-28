@@ -39,7 +39,7 @@ public class PropertiesTest {
     @Test
     public void createPropertyFileTest() {
         Map<String, String> data = Map.of("userName", "QA",
-            "Time", DateHelper.get().timeStamp());
+                "Time", DateHelper.get().timeStamp());
         Path filePath = Path.of(PROPS_FILE);
         PropertiesMapper.write(filePath.toAbsolutePath().toString(), data);
         assertTrue(filePath.toFile().exists());

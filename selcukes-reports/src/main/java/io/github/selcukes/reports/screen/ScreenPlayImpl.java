@@ -102,8 +102,8 @@ class ScreenPlayImpl implements ScreenPlay {
         if (isAttachable()) {
             String videoPath = stop().getAbsolutePath();
             String htmlToEmbed = "<video width=\"864\" height=\"576\" controls>"
-                + "<source src=" + videoPath + " type=\"video/mp4\">"
-                + "Your browser does not support the video tag." + "</video>";
+                    + "<source src=" + videoPath + " type=\"video/mp4\">"
+                    + "Your browser does not support the video tag." + "</video>";
             attach(htmlToEmbed);
         } else {
             if (isNativeDevice) {
@@ -116,15 +116,15 @@ class ScreenPlayImpl implements ScreenPlay {
     private void startNativeVideo() {
         if (driver instanceof AndroidDriver) {
             ((AndroidDriver) driver)
-                .startRecordingScreen(new AndroidStartScreenRecordingOptions()
-                    .withVideoSize("540x960").withBitRate(2000000)
-                    .withTimeLimit(Duration.ofMinutes(30)));
+                    .startRecordingScreen(new AndroidStartScreenRecordingOptions()
+                            .withVideoSize("540x960").withBitRate(2000000)
+                            .withTimeLimit(Duration.ofMinutes(30)));
         } else if (driver instanceof IOSDriver) {
             ((IOSDriver) driver)
-                .startRecordingScreen(new IOSStartScreenRecordingOptions()
-                    .withVideoType("libx264")
-                    .withVideoQuality(IOSStartScreenRecordingOptions.VideoQuality.MEDIUM)
-                    .withTimeLimit(Duration.ofMinutes(30)));
+                    .startRecordingScreen(new IOSStartScreenRecordingOptions()
+                            .withVideoType("libx264")
+                            .withVideoQuality(IOSStartScreenRecordingOptions.VideoQuality.MEDIUM)
+                            .withTimeLimit(Duration.ofMinutes(30)));
 
         }
         logger.info(() -> "Native Recording started");
@@ -180,9 +180,9 @@ class ScreenPlayImpl implements ScreenPlay {
         }
 
         notifier.scenarioName(result.getTestName())
-            .scenarioStatus(result.getStatus())
-            .stepDetails(message)
-            .path(takeScreenshot());
+                .scenarioStatus(result.getStatus())
+                .stepDetails(message)
+                .path(takeScreenshot());
 
         if (result.getErrorMessage() != null)
             notifier.errorMessage(result.getErrorMessage());

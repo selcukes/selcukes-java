@@ -38,7 +38,7 @@ public class ExcelMapper {
         final String extension = fileName.substring(extensionIndex + 1);
         if (!extension.equalsIgnoreCase("xlsx")) {
             throw new DataMapperException(String.format("File [%s] not found.",
-                fileName.substring(0, extensionIndex) + ".xlsx"));
+                    fileName.substring(0, extensionIndex) + ".xlsx"));
         }
         ExcelParser<T> excelMapper = new ExcelParser<>(entityClass);
         return excelMapper.parse(dataFile.getPath());

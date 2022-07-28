@@ -35,7 +35,7 @@ public class CookiesTest {
     @Test
     public void cookiesTest() {
         page.open("https://the-internet.herokuapp.com/")
-            .click(By.linkText("JavaScript Alerts"));
+                .click(By.linkText("JavaScript Alerts"));
         var cookie = page.cookies().get(0);
         var cookieName = page.cookie(cookie).getName();
         page.verifyThat().object(cookieName).isEqualTo(cookie);

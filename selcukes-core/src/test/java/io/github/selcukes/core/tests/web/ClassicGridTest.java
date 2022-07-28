@@ -45,7 +45,7 @@ public class ClassicGridTest {
         logger.debug(() -> "In Parallel Test for " + driverType.getName());
         ConfigFactory.getConfig().getWeb().setBrowser(driverType.getName());
         Pages.webPage().open("https://www.google.com/")
-            .assertThat().title("Google");
+                .assertThat().title("Google");
     }
 
 }

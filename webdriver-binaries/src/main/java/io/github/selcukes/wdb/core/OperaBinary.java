@@ -31,11 +31,11 @@ public class OperaBinary extends AbstractBinary {
     public URL getDownloadURL() {
         try {
             return new URL(String.format(
-                BINARY_DOWNLOAD_URL_PATTERN,
-                UrlHelper.OPERA_DRIVER_URL,
-                getBinaryVersion(),
-                getBinaryEnvironment().getOsNameAndArch(),
-                getCompressedBinaryType().getName()));
+                    BINARY_DOWNLOAD_URL_PATTERN,
+                    UrlHelper.OPERA_DRIVER_URL,
+                    getBinaryVersion(),
+                    getBinaryEnvironment().getOsNameAndArch(),
+                    getCompressedBinaryType().getName()));
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);
         }

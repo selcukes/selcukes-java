@@ -46,7 +46,7 @@ public class PropertiesMapper {
         final String extension = fileName.substring(extensionIndex + 1);
         if (!extension.equalsIgnoreCase("properties")) {
             throw new DataMapperException(String.format("File [%s] not found.",
-                fileName.substring(0, extensionIndex) + ".properties"));
+                    fileName.substring(0, extensionIndex) + ".properties"));
         }
         PropertiesParser<T> propertiesParser = new PropertiesParser<>(entityClass);
         return propertiesParser.parse(dataFile.getPath());

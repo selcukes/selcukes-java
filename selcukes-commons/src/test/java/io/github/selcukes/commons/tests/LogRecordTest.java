@@ -54,14 +54,14 @@ public class LogRecordTest {
         logger.info(() -> "Test Completed..." + id);
 
         String allLogs = logRecordListener.getLogRecords()
-            .map(LogRecord::getMessage)
-            .collect(Collectors.joining("\n  --> ", "\n--ALL Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
+                .map(LogRecord::getMessage)
+                .collect(Collectors.joining("\n  --> ", "\n--ALL Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
 
         System.out.println("Thread with id: " + id + allLogs);
 
         String infoLogs = logRecordListener.getLogRecords(Level.INFO)
-            .map(LogRecord::getMessage)
-            .collect(Collectors.joining("\n  --> ", "\n--Info Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
+                .map(LogRecord::getMessage)
+                .collect(Collectors.joining("\n  --> ", "\n--Info Logs-- \n\n  --> ", "\n\n--End Of Logs--"));
 
         System.out.println("Thread with id: " + id + infoLogs);
 

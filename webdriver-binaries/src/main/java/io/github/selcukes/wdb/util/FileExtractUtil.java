@@ -93,7 +93,7 @@ public final class FileExtractUtil {
         long size = entry.getSize();
         long compressedSize = entry.getSize();
         logger.info(() -> String.format("Uncompressing {%s} (size: {%d} KB, compressed size: {%d} KB)",
-            fileName, size, compressedSize));
+                fileName, size, compressedSize));
         File entryDestination = newFile(destination, entry);
         if (entry.isDirectory()) {
             FileHelper.createDirectory(entryDestination);

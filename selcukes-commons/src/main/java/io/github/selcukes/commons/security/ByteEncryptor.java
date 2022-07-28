@@ -61,7 +61,7 @@ public class ByteEncryptor {
         ByteBuffer byteBuffer = ByteBuffer.wrap(encryptedData);
         int dataSize = byteBuffer.getInt();
         Preconditions.checkArgument(!(dataSize < DEFAULT_IV_LENGTH || dataSize >= DEFAULT_IV_LENGTH + ITERATIONS),
-            "Data size is incorrect. Make sure that the incoming data is an AES encrypted file.");
+                "Data size is incorrect. Make sure that the incoming data is an AES encrypted file.");
         byte[] iv = newIV(dataSize);
         byteBuffer.get(iv);
         SecretKey secretKey = generateSecretKey(key, iv);
@@ -79,7 +79,7 @@ public class ByteEncryptor {
     }
 
     private byte[] doCipher(int encryptionMode, byte[] data, SecretKey secretKey, byte[] iv)
-        throws GeneralSecurityException {
+            throws GeneralSecurityException {
 
         Cipher cipher = Cipher.getInstance(DEFAULT_ALGORITHM);
         cipher.init(encryptionMode, secretKey, new GCMParameterSpec(DEFAULT_LENGTH, iv));

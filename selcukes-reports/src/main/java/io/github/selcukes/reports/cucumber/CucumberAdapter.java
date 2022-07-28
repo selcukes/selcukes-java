@@ -47,7 +47,7 @@ public class CucumberAdapter implements CucumberService {
     public void afterStep(String step, boolean status) {
         if (status) stepInfo = step;
         play.withResult(scenario)
-            .attachScreenshot();
+                .attachScreenshot();
         if (ConfigFactory.getConfig().getNotifier().isNotification())
             play.sendNotification(stepInfo);
     }
