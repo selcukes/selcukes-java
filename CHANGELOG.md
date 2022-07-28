@@ -11,6 +11,11 @@
 
 ### Changed
 
+* Update dependency cucumber.version to v7.5.0([#174](https://github.com/selcukes/selcukes-java/pull/174))
+* Update dependency org.junit:junit-bom to v5.9.0([#172](https://github.com/selcukes/selcukes-java/pull/172))
+* [Screenshot] Capture full page screenshot using CDP
+  command ([#176](https://github.com/selcukes/selcukes-java/pull/176))
+
 ### Removed
 
 * [Core] Removed Listeners `TestLifecyclePerMethod`, `TestLifecyclePerClass`, `TestNGReportListener` instead
