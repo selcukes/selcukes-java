@@ -41,6 +41,7 @@ import java.time.Duration;
 import java.util.UUID;
 
 import static io.github.selcukes.extent.report.Reporter.getReporter;
+import static java.util.Optional.ofNullable;
 
 @CustomLog
 class ScreenPlayImpl implements ScreenPlay {
@@ -55,6 +56,7 @@ class ScreenPlayImpl implements ScreenPlay {
     WebDriver driver;
     private Scenario scenario;
     private ScreenPlayResult result;
+    private String screenshotPath;
 
     public ScreenPlayImpl(WebDriver driver) {
         this.driver = driver;
@@ -87,7 +89,7 @@ class ScreenPlayImpl implements ScreenPlay {
             }
 
         } else {
-            String screenshotPath = takeScreenshot();
+            screenshotPath = takeScreenshot();
             if (!screenshotPath.isEmpty()) {
                 String htmlToEmbed = "<br>  <img src='" + screenshotPath + "' height='100' width='100' /><br>";
                 attach(htmlToEmbed);
@@ -182,7 +184,7 @@ class ScreenPlayImpl implements ScreenPlay {
         notifier.scenarioName(result.getTestName())
                 .scenarioStatus(result.getStatus())
                 .stepDetails(message)
-                .path(takeScreenshot());
+                .path(ofNullable(screenshotPath).orElse(""));
 
         if (result.getErrorMessage() != null)
             notifier.errorMessage(result.getErrorMessage());

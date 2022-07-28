@@ -18,6 +18,7 @@ package io.github.selcukes.snapshot;
 
 import io.github.selcukes.commons.Await;
 import io.github.selcukes.commons.exception.SnapshotException;
+import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.helper.ImageUtil;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
@@ -26,37 +27,51 @@ import org.openqa.selenium.WebDriver;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 class DefaultPageSnapshot {
     protected String screenshotText;
     protected boolean isAddressBar = false;
-    private WebDriver driver;
+    private final WebDriver driver;
+    protected Map<String, Object> screenOptions;
 
     public DefaultPageSnapshot(WebDriver driver) {
         this.driver = driver;
     }
 
     protected <X> X getDefaultPageSnapshot(OutputType<X> outputType) {
+        screenOptions = getScreenOptions();
         BufferedImage defaultPageScreenshot = defaultPageScreenshot();
         return outputType.convertFromPngBytes(ImageUtil.toByteArray(defaultPageScreenshot));
     }
 
-    protected Object executeJS(String script, Object... args) {
-        return ((JavascriptExecutor) driver).executeScript(script, args);
+    @SuppressWarnings("unchecked")
+    protected <T> T executeJS(String script, Object... args) {
+        return (T) ((JavascriptExecutor) driver).executeScript(script, args);
     }
 
-    protected String getFullHeight() {
-        return executeJS("return document.body.scrollHeight").toString();
+    protected Map<String, Object> getScreenOptions() {
+        String js = "return " + FileHelper.readContent("screen-size.js");
+        return executeJS(js);
+    }
+
+    protected int getFullHeight() {
+        Long fullHeight = (Long) screenOptions.get("fullHeight");
+        return fullHeight.intValue();
+    }
+
+    protected boolean isNotViewport() {
+        return (boolean) screenOptions.get("exceedViewport");
     }
 
     protected int getFullWidth() {
-        Long fullWidth = (Long) executeJS("return window.innerWidth");
+        Long fullWidth = (Long) screenOptions.get("fullWidth");
         return fullWidth.intValue();
     }
 
     protected int getWindowHeight() {
-        Long windowHeight = (Long) executeJS("return window.innerHeight");
+        Long windowHeight = (Long) screenOptions.get("viewHeight");
         return windowHeight.intValue();
     }
 
@@ -84,7 +99,7 @@ class DefaultPageSnapshot {
     }
 
     private BufferedImage defaultPageScreenshot() {
-        int allH = Integer.parseInt(getFullHeight());
+        int allH = getFullHeight();
         int allW = getFullWidth();
         int winH = getWindowHeight();
         int scrollTimes = allH / winH;
@@ -117,4 +132,5 @@ class DefaultPageSnapshot {
             throw new SnapshotException("Failed capturing Browser address bar...", e);
         }
     }
+
 }
