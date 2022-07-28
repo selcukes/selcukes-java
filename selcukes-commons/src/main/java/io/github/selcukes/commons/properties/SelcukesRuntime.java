@@ -22,7 +22,15 @@ import io.github.selcukes.commons.os.Platform;
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
 
-import static io.github.selcukes.commons.properties.SelcukesTestProperties.*;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.EMAIL_REPORT;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.FEATURES;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.GLUE;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.PLUGIN;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.REPORTS_FILE;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.REPORTS_PATH;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.TAGS;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.TIMESTAMP_REPORT;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.setSystemProperty;
 import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
 import static java.util.Optional.ofNullable;
 

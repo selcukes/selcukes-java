@@ -28,11 +28,13 @@ import java.nio.file.Path;
 import java.util.Map;
 
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.FEATURES;
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 public class PropertiesTest {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final static String PROPS_FILE = "target/temp.properties";
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Test
     public void createPropertyFileTest() {

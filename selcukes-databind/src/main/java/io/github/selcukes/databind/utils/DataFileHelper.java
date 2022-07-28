@@ -36,10 +36,6 @@ public class DataFileHelper<T> {
     private final DataFile dataFile;
     private boolean isNewFile;
 
-    public void setNewFile(boolean newFile) {
-        isNewFile = newFile;
-    }
-
     private DataFileHelper(final Class<T> dataClass) {
         this.dataClass = dataClass;
         this.dataFile = ofNullable(dataClass.getDeclaredAnnotation(DataFile.class))
@@ -50,6 +46,10 @@ public class DataFileHelper<T> {
 
     public static <T> DataFileHelper<T> getInstance(final Class<T> dataClass) {
         return new DataFileHelper<>(dataClass);
+    }
+
+    public void setNewFile(boolean newFile) {
+        isNewFile = newFile;
     }
 
     public String getFileName() {

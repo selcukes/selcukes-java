@@ -20,7 +20,15 @@ import io.github.selcukes.commons.annotation.Lifecycle;
 import io.github.selcukes.commons.fixture.SelcukesFixture;
 import io.github.selcukes.commons.fixture.TestResult;
 import io.github.selcukes.commons.listener.LifecycleManager;
-import org.testng.*;
+import org.testng.IClassListener;
+import org.testng.IInvokedMethod;
+import org.testng.IInvokedMethodListener;
+import org.testng.ISuite;
+import org.testng.ISuiteListener;
+import org.testng.ITestClass;
+import org.testng.ITestContext;
+import org.testng.ITestResult;
+import org.testng.Reporter;
 
 import static io.github.selcukes.commons.SelcukesLifecycle.getDefaultLifecycle;
 import static io.github.selcukes.commons.SelcukesLifecycle.getLifecycleType;

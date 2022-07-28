@@ -56,12 +56,12 @@ public class AppiumOptions {
         return new MutableCapabilities().merge(capabilities);
     }
 
-    public void setUserOptions(Capabilities capabilities) {
-        caps = capabilities;
-    }
-
     public Capabilities getUserOptions() {
         return caps;
+    }
+
+    public void setUserOptions(Capabilities capabilities) {
+        caps = capabilities;
     }
 
 }

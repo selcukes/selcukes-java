@@ -26,8 +26,8 @@ import java.net.URL;
 
 @CustomLog
 class AppiumEngine {
-    private AppiumDriverLocalService service;
     private static AppiumEngine appiumEngine;
+    private AppiumDriverLocalService service;
 
     public static AppiumEngine getInstance() {
         if (appiumEngine == null)

@@ -24,8 +24,8 @@ import io.github.selcukes.reports.screen.ScreenPlayBuilder;
 
 public class CucumberAdapter implements CucumberService {
     ScreenPlay play;
-    private String stepInfo;
     Scenario scenario;
+    private String stepInfo;
 
     @Override
     public void beforeTest() {

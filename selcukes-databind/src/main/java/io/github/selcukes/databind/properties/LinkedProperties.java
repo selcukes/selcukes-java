@@ -17,7 +17,11 @@
 package io.github.selcukes.databind.properties;
 
 
-import java.util.*;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 @SuppressWarnings("all")
 public class LinkedProperties extends Properties {

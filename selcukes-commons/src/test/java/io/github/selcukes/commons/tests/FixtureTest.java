@@ -17,7 +17,6 @@
 package io.github.selcukes.commons.tests;
 
 import io.github.selcukes.commons.fixture.SelcukesFixture;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class FixtureTest {

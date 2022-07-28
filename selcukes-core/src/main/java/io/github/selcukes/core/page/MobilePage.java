@@ -28,10 +28,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MobilePage implements Page {
-    private final WebDriver driver;
     private static final String HEIGHT = "height";
     private static final String PERCENT = "percent";
     private static final String WIDTH = "width";
+    private final WebDriver driver;
 
     public MobilePage(WebDriver driver) {
         this.driver = driver;

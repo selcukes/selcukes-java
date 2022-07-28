@@ -38,15 +38,14 @@ import static io.github.selcukes.databind.properties.PropertiesMapper.systemProp
  */
 @UtilityClass
 public class StringHelper {
-    private static final String SNAKE_CASE_REGEX = "([a-z])([A-Z]+)";
-    private static final String CAMEL_CASE_REGEX = "[^a-zA-Z0-9]";
-    private static final String INTERPOLATE_REGEX = "\\$\\{(.+?)\\}";
-    private static final String VERSION_NUMBER_REGEX = "[^0-9_.]";
-
     /**
      * The constant nullOrEmpty.
      */
     public static final Predicate<String> nullOrEmpty = StringHelper::isNullOrEmpty;
+    private static final String SNAKE_CASE_REGEX = "([a-z])([A-Z]+)";
+    private static final String CAMEL_CASE_REGEX = "[^a-zA-Z0-9]";
+    private static final String INTERPOLATE_REGEX = "\\$\\{(.+?)\\}";
+    private static final String VERSION_NUMBER_REGEX = "[^0-9_.]";
 
     /**
      * Is null or empty boolean.

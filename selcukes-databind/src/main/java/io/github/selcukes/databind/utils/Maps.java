@@ -18,7 +18,11 @@ package io.github.selcukes.databind.utils;
 
 import lombok.experimental.UtilityClass;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 

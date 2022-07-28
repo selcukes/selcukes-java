@@ -50,11 +50,11 @@ class ScreenPlayImpl implements ScreenPlay {
     protected Recorder recorder;
     protected Notifier notifier;
     boolean isFailedOnly;
-    private Scenario scenario;
-    private ScreenPlayResult result;
     boolean isNativeDevice;
     boolean isDesktop;
     WebDriver driver;
+    private Scenario scenario;
+    private ScreenPlayResult result;
 
     public ScreenPlayImpl(WebDriver driver) {
         this.driver = driver;

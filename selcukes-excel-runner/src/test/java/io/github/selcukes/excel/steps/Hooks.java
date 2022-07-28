@@ -23,6 +23,12 @@ import io.cucumber.java.Scenario;
 public class Hooks {
     public static ThreadLocal<String> testName = new InheritableThreadLocal<>();
 
+    public static String getFeatureName(Scenario scenario) {
+        String featureName = scenario.getUri().getPath();
+        featureName = featureName.substring(featureName.lastIndexOf("/") + 1, featureName.indexOf("."));
+        return featureName;
+    }
+
     @Before
     public void beforeTest(Scenario scenario) {
         String test = getFeatureName(scenario) + "::" + scenario.getName();
@@ -32,11 +38,5 @@ public class Hooks {
     @After
     public void afterTest(Scenario scenario) {
         testName.remove();
-    }
-
-    public static String getFeatureName(Scenario scenario) {
-        String featureName = scenario.getUri().getPath();
-        featureName = featureName.substring(featureName.lastIndexOf("/") + 1, featureName.indexOf("."));
-        return featureName;
     }
 }

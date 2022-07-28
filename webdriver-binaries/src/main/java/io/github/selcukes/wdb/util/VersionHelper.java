@@ -19,7 +19,11 @@ package io.github.selcukes.wdb.util;
 import io.github.selcukes.commons.http.Response;
 import io.github.selcukes.commons.http.WebClient;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import static io.github.selcukes.databind.xml.XmlMapper.filterElements;

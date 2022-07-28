@@ -18,13 +18,24 @@ package io.github.selcukes.reports.cucumber;
 
 import io.cucumber.messages.types.Feature;
 import io.cucumber.plugin.ConcurrentEventListener;
-import io.cucumber.plugin.event.*;
+import io.cucumber.plugin.event.EventPublisher;
+import io.cucumber.plugin.event.PickleStepTestStep;
+import io.cucumber.plugin.event.Status;
+import io.cucumber.plugin.event.TestCaseFinished;
+import io.cucumber.plugin.event.TestCaseStarted;
+import io.cucumber.plugin.event.TestRunFinished;
+import io.cucumber.plugin.event.TestSourceRead;
+import io.cucumber.plugin.event.TestStepFinished;
 import io.github.selcukes.extent.report.TestSourcesModel;
 import lombok.Builder;
 import lombok.CustomLog;
 import lombok.Data;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @CustomLog
 public class CucumberLiveReportAdapter implements ConcurrentEventListener {

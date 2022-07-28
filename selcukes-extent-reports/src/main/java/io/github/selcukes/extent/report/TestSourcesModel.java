@@ -19,7 +19,18 @@
 package io.github.selcukes.extent.report;
 
 import io.cucumber.gherkin.GherkinParser;
-import io.cucumber.messages.types.*;
+import io.cucumber.messages.types.Background;
+import io.cucumber.messages.types.Envelope;
+import io.cucumber.messages.types.Examples;
+import io.cucumber.messages.types.Feature;
+import io.cucumber.messages.types.FeatureChild;
+import io.cucumber.messages.types.GherkinDocument;
+import io.cucumber.messages.types.RuleChild;
+import io.cucumber.messages.types.Scenario;
+import io.cucumber.messages.types.Source;
+import io.cucumber.messages.types.SourceMediaType;
+import io.cucumber.messages.types.Step;
+import io.cucumber.messages.types.TableRow;
 import io.cucumber.plugin.event.TestSourceRead;
 
 import java.io.File;
@@ -88,6 +99,23 @@ public final class TestSourcesModel {
         } catch (URISyntaxException e) {
             throw new IllegalArgumentException(e.getMessage(), e);
         }
+    }
+
+    static Optional<Background> getBackgroundForTestCase(AstNode astNode) {
+        Feature feature = getFeatureForTestCase(astNode);
+        return feature.getChildren()
+            .stream()
+            .map(FeatureChild::getBackground)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .findFirst();
+    }
+
+    private static Feature getFeatureForTestCase(AstNode astNode) {
+        while (astNode.parent != null) {
+            astNode = astNode.parent;
+        }
+        return (Feature) astNode.node;
     }
 
     public void addTestSourceReadEvent(URI path, TestSourceRead event) {
@@ -209,23 +237,6 @@ public final class TestSourcesModel {
             return getBackgroundForTestCase(astNode).isPresent();
         }
         return false;
-    }
-
-    static Optional<Background> getBackgroundForTestCase(AstNode astNode) {
-        Feature feature = getFeatureForTestCase(astNode);
-        return feature.getChildren()
-            .stream()
-            .map(FeatureChild::getBackground)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .findFirst();
-    }
-
-    private static Feature getFeatureForTestCase(AstNode astNode) {
-        while (astNode.parent != null) {
-            astNode = astNode.parent;
-        }
-        return (Feature) astNode.node;
     }
 
     static class ExamplesRowWrapperNode {

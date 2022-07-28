@@ -18,7 +18,12 @@ package io.github.selcukes.wdb;
 
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.os.Architecture;
-import io.github.selcukes.wdb.core.*;
+import io.github.selcukes.wdb.core.BinaryFactory;
+import io.github.selcukes.wdb.core.ChromeBinary;
+import io.github.selcukes.wdb.core.EdgeBinary;
+import io.github.selcukes.wdb.core.FirefoxBinary;
+import io.github.selcukes.wdb.core.IExplorerBinary;
+import io.github.selcukes.wdb.core.OperaBinary;
 import io.github.selcukes.wdb.util.WebDriverBinaryUtil;
 
 public class WebDriverBinary {

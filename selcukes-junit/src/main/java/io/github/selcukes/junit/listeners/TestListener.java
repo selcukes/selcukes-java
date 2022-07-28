@@ -44,7 +44,7 @@ public class TestListener implements TestExecutionListener {
     public void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
         if (testIdentifier.isTest()) {
             logger.debug(() -> "Test Execution Finished..." + testIdentifier.getDisplayName());
-            logger.debug(() -> "Test Execution Status..."+testExecutionResult.getStatus());
+            logger.debug(() -> "Test Execution Status..." + testExecutionResult.getStatus());
         }
     }
 }

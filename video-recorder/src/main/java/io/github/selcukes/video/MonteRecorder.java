@@ -47,6 +47,26 @@ class MonteRecorder implements VideoRecorder {
         this.recorderBuilder = getScreenRecorder();
     }
 
+    private static File encodeRecording(String sourcePath) {
+        File source = new File(sourcePath);
+        File target = new File(sourcePath.replace("avi", "mp4"));
+        try {
+
+            AudioAttributes audio = new AudioAttributes();
+            audio.setCodec("libvorbis");
+            VideoAttributes video = new VideoAttributes();
+            EncodingAttributes attrs = new EncodingAttributes();
+            attrs.setOutputFormat("mp4");
+            attrs.setAudioAttributes(audio);
+            attrs.setVideoAttributes(video);
+            Encoder encoder = new Encoder();
+            encoder.encode(new MultimediaObject(source), target, attrs);
+        } catch (EncoderException e) {
+            throw new RecorderException("Failed converting Video to mp4 format.");
+        }
+        return target;
+    }
+
     @Override
     public void start() {
         recorderBuilder.start();
@@ -67,26 +87,6 @@ class MonteRecorder implements VideoRecorder {
         File video = writeVideo("Temp");
         logger.info(() -> "Deleting recorded video file...");
         video.deleteOnExit();
-    }
-
-    private static File encodeRecording(String sourcePath) {
-        File source = new File(sourcePath);
-        File target = new File(sourcePath.replace("avi", "mp4"));
-        try {
-
-            AudioAttributes audio = new AudioAttributes();
-            audio.setCodec("libvorbis");
-            VideoAttributes video = new VideoAttributes();
-            EncodingAttributes attrs = new EncodingAttributes();
-            attrs.setOutputFormat("mp4");
-            attrs.setAudioAttributes(audio);
-            attrs.setVideoAttributes(video);
-            Encoder encoder = new Encoder();
-            encoder.encode(new MultimediaObject(source), target, attrs);
-        } catch (EncoderException e) {
-            throw new RecorderException("Failed converting Video to mp4 format.");
-        }
-        return target;
     }
 
     private File writeVideo(String filename) {

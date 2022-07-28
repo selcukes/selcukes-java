@@ -16,7 +16,11 @@
 
 package io.github.selcukes.testng;
 
-import io.cucumber.testng.*;
+import io.cucumber.testng.CucumberPropertiesProvider;
+import io.cucumber.testng.FeatureWrapper;
+import io.cucumber.testng.Pickle;
+import io.cucumber.testng.PickleWrapper;
+import io.cucumber.testng.TestNGCucumberRunner;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

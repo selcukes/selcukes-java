@@ -7,14 +7,14 @@
 ### Added
 
 * [BOM] Added Selcukes Bill of Materials (BOM) ([#167](https://github.com/selcukes/selcukes-java/pull/167))
-* [Commons] Added SPI `io.github.selcukes.commons.listener.TestLifecycleListener` 
+* [Commons] Added SPI `io.github.selcukes.commons.listener.TestLifecycleListener`
 
 ### Changed
 
 ### Removed
 
 * [Core] Removed Listeners `TestLifecyclePerMethod`, `TestLifecyclePerClass`, `TestNGReportListener` instead
-use `@Lifecycle`
+  use `@Lifecycle`
 
 ### Fixed
 

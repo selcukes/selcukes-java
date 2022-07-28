@@ -31,9 +31,9 @@ import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
 import static io.github.selcukes.databind.utils.StringHelper.nullOrEmpty;
 
 public class Reporter {
+    private static final ThreadLocal<Reporter> reporterThreadLocal = new InheritableThreadLocal<>();
     private Snapshot snapshot;
     private LogRecordListener logRecordListener;
-    private static final ThreadLocal<Reporter> reporterThreadLocal = new InheritableThreadLocal<>();
 
     public static void log(String message) {
         if (!isNullOrEmpty(message)) {

@@ -20,6 +20,7 @@ import io.github.selcukes.commons.annotation.Lifecycle;
 import io.github.selcukes.core.page.MobilePage;
 import io.github.selcukes.core.page.Pages;
 import org.testng.annotations.Test;
+
 @Lifecycle
 public class MobileBrowserTest {
 
