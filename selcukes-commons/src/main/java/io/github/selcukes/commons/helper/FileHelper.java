@@ -329,5 +329,13 @@ public class FileHelper {
         download(new URL(url), file);
         return file.getPath();
     }
+
+    public String readContent(String filePath) {
+        try {
+            return Files.readString(loadThreadResource(filePath).toPath());
+        } catch (Exception e) {
+            throw new SelcukesException(String.format("Cannot load [%s] from classpath", filePath));
+        }
+    }
 }
 
