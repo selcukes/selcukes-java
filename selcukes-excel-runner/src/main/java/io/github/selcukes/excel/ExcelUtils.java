@@ -21,26 +21,30 @@ import io.github.selcukes.commons.exception.ExcelConfigException;
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @UtilityClass
 @CustomLog
 public class ExcelUtils {
-    private static final String RUN = "Run";
     static final String NAME_SEPARATOR = "::";
+    static final List<String> runScenarios = new ArrayList<>();
+    private static final String RUN = "Run";
     private static final String HYPHEN = " - ";
     private static final String EXAMPLE = " - Example";
     private static final Map<String, List<List<String>>> allSheetsDataMap = new LinkedHashMap<>();
-    private static Map<String, List<List<String>>> allSheetsMap = new LinkedHashMap<>();
-    static final List<String> runScenarios = new ArrayList<>();
     private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcel().get("suiteName");
     private static final List<String> IGNORE_SHEETS = new ArrayList<>(
-        Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
+            Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
+    private static Map<String, List<List<String>>> allSheetsMap = new LinkedHashMap<>();
 
     public static void initTestRunner() {
         ExcelReader excelReader = new ExcelReader(
-            ConfigFactory.getConfig().getExcel().get("fileName"));
+                ConfigFactory.getConfig().getExcel().get("fileName"));
 
         // Store all sheets data
         allSheetsMap = excelReader.getAllSheetsDataMap();
@@ -54,20 +58,20 @@ public class ExcelUtils {
 
         // Filter runOnly Tests
         Map<String, List<List<String>>> allSheetsModifiedMap = allSheetsDataMap.keySet().stream().filter(s -> !IGNORE_SHEETS.contains(s))
-            .collect(Collectors.toMap(sheet -> sheet, sheet -> allSheetsDataMap.get(sheet).stream().skip(1)
-                .filter(row -> {
-                    int exeStatus = allSheetsDataMap.get(sheet).get(0).indexOf(RUN);
-                    return row.get(exeStatus).equalsIgnoreCase("yes");
-                }).collect(Collectors.toList())));
+                .collect(Collectors.toMap(sheet -> sheet, sheet -> allSheetsDataMap.get(sheet).stream().skip(1)
+                        .filter(row -> {
+                            int exeStatus = allSheetsDataMap.get(sheet).get(0).indexOf(RUN);
+                            return row.get(exeStatus).equalsIgnoreCase("yes");
+                        }).collect(Collectors.toList())));
 
         // Stores FeatureName::Tests from master sheet
         List<String> masterList = allSheetsModifiedMap.get(TEST_SUITE_RUNNER_SHEET).stream()
-            .map(row -> row.get(1) + NAME_SEPARATOR + row.get(2)).collect(Collectors.toList());
+                .map(row -> row.get(1) + NAME_SEPARATOR + row.get(2)).collect(Collectors.toList());
 
         if (TEST_SUITE_RUNNER_SHEET.equalsIgnoreCase("Master")) {
             allSheetsModifiedMap.keySet().stream().skip(1).forEach(
-                sheet -> allSheetsModifiedMap.get(sheet).stream().filter(row -> anyMatch(masterList, row.get(0)))
-                    .forEach(row -> runScenarios.add(row.get(0))));
+                    sheet -> allSheetsModifiedMap.get(sheet).stream().filter(row -> anyMatch(masterList, row.get(0)))
+                            .forEach(row -> runScenarios.add(row.get(0))));
         } else {
             runScenarios.addAll(masterList);
         }
@@ -87,7 +91,7 @@ public class ExcelUtils {
         for (int i = 0; i < getRowData(listRow, 0).size(); i++) {
             // Adding Key as Column Header and Value as Test Data Row value
             testDataRowMap.put(getRowData(allSheetsDataMap.get(testSheetName), 0).get(i),
-                getRowData(listRow, testRowIndex).get(i));
+                    getRowData(listRow, testRowIndex).get(i));
         }
         return testDataRowMap;
     }

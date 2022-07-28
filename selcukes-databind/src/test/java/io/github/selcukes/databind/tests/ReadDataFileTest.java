@@ -35,7 +35,7 @@ public class ReadDataFileTest {
         final TestUsers testUsers = DataMapper.parse(TestUsers.class);
         final List<Object[]> data = new ArrayList<>();
         testUsers.getUsers()
-            .forEach(user -> data.add(new Object[]{user}));
+                .forEach(user -> data.add(new Object[]{user}));
         return data.iterator();
     }
 

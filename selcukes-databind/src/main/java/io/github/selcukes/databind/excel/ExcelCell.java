@@ -37,9 +37,9 @@ class ExcelCell<T> extends DataField<T> {
     private final DataFormatter formatter;
 
     public ExcelCell(
-        final Field field,
-        final Map<String, Integer> headers,
-        final List<Converter<T>> defaultConverters
+            final Field field,
+            final Map<String, Integer> headers,
+            final List<Converter<T>> defaultConverters
     ) {
         super(field, defaultConverters);
         this.index = getIndex(headers);
@@ -48,8 +48,8 @@ class ExcelCell<T> extends DataField<T> {
 
     public ExcelCell<T> parse(final Row row) {
         var cellValue = ofNullable(row.getCell(index, RETURN_BLANK_AS_NULL))
-            .map(cell -> formatter.formatCellValue(cell).trim())
-            .orElse("");
+                .map(cell -> formatter.formatCellValue(cell).trim())
+                .orElse("");
         var format = getColumn().map(Key::format).orElse("");
         var substituted = getSubstitutor().replace(cellValue, format);
         var converted = getConverter().convert(substituted, format);
@@ -59,10 +59,10 @@ class ExcelCell<T> extends DataField<T> {
 
     private int getIndex(Map<String, Integer> headers) {
         String header = getColumn()
-            .map(Key::name)
-            .orElse(getFieldName());
+                .map(Key::name)
+                .orElse(getFieldName());
         return ofNullable(Maps.caseInsensitive(headers).get(header))
-            .orElseThrow(() -> new IllegalArgumentException(format("Column %s not found", getFieldName())));
+                .orElseThrow(() -> new IllegalArgumentException(format("Column %s not found", getFieldName())));
     }
 }
 

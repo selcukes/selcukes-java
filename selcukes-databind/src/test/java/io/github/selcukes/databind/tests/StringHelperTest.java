@@ -52,7 +52,7 @@ public class StringHelperTest {
 
     @Test
     public void normalizeTextTest() {
-        String text="Hello\nbe";
-        Assert.assertEquals(StringHelper.normalizeText(text),"Hello be");
+        String text = "Hello\nbe";
+        Assert.assertEquals(StringHelper.normalizeText(text), "Hello be");
     }
 }

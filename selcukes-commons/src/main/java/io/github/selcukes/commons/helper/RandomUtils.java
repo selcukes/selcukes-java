@@ -30,15 +30,15 @@ public class RandomUtils {
 
     public String randomChars(final int leftLimit, final int rightLimit, final int length) {
         return random().ints(leftLimit, rightLimit + 1).limit(length)
-            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
     }
 
     public String randomAlphaNumeric(final int length) {
         int leftLimit = 48;
         int rightLimit = 122;
         return random().ints(leftLimit, rightLimit + 1).limit(length)
-            .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
     }
 
     public String randomAscii(final int length) {

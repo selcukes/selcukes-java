@@ -75,12 +75,12 @@ class PageSnapshot extends DefaultPageSnapshot {
     private <X> X getFullScreenshot(OutputType<X> outputType) {
         defineCustomCommand(new CommandInfo("/session/:sessionId/chromium/send_command_and_get_result", HttpMethod.POST));
         Object metrics = sendEvaluate(
-            "({" +
-                "width: Math.max(window.innerWidth,document.body.scrollWidth,document.documentElement.scrollWidth)|0," +
-                "height: Math.max(window.innerHeight,document.body.scrollHeight,document.documentElement.scrollHeight)|0," +
-                "deviceScaleFactor: window.devicePixelRatio || 1," +
-                "mobile: typeof window.orientation !== 'undefined'" +
-                "})");
+                "({" +
+                        "width: Math.max(window.innerWidth,document.body.scrollWidth,document.documentElement.scrollWidth)|0," +
+                        "height: Math.max(window.innerHeight,document.body.scrollHeight,document.documentElement.scrollHeight)|0," +
+                        "deviceScaleFactor: window.devicePixelRatio || 1," +
+                        "mobile: typeof window.orientation !== 'undefined'" +
+                        "})");
         sendCommand("Emulation.setDeviceMetricsOverride", metrics);
         Await.until(TimeUnit.MILLISECONDS, 500);
         Object result = sendCommand("Page.captureScreenshot", Map.of("format", "png", "fromSurface", true));

@@ -279,7 +279,7 @@ public class FileHelper {
         File waterMarkFile = new File(waterMark);
         if (!waterMarkFile.exists())
             download(Objects.requireNonNull(FileHelper.class.
-                getClassLoader().getResource("selcukes-watermark.png")), waterMarkFile);
+                    getClassLoader().getResource("selcukes-watermark.png")), waterMarkFile);
         return waterMarkFile;
     }
 
@@ -293,7 +293,7 @@ public class FileHelper {
     @SneakyThrows
     public File createFile(String fileContent, String filePath) {
         byte[] decodedFile = Base64.getDecoder()
-            .decode(fileContent.getBytes(StandardCharsets.UTF_8));
+                .decode(fileContent.getBytes(StandardCharsets.UTF_8));
         Path destinationFile = Paths.get(filePath);
         Files.write(destinationFile, decodedFile);
         return destinationFile.toFile();
@@ -309,9 +309,9 @@ public class FileHelper {
         if (destination.exists())
             return;
         try (
-            var urlStream = source.openStream();
-            var readableByteChannel = Channels.newChannel(urlStream);
-            var fileOutputStream = new FileOutputStream(destination)
+                var urlStream = source.openStream();
+                var readableByteChannel = Channels.newChannel(urlStream);
+                var fileOutputStream = new FileOutputStream(destination)
         ) {
             fileOutputStream.getChannel().transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
         } catch (Exception e) {

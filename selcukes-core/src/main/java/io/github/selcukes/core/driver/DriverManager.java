@@ -76,16 +76,16 @@ public class DriverManager {
         return (D) DRIVER_THREAD.get();
     }
 
-    public static WebDriver getWrappedDriver() {
-        if (getDriver() instanceof WrapsDriver)
-            return ((WrapsDriver) getDriver()).getWrappedDriver();
-        return getDriver();
-    }
-
     public static <D extends WebDriver> void setDriver(D driver) {
         DRIVER_THREAD.set(driver);
         DriverFixture.setDriverFixture(driver);
         STORED_DRIVER.putIfAbsent(driver.hashCode(), driver);
+    }
+
+    public static WebDriver getWrappedDriver() {
+        if (getDriver() instanceof WrapsDriver)
+            return ((WrapsDriver) getDriver()).getWrappedDriver();
+        return getDriver();
     }
 
     public static synchronized void removeDriver() {

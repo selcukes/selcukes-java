@@ -28,8 +28,8 @@ public class RecorderFactory {
 
     public synchronized Recorder getRecorder() {
         return ConfigFactory.getConfig()
-            .getVideo().getType()
-            .equalsIgnoreCase("FFMPEG") ?
-            new FFmpegRecorder() : new MonteRecorder();
+                .getVideo().getType()
+                .equalsIgnoreCase("FFMPEG") ?
+                new FFmpegRecorder() : new MonteRecorder();
     }
 }

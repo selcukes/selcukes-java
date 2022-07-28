@@ -34,19 +34,6 @@ import static java.lang.String.format;
 public class DropDown {
     private static final String ATTRIBUTE = "value";
 
-    @AllArgsConstructor
-    enum SelectionType {
-        LABEL(Select::selectByVisibleText, select -> select.getFirstSelectedOption().getText()),
-        VALUE(Select::selectByValue, select -> select.getFirstSelectedOption().getAttribute(ATTRIBUTE)),
-        INDEX((select, value) -> select.selectByIndex(parseInt(value)), select -> select.getOptions().
-            indexOf(select.getFirstSelectedOption()));
-        @Getter
-        private final BiConsumer<Select, String> selector;
-        @Getter
-        private final Function<Select, Object> retriever;
-
-    }
-
     public void select(Select select, String optionLocator) {
         Preconditions.checkArgument(optionLocator.contains(LOCATOR_SEPARATOR), format(INVALID_LOCATOR, optionLocator));
         String[] output = optionLocator.split(LOCATOR_SEPARATOR);
@@ -59,5 +46,18 @@ public class DropDown {
     public Object selected(Select select, String optionLocator) {
         SelectionType type = SelectionType.valueOf(optionLocator.toUpperCase());
         return type.getRetriever().apply(select);
+    }
+
+    @AllArgsConstructor
+    enum SelectionType {
+        LABEL(Select::selectByVisibleText, select -> select.getFirstSelectedOption().getText()),
+        VALUE(Select::selectByValue, select -> select.getFirstSelectedOption().getAttribute(ATTRIBUTE)),
+        INDEX((select, value) -> select.selectByIndex(parseInt(value)), select -> select.getOptions().
+                indexOf(select.getFirstSelectedOption()));
+        @Getter
+        private final BiConsumer<Select, String> selector;
+        @Getter
+        private final Function<Select, Object> retriever;
+
     }
 }

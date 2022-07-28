@@ -24,8 +24,8 @@ import io.github.selcukes.reports.screen.ScreenPlayBuilder;
 
 public class CucumberAdapter implements CucumberService {
     ScreenPlay play;
-    private String stepInfo;
     Scenario scenario;
+    private String stepInfo;
 
     @Override
     public void beforeTest() {
@@ -47,7 +47,7 @@ public class CucumberAdapter implements CucumberService {
     public void afterStep(String step, boolean status) {
         if (status) stepInfo = step;
         play.withResult(scenario)
-            .attachScreenshot();
+                .attachScreenshot();
         if (ConfigFactory.getConfig().getNotifier().isNotification())
             play.sendNotification(stepInfo);
     }

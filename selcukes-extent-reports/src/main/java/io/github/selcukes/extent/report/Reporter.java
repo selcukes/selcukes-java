@@ -31,9 +31,9 @@ import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
 import static io.github.selcukes.databind.utils.StringHelper.nullOrEmpty;
 
 public class Reporter {
+    private static final ThreadLocal<Reporter> reporterThreadLocal = new InheritableThreadLocal<>();
     private Snapshot snapshot;
     private LogRecordListener logRecordListener;
-    private static final ThreadLocal<Reporter> reporterThreadLocal = new InheritableThreadLocal<>();
 
     public static void log(String message) {
         if (!isNullOrEmpty(message)) {
@@ -61,17 +61,17 @@ public class Reporter {
     public String getLogRecords() {
         if (logRecordListener != null) {
             return logRecordListener.getLogRecords()
-                .filter(logRecord -> logRecord.getLevel() == Level.INFO || logRecord.getLevel() == Level.SEVERE)
-                .map(logRecord -> {
-                    if (logRecord.getLevel() == Level.SEVERE)
-                        return "<span style=\"color:red;\">" + logRecord.getMessage().replace("\n", "<br/>") + "</span>";
-                    else
-                        return logRecord.getMessage();
+                    .filter(logRecord -> logRecord.getLevel() == Level.INFO || logRecord.getLevel() == Level.SEVERE)
+                    .map(logRecord -> {
+                        if (logRecord.getLevel() == Level.SEVERE)
+                            return "<span style=\"color:red;\">" + logRecord.getMessage().replace("\n", "<br/>") + "</span>";
+                        else
+                            return logRecord.getMessage();
 
-                })
-                .filter(nullOrEmpty.negate())
-                .collect(Collectors.joining("</li><li>", "<ul><li> ",
-                    "</li></ul><br/>"));
+                    })
+                    .filter(nullOrEmpty.negate())
+                    .collect(Collectors.joining("</li><li>", "<ul><li> ",
+                            "</li></ul><br/>"));
         }
         return "";
     }

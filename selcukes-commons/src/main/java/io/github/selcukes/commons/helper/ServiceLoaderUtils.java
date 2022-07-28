@@ -28,14 +28,14 @@ import java.util.stream.Collectors;
 public class ServiceLoaderUtils {
     public <T> T loadFirst(final Class<T> type, final ClassLoader classLoader) {
         return Streams.of(ServiceLoader.load(type, classLoader).iterator())
-            .findFirst()
-            .orElseThrow(
-                () -> new ConfigurationException("Could not load {" + type + "}")
-            );
+                .findFirst()
+                .orElseThrow(
+                        () -> new ConfigurationException("Could not load {" + type + "}")
+                );
     }
 
     public <T> List<T> load(final Class<T> type, final ClassLoader classLoader) {
         return Streams.of(ServiceLoader.load(type, classLoader).iterator())
-            .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 }

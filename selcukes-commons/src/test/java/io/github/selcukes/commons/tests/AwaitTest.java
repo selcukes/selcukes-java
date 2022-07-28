@@ -33,14 +33,14 @@ public class AwaitTest {
         String s2 = "hello";
         long startTime = System.currentTimeMillis() / 1000;
         Await.await().poll(2)
-            .atMax(10)
-            .until(file::exists);
+                .atMax(10)
+                .until(file::exists);
         long endTime = System.currentTimeMillis() / 1000;
         long duration = endTime - startTime;
         logger.info(() -> "Duration:" + duration);
         Await.await().poll(2)
-            .atMax(10)
-            .until(() -> s1.equalsIgnoreCase(s2));
+                .atMax(10)
+                .until(() -> s1.equalsIgnoreCase(s2));
 
     }
 }

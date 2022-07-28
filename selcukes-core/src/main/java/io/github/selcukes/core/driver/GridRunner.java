@@ -24,13 +24,15 @@ import org.openqa.selenium.net.PortProber;
 
 import java.util.Arrays;
 
-import static io.github.selcukes.core.driver.RunMode.*;
+import static io.github.selcukes.core.driver.RunMode.isCloudAppium;
+import static io.github.selcukes.core.driver.RunMode.isCloudBrowser;
+import static io.github.selcukes.core.driver.RunMode.isLocalBrowser;
 
 @CustomLog
 @UtilityClass
 public class GridRunner {
-    private static boolean isRunning = false;
     static int hubPort;
+    private static boolean isRunning = false;
 
     public static synchronized void startSelenium(DriverType... driverType) {
         if (!isCloudBrowser() || !isLocalBrowser()) {

@@ -18,13 +18,24 @@ package io.github.selcukes.reports.cucumber;
 
 import io.cucumber.messages.types.Feature;
 import io.cucumber.plugin.ConcurrentEventListener;
-import io.cucumber.plugin.event.*;
+import io.cucumber.plugin.event.EventPublisher;
+import io.cucumber.plugin.event.PickleStepTestStep;
+import io.cucumber.plugin.event.Status;
+import io.cucumber.plugin.event.TestCaseFinished;
+import io.cucumber.plugin.event.TestCaseStarted;
+import io.cucumber.plugin.event.TestRunFinished;
+import io.cucumber.plugin.event.TestSourceRead;
+import io.cucumber.plugin.event.TestStepFinished;
 import io.github.selcukes.extent.report.TestSourcesModel;
 import lombok.Builder;
 import lombok.CustomLog;
 import lombok.Data;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @CustomLog
 public class CucumberLiveReportAdapter implements ConcurrentEventListener {
@@ -66,10 +77,10 @@ public class CucumberLiveReportAdapter implements ConcurrentEventListener {
     private synchronized void initFeatureContext(Feature currentFeature) {
         scenarioContextThreadLocal.set(new ArrayList<>(Collections.emptyList()));
         FeatureContext featureContext = FeatureContext.builder()
-            .featureName(currentFeature.getName())
-            .description(currentFeature.getDescription())
-            .scenarioContexts(scenarioContextThreadLocal.get())
-            .build();
+                .featureName(currentFeature.getName())
+                .description(currentFeature.getDescription())
+                .scenarioContexts(scenarioContextThreadLocal.get())
+                .build();
 
         featureContextThreadLocal.set(featureContext);
     }
@@ -78,10 +89,10 @@ public class CucumberLiveReportAdapter implements ConcurrentEventListener {
         if (event.getTestStep() instanceof PickleStepTestStep) {
             PickleStepTestStep testStep = (PickleStepTestStep) event.getTestStep();
             StepContext stepContext = StepContext.builder()
-                .stepName(testStep.getStep().getText())
-                .status(event.getResult().getStatus().name())
-                .duration(event.getResult().getDuration().toMillis() + "ms")
-                .build();
+                    .stepName(testStep.getStep().getText())
+                    .status(event.getResult().getStatus().name())
+                    .duration(event.getResult().getDuration().toMillis() + "ms")
+                    .build();
             LiveReportHelper.publishResults(stepContext, "step");
         }
 
@@ -90,13 +101,13 @@ public class CucumberLiveReportAdapter implements ConcurrentEventListener {
 
     private synchronized void afterScenario(TestCaseFinished event) {
         String error = event.getResult().getStatus().is(Status.FAILED) ?
-            event.getResult().getError().getMessage() : "";
+                event.getResult().getError().getMessage() : "";
         ScenarioContext scenarioContext = ScenarioContext.builder()
-            .scenarioName(event.getTestCase().getName())
-            .status(event.getResult().getStatus().name())
-            .duration(event.getResult().getDuration().toMillis() + "ms")
-            .error(error)
-            .build();
+                .scenarioName(event.getTestCase().getName())
+                .status(event.getResult().getStatus().name())
+                .duration(event.getResult().getDuration().toMillis() + "ms")
+                .error(error)
+                .build();
 
         LiveReportHelper.publishResults(scenarioContext, "scenario");
         featureContextThreadLocal.get().getScenarioContexts().add(scenarioContext);
@@ -112,7 +123,7 @@ public class CucumberLiveReportAdapter implements ConcurrentEventListener {
 
     private synchronized String getFeatureStatus(List<ScenarioContext> scenarioContexts) {
         Optional<ScenarioContext> contextOptional = scenarioContexts.stream()
-            .filter(scenarioContext -> scenarioContext.getStatus().equalsIgnoreCase("FAILED")).findFirst();
+                .filter(scenarioContext -> scenarioContext.getStatus().equalsIgnoreCase("FAILED")).findFirst();
         return contextOptional.isPresent() ? contextOptional.get().getStatus() : "PASSED";
     }
 

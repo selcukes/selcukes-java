@@ -43,11 +43,11 @@ public class NotepadTest {
     @BeforeMethod
     public void beforeTest() {
         service = new AppiumServiceBuilder()
-            .withIPAddress("127.0.0.1")
-            .usingAnyFreePort()
-            .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-            .withArgument(GeneralServerFlag.BASEPATH, "/wd/")
-            .build();
+                .withIPAddress("127.0.0.1")
+                .usingAnyFreePort()
+                .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+                .withArgument(GeneralServerFlag.BASEPATH, "/wd/")
+                .build();
         service.start();
 
         WindowsOptions options = new WindowsOptions();

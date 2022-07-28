@@ -32,12 +32,12 @@ public class NotepadTest {
         WinPage page = Pages.winPage();
         By edit = By.className("Edit");
         page.enter(edit, "Welcome to Selcukes !!!")
-            .enter(edit, Keys.ENTER)
-            .enter(edit, "Time is")
-            .enter(edit, Keys.ENTER)
-            .enter(edit, Keys.F5)
-            .enter(edit, Keys.CONTROL + "w" + Keys.CONTROL)
-            .click(By.name("Don't Save"));
+                .enter(edit, Keys.ENTER)
+                .enter(edit, "Time is")
+                .enter(edit, Keys.ENTER)
+                .enter(edit, Keys.F5)
+                .enter(edit, Keys.CONTROL + "w" + Keys.CONTROL)
+                .click(By.name("Don't Save"));
     }
 
 }

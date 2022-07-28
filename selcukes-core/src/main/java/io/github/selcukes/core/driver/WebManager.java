@@ -41,7 +41,7 @@ public class WebManager implements RemoteManager {
         Capabilities capabilities = AppiumOptions.getUserOptions();
         if (capabilities == null) {
             capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser),
-                !(isLocalBrowser() || isCloudBrowser()));
+                    !(isLocalBrowser() || isCloudBrowser()));
             if (isCloudBrowser()) {
                 capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions(false));
             }
@@ -66,8 +66,8 @@ public class WebManager implements RemoteManager {
             serviceUrl = new URL(ConfigFactory.getConfig().getWeb().getServiceUrl());
             if (isSeleniumServerNotRunning()) {
                 logger.warn(() -> "Selenium server not started...\n" +
-                    "Please use 'GridRunner.startSeleniumServer' method to start automatically.\n" +
-                    " Ignore this message if you have started manually or executing in Cloud...");
+                        "Please use 'GridRunner.startSeleniumServer' method to start automatically.\n" +
+                        " Ignore this message if you have started manually or executing in Cloud...");
             } else {
                 String urlString = String.format("%s://%s:%s", serviceUrl.getProtocol(), serviceUrl.getHost(), hubPort);
                 serviceUrl = new URL(urlString);

@@ -20,13 +20,21 @@ package io.github.selcukes.commons.http;
 import io.github.selcukes.databind.utils.StringHelper;
 import lombok.SneakyThrows;
 
-import java.net.*;
+import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
+import java.net.ProxySelector;
+import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 import static java.net.http.HttpRequest.BodyPublisher;
 import static java.net.http.HttpRequest.BodyPublishers;
@@ -41,7 +49,7 @@ public class WebClient {
     public WebClient(String url) {
         clientBuilder = HttpClient.newBuilder();
         requestBuilder = HttpRequest.newBuilder()
-            .uri(new URI(url));
+                .uri(new URI(url));
     }
 
     @SneakyThrows
@@ -83,8 +91,8 @@ public class WebClient {
     private BodyPublisher multiPartBody(Map<Object, Object> data, String boundary) {
         var byteArrays = new ArrayList<byte[]>();
         byte[] separator = ("--" + boundary
-            + "\r\nContent-Disposition: form-data; name=")
-            .getBytes(StandardCharsets.UTF_8);
+                + "\r\nContent-Disposition: form-data; name=")
+                .getBytes(StandardCharsets.UTF_8);
         for (Map.Entry<Object, Object> entry : data.entrySet()) {
             byteArrays.add(separator);
 
@@ -92,14 +100,14 @@ public class WebClient {
                 var path = (Path) entry.getValue();
                 String mimeType = Files.probeContentType(path);
                 byteArrays.add(("\"" + entry.getKey() + "\"; filename=\""
-                    + path.getFileName() + "\"\r\nContent-Type: " + mimeType
-                    + "\r\n\r\n").getBytes(StandardCharsets.UTF_8));
+                        + path.getFileName() + "\"\r\nContent-Type: " + mimeType
+                        + "\r\n\r\n").getBytes(StandardCharsets.UTF_8));
                 byteArrays.add(Files.readAllBytes(path));
                 byteArrays.add("\r\n".getBytes(StandardCharsets.UTF_8));
             } else {
                 byteArrays.add(
-                    ("\"" + entry.getKey() + "\"\r\n\r\n" + entry.getValue()
-                        + "\r\n").getBytes(StandardCharsets.UTF_8));
+                        ("\"" + entry.getKey() + "\"\r\n\r\n" + entry.getValue()
+                                + "\r\n").getBytes(StandardCharsets.UTF_8));
             }
         }
         byteArrays.add(("--" + boundary + "--").getBytes(StandardCharsets.UTF_8));
@@ -130,16 +138,16 @@ public class WebClient {
         if (url.isPresent()) {
             String proxyHost = url.get().getHost();
             int proxyPort = url.get().getPort() == -1 ? 80
-                : url.get().getPort();
+                    : url.get().getPort();
             clientBuilder = clientBuilder
-                .proxy(ProxySelector.of(new InetSocketAddress(proxyHost, proxyPort)));
+                    .proxy(ProxySelector.of(new InetSocketAddress(proxyHost, proxyPort)));
         }
         return this;
     }
 
     public WebClient authenticator(String username, String password) {
         String encodedAuth = Base64.getEncoder()
-            .encodeToString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
+                .encodeToString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
         header("Authorization", "Basic " + encodedAuth);
         return this;
     }

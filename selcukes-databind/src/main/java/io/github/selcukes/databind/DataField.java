@@ -44,8 +44,8 @@ public class DataField<T> {
     private T convertedValue;
 
     public DataField(
-        final Field field,
-        final List<Converter<T>> defaultConverters
+            final Field field,
+            final List<Converter<T>> defaultConverters
     ) {
         this.field = field;
         this.defaultConverters = defaultConverters;
@@ -55,7 +55,7 @@ public class DataField<T> {
 
     public <R> void assignValue(final R instance) {
         ofNullable(convertedValue)
-            .ifPresent(value -> setField(instance, getFieldName(), value));
+                .ifPresent(value -> setField(instance, getFieldName(), value));
     }
 
     public String getFieldName() {
@@ -78,24 +78,24 @@ public class DataField<T> {
 
     public Substitutor getSubstitutor() {
         return getInterpolate()
-            .map(Interpolate::substitutor)
-            .map(Reflections::newInstance)
-            .map(Substitutor.class::cast)
-            .orElseGet(DefaultSubstitutor::new);
+                .map(Interpolate::substitutor)
+                .map(Reflections::newInstance)
+                .map(Substitutor.class::cast)
+                .orElseGet(DefaultSubstitutor::new);
     }
 
     @SuppressWarnings("unchecked")
     private Converter<T> findMatchingConverter() {
         return getColumn()
-            .map(Key::converter)
-            .map(converterClass -> (Converter<T>) newInstance(converterClass))
-            .filter(converterInstance -> converterInstance.getType().equals(getFieldType()))
-            .orElseGet(() -> defaultConverters.stream()
+                .map(Key::converter)
+                .map(converterClass -> (Converter<T>) newInstance(converterClass))
                 .filter(converterInstance -> converterInstance.getType().equals(getFieldType()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalStateException(format(
-                    "There's no matching converter found for %s field of type %s", getFieldName(), getFieldType()))
-                )
-            );
+                .orElseGet(() -> defaultConverters.stream()
+                        .filter(converterInstance -> converterInstance.getType().equals(getFieldType()))
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalStateException(format(
+                                "There's no matching converter found for %s field of type %s", getFieldName(), getFieldType()))
+                        )
+                );
     }
 }

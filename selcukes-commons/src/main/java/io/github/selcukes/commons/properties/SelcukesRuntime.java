@@ -22,7 +22,15 @@ import io.github.selcukes.commons.os.Platform;
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
 
-import static io.github.selcukes.commons.properties.SelcukesTestProperties.*;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.EMAIL_REPORT;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.FEATURES;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.GLUE;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.PLUGIN;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.REPORTS_FILE;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.REPORTS_PATH;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.TAGS;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.TIMESTAMP_REPORT;
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.setSystemProperty;
 import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
 import static java.util.Optional.ofNullable;
 
@@ -45,10 +53,10 @@ public class SelcukesRuntime {
             String extentReportPath = reportsPath + "/extent-reports";
 
             String timestamp = timestampReport.equalsIgnoreCase("true") ?
-                "-" + DateHelper.get().dateTime() : "";
+                    "-" + DateHelper.get().dateTime() : "";
 
             String plugin = String.format("html:%s/%s%s.html, json:%s/cucumber%s.json",
-                cucumberReportPath, reportsFile, timestamp, cucumberReportPath, timestamp);
+                    cucumberReportPath, reportsFile, timestamp, cucumberReportPath, timestamp);
 
             if (!isNullOrEmpty(additionalPlugin)) {
                 plugin = plugin + "," + additionalPlugin;
@@ -69,7 +77,7 @@ public class SelcukesRuntime {
             setSystemProperty("cucumber.publish.quiet", "true");
 
             logger.debug(() -> String.format("Using Runtime Cucumber Options:\nFeatures : [%s]\nGlue     : [%s]\nTags     : [%s] " +
-                "\n ", features, glue, tag));
+                    "\n ", features, glue, tag));
         } catch (Exception exception) {
             logger.warn(() -> "Failed loading selcukes properties. Using default CucumberOptions to execute...");
         }

@@ -17,7 +17,20 @@
 package io.github.selcukes.reports.cucumber;
 
 import io.cucumber.plugin.ConcurrentEventListener;
-import io.cucumber.plugin.event.*;
+import io.cucumber.plugin.event.EmbedEvent;
+import io.cucumber.plugin.event.EventHandler;
+import io.cucumber.plugin.event.EventPublisher;
+import io.cucumber.plugin.event.PickleStepTestStep;
+import io.cucumber.plugin.event.Status;
+import io.cucumber.plugin.event.StepArgument;
+import io.cucumber.plugin.event.TestCaseFinished;
+import io.cucumber.plugin.event.TestCaseStarted;
+import io.cucumber.plugin.event.TestRunFinished;
+import io.cucumber.plugin.event.TestRunStarted;
+import io.cucumber.plugin.event.TestSourceRead;
+import io.cucumber.plugin.event.TestStepFinished;
+import io.cucumber.plugin.event.TestStepStarted;
+import io.cucumber.plugin.event.WriteEvent;
 import io.github.selcukes.extent.report.TestSourcesModel;
 import lombok.CustomLog;
 
@@ -64,8 +77,8 @@ public class CucumberListener implements ConcurrentEventListener {
         if (event.getTestStep() instanceof PickleStepTestStep) {
             PickleStepTestStep testStep = (PickleStepTestStep) event.getTestStep();
             stepsReport.append("Cucumber Step Failed : ")
-                .append(testStep.getStep().getText()).append("  [")
-                .append(testStep.getStep().getLine()).append("] ");
+                    .append(testStep.getStep().getText()).append("  [")
+                    .append(testStep.getStep().getLine()).append("] ");
             Optional<StepArgument> stepsArgs = Optional.ofNullable(testStep.getStep().getArgument());
             if (stepsArgs.isPresent()) stepsReport.append("Step Argument: [").append(stepsArgs).append("] ");
         }
@@ -79,20 +92,20 @@ public class CucumberListener implements ConcurrentEventListener {
 
     private void afterTest(TestRunFinished event) {
         logger.trace(() -> String.format("After Test: %n Event [%s]",
-            event.toString()
+                event.toString()
         ));
 
     }
 
     private EventHandler<EmbedEvent> getEmbedEventHandler() {
         return event ->
-            logger.trace(() -> String.format("Embed Event: [%s]", event.getName()));
+                logger.trace(() -> String.format("Embed Event: [%s]", event.getName()));
 
     }
 
     private EventHandler<WriteEvent> getWriteEventHandler() {
         return event ->
-            logger.trace(() -> String.format("Write Event: [%s]", event.getText()));
+                logger.trace(() -> String.format("Write Event: [%s]", event.getText()));
 
     }
 

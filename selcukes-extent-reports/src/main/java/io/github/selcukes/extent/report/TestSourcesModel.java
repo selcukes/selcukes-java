@@ -19,7 +19,18 @@
 package io.github.selcukes.extent.report;
 
 import io.cucumber.gherkin.GherkinParser;
-import io.cucumber.messages.types.*;
+import io.cucumber.messages.types.Background;
+import io.cucumber.messages.types.Envelope;
+import io.cucumber.messages.types.Examples;
+import io.cucumber.messages.types.Feature;
+import io.cucumber.messages.types.FeatureChild;
+import io.cucumber.messages.types.GherkinDocument;
+import io.cucumber.messages.types.RuleChild;
+import io.cucumber.messages.types.Scenario;
+import io.cucumber.messages.types.Source;
+import io.cucumber.messages.types.SourceMediaType;
+import io.cucumber.messages.types.Step;
+import io.cucumber.messages.types.TableRow;
 import io.cucumber.plugin.event.TestSourceRead;
 
 import java.io.File;
@@ -90,6 +101,23 @@ public final class TestSourcesModel {
         }
     }
 
+    static Optional<Background> getBackgroundForTestCase(AstNode astNode) {
+        Feature feature = getFeatureForTestCase(astNode);
+        return feature.getChildren()
+                .stream()
+                .map(FeatureChild::getBackground)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findFirst();
+    }
+
+    private static Feature getFeatureForTestCase(AstNode astNode) {
+        while (astNode.parent != null) {
+            astNode = astNode.parent;
+        }
+        return (Feature) astNode.node;
+    }
+
     public void addTestSourceReadEvent(URI path, TestSourceRead event) {
         pathToReadEventMap.put(path, event);
     }
@@ -111,18 +139,18 @@ public final class TestSourcesModel {
         String source = pathToReadEventMap.get(path).getSource();
 
         GherkinParser parser = GherkinParser.builder()
-            .build();
+                .build();
 
         Stream<Envelope> envelopes = parser.parse(
-            Envelope.of(new Source(path.toString(), source, SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN)));
+                Envelope.of(new Source(path.toString(), source, SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN)));
 
         // TODO: What about empty gherkin docs?
         GherkinDocument gherkinDocument = envelopes
-            .map(Envelope::getGherkinDocument)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .findFirst()
-            .orElse(null);
+                .map(Envelope::getGherkinDocument)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findFirst()
+                .orElse(null);
 
         pathToAstMap.put(path, gherkinDocument);
         Map<Long, AstNode> nodeMap = new HashMap<>();
@@ -147,7 +175,7 @@ public final class TestSourcesModel {
     }
 
     private void processBackgroundDefinition(
-        Map<Long, AstNode> nodeMap, Background background, AstNode currentParent
+            Map<Long, AstNode> nodeMap, Background background, AstNode currentParent
     ) {
         AstNode childNode = new AstNode(background, currentParent);
         nodeMap.put(background.getLocation().getLine(), childNode);
@@ -173,7 +201,7 @@ public final class TestSourcesModel {
     }
 
     private void processScenarioOutlineExamples(
-        Map<Long, AstNode> nodeMap, Scenario scenarioOutline, AstNode parent
+            Map<Long, AstNode> nodeMap, Scenario scenarioOutline, AstNode parent
     ) {
         for (Examples examples : scenarioOutline.getExamples()) {
             AstNode examplesNode = new AstNode(examples, parent);
@@ -209,23 +237,6 @@ public final class TestSourcesModel {
             return getBackgroundForTestCase(astNode).isPresent();
         }
         return false;
-    }
-
-    static Optional<Background> getBackgroundForTestCase(AstNode astNode) {
-        Feature feature = getFeatureForTestCase(astNode);
-        return feature.getChildren()
-            .stream()
-            .map(FeatureChild::getBackground)
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .findFirst();
-    }
-
-    private static Feature getFeatureForTestCase(AstNode astNode) {
-        while (astNode.parent != null) {
-            astNode = astNode.parent;
-        }
-        return (Feature) astNode.node;
     }
 
     static class ExamplesRowWrapperNode {

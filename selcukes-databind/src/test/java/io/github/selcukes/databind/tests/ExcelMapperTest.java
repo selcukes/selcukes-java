@@ -29,6 +29,23 @@ import java.util.stream.Stream;
 
 public class ExcelMapperTest {
 
+    @Test
+    public void excelMapperTest() {
+        Stream<SampleExcel> pojoStream = ExcelMapper.parse(SampleExcel.class);
+        pojoStream.forEach(System.out::println);
+    }
+
+    @Test
+    public void interpolateExcelMapperTest() {
+        Stream<SampleExcel1> excelStream = ExcelMapper.parse(SampleExcel1.class);
+        excelStream.forEach(System.out::println);
+    }
+
+    @Test(expectedExceptions = DataMapperException.class)
+    public void excelMapperNegativeTest() {
+        ExcelMapper.parse(Selcukes.class);
+    }
+
     @Data
     @DataFile(fileName = "TestData.xlsx", sheetName = "Smoke")
     static class SampleExcel {
@@ -41,12 +58,6 @@ public class ExcelMapperTest {
         private String run;
     }
 
-    @Test
-    public void excelMapperTest() {
-        Stream<SampleExcel> pojoStream = ExcelMapper.parse(SampleExcel.class);
-        pojoStream.forEach(System.out::println);
-    }
-
     @Interpolate(substitutor = StringSubstitutor.class)
     @Data
     @DataFile(fileName = "TestData.xlsx", sheetName = "Yahoo")
@@ -56,17 +67,6 @@ public class ExcelMapperTest {
         @Key(name = "Last Name")
         String lastName;
         String date;
-    }
-
-    @Test
-    public void interpolateExcelMapperTest() {
-        Stream<SampleExcel1> excelStream = ExcelMapper.parse(SampleExcel1.class);
-        excelStream.forEach(System.out::println);
-    }
-
-    @Test(expectedExceptions = DataMapperException.class)
-    public void excelMapperNegativeTest() {
-        ExcelMapper.parse(Selcukes.class);
     }
 
     @Data

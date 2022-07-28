@@ -36,20 +36,20 @@ public class DataFileHelper<T> {
     private final DataFile dataFile;
     private boolean isNewFile;
 
-    public void setNewFile(boolean newFile) {
-        isNewFile = newFile;
-    }
-
     private DataFileHelper(final Class<T> dataClass) {
         this.dataClass = dataClass;
         this.dataFile = ofNullable(dataClass.getDeclaredAnnotation(DataFile.class))
-            .orElseThrow(() -> new DataMapperException(format("Data Class[%s] must have @DataFile annotation.",
-                dataClass.getSimpleName())
-            ));
+                .orElseThrow(() -> new DataMapperException(format("Data Class[%s] must have @DataFile annotation.",
+                        dataClass.getSimpleName())
+                ));
     }
 
     public static <T> DataFileHelper<T> getInstance(final Class<T> dataClass) {
         return new DataFileHelper<>(dataClass);
+    }
+
+    public void setNewFile(boolean newFile) {
+        isNewFile = newFile;
     }
 
     public String getFileName() {
@@ -63,21 +63,21 @@ public class DataFileHelper<T> {
         final var folder = getFolder();
 
         return ofNullable(findFile(folder, fileName))
-            .map(path -> path.getFileName().toString())
-            .orElseGet(() -> {
-                if (isNewFile) {
-                    return newFile(folder, fileName);
-                } else
-                    throw new DataMapperException(format("File [%s] not found.", fileName));
-            });
+                .map(path -> path.getFileName().toString())
+                .orElseGet(() -> {
+                    if (isNewFile) {
+                        return newFile(folder, fileName);
+                    } else
+                        throw new DataMapperException(format("File [%s] not found.", fileName));
+                });
     }
 
     public InputStream fileStream() {
         return ofNullable(Thread.currentThread().getContextClassLoader().getResourceAsStream(getFileName()))
-            .orElseThrow(
-                () -> new DataMapperException(format("Failed to perform stream loader for a File [%s].",
-                    getFileName())
-                ));
+                .orElseThrow(
+                        () -> new DataMapperException(format("Failed to perform stream loader for a File [%s].",
+                                getFileName())
+                        ));
     }
 
     public boolean isStream() {
@@ -90,7 +90,7 @@ public class DataFileHelper<T> {
             folder = "src/test/resources";
         }
         var folderPath = Path.of(folder).isAbsolute() ?
-            Path.of(folder) : Path.of(getProperty("user.dir")).resolve(folder);
+                Path.of(folder) : Path.of(getProperty("user.dir")).resolve(folder);
         return this.isDirectory(folderPath);
     }
 

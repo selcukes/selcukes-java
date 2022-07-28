@@ -33,48 +33,48 @@ public class SlackMessageBuilder {
         Long startTime = System.currentTimeMillis() / 1000;
 
         Field pro = Field.builder()
-            .title(NotifierEnum.PROJECT.getValue())
-            .value(ConfigFactory.getConfig().getProjectName())
-            .shortValue(true)
-            .build();
+                .title(NotifierEnum.PROJECT.getValue())
+                .value(ConfigFactory.getConfig().getProjectName())
+                .shortValue(true)
+                .build();
 
         Field env = Field.builder()
-            .title(NotifierEnum.ENVIRONMENT.getValue())
-            .value(ConfigFactory.getConfig().getEnv())
-            .shortValue(true)
-            .build();
+                .title(NotifierEnum.ENVIRONMENT.getValue())
+                .value(ConfigFactory.getConfig().getEnv())
+                .shortValue(true)
+                .build();
 
         List<Field> fieldList = new ArrayList<>();
         fieldList.add(pro);
         fieldList.add(env);
 
         Attachment attachment = Attachment.builder()
-            .fallback(NotifierEnum.PRETEXT.getValue())
-            .callbackId(NotifierEnum.CALL_BACK.getValue())
-            .color(NotifierHelper.getThemeColor(scenarioStatus))
-            .pretext(NotifierEnum.PRETEXT.getValue())
-            .authorName(NotifierEnum.AUTHOR.getValue())
-            .authorLink(NotifierEnum.TECHYWORKS.getValue())
-            .authorIcon(ConfigFactory.getConfig().getNotifier().getAuthorIcon())
-            .title(scenarioTitle)
-            .titleLink(NotifierEnum.TECHYWORKS.getValue())
-            .text(error)
-            .fields(fieldList)
-            .imageUrl(screenshotPath)
-            .footer(NotifierEnum.FOOTER_TEXT.getValue())
-            .footerIcon(NotifierEnum.FOOTER_ICON.getValue())
-            .timeStamp(startTime)
-            .build();
+                .fallback(NotifierEnum.PRETEXT.getValue())
+                .callbackId(NotifierEnum.CALL_BACK.getValue())
+                .color(NotifierHelper.getThemeColor(scenarioStatus))
+                .pretext(NotifierEnum.PRETEXT.getValue())
+                .authorName(NotifierEnum.AUTHOR.getValue())
+                .authorLink(NotifierEnum.TECHYWORKS.getValue())
+                .authorIcon(ConfigFactory.getConfig().getNotifier().getAuthorIcon())
+                .title(scenarioTitle)
+                .titleLink(NotifierEnum.TECHYWORKS.getValue())
+                .text(error)
+                .fields(fieldList)
+                .imageUrl(screenshotPath)
+                .footer(NotifierEnum.FOOTER_TEXT.getValue())
+                .footerIcon(NotifierEnum.FOOTER_ICON.getValue())
+                .timeStamp(startTime)
+                .build();
 
         SlackMessage slackMessage = SlackMessage.builder()
-            .attachments(Collections.singletonList(attachment)).build();
+                .attachments(Collections.singletonList(attachment)).build();
 
         IncomingWebHookRequest.forUrl(getSlackWebHookUrl())
-            .post(slackMessage);
+                .post(slackMessage);
     }
 
     private String getSlackWebHookUrl() {
         return NotifierEnum.WEB_HOOKS_URL.getValue() +
-            ConfigFactory.getConfig().getNotifier().getWebhookToken();
+                ConfigFactory.getConfig().getNotifier().getWebhookToken();
     }
 }

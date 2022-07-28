@@ -19,7 +19,13 @@ package io.github.selcukes.excel;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ExcelConfigException;
 import io.github.selcukes.databind.utils.Streams;
-import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -52,23 +58,23 @@ public class ExcelReader {
 
     public List<List<String>> getSheetData(Sheet sheet) {
         return Streams.of(sheet.iterator())
-            .map(this::getRowData)
-            .collect(Collectors.toList());
+                .map(this::getRowData)
+                .collect(Collectors.toList());
     }
 
     private List<String> getRowData(Row row) {
         DataFormatter df = new DataFormatter();
         FormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
         return Streams.of(row.iterator())
-            .map(cell -> {
-                if (cell == null) {
-                    return "";
-                } else if (cell.getCellType().equals(CellType.FORMULA)) {
-                    return df.formatCellValue(cell, formulaEvaluator);
-                } else {
-                    return df.formatCellValue(cell);
-                }
-            }).collect(Collectors.toList());
+                .map(cell -> {
+                    if (cell == null) {
+                        return "";
+                    } else if (cell.getCellType().equals(CellType.FORMULA)) {
+                        return df.formatCellValue(cell, formulaEvaluator);
+                    } else {
+                        return df.formatCellValue(cell);
+                    }
+                }).collect(Collectors.toList());
     }
 
 

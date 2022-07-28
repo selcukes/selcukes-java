@@ -39,16 +39,16 @@ class PropertiesParser<T> {
         Properties properties = getProperties(filePath);
 
         var fields = Stream.of(entityClass.getDeclaredFields())
-            .map(field -> new PropertyField<T>(field, properties, defaultConverters()))
-            .map(PropertyField::parse)
-            .collect(Collectors.toList());
+                .map(field -> new PropertyField<T>(field, properties, defaultConverters()))
+                .map(PropertyField::parse)
+                .collect(Collectors.toList());
         return initEntity(fields);
 
     }
 
     public T initEntity(final List<PropertyField<T>> mappers) {
         var hasDefaultConstructor = Stream.of(entityClass.getDeclaredConstructors())
-            .anyMatch(constructor -> constructor.getParameterCount() == 0);
+                .anyMatch(constructor -> constructor.getParameterCount() == 0);
         if (!hasDefaultConstructor) {
             throw new IllegalStateException(format("%s must have default constructor.", entityClass.getSimpleName()));
         }

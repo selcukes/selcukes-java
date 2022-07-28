@@ -26,21 +26,21 @@ public class SlackUploader {
 
     public void uploadFile(String filePath) {
         SlackFileUploader slackFileUploader = SlackFileUploader.builder()
-            .channel(ConfigFactory.getConfig().getNotifier().getChannel())
-            .token(ConfigFactory.getConfig().getNotifier().getApiToken())
-            .filePath(filePath)
-            .fileName("Sample")
-            .build();
+                .channel(ConfigFactory.getConfig().getNotifier().getChannel())
+                .token(ConfigFactory.getConfig().getNotifier().getApiToken())
+                .filePath(filePath)
+                .fileName("Sample")
+                .build();
 
         StringBuilder url = new StringBuilder();
         url.append(NotifierEnum.SLACK_API_URL.getValue())
-            .append(slackFileUploader.getToken())
-            .append("&channels=")
-            .append(slackFileUploader.getChannel())
-            .append("&pretty=1");
+                .append(slackFileUploader.getToken())
+                .append("&channels=")
+                .append(slackFileUploader.getChannel())
+                .append("&pretty=1");
 
         IncomingWebHookRequest.forUrl(url.toString())
-            .post(Paths.get(slackFileUploader.getFilePath()));
+                .post(Paths.get(slackFileUploader.getFilePath()));
 
     }
 

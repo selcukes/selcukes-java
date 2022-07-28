@@ -52,8 +52,8 @@ public class XmlMapper {
 
     public static Stream<String> filterElements(Stream<Element> elements, String matcher) {
         return elements
-            .map(element -> element.getChildNodes().item(0).getNodeValue())
-            .filter(nodeValue -> nodeValue.contains(matcher));
+                .map(element -> element.getChildNodes().item(0).getNodeValue())
+                .filter(nodeValue -> nodeValue.contains(matcher));
     }
 
     @SneakyThrows
@@ -61,11 +61,11 @@ public class XmlMapper {
         var xPath = XPathFactory.newInstance().newXPath();
         var nodeList = (NodeList) xPath.compile(xpathExpression).evaluate(xmlDocument, XPathConstants.NODESET);
         return IntStream.range(0, nodeList.getLength())
-            .mapToObj(nodeList::item);
+                .mapToObj(nodeList::item);
     }
 
     public static Stream<Element> selectElements(Document xmlDocument, String xpathExpression) {
         return selectNodes(xmlDocument, xpathExpression).filter(Element.class::isInstance)
-            .map(Element.class::cast);
+                .map(Element.class::cast);
     }
 }

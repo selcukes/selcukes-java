@@ -28,7 +28,11 @@ import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.io.IOUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.zip.GZIPInputStream;
 
 public final class FileExtractUtil {
@@ -89,7 +93,7 @@ public final class FileExtractUtil {
         long size = entry.getSize();
         long compressedSize = entry.getSize();
         logger.info(() -> String.format("Uncompressing {%s} (size: {%d} KB, compressed size: {%d} KB)",
-            fileName, size, compressedSize));
+                fileName, size, compressedSize));
         File entryDestination = newFile(destination, entry);
         if (entry.isDirectory()) {
             FileHelper.createDirectory(entryDestination);

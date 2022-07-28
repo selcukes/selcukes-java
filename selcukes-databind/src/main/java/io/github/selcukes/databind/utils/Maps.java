@@ -18,7 +18,11 @@ package io.github.selcukes.databind.utils;
 
 import lombok.experimental.UtilityClass;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -28,16 +32,16 @@ import static java.lang.String.CASE_INSENSITIVE_ORDER;
 public class Maps {
     public static Map<String, String> of(Properties properties) {
         return properties.entrySet().stream().collect(
-            Collectors.toMap(
-                entry -> String.valueOf(entry.getKey()),
-                entry -> String.valueOf(entry.getValue()),
-                (prev, next) -> next, LinkedHashMap::new
-            ));
+                Collectors.toMap(
+                        entry -> String.valueOf(entry.getKey()),
+                        entry -> String.valueOf(entry.getValue()),
+                        (prev, next) -> next, LinkedHashMap::new
+                ));
     }
 
     public static Map<String, String> of(List<String> keys, List<String> values) {
         return IntStream.range(0, keys.size()).boxed()
-            .filter(i -> !StringHelper.isNullOrEmpty(keys.get(i))).collect(Collectors.toMap(keys::get, values::get));
+                .filter(i -> !StringHelper.isNullOrEmpty(keys.get(i))).collect(Collectors.toMap(keys::get, values::get));
     }
 
     public static <V> Map<String, V> caseInsensitive(Map<String, V> map) {

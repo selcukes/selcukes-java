@@ -22,7 +22,16 @@ import io.github.selcukes.core.page.ui.DropDown;
 import io.github.selcukes.core.validation.PageValidations;
 import io.github.selcukes.core.wait.WaitCondition;
 import io.github.selcukes.core.wait.WaitManager;
-import org.openqa.selenium.*;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -660,9 +669,9 @@ public interface Page {
     @SuppressWarnings("unchecked")
     default <T, V, R> R waitFor(final T locator, final V arg, final WaitCondition condition) {
         return (R) waiter()
-            .pollingEvery(Duration.ofMillis(100))
-            .ignoreAll(List.of(StaleElementReferenceException.class, NoSuchElementException.class))
-            .until((Function<WebDriver, ?>) condition.getType().apply(locator, arg));
+                .pollingEvery(Duration.ofMillis(100))
+                .ignoreAll(List.of(StaleElementReferenceException.class, NoSuchElementException.class))
+                .until((Function<WebDriver, ?>) condition.getType().apply(locator, arg));
     }
 
     /**
@@ -761,9 +770,9 @@ public interface Page {
      */
     default List<String> cookies() {
         return getDriver().manage().getCookies()
-            .stream()
-            .map(Cookie::getName)
-            .collect(Collectors.toList());
+                .stream()
+                .map(Cookie::getName)
+                .collect(Collectors.toList());
     }
 
     /**

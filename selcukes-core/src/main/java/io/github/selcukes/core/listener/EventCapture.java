@@ -66,10 +66,10 @@ public class EventCapture implements WebDriverListener {
 
             if (keyChar.isPresent()) {
                 Arrays.stream(Keys.values()).filter(key -> key.equals(keyChar.get()))
-                    .findFirst().ifPresent(key -> logger.info(() -> key.name() + " Key Pressed"));
+                        .findFirst().ifPresent(key -> logger.info(() -> key.name() + " Key Pressed"));
             } else {
                 logger.info(() -> (String.format("Entering Text %s in %s Field", Arrays.toString(keysToSend),
-                    element.getAttribute(fieldAttribute))));
+                        element.getAttribute(fieldAttribute))));
             }
         }
     }

@@ -26,8 +26,8 @@ import java.net.URL;
 
 @CustomLog
 class AppiumEngine {
-    private AppiumDriverLocalService service;
     private static AppiumEngine appiumEngine;
+    private AppiumDriverLocalService service;
 
     public static AppiumEngine getInstance() {
         if (appiumEngine == null)
@@ -45,11 +45,11 @@ class AppiumEngine {
     void startLocalServer() {
         try {
             service = new AppiumServiceBuilder()
-                .withIPAddress("127.0.0.1")
-                .usingAnyFreePort()
-                .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
-                .withArgument(GeneralServerFlag.BASEPATH, "/wd/")
-                .build();
+                    .withIPAddress("127.0.0.1")
+                    .usingAnyFreePort()
+                    .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+                    .withArgument(GeneralServerFlag.BASEPATH, "/wd/")
+                    .build();
             logger.info(() -> "Starting Appium server...");
             service.start();
             logger.debug(() -> String.format("Using Local ServiceUrl[%s]", service.getUrl()));

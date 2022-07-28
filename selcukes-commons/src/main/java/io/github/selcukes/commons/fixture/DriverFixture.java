@@ -23,12 +23,12 @@ public class DriverFixture {
 
     private static final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
 
-    public static void setDriverFixture(Object driver) {
-        DRIVER_THREAD.set(driver);
-    }
-
     public static Object getDriverFixture() {
         return DRIVER_THREAD.get();
+    }
+
+    public static void setDriverFixture(Object driver) {
+        DRIVER_THREAD.set(driver);
     }
 
     public static void removeDriverFixture() {

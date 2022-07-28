@@ -52,91 +52,6 @@ public class Response {
     }
 
     /**
-     * Get all response header names and corresponding values as a map
-     *
-     * @return headers
-     */
-    public Map<String, List<String>> getHeaders() {
-        return httpResponse.headers().map();
-    }
-
-    /**
-     * Get the body of the response as a plain string.
-     *
-     * @return the body
-     */
-    public String body() {
-        return httpResponse.body();
-    }
-
-    /**
-     * Get the body of the response as a InputStream. You should close the input stream when you're done with it
-     *
-     * @return the response body input stream
-     */
-    public InputStream bodyStream() {
-        return new ByteArrayInputStream(body().getBytes(StandardCharsets.UTF_8));
-    }
-
-    /**
-     * Get the body of the response as Document.
-     *
-     * @return the Document object
-     */
-    @SneakyThrows
-    public Document bodyXml() {
-        return XmlMapper.parse(bodyStream());
-    }
-
-    /**
-     * Response Body as JsonNode.
-     *
-     * @return the JsonNode object
-     */
-    public JsonNode bodyJson() {
-        return StringHelper.toJson(httpResponse.body());
-    }
-
-    /**
-     * Body as T.
-     *
-     * @param <T>          the type parameter
-     * @param responseType the response type
-     * @return the t
-     */
-    public <T> T bodyAs(Class<T> responseType) {
-        return DataMapper.parse(body(), responseType);
-    }
-
-    /**
-     * Get the status code of the response.
-     *
-     * @return the status code
-     */
-    public int statusCode() {
-        return httpResponse.statusCode();
-    }
-
-    /**
-     * Gets Response Header.
-     *
-     * @param name the name
-     * @return the header
-     */
-    public String header(String name) {
-        Optional<String> token = httpResponse.headers().firstValue(name);
-        return token.orElse("");
-    }
-
-    private void logIfError() {
-        int responseCode = statusCode();
-        if (responseCode >= 400) {
-            throw new SelcukesException(String.format("HttpResponseException : Response Code[%s] Reason Phrase[%s]",
-                responseCode, getReasonPhrase(responseCode)));
-        }
-    }
-
-    /**
      * Gets Reason phrase.
      *
      * @param statusCode the status code
@@ -236,6 +151,91 @@ public class Response {
                 return "Insufficient Storage";
             default:
                 return "";
+        }
+    }
+
+    /**
+     * Get all response header names and corresponding values as a map
+     *
+     * @return headers
+     */
+    public Map<String, List<String>> getHeaders() {
+        return httpResponse.headers().map();
+    }
+
+    /**
+     * Get the body of the response as a plain string.
+     *
+     * @return the body
+     */
+    public String body() {
+        return httpResponse.body();
+    }
+
+    /**
+     * Get the body of the response as a InputStream. You should close the input stream when you're done with it
+     *
+     * @return the response body input stream
+     */
+    public InputStream bodyStream() {
+        return new ByteArrayInputStream(body().getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * Get the body of the response as Document.
+     *
+     * @return the Document object
+     */
+    @SneakyThrows
+    public Document bodyXml() {
+        return XmlMapper.parse(bodyStream());
+    }
+
+    /**
+     * Response Body as JsonNode.
+     *
+     * @return the JsonNode object
+     */
+    public JsonNode bodyJson() {
+        return StringHelper.toJson(httpResponse.body());
+    }
+
+    /**
+     * Body as T.
+     *
+     * @param <T>          the type parameter
+     * @param responseType the response type
+     * @return the t
+     */
+    public <T> T bodyAs(Class<T> responseType) {
+        return DataMapper.parse(body(), responseType);
+    }
+
+    /**
+     * Get the status code of the response.
+     *
+     * @return the status code
+     */
+    public int statusCode() {
+        return httpResponse.statusCode();
+    }
+
+    /**
+     * Gets Response Header.
+     *
+     * @param name the name
+     * @return the header
+     */
+    public String header(String name) {
+        Optional<String> token = httpResponse.headers().firstValue(name);
+        return token.orElse("");
+    }
+
+    private void logIfError() {
+        int responseCode = statusCode();
+        if (responseCode >= 400) {
+            throw new SelcukesException(String.format("HttpResponseException : Response Code[%s] Reason Phrase[%s]",
+                    responseCode, getReasonPhrase(responseCode)));
         }
     }
 }

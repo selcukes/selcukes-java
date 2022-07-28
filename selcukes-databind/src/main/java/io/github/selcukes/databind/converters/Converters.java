@@ -29,14 +29,14 @@ public class Converters {
     @SuppressWarnings("unchecked")
     public static <T> List<Converter<T>> defaultConverters() {
         return Stream.of(
-                BooleanConverter.class,
-                StringConverter.class,
-                IntegerConverter.class,
-                DoubleConverter.class,
-                LocalDateConverter.class,
-                LocalDateTimeConverter.class
-            )
-            .map(cls -> (Converter<T>) newInstance(cls))
-            .collect(Collectors.toList());
+                        BooleanConverter.class,
+                        StringConverter.class,
+                        IntegerConverter.class,
+                        DoubleConverter.class,
+                        LocalDateConverter.class,
+                        LocalDateTimeConverter.class
+                )
+                .map(cls -> (Converter<T>) newInstance(cls))
+                .collect(Collectors.toList());
     }
 }

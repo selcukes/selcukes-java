@@ -55,13 +55,13 @@ class FFmpegRecorder implements VideoRecorder {
         String screenSize = getScreenSize();
 
         String command = ffmpegFolderPath + FFMPEG + " -y " +
-            "-video_size " + screenSize +
-            " -f " + videoConfig.getFfmpegFormat() +
-            " -i " + videoConfig.getFfmpegDisplay() +
-            " -an " +
-            " -framerate " + videoConfig.getFrameRate() +
-            " -pix_fmt " + videoConfig.getPixelFormat() + " " +
-            tempFile.getAbsolutePath();
+                "-video_size " + screenSize +
+                " -f " + videoConfig.getFfmpegFormat() +
+                " -i " + videoConfig.getFfmpegDisplay() +
+                " -an " +
+                " -framerate " + videoConfig.getFrameRate() +
+                " -pix_fmt " + videoConfig.getPixelFormat() + " " +
+                tempFile.getAbsolutePath();
         shell.runCommandAsync(command);
         logger.info(() -> "Recording started to " + tempFile.getAbsolutePath());
     }
@@ -74,8 +74,8 @@ class FFmpegRecorder implements VideoRecorder {
         if (ConfigFactory.getConfig().getVideo().isWatermark()) {
             File waterMark = FileHelper.getWaterMarkFile();
             String command = ffmpegFolderPath + FFMPEG + " -i " + tempFile.getAbsolutePath() +
-                " -i " + waterMark.getAbsolutePath() +
-                " -filter_complex \"overlay=x=(main_w-200):y=5\" " + videoFile.getAbsolutePath();
+                    " -i " + waterMark.getAbsolutePath() +
+                    " -filter_complex \"overlay=x=(main_w-200):y=5\" " + videoFile.getAbsolutePath();
             shell.runCommand(command);
             tempFile.deleteOnExit();
             Await.until(1);

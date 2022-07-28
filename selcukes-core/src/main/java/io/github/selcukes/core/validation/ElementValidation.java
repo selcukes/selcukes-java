@@ -26,8 +26,8 @@ import static io.github.selcukes.core.validation.Validation.failWithMessage;
 public class ElementValidation {
 
     private final WebElement element;
-    boolean isSoft;
     private final String elementLocator;
+    boolean isSoft;
 
     public ElementValidation(boolean isSoft, WebElement element) {
 

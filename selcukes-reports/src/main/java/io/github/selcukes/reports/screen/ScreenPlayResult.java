@@ -27,12 +27,12 @@ import java.util.function.Predicate;
 @Getter
 class ScreenPlayResult {
 
+    private static final Predicate<String> IS_NOT_PASS = s -> !s.equalsIgnoreCase("PASSED");
     private String testName;
     private String status;
     private TestType testType;
     private String errorMessage;
     private boolean failed;
-    private static final Predicate<String> IS_NOT_PASS = s -> !s.equalsIgnoreCase("PASSED");
 
     public <T> ScreenPlayResult(T result) {
         extractResult(result);

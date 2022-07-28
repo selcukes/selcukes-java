@@ -20,7 +20,15 @@ import io.github.selcukes.commons.annotation.Lifecycle;
 import io.github.selcukes.commons.fixture.SelcukesFixture;
 import io.github.selcukes.commons.fixture.TestResult;
 import io.github.selcukes.commons.listener.LifecycleManager;
-import org.testng.*;
+import org.testng.IClassListener;
+import org.testng.IInvokedMethod;
+import org.testng.IInvokedMethodListener;
+import org.testng.ISuite;
+import org.testng.ISuiteListener;
+import org.testng.ITestClass;
+import org.testng.ITestContext;
+import org.testng.ITestResult;
+import org.testng.Reporter;
 
 import static io.github.selcukes.commons.SelcukesLifecycle.getDefaultLifecycle;
 import static io.github.selcukes.commons.SelcukesLifecycle.getLifecycleType;
@@ -34,16 +42,16 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
         SelcukesFixture.setValidator("org.testng.Assert");
         SelcukesFixture.setReporter(Reporter.class);
         var result = TestResult.builder()
-            .name(suite.getName())
-            .build();
+                .name(suite.getName())
+                .build();
         lifecycleManager.beforeSuite(result);
     }
 
     @Override
     public void onFinish(ISuite suite) {
         var result = TestResult.builder()
-            .name(suite.getName())
-            .build();
+                .name(suite.getName())
+                .build();
         lifecycleManager.afterSuite(result);
     }
 
@@ -54,9 +62,9 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
             var type = getLifecycleType(method.getTestMethod().getRealClass());
             if (type == Lifecycle.Type.METHOD) {
                 var result = TestResult.builder()
-                    .name(method.getTestMethod().getMethodName())
-                    .status(getTestStatus(testResult))
-                    .build();
+                        .name(method.getTestMethod().getMethodName())
+                        .status(getTestStatus(testResult))
+                        .build();
                 lifecycleManager.beforeTest(result);
             }
         }
@@ -71,9 +79,9 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
             var type = getLifecycleType(method.getTestMethod().getRealClass());
             if (type == Lifecycle.Type.METHOD) {
                 var result = TestResult.builder()
-                    .name(method.getTestMethod().getMethodName())
-                    .status(getTestStatus(testResult))
-                    .build();
+                        .name(method.getTestMethod().getMethodName())
+                        .status(getTestStatus(testResult))
+                        .build();
                 lifecycleManager.beforeAfterTest(result);
             }
         }
@@ -87,9 +95,9 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
             var type = getLifecycleType(method.getTestMethod().getRealClass());
             if (type == Lifecycle.Type.METHOD) {
                 var result = TestResult.builder()
-                    .name(method.getTestMethod().getMethodName())
-                    .status(getTestStatus(testResult))
-                    .build();
+                        .name(method.getTestMethod().getMethodName())
+                        .status(getTestStatus(testResult))
+                        .build();
                 lifecycleManager.afterTest(result);
             }
         }
@@ -100,8 +108,8 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
         var type = getLifecycleType(testClass.getRealClass());
         if (type == Lifecycle.Type.CLASS) {
             var result = TestResult.builder()
-                .name(testClass.getName())
-                .build();
+                    .name(testClass.getName())
+                    .build();
             lifecycleManager.beforeTest(result);
         }
     }
@@ -111,8 +119,8 @@ public class SelcukesListener implements ISuiteListener, IInvokedMethodListener,
         var type = getLifecycleType(testClass.getRealClass());
         if (type == Lifecycle.Type.CLASS) {
             var result = TestResult.builder()
-                .name(testClass.getName())
-                .build();
+                    .name(testClass.getName())
+                    .build();
             lifecycleManager.afterTest(result);
         }
     }

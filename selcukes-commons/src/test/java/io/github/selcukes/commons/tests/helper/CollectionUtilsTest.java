@@ -25,21 +25,12 @@ import java.util.List;
 import java.util.Map;
 
 public class CollectionUtilsTest {
-    private enum State {
-        NEW,
-        RUNNABLE,
-        BLOCKED,
-        WAITING,
-        TIMED_WAITING,
-        TERMINATED;
-    }
-
     private final List<String> headers = List.of("NEW",
-        "RUNNABLE",
-        "BLOCKED",
-        "WAITING",
-        "TIMED_WAITING",
-        "TERMINATED");
+            "RUNNABLE",
+            "BLOCKED",
+            "WAITING",
+            "TIMED_WAITING",
+            "TERMINATED");
     private final List<String> values = List.of("1", "2", "3", "4", "5", "6 ");
 
     @Test
@@ -56,5 +47,14 @@ public class CollectionUtilsTest {
     @Test
     public void trimTest() {
         Assert.assertEquals(CollectionUtils.trim(values).get(5), "6");
+    }
+
+    private enum State {
+        NEW,
+        RUNNABLE,
+        BLOCKED,
+        WAITING,
+        TIMED_WAITING,
+        TERMINATED
     }
 }

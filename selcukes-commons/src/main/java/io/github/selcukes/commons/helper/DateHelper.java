@@ -24,9 +24,9 @@ import java.time.format.DateTimeFormatter;
 
 public class DateHelper {
 
+    public static final String TIMESTAMP_FORMAT = "MM/dd/yyyy hh:mm:ss";
     private static final String DEFAULT_DATE_TIME_PATTERN = "ddMMMyyyy-hh-mm-ss";
     private static final String DEFAULT_DATE_PATTERN = "MM/dd/yyyy";
-    public static final String TIMESTAMP_FORMAT = "MM/dd/yyyy hh:mm:ss";
     private final LocalDateTime localDateTime;
     private DateTimeFormatter dtf;
     private LocalDate localDate;

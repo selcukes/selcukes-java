@@ -44,7 +44,7 @@ public class DataMapper {
         final String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
         final DataBind dataBind = lookup(extension);
         return dataFile.isStream() ? dataBind.parse(dataFile.fileStream(), entityClass) :
-            dataBind.parse(dataFile.getPath(), entityClass);
+                dataBind.parse(dataFile.getPath(), entityClass);
     }
 
     /**
