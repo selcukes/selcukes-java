@@ -29,7 +29,7 @@ public class Preconditions {
      * @return The object reference itself (generically typed).
      * @throws NullPointerException Thrown, if the passed reference was null.
      */
-    public <T> T checkNotNull(T reference, String errorMessage) {
+    public <T> T checkNotNull(final T reference, final String errorMessage) {
         if (reference == null) {
             throw new NullPointerException(errorMessage);
         }
@@ -45,7 +45,7 @@ public class Preconditions {
      * @param errorMessage The message for the {@code IllegalArgumentException} that is thrown if the check fails.
      * @throws IllegalArgumentException Thrown, if the condition is violated.
      */
-    public void checkArgument(boolean condition, String errorMessage) {
+    public void checkArgument(final boolean condition, final String errorMessage) {
         if (!condition) {
             throw new IllegalArgumentException(errorMessage);
         }
@@ -60,7 +60,7 @@ public class Preconditions {
      * @param errorMessage The message for the {@code IllegalStateException} that is thrown if the check fails.
      * @throws IllegalStateException Thrown, if the condition is violated.
      */
-    public void checkState(boolean condition, String errorMessage) {
+    public void checkState(final boolean condition, final String errorMessage) {
         if (!condition) {
             throw new IllegalStateException((errorMessage));
         }

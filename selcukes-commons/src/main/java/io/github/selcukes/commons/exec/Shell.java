@@ -32,7 +32,13 @@ public class Shell {
 
     private String pid;
 
-    public ExecResults runCommand(String command) {
+    /**
+     * It executes a command and returns the results of the execution
+     *
+     * @param command The command to be executed.
+     * @return ExecResults
+     */
+    public ExecResults runCommand(final String command) {
         ExecResults results;
         Process process = null;
         try {
@@ -59,13 +65,20 @@ public class Shell {
         logger.debug(() -> "Process Id: " + pid);
     }
 
-    public void sendCtrlC(String folder) {
+    /**
+     * It runs a command that sends a Ctrl+C signal to the process with the given pid
+     *
+     * @param folder The folder where the SendSignalCtrlC.exe is located.
+     */
+    public void sendCtrlC(final String folder) {
         String killCommand = folder + "SendSignalCtrlC.exe " + pid;
         runCommand(killCommand);
     }
 
     private ExecResults interactWithProcess(final Process process) {
-        if (Platform.isWindows()) extractPidOf(process);
+        if (Platform.isWindows()) {
+            extractPidOf(process);
+        }
         StreamGuzzler output = new StreamGuzzler(process.getInputStream());
         StreamGuzzler error = new StreamGuzzler(process.getErrorStream());
         ExecutorService executors = Executors.newFixedThreadPool(2);
@@ -79,7 +92,16 @@ public class Shell {
         return new ExecResults(output.getContent(), error.getContent(), process.exitValue());
     }
 
-    public CompletableFuture<ExecResults> runCommandAsync(String command) {
+    /**
+     * "Run the command asynchronously and return a CompletableFuture that will contain the results of the command."
+     *
+     * The first thing to notice is that the return type is CompletableFuture<ExecResults>. This means that the function
+     * will return a CompletableFuture that will contain the results of the command
+     *
+     * @param command The command to run.
+     * @return A CompletableFuture that will return an ExecResults object.
+     */
+    public CompletableFuture<ExecResults> runCommandAsync(final String command) {
 
         return CompletableFuture.supplyAsync(() -> runCommand(command));
     }

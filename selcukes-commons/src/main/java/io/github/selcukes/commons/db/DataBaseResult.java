@@ -26,13 +26,22 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * It wraps a JDBC ResultSet and provides a method to convert it to a List of Maps
+ */
 public class DataBaseResult {
     private final ResultSet resultSet;
 
-    public DataBaseResult(ResultSet resultSet) {
+    public DataBaseResult(final ResultSet resultSet) {
         this.resultSet = resultSet;
     }
 
+
+    /**
+     * It takes a ResultSet and returns a List of Maps, where each Map represents a row in the ResultSet
+     *
+     * @return A list of maps.
+     */
     @SneakyThrows
     public List<Map<String, Object>> asList() {
         List<Map<String, Object>> list = new ArrayList<>();
@@ -43,12 +52,17 @@ public class DataBaseResult {
         return list;
     }
 
+    /**
+     * This function returns the result set.
+     *
+     * @return The resultSet is being returned.
+     */
     public ResultSet getResultSet() {
         return resultSet;
     }
 
     @SneakyThrows
-    private Map<String, Object> asRow(ResultSetMetaData metaData, ResultSet resultSet) {
+    private Map<String, Object> asRow(final ResultSetMetaData metaData, final ResultSet resultSet) {
         Map<String, Object> map = new LinkedHashMap<>();
         for (int i = 1; i <= metaData.getColumnCount(); i++) {
             map.put(metaData.getColumnName(i), resultSet.getString(i));

@@ -24,15 +24,36 @@ import lombok.experimental.UtilityClass;
 
 import static java.util.Optional.ofNullable;
 
+/**
+ * It's a class that implements the `Lifecycle` interface
+ */
 @UtilityClass
 public class SelcukesLifecycle {
-    public static LifecycleManager getDefaultLifecycle() {
+    /**
+     * "Get the default lifecycle manager by loading all the test lifecycle listeners from the classpath."
+     * <p>
+     * The first line of the function gets the current thread's context class loader. This is the class loader that was
+     * used to load the class that contains the function
+     *
+     * @return A new instance of LifecycleManager
+     */
+    public LifecycleManager getDefaultLifecycle() {
         final var classLoader = Thread.currentThread().getContextClassLoader();
         var listeners = ServiceLoaderUtils.load(TestLifecycleListener.class, classLoader);
         return new LifecycleManager(listeners);
     }
 
-    public static <T> Lifecycle.Type getLifecycleType(Class<T> clazz) {
+    /**
+     * "If the class has a Lifecycle annotation, return the type of the annotation, otherwise return NONE."
+     * <p>
+     * The first thing we do is get the annotation from the class. We use the ofNullable method from the Optional class to
+     * wrap the result of the getDeclaredAnnotation method. This is because the getDeclaredAnnotation method can return
+     * null
+     *
+     * @param clazz The class to check for the annotation.
+     * @return The lifecycle type of the class.
+     */
+    public <T> Lifecycle.Type getLifecycleType(final Class<T> clazz) {
         return ofNullable(clazz.getDeclaredAnnotation(Lifecycle.class))
                 .map(Lifecycle::type)
                 .orElse(Lifecycle.Type.NONE);

@@ -22,6 +22,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.UtilityClass;
 
+/**
+ * It's a class that can be used to create a new instance of the class under test
+ */
 @UtilityClass
 public class SelcukesFixture {
     @Getter
@@ -31,7 +34,12 @@ public class SelcukesFixture {
     @Setter
     private Class<?> reporter;
 
-    public static void fail(String param) {
+    /**
+     * It calls the fail method of the class returned by getValidator
+     *
+     * @param param The parameter to be validated.
+     */
+    public static void fail(final String param) {
         try {
             Reflections.invoke(Class.forName(getValidator()), "fail", param);
         } catch (Exception e) {
@@ -39,7 +47,12 @@ public class SelcukesFixture {
         }
     }
 
-    public static void attach(String param) {
+    /**
+     * It invokes the log method of the reporter object with the given parameter
+     *
+     * @param param The parameter to be attached to the report.
+     */
+    public static void attach(final String param) {
         try {
             Reflections.invoke(getReporter(), "log", param);
         } catch (Exception e) {

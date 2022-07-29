@@ -21,6 +21,9 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * A class that is used to store the results of a query execution.
+ */
 @Data
 @AllArgsConstructor
 public class ExecResults {
@@ -28,6 +31,11 @@ public class ExecResults {
     private List<String> error;
     private int returnCode;
 
+    /**
+     * Returns true if the error list is not empty.
+     *
+     * @return A boolean value.
+     */
     public boolean hasErrors() {
         return (!error.isEmpty());
     }

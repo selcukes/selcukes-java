@@ -37,7 +37,7 @@ public class StreamGuzzler implements Runnable {
     private final List<String> content = new LinkedList<>();
     private InputStream stream;
 
-    public StreamGuzzler(InputStream stream) {
+    public StreamGuzzler(final InputStream stream) {
         this.stream = stream;
     }
 

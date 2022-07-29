@@ -24,10 +24,21 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class NotifierFactory {
-    public synchronized Notifier getNotifier(NotifierType notifierType) {
+    /**
+     * If the notifier type is Slack, return a Slack notifier, otherwise return a Microsoft Teams notifier.
+     *
+     * @param notifierType The type of notifier you want to use.
+     * @return A Notifier object.
+     */
+    public synchronized Notifier getNotifier(final NotifierType notifierType) {
         return notifierType.equals(NotifierType.SLACK) ? new Slack() : new MicrosoftTeams();
     }
 
+    /**
+     * If the notifier type is Slack, return a Slack object, otherwise return a MicrosoftTeams object
+     *
+     * @return A Notifier object.
+     */
     public synchronized Notifier getNotifier() {
         return ConfigFactory.getConfig().getNotifier().getType().equalsIgnoreCase("SLACK") ?
                 new Slack() : new MicrosoftTeams();

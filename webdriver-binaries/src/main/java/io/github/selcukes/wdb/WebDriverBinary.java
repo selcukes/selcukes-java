@@ -54,12 +54,11 @@ public class WebDriverBinary {
     }
 
     public class Builder {
-        public Builder(BinaryFactory binaryFactory) {
+        public Builder(final BinaryFactory binaryFactory) {
             WebDriverBinary.this.binaryFactory = binaryFactory;
         }
 
-
-        public Builder version(String version) {
+        public Builder version(final String version) {
             WebDriverBinary.this.autoCheck = false;
             binaryFactory.setVersion(version);
             return this;
@@ -75,13 +74,12 @@ public class WebDriverBinary {
             return this;
         }
 
-
-        public Builder targetPath(String targetPath) {
+        public Builder targetPath(final String targetPath) {
             WebDriverBinary.this.downloadLocation = targetPath;
             return this;
         }
 
-        public Builder proxy(String proxy) {
+        public Builder proxy(final String proxy) {
             binaryFactory.setProxy(proxy);
             return this;
         }
