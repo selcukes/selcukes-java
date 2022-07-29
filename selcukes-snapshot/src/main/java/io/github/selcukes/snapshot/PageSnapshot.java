@@ -65,14 +65,13 @@ class PageSnapshot extends DefaultPageSnapshot {
     private <X> X getFullScreenshot(OutputType<X> outputType) {
         screenOptions = getScreenOptions();
         var screenViewOptions = Map.of(
-                "clip", Map.of(
-                        "x", 0,
-                        "y", 0,
-                        "width", getFullWidth(),
-                        "height", getFullHeight(),
-                        "scale", 1),
-                "captureBeyondViewport", isNotViewport()
-        );
+            "clip", Map.of(
+                "x", 0,
+                "y", 0,
+                "width", getFullWidth(),
+                "height", getFullHeight(),
+                "scale", 1),
+            "captureBeyondViewport", isNotViewport());
         var result = ((HasCdp) driver).executeCdpCommand("Page.captureScreenshot", screenViewOptions);
         var base64EncodedPng = (String) result.get("data");
         return outputType.convertFromBase64Png(base64EncodedPng);

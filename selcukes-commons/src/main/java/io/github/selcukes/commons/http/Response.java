@@ -33,7 +33,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * It takes the HTTP response and provides a number of methods to access the response body, headers, and status code
+ * It takes the HTTP response and provides a number of methods to access the
+ * response body, headers, and status code
  */
 public class Response {
     @Getter
@@ -47,8 +48,8 @@ public class Response {
     /**
      * It returns the reason phrase for a given HTTP status code
      *
-     * @param statusCode The HTTP status code.
-     * @return The reason phrase for the given status code.
+     * @param  statusCode The HTTP status code.
+     * @return            The reason phrase for the given status code.
      */
     public static String getReasonPhrase(final int statusCode) {
         switch (statusCode) {
@@ -184,7 +185,8 @@ public class Response {
     }
 
     /**
-     * It takes the body of the HTTP response, converts it to a string, and then converts that string to a JSON object
+     * It takes the body of the HTTP response, converts it to a string, and then
+     * converts that string to a JSON object
      *
      * @return A JsonNode object
      */
@@ -193,12 +195,14 @@ public class Response {
     }
 
     /**
-     * "If the response body is a JSON string, parse it into an object of the given type."
+     * "If the response body is a JSON string, parse it into an object of the
+     * given type."
      * <p>
-     * The function is generic, so it can be used to parse the response body into any type of object
+     * The function is generic, so it can be used to parse the response body
+     * into any type of object
      *
-     * @param responseType The type of the response body.
-     * @return The body of the response as a string.
+     * @param  responseType The type of the response body.
+     * @return              The body of the response as a string.
      */
     public <T> T bodyAs(final Class<T> responseType) {
         return DataMapper.parse(body(), responseType);
@@ -216,8 +220,8 @@ public class Response {
     /**
      * If the header exists, return it, otherwise return an empty string.
      *
-     * @param name The name of the header to retrieve.
-     * @return The value of the header with the given name.
+     * @param  name The name of the header to retrieve.
+     * @return      The value of the header with the given name.
      */
     public String header(final String name) {
         Optional<String> token = httpResponse.headers().firstValue(name);
@@ -228,7 +232,7 @@ public class Response {
         int responseCode = statusCode();
         if (responseCode >= 400) {
             throw new SelcukesException(String.format("HttpResponseException : Response Code[%s] Reason Phrase[%s]",
-                    responseCode, getReasonPhrase(responseCode)));
+                responseCode, getReasonPhrase(responseCode)));
         }
     }
 }

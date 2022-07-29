@@ -65,7 +65,8 @@ public class CucumberLiveReportAdapter implements ConcurrentEventListener {
         }
 
         if (!featureContextThreadLocal.get().getFeatureName().equalsIgnoreCase(currentFeature.getName())) {
-            featureContextThreadLocal.get().setStatus(getFeatureStatus(featureContextThreadLocal.get().getScenarioContexts()));
+            featureContextThreadLocal.get()
+                    .setStatus(getFeatureStatus(featureContextThreadLocal.get().getScenarioContexts()));
             LiveReportHelper.publishResults(featureContextThreadLocal.get(), "feature");
             featureContextThreadLocal.remove();
             scenarioContextThreadLocal.remove();
@@ -98,8 +99,7 @@ public class CucumberLiveReportAdapter implements ConcurrentEventListener {
     }
 
     private synchronized void afterScenario(TestCaseFinished event) {
-        String error = event.getResult().getStatus().is(Status.FAILED) ?
-                event.getResult().getError().getMessage() : "";
+        String error = event.getResult().getStatus().is(Status.FAILED) ? event.getResult().getError().getMessage() : "";
         ScenarioContext scenarioContext = ScenarioContext.builder()
                 .scenarioName(event.getTestCase().getName())
                 .status(event.getResult().getStatus().name())
@@ -113,7 +113,8 @@ public class CucumberLiveReportAdapter implements ConcurrentEventListener {
     }
 
     private synchronized void afterTest(TestRunFinished event) {
-        featureContextThreadLocal.get().setStatus(getFeatureStatus(featureContextThreadLocal.get().getScenarioContexts()));
+        featureContextThreadLocal.get()
+                .setStatus(getFeatureStatus(featureContextThreadLocal.get().getScenarioContexts()));
         LiveReportHelper.publishResults(featureContextThreadLocal.get(), "feature");
         featureContextThreadLocal.remove();
         scenarioContextThreadLocal.remove();

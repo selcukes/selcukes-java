@@ -55,7 +55,8 @@ public class IExplorerBinary extends AbstractBinary {
         String arch = getBinaryEnvironment().getArchitecture() == 64 ? "x64" : "Win32";
         String matcher = getBinaryDriverName() + "_" + arch;
 
-        Map<String, String> versionsMap = VersionHelper.versionsMap(UrlHelper.IEDRIVER_LATEST_RELEASE_URL, "//Key", matcher);
+        Map<String, String> versionsMap = VersionHelper.versionsMap(UrlHelper.IEDRIVER_LATEST_RELEASE_URL, "//Key",
+            matcher);
 
         Optional<String> version = versionsMap.keySet().stream()
                 .sorted(new VersionComparator()).reduce((first, second) -> second)

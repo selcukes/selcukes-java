@@ -23,8 +23,8 @@ public interface Converter<T> {
     /**
      * Convert a String to a T.
      *
-     * @param value The value to be converted
-     * @return The return type is the same as the type of the parameter.
+     * @param  value The value to be converted
+     * @return       The return type is the same as the type of the parameter.
      */
     T convert(String value);
 
@@ -36,11 +36,13 @@ public interface Converter<T> {
     Type getType();
 
     /**
-     * If the format is null, then call the other convert function, otherwise, call the other convert function.
+     * If the format is null, then call the other convert function, otherwise,
+     * call the other convert function.
      *
-     * @param value  The value to convert.
-     * @param format The format of the value.
-     * @return The default implementation of the convert method is being returned.
+     * @param  value  The value to convert.
+     * @param  format The format of the value.
+     * @return        The default implementation of the convert method is being
+     *                returned.
      */
     default T convert(final String value, final String format) {
         return convert(value);

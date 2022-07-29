@@ -41,7 +41,7 @@ public class WebManager implements RemoteManager {
         Capabilities capabilities = AppiumOptions.getUserOptions();
         if (capabilities == null) {
             capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser),
-                    !(isLocalBrowser() || isCloudBrowser()));
+                !(isLocalBrowser() || isCloudBrowser()));
             if (isCloudBrowser()) {
                 capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions(false));
             }

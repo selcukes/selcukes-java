@@ -40,23 +40,28 @@ public class ElementValidation {
         logger.info(() -> String.format("Verifying element [%s] should have text [%s]", elementLocator, expectedText));
         String actual = element.getText();
         if (!actual.equalsIgnoreCase(expectedText)) {
-            failWithMessage(isSoft, "Expected element [%s] should have text [%s] but was [%s]", elementLocator, expectedText, actual);
+            failWithMessage(isSoft, "Expected element [%s] should have text [%s] but was [%s]", elementLocator,
+                expectedText, actual);
         }
         return this;
     }
 
     public ElementValidation containsText(String expectedText) {
-        logger.info(() -> String.format("Verifying element [%s] should contains text [%s]", elementLocator, expectedText));
+        logger.info(
+            () -> String.format("Verifying element [%s] should contains text [%s]", elementLocator, expectedText));
         if (!element.getText().contains(expectedText)) {
-            failWithMessage(isSoft, "Expected element [%s] to contain text [%s] but actual text was [%s]", elementLocator, expectedText, element.getText());
+            failWithMessage(isSoft, "Expected element [%s] to contain text [%s] but actual text was [%s]",
+                elementLocator, expectedText, element.getText());
         }
         return this;
     }
 
     public ElementValidation notContainsText(String expectedText) {
-        logger.info(() -> String.format("Verifying element [%s] should not contains text [%s]", elementLocator, expectedText));
+        logger.info(
+            () -> String.format("Verifying element [%s] should not contains text [%s]", elementLocator, expectedText));
         if (element.getText().contains(expectedText)) {
-            failWithMessage(isSoft, "Expected element [%s] should not contains text [%s] but actual text was [%s]", expectedText, element.getText());
+            failWithMessage(isSoft, "Expected element [%s] should not contains text [%s] but actual text was [%s]",
+                expectedText, element.getText());
         }
         return this;
     }
@@ -70,7 +75,8 @@ public class ElementValidation {
         logger.info(() -> String.format("Verifying attribute [%s] value as [%s]", attribute, expectedValue));
         String actual = element.getAttribute(attribute);
         if (!actual.equalsIgnoreCase(expectedValue)) {
-            failWithMessage(isSoft, "Expected element [%s] should have [%s] attribute with value [%s] but was [%s]", elementLocator, attribute, expectedValue, actual);
+            failWithMessage(isSoft, "Expected element [%s] should have [%s] attribute with value [%s] but was [%s]",
+                elementLocator, attribute, expectedValue, actual);
         }
         return this;
     }

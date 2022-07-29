@@ -27,7 +27,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * It wraps a JDBC ResultSet and provides a method to convert it to a List of Maps
+ * It wraps a JDBC ResultSet and provides a method to convert it to a List of
+ * Maps
  */
 public class DataBaseResult {
     private final ResultSet resultSet;
@@ -36,9 +37,9 @@ public class DataBaseResult {
         this.resultSet = resultSet;
     }
 
-
     /**
-     * It takes a ResultSet and returns a List of Maps, where each Map represents a row in the ResultSet
+     * It takes a ResultSet and returns a List of Maps, where each Map
+     * represents a row in the ResultSet
      *
      * @return A list of maps.
      */

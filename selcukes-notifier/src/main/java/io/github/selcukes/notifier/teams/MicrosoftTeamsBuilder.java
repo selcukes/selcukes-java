@@ -28,7 +28,9 @@ import java.util.List;
 
 public class MicrosoftTeamsBuilder {
 
-    protected void sendMessage(String scenarioTitle, String scenarioStatus, String message, String error, String screenshotPath) {
+    protected void sendMessage(
+            String scenarioTitle, String scenarioStatus, String message, String error, String screenshotPath
+    ) {
 
         String attachmentValue = "[Screenshot.jpg](" + screenshotPath + ")";
         if (screenshotPath.endsWith(".avi") || screenshotPath.endsWith(".mp4")) {

@@ -41,18 +41,19 @@ public interface Snapshot {
     /**
      * "Shoot the visible page and return the result as a byte array."
      * <p>
-     * The function is a bit more complicated than that, but not much. It's a wrapper around the following function:
+     * The function is a bit more complicated than that, but not much. It's a
+     * wrapper around the following function:
      * <p>
-     * // Java
-     * byte[] shootVisiblePageAsBytes(int maxWidth, int maxHeight, int quality);
+     * // Java byte[] shootVisiblePageAsBytes(int maxWidth, int maxHeight, int
+     * quality);
      *
      * @return A byte array of the visible page.
      */
     byte[] shootVisiblePageAsBytes();
 
     /**
-     * This function returns a new Snapshot object that is identical to the current one, except that it has the address bar
-     * enabled.
+     * This function returns a new Snapshot object that is identical to the
+     * current one, except that it has the address bar enabled.
      *
      * @return A new instance of the class.
      */
@@ -61,8 +62,8 @@ public interface Snapshot {
     /**
      * It returns a snapshot of the current state of the application.
      *
-     * @param text The text to be displayed in the notification.
-     * @return A new instance of the class.
+     * @param  text The text to be displayed in the notification.
+     * @return      A new instance of the class.
      */
     Snapshot withText(String text);
 }

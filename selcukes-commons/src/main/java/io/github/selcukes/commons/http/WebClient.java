@@ -52,13 +52,14 @@ public class WebClient {
     }
 
     /**
-     * "This function takes an object, serializes it to JSON, and sends it to the server as the body of a POST request."
+     * "This function takes an object, serializes it to JSON, and sends it to
+     * the server as the body of a POST request."
      * <p>
-     * The first line of the function sets the content type of the request to "application/json". This is a standard
-     * content type for JSON data
+     * The first line of the function sets the content type of the request to
+     * "application/json". This is a standard content type for JSON data
      *
-     * @param payload The object to be serialized and sent as the request body.
-     * @return A Response object
+     * @param  payload The object to be serialized and sent as the request body.
+     * @return         A Response object
      */
     @SneakyThrows
     public Response post(final Object payload) {
@@ -91,11 +92,13 @@ public class WebClient {
     /**
      * "Create a PUT request with the given payload, and execute it."
      * <p>
-     * The first line creates a new `HttpRequest` object. The `requestBuilder` object is a member variable of the
-     * `HttpClient` class. It's a `HttpRequest.Builder` object, and it's used to create new `HttpRequest` objects
+     * The first line creates a new `HttpRequest` object. The `requestBuilder`
+     * object is a member variable of the `HttpClient` class. It's a
+     * `HttpRequest.Builder` object, and it's used to create new `HttpRequest`
+     * objects
      *
-     * @param payload The payload to be sent to the server.
-     * @return A Response object
+     * @param  payload The payload to be sent to the server.
+     * @return         A Response object
      */
     public Response put(final Object payload) {
         HttpRequest request = requestBuilder.PUT(bodyPublisher(payload)).build();
@@ -119,7 +122,7 @@ public class WebClient {
         var byteArrays = new ArrayList<byte[]>();
         byte[] separator = ("--" + boundary
                 + "\r\nContent-Disposition: form-data; name=")
-                .getBytes(StandardCharsets.UTF_8);
+                        .getBytes(StandardCharsets.UTF_8);
         for (Map.Entry<Object, Object> entry : data.entrySet()) {
             byteArrays.add(separator);
 
@@ -133,8 +136,8 @@ public class WebClient {
                 byteArrays.add("\r\n".getBytes(StandardCharsets.UTF_8));
             } else {
                 byteArrays.add(
-                        ("\"" + entry.getKey() + "\"\r\n\r\n" + entry.getValue()
-                                + "\r\n").getBytes(StandardCharsets.UTF_8));
+                    ("\"" + entry.getKey() + "\"\r\n\r\n" + entry.getValue()
+                            + "\r\n").getBytes(StandardCharsets.UTF_8));
             }
         }
         byteArrays.add(("--" + boundary + "--").getBytes(StandardCharsets.UTF_8));
@@ -165,10 +168,11 @@ public class WebClient {
     }
 
     /**
-     * If the proxy parameter is a valid URL, then set the proxy host and port to the host and port of the URL
+     * If the proxy parameter is a valid URL, then set the proxy host and port
+     * to the host and port of the URL
      *
-     * @param proxy The proxy to use.
-     * @return A WebClient object
+     * @param  proxy The proxy to use.
+     * @return       A WebClient object
      */
     public WebClient proxy(final String proxy) {
         Optional<URL> url = getProxyUrl(proxy);
@@ -183,11 +187,12 @@ public class WebClient {
     }
 
     /**
-     * This function takes a username and password, encodes them in base64, and adds them to the header of the request.
+     * This function takes a username and password, encodes them in base64, and
+     * adds them to the header of the request.
      *
-     * @param username The username to use for authentication
-     * @param password The password to use for authentication
-     * @return The WebClient object itself.
+     * @param  username The username to use for authentication
+     * @param  password The password to use for authentication
+     * @return          The WebClient object itself.
      */
     public WebClient authenticator(final String username, final String password) {
         String encodedAuth = Base64.getEncoder()
@@ -197,10 +202,11 @@ public class WebClient {
     }
 
     /**
-     * This function adds an Authorization header to the request with the value of Bearer <token>.
+     * This function adds an Authorization header to the request with the value
+     * of Bearer <token>.
      *
-     * @param token The token you received from the authentication service.
-     * @return The WebClient object.
+     * @param  token The token you received from the authentication service.
+     * @return       The WebClient object.
      */
     public WebClient authenticator(final String token) {
         header("Authorization", "Bearer " + token);
@@ -210,9 +216,9 @@ public class WebClient {
     /**
      * This function adds a header to the request.
      *
-     * @param name  The name of the header.
-     * @param value The value of the header.
-     * @return The WebClient object
+     * @param  name  The name of the header.
+     * @param  value The value of the header.
+     * @return       The WebClient object
      */
     public WebClient header(final String name, final String value) {
         requestBuilder = requestBuilder.header(name, value);
@@ -220,13 +226,14 @@ public class WebClient {
     }
 
     /**
-     * "Set the body of the request to be a multipart form with the given data and boundary."
+     * "Set the body of the request to be a multipart form with the given data
+     * and boundary."
      * <p>
-     * The first thing we do is generate a random boundary. This is a string that will be used to separate the different
-     * parts of the multipart form
+     * The first thing we do is generate a random boundary. This is a string
+     * that will be used to separate the different parts of the multipart form
      *
-     * @param data The data to be sent.
-     * @return A WebClient object
+     * @param  data The data to be sent.
+     * @return      A WebClient object
      */
     public WebClient multiPart(final Map<Object, Object> data) {
         String boundary = "-------------" + UUID.randomUUID();
@@ -238,8 +245,8 @@ public class WebClient {
     /**
      * This function sets the content type of the request to the given type.
      *
-     * @param type The content type to set.
-     * @return The WebClient object
+     * @param  type The content type to set.
+     * @return      The WebClient object
      */
     public WebClient contentType(final String type) {
         header("Content-Type", type);

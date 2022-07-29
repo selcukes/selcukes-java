@@ -60,6 +60,8 @@ public abstract class AbstractNotifier implements Notifier {
         pushNotification(title, status, message, error, path);
     }
 
-    public abstract Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String error, String screenshotPath);
+    public abstract Notifier pushNotification(
+            String scenarioTitle, String scenarioStatus, String message, String error, String screenshotPath
+    );
 
 }

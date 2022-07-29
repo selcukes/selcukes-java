@@ -22,7 +22,8 @@ import java.util.Map;
 import static io.github.selcukes.databind.utils.Reflections.newInstance;
 
 /**
- * It's a singleton that holds a map of class names to instances of those classes
+ * It's a singleton that holds a map of class names to instances of those
+ * classes
  */
 public class Singleton {
 
@@ -34,11 +35,11 @@ public class Singleton {
     }
 
     /**
-     * If the class is not in the map, create a new instance of the class and put it in the map.  If it is in the map,
-     * return the instance from the map.
+     * If the class is not in the map, create a new instance of the class and
+     * put it in the map. If it is in the map, return the instance from the map.
      *
-     * @param clazz The class to be instantiated.
-     * @return An instance of the class passed in.
+     * @param  clazz The class to be instantiated.
+     * @return       An instance of the class passed in.
      */
     @SuppressWarnings("unchecked")
     public static <T> T instanceOf(final Class<T> clazz, final Object... initArgs) {

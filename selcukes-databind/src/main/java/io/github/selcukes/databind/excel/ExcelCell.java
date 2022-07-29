@@ -64,4 +64,3 @@ class ExcelCell<T> extends DataField<T> {
                 .orElseThrow(() -> new IllegalArgumentException(format("Column %s not found", getFieldName())));
     }
 }
-

@@ -127,4 +127,3 @@ class FFmpegRecorder implements VideoRecorder {
     }
 
 }
-

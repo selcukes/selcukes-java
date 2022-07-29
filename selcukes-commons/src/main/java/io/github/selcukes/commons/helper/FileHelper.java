@@ -52,8 +52,8 @@ public class FileHelper {
     /**
      * Drivers folder string.
      *
-     * @param path the path
-     * @return the string
+     * @param  path the path
+     * @return      the string
      */
     public String driversFolder(final String path) {
         File file = new File(path);
@@ -82,10 +82,12 @@ public class FileHelper {
     }
 
     /**
-     * If the file separator is a backslash, then replace all forward slashes with backslashes.
+     * If the file separator is a backslash, then replace all forward slashes
+     * with backslashes.
      *
-     * @param filePath The file path to be converted.
-     * @return The file path with the correct file separator for the system.
+     * @param  filePath The file path to be converted.
+     * @return          The file path with the correct file separator for the
+     *                  system.
      */
     public String systemFilePath(final String filePath) {
         String fileSeparator = System.getProperty("file.separator");
@@ -104,15 +106,18 @@ public class FileHelper {
     }
 
     /**
-     * If the directory exists, check if it is a directory. If it is not a directory, throw an exception. If the directory
-     * does not exist, create it. If the directory is not created, throw an exception
+     * If the directory exists, check if it is a directory. If it is not a
+     * directory, throw an exception. If the directory does not exist, create
+     * it. If the directory is not created, throw an exception
      *
-     * @param directory The directory to create, including any necessary but nonexistent parent directories.
+     * @param directory The directory to create, including any necessary but
+     *                  nonexistent parent directories.
      */
     public void createDirectory(final File directory) {
         if (directory.exists()) {
             if (!directory.isDirectory()) {
-                throw new SelcukesException("File " + directory + " exists and is not a directory. Unable to create directory.");
+                throw new SelcukesException(
+                    "File " + directory + " exists and is not a directory. Unable to create directory.");
             }
         } else if (!directory.mkdirs() && !directory.isDirectory()) {
             throw new SelcukesException("Unable to create directory " + directory);
@@ -122,8 +127,8 @@ public class FileHelper {
     /**
      * It creates a directory if it doesn't exist
      *
-     * @param directory The directory to create.
-     * @return Path
+     * @param  directory The directory to create.
+     * @return           Path
      */
     public Path createDirectory(final String directory) {
         try {
@@ -171,8 +176,8 @@ public class FileHelper {
     }
 
     /**
-     * It creates a temporary directory in the default temporary-file directory, using the given prefix and suffix to
-     * generate its name
+     * It creates a temporary directory in the default temporary-file directory,
+     * using the given prefix and suffix to generate its name
      *
      * @return A Path object
      */
@@ -185,8 +190,8 @@ public class FileHelper {
     }
 
     /**
-     * It creates a temporary file in the default temporary-file directory, using the given prefix and suffix to generate
-     * its name
+     * It creates a temporary file in the default temporary-file directory,
+     * using the given prefix and suffix to generate its name
      *
      * @return A file object
      */
@@ -225,8 +230,8 @@ public class FileHelper {
     /**
      * It loads a file from the resources folder
      *
-     * @param file The file to load.
-     * @return A File object
+     * @param  file The file to load.
+     * @return      A File object
      */
     public File loadResource(final String file) {
         return new File(Objects.requireNonNull(FileHelper.class.getClassLoader().getResource(file)).getFile());
@@ -235,18 +240,20 @@ public class FileHelper {
     /**
      * Load a file from the classpath using the current thread's classloader.
      *
-     * @param file The file to load.
-     * @return A File object
+     * @param  file The file to load.
+     * @return      A File object
      */
     public File loadThreadResource(final String file) {
-        return new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource(file)).getFile());
+        return new File(
+            Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource(file)).getFile());
     }
 
     /**
-     * Load a resource from the classpath using the current thread's classloader.
+     * Load a resource from the classpath using the current thread's
+     * classloader.
      *
-     * @param file The file to load.
-     * @return A stream of the file.
+     * @param  file The file to load.
+     * @return      A stream of the file.
      */
     public InputStream loadThreadResourceAsStream(final String file) {
         return Thread.currentThread().getContextClassLoader().getResourceAsStream(file);
@@ -255,8 +262,8 @@ public class FileHelper {
     /**
      * Load a resource from the classpath as an InputStream.
      *
-     * @param file The file to load.
-     * @return A stream of bytes from the file.
+     * @param  file The file to load.
+     * @return      A stream of bytes from the file.
      */
     public InputStream loadResourceAsStream(final String file) {
         return FileHelper.class.getClassLoader().getResourceAsStream(file);
@@ -265,8 +272,8 @@ public class FileHelper {
     /**
      * Load a resource from a jar file.
      *
-     * @param file The file to load.
-     * @return A stream of the file.
+     * @param  file The file to load.
+     * @return      A stream of the file.
      */
     public InputStream loadResourceFromJar(final String file) {
         return FileHelper.class.getResourceAsStream("/" + file);
@@ -281,8 +288,8 @@ public class FileHelper {
         String waterMark = "target/selcukes-watermark.png";
         File waterMarkFile = new File(waterMark);
         if (!waterMarkFile.exists()) {
-            download(Objects.requireNonNull(FileHelper.class.
-                    getClassLoader().getResource("selcukes-watermark.png")), waterMarkFile);
+            download(Objects.requireNonNull(FileHelper.class.getClassLoader().getResource("selcukes-watermark.png")),
+                waterMarkFile);
         }
         return waterMarkFile;
     }
@@ -290,9 +297,9 @@ public class FileHelper {
     /**
      * It takes a base64 encoded string and writes it to a file
      *
-     * @param fileContent The base64 encoded file content
-     * @param filePath    The path where the file will be created.
-     * @return A File object
+     * @param  fileContent The base64 encoded file content
+     * @param  filePath    The path where the file will be created.
+     * @return             A File object
      */
     @SneakyThrows
     public File createFile(final String fileContent, final String filePath) {
@@ -304,7 +311,8 @@ public class FileHelper {
     }
 
     /**
-     * > It downloads a file from a given URL and saves it to a given destination
+     * > It downloads a file from a given URL and saves it to a given
+     * destination
      *
      * @param source      The URL of the file to download.
      * @param destination The file to download to.
@@ -316,8 +324,7 @@ public class FileHelper {
         try (
                 var urlStream = source.openStream();
                 var readableByteChannel = Channels.newChannel(urlStream);
-                var fileOutputStream = new FileOutputStream(destination)
-        ) {
+                var fileOutputStream = new FileOutputStream(destination)) {
             fileOutputStream.getChannel().transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
         } catch (Exception e) {
             throw new SelcukesException(String.format("Unable to download a file from URL [%s]", source));
@@ -325,17 +332,22 @@ public class FileHelper {
     }
 
     /**
-     * "Download the file at the given URL to the user's home directory, and return the path to the downloaded file."
+     * "Download the file at the given URL to the user's home directory, and
+     * return the path to the downloaded file."
      * <p>
-     * The first line of the function is a call to the `Arrays.stream` method. This method takes an array of strings and
-     * returns a stream of strings. The stream is then filtered to only include the last element of the array. The `reduce`
-     * method is then called on the stream, which takes two parameters: a function that takes two strings and returns a
-     * string, and a default value. The function is called on each element of the stream, and the result of the function is
-     * passed to the next call of the function. The default value is used as the first parameter to the first call of the
-     * function. The `reduce` method returns the result of the last call of the function
+     * The first line of the function is a call to the `Arrays.stream` method.
+     * This method takes an array of strings and returns a stream of strings.
+     * The stream is then filtered to only include the last element of the
+     * array. The `reduce` method is then called on the stream, which takes two
+     * parameters: a function that takes two strings and returns a string, and a
+     * default value. The function is called on each element of the stream, and
+     * the result of the function is passed to the next call of the function.
+     * The default value is used as the first parameter to the first call of the
+     * function. The `reduce` method returns the result of the last call of the
+     * function
      *
-     * @param url The URL of the file to download.
-     * @return The path to the file.
+     * @param  url The URL of the file to download.
+     * @return     The path to the file.
      */
     @SneakyThrows
     public String downloadToUsersFolder(final String url) {
@@ -352,8 +364,8 @@ public class FileHelper {
     /**
      * > It loads a file from the classpath and returns its content as a string
      *
-     * @param filePath The path to the file you want to read.
-     * @return The content of the file.
+     * @param  filePath The path to the file you want to read.
+     * @return          The content of the file.
      */
     public String readContent(final String filePath) {
         try {
@@ -363,4 +375,3 @@ public class FileHelper {
         }
     }
 }
-

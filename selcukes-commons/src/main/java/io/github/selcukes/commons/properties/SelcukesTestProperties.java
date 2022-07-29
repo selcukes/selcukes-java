@@ -70,6 +70,6 @@ public class SelcukesTestProperties {
 
     public String getSubstitutedConfigProperty(String propertyKey) {
         return StringHelper.interpolate(getCucumberProperty(propertyKey),
-                matcher -> getCucumberProperty(matcher.group(1)));
+            matcher -> getCucumberProperty(matcher.group(1)));
     }
 }

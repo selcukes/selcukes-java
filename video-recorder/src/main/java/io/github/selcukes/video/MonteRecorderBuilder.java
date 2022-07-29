@@ -35,13 +35,15 @@ class MonteRecorderBuilder extends ScreenRecorder {
     private String currentTempExtension;
 
     @Builder
-    MonteRecorderBuilder(GraphicsConfiguration cfg,
-                         Rectangle rectangle,
-                         Format fileFormat,
-                         Format screenFormat,
-                         Format mouseFormat,
-                         Format audioFormat,
-                         File folder) throws IOException, AWTException {
+    MonteRecorderBuilder(
+            GraphicsConfiguration cfg,
+            Rectangle rectangle,
+            Format fileFormat,
+            Format screenFormat,
+            Format mouseFormat,
+            Format audioFormat,
+            File folder
+    ) throws IOException, AWTException {
         super(cfg, rectangle, fileFormat, screenFormat, mouseFormat, audioFormat);
         super.movieFolder = folder;
     }

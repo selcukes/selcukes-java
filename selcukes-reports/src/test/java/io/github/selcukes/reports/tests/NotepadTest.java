@@ -68,7 +68,6 @@ public class NotepadTest {
 
     }
 
-
     @AfterMethod
     public void afterTest() {
         try {

@@ -67,9 +67,11 @@ public class LifecycleManager implements TestLifecycleListener {
         runSafely(testListeners, TestLifecycleListener::afterStep, result);
     }
 
-    private void runSafely(List<TestLifecycleListener> testListeners,
-                           BiConsumer<TestLifecycleListener, TestResult> method,
-                           TestResult result) {
+    private void runSafely(
+            List<TestLifecycleListener> testListeners,
+            BiConsumer<TestLifecycleListener, TestResult> method,
+            TestResult result
+    ) {
         testListeners.forEach(listener -> {
             try {
                 method.accept(listener, result);

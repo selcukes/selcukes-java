@@ -31,12 +31,14 @@ import java.util.regex.Pattern;
 import static io.github.selcukes.databind.properties.PropertiesMapper.systemProperties;
 
 /**
- * This class contains a bunch of static methods that help you manipulate strings.
+ * This class contains a bunch of static methods that help you manipulate
+ * strings.
  */
 @UtilityClass
 public class StringHelper {
 
-    // A static final variable that is a predicate that takes a string and returns a boolean value.
+    // A static final variable that is a predicate that takes a string and
+    // returns a boolean value.
     public static final Predicate<String> nullOrEmpty = StringHelper::isNullOrEmpty;
     private static final String SNAKE_CASE_REGEX = "([a-z])([A-Z]+)";
     private static final String CAMEL_CASE_REGEX = "[^a-zA-Z0-9]";
@@ -46,20 +48,23 @@ public class StringHelper {
     /**
      * `text == null || text.isEmpty() || text.isBlank()`
      * <p>
-     * The above function is a boolean expression that returns true if the text is null, empty, or blank
+     * The above function is a boolean expression that returns true if the text
+     * is null, empty, or blank
      *
-     * @param text The text to check.
-     * @return A boolean value
+     * @param  text The text to check.
+     * @return      A boolean value
      */
     public boolean isNullOrEmpty(final String text) {
         return text == null || text.isEmpty() || text.isBlank();
     }
 
     /**
-     * It takes a string, replaces all the camel case with underscores, and then converts the string to lower case
+     * It takes a string, replaces all the camel case with underscores, and then
+     * converts the string to lower case
      *
-     * @param text The text to convert to snake case.
-     * @return A string that is the text parameter with the first letter of each word capitalized.
+     * @param  text The text to convert to snake case.
+     * @return      A string that is the text parameter with the first letter of
+     *              each word capitalized.
      */
     public String toSnakeCase(final String text) {
         final String replacement = "$1_$2";
@@ -67,11 +72,12 @@ public class StringHelper {
     }
 
     /**
-     * It takes a string, replaces all non-alphanumeric characters with underscores, splits the string on underscores,
-     * capitalizes the first letter of each word, and joins the words back together
+     * It takes a string, replaces all non-alphanumeric characters with
+     * underscores, splits the string on underscores, capitalizes the first
+     * letter of each word, and joins the words back together
      *
-     * @param text The text to convert to camel case.
-     * @return A string that is in camel case.
+     * @param  text The text to convert to camel case.
+     * @return      A string that is in camel case.
      */
     public String toCamelCase(final String text) {
 
@@ -88,10 +94,12 @@ public class StringHelper {
     }
 
     /**
-     * It takes a string, removes all non-alphanumeric characters, and returns the first character in lowercase
+     * It takes a string, removes all non-alphanumeric characters, and returns
+     * the first character in lowercase
      *
-     * @param text The text to be converted.
-     * @return The first letter of the string is being returned in lowercase.
+     * @param  text The text to be converted.
+     * @return      The first letter of the string is being returned in
+     *              lowercase.
      */
     public static String toFieldName(final String text) {
         final String fieldName = text.replaceAll(CAMEL_CASE_REGEX, "");
@@ -99,11 +107,13 @@ public class StringHelper {
     }
 
     /**
-     * It takes a string and a function that takes a match result and returns a string, and returns a string
+     * It takes a string and a function that takes a match result and returns a
+     * string, and returns a string
      *
-     * @param text     The text to interpolate.
-     * @param replacer A function that takes a MatchResult and returns a String.
-     * @return A string with the interpolated values.
+     * @param  text     The text to interpolate.
+     * @param  replacer A function that takes a MatchResult and returns a
+     *                  String.
+     * @return          A string with the interpolated values.
      */
     public String interpolate(final String text, final Function<MatchResult, String> replacer) {
 
@@ -113,10 +123,11 @@ public class StringHelper {
     }
 
     /**
-     * It takes a string and returns a string with all the version numbers removed
+     * It takes a string and returns a string with all the version numbers
+     * removed
      *
-     * @param text The text to be processed.
-     * @return The version number is being returned.
+     * @param  text The text to be processed.
+     * @return      The version number is being returned.
      */
     public String extractVersionNumber(final String text) {
         return text.replaceAll(VERSION_NUMBER_REGEX, "");
@@ -125,8 +136,8 @@ public class StringHelper {
     /**
      * Convert a POJO to a JSON string.
      *
-     * @param object The object to be converted to JSON
-     * @return A JSON string
+     * @param  object The object to be converted to JSON
+     * @return        A JSON string
      */
     public String toJson(final Object object) {
         try {
@@ -139,8 +150,8 @@ public class StringHelper {
     /**
      * It takes an object and returns a pretty JSON string
      *
-     * @param object The object to be converted to JSON
-     * @return A JSON string
+     * @param  object The object to be converted to JSON
+     * @return        A JSON string
      */
     public String toPrettyJson(final Object object) {
         try {
@@ -153,8 +164,8 @@ public class StringHelper {
     /**
      * It takes a string and returns a JsonNode
      *
-     * @param content The string to be parsed into a JsonNode
-     * @return A JsonNode object
+     * @param  content The string to be parsed into a JsonNode
+     * @return         A JsonNode object
      */
     public JsonNode toJson(final String content) {
         try {
@@ -168,12 +179,13 @@ public class StringHelper {
     }
 
     /**
-     * If the value is "date" or "datetime", then return the current date or date/time in the specified format. Otherwise,
-     * return the value of the system property with the specified name
+     * If the value is "date" or "datetime", then return the current date or
+     * date/time in the specified format. Otherwise, return the value of the
+     * system property with the specified name
      *
-     * @param value  The value to be substituted.
-     * @param format The format of the date/time.
-     * @return The value of the system property with the given name.
+     * @param  value  The value to be substituted.
+     * @param  format The format of the date/time.
+     * @return        The value of the system property with the given name.
      */
     public String substitute(final String value, final String format) {
         if (value.equalsIgnoreCase("date")) {
@@ -186,10 +198,12 @@ public class StringHelper {
     }
 
     /**
-     * It replaces all non-breaking spaces, carriage returns, and line feeds with a single space, and then trims the result
+     * It replaces all non-breaking spaces, carriage returns, and line feeds
+     * with a single space, and then trims the result
      *
-     * @param text The text to be normalized.
-     * @return The text is being returned with all the white spaces removed.
+     * @param  text The text to be normalized.
+     * @return      The text is being returned with all the white spaces
+     *              removed.
      */
     public static String normalizeText(final String text) {
         return text != null ? text.replaceAll("\u00A0|\\r\\n|\\r|\\n", " ").trim() : null;

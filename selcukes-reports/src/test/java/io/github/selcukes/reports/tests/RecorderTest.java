@@ -50,7 +50,6 @@ public class RecorderTest {
                 .start();
     }
 
-
     public void loginTest() {
         driver.get("http://www.princexml.com/samples/");
         logger.debug(driver::getTitle);
@@ -65,7 +64,7 @@ public class RecorderTest {
                 .withResult(result)
                 .ignoreCondition()
                 .attachScreenshot()
-                .withNotifier(NotifierType.SLACK) //Default Notifier is TEAMS
+                .withNotifier(NotifierType.SLACK) // Default Notifier is TEAMS
                 .sendNotification("This is sample Test Step");
 
     }

@@ -56,4 +56,3 @@ class Attachment implements Serializable {
     private Long timeStamp;
     private List<Field> fields;
 }
-

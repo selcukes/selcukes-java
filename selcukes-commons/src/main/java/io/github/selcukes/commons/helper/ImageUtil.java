@@ -20,6 +20,7 @@ import io.github.selcukes.commons.exception.SnapshotException;
 import lombok.experimental.UtilityClass;
 
 import javax.imageio.ImageIO;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -40,8 +41,8 @@ public class ImageUtil {
     /**
      * Convert an InputStream to a BufferedImage.
      *
-     * @param is The input stream of the image
-     * @return A BufferedImage
+     * @param  is The input stream of the image
+     * @return    A BufferedImage
      */
     public BufferedImage toBufferedImage(final InputStream is) {
 
@@ -55,8 +56,8 @@ public class ImageUtil {
     /**
      * Convert a byte array to a BufferedImage.
      *
-     * @param bytes The byte array that contains the image data.
-     * @return A BufferedImage
+     * @param  bytes The byte array that contains the image data.
+     * @return       A BufferedImage
      */
     public BufferedImage toBufferedImage(final byte[] bytes) {
 
@@ -70,8 +71,8 @@ public class ImageUtil {
     /**
      * Convert a BufferedImage to a byte array.
      *
-     * @param image The image to be converted to a byte array.
-     * @return A byte array
+     * @param  image The image to be converted to a byte array.
+     * @return       A byte array
      */
     public byte[] toByteArray(final BufferedImage image) {
 
@@ -86,13 +87,15 @@ public class ImageUtil {
     /**
      * It takes two images and stitches them together
      *
-     * @param image1    The first image to be stitched
-     * @param image2    The image to be stitched
-     * @param asOverlay If true, the images will be stitched as an overlay. If false, the images will be stitched side by
-     *                  side.
-     * @return A BufferedImage
+     * @param  image1    The first image to be stitched
+     * @param  image2    The image to be stitched
+     * @param  asOverlay If true, the images will be stitched as an overlay. If
+     *                   false, the images will be stitched side by side.
+     * @return           A BufferedImage
      */
-    private BufferedImage stitchImages(final BufferedImage image1, final BufferedImage image2, final boolean asOverlay) {
+    private BufferedImage stitchImages(
+            final BufferedImage image1, final BufferedImage image2, final boolean asOverlay
+    ) {
         if (asOverlay) {
             int x = Math.max(image1.getWidth(), image2.getWidth());
             int y = Math.max(image1.getHeight(), image2.getHeight());
@@ -103,7 +106,7 @@ public class ImageUtil {
             return stitchedImage;
         } else {
             BufferedImage stitchedImage = new BufferedImage(image1.getWidth(), image1.getHeight() + image2.getHeight(),
-                    BufferedImage.TYPE_INT_RGB);
+                BufferedImage.TYPE_INT_RGB);
             Graphics graphics = stitchedImage.getGraphics();
             graphics.drawImage(image1, 0, 0, null);
             graphics.drawImage(image2, 0, image1.getHeight(), null);
@@ -114,11 +117,12 @@ public class ImageUtil {
     }
 
     /**
-     * Generate an image with the logo and text, then stitch it to the bottom of the image.
+     * Generate an image with the logo and text, then stitch it to the bottom of
+     * the image.
      *
-     * @param text  The text to be displayed on the image.
-     * @param image The image to be watermarked
-     * @return A BufferedImage
+     * @param  text  The text to be displayed on the image.
+     * @param  image The image to be watermarked
+     * @return       A BufferedImage
      */
     public BufferedImage generateImageWithLogo(final String text, final BufferedImage image) {
         BufferedImage logoAndTextImage = generateImageWithLogoAndText(text, image.getWidth());
@@ -126,11 +130,13 @@ public class ImageUtil {
     }
 
     /**
-     * Generate an address bar image with a logo, then stitch it with another image.
+     * Generate an address bar image with a logo, then stitch it with another
+     * image.
      *
-     * @param image1 The image that will be used for the address bar.
-     * @param image2 The image that will be stitched to the right of the address bar.
-     * @return A BufferedImage
+     * @param  image1 The image that will be used for the address bar.
+     * @param  image2 The image that will be stitched to the right of the
+     *                address bar.
+     * @return        A BufferedImage
      */
     public BufferedImage generateImageWithAddressBar(final BufferedImage image1, final BufferedImage image2) {
         BufferedImage addressBarImage = generateAddressBarImageWithLogo(image1);
@@ -183,5 +189,3 @@ public class ImageUtil {
 
     }
 }
-
-

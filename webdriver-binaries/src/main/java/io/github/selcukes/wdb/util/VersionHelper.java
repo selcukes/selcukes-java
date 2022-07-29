@@ -46,10 +46,9 @@ public class VersionHelper {
             var versions = filterElements(elements, matcher);
             return versions
                     .collect(Collectors.toMap(
-                            entry -> entry.substring(0, entry.indexOf('/')),
-                            entry -> entry,
-                            (prev, next) -> next, TreeMap::new
-                    ));
+                        entry -> entry.substring(0, entry.indexOf('/')),
+                        entry -> entry,
+                        (prev, next) -> next, TreeMap::new));
         } catch (Exception e) {
             return Collections.emptyMap();
         }

@@ -42,7 +42,7 @@ public class HomePage {
                         "\nThis second line of text message displayed in Screenshot")
                 .shootPage();
         logger.info(() -> String.format("Captured full page screenshot for %s browser and placed at %s ",
-                browser, screenshotFilePath));
+            browser, screenshotFilePath));
     }
 
 }

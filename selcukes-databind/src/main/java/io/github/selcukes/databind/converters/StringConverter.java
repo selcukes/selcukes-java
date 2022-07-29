@@ -19,9 +19,11 @@ package io.github.selcukes.databind.converters;
 /**
  * "This class converts a String to a String."
  * <p>
- * The `DefaultConverter` class is a generic class that takes a single type parameter. In this case, the type parameter is
- * `String`. The `DefaultConverter` class is an abstract class that requires you to implement the `convert` method. The
- * `convert` method takes a single parameter of type `String` and returns a `String`
+ * The `DefaultConverter` class is a generic class that takes a single type
+ * parameter. In this case, the type parameter is `String`. The
+ * `DefaultConverter` class is an abstract class that requires you to implement
+ * the `convert` method. The `convert` method takes a single parameter of type
+ * `String` and returns a `String`
  */
 public class StringConverter extends DefaultConverter<String> {
     @Override

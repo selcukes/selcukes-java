@@ -82,7 +82,8 @@ class ScreenPlayImpl implements ScreenPlay {
 
         if (result.getTestType().equals(TestType.CUCUMBER)) {
             try {
-                byte[] screenshot = isNativeDevice || isDesktop ? capture.shootVisiblePageAsBytes() : capture.shootPageAsBytes();
+                byte[] screenshot = isNativeDevice || isDesktop ? capture.shootVisiblePageAsBytes()
+                        : capture.shootPageAsBytes();
                 attach(screenshot, "image/png");
             } catch (Exception e) {
                 logger.warn(e::getMessage);

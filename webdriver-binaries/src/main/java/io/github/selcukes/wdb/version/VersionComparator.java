@@ -41,8 +41,7 @@ public class VersionComparator implements Comparator<Object> {
                         // Version one is longer than number two, and non-zero
                         return 1;
                     }
-                }
-                while (tokenizer1.moveNext());
+                } while (tokenizer1.moveNext());
 
                 // Version one is longer than version two, but zero
                 return 0;
@@ -90,8 +89,7 @@ public class VersionComparator implements Comparator<Object> {
                     // Version one is longer than version two, and non-zero
                     return -1;
                 }
-            }
-            while (tokenizer2.moveNext());
+            } while (tokenizer2.moveNext());
 
             // Version two is longer than version one, but zero
             return 0;

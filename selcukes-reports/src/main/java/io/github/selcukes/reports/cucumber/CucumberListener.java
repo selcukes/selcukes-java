@@ -92,20 +92,17 @@ public class CucumberListener implements ConcurrentEventListener {
 
     private void afterTest(TestRunFinished event) {
         logger.trace(() -> String.format("After Test: %n Event [%s]",
-                event.toString()
-        ));
+            event.toString()));
 
     }
 
     private EventHandler<EmbedEvent> getEmbedEventHandler() {
-        return event ->
-                logger.trace(() -> String.format("Embed Event: [%s]", event.getName()));
+        return event -> logger.trace(() -> String.format("Embed Event: [%s]", event.getName()));
 
     }
 
     private EventHandler<WriteEvent> getWriteEventHandler() {
-        return event ->
-                logger.trace(() -> String.format("Write Event: [%s]", event.getText()));
+        return event -> logger.trace(() -> String.format("Write Event: [%s]", event.getText()));
 
     }
 

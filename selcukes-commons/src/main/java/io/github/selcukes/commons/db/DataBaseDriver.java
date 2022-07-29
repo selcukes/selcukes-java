@@ -66,7 +66,7 @@ public class DataBaseDriver {
             connection = DriverManager.getConnection(connectionUrl, username, password);
             if (!dataBaseType.toString().equals("MY_SQL") && !dataBaseType.toString().equals("POST_GRE_SQL")) {
                 connection.setNetworkTimeout(Executors.newFixedThreadPool(1),
-                        timeout * 60000);
+                    timeout * 60000);
             }
         } catch (Exception e) {
             throw new SelcukesException("Failed to connect DataBase using url[" + connectionUrl + "]");
@@ -86,10 +86,11 @@ public class DataBaseDriver {
     }
 
     /**
-     * > It creates a connection, creates a statement, executes the query and returns the result
+     * > It creates a connection, creates a statement, executes the query and
+     * returns the result
      *
-     * @param query The query to be executed.
-     * @return A DataBaseResult object
+     * @param  query The query to be executed.
+     * @return       A DataBaseResult object
      */
     public DataBaseResult executeQuery(final String query) {
         try {

@@ -43,7 +43,7 @@ public class EncryptionTest {
         logger.info(() -> "Encrypted Password: " + encryptedText);
     }
 
-    @Test(dependsOnMethods = {"encryptionTest"})
+    @Test(dependsOnMethods = { "encryptionTest" })
     public void decryptionTest() {
         logger.info(() -> "Decrypted Password: " + encryptor.decrypt(encryptedText));
         Assert.assertEquals(plainText, encryptor.decrypt(encryptedText));

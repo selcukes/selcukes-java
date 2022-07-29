@@ -23,7 +23,8 @@ import lombok.Setter;
 import lombok.experimental.UtilityClass;
 
 /**
- * It's a class that can be used to create a new instance of the class under test
+ * It's a class that can be used to create a new instance of the class under
+ * test
  */
 @UtilityClass
 public class SelcukesFixture {

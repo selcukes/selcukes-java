@@ -38,7 +38,10 @@ public class WebDriverBinaryUtil {
     private final BinaryFactory binaryFactory;
     private File binaryDownloadDirectory;
 
-    public WebDriverBinaryUtil(BinaryFactory binaryFactory, String downloadLocation, boolean strictDownload, boolean clearBinaryCache, boolean autoCheck) {
+    public WebDriverBinaryUtil(
+            BinaryFactory binaryFactory, String downloadLocation, boolean strictDownload, boolean clearBinaryCache,
+            boolean autoCheck
+    ) {
         this.binaryFactory = binaryFactory;
         this.binaryDownloadDirectory = getBinaryDownloadDirectory(downloadLocation, clearBinaryCache);
         this.strictDownload = strictDownload;
@@ -78,10 +81,12 @@ public class WebDriverBinaryUtil {
 
             logger.info(() -> "Downloading driver binary from: " + binaryFactory.getDownloadURL());
             FileHelper.download(binaryFactory.getDownloadURL(), binaryFactory.getCompressedBinaryFile());
-            logger.info(() -> String.format("%s successfully downloaded to: %s", binaryFactory.getBinaryDriverName(), getWebDriverBinary().getParent()));
+            logger.info(() -> String.format("%s successfully downloaded to: %s", binaryFactory.getBinaryDriverName(),
+                getWebDriverBinary().getParent()));
 
             if (binaryFactory.getCompressedBinaryType().equals(DownloaderType.JAR)) {
-                FileHelper.createDirectory(new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()));
+                FileHelper.createDirectory(
+                    new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()));
                 try {
                     FileUtils.copyFile(binaryFactory.getCompressedBinaryFile(), getWebDriverBinary());
                     binaryFactory.getCompressedBinaryFile().deleteOnExit();
@@ -91,22 +96,24 @@ public class WebDriverBinaryUtil {
             } else {
                 decompressBinary();
             }
-            logger.info(() -> String.format("%s successfully extracted to: %s", binaryFactory.getBinaryDriverName(), getWebDriverBinary().getAbsolutePath()));
+            logger.info(() -> String.format("%s successfully extracted to: %s", binaryFactory.getBinaryDriverName(),
+                getWebDriverBinary().getAbsolutePath()));
         }
         return this;
     }
 
     private void decompressBinary() {
         FileExtractUtil.extractFile(
-                binaryFactory.getCompressedBinaryFile(),
-                new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()),
-                binaryFactory.getCompressedBinaryType());
+            binaryFactory.getCompressedBinaryFile(),
+            new File(binaryDownloadDirectory + File.separator + binaryFactory.getBinaryDirectory()),
+            binaryFactory.getCompressedBinaryType());
         if (Objects.equals(binaryFactory.getBinaryEnvironment().getOSType(), OsType.LINUX)) {
             try {
                 FileHelper.setFileExecutable(getWebDriverBinary().getAbsolutePath());
             } catch (Exception ignored) {
                 logger.warn(
-                        () -> String.format("Unable to WebDriver Binary file[%s] as executable..", getWebDriverBinary().getAbsolutePath()));
+                    () -> String.format("Unable to WebDriver Binary file[%s] as executable..",
+                        getWebDriverBinary().getAbsolutePath()));
             }
 
         }

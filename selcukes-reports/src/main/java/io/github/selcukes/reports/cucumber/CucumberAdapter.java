@@ -65,7 +65,6 @@ public class CucumberAdapter implements CucumberService {
 
     @Override
     public void afterTest() {
-        //Do Nothing
+        // Do Nothing
     }
 }
-

@@ -64,7 +64,8 @@ class ExcelParser<T> {
 
             return Streams.of(sheet.iterator())
                     .skip(skip)
-                    .map(row -> cellMappers.stream().map(cellMapper -> cellMapper.parse(row)).collect(Collectors.toList()))
+                    .map(row -> cellMappers.stream().map(cellMapper -> cellMapper.parse(row))
+                            .collect(Collectors.toList()))
                     .map(this::initEntity);
         } catch (Exception ex) {
             throw new DataMapperException(format("Unable to parse Excel data to %s.", entityClass), ex);
@@ -84,4 +85,3 @@ class ExcelParser<T> {
         return entity;
     }
 }
-

@@ -30,10 +30,12 @@ import static java.util.Optional.ofNullable;
 @UtilityClass
 public class SelcukesLifecycle {
     /**
-     * "Get the default lifecycle manager by loading all the test lifecycle listeners from the classpath."
+     * "Get the default lifecycle manager by loading all the test lifecycle
+     * listeners from the classpath."
      * <p>
-     * The first line of the function gets the current thread's context class loader. This is the class loader that was
-     * used to load the class that contains the function
+     * The first line of the function gets the current thread's context class
+     * loader. This is the class loader that was used to load the class that
+     * contains the function
      *
      * @return A new instance of LifecycleManager
      */
@@ -44,14 +46,16 @@ public class SelcukesLifecycle {
     }
 
     /**
-     * "If the class has a Lifecycle annotation, return the type of the annotation, otherwise return NONE."
+     * "If the class has a Lifecycle annotation, return the type of the
+     * annotation, otherwise return NONE."
      * <p>
-     * The first thing we do is get the annotation from the class. We use the ofNullable method from the Optional class to
-     * wrap the result of the getDeclaredAnnotation method. This is because the getDeclaredAnnotation method can return
-     * null
+     * The first thing we do is get the annotation from the class. We use the
+     * ofNullable method from the Optional class to wrap the result of the
+     * getDeclaredAnnotation method. This is because the getDeclaredAnnotation
+     * method can return null
      *
-     * @param clazz The class to check for the annotation.
-     * @return The lifecycle type of the class.
+     * @param  clazz The class to check for the annotation.
+     * @return       The lifecycle type of the class.
      */
     public <T> Lifecycle.Type getLifecycleType(final Class<T> clazz) {
         return ofNullable(clazz.getDeclaredAnnotation(Lifecycle.class))

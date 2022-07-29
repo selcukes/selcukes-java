@@ -51,7 +51,7 @@ public class ConfigFactory {
                 logManager.readConfiguration(inputStream);
             }
         } catch (IOException ignored) {
-            //Gobble exception
+            // Gobble exception
         }
     }
 
@@ -65,7 +65,7 @@ public class ConfigFactory {
             }
             return stream;
         } catch (Exception ignored) {
-            //Gobble exception
+            // Gobble exception
         }
         return null;
     }

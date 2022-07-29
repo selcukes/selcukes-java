@@ -27,11 +27,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * A simple thread based utility that consumes {@link InputStream} and provides the stream contents
- * as a list of strings.
- * This utility is <b>NOT</b> designed to be re-used. So everytime a stream is to be consumed, a new
- * object of this utility is expected to be created. Attempting to re-use an existing instance of {@link StreamGuzzler}
- * for consuming stream will trigger errors.
+ * A simple thread based utility that consumes {@link InputStream} and provides
+ * the stream contents as a list of strings. This utility is <b>NOT</b> designed
+ * to be re-used. So everytime a stream is to be consumed, a new object of this
+ * utility is expected to be created. Attempting to re-use an existing instance
+ * of {@link StreamGuzzler} for consuming stream will trigger errors.
  */
 public class StreamGuzzler implements Runnable {
     private final List<String> content = new LinkedList<>();
@@ -60,4 +60,3 @@ public class StreamGuzzler implements Runnable {
         }
     }
 }
-

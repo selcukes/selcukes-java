@@ -51,10 +51,10 @@ public class ExcelTestRunner extends SelcukesTestNGRunner {
                     .map(s -> s.split(NAME_SEPARATOR)[1])
                     .map(excelScenario -> Stream.of(filteredScenarios)
                             .filter(scenario -> scenario[0].toString().replace("\"", "")
-                                    .equalsIgnoreCase(excelScenario)).findAny())
+                                    .equalsIgnoreCase(excelScenario))
+                            .findAny())
                     .filter(Optional::isPresent).map(Optional::get).toArray(Object[][]::new);
         }
     }
 
 }
-

@@ -27,7 +27,8 @@ public class DriverFixture {
     private final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
 
     /**
-     * If the current thread has a driver fixture, return it. Otherwise, return null.
+     * If the current thread has a driver fixture, return it. Otherwise, return
+     * null.
      *
      * @return The driver object that is currently being used by the thread.
      */

@@ -113,7 +113,7 @@ public class ExtentService implements Serializable {
                         .map(v -> ViewName.valueOf(v.toUpperCase())).collect(Collectors.toList());
                 spark.viewConfigurer().viewOrder().as(viewOrder).apply();
             } catch (Exception ignored) {
-                //Gobble exception
+                // Gobble exception
             }
         }
 
@@ -123,7 +123,7 @@ public class ExtentService implements Serializable {
                 try {
                     reporterConfigurable.loadXMLConfig(configPath);
                 } catch (IOException ignored) {
-                    //Gobble exception
+                    // Gobble exception
                 }
             }
             INSTANCE.attachReporter((ExtentObserver<?>) reporterConfigurable);

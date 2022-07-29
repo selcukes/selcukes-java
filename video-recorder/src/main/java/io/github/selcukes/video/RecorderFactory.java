@@ -23,24 +23,25 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class RecorderFactory {
     /**
-     * If the recorder type is FFMPEG, return a new FFmpegRecorder, otherwise return a new MonteRecorder.
+     * If the recorder type is FFMPEG, return a new FFmpegRecorder, otherwise
+     * return a new MonteRecorder.
      *
-     * @param recorderType The type of recorder to use.
-     * @return A new instance of FFmpegRecorder or MonteRecorder.
+     * @param  recorderType The type of recorder to use.
+     * @return              A new instance of FFmpegRecorder or MonteRecorder.
      */
     public synchronized Recorder getRecorder(final RecorderType recorderType) {
         return recorderType.equals(RecorderType.FFMPEG) ? new FFmpegRecorder() : new MonteRecorder();
     }
 
     /**
-     * If the video type is FFMPEG, return a new FFmpegRecorder, otherwise return a new MonteRecorder.
+     * If the video type is FFMPEG, return a new FFmpegRecorder, otherwise
+     * return a new MonteRecorder.
      *
      * @return A new instance of a Recorder.
      */
     public synchronized Recorder getRecorder() {
         return ConfigFactory.getConfig()
                 .getVideo().getType()
-                .equalsIgnoreCase("FFMPEG") ?
-                new FFmpegRecorder() : new MonteRecorder();
+                .equalsIgnoreCase("FFMPEG") ? new FFmpegRecorder() : new MonteRecorder();
     }
 }

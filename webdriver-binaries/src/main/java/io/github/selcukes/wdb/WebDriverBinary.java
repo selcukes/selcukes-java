@@ -101,11 +101,11 @@ public class WebDriverBinary {
 
         public BinaryInfo setup() {
             return new WebDriverBinaryUtil(WebDriverBinary.this.binaryFactory,
-                    WebDriverBinary.this.downloadLocation,
-                    WebDriverBinary.this.strictDownload,
-                    WebDriverBinary.this.clearBinaryCache,
-                    WebDriverBinary.this.autoCheck)
-                    .downloadAndSetupBinaryPath();
+                WebDriverBinary.this.downloadLocation,
+                WebDriverBinary.this.strictDownload,
+                WebDriverBinary.this.clearBinaryCache,
+                WebDriverBinary.this.autoCheck)
+                        .downloadAndSetupBinaryPath();
         }
 
     }

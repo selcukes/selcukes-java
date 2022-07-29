@@ -23,7 +23,8 @@ import static java.lang.Integer.parseInt;
 /**
  * "This class converts a String to an Integer."
  * <p>
- * The class extends DefaultConverter, which is a class that implements the Converter interface
+ * The class extends DefaultConverter, which is a class that implements the
+ * Converter interface
  */
 public class IntegerConverter extends DefaultConverter<Integer> {
     @Override

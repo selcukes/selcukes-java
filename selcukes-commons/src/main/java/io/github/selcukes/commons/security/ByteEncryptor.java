@@ -25,6 +25,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+
 import java.nio.ByteBuffer;
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
@@ -35,7 +36,8 @@ import java.security.spec.KeySpec;
  */
 @UtilityClass
 public class ByteEncryptor {
-    private final int DEFAULT_LENGTH = 128; // Due to the US export restriction JDK only ships 128bit version.
+    private final int DEFAULT_LENGTH = 128; // Due to the US export restriction
+                                            // JDK only ships 128bit version.
     private final int DEFAULT_IV_LENGTH = 12;
     private final String KEY_ALGORITHM = "AES";
     private final String DEFAULT_ALGORITHM = "AES/GCM/NoPadding";
@@ -63,7 +65,7 @@ public class ByteEncryptor {
         ByteBuffer byteBuffer = ByteBuffer.wrap(encryptedData);
         int dataSize = byteBuffer.getInt();
         Preconditions.checkArgument(!(dataSize < DEFAULT_IV_LENGTH || dataSize >= DEFAULT_IV_LENGTH + ITERATIONS),
-                "Data size is incorrect. Make sure that the incoming data is an AES encrypted file.");
+            "Data size is incorrect. Make sure that the incoming data is an AES encrypted file.");
         byte[] iv = newIV(dataSize);
         byteBuffer.get(iv);
         SecretKey secretKey = generateSecretKey(key, iv);
@@ -93,4 +95,3 @@ public class ByteEncryptor {
     }
 
 }
-

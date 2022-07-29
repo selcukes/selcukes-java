@@ -65,7 +65,6 @@ public class AppiumVideoTest {
         driver.findElement(AppiumBy.accessibilityId("3. Simple Adapter")).click();
     }
 
-
     @AfterMethod
     public void afterTest() {
         try {

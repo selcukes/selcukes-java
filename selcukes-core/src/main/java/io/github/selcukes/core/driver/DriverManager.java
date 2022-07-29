@@ -57,7 +57,8 @@ public class DriverManager {
                     remoteManager = new AppiumManager();
                     break;
                 default:
-                    throw new DriverSetupException("Unable to create new driver session for Driver Type[" + deviceType + "]");
+                    throw new DriverSetupException(
+                        "Unable to create new driver session for Driver Type[" + deviceType + "]");
             }
             WebDriver wd = remoteManager.createDriver();
             if (wd instanceof WindowsDriver) {

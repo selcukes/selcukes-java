@@ -39,11 +39,13 @@ public class Clocks {
     }
 
     /**
-     * If the format is not null and not empty, return the format, otherwise return the default format.
+     * If the format is not null and not empty, return the format, otherwise
+     * return the default format.
      *
-     * @param format        The format to use.
-     * @param defaultFormat The default format to use if the format parameter is null or empty.
-     * @return A DateTimeFormatter
+     * @param  format        The format to use.
+     * @param  defaultFormat The default format to use if the format parameter
+     *                       is null or empty.
+     * @return               A DateTimeFormatter
      */
     public static DateTimeFormatter dateTimeFormatter(final String format, final String defaultFormat) {
         return ofPattern(ofNullable(format)

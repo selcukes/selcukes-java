@@ -64,7 +64,8 @@ public class Reporter {
                     .filter(logRecord -> logRecord.getLevel() == Level.INFO || logRecord.getLevel() == Level.SEVERE)
                     .map(logRecord -> {
                         if (logRecord.getLevel() == Level.SEVERE) {
-                            return "<span style=\"color:red;\">" + logRecord.getMessage().replace("\n", "<br/>") + "</span>";
+                            return "<span style=\"color:red;\">" + logRecord.getMessage().replace("\n", "<br/>")
+                                    + "</span>";
                         } else {
                             return logRecord.getMessage();
                         }
@@ -72,7 +73,7 @@ public class Reporter {
                     })
                     .filter(nullOrEmpty.negate())
                     .collect(Collectors.joining("</li><li>", "<ul><li> ",
-                            "</li></ul><br/>"));
+                        "</li></ul><br/>"));
         }
         return "";
     }

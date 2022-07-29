@@ -39,17 +39,18 @@ public class ExcelUtils {
     private static final Map<String, List<List<String>>> allSheetsDataMap = new LinkedHashMap<>();
     private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcel().get("suiteName");
     private static final List<String> IGNORE_SHEETS = new ArrayList<>(
-            Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
+        Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
     private static Map<String, List<List<String>>> allSheetsMap = new LinkedHashMap<>();
 
     public void initTestRunner() {
         ExcelReader excelReader = new ExcelReader(
-                ConfigFactory.getConfig().getExcel().get("fileName"));
+            ConfigFactory.getConfig().getExcel().get("fileName"));
 
         // Store all sheets data
         allSheetsMap = excelReader.getAllSheetsDataMap();
 
-        // Replace Empty test name with previous row test name and if it is examples test then add Example row
+        // Replace Empty test name with previous row test name and if it is
+        // examples test then add Example row
         allSheetsMap.keySet().forEach(sheet -> allSheetsDataMap.put(sheet, modifySheetFirstColumn(sheet)));
 
         IGNORE_SHEETS.remove(TEST_SUITE_RUNNER_SHEET);
@@ -57,7 +58,8 @@ public class ExcelUtils {
         logger.debug(() -> "Using excel runner sheet : " + TEST_SUITE_RUNNER_SHEET);
 
         // Filter runOnly Tests
-        Map<String, List<List<String>>> allSheetsModifiedMap = allSheetsDataMap.keySet().stream().filter(s -> !IGNORE_SHEETS.contains(s))
+        Map<String, List<List<String>>> allSheetsModifiedMap = allSheetsDataMap.keySet().stream()
+                .filter(s -> !IGNORE_SHEETS.contains(s))
                 .collect(Collectors.toMap(sheet -> sheet, sheet -> allSheetsDataMap.get(sheet).stream().skip(1)
                         .filter(row -> {
                             int exeStatus = allSheetsDataMap.get(sheet).get(0).indexOf(RUN);
@@ -70,8 +72,8 @@ public class ExcelUtils {
 
         if (TEST_SUITE_RUNNER_SHEET.equalsIgnoreCase("Master")) {
             allSheetsModifiedMap.keySet().stream().skip(1).forEach(
-                    sheet -> allSheetsModifiedMap.get(sheet).stream().filter(row -> anyMatch(masterList, row.get(0)))
-                            .forEach(row -> runScenarios.add(row.get(0))));
+                sheet -> allSheetsModifiedMap.get(sheet).stream().filter(row -> anyMatch(masterList, row.get(0)))
+                        .forEach(row -> runScenarios.add(row.get(0))));
         } else {
             runScenarios.addAll(masterList);
         }
@@ -91,7 +93,7 @@ public class ExcelUtils {
         for (int i = 0; i < getRowData(listRow, 0).size(); i++) {
             // Adding Key as Column Header and Value as Test Data Row value
             testDataRowMap.put(getRowData(allSheetsDataMap.get(testSheetName), 0).get(i),
-                    getRowData(listRow, testRowIndex).get(i));
+                getRowData(listRow, testRowIndex).get(i));
         }
         return testDataRowMap;
     }

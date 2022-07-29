@@ -36,7 +36,7 @@ public class ApiHelper {
         String serviceUrl = "https://api-cloud.browserstack.com/app-automate/upload";
 
         Map<Object, Object> data = Map.of("file", apkPath,
-                "custom_id", "selcukes_" + apkPath.getFileName().toString());
+            "custom_id", "selcukes_" + apkPath.getFileName().toString());
 
         var client = new WebClient(serviceUrl);
         var response = client

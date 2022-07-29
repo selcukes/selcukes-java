@@ -33,7 +33,8 @@ public class LoggerTest {
 
     @Test
     private void warn() {
-        logger.warn(() -> "Warn");//logger.warn(exception, () -> "Warn Exception");
+        logger.warn(() -> "Warn");// logger.warn(exception, () -> "Warn
+                                  // Exception");
     }
 
     @Test(enabled = false)

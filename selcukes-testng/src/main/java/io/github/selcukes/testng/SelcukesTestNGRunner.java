@@ -57,7 +57,9 @@ public class SelcukesTestNGRunner {
         return filter(testNGCucumberRunner.provideScenarios(), isParallel);
     }
 
-    @Test(groups = "cucumber", description = "Runs Cucumber Scenarios in the Serial group", dataProvider = "serialScenarios")
+    @Test(groups = "cucumber",
+            description = "Runs Cucumber Scenarios in the Serial group",
+            dataProvider = "serialScenarios")
     public void runSerialScenario(PickleWrapper pickleWrapper, FeatureWrapper featureWrapper) {
         testNGCucumberRunner.runScenario(pickleWrapper.getPickle());
     }

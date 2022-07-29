@@ -36,8 +36,8 @@ public class ExceptionHelper {
     /**
      * If you call this function, you're going to get an exception.
      *
-     * @param e The exception to be rethrown.
-     * @return Nothing.
+     * @param  e The exception to be rethrown.
+     * @return   Nothing.
      */
     public <T> T rethrow(final Exception e) {
         logger.error(() -> "Rethrow exception: " + e.getClass().getName() + e.getMessage());
@@ -45,11 +45,12 @@ public class ExceptionHelper {
     }
 
     /**
-     * It creates a StringWriter, which is a character stream that collects its output in a string buffer, which can then
-     * be used to construct a string
+     * It creates a StringWriter, which is a character stream that collects its
+     * output in a string buffer, which can then be used to construct a string
      *
-     * @param throwable The throwable to get the stack trace from.
-     * @return A string representation of the stack trace of the throwable.
+     * @param  throwable The throwable to get the stack trace from.
+     * @return           A string representation of the stack trace of the
+     *                   throwable.
      */
     public String getStackTrace(final Throwable throwable) {
         if (throwable == null) {
@@ -62,13 +63,14 @@ public class ExceptionHelper {
     }
 
     /**
-     * "Get the first line of the stack trace, and return the first word of that line."
+     * "Get the first line of the stack trace, and return the first word of that
+     * line."
      * <p>
-     * The first line of the stack trace is the exception title. The exception title is the first word of the first line of
-     * the stack trace
+     * The first line of the stack trace is the exception title. The exception
+     * title is the first word of the first line of the stack trace
      *
-     * @param throwable The exception that was thrown.
-     * @return The first word of the stack trace.
+     * @param  throwable The exception that was thrown.
+     * @return           The first word of the stack trace.
      */
     public String getExceptionTitle(final Throwable throwable) {
         Pattern pattern = Pattern.compile("([\\w.]+)(:.*)?");
@@ -83,7 +85,8 @@ public class ExceptionHelper {
     }
 
     /**
-     * If the errorCodes object is null, then parse the ErrorCodes.json file and store the result in the errorCodes object
+     * If the errorCodes object is null, then parse the ErrorCodes.json file and
+     * store the result in the errorCodes object
      *
      * @return The errorCodes object.
      */
@@ -95,8 +98,8 @@ public class ExceptionHelper {
     }
 
     /**
-     * > This function takes a throwable, creates a BusinessException with the throwable's message and the throwable
-     * itself, and then logs the exception
+     * > This function takes a throwable, creates a BusinessException with the
+     * throwable's message and the throwable itself, and then logs the exception
      *
      * @param throwable The exception that was thrown.
      */

@@ -32,8 +32,8 @@ public class CollectionUtils {
     /**
      * Convert a list of lists of strings into a 2D array of strings.
      *
-     * @param cells The list of lists of strings to convert to a 2D array.
-     * @return A 2D array of Strings
+     * @param  cells The list of lists of strings to convert to a 2D array.
+     * @return       A 2D array of Strings
      */
     public String[][] toArray(final List<List<String>> cells) {
         return cells.stream()
@@ -44,8 +44,8 @@ public class CollectionUtils {
     /**
      * Return a list of trimmed strings from the given list of strings.
      *
-     * @param list The list to trim.
-     * @return A list of strings that have been trimmed.
+     * @param  list The list to trim.
+     * @return      A list of strings that have been trimmed.
      */
     public List<String> trim(final List<String> list) {
         return list.stream()
@@ -54,10 +54,11 @@ public class CollectionUtils {
     }
 
     /**
-     * It takes an enum class and returns a list of all the enum values as strings.
+     * It takes an enum class and returns a list of all the enum values as
+     * strings.
      *
-     * @param enumData The enum class that you want to convert to a list.
-     * @return A list of strings.
+     * @param  enumData The enum class that you want to convert to a list.
+     * @return          A list of strings.
      */
     public List<String> toList(final Class<? extends Enum<?>> enumData) {
         return Arrays.stream(enumData.getEnumConstants()).map(Enum::toString).collect(Collectors.toList());

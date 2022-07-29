@@ -21,7 +21,8 @@ import io.github.selcukes.databind.utils.StringHelper;
 import java.util.Properties;
 
 /**
- * It replaces all occurrences of ${key} with the value of the key in the properties object
+ * It replaces all occurrences of ${key} with the value of the key in the
+ * properties object
  */
 public class StringSubstitutor extends DefaultSubstitutor {
 

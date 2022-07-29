@@ -25,7 +25,8 @@ import java.util.Base64;
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.CRYPTO_KEY;
 
 /**
- * It uses the Java Cryptography Architecture (JCA) to encrypt and decrypt a String using a key
+ * It uses the Java Cryptography Architecture (JCA) to encrypt and decrypt a
+ * String using a key
  */
 public class StringEncryptor implements Encryptor {
 
