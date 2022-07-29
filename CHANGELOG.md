@@ -6,6 +6,16 @@
 
 ### Added
 
+### Changed
+
+### Removed
+
+### Fixed
+
+## [2.1.6] (29-07-2022)
+
+### Added
+
 * [BOM] Added Selcukes Bill of Materials (BOM) ([#167](https://github.com/selcukes/selcukes-java/pull/167))
 * [Commons] Added SPI `io.github.selcukes.commons.listener.TestLifecycleListener`
 
