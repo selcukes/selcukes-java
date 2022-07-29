@@ -20,6 +20,11 @@ import java.lang.reflect.Type;
 
 import static java.lang.Integer.parseInt;
 
+/**
+ * "This class converts a String to an Integer."
+ *
+ * The class extends DefaultConverter, which is a class that implements the Converter interface
+ */
 public class IntegerConverter extends DefaultConverter<Integer> {
     @Override
     public Integer convert(final String value) {

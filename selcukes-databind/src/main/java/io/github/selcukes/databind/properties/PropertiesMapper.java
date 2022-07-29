@@ -32,12 +32,12 @@ import java.util.Properties;
  */
 @UtilityClass
 public class PropertiesMapper {
+
     /**
-     * Parses the Properties file to an Entity Class.
+     * > It parses a properties file and returns an object of the specified class
      *
-     * @param <T>         the Class type.
-     * @param entityClass the entity class
-     * @return the Entity class objects
+     * @param entityClass The class of the entity to be parsed.
+     * @return A new instance of the class passed in.
      */
     public static <T> T parse(final Class<T> entityClass) {
         final DataFileHelper<T> dataFile = DataFileHelper.getInstance(entityClass);
@@ -53,31 +53,31 @@ public class PropertiesMapper {
     }
 
     /**
-     * Parses the Properties file to a map.
+     * It takes a property file and returns a map of the properties
      *
-     * @param propertyFile the property file
-     * @return the map
+     * @param propertyFile The name of the property file to parse.
+     * @return A map of the properties in the file.
      */
     public static Map<String, String> parse(final String propertyFile) {
         return Maps.of(PropertiesLoader.linkedProperties(propertyFile));
     }
 
     /**
-     * Writes a Properties file.
+     * > This function writes the dataMap to the propertyFile
      *
-     * @param propertyFile the property file
-     * @param dataMap      the data map
+     * @param propertyFile The path to the property file.
+     * @param dataMap      A map of key-value pairs to be written to the property file.
      */
-    public static void write(final String propertyFile, Map<String, String> dataMap) {
+    public static void write(final String propertyFile, final Map<String, String> dataMap) {
         write(propertyFile, new LinkedProperties(), dataMap);
     }
 
-    private static void write(final String propertyFile, LinkedProperties linkedProperties, Map<String, String> dataMap) {
+    private static void write(final String propertyFile, final LinkedProperties linkedProperties, final Map<String, String> dataMap) {
         dataMap.forEach(linkedProperties::setProperty);
         write(propertyFile, linkedProperties);
     }
 
-    private static void write(final String propertyFile, LinkedProperties properties) {
+    private static void write(final String propertyFile, final LinkedProperties properties) {
         try (OutputStream output = new FileOutputStream(propertyFile)) {
             properties.store(output, null);
         } catch (Exception e) {
@@ -86,28 +86,33 @@ public class PropertiesMapper {
     }
 
     /**
-     * Update Property file.
+     * It loads the properties file, sets the property, and writes the file back to disk
      *
-     * @param propertyFile the property file
-     * @param key          the key
-     * @param value        the value
+     * @param propertyFile The path to the properties file.
+     * @param key          the key of the property you want to update
+     * @param value        the value to be written to the property file
      */
-    public static void updateProperty(final String propertyFile, String key, String value) {
+    public static void updateProperty(final String propertyFile, final String key, final String value) {
         LinkedProperties properties = PropertiesLoader.linkedProperties(propertyFile);
         properties.setProperty(key, value);
         write(propertyFile, properties);
     }
 
     /**
-     * Update properties.
+     * It takes a property file and a map of key-value pairs, and updates the property file with the key-value pairs
      *
-     * @param propertyFile the property file
-     * @param dataMap      the data map
+     * @param propertyFile The path to the properties file.
+     * @param dataMap      A map of key-value pairs that you want to update in the properties file.
      */
-    public static void updateProperties(final String propertyFile, Map<String, String> dataMap) {
+    public static void updateProperties(final String propertyFile, final Map<String, String> dataMap) {
         write(propertyFile, PropertiesLoader.linkedProperties(propertyFile), dataMap);
     }
 
+    /**
+     * It returns a Properties object that contains all the system properties and environment variables
+     *
+     * @return A Properties object containing all the system properties and environment variables.
+     */
     public static Properties systemProperties() {
         var properties = System.getProperties();
         properties.putAll(System.getenv());

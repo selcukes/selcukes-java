@@ -57,23 +57,22 @@ import static org.openqa.selenium.WindowType.WINDOW;
  * The interface Page.
  */
 public interface Page {
-    /**
-     * The constant TIMEOUT.
-     */
+
+    // Declaring a constant variable called TIMEOUT and assigning it the value 2.
     int TIMEOUT = 2;
 
     /**
-     * Gets driver.
+     * This function returns a WebDriver object.
      *
-     * @return the driver
+     * @return The driver object.
      */
     WebDriver getDriver();
 
     /**
-     * Open page.
+     * Open the given URL in the browser.
      *
-     * @param url the url
-     * @return the page
+     * @param url The URL to open.
+     * @return The page object itself.
      */
     default Page open(String url) {
         getDriver().get(url);
@@ -81,10 +80,10 @@ public interface Page {
     }
 
     /**
-     * Navigate to page.
+     * Navigate to the given URL.
      *
-     * @param url the url
-     * @return the page
+     * @param url The URL to navigate to.
+     * @return The page object itself.
      */
     default Page navigateTo(String url) {
         getDriver().navigate().to(url);
@@ -92,9 +91,9 @@ public interface Page {
     }
 
     /**
-     * Maximize page.
+     * Maximize the browser window.
      *
-     * @return the page
+     * @return The current page.
      */
     default Page maximize() {
         getDriver().manage().window().maximize();
@@ -112,39 +111,39 @@ public interface Page {
     }
 
     /**
-     * Title string.
+     * Return the title of the current page.
      *
-     * @return the string
+     * @return The title of the page
      */
     default String title() {
         return getDriver().getTitle();
     }
 
     /**
-     * Current url string.
+     * Return the current URL of the page.
      *
-     * @return the string
+     * @return The current URL of the page.
      */
     default String currentUrl() {
         return getDriver().getCurrentUrl();
     }
 
     /**
-     * Text string.
+     * Return the text of the element located by the locator.
      *
-     * @param locator the locator
-     * @return the string
+     * @param locator The locator of the element to be found.
+     * @return The text of the element.
      */
     default String text(Object locator) {
         return find(locator).getText();
     }
 
     /**
-     * Enter page.
+     * Enter text into a visible element.
      *
-     * @param locator the locator
-     * @param text    the text
-     * @return the page
+     * @param locator The locator of the element to enter text into.
+     * @param text    The text to enter into the field.
+     * @return The page object itself.
      */
     default Page enter(Object locator, CharSequence text) {
         find(locator, VISIBLE).sendKeys(text);
@@ -152,10 +151,10 @@ public interface Page {
     }
 
     /**
-     * Clear page.
+     * Clear the text from the element identified by the locator.
      *
-     * @param locator the locator
-     * @return the page
+     * @param locator The locator of the element to clear.
+     * @return The page object itself.
      */
     default Page clear(Object locator) {
         find(locator, VISIBLE).clear();
@@ -163,10 +162,10 @@ public interface Page {
     }
 
     /**
-     * Click page.
+     * Click on the element that matches the locator, and wait until it is clickable.
      *
-     * @param locator the locator
-     * @return the page
+     * @param locator The locator of the element you want to click.
+     * @return The page object itself.
      */
     default Page click(Object locator) {
         click(locator, CLICKABLE);
@@ -174,11 +173,11 @@ public interface Page {
     }
 
     /**
-     * Selects an option of an element.
+     * Select the element with the given locator, and then perform the given action on the selected element.
      *
-     * @param locator  the locator
-     * @param consumer the consumer
-     * @return the page
+     * @param locator  The locator of the element to be selected.
+     * @param consumer A lambda expression that accepts a Select object and returns void.
+     * @return The page object itself.
      */
     default Page select(Object locator, Consumer<Select> consumer) {
         consumer.accept(select(locator));
@@ -186,11 +185,11 @@ public interface Page {
     }
 
     /**
-     * Selects an option of an element.
+     * Selects an option from a dropdown list.
      *
-     * @param locator       the locator
-     * @param optionLocator the option locator to be "index:indexOfOption" or "value:OptionValue" or "label:visibleText"
-     * @return the page
+     * @param locator       The locator of the dropdown.
+     * @param optionLocator an option locator  to be "index:indexOfOption" or "value:OptionValue" or "label:visibleText"
+     * @return The page object itself.
      */
     default Page select(Object locator, String optionLocator) {
         DropDown.select(select(locator), optionLocator);
@@ -198,21 +197,21 @@ public interface Page {
     }
 
     /**
-     * Select select.
+     * Return a new Select object, which is a Selenium object that allows you to select an option from a dropdown list.
      *
-     * @param locator the locator
-     * @return the select
+     * @param locator The locator of the element to be selected.
+     * @return A Select object
      */
     default Select select(Object locator) {
         return new Select(find(locator));
     }
 
     /**
-     * Click page.
+     * Click on the element that matches the locator, and wait until the condition is met.
      *
-     * @param locator   the locator
-     * @param condition the condition
-     * @return the page
+     * @param locator   This is the locator of the element you want to click.
+     * @param condition The condition to wait for before clicking the element.
+     * @return The page object itself.
      */
     default Page click(Object locator, final WaitCondition condition) {
         find(locator, condition).click();
@@ -220,10 +219,10 @@ public interface Page {
     }
 
     /**
-     * Double click page.
+     * Double-click on the element found by the locator.
      *
-     * @param locator the locator
-     * @return the page
+     * @param locator The locator of the element to double-click.
+     * @return The page object itself.
      */
     default Page doubleClick(Object locator) {
         actions().doubleClick(find(locator)).perform();
@@ -232,22 +231,22 @@ public interface Page {
     }
 
     /**
-     * Select menu page.
+     * Select a menu item from the menu bar.
      *
-     * @param menu    the menu
-     * @param subMenu the sub menu
-     * @return the page
+     * @param menu    The name of the menu to select.
+     * @param subMenu The sub menu to select.
+     * @return The page object itself.
      */
     default Page selectMenu(String menu, String subMenu) {
         return this;
     }
 
     /**
-     * Select menu page.
+     * Click on a menu option and then click on a submenu option.
      *
-     * @param menu    the menu
-     * @param subMenu the sub menu
-     * @return the page
+     * @param menu    The menu option you want to hover over
+     * @param subMenu The submenu you want to click on.
+     * @return The page object itself.
      */
     default Page selectMenu(By menu, By subMenu) {
         WebElement menuOption = find(menu);
@@ -257,43 +256,43 @@ public interface Page {
     }
 
     /**
-     * Swipe page.
+     * Swipe the target in the specified direction.
      *
-     * @param target         the target
-     * @param swipeDirection the swipe direction
-     * @return the page
+     * @param target         The target element to swipe on.
+     * @param swipeDirection The direction of the swipe.
+     * @return The page object itself.
      */
     default Page swipe(Object target, SwipeDirection swipeDirection) {
         return this;
     }
 
     /**
-     * Swipe page.
+     * Swipe from source to target in the specified direction
      *
-     * @param source         the source
-     * @param target         the target
-     * @param swipeDirection the swipe direction
-     * @return the page
+     * @param source         The source element to swipe from.
+     * @param target         The target element to swipe on.
+     * @param swipeDirection The direction of the swipe.
+     * @return The page object itself.
      */
     default Page swipe(Object source, Object target, SwipeDirection swipeDirection) {
         return this;
     }
 
     /**
-     * Actions actions.
+     * Return a new Actions object that is associated with the driver that was used to create this page object.
      *
-     * @return the actions
+     * @return An instance of the Actions class.
      */
     default Actions actions() {
         return new Actions(getDriver());
     }
 
     /**
-     * Drag and drop page.
+     * This function performs a drag and drop operation on the source element to the target element.
      *
-     * @param source the source
-     * @param target the target
-     * @return the page
+     * @param source The element to be dragged.
+     * @param target The target element to drop the source element on.
+     * @return The page object itself.
      */
     default Page dragAndDrop(WebElement source, WebElement target) {
         actions().dragAndDrop(source, target).perform();
@@ -301,11 +300,11 @@ public interface Page {
     }
 
     /**
-     * Drag and drop page.
+     * Drag and drop the element found by the source locator onto the element found by the target locator
      *
-     * @param source the source
-     * @param target the target
-     * @return the page
+     * @param source The element you want to drag
+     * @param target The target element to drop the source element on.
+     * @return The page object itself.
      */
     default Page dragAndDrop(By source, By target) {
         dragAndDrop(find(source, VISIBLE), find(target, VISIBLE));
@@ -313,9 +312,9 @@ public interface Page {
     }
 
     /**
-     * Alert alert.
+     * Wait for an alert to be present, then switch to it.
      *
-     * @return the alert
+     * @return The alert object
      */
     default Alert alert() {
         waitFor(ExpectedConditions.alertIsPresent(), TIMEOUT);
@@ -323,9 +322,9 @@ public interface Page {
     }
 
     /**
-     * Accept alert page.
+     * Accept the alert and return the current page.
      *
-     * @return the page
+     * @return The page object itself.
      */
     default Page acceptAlert() {
         alert().accept();
@@ -333,9 +332,9 @@ public interface Page {
     }
 
     /**
-     * Dismiss alert page.
+     * Dismiss the alert and return the page.
      *
-     * @return the page
+     * @return The page object itself.
      */
     default Page dismissAlert() {
         alert().dismiss();
@@ -343,19 +342,19 @@ public interface Page {
     }
 
     /**
-     * Gets alert text.
+     * Get the text of the alert.
      *
-     * @return the alert text
+     * @return The text of the alert.
      */
     default String getAlertText() {
         return alert().getText();
     }
 
     /**
-     * Enter text in alert page.
+     * Enter text in the alert.
      *
-     * @param text the text
-     * @return the page
+     * @param text The text to enter into the alert.
+     * @return The page object itself.
      */
     default Page enterTextInAlert(String text) {
         alert().sendKeys(text);
@@ -363,18 +362,18 @@ public interface Page {
     }
 
     /**
-     * Gets windows.
+     * Get a list of all the windows that are currently open.
      *
-     * @return the windows
+     * @return A list of strings
      */
     default List<String> getWindows() {
         return new ArrayList<>(getDriver().getWindowHandles());
     }
 
     /**
-     * Parent window page.
+     * Switch to the parent window of the current window.
      *
-     * @return the page
+     * @return The Page object itself.
      */
     default Page parentWindow() {
         getDriver().switchTo().defaultContent();
@@ -382,10 +381,10 @@ public interface Page {
     }
 
     /**
-     * Switch window page.
+     * Switch to the window at the given index.
      *
-     * @param index the index
-     * @return the page
+     * @param index The index of the window to switch to.
+     * @return The page object itself.
      */
     default Page switchToWindow(int index) {
         getDriver().switchTo().window(getWindows().get(index));
@@ -393,32 +392,30 @@ public interface Page {
     }
 
     /**
-     * Switch to window page.
+     * Switch to the window with the given name or handle.
      *
-     * @param nameOrHandle the name or handle
-     * @return the page
+     * @param nameOrHandle The name or window handle of the window to switch focus to.
+     * @return The page object itself.
      */
     default Page switchToWindow(String nameOrHandle) {
         getDriver().switchTo().window(nameOrHandle);
         return this;
     }
 
-
     /**
-     * Open new window page.
+     * Open a new window and switch to it.
      *
-     * @return the page
+     * @return The page object itself.
      */
     default Page openNewWindow() {
         getDriver().switchTo().newWindow(WINDOW);
         return this;
     }
 
-
     /**
-     * Open new tab page.
+     * Open a new tab and switch to it.
      *
-     * @return the page
+     * @return The current page.
      */
     default Page openNewTab() {
         getDriver().switchTo().newWindow(TAB);
@@ -426,10 +423,10 @@ public interface Page {
     }
 
     /**
-     * Switch frame page.
+     * Switch to the frame with the given name.
      *
-     * @param name the name
-     * @return the page
+     * @param name The name of the frame to switch to.
+     * @return The page object itself.
      */
     default Page switchToFrame(String name) {
         getDriver().switchTo().frame(name);
@@ -437,9 +434,9 @@ public interface Page {
     }
 
     /**
-     * Parent frame page.
+     * Switch to the parent frame of the current frame.
      *
-     * @return the page
+     * @return The current page.
      */
     default Page parentFrame() {
         getDriver().switchTo().parentFrame();
@@ -447,9 +444,9 @@ public interface Page {
     }
 
     /**
-     * Back page.
+     * Navigate back to the previous page.
      *
-     * @return the page
+     * @return The page object itself.
      */
     default Page back() {
         getDriver().navigate().back();
@@ -457,9 +454,9 @@ public interface Page {
     }
 
     /**
-     * Forward page.
+     * Navigate forward in the browser history, if possible.
      *
-     * @return the page
+     * @return The current page.
      */
     default Page forward() {
         getDriver().navigate().forward();
@@ -467,9 +464,9 @@ public interface Page {
     }
 
     /**
-     * Refresh page.
+     * Refresh the page.
      *
-     * @return the page
+     * @return The page object itself.
      */
     default Page refresh() {
         getDriver().navigate().refresh();
@@ -477,119 +474,129 @@ public interface Page {
     }
 
     /**
-     * Screenshot as x.
+     * Takes a screenshot of the current page and returns it as the specified output type.
      *
-     * @param <X>    the type parameter
-     * @param target the target
-     * @return the x
+     * @param target The target type, @see OutputType
+     * @return The screenshot is being returned as a file.
      */
     default <X> X screenshotAs(OutputType<X> target) {
         return ((TakesScreenshot) getDriver()).getScreenshotAs(target);
     }
 
     /**
-     * Find web element.
+     * Find an element using the given locator.
      *
-     * @param locator the locator
-     * @return the web element
+     * @param locator The locator to find.
+     * @return A WebElement
      */
     default WebElement find(Object locator) {
         return getDriver().findElement(resolve(locator));
     }
 
     /**
-     * Find all list.
+     * Find all elements matching the given locator.
      *
-     * @param locator the locator
-     * @return the list
+     * @param locator The locator to find the element(s)
+     * @return A list of WebElements
      */
     default List<WebElement> findAll(Object locator) {
         return getDriver().findElements(resolve(locator));
     }
 
     /**
-     * Find web element.
+     * Wait for the element to be present and visible, and then return it.
      *
-     * @param locator   the locator
-     * @param condition the condition
-     * @return the web element
+     * @param locator   The locator to find the element.
+     * @param condition The condition to wait for.
+     * @return WebElement
      */
     default WebElement find(Object locator, final WaitCondition condition) {
         return waitFor(resolve(locator), "", condition);
     }
 
     /**
-     * Find all list.
+     * Wait for the element to be found, then return it.
      *
-     * @param locator   the locator
-     * @param condition the condition
-     * @return the list
+     * @param locator   The locator to find the element(s)
+     * @param condition The condition to wait for.
+     * @return A list of WebElements
      */
     default List<WebElement> findAll(Object locator, final WaitCondition condition) {
         return waitFor(resolve(locator), "", condition);
     }
 
     /**
-     * Find all children list.
+     * "Find all the children of the parent element that match the child locator."
+     * <p>
+     * The first line of the function is a JavaDoc comment. This is a special comment that is used to document the
+     * function. It is not required, but it is a good practice to document your functions
      *
-     * @param parent the parent
-     * @param child  the child
-     * @return the list
+     * @param parent The parent element to search within.
+     * @param child  The child element to find.
+     * @return A list of WebElements
      */
     default List<WebElement> findAllChildren(Object parent, Object child) {
         return find(parent, VISIBLE).findElements(resolve(child));
     }
 
     /**
-     * Find child web element.
+     * "Find the child element of the parent element, where the parent element is visible."
+     * <p>
+     * The first line of the function is a comment. The second line is the function declaration. The third line is the
+     * function body
      *
-     * @param parent the parent
-     * @param child  the child
-     * @return the web element
+     * @param parent The parent element to search within.
+     * @param child  The child element to find.
+     * @return A WebElement
      */
     default WebElement findChild(Object parent, Object child) {
         return find(parent, VISIBLE).findElement(resolve(child));
     }
 
     /**
-     * Find child web element.
+     * "Find the child element of the parent element using the child locator."
+     * <p>
+     * The first line of the function is a JavaDoc comment. This is a special comment that is used to document the
+     * function. The JavaDoc comment is used by the JavaDoc tool to generate documentation for the function
      *
-     * @param parent the parent
-     * @param child  the child
-     * @return the web element
+     * @param parent The parent element to search within.
+     * @param child  The child element to find.
+     * @return A WebElement
      */
     default WebElement findChild(WebElement parent, Object child) {
         return parent.findElement(resolve(child));
     }
 
     /**
-     * Find shadow child web element.
+     * "Find a child element of a shadow root element."
+     * <p>
+     * The first parameter is the parent element, and the second parameter is the child element. The second parameter can
+     * be a string, a By object, or a WebElement
      *
-     * @param parent the parent
-     * @param child  the child
-     * @return the web element
+     * @param parent The parent element to search within.
+     * @param child  The child element to find. This can be a By object, a WebElement, or a String.
+     * @return A WebElement
      */
     default WebElement findShadowChild(WebElement parent, Object child) {
         return parent.getShadowRoot().findElement(resolve(child));
     }
 
     /**
-     * Find shadow child web element.
+     * Find the shadow child of a shadow parent.
      *
-     * @param parent the parent
-     * @param child  the child
-     * @return the web element
+     * @param parent The parent element to find.
+     * @param child  The child element to find.
+     * @return The WebElement that is found by the child locator.
      */
     default WebElement findShadowChild(By parent, By child) {
         return find(parent, VISIBLE).getShadowRoot().findElement(child);
     }
 
     /**
-     * Execute script object.
+     * Execute a JavaScript script on the current page.
      *
-     * @param script the script
-     * @param args   the args
-     * @return the object
+     * @param script The JavaScript to execute.
+     * @return The return value of the last executed statement.
      */
     default Object executeScript(String script, Object... args) {
         JavascriptExecutor exe = (JavascriptExecutor) getDriver();
@@ -597,9 +604,9 @@ public interface Page {
     }
 
     /**
-     * Wait for page loading page.
+     * Wait for the page to load.
      *
-     * @return the page
+     * @return The page object itself.
      */
     default Page waitForPageLoading() {
         new WaitManager(this);
@@ -607,11 +614,13 @@ public interface Page {
     }
 
     /**
-     * Wait for page.
+     * "Wait for the given condition to be true, or until the timeout is reached."
+     * <p>
+     * The function is defined as a default method in the Page interface, so it can be called on any Page object
      *
-     * @param condition      the condition
-     * @param timeoutSeconds the timeout seconds
-     * @return the page
+     * @param condition      The ExpectedCondition to wait for.
+     * @param timeoutSeconds The number of seconds to wait for the condition to be true.
+     * @return The page object itself.
      */
     default Page waitFor(ExpectedCondition<?> condition, int timeoutSeconds) {
         waiter(timeoutSeconds).until(condition);
@@ -619,54 +628,44 @@ public interface Page {
     }
 
     /**
-     * Waiter web driver wait.
+     * Create a WebDriverWait object with a timeout of the specified number of seconds.
      *
-     * @param timeoutSeconds the timeout seconds
-     * @return the web driver wait
+     * @param timeoutSeconds The number of seconds to wait for the condition to be true.
+     * @return A WebDriverWait object
      */
     default WebDriverWait waiter(int timeoutSeconds) {
         return new WebDriverWait(getDriver(), Duration.ofSeconds(timeoutSeconds));
     }
 
     /**
-     * Waiter web driver wait.
+     * If the default timeout is not set, set it to 10 seconds.
      *
-     * @return the web driver wait
+     * @return A WebDriverWait object.
      */
     default WebDriverWait waiter() {
         return waiter(TIMEOUT);
     }
 
     /**
-     * Assert that page validations.
+     * If the page is not valid, throw an exception.
      *
-     * @return the page validations
+     * @return A new instance of PageValidations
      */
     default PageValidations assertThat() {
         return new PageValidations(this, false);
     }
 
     /**
-     * Verify that page validations.
+     * If the page is valid, return a new PageValidations object, otherwise throw an exception.
      *
-     * @return the page validations
+     * @return A new instance of the PageValidations class.
      */
     default PageValidations verifyThat() {
         return new PageValidations(this, true);
     }
 
-    /**
-     * Wait for r.
-     *
-     * @param <T>       the type parameter
-     * @param <V>       the type parameter
-     * @param <R>       the type parameter
-     * @param locator   the locator
-     * @param arg       the arg
-     * @param condition the condition
-     * @return the r
-     */
     @SuppressWarnings("unchecked")
+    // A default method in an interface.
     default <T, V, R> R waitFor(final T locator, final V arg, final WaitCondition condition) {
         return (R) waiter()
                 .pollingEvery(Duration.ofMillis(100))
@@ -675,10 +674,10 @@ public interface Page {
     }
 
     /**
-     * Request web client.
+     * Create a new WebClient object with the given url and return it.
      *
-     * @param url the url
-     * @return the web client
+     * @param url The URL to request.
+     * @return A new instance of the WebClient class.
      */
     default WebClient request(String url) {
         return new WebClient(url);
@@ -689,40 +688,46 @@ public interface Page {
     }
 
     /**
-     * Text values list.
+     * "Get the text values of all elements matching the given locator."
+     * <p>
+     * The first line of the function is a Java 8 default method. It's a method that can be overridden by subclasses, but
+     * doesn't have to be. The second line is a Java 8 lambda expression. It's a function that can be passed as an argument
+     * to another function
      *
-     * @param locator the locator
-     * @return the list
+     * @param locator The locator of the elements to get the values from.
+     * @return A list of strings
      */
     default List<String> textValues(Object locator) {
         return getValues(locator, WebElement::getText);
     }
 
     /**
-     * Attribute values list.
+     * "Get the values of the attribute named 'name' for all elements matching the locator."
+     * <p>
+     * The first line of the function is a JavaDoc comment. It's a good idea to include a JavaDoc comment for every
+     * function you write. It's also a good idea to include a one sentence summary of the function
      *
-     * @param locator the locator
-     * @param name    the name
-     * @return the list
+     * @param locator The locator of the elements to get the attribute values from.
+     * @param name    The name of the attribute.
+     * @return A list of strings.
      */
     default List<String> attributeValues(Object locator, String name) {
         return getValues(locator, e -> e.getAttribute(name));
     }
 
     /**
-     * Get Active element.
+     * Returns the currently active element on the page.
      *
-     * @return the web element
+     * @return The active element on the page.
      */
     default WebElement activeElement() {
         return getDriver().switchTo().activeElement();
     }
 
-
     /**
-     * Remove focus page.
+     * Send the escape key to the active element.
      *
-     * @return the page
+     * @return The page object itself.
      */
     default Page removeFocus() {
         activeElement().sendKeys(ESCAPE);
@@ -730,33 +735,31 @@ public interface Page {
     }
 
     /**
-     * Gets color of an element.
+     * It takes a WebElement and returns its color as a hex string
      *
-     * @param element the element
-     * @return the color
+     * @param element The WebElement to get the color of.
+     * @return The hex value of the color of the element.
      */
     default String getColor(WebElement element) {
         String color = element.getCssValue("color");
         return Color.fromString(color).asHex();
     }
 
-
     /**
-     * Delete all cookies page.
+     * Delete all cookies from the current page.
      *
-     * @return the page
+     * @return The page object itself.
      */
     default Page deleteAllCookies() {
         getDriver().manage().deleteAllCookies();
         return this;
     }
 
-
     /**
-     * Delete cookie page.
+     * Delete the cookie with the given name.
      *
-     * @param name the name
-     * @return the page
+     * @param name The name of the cookie to delete.
+     * @return The page object itself.
      */
     default Page deleteCookie(String name) {
         getDriver().manage().deleteCookieNamed(name);
@@ -764,9 +767,9 @@ public interface Page {
     }
 
     /**
-     * Get all Cookies.
+     * Get the cookies from the browser, map them to their names, and return the list of names.
      *
-     * @return the list of cookies
+     * @return A list of cookies
      */
     default List<String> cookies() {
         return getDriver().manage().getCookies()
@@ -776,10 +779,10 @@ public interface Page {
     }
 
     /**
-     * Get Cookie.
+     * Return the cookie with the given name
      *
-     * @param name the name
-     * @return the cookie
+     * @param name The name of the cookie to retrieve.
+     * @return A cookie with the given name.
      */
     default Cookie cookie(String name) {
         return getDriver().manage().getCookieNamed(name);

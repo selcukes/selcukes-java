@@ -18,7 +18,6 @@
 
 package io.github.selcukes.databind.utils;
 
-
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.exception.DataMapperException;
 

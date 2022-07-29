@@ -26,6 +26,12 @@ import static io.github.selcukes.databind.utils.Reflections.newInstance;
 
 @UtilityClass
 public class Converters {
+
+    /**
+     * It creates a list of converters by instantiating each class in the list of classes passed in
+     *
+     * @return A list of Converter objects.
+     */
     @SuppressWarnings("unchecked")
     public static <T> List<Converter<T>> defaultConverters() {
         return Stream.of(

@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 class JsonData extends AbstractDataBind {
 
-    public JsonData() {
+    JsonData() {
         super(new ObjectMapper());
     }
 }

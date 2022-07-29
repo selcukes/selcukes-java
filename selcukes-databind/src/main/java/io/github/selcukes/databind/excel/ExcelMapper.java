@@ -22,13 +22,17 @@ import lombok.experimental.UtilityClass;
 
 import java.util.stream.Stream;
 
+/**
+ * This class is an Excel mapper to parse Excel Sheet to stream of entityClass objects
+ */
 @UtilityClass
 public class ExcelMapper {
     /**
      * Parses the Excel file to an Entity Class.
+     * It takes a class as input and returns a stream of objects of that class
      *
      * @param <T>         the Class type.
-     * @param entityClass the entity class
+     * @param entityClass The class of the entity to be parsed
      * @return the Stream of Entity class objects
      */
     public static <T> Stream<T> parse(final Class<T> entityClass) {

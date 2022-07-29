@@ -20,6 +20,9 @@ import java.lang.reflect.Type;
 
 import static java.lang.Boolean.parseBoolean;
 
+/**
+ * It converts a string to a boolean
+ */
 public class BooleanConverter extends DefaultConverter<Boolean> {
     @Override
     public Boolean convert(final String value) {
