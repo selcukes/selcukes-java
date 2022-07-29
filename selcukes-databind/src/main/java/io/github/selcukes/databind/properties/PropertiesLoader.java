@@ -28,7 +28,7 @@ import java.util.Properties;
 
 @UtilityClass
 class PropertiesLoader {
-    public Properties getProperties(Path filePath) {
+    public static Properties getProperties(Path filePath) {
         var properties = new Properties();
         try (InputStream stream = new FileInputStream(filePath.toFile())) {
             properties.load(stream);

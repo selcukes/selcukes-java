@@ -24,25 +24,25 @@ import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
 
 @UtilityClass
 public class RunMode {
-    boolean isCloudAppium() {
+    static boolean isCloudAppium() {
         String cloud = ConfigFactory.getConfig().getMobile().getCloud();
         return !isNullOrEmpty(cloud);
     }
 
-    boolean isLocalAppium() {
+    static boolean isLocalAppium() {
         return !ConfigFactory.getConfig().getMobile().isRemote();
     }
 
-    boolean isLocalBrowser() {
+    static boolean isLocalBrowser() {
         return !ConfigFactory.getConfig().getWeb().isRemote();
     }
 
-    boolean isCloudBrowser() {
+    static boolean isCloudBrowser() {
         String cloud = ConfigFactory.getConfig().getWeb().getCloud();
         return !isNullOrEmpty(cloud);
     }
 
-    static boolean isHeadless() {
+    boolean isHeadless() {
         return Platform.isLinux();
     }
 }

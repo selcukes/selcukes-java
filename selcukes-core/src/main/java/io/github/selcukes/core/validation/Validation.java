@@ -29,7 +29,7 @@ import static io.github.selcukes.commons.fixture.SelcukesFixture.fail;
 public class Validation {
     private static final ThreadLocal<List<String>> FAILED_MESSAGES = InheritableThreadLocal.withInitial(ArrayList::new);
 
-    public void failWithMessage(boolean isSoft, String errorMessage, Object... args) {
+    public static void failWithMessage(boolean isSoft, String errorMessage, Object... args) {
         String message = String.format(errorMessage, args);
         logger.info(() -> message);
         if (!isSoft) {
@@ -44,7 +44,7 @@ public class Validation {
         return FAILED_MESSAGES.get();
     }
 
-    public static void failAll() {
+    public void failAll() {
         if (!getErrorMessages().isEmpty()) {
             fail("Test Failed with Below Errors \n" + String.join("\n", getErrorMessages()));
             FAILED_MESSAGES.remove();
