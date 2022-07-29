@@ -49,7 +49,7 @@ public class ExceptionHelper {
     }
 
     public String getExceptionTitle(Throwable throwable) {
-        Pattern pattern = Pattern.compile("([\\w\\.]+)(:.*)?");
+        Pattern pattern = Pattern.compile("([\\w.]+)(:.*)?");
         String stackTrace = getStackTrace(throwable);
         Matcher matcher = pattern.matcher(stackTrace);
 

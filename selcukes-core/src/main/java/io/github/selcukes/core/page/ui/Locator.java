@@ -39,7 +39,7 @@ public class Locator {
 
     public static String of(WebElement element) {
         String eleText = element.toString();
-        Matcher matcher = Pattern.compile("->\\s(.*)(?=\\])")
+        Matcher matcher = Pattern.compile("->\\s(.*)(?=])")
                 .matcher(eleText);
         return matcher.find() && matcher.groupCount() > 0
                 ? matcher.group(1)

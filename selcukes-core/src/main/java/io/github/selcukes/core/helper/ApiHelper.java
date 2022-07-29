@@ -17,7 +17,6 @@
 package io.github.selcukes.core.helper;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.github.selcukes.commons.http.Response;
 import io.github.selcukes.commons.http.WebClient;
 import lombok.CustomLog;
 import lombok.Data;
@@ -30,7 +29,7 @@ import java.util.Map;
 @CustomLog
 public class ApiHelper {
 
-    public String getAppUrl(Path apkPath) {
+    public String getAppUrl(final Path apkPath) {
         logger.info(() -> "Uploading App to Browser Stack...");
         String user = System.getProperty("browserstack.user");
         String key = System.getProperty("browserstack.key");
@@ -40,11 +39,11 @@ public class ApiHelper {
                 "custom_id", "selcukes_" + apkPath.getFileName().toString());
 
         var client = new WebClient(serviceUrl);
-        Response response = client
+        var response = client
                 .authenticator(user, key)
                 .multiPart(data)
                 .post();
-        ResponseBody body = response.bodyAs(ResponseBody.class);
+        var body = response.bodyAs(ResponseBody.class);
         return body.getAppUrl();
     }
 

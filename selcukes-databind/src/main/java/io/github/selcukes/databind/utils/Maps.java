@@ -28,8 +28,17 @@ import java.util.stream.IntStream;
 
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
 
+/**
+ * It's a wrapper around a `HashMap<String, Object>` that allows you to access the values in the map using a dot notation
+ */
 @UtilityClass
 public class Maps {
+    /**
+     * It takes a `Properties` object and returns a `Map<String, String>` object
+     *
+     * @param properties The properties object to convert to a map.
+     * @return A map of the properties.
+     */
     public static Map<String, String> of(Properties properties) {
         return properties.entrySet().stream().collect(
                 Collectors.toMap(
@@ -39,11 +48,26 @@ public class Maps {
                 ));
     }
 
+    /**
+     * It takes two lists of strings, and returns a map of the non-empty keys to their corresponding values
+     *
+     * @param keys   List of keys
+     * @param values The values to be put into the map.
+     * @return A map of the keys and values.
+     */
     public static Map<String, String> of(List<String> keys, List<String> values) {
         return IntStream.range(0, keys.size()).boxed()
                 .filter(i -> !StringHelper.isNullOrEmpty(keys.get(i))).collect(Collectors.toMap(keys::get, values::get));
     }
 
+    /**
+     * It takes a map, creates a new map with a case insensitive comparator, and then puts all the entries from the
+     * original map into the new map.
+     *
+     * @param map The map to be wrapped.
+     * @return A new TreeMap with the same keys and values as the original map, but with the keys in case-insensitive
+     * order.
+     */
     public static <V> Map<String, V> caseInsensitive(Map<String, V> map) {
         var newMap = new TreeMap<String, V>(CASE_INSENSITIVE_ORDER);
         newMap.putAll(map);

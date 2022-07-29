@@ -23,7 +23,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 class YamlData extends AbstractDataBind {
 
-    public YamlData() {
+    YamlData() {
         super(new ObjectMapper(new YAMLFactory()));
     }
 }

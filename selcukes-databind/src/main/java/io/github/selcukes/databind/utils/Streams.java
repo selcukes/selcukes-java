@@ -26,7 +26,13 @@ import java.util.stream.StreamSupport;
 
 @UtilityClass
 public class Streams {
-    public <T> Stream<T> of(Iterator<? extends T> iterator) {
+    /**
+     * It takes an iterator and returns a stream.
+     *
+     * @param iterator The iterator to convert to a stream.
+     * @return A stream of the iterator.
+     */
+    public <T> Stream<T> of(final Iterator<? extends T> iterator) {
         return StreamSupport
                 .stream(Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED), false);
     }

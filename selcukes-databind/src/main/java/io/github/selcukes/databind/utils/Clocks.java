@@ -30,15 +30,22 @@ public class Clocks {
     public static final String DATE_FORMAT = "yyyy-MM-dd";
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-    public static String date(String format) {
+    public static String date(final String format) {
         return LocalDate.now().format(dateTimeFormatter(format, DATE_FORMAT));
     }
 
-    public static String dateTime(String format) {
+    public static String dateTime(final String format) {
         return LocalDateTime.now().format(dateTimeFormatter(format, DATE_TIME_FORMAT));
     }
 
-    public static DateTimeFormatter dateTimeFormatter(String format, String defaultFormat) {
+    /**
+     * If the format is not null and not empty, return the format, otherwise return the default format.
+     *
+     * @param format The format to use.
+     * @param defaultFormat The default format to use if the format parameter is null or empty.
+     * @return A DateTimeFormatter
+     */
+    public static DateTimeFormatter dateTimeFormatter(final String format, final String defaultFormat) {
         return ofPattern(ofNullable(format)
                 .filter(f -> !f.isEmpty())
                 .orElse(defaultFormat));
