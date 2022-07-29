@@ -48,8 +48,9 @@ public class CloudOptions {
 
     public Capabilities getBrowserStackOptions(boolean isApp) {
         MutableCapabilities capabilities = new MutableCapabilities();
-        if (isApp)
+        if (isApp) {
             getBrowserStack().getEnvironments().forEach(capabilities::setCapability);
+        }
         capabilities.setCapability("bstack:options", getBrowserStack().getCapabilities());
         return capabilities;
     }

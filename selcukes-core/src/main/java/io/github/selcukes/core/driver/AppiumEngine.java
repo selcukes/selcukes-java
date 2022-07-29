@@ -30,8 +30,9 @@ class AppiumEngine {
     private AppiumDriverLocalService service;
 
     public static AppiumEngine getInstance() {
-        if (appiumEngine == null)
+        if (appiumEngine == null) {
             appiumEngine = new AppiumEngine();
+        }
         return appiumEngine;
     }
 

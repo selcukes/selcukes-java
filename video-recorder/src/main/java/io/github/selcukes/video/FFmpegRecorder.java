@@ -16,7 +16,6 @@
 
 package io.github.selcukes.video;
 
-
 import io.github.selcukes.commons.Await;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.RecorderException;
@@ -29,9 +28,9 @@ import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.video.config.DefaultVideoOptions;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
-
 
 class FFmpegRecorder implements VideoRecorder {
     private static final Logger logger = LoggerFactory.getLogger(FFmpegRecorder.class);
@@ -45,8 +44,9 @@ class FFmpegRecorder implements VideoRecorder {
     public FFmpegRecorder() {
         shell = new Shell();
         this.videoConfig = VideoRecorder.videoConfig();
-        if (ConfigFactory.getConfig().getVideo().getFfmpegPath() != null)
+        if (ConfigFactory.getConfig().getVideo().getFfmpegPath() != null) {
             ffmpegFolderPath = ConfigFactory.getConfig().getVideo().getFfmpegPath();
+        }
     }
 
     public void start() {
@@ -67,7 +67,7 @@ class FFmpegRecorder implements VideoRecorder {
     }
 
     @Override
-    public File stopAndSave(String filename) {
+    public File stopAndSave(final String filename) {
         stop();
         Preconditions.checkArgument(tempFile.exists(), "Video recording wasn't started");
         File videoFile = getFile(filename);
@@ -94,8 +94,11 @@ class FFmpegRecorder implements VideoRecorder {
     private void stop() {
         logger.info(() -> "Killing ffmpeg...");
         String killFFmpeg = "pkill -INT ffmpeg";
-        if (Platform.isWindows()) shell.sendCtrlC(ffmpegFolderPath);
-        else shell.runCommand(killFFmpeg);
+        if (Platform.isWindows()) {
+            shell.sendCtrlC(ffmpegFolderPath);
+        } else {
+            shell.runCommand(killFFmpeg);
+        }
         Await.until(2);
     }
 

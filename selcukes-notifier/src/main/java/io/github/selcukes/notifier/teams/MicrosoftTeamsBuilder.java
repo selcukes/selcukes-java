@@ -59,7 +59,9 @@ public class MicrosoftTeamsBuilder {
         fieldList.add(field);
         fieldList.add(field1);
         fieldList.add(field2);
-        if (scenarioStatus.equalsIgnoreCase("FAILED") && error != null) fieldList.add(field3);
+        if (scenarioStatus.equalsIgnoreCase("FAILED") && error != null) {
+            fieldList.add(field3);
+        }
 
         Images image = Images.builder()
                 .image(screenshotPath)

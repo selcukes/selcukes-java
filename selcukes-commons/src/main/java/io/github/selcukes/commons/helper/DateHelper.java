@@ -46,14 +46,16 @@ public class DateHelper {
     }
 
     public DateTimeFormatter getDateFormatter() {
-        if (dtf == null)
+        if (dtf == null) {
             setDateFormat(DEFAULT_DATE_PATTERN);
+        }
         return dtf;
     }
 
     public DateTimeFormatter getDateTimeFormatter() {
-        if (dtf == null)
+        if (dtf == null) {
             setDateFormat(DEFAULT_DATE_TIME_PATTERN);
+        }
         return dtf;
     }
 
@@ -70,8 +72,9 @@ public class DateHelper {
     }
 
     public String timeStamp() {
-        if (dtf == null)
+        if (dtf == null) {
             setDateFormat(TIMESTAMP_FORMAT);
+        }
         return dateTime();
     }
 
@@ -81,8 +84,9 @@ public class DateHelper {
     }
 
     private DateTimeFormatter getTimeStampFormatter() {
-        if (dtf == null)
+        if (dtf == null) {
             setDateFormat(TIMESTAMP_FORMAT);
+        }
         return dtf.withZone(getZoneId());
     }
 

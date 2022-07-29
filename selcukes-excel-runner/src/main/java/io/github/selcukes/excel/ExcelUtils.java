@@ -42,7 +42,7 @@ public class ExcelUtils {
             Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
     private static Map<String, List<List<String>>> allSheetsMap = new LinkedHashMap<>();
 
-    public static void initTestRunner() {
+    public void initTestRunner() {
         ExcelReader excelReader = new ExcelReader(
                 ConfigFactory.getConfig().getExcel().get("fileName"));
 
@@ -141,8 +141,9 @@ public class ExcelUtils {
                         sheetDataList.get(i - 1).set(0, testName + HYPHEN + sheetDataList.get(i - 1).get(1));
                     }
                     newTestName = testName + HYPHEN + sheetDataList.get(i).get(1);
-                } else
+                } else {
                     newTestName = testName;
+                }
                 sheetDataList.get(i).set(0, newTestName);
             } else {
                 testName = sheetDataList.get(i).get(0);

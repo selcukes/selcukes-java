@@ -33,8 +33,9 @@ public class PropertiesMapperTest {
     public void testProperties() {
         var testConfig = PropertiesMapper.parse(TestConfig.class);
         System.out.println(testConfig.getUserName());
-        if (testConfig.isTest())
+        if (testConfig.isTest()) {
             System.out.println(testConfig.getDate());
+        }
         System.out.println(testConfig.getOsName());
         System.out.println(testConfig.getJim());
         System.out.println(testConfig.getMass());

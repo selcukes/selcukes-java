@@ -210,7 +210,7 @@ public class WebClient {
     /**
      * This function adds a header to the request.
      *
-     * @param name The name of the header.
+     * @param name  The name of the header.
      * @param value The value of the header.
      * @return The WebClient object
      */
@@ -221,7 +221,7 @@ public class WebClient {
 
     /**
      * "Set the body of the request to be a multipart form with the given data and boundary."
-     *
+     * <p>
      * The first thing we do is generate a random boundary. This is a string that will be used to separate the different
      * parts of the multipart form
      *

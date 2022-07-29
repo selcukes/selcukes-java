@@ -60,9 +60,9 @@ public class WebManager implements RemoteManager {
     @SneakyThrows
     public URL getServiceUrl() {
         URL serviceUrl;
-        if (isCloudBrowser())
+        if (isCloudBrowser()) {
             serviceUrl = new URL(CloudOptions.browserStackUrl());
-        else {
+        } else {
             serviceUrl = new URL(ConfigFactory.getConfig().getWeb().getServiceUrl());
             if (isSeleniumServerNotRunning()) {
                 logger.warn(() -> "Selenium server not started...\n" +

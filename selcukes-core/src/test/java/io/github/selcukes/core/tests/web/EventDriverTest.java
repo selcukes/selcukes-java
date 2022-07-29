@@ -63,7 +63,8 @@ public class EventDriverTest {
         FileHelper.createDirectory(reportDirectory);
         String filePath = reportDirectory + File.separator + "screenshot_" + DateHelper.get().dateTime() + ".png";
         FileUtils.copyFile(srcFile, Paths.get(filePath).toFile());
-        if (driver != null)
+        if (driver != null) {
             driver.quit();
+        }
     }
 }

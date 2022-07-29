@@ -40,9 +40,9 @@ public interface Snapshot {
 
     /**
      * "Shoot the visible page and return the result as a byte array."
-     *
+     * <p>
      * The function is a bit more complicated than that, but not much. It's a wrapper around the following function:
-     *
+     * <p>
      * // Java
      * byte[] shootVisiblePageAsBytes(int maxWidth, int maxHeight, int quality);
      *

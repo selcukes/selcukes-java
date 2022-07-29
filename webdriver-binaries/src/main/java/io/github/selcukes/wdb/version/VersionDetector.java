@@ -77,8 +77,9 @@ public class VersionDetector {
     private String getBrowserVersionFromCommand(String regQuery) {
         Shell shell = new Shell();
         ExecResults execResults = shell.runCommand(regQuery);
-        if (driverName.contains("chrome") && execResults.getOutput().get(2).isEmpty())
+        if (driverName.contains("chrome") && execResults.getOutput().get(2).isEmpty()) {
             execResults = shell.runCommand(regQuery.replace(" (x86)", ""));
+        }
         String[] words = execResults.getOutput().get(2).split(" ");
         String browserVersion = words[words.length - 1];
 
@@ -113,7 +114,9 @@ public class VersionDetector {
                 String nextVersion = versions.get(index + 1);
                 compatibleVersion = nextVersion.startsWith(browserVersionPrefix) ? nextVersion : previousVersion;
             }
-        } else compatibleVersion = browserVersion;
+        } else {
+            compatibleVersion = browserVersion;
+        }
 
         logger.info(() -> String.format("Using %s [%s] for Browser [%s] ", driverName, compatibleVersion, browserVersion));
         CacheManager.createCache(driverName, compatibleVersion);

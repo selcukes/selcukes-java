@@ -35,21 +35,21 @@ public interface Encryptor {
 
     /**
      * "Encrypts the given text using the given crypto key."
-     *
+     * <p>
      * The function takes two parameters:
-     *
+     * <p>
      * * `cryptoKey`: The key to use for encryption.
      * * `text`: The text to encrypt
      *
      * @param cryptoKey The key used to encrypt the text.
-     * @param text The text to be encrypted.
+     * @param text      The text to be encrypted.
      * @return The encrypted text.
      */
     String encrypt(String cryptoKey, String text);
 
     /**
      * "Decrypts the given encrypted string using the given crypto key."
-     *
+     * <p>
      * The crypto key is a string that is used to encrypt and decrypt the data. It should be kept secret
      *
      * @param cryptoKey The key used to encrypt the data.

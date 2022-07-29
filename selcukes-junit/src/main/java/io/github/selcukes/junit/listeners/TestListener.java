@@ -36,8 +36,9 @@ public class TestListener implements TestExecutionListener {
 
     @Override
     public void executionStarted(TestIdentifier testIdentifier) {
-        if (testIdentifier.isTest())
+        if (testIdentifier.isTest()) {
             logger.debug(() -> "Test Execution started..." + testIdentifier.getDisplayName());
+        }
     }
 
     @Override

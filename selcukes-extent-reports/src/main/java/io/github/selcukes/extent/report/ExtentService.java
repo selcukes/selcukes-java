@@ -62,8 +62,9 @@ public class ExtentService implements Serializable {
 
         static {
             initProperties();
-            if ("true".equals(getProperty(INIT_SPARK_KEY)))
+            if ("true".equals(getProperty(INIT_SPARK_KEY))) {
                 initSpark();
+            }
             addSystemInfo();
         }
 
@@ -76,8 +77,9 @@ public class ExtentService implements Serializable {
         }
 
         private static String getProperty(String propertyKey) {
-            if (System.getProperty(propertyKey) != null)
+            if (System.getProperty(propertyKey) != null) {
                 return System.getProperty(propertyKey);
+            }
             return propertiesMap.get(propertyKey);
         }
 
@@ -119,12 +121,13 @@ public class ExtentService implements Serializable {
 
         private static void attach(ReporterConfigurable reporterConfigurable) {
             String configPath = getProperty(CONFIG_SPARK_KEY);
-            if (!isNullOrEmpty(configPath))
+            if (!isNullOrEmpty(configPath)) {
                 try {
                     reporterConfigurable.loadXMLConfig(configPath);
                 } catch (IOException ignored) {
                     //Gobble exception
                 }
+            }
             INSTANCE.attachReporter((ExtentObserver<?>) reporterConfigurable);
         }
 

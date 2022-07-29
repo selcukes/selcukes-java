@@ -18,7 +18,6 @@
 
 package io.github.selcukes.extent.report;
 
-
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.GherkinKeyword;
 import com.aventstack.extentreports.MediaEntityBuilder;
@@ -107,7 +106,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
         ExtentService.getInstance();
     }
 
-    public static synchronized void addTestStepLog(String message) {
+    public static synchronized void addTestStepLog(final String message) {
         stepTestThreadLocal.get().info(message);
     }
 
@@ -118,7 +117,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     }
 
     @Override
-    public void setEventPublisher(EventPublisher publisher) {
+    public void setEventPublisher(final EventPublisher publisher) {
         publisher.registerHandlerFor(TestSourceRead.class, testSourceReadHandler);
         publisher.registerHandlerFor(TestCaseStarted.class, caseStartedHandler);
         publisher.registerHandlerFor(TestStepStarted.class, stepStartedHandler);
@@ -193,8 +192,9 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
                 if (stepTestThreadLocal.get() != null) {
                     if (isHookThreadLocal.get().equals(Boolean.TRUE)) {
                         boolean mediaLogs = test.getLogs().stream().anyMatch(l -> l.getMedia() != null);
-                        if (!test.hasLog() && !mediaLogs)
+                        if (!test.hasLog() && !mediaLogs) {
                             ExtentService.getInstance().removeTest(stepTestThreadLocal.get());
+                        }
                     }
                     stepTestThreadLocal.get().pass("");
                 }

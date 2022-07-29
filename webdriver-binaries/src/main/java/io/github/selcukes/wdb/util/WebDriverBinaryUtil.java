@@ -49,8 +49,9 @@ public class WebDriverBinaryUtil {
 
     private File getBinaryDownloadDirectory(String downloadLocation, boolean clearBinaryCache) {
         binaryDownloadDirectory = new File(downloadLocation + File.separator + WEBDRIVER + File.separator);
-        if (clearBinaryCache)
+        if (clearBinaryCache) {
             FileHelper.deleteFilesInDirectory(binaryDownloadDirectory);
+        }
         FileHelper.createDirectory(binaryDownloadDirectory);
         return binaryDownloadDirectory;
     }
@@ -88,7 +89,9 @@ public class WebDriverBinaryUtil {
                 } catch (IOException e) {
                     throw new WebDriverBinaryException(e);
                 }
-            } else decompressBinary();
+            } else {
+                decompressBinary();
+            }
             logger.info(() -> String.format("%s successfully extracted to: %s", binaryFactory.getBinaryDriverName(), getWebDriverBinary().getAbsolutePath()));
         }
         return this;

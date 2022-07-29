@@ -45,22 +45,25 @@ public class SelcukesTestProperties {
     }
 
     public String getExcelProperty(String propertyKey) {
-        if (System.getProperty(propertyKey) != null)
+        if (System.getProperty(propertyKey) != null) {
             return System.getProperty(propertyKey);
+        }
         String key = propertyKey.substring(propertyKey.lastIndexOf(".") + 1);
         return getConfig().getExcel().getOrDefault(key, "");
     }
 
     public String getCucumberProperty(String propertyKey) {
-        if (System.getProperty(propertyKey) != null)
+        if (System.getProperty(propertyKey) != null) {
             return System.getProperty(propertyKey);
+        }
         String key = propertyKey.substring(propertyKey.lastIndexOf(".") + 1);
         return getConfig().getCucumber().getOrDefault(key, "");
     }
 
     public String getReportsProperty(String propertyKey) {
-        if (System.getProperty(propertyKey) != null)
+        if (System.getProperty(propertyKey) != null) {
             return System.getProperty(propertyKey);
+        }
         String key = propertyKey.substring(propertyKey.lastIndexOf(".") + 1);
         return getConfig().getReports().getOrDefault(key, "");
     }

@@ -39,12 +39,13 @@ class PageSnapshot extends DefaultPageSnapshot {
 
     public <X> X getFullScreenshotAs(OutputType<X> outputType) {
         unwrapDriver();
-        if (driver instanceof HasCdp)
+        if (driver instanceof HasCdp) {
             return getFullScreenshot(outputType);
-        else if (driver instanceof FirefoxDriver)
+        } else if (driver instanceof FirefoxDriver) {
             return ((FirefoxDriver) driver).getFullPageScreenshotAs(outputType);
-        else
+        } else {
             return getDefaultPageSnapshot(outputType);
+        }
 
     }
 

@@ -110,7 +110,9 @@ class ScreenPlayImpl implements ScreenPlay {
         } else {
             if (isNativeDevice) {
                 stopAndDeleteVideo();
-            } else recorder.stopAndDelete();
+            } else {
+                recorder.stopAndDelete();
+            }
         }
         return this;
     }
@@ -186,8 +188,9 @@ class ScreenPlayImpl implements ScreenPlay {
                 .stepDetails(message)
                 .path(ofNullable(screenshotPath).orElse(""));
 
-        if (result.getErrorMessage() != null)
+        if (result.getErrorMessage() != null) {
             notifier.errorMessage(result.getErrorMessage());
+        }
 
         notifier.pushNotification();
         return this;
@@ -263,6 +266,8 @@ class ScreenPlayImpl implements ScreenPlay {
     boolean isAttachable() {
         if (isFailedOnly) {
             return result.isFailed();
-        } else return true;
+        } else {
+            return true;
+        }
     }
 }

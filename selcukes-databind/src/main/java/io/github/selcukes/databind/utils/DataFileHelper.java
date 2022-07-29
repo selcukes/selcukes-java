@@ -66,8 +66,9 @@ public class DataFileHelper<T> {
                 .orElseGet(() -> {
                     if (isNewFile) {
                         return newFile(folder, fileName);
-                    } else
+                    } else {
                         throw new DataMapperException(format("File [%s] not found.", fileName));
+                    }
                 });
     }
 

@@ -83,8 +83,9 @@ public class DriverManager {
     }
 
     public static WebDriver getWrappedDriver() {
-        if (getDriver() instanceof WrapsDriver)
+        if (getDriver() instanceof WrapsDriver) {
             return ((WrapsDriver) getDriver()).getWrappedDriver();
+        }
         return getDriver();
     }
 

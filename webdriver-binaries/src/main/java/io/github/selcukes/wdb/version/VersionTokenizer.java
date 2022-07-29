@@ -25,9 +25,10 @@ public class VersionTokenizer {
     private String suffix;
     private boolean hasValue;
 
-    public VersionTokenizer(String versionString) {
-        if (versionString == null)
+    public VersionTokenizer(final String versionString) {
+        if (versionString == null) {
             throw new IllegalArgumentException("Version String is null");
+        }
 
         this.versionString = versionString;
         length = versionString.length();
@@ -51,14 +52,17 @@ public class VersionTokenizer {
         hasValue = false;
 
         // No more characters
-        if (position >= length)
+        if (position >= length) {
             return false;
+        }
 
         hasValue = true;
 
         while (position < length) {
             char c = versionString.charAt(position);
-            if (c < '0' || c > '9') break;
+            if (c < '0' || c > '9') {
+                break;
+            }
             number = number * 10 + (c - '0');
             position++;
         }
@@ -67,13 +71,17 @@ public class VersionTokenizer {
 
         while (position < length) {
             char c = versionString.charAt(position);
-            if (c == '.') break;
+            if (c == '.') {
+                break;
+            }
             position++;
         }
 
         suffix = versionString.substring(suffixStart, position);
 
-        if (position < length) position++;
+        if (position < length) {
+            position++;
+        }
 
         return true;
     }

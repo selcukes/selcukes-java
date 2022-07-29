@@ -61,7 +61,7 @@
             declared final. -->
         <!-- Rationale: Changing the value of parameters during the execution of
             the method's algorithm can be confusing and should be avoided. -->
-<!--        <module name="FinalLocalVariable"/>-->
+        <!--        <module name="FinalLocalVariable"/>-->
 
         <!-- Check that parameters for methods, constructors, and catch blocks
             are final. -->

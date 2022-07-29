@@ -25,15 +25,18 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
-import java.awt.*;
+import java.awt.AWTException;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 class DefaultPageSnapshot {
+    private final WebDriver driver;
     protected String screenshotText;
     protected boolean isAddressBar = false;
-    private final WebDriver driver;
     protected Map<String, Object> screenOptions;
 
     public DefaultPageSnapshot(WebDriver driver) {
@@ -93,8 +96,9 @@ class DefaultPageSnapshot {
 
     protected String getScreenshotText() {
         String pageUrl = "Current Page Url: " + getCurrentUrl();
-        if (screenshotText == null)
+        if (screenshotText == null) {
             return pageUrl;
+        }
         return pageUrl + "\n" + screenshotText;
     }
 

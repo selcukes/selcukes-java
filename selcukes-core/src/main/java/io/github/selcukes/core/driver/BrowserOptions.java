@@ -29,7 +29,7 @@ import org.openqa.selenium.ie.InternetExplorerOptions;
 
 @UtilityClass
 public class BrowserOptions {
-    public static Capabilities getBrowserOptions(DriverType driverType, boolean ignoreBinarySetup) {
+    public Capabilities getBrowserOptions(DriverType driverType, boolean ignoreBinarySetup) {
         return getBrowserOptions(driverType, ignoreBinarySetup, "");
     }
 
@@ -44,8 +44,9 @@ public class BrowserOptions {
 
                 EdgeOptions edgeOptions = new EdgeOptions();
                 edgeOptions.setHeadless(headless);
-                if (!StringHelper.isNullOrEmpty(platform))
+                if (!StringHelper.isNullOrEmpty(platform)) {
                     edgeOptions.setPlatformName(platform);
+                }
                 return edgeOptions;
             case FIREFOX:
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
@@ -62,8 +63,9 @@ public class BrowserOptions {
             default:
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.setHeadless(headless);
-                if (!StringHelper.isNullOrEmpty(platform))
+                if (!StringHelper.isNullOrEmpty(platform)) {
                     chromeOptions.setPlatformName(platform);
+                }
                 return chromeOptions;
         }
 

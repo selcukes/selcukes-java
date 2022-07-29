@@ -49,10 +49,11 @@ public class ChromeBinary extends AbstractBinary {
     public Platform getBinaryEnvironment() {
         Platform platform = Platform.getPlatform();
         Optional<Architecture> arch = getTargetArch();
-        if (arch.isPresent())
+        if (arch.isPresent()) {
             platform.setArchitecture(arch.get().getValue());
-        else if (Objects.equals(platform.getOSType(), OsType.WIN))
+        } else if (Objects.equals(platform.getOSType(), OsType.WIN)) {
             platform.setArchitecture(Architecture.X32.getValue());
+        }
         return platform;
     }
 

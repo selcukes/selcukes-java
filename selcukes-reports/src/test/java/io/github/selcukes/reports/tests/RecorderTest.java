@@ -72,8 +72,9 @@ public class RecorderTest {
 
     @AfterTest
     public void afterTest() {
-        if (driver != null)
+        if (driver != null) {
             driver.quit();
+        }
         screenPlay
                 .attachVideo()
                 .attachLogs();

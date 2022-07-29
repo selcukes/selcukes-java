@@ -80,7 +80,9 @@ public class CucumberListener implements ConcurrentEventListener {
                     .append(testStep.getStep().getText()).append("  [")
                     .append(testStep.getStep().getLine()).append("] ");
             Optional<StepArgument> stepsArgs = Optional.ofNullable(testStep.getStep().getArgument());
-            if (stepsArgs.isPresent()) stepsReport.append("Step Argument: [").append(stepsArgs).append("] ");
+            if (stepsArgs.isPresent()) {
+                stepsReport.append("Step Argument: [").append(stepsArgs).append("] ");
+            }
         }
         cucumberService.afterStep(stepsReport.toString(), event.getResult().getStatus().is(Status.FAILED));
     }
