@@ -136,7 +136,7 @@
 
         <!-- ##### Requirements for "switch" statements ##### -->
         <!-- "switch" statements MUST have a "default" clause -->
-        <module name="MissingSwitchDefault"/>
+        <!--        <module name="MissingSwitchDefault"/>-->
         <!-- "case" clauses in switch statements MUST include break, return, throw
             or continue -->
         <module name="FallThrough"/>
