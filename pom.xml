@@ -288,6 +288,16 @@
                             </goals>
                         </execution>
                     </executions>
+                    <configuration>
+                        <java>
+                            <eclipse>
+                                <file>../assets/spotless/eclipse-formatter-settings.xml</file>
+                            </eclipse>
+                            <importOrder>
+                                <file>../assets/spotless/intellij-idea.importorder</file>
+                            </importOrder>
+                        </java>
+                    </configuration>
                 </plugin>
 
                 <!-- Check style -->
@@ -304,8 +314,8 @@
                         </execution>
                     </executions>
                 </plugin>
+
             </plugins>
         </pluginManagement>
     </build>
-
 </project>
