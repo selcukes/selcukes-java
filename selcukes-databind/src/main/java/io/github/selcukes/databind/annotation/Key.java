@@ -16,7 +16,6 @@
 
 package io.github.selcukes.databind.annotation;
 
-
 import io.github.selcukes.databind.converters.StringConverter;
 
 import java.lang.annotation.ElementType;

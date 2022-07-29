@@ -18,6 +18,9 @@ package io.github.selcukes.databind.converters;
 
 import java.lang.reflect.Type;
 
+/**
+ * It's a base class for all converters that converts a single type
+ */
 public abstract class DefaultConverter<T> implements Converter<T> {
     private final Type type;
 

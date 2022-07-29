@@ -37,7 +37,7 @@ import static java.util.Optional.ofNullable;
 @CustomLog
 @UtilityClass
 public class SelcukesRuntime {
-    public static void loadOptions() {
+    public void loadOptions() {
         try {
             SelcukesTestProperties properties = new SelcukesTestProperties();
             String features = ofNullable(properties.getSubstitutedConfigProperty(FEATURES)).orElse("");
@@ -52,20 +52,21 @@ public class SelcukesRuntime {
             String cucumberReportPath = reportsPath + "/cucumber-reports";
             String extentReportPath = reportsPath + "/extent-reports";
 
-            String timestamp = timestampReport.equalsIgnoreCase("true") ?
-                    "-" + DateHelper.get().dateTime() : "";
+            String timestamp = timestampReport.equalsIgnoreCase("true") ? "-" + DateHelper.get().dateTime() : "";
 
             String plugin = String.format("html:%s/%s%s.html, json:%s/cucumber%s.json",
-                    cucumberReportPath, reportsFile, timestamp, cucumberReportPath, timestamp);
+                cucumberReportPath, reportsFile, timestamp, cucumberReportPath, timestamp);
 
             if (!isNullOrEmpty(additionalPlugin)) {
                 plugin = plugin + "," + additionalPlugin;
             }
             if (!isNullOrEmpty(emailReport) && !emailReport.equalsIgnoreCase("false")) {
                 setSystemProperty("extent.reporter.spark.start", "true");
-                setSystemProperty("extent.reporter.spark.out", String.format("%s/%s.html", extentReportPath, reportsFile));
+                setSystemProperty("extent.reporter.spark.out",
+                    String.format("%s/%s.html", extentReportPath, reportsFile));
                 setSystemProperty(TIMESTAMP_REPORT, timestampReport);
-                setSystemProperty("extent.reporter.spark.vieworder", "dashboard,test,category,exception,author,device,log");
+                setSystemProperty("extent.reporter.spark.vieworder",
+                    "dashboard,test,category,exception,author,device,log");
                 setSystemProperty("systeminfo.Platform", Platform.getPlatform().getOsName());
                 setSystemProperty("systeminfo.Environment", ConfigFactory.getConfig().getEnv());
                 plugin = plugin + "," + "io.github.selcukes.extent.report.SelcukesExtentAdapter:";
@@ -76,8 +77,10 @@ public class SelcukesRuntime {
             setSystemProperty("cucumber.glue", glue);
             setSystemProperty("cucumber.publish.quiet", "true");
 
-            logger.debug(() -> String.format("Using Runtime Cucumber Options:\nFeatures : [%s]\nGlue     : [%s]\nTags     : [%s] " +
-                    "\n ", features, glue, tag));
+            logger.debug(() -> String
+                    .format("Using Runtime Cucumber Options:\nFeatures : [%s]\nGlue     : [%s]\nTags     : [%s] " +
+                            "\n ",
+                        features, glue, tag));
         } catch (Exception exception) {
             logger.warn(() -> "Failed loading selcukes properties. Using default CucumberOptions to execute...");
         }

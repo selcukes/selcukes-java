@@ -21,7 +21,8 @@ import org.junit.platform.suite.api.SelectClasses;
 import org.junit.platform.suite.api.Suite;
 
 @Suite
-@IncludeEngines({"junit-jupiter"}) //This will ensure cucumber tests not executed twice.
+@IncludeEngines({ "junit-jupiter" }) // This will ensure cucumber tests not
+                                     // executed twice.
 @SelectClasses(SampleJunitTest.class)
 class TestRunner {
 

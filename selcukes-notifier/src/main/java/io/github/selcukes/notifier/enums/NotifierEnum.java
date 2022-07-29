@@ -38,5 +38,5 @@ public enum NotifierEnum {
     TIME_STAMP("Time Stamp"),
     EXCEPTION("Exception");
     @Getter
-    String value;
+    final String value;
 }

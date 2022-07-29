@@ -71,7 +71,8 @@ public class WaitManager {
 
         // Wait for ANGULAR to load
         ExpectedCondition<Boolean> angularLoad = driver -> Boolean
-                .valueOf(((JavascriptExecutor) Objects.requireNonNull(driver)).executeScript(angularReadyScript).toString());
+                .valueOf(
+                    ((JavascriptExecutor) Objects.requireNonNull(driver)).executeScript(angularReadyScript).toString());
 
         // Get Angular is Ready
         boolean angularReady = Boolean.parseBoolean(page.executeScript(angularReadyScript).toString());
@@ -88,7 +89,6 @@ public class WaitManager {
             }
         }
     }
-
 
     private void waitForAngularIfDefined() {
         try {
@@ -109,6 +109,5 @@ public class WaitManager {
     private void sleep() {
         Await.until(TimeUnit.MILLISECONDS, 20);
     }
-
 
 }

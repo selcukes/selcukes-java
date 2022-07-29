@@ -21,9 +21,10 @@ import io.github.selcukes.notifier.Notifier;
 
 public class Slack extends AbstractNotifier {
 
-
     @Override
-    public Notifier pushNotification(String scenarioTitle, String scenarioStatus, String message, String error, String screenshotPath) {
+    public Notifier pushNotification(
+            String scenarioTitle, String scenarioStatus, String message, String error, String screenshotPath
+    ) {
         SlackMessageBuilder slackMessageBuilder = new SlackMessageBuilder();
         slackMessageBuilder.sendMessage(scenarioTitle, scenarioStatus, error, screenshotPath);
         SlackUploader slackUploader = new SlackUploader();

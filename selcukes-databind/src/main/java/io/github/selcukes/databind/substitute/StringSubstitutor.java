@@ -20,16 +20,20 @@ import io.github.selcukes.databind.utils.StringHelper;
 
 import java.util.Properties;
 
+/**
+ * It replaces all occurrences of ${key} with the value of the key in the
+ * properties object
+ */
 public class StringSubstitutor extends DefaultSubstitutor {
 
     @Override
-    public String replace(Properties variables, String key, final String format) {
+    public String replace(final Properties variables, final String key, final String format) {
         String value = variables.getProperty(key);
         return StringHelper.interpolate(value, matcher -> StringHelper.substitute(matcher.group(1), format));
     }
 
     @Override
-    public String replace(String strToReplace, final String format) {
+    public String replace(final String strToReplace, final String format) {
         return StringHelper.interpolate(strToReplace, matcher -> StringHelper.substitute(matcher.group(1), format));
     }
 

@@ -45,7 +45,8 @@ public final class FileExtractUtil {
 
     public static File extractFile(File source, File destination, DownloaderType compressedBinaryType) {
         logger.info(() -> String.format("Extracting binary from compressed file %s", source));
-        final File extractedFile = compressedBinaryType.equals(DownloaderType.ZIP) ? unZipFile(source, destination) : unTarFile(source, destination);
+        final File extractedFile = compressedBinaryType.equals(DownloaderType.ZIP) ? unZipFile(source, destination)
+                : unTarFile(source, destination);
 
         final File[] directoryContents = (extractedFile != null) ? extractedFile.listFiles() : new File[0];
 
@@ -61,7 +62,7 @@ public final class FileExtractUtil {
     private static File unZipFile(File source, File destination) {
         File entryDestination = null;
         try (FileInputStream fis = new FileInputStream(source);
-             ZipArchiveInputStream zis = new ZipArchiveInputStream(fis)) {
+                ZipArchiveInputStream zis = new ZipArchiveInputStream(fis)) {
             ZipArchiveEntry entry;
             while ((entry = zis.getNextZipEntry()) != null) {
                 entryDestination = uncompress(zis, destination, entry);
@@ -75,8 +76,8 @@ public final class FileExtractUtil {
     private static File unTarFile(File source, File destination) {
         File entryDestination = null;
         try (FileInputStream fis = new FileInputStream(source);
-             GZIPInputStream gZIPInputStream = new GZIPInputStream(fis);
-             final TarArchiveInputStream tis = new TarArchiveInputStream(gZIPInputStream)) {
+                GZIPInputStream gZIPInputStream = new GZIPInputStream(fis);
+                final TarArchiveInputStream tis = new TarArchiveInputStream(gZIPInputStream)) {
             TarArchiveEntry entry;
 
             while ((entry = tis.getNextTarEntry()) != null) {
@@ -93,7 +94,7 @@ public final class FileExtractUtil {
         long size = entry.getSize();
         long compressedSize = entry.getSize();
         logger.info(() -> String.format("Uncompressing {%s} (size: {%d} KB, compressed size: {%d} KB)",
-                fileName, size, compressedSize));
+            fileName, size, compressedSize));
         File entryDestination = newFile(destination, entry);
         if (entry.isDirectory()) {
             FileHelper.createDirectory(entryDestination);

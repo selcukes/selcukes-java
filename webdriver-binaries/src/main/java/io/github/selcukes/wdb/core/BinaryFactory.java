@@ -47,7 +47,8 @@ public interface BinaryFactory {
     }
 
     default String getBinaryFileName() {
-        return Objects.equals(getBinaryEnvironment().getOSType(), OsType.WIN) ? getBinaryDriverName() + ".exe" : getBinaryDriverName();
+        return Objects.equals(getBinaryEnvironment().getOSType(), OsType.WIN) ? getBinaryDriverName() + ".exe"
+                : getBinaryDriverName();
     }
 
     default String getBinaryDirectory() {

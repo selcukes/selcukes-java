@@ -54,7 +54,6 @@ class ScreenPlayResult {
         }
     }
 
-
     private String getError(TestResult result) {
         if (IS_NOT_PASS.test(result.getStatus())) {
             return "Exception: " + ExceptionHelper.getExceptionTitle(result.getThrowable());

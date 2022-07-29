@@ -20,30 +20,30 @@ import io.github.selcukes.commons.fixture.TestResult;
 
 public interface TestLifecycleListener {
     default void beforeSuite(TestResult result) {
-        //do nothing
+        // do nothing
     }
 
     default void afterSuite(TestResult result) {
-        //do nothing
+        // do nothing
     }
 
     default void beforeTest(TestResult result) {
-        //do nothing
+        // do nothing
     }
 
     default void beforeAfterTest(TestResult result) {
-        //do nothing
+        // do nothing
     }
 
     default void afterTest(TestResult result) {
-        //do nothing
+        // do nothing
     }
 
     default void beforeStep(TestResult result) {
-        //do nothing
+        // do nothing
     }
 
     default void afterStep(TestResult result) {
-        //do nothing
+        // do nothing
     }
 }

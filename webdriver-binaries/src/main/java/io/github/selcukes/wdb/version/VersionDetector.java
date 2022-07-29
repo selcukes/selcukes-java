@@ -66,19 +66,19 @@ public class VersionDetector {
     private String getQuery() {
         String wmicQuery = "wmic datafile where name='%s' get version";
         Map<String, String> browserPath = Map.of(
-                "chromedriver", "C:\\\\Program Files (x86)\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe",
-                "geckodriver", "C:\\\\program files\\\\Mozilla Firefox\\\\firefox.exe",
-                "msedgedriver", "C:\\\\Program Files (x86)\\\\Microsoft\\\\Edge\\\\Application\\\\msedge.exe",
-                "IEDriverServer", "C:\\\\Program Files\\\\Internet Explorer\\\\iexplore.exe"
-        );
+            "chromedriver", "C:\\\\Program Files (x86)\\\\Google\\\\Chrome\\\\Application\\\\chrome.exe",
+            "geckodriver", "C:\\\\program files\\\\Mozilla Firefox\\\\firefox.exe",
+            "msedgedriver", "C:\\\\Program Files (x86)\\\\Microsoft\\\\Edge\\\\Application\\\\msedge.exe",
+            "IEDriverServer", "C:\\\\Program Files\\\\Internet Explorer\\\\iexplore.exe");
         return String.format(wmicQuery, browserPath.get(driverName));
     }
 
     private String getBrowserVersionFromCommand(String regQuery) {
         Shell shell = new Shell();
         ExecResults execResults = shell.runCommand(regQuery);
-        if (driverName.contains("chrome") && execResults.getOutput().get(2).isEmpty())
+        if (driverName.contains("chrome") && execResults.getOutput().get(2).isEmpty()) {
             execResults = shell.runCommand(regQuery.replace(" (x86)", ""));
+        }
         String[] words = execResults.getOutput().get(2).split(" ");
         String browserVersion = words[words.length - 1];
 
@@ -88,7 +88,8 @@ public class VersionDetector {
     }
 
     public String getCompatibleBinaryVersion(String browserVersion) {
-        logger.info(() -> String.format("Identifying Compatible %s version for Browser [%s] ", driverName, browserVersion));
+        logger.info(
+            () -> String.format("Identifying Compatible %s version for Browser [%s] ", driverName, browserVersion));
         String matcher = this.driverName + "_" + this.osNameAndArch;
         String expression = "//Key";
         if (this.driverName.contains("edge")) {
@@ -113,9 +114,12 @@ public class VersionDetector {
                 String nextVersion = versions.get(index + 1);
                 compatibleVersion = nextVersion.startsWith(browserVersionPrefix) ? nextVersion : previousVersion;
             }
-        } else compatibleVersion = browserVersion;
+        } else {
+            compatibleVersion = browserVersion;
+        }
 
-        logger.info(() -> String.format("Using %s [%s] for Browser [%s] ", driverName, compatibleVersion, browserVersion));
+        logger.info(
+            () -> String.format("Using %s [%s] for Browser [%s] ", driverName, compatibleVersion, browserVersion));
         CacheManager.createCache(driverName, compatibleVersion);
         return compatibleVersion;
     }

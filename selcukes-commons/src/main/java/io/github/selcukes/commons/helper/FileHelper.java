@@ -52,10 +52,10 @@ public class FileHelper {
     /**
      * Drivers folder string.
      *
-     * @param path the path
-     * @return the string
+     * @param  path the path
+     * @return      the string
      */
-    public String driversFolder(String path) {
+    public String driversFolder(final String path) {
         File file = new File(path);
         for (String item : Objects.requireNonNull(file.list())) {
 
@@ -67,11 +67,11 @@ public class FileHelper {
     }
 
     /**
-     * Sets file executable.
+     * > It takes a file path as a parameter and sets the file as executable
      *
-     * @param filePath the file path
+     * @param filePath The path to the file you want to make executable.
      */
-    public void setFileExecutable(String filePath) {
+    public void setFileExecutable(final String filePath) {
         try {
             final Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(Paths.get(filePath));
             permissions.add(PosixFilePermission.OWNER_EXECUTE);
@@ -82,12 +82,14 @@ public class FileHelper {
     }
 
     /**
-     * System file path string.
+     * If the file separator is a backslash, then replace all forward slashes
+     * with backslashes.
      *
-     * @param filePath the file path
-     * @return the string
+     * @param  filePath The file path to be converted.
+     * @return          The file path with the correct file separator for the
+     *                  system.
      */
-    public String systemFilePath(String filePath) {
+    public String systemFilePath(final String filePath) {
         String fileSeparator = System.getProperty("file.separator");
 
         if (!fileSeparator.isEmpty() && "\\".equals(fileSeparator)) {
@@ -104,14 +106,18 @@ public class FileHelper {
     }
 
     /**
-     * Create directory.
+     * If the directory exists, check if it is a directory. If it is not a
+     * directory, throw an exception. If the directory does not exist, create
+     * it. If the directory is not created, throw an exception
      *
-     * @param directory the directory
+     * @param directory The directory to create, including any necessary but
+     *                  nonexistent parent directories.
      */
-    public void createDirectory(File directory) {
+    public void createDirectory(final File directory) {
         if (directory.exists()) {
             if (!directory.isDirectory()) {
-                throw new SelcukesException("File " + directory + " exists and is not a directory. Unable to create directory.");
+                throw new SelcukesException(
+                    "File " + directory + " exists and is not a directory. Unable to create directory.");
             }
         } else if (!directory.mkdirs() && !directory.isDirectory()) {
             throw new SelcukesException("Unable to create directory " + directory);
@@ -119,12 +125,12 @@ public class FileHelper {
     }
 
     /**
-     * Create directory path.
+     * It creates a directory if it doesn't exist
      *
-     * @param directory the directory
-     * @return the path
+     * @param  directory The directory to create.
+     * @return           Path
      */
-    public Path createDirectory(String directory) {
+    public Path createDirectory(final String directory) {
         try {
             Path path = Paths.get(directory);
             return Files.createDirectories(path);
@@ -134,11 +140,11 @@ public class FileHelper {
     }
 
     /**
-     * Delete files in directory.
+     * It deletes all the files in the directory
      *
-     * @param dirName the dir name
+     * @param dirName The directory to delete.
      */
-    public void deleteFilesInDirectory(File dirName) {
+    public void deleteFilesInDirectory(final File dirName) {
         try {
             FileUtils.cleanDirectory(dirName);
         } catch (IOException e) {
@@ -147,31 +153,33 @@ public class FileHelper {
     }
 
     /**
-     * Delete file.
+     * If the file exists, delete it.
      *
-     * @param fileName the file name
+     * @param fileName The file to be deleted.
      */
-    public void deleteFile(File fileName) {
-        if (fileName.exists())
+    public void deleteFile(final File fileName) {
+        if (fileName.exists()) {
             FileUtils.deleteQuietly(fileName);
+        }
     }
 
     /**
-     * Rename file.
+     * RenameFile() renames a file from one name to another.
      *
-     * @param from the from
-     * @param to   the to
+     * @param from The file to be renamed
+     * @param to   The file to rename to.
      */
-    public void renameFile(File from, File to) {
+    public void renameFile(final File from, final File to) {
         if (!from.renameTo(to)) {
             throw new SelcukesException("Failed to rename " + from + " to " + to);
         }
     }
 
     /**
-     * Create temp directory path.
+     * It creates a temporary directory in the default temporary-file directory,
+     * using the given prefix and suffix to generate its name
      *
-     * @return the path
+     * @return A Path object
      */
     public Path createTempDirectory() {
         try {
@@ -182,9 +190,10 @@ public class FileHelper {
     }
 
     /**
-     * Create Temp file.
+     * It creates a temporary file in the default temporary-file directory,
+     * using the given prefix and suffix to generate its name
      *
-     * @return the file
+     * @return A file object
      */
     public File createTempFile() {
         try {
@@ -197,12 +206,11 @@ public class FileHelper {
     }
 
     /**
-     * To byte array byte[].
+     * It converts a file to a byte array.
      *
-     * @param filePath the file path
-     * @return the byte[]
+     * @param filePath The path of the file to be converted to a byte array.
      */
-    public byte[] toByteArray(String filePath) {
+    public byte[] toByteArray(final String filePath) {
         try {
             return Files.readAllBytes(Paths.get(filePath));
         } catch (IOException e) {
@@ -211,61 +219,63 @@ public class FileHelper {
     }
 
     /**
-     * Gets temp dir.
+     * Create a temporary file, get its parent directory, and return it.
      *
-     * @return the temp dir
+     * @return The parent directory of the temporary file.
      */
     public String getTempDir() {
         return createTempFile().getParent();
     }
 
     /**
-     * Load resource file.
+     * It loads a file from the resources folder
      *
-     * @param file the file
-     * @return the file
+     * @param  file The file to load.
+     * @return      A File object
      */
-    public File loadResource(String file) {
+    public File loadResource(final String file) {
         return new File(Objects.requireNonNull(FileHelper.class.getClassLoader().getResource(file)).getFile());
     }
 
     /**
-     * Load thread resource file.
+     * Load a file from the classpath using the current thread's classloader.
      *
-     * @param file the file
-     * @return the file
+     * @param  file The file to load.
+     * @return      A File object
      */
-    public File loadThreadResource(String file) {
-        return new File(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource(file)).getFile());
+    public File loadThreadResource(final String file) {
+        return new File(
+            Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource(file)).getFile());
     }
 
     /**
-     * Load thread resource as stream input stream.
+     * Load a resource from the classpath using the current thread's
+     * classloader.
      *
-     * @param file the file
-     * @return the input stream
+     * @param  file The file to load.
+     * @return      A stream of the file.
      */
-    public InputStream loadThreadResourceAsStream(String file) {
+    public InputStream loadThreadResourceAsStream(final String file) {
         return Thread.currentThread().getContextClassLoader().getResourceAsStream(file);
     }
 
     /**
-     * Load resource as stream input stream.
+     * Load a resource from the classpath as an InputStream.
      *
-     * @param file the file
-     * @return the input stream
+     * @param  file The file to load.
+     * @return      A stream of bytes from the file.
      */
-    public InputStream loadResourceAsStream(String file) {
+    public InputStream loadResourceAsStream(final String file) {
         return FileHelper.class.getClassLoader().getResourceAsStream(file);
     }
 
     /**
-     * Load resource from jar input stream.
+     * Load a resource from a jar file.
      *
-     * @param file the file
-     * @return the input stream
+     * @param  file The file to load.
+     * @return      A stream of the file.
      */
-    public InputStream loadResourceFromJar(String file) {
+    public InputStream loadResourceFromJar(final String file) {
         return FileHelper.class.getResourceAsStream("/" + file);
     }
 
@@ -277,21 +287,22 @@ public class FileHelper {
     public File getWaterMarkFile() {
         String waterMark = "target/selcukes-watermark.png";
         File waterMarkFile = new File(waterMark);
-        if (!waterMarkFile.exists())
-            download(Objects.requireNonNull(FileHelper.class.
-                    getClassLoader().getResource("selcukes-watermark.png")), waterMarkFile);
+        if (!waterMarkFile.exists()) {
+            download(Objects.requireNonNull(FileHelper.class.getClassLoader().getResource("selcukes-watermark.png")),
+                waterMarkFile);
+        }
         return waterMarkFile;
     }
 
     /**
-     * Create new file from String fileContent.
+     * It takes a base64 encoded string and writes it to a file
      *
-     * @param fileContent the file content
-     * @param filePath    the file path
-     * @return the file
+     * @param  fileContent The base64 encoded file content
+     * @param  filePath    The path where the file will be created.
+     * @return             A File object
      */
     @SneakyThrows
-    public File createFile(String fileContent, String filePath) {
+    public File createFile(final String fileContent, final String filePath) {
         byte[] decodedFile = Base64.getDecoder()
                 .decode(fileContent.getBytes(StandardCharsets.UTF_8));
         Path destinationFile = Paths.get(filePath);
@@ -300,37 +311,63 @@ public class FileHelper {
     }
 
     /**
-     * Download a file from url.
+     * > It downloads a file from a given URL and saves it to a given
+     * destination
      *
-     * @param source      the source
-     * @param destination the destination
+     * @param source      The URL of the file to download.
+     * @param destination The file to download to.
      */
-    public void download(URL source, File destination) {
-        if (destination.exists())
+    public void download(final URL source, final File destination) {
+        if (destination.exists()) {
             return;
+        }
         try (
                 var urlStream = source.openStream();
                 var readableByteChannel = Channels.newChannel(urlStream);
-                var fileOutputStream = new FileOutputStream(destination)
-        ) {
+                var fileOutputStream = new FileOutputStream(destination)) {
             fileOutputStream.getChannel().transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
         } catch (Exception e) {
             throw new SelcukesException(String.format("Unable to download a file from URL [%s]", source));
         }
     }
 
+    /**
+     * "Download the file at the given URL to the user's home directory, and
+     * return the path to the downloaded file."
+     * <p>
+     * The first line of the function is a call to the `Arrays.stream` method.
+     * This method takes an array of strings and returns a stream of strings.
+     * The stream is then filtered to only include the last element of the
+     * array. The `reduce` method is then called on the stream, which takes two
+     * parameters: a function that takes two strings and returns a string, and a
+     * default value. The function is called on each element of the stream, and
+     * the result of the function is passed to the next call of the function.
+     * The default value is used as the first parameter to the first call of the
+     * function. The `reduce` method returns the result of the last call of the
+     * function
+     *
+     * @param  url The URL of the file to download.
+     * @return     The path to the file.
+     */
     @SneakyThrows
-    public String downloadToUsersFolder(String url) {
+    public String downloadToUsersFolder(final String url) {
         var fileName = Arrays.stream(url.split("/")).reduce((first, second) -> second).orElse(null);
         var userHomeDir = System.getProperty("user.home");
         var file = Paths.get(userHomeDir, fileName).toFile();
-        if (file.exists())
+        if (file.exists()) {
             return file.getPath();
+        }
         download(new URL(url), file);
         return file.getPath();
     }
 
-    public String readContent(String filePath) {
+    /**
+     * > It loads a file from the classpath and returns its content as a string
+     *
+     * @param  filePath The path to the file you want to read.
+     * @return          The content of the file.
+     */
+    public String readContent(final String filePath) {
         try {
             return Files.readString(loadThreadResource(filePath).toPath());
         } catch (Exception e) {
@@ -338,4 +375,3 @@ public class FileHelper {
         }
     }
 }
-

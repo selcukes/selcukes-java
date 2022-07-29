@@ -45,7 +45,8 @@ public class PageValidations {
     public void titleContains(String expectedTitle) {
         logger.info(() -> String.format("Verifying Page title should contains text [%s]", expectedTitle));
         if (!page.title().contains(expectedTitle)) {
-            failWithMessage(isSoft, "Expected Page Title should contains text [%s] but was [%s]", expectedTitle, page.title());
+            failWithMessage(isSoft, "Expected Page Title should contains text [%s] but was [%s]", expectedTitle,
+                page.title());
         }
     }
 
@@ -59,7 +60,8 @@ public class PageValidations {
     public void urlContains(String expectedValue) {
         logger.info(() -> String.format("Verifying Page URL should contains [%s]", expectedValue));
         if (!page.currentUrl().contains(expectedValue)) {
-            failWithMessage(isSoft, "Expected Page URL should contains [%s] but was [%s]", expectedValue, page.currentUrl());
+            failWithMessage(isSoft, "Expected Page URL should contains [%s] but was [%s]", expectedValue,
+                page.currentUrl());
         }
     }
 

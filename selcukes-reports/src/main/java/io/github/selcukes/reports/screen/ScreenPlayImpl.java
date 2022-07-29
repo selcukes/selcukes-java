@@ -82,7 +82,8 @@ class ScreenPlayImpl implements ScreenPlay {
 
         if (result.getTestType().equals(TestType.CUCUMBER)) {
             try {
-                byte[] screenshot = isNativeDevice || isDesktop ? capture.shootVisiblePageAsBytes() : capture.shootPageAsBytes();
+                byte[] screenshot = isNativeDevice || isDesktop ? capture.shootVisiblePageAsBytes()
+                        : capture.shootPageAsBytes();
                 attach(screenshot, "image/png");
             } catch (Exception e) {
                 logger.warn(e::getMessage);
@@ -110,7 +111,9 @@ class ScreenPlayImpl implements ScreenPlay {
         } else {
             if (isNativeDevice) {
                 stopAndDeleteVideo();
-            } else recorder.stopAndDelete();
+            } else {
+                recorder.stopAndDelete();
+            }
         }
         return this;
     }
@@ -186,13 +189,13 @@ class ScreenPlayImpl implements ScreenPlay {
                 .stepDetails(message)
                 .path(ofNullable(screenshotPath).orElse(""));
 
-        if (result.getErrorMessage() != null)
+        if (result.getErrorMessage() != null) {
             notifier.errorMessage(result.getErrorMessage());
+        }
 
         notifier.pushNotification();
         return this;
     }
-
 
     @Override
     public void attachLogs() {
@@ -223,13 +226,11 @@ class ScreenPlayImpl implements ScreenPlay {
         return this;
     }
 
-
     @Override
     public ScreenPlay ignoreCondition() {
         isFailedOnly = false;
         return this;
     }
-
 
     private void write(String text) {
         if (result.getTestType().equals(TestType.CUCUMBER)) {
@@ -263,6 +264,8 @@ class ScreenPlayImpl implements ScreenPlay {
     boolean isAttachable() {
         if (isFailedOnly) {
             return result.isFailed();
-        } else return true;
+        } else {
+            return true;
+        }
     }
 }

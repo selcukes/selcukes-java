@@ -23,6 +23,9 @@ import java.time.LocalDate;
 import static io.github.selcukes.databind.utils.Clocks.DATE_FORMAT;
 import static java.time.LocalDate.parse;
 
+/**
+ * It converts a string to a `LocalDate` object
+ */
 public class LocalDateConverter extends DefaultConverter<LocalDate> {
     @Override
     public LocalDate convert(final String value) {

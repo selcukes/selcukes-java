@@ -16,7 +16,6 @@
 
 package io.github.selcukes.databind.xml;
 
-
 import io.github.selcukes.databind.exception.DataMapperException;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -30,6 +29,7 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
+
 import java.io.InputStream;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -37,7 +37,13 @@ import java.util.stream.Stream;
 @UtilityClass
 public class XmlMapper {
 
-    public static Document parse(InputStream inputStream) {
+    /**
+     * It takes an InputStream and returns a Document
+     *
+     * @param  inputStream The input stream to parse.
+     * @return             A Document object
+     */
+    public Document parse(final InputStream inputStream) {
         try (inputStream) {
             var factory = DocumentBuilderFactory.newInstance();
             factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
@@ -50,21 +56,50 @@ public class XmlMapper {
         }
     }
 
-    public static Stream<String> filterElements(Stream<Element> elements, String matcher) {
+    /**
+     * Given a stream of elements, return a stream of strings that are the
+     * values of the first child node of each element, but only if the value
+     * contains the given matcher.
+     *
+     * @param  elements a stream of elements
+     * @param  matcher  The string to match against.
+     * @return          A stream of strings
+     */
+    public static Stream<String> filterElements(final Stream<Element> elements, final String matcher) {
         return elements
                 .map(element -> element.getChildNodes().item(0).getNodeValue())
                 .filter(nodeValue -> nodeValue.contains(matcher));
     }
 
+    /**
+     * It takes an XML document and an XPath expression, and returns a stream of
+     * nodes that match the expression
+     *
+     * @param  xmlDocument     The XML document to search.
+     * @param  xpathExpression The XPath expression to evaluate.
+     * @return                 A stream of nodes
+     */
     @SneakyThrows
-    public static Stream<Node> selectNodes(Document xmlDocument, String xpathExpression) {
+    public static Stream<Node> selectNodes(final Document xmlDocument, final String xpathExpression) {
         var xPath = XPathFactory.newInstance().newXPath();
         var nodeList = (NodeList) xPath.compile(xpathExpression).evaluate(xmlDocument, XPathConstants.NODESET);
         return IntStream.range(0, nodeList.getLength())
                 .mapToObj(nodeList::item);
     }
 
-    public static Stream<Element> selectElements(Document xmlDocument, String xpathExpression) {
+    /**
+     * "Given an XML document and an XPath expression, return a stream of all
+     * the elements that match the expression."
+     * <p>
+     * The first line of the function is a call to the selectNodes function we
+     * just wrote. The second line is a filter that only allows elements
+     * through. The third line is a map that casts the nodes to elements
+     *
+     * @param  xmlDocument     The XML document to search.
+     * @param  xpathExpression The XPath expression to use to select the nodes.
+     * @return                 A stream of elements
+     */
+    public static Stream<Element> selectElements(final Document xmlDocument, final String xpathExpression) {
         return selectNodes(xmlDocument, xpathExpression).filter(Element.class::isInstance)
                 .map(Element.class::cast);
     }

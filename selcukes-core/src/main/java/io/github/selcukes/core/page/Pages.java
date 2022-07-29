@@ -24,17 +24,17 @@ import org.openqa.selenium.WebDriver;
 
 @UtilityClass
 public class Pages {
-    public static synchronized WebPage webPage() {
+    public synchronized WebPage webPage() {
         WebDriver driver = DriverManager.createDriver(DeviceType.BROWSER);
         return new WebPage(driver);
     }
 
-    public static synchronized WinPage winPage() {
+    public synchronized WinPage winPage() {
         WindowsDriver driver = DriverManager.createDriver(DeviceType.DESKTOP);
         return new WinPage(driver);
     }
 
-    public static synchronized MobilePage mobilePage() {
+    public synchronized MobilePage mobilePage() {
         WebDriver driver = DriverManager.createDriver(DeviceType.MOBILE);
         return new MobilePage(driver);
     }

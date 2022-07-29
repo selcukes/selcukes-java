@@ -63,7 +63,6 @@ public class CucumberListener implements ConcurrentEventListener {
         cucumberService.beforeTest();
     }
 
-
     private void beforeScenario(TestCaseStarted event) {
         cucumberService.beforeScenario();
     }
@@ -80,11 +79,12 @@ public class CucumberListener implements ConcurrentEventListener {
                     .append(testStep.getStep().getText()).append("  [")
                     .append(testStep.getStep().getLine()).append("] ");
             Optional<StepArgument> stepsArgs = Optional.ofNullable(testStep.getStep().getArgument());
-            if (stepsArgs.isPresent()) stepsReport.append("Step Argument: [").append(stepsArgs).append("] ");
+            if (stepsArgs.isPresent()) {
+                stepsReport.append("Step Argument: [").append(stepsArgs).append("] ");
+            }
         }
         cucumberService.afterStep(stepsReport.toString(), event.getResult().getStatus().is(Status.FAILED));
     }
-
 
     private void afterScenario(TestCaseFinished event) {
         cucumberService.afterScenario(event.getTestCase().getName(), event.getResult().getStatus());
@@ -92,20 +92,17 @@ public class CucumberListener implements ConcurrentEventListener {
 
     private void afterTest(TestRunFinished event) {
         logger.trace(() -> String.format("After Test: %n Event [%s]",
-                event.toString()
-        ));
+            event.toString()));
 
     }
 
     private EventHandler<EmbedEvent> getEmbedEventHandler() {
-        return event ->
-                logger.trace(() -> String.format("Embed Event: [%s]", event.getName()));
+        return event -> logger.trace(() -> String.format("Embed Event: [%s]", event.getName()));
 
     }
 
     private EventHandler<WriteEvent> getWriteEventHandler() {
-        return event ->
-                logger.trace(() -> String.format("Write Event: [%s]", event.getText()));
+        return event -> logger.trace(() -> String.format("Write Event: [%s]", event.getText()));
 
     }
 

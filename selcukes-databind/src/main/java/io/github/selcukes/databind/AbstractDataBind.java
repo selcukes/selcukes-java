@@ -29,7 +29,7 @@ import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKN
 abstract class AbstractDataBind implements DataBind {
     private final ObjectMapper mapper;
 
-    AbstractDataBind(ObjectMapper mapper) {
+    AbstractDataBind(final ObjectMapper mapper) {
         this.mapper = mapper;
         this.mapper.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
     }

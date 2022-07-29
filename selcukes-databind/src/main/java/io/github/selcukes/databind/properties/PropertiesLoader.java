@@ -38,7 +38,7 @@ class PropertiesLoader {
         return properties;
     }
 
-    public static LinkedProperties linkedProperties(String propertyFile) {
+    public LinkedProperties linkedProperties(String propertyFile) {
         var properties = new LinkedProperties();
         try (InputStream stream = new FileInputStream(Paths.get(propertyFile).toFile())) {
             properties.load(stream);

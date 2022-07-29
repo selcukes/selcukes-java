@@ -94,8 +94,7 @@ public class DataField<T> {
                         .filter(converterInstance -> converterInstance.getType().equals(getFieldType()))
                         .findFirst()
                         .orElseThrow(() -> new IllegalStateException(format(
-                                "There's no matching converter found for %s field of type %s", getFieldName(), getFieldType()))
-                        )
-                );
+                            "There's no matching converter found for %s field of type %s", getFieldName(),
+                            getFieldType()))));
     }
 }

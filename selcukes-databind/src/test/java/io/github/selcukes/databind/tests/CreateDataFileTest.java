@@ -46,7 +46,8 @@ public class CreateDataFileTest {
         DataMapper.write(customer);
 
         Customer newCustomer = DataMapper.parse(Customer.class);
-        newCustomer.getContactDetails().forEach(details -> System.out.println(details.getType() + " : " + details.getNumber()));
+        newCustomer.getContactDetails()
+                .forEach(details -> System.out.println(details.getType() + " : " + details.getNumber()));
     }
 
     @Data

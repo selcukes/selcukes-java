@@ -35,10 +35,10 @@ public class ChromeBinary extends AbstractBinary {
     public URL getDownloadURL() {
         try {
             return new URL(String.format(
-                    BINARY_DOWNLOAD_URL_PATTERN,
-                    UrlHelper.CHROMEDRIVER_URL,
-                    getBinaryVersion(),
-                    getBinaryEnvironment().getOsNameAndArch()));
+                BINARY_DOWNLOAD_URL_PATTERN,
+                UrlHelper.CHROMEDRIVER_URL,
+                getBinaryVersion(),
+                getBinaryEnvironment().getOsNameAndArch()));
 
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);
@@ -49,10 +49,11 @@ public class ChromeBinary extends AbstractBinary {
     public Platform getBinaryEnvironment() {
         Platform platform = Platform.getPlatform();
         Optional<Architecture> arch = getTargetArch();
-        if (arch.isPresent())
+        if (arch.isPresent()) {
             platform.setArchitecture(arch.get().getValue());
-        else if (Objects.equals(platform.getOSType(), OsType.WIN))
+        } else if (Objects.equals(platform.getOSType(), OsType.WIN)) {
             platform.setArchitecture(Architecture.X32.getValue());
+        }
         return platform;
     }
 

@@ -36,4 +36,3 @@ public class SelcukesException extends RuntimeException {
         super(cause);
     }
 }
-

@@ -20,7 +20,7 @@ import java.util.Comparator;
 
 public class VersionComparator implements Comparator<Object> {
     @Override
-    public int compare(Object o1, Object o2) {
+    public int compare(final Object o1, final Object o2) {
         String version1 = (String) o1;
         String version2 = (String) o2;
 
@@ -41,8 +41,7 @@ public class VersionComparator implements Comparator<Object> {
                         // Version one is longer than number two, and non-zero
                         return 1;
                     }
-                }
-                while (tokenizer1.moveNext());
+                } while (tokenizer1.moveNext());
 
                 // Version one is longer than version two, but zero
                 return 0;
@@ -65,13 +64,21 @@ public class VersionComparator implements Comparator<Object> {
             boolean empty1 = suffix1.length() == 0;
             boolean empty2 = suffix2.length() == 0;
 
-            if (empty1 && empty2) continue; // No suffixes
-            if (empty1) return 1; // First suffix is empty (1.2 > 1.2b)
-            if (empty2) return -1; // Second suffix is empty (1.2a < 1.2)
+            if (empty1 && empty2) {
+                continue; // No suffixes
+            }
+            if (empty1) {
+                return 1; // First suffix is empty (1.2 > 1.2b)
+            }
+            if (empty2) {
+                return -1; // Second suffix is empty (1.2a < 1.2)
+            }
 
             // Lexical comparison of suffixes
             int result = suffix1.compareTo(suffix2);
-            if (result != 0) return result;
+            if (result != 0) {
+                return result;
+            }
 
         }
         if (tokenizer2.moveNext()) {
@@ -82,8 +89,7 @@ public class VersionComparator implements Comparator<Object> {
                     // Version one is longer than version two, and non-zero
                     return -1;
                 }
-            }
-            while (tokenizer2.moveNext());
+            } while (tokenizer2.moveNext());
 
             // Version two is longer than version one, but zero
             return 0;

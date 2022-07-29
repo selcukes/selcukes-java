@@ -27,7 +27,7 @@ import java.util.List;
 @Data
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({"@context", "@type", "themeColor", "title", "text"})
+@JsonPropertyOrder({ "@context", "@type", "themeColor", "title", "text" })
 public class MicrosoftTeamsCard {
 
     @JsonProperty("sections")

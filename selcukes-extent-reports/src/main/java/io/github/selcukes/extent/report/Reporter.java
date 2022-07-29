@@ -63,29 +63,33 @@ public class Reporter {
             return logRecordListener.getLogRecords()
                     .filter(logRecord -> logRecord.getLevel() == Level.INFO || logRecord.getLevel() == Level.SEVERE)
                     .map(logRecord -> {
-                        if (logRecord.getLevel() == Level.SEVERE)
-                            return "<span style=\"color:red;\">" + logRecord.getMessage().replace("\n", "<br/>") + "</span>";
-                        else
+                        if (logRecord.getLevel() == Level.SEVERE) {
+                            return "<span style=\"color:red;\">" + logRecord.getMessage().replace("\n", "<br/>")
+                                    + "</span>";
+                        } else {
                             return logRecord.getMessage();
+                        }
 
                     })
                     .filter(nullOrEmpty.negate())
                     .collect(Collectors.joining("</li><li>", "<ul><li> ",
-                            "</li></ul><br/>"));
+                        "</li></ul><br/>"));
         }
         return "";
     }
 
     private Reporter attachLog() {
         String infoLogs = getLogRecords();
-        if (!infoLogs.equalsIgnoreCase("<ul><li> </li></ul><br/>"))
+        if (!infoLogs.equalsIgnoreCase("<ul><li> </li></ul><br/>")) {
             Reporter.log(infoLogs);
+        }
         return this;
     }
 
     private Reporter stop() {
-        if (logRecordListener != null)
+        if (logRecordListener != null) {
             LoggerFactory.removeListener(logRecordListener);
+        }
         return this;
     }
 

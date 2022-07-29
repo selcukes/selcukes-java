@@ -39,11 +39,10 @@ public interface ScreenPlay {
     ScreenPlay start();
 
     /**
-     * Attach Video on Failure to cucumber report
-     * scenario.attach(objToEmbed, mediaType, scenario.getName());
+     * Attach Video on Failure to cucumber report scenario.attach(objToEmbed,
+     * mediaType, scenario.getName());
      */
     ScreenPlay attachVideo();
-
 
     /**
      * Stop Video Recorder
@@ -53,8 +52,8 @@ public interface ScreenPlay {
     ScreenPlay sendNotification(String step);
 
     /**
-     * Attach INFO and ERROR Level Logs to cucumber report
-     * scenario.log(String message);
+     * Attach INFO and ERROR Level Logs to cucumber report scenario.log(String
+     * message);
      */
     void attachLogs();
 

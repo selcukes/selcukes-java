@@ -26,7 +26,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-
 public class ShadowRootTest {
     WebPage page;
     WebDriver driver;
@@ -39,15 +38,17 @@ public class ShadowRootTest {
 
     @AfterMethod
     private void tearDown() {
-        if (driver != null)
+        if (driver != null) {
             driver.quit();
+        }
     }
 
     @Test
     public void shadowElementTest() {
 
         page.open("http://watir.com/examples/shadow_dom.html");
-        WebElement shadowContent = page.findShadowChild(By.cssSelector("#shadow_host"), By.cssSelector("#shadow_content"));
+        WebElement shadowContent = page.findShadowChild(By.cssSelector("#shadow_host"),
+            By.cssSelector("#shadow_content"));
         page.assertThat().element(shadowContent).textAs("some text");
 
     }

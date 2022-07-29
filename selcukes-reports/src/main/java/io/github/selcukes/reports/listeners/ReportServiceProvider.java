@@ -46,8 +46,9 @@ public class ReportServiceProvider implements TestLifecycleListener {
             play.withResult(result)
                     .ignoreCondition()
                     .attachScreenshot();
-            if (ConfigFactory.getConfig().getNotifier().isNotification())
+            if (ConfigFactory.getConfig().getNotifier().isNotification()) {
                 play.sendNotification(result.getName());
+            }
 
             play.attachVideo();
             logger.debug(() -> "Completed Screenplay Actions..");

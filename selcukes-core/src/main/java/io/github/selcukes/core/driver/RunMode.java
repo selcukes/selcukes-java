@@ -42,7 +42,7 @@ public class RunMode {
         return !isNullOrEmpty(cloud);
     }
 
-    static boolean isHeadless() {
+    boolean isHeadless() {
         return Platform.isLinux();
     }
 }

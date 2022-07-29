@@ -35,8 +35,9 @@ public class ExcelTestRunner extends SelcukesTestNGRunner {
     @BeforeClass(alwaysRun = true)
     public void setUpExcel(ITestContext context) {
         SelcukesTestProperties testProperties = new SelcukesTestProperties();
-        if (!testProperties.getExcelProperty(SelcukesTestProperties.EXCEL_RUNNER).equalsIgnoreCase("false"))
+        if (!testProperties.getExcelProperty(SelcukesTestProperties.EXCEL_RUNNER).equalsIgnoreCase("false")) {
             ExcelUtils.initTestRunner();
+        }
     }
 
     @Override
@@ -50,10 +51,10 @@ public class ExcelTestRunner extends SelcukesTestNGRunner {
                     .map(s -> s.split(NAME_SEPARATOR)[1])
                     .map(excelScenario -> Stream.of(filteredScenarios)
                             .filter(scenario -> scenario[0].toString().replace("\"", "")
-                                    .equalsIgnoreCase(excelScenario)).findAny())
+                                    .equalsIgnoreCase(excelScenario))
+                            .findAny())
                     .filter(Optional::isPresent).map(Optional::get).toArray(Object[][]::new);
         }
     }
 
 }
-

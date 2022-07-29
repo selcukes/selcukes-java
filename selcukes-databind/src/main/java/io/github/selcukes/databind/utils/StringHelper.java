@@ -18,12 +18,9 @@
 
 package io.github.selcukes.databind.utils;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.selcukes.databind.exception.DataMapperException;
-import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
 import java.util.function.Function;
@@ -34,47 +31,55 @@ import java.util.regex.Pattern;
 import static io.github.selcukes.databind.properties.PropertiesMapper.systemProperties;
 
 /**
- * The type String helper.
+ * This class contains a bunch of static methods that help you manipulate
+ * strings.
  */
 @UtilityClass
 public class StringHelper {
-    /**
-     * The constant nullOrEmpty.
-     */
+
+    // A static final variable that is a predicate that takes a string and
+    // returns a boolean value.
     public static final Predicate<String> nullOrEmpty = StringHelper::isNullOrEmpty;
     private static final String SNAKE_CASE_REGEX = "([a-z])([A-Z]+)";
     private static final String CAMEL_CASE_REGEX = "[^a-zA-Z0-9]";
-    private static final String INTERPOLATE_REGEX = "\\$\\{(.+?)\\}";
+    private static final String INTERPOLATE_REGEX = "\\$\\{(.+?)}";
     private static final String VERSION_NUMBER_REGEX = "[^0-9_.]";
 
     /**
-     * Is null or empty boolean.
+     * `text == null || text.isEmpty() || text.isBlank()`
+     * <p>
+     * The above function is a boolean expression that returns true if the text
+     * is null, empty, or blank
      *
-     * @param text the text
-     * @return the boolean
+     * @param  text The text to check.
+     * @return      A boolean value
      */
-    public boolean isNullOrEmpty(String text) {
+    public boolean isNullOrEmpty(final String text) {
         return text == null || text.isEmpty() || text.isBlank();
     }
 
     /**
-     * To snake case string.
+     * It takes a string, replaces all the camel case with underscores, and then
+     * converts the string to lower case
      *
-     * @param text the text
-     * @return the string
+     * @param  text The text to convert to snake case.
+     * @return      A string that is the text parameter with the first letter of
+     *              each word capitalized.
      */
-    public String toSnakeCase(String text) {
-        String replacement = "$1_$2";
+    public String toSnakeCase(final String text) {
+        final String replacement = "$1_$2";
         return text.replaceAll(SNAKE_CASE_REGEX, replacement).toLowerCase();
     }
 
     /**
-     * To camel case string.
+     * It takes a string, replaces all non-alphanumeric characters with
+     * underscores, splits the string on underscores, capitalizes the first
+     * letter of each word, and joins the words back together
      *
-     * @param text the text
-     * @return the string
+     * @param  text The text to convert to camel case.
+     * @return      A string that is in camel case.
      */
-    public String toCamelCase(String text) {
+    public String toCamelCase(final String text) {
 
         final StringBuilder stringBuilder = new StringBuilder(text.length());
 
@@ -89,24 +94,28 @@ public class StringHelper {
     }
 
     /**
-     * Convert text to a field name.
+     * It takes a string, removes all non-alphanumeric characters, and returns
+     * the first character in lowercase
      *
-     * @param text the text
-     * @return the string
+     * @param  text The text to be converted.
+     * @return      The first letter of the string is being returned in
+     *              lowercase.
      */
-    public static String toFieldName(String text) {
-        text = text.replaceAll(CAMEL_CASE_REGEX, "");
-        return text.length() > 0 ? text.substring(0, 1).toLowerCase() + text.substring(1) : null;
+    public static String toFieldName(final String text) {
+        final String fieldName = text.replaceAll(CAMEL_CASE_REGEX, "");
+        return fieldName.length() > 0 ? fieldName.substring(0, 1).toLowerCase() + text.substring(1) : null;
     }
 
     /**
-     * Interpolate string.
+     * It takes a string and a function that takes a match result and returns a
+     * string, and returns a string
      *
-     * @param text     the text
-     * @param replacer the replacer
-     * @return the string
+     * @param  text     The text to interpolate.
+     * @param  replacer A function that takes a MatchResult and returns a
+     *                  String.
+     * @return          A string with the interpolated values.
      */
-    public String interpolate(String text, Function<MatchResult, String> replacer) {
+    public String interpolate(final String text, final Function<MatchResult, String> replacer) {
 
         return Pattern.compile(INTERPOLATE_REGEX)
                 .matcher(text)
@@ -114,22 +123,23 @@ public class StringHelper {
     }
 
     /**
-     * Extract version number string.
+     * It takes a string and returns a string with all the version numbers
+     * removed
      *
-     * @param text the text
-     * @return the string
+     * @param  text The text to be processed.
+     * @return      The version number is being returned.
      */
-    public String extractVersionNumber(String text) {
+    public String extractVersionNumber(final String text) {
         return text.replaceAll(VERSION_NUMBER_REGEX, "");
     }
 
     /**
-     * To json string.
+     * Convert a POJO to a JSON string.
      *
-     * @param object the object
-     * @return the string
+     * @param  object The object to be converted to JSON
+     * @return        A JSON string
      */
-    public String toJson(@NonNull Object object) {
+    public String toJson(final Object object) {
         try {
             return new ObjectMapper().writeValueAsString(object);
         } catch (Exception e) {
@@ -138,12 +148,12 @@ public class StringHelper {
     }
 
     /**
-     * To pretty json string.
+     * It takes an object and returns a pretty JSON string
      *
-     * @param object the object
-     * @return the string
+     * @param  object The object to be converted to JSON
+     * @return        A JSON string
      */
-    public String toPrettyJson(@NonNull Object object) {
+    public String toPrettyJson(final Object object) {
         try {
             return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(object);
         } catch (Exception e) {
@@ -151,26 +161,51 @@ public class StringHelper {
         }
     }
 
-    public JsonNode toJson(@NonNull String content) {
+    /**
+     * It takes a string and returns a JsonNode
+     *
+     * @param  content The string to be parsed into a JsonNode
+     * @return         A JsonNode object
+     */
+    public JsonNode toJson(final String content) {
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            JsonFactory factory = mapper.getFactory();
-            JsonParser parser = factory.createParser(content);
+            var mapper = new ObjectMapper();
+            var factory = mapper.getFactory();
+            var parser = factory.createParser(content);
             return mapper.readTree(parser);
         } catch (Exception e) {
             throw new DataMapperException("Failed parsing string to JsonNode:\n" + content, e);
         }
     }
 
-    public String substitute(String value, String format) {
+    /**
+     * If the value is "date" or "datetime", then return the current date or
+     * date/time in the specified format. Otherwise, return the value of the
+     * system property with the specified name
+     *
+     * @param  value  The value to be substituted.
+     * @param  format The format of the date/time.
+     * @return        The value of the system property with the given name.
+     */
+    public String substitute(final String value, final String format) {
         if (value.equalsIgnoreCase("date")) {
             return Clocks.date(format);
         } else if (value.equalsIgnoreCase("datetime")) {
             return Clocks.dateTime(format);
-        } else return systemProperties().getProperty(value);
+        } else {
+            return systemProperties().getProperty(value);
+        }
     }
 
-    public static String normalizeText(String text) {
+    /**
+     * It replaces all non-breaking spaces, carriage returns, and line feeds
+     * with a single space, and then trims the result
+     *
+     * @param  text The text to be normalized.
+     * @return      The text is being returned with all the white spaces
+     *              removed.
+     */
+    public static String normalizeText(final String text) {
         return text != null ? text.replaceAll("\u00A0|\\r\\n|\\r|\\n", " ").trim() : null;
     }
 }

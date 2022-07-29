@@ -20,7 +20,7 @@ import io.github.selcukes.core.validation.Validation;
 import org.testng.annotations.Test;
 
 public class ValidationTest {
-    @Test(expectedExceptions = {AssertionError.class})
+    @Test(expectedExceptions = { AssertionError.class })
     public void test1() {
         Validation.failWithMessage(true, "Error Message 1");
         Validation.failWithMessage(true, "Error Message 2");
@@ -28,7 +28,7 @@ public class ValidationTest {
         Validation.failAll();
     }
 
-    @Test(expectedExceptions = {AssertionError.class})
+    @Test(expectedExceptions = { AssertionError.class })
     public void test2() {
         Validation.failWithMessage(true, "Error Message 4");
         Validation.failWithMessage(true, "Error Message 5");
@@ -36,7 +36,7 @@ public class ValidationTest {
         Validation.failAll();
     }
 
-    @Test(expectedExceptions = {AssertionError.class})
+    @Test(expectedExceptions = { AssertionError.class })
     public void test3() {
         Validation.failWithMessage(false, "Error Message 7");
     }

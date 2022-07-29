@@ -18,20 +18,37 @@ package io.github.selcukes.commons.fixture;
 
 import lombok.experimental.UtilityClass;
 
+/**
+ * It's a fixture that can be used to drive the application under test
+ */
 @UtilityClass
 public class DriverFixture {
 
-    private static final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
+    private final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
 
-    public static Object getDriverFixture() {
+    /**
+     * If the current thread has a driver fixture, return it. Otherwise, return
+     * null.
+     *
+     * @return The driver object that is currently being used by the thread.
+     */
+    public Object getDriverFixture() {
         return DRIVER_THREAD.get();
     }
 
-    public static void setDriverFixture(Object driver) {
+    /**
+     * This function sets the driver object to the current thread.
+     *
+     * @param driver The driver object that is being used to run the tests.
+     */
+    public void setDriverFixture(final Object driver) {
         DRIVER_THREAD.set(driver);
     }
 
-    public static void removeDriverFixture() {
+    /**
+     * This function removes the driver from the thread local storage.
+     */
+    public void removeDriverFixture() {
         DRIVER_THREAD.remove();
     }
 }

@@ -38,7 +38,8 @@ public class ResponseValidation {
         int statusCode = response.statusCode();
         boolean isOk = statusCode == 0 || (statusCode >= 200 && statusCode <= 299);
         if (!isOk) {
-            failWithMessage(isSoft, "Expected Response Status should be [%s] but was [%s]", "OK", getReasonPhrase(statusCode));
+            failWithMessage(isSoft, "Expected Response Status should be [%s] but was [%s]", "OK",
+                getReasonPhrase(statusCode));
         }
         return this;
     }
@@ -46,7 +47,8 @@ public class ResponseValidation {
     public ResponseValidation containsText(String expectedText) {
         logger.info(() -> String.format("Verifying Response should contains text [%s]", expectedText));
         if (!responseBody.contains(expectedText)) {
-            failWithMessage(isSoft, "Expected Response should contain text [%s] but actual response was [%s]", expectedText, responseBody);
+            failWithMessage(isSoft, "Expected Response should contain text [%s] but actual response was [%s]",
+                expectedText, responseBody);
         }
         return this;
     }

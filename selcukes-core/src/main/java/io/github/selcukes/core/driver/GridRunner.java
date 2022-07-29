@@ -34,14 +34,14 @@ public class GridRunner {
     static int hubPort;
     private static boolean isRunning = false;
 
-    public static synchronized void startSelenium(DriverType... driverType) {
+    public synchronized void startSelenium(DriverType... driverType) {
         if (!isCloudBrowser() || !isLocalBrowser()) {
             logger.info(() -> "Starting Selenium Server ...");
             Arrays.stream(driverType).distinct().forEach(BrowserOptions::setBinaries);
             hubPort = PortProber.findFreePort();
             if (isSeleniumServerNotRunning()) {
                 logger.debug(() -> "Using Free Hub Port: " + hubPort);
-                Main.main(new String[]{"standalone", "--port", String.valueOf(hubPort)});
+                Main.main(new String[] { "standalone", "--port", String.valueOf(hubPort) });
                 isRunning = true;
                 logger.info(() -> "Selenium Server started...");
             }
@@ -53,8 +53,9 @@ public class GridRunner {
     }
 
     public static void startAppium() {
-        if (!isCloudAppium())
+        if (!isCloudAppium()) {
             AppiumEngine.getInstance().startLocalServer();
+        }
     }
 
     public static void stopAppium() {

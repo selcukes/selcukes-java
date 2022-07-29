@@ -60,7 +60,6 @@ public class SnapshotImpl extends PageSnapshot implements Snapshot {
         return destFile.getAbsolutePath();
     }
 
-
     @Override
     public byte[] shootPageAsBytes() {
         return getScreenshot(OutputType.BYTES);
@@ -72,7 +71,8 @@ public class SnapshotImpl extends PageSnapshot implements Snapshot {
     }
 
     private <X> X getScreenshot(OutputType<X> outputType) {
-        return screenshotText != null || isAddressBar ? getScreenshotWithText(outputType) : getFullScreenshotAs(outputType);
+        return screenshotText != null || isAddressBar ? getScreenshotWithText(outputType)
+                : getFullScreenshotAs(outputType);
     }
 
     private Path getScreenshotPath() {

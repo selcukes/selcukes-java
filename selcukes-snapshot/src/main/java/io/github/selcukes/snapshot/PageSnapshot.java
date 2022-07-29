@@ -39,12 +39,13 @@ class PageSnapshot extends DefaultPageSnapshot {
 
     public <X> X getFullScreenshotAs(OutputType<X> outputType) {
         unwrapDriver();
-        if (driver instanceof HasCdp)
+        if (driver instanceof HasCdp) {
             return getFullScreenshot(outputType);
-        else if (driver instanceof FirefoxDriver)
+        } else if (driver instanceof FirefoxDriver) {
             return ((FirefoxDriver) driver).getFullPageScreenshotAs(outputType);
-        else
+        } else {
             return getDefaultPageSnapshot(outputType);
+        }
 
     }
 
@@ -64,14 +65,13 @@ class PageSnapshot extends DefaultPageSnapshot {
     private <X> X getFullScreenshot(OutputType<X> outputType) {
         screenOptions = getScreenOptions();
         var screenViewOptions = Map.of(
-                "clip", Map.of(
-                        "x", 0,
-                        "y", 0,
-                        "width", getFullWidth(),
-                        "height", getFullHeight(),
-                        "scale", 1),
-                "captureBeyondViewport", isNotViewport()
-        );
+            "clip", Map.of(
+                "x", 0,
+                "y", 0,
+                "width", getFullWidth(),
+                "height", getFullHeight(),
+                "scale", 1),
+            "captureBeyondViewport", isNotViewport());
         var result = ((HasCdp) driver).executeCdpCommand("Page.captureScreenshot", screenViewOptions);
         var base64EncodedPng = (String) result.get("data");
         return outputType.convertFromBase64Png(base64EncodedPng);

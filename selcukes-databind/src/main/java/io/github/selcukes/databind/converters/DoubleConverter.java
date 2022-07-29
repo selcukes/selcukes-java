@@ -16,13 +16,15 @@
 
 package io.github.selcukes.databind.converters;
 
-
 import lombok.SneakyThrows;
 
 import java.lang.reflect.Type;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+/**
+ * It converts a string to a double
+ */
 public class DoubleConverter extends DefaultConverter<Double> {
     @SneakyThrows
     @Override

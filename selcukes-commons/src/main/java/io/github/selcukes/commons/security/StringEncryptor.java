@@ -24,20 +24,24 @@ import java.util.Base64;
 
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.CRYPTO_KEY;
 
+/**
+ * It uses the Java Cryptography Architecture (JCA) to encrypt and decrypt a
+ * String using a key
+ */
 public class StringEncryptor implements Encryptor {
 
     @Override
-    public String encrypt(String text) {
+    public String encrypt(final String text) {
         return encrypt(getCryptoKey(), text);
     }
 
     @Override
-    public String decrypt(String text) {
+    public String decrypt(final String text) {
         return decrypt(getCryptoKey(), text);
     }
 
     @Override
-    public String encrypt(String cryptoKey, String text) {
+    public String encrypt(final String cryptoKey, final String text) {
         Preconditions.checkNotNull(text, "Password Text must not be null");
         Preconditions.checkNotNull(cryptoKey, "Crypto Key must not be null");
         try {
@@ -49,7 +53,7 @@ public class StringEncryptor implements Encryptor {
     }
 
     @Override
-    public String decrypt(String cryptoKey, String encrypted) {
+    public String decrypt(final String cryptoKey, final String encrypted) {
         Preconditions.checkNotNull(encrypted, "Encrypted Text must not be null");
         Preconditions.checkNotNull(cryptoKey, "Crypto Key must not be null");
         try {
@@ -63,6 +67,5 @@ public class StringEncryptor implements Encryptor {
     private String getCryptoKey() {
         return System.getProperty(CRYPTO_KEY);
     }
-
 
 }

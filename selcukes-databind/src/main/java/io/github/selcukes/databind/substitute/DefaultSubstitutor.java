@@ -18,13 +18,16 @@ package io.github.selcukes.databind.substitute;
 
 import java.util.Properties;
 
+/**
+ * It does nothing
+ */
 public class DefaultSubstitutor implements Substitutor {
-    public String replace(Properties variables, String key, final String format) {
+    public String replace(final Properties variables, final String key, final String format) {
         return variables.getProperty(key);
     }
 
     @Override
-    public String replace(String strToReplace, final String format) {
+    public String replace(final String strToReplace, final String format) {
         return strToReplace;
     }
 }

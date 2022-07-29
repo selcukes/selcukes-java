@@ -16,7 +16,6 @@
 
 package io.github.selcukes.databind.properties;
 
-
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -48,7 +47,7 @@ public class LinkedProperties extends Properties {
     @Override
     public synchronized Enumeration<Object> elements() {
         throw new UnsupportedOperationException(
-                "Please use keySet() or entrySet() instead of Enumeration.");
+            "Please use keySet() or entrySet() instead of Enumeration.");
     }
 
     @Override
@@ -67,4 +66,3 @@ public class LinkedProperties extends Properties {
     }
 
 }
-

@@ -32,7 +32,9 @@ class WebAuthenticator {
     }
 
     public VirtualAuthenticator addVirtualAuthenticator() {
-        if (virtualAuthenticator == null) getVirtualAuthenticator();
+        if (virtualAuthenticator == null) {
+            getVirtualAuthenticator();
+        }
         return virtualAuthenticator;
     }
 

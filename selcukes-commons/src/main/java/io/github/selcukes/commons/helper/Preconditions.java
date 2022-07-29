@@ -21,15 +21,18 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class Preconditions {
     /**
-     * Ensures that the given object reference is not null.
-     * Upon violation, a {@code NullPointerException} with the given message is thrown.
+     * Ensures that the given object reference is not null. Upon violation, a
+     * {@code NullPointerException} with the given message is thrown.
      *
-     * @param reference    The object reference
-     * @param errorMessage The message for the {@code NullPointerException} that is thrown if the check fails.
-     * @return The object reference itself (generically typed).
+     * @param  reference            The object reference
+     * @param  errorMessage         The message for the
+     *                              {@code NullPointerException} that is thrown
+     *                              if the check fails.
+     * @return                      The object reference itself (generically
+     *                              typed).
      * @throws NullPointerException Thrown, if the passed reference was null.
      */
-    public <T> T checkNotNull(T reference, String errorMessage) {
+    public <T> T checkNotNull(final T reference, final String errorMessage) {
         if (reference == null) {
             throw new NullPointerException(errorMessage);
         }
@@ -37,30 +40,34 @@ public class Preconditions {
     }
 
     /**
-     * Checks the given boolean condition, and throws an {@code IllegalArgumentException} if
-     * the condition is not met (evaluates to {@code false}). The exception will have the
-     * given error message.
+     * Checks the given boolean condition, and throws an
+     * {@code IllegalArgumentException} if the condition is not met (evaluates
+     * to {@code false}). The exception will have the given error message.
      *
-     * @param condition    The condition to check
-     * @param errorMessage The message for the {@code IllegalArgumentException} that is thrown if the check fails.
+     * @param  condition                The condition to check
+     * @param  errorMessage             The message for the
+     *                                  {@code IllegalArgumentException} that is
+     *                                  thrown if the check fails.
      * @throws IllegalArgumentException Thrown, if the condition is violated.
      */
-    public void checkArgument(boolean condition, String errorMessage) {
+    public void checkArgument(final boolean condition, final String errorMessage) {
         if (!condition) {
             throw new IllegalArgumentException(errorMessage);
         }
     }
 
     /**
-     * Checks the given boolean condition, and throws an {@code IllegalStateException} if
-     * the condition is not met (evaluates to {@code false}). The exception will have the
-     * given error message.
+     * Checks the given boolean condition, and throws an
+     * {@code IllegalStateException} if the condition is not met (evaluates to
+     * {@code false}). The exception will have the given error message.
      *
-     * @param condition    The condition to check
-     * @param errorMessage The message for the {@code IllegalStateException} that is thrown if the check fails.
+     * @param  condition             The condition to check
+     * @param  errorMessage          The message for the
+     *                               {@code IllegalStateException} that is
+     *                               thrown if the check fails.
      * @throws IllegalStateException Thrown, if the condition is violated.
      */
-    public void checkState(boolean condition, String errorMessage) {
+    public void checkState(final boolean condition, final String errorMessage) {
         if (!condition) {
             throw new IllegalStateException((errorMessage));
         }

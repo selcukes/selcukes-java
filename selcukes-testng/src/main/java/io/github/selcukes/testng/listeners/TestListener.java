@@ -26,23 +26,24 @@ import org.testng.xml.XmlTest;
 @CustomLog
 public class TestListener implements ITestListener {
     @Override
-    public void onFinish(ITestContext context) {
+    public void onFinish(final ITestContext context) {
         logger.debug(() -> context.getName() + " Execution finished...");
     }
 
     @Override
-    public void onStart(ITestContext context) {
+    public void onStart(final ITestContext context) {
         logger.debug(() -> context.getName() + " Execution started...");
         XmlTest currentXmlTest = context.getCurrentXmlTest();
         currentXmlTest.getAllParameters().forEach((key, value) -> {
             if (key.startsWith("selcukes")) {
                 String prop = key.substring(key.lastIndexOf(".") + 1);
-                if (key.startsWith("selcukes.reports"))
+                if (key.startsWith("selcukes.reports")) {
                     ConfigFactory.getConfig().getReports().put(prop, value);
-                else if (key.startsWith("selcukes.excel"))
+                } else if (key.startsWith("selcukes.excel")) {
                     ConfigFactory.getConfig().getExcel().put(prop, value);
-                else
+                } else {
                     ConfigFactory.getConfig().getCucumber().put(prop, value);
+                }
             }
         });
         SelcukesRuntime.loadOptions();

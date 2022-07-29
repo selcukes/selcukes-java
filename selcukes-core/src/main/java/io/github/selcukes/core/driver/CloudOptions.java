@@ -39,7 +39,8 @@ public class CloudOptions {
             try {
                 browserStack = DataMapper.parse(BrowserStack.class);
             } catch (Exception e) {
-                throw new DriverSetupException("Failed loading BrowserStackOptions. Please make sure 'browser_stack.yaml or json' file is placed in test resource file.");
+                throw new DriverSetupException(
+                    "Failed loading BrowserStackOptions. Please make sure 'browser_stack.yaml or json' file is placed in test resource file.");
             }
         }
 
@@ -48,8 +49,9 @@ public class CloudOptions {
 
     public Capabilities getBrowserStackOptions(boolean isApp) {
         MutableCapabilities capabilities = new MutableCapabilities();
-        if (isApp)
+        if (isApp) {
             getBrowserStack().getEnvironments().forEach(capabilities::setCapability);
+        }
         capabilities.setCapability("bstack:options", getBrowserStack().getCapabilities());
         return capabilities;
     }

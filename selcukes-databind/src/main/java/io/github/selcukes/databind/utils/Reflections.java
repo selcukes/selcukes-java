@@ -24,10 +24,15 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
+/**
+ * > Reflections is a class that provides a way to get a list of all the classes
+ * in a package
+ */
 @UtilityClass
 public class Reflections {
     @SuppressWarnings("all")
-    public static <T> T newInstance(Class<T> clazz) {
+    // Creating a new instance of the class passed to it.
+    public <T> T newInstance(final Class<T> clazz) {
         try {
             Constructor<T> constructor = clazz.getDeclaredConstructor();
             if ((!Modifier.isPublic(constructor.getModifiers()) ||
@@ -43,7 +48,8 @@ public class Reflections {
     }
 
     @SuppressWarnings("all")
-    public static <T> T newInstance(Class<T> clazz, Object... initArgs) {
+    // Creating a new instance of the class passed to it.
+    public static <T> T newInstance(final Class<T> clazz, final Object... initArgs) {
         try {
             return (T) clazz.getConstructors()[0].newInstance(initArgs);
         } catch (Exception e) {
@@ -52,7 +58,8 @@ public class Reflections {
     }
 
     @SuppressWarnings("squid:S3011")
-    public static void setField(Object object, String fieldName, Object value) {
+    // Setting the value of the field in the object.
+    public static void setField(final Object object, final String fieldName, final Object value) {
         try {
             Class<?> clazz = object == null ? Object.class : object.getClass();
             Field field = clazz.getDeclaredField(fieldName);
@@ -65,6 +72,7 @@ public class Reflections {
     }
 
     @SuppressWarnings("squid:S3011")
+    // Getting the method from the class.
     public static <T> Method getDeclaredMethod(Class<T> clazz, String name, Class<?>... param) {
         try {
             Method method = clazz.getDeclaredMethod(name, param);
@@ -76,9 +84,9 @@ public class Reflections {
     }
 
     @SneakyThrows
-    public static void invoke(Class<?> clazz, String methodName, String param) {
+    // Invoking a static method on a class.
+    public static void invoke(final Class<?> clazz, final String methodName, final String param) {
         Method method = clazz.getMethod(methodName, String.class);
         method.invoke(null, param);
     }
 }
-

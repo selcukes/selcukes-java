@@ -22,7 +22,6 @@ import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.utils.StringHelper;
 import io.github.selcukes.databind.xml.XmlMapper;
 import lombok.Getter;
-import lombok.SneakyThrows;
 import org.w3c.dom.Document;
 
 import java.io.ByteArrayInputStream;
@@ -33,31 +32,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-
 /**
- * Represents a HTTP response.
+ * It takes the HTTP response and provides a number of methods to access the
+ * response body, headers, and status code
  */
 public class Response {
     @Getter
     private final HttpResponse<String> httpResponse;
 
-    /**
-     * Instantiates a new Response.
-     *
-     * @param httpResponse the http response
-     */
-    public Response(HttpResponse<String> httpResponse) {
+    public Response(final HttpResponse<String> httpResponse) {
         this.httpResponse = httpResponse;
         logIfError();
     }
 
     /**
-     * Gets Reason phrase.
+     * It returns the reason phrase for a given HTTP status code
      *
-     * @param statusCode the status code
-     * @return the reason phrase
+     * @param  statusCode The HTTP status code.
+     * @return            The reason phrase for the given status code.
      */
-    public static String getReasonPhrase(int statusCode) {
+    public static String getReasonPhrase(final int statusCode) {
         switch (statusCode) {
             case (200):
                 return "OK";
@@ -155,78 +149,81 @@ public class Response {
     }
 
     /**
-     * Get all response header names and corresponding values as a map
+     * It returns a map of all the headers in the response
      *
-     * @return headers
+     * @return A map of the headers.
      */
     public Map<String, List<String>> getHeaders() {
         return httpResponse.headers().map();
     }
 
     /**
-     * Get the body of the response as a plain string.
+     * > Returns the body of the response as a string
      *
-     * @return the body
+     * @return The body of the response.
      */
     public String body() {
         return httpResponse.body();
     }
 
     /**
-     * Get the body of the response as a InputStream. You should close the input stream when you're done with it
+     * Return a stream of the body as a byte array.
      *
-     * @return the response body input stream
+     * @return A stream of bytes that represent the body of the response.
      */
     public InputStream bodyStream() {
         return new ByteArrayInputStream(body().getBytes(StandardCharsets.UTF_8));
     }
 
     /**
-     * Get the body of the response as Document.
+     * Return the body of the response as an XML document.
      *
-     * @return the Document object
+     * @return A Document object
      */
-    @SneakyThrows
     public Document bodyXml() {
         return XmlMapper.parse(bodyStream());
     }
 
     /**
-     * Response Body as JsonNode.
+     * It takes the body of the HTTP response, converts it to a string, and then
+     * converts that string to a JSON object
      *
-     * @return the JsonNode object
+     * @return A JsonNode object
      */
     public JsonNode bodyJson() {
         return StringHelper.toJson(httpResponse.body());
     }
 
     /**
-     * Body as T.
+     * "If the response body is a JSON string, parse it into an object of the
+     * given type."
+     * <p>
+     * The function is generic, so it can be used to parse the response body
+     * into any type of object
      *
-     * @param <T>          the type parameter
-     * @param responseType the response type
-     * @return the t
+     * @param  responseType The type of the response body.
+     * @return              The body of the response as a string.
      */
-    public <T> T bodyAs(Class<T> responseType) {
+    public <T> T bodyAs(final Class<T> responseType) {
         return DataMapper.parse(body(), responseType);
     }
 
     /**
-     * Get the status code of the response.
+     * > Returns the status code of the HTTP response
      *
-     * @return the status code
+     * @return The status code of the response.
      */
     public int statusCode() {
         return httpResponse.statusCode();
     }
 
     /**
-     * Gets Response Header.
+     * If the header exists, return it, otherwise return an empty string.
      *
-     * @param name the name
-     * @return the header
+     * @param  name The name of the header to retrieve.
+     * @return      The value of the header with the given name.
      */
-    public String header(String name) {
+    public String header(final String name) {
         Optional<String> token = httpResponse.headers().firstValue(name);
         return token.orElse("");
     }
@@ -235,7 +232,7 @@ public class Response {
         int responseCode = statusCode();
         if (responseCode >= 400) {
             throw new SelcukesException(String.format("HttpResponseException : Response Code[%s] Reason Phrase[%s]",
-                    responseCode, getReasonPhrase(responseCode)));
+                responseCode, getReasonPhrase(responseCode)));
         }
     }
 }

@@ -16,7 +16,6 @@
 
 package io.github.selcukes.testng.tests;
 
-
 import io.github.selcukes.testng.SelcukesTestNGRunner;
 
 public class CucumberRunner extends SelcukesTestNGRunner {

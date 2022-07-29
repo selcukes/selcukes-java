@@ -49,9 +49,11 @@ public class AppiumManager implements RemoteManager {
             serviceUrl = AppiumEngine.getInstance().getServiceUrl();
         } else if (isCloudAppium()) {
             serviceUrl = new URL(CloudOptions.browserStackUrl());
-        } else
+        } else {
             serviceUrl = new URL(ConfigFactory.getConfig().getMobile().getServiceUrl());
-        logger.debug(() -> String.format("Using ServiceUrl[%s://%s:%s]", serviceUrl.getProtocol(), serviceUrl.getHost(), serviceUrl.getPort()));
+        }
+        logger.debug(() -> String.format("Using ServiceUrl[%s://%s:%s]", serviceUrl.getProtocol(), serviceUrl.getHost(),
+            serviceUrl.getPort()));
         return serviceUrl;
     }
 

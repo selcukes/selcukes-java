@@ -142,7 +142,7 @@ public final class TestSourcesModel {
                 .build();
 
         Stream<Envelope> envelopes = parser.parse(
-                Envelope.of(new Source(path.toString(), source, SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN)));
+            Envelope.of(new Source(path.toString(), source, SourceMediaType.TEXT_X_CUCUMBER_GHERKIN_PLAIN)));
 
         // TODO: What about empty gherkin docs?
         GherkinDocument gherkinDocument = envelopes

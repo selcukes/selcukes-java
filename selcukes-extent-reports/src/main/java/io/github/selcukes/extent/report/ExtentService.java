@@ -62,8 +62,9 @@ public class ExtentService implements Serializable {
 
         static {
             initProperties();
-            if ("true".equals(getProperty(INIT_SPARK_KEY)))
+            if ("true".equals(getProperty(INIT_SPARK_KEY))) {
                 initSpark();
+            }
             addSystemInfo();
         }
 
@@ -76,8 +77,9 @@ public class ExtentService implements Serializable {
         }
 
         private static String getProperty(String propertyKey) {
-            if (System.getProperty(propertyKey) != null)
+            if (System.getProperty(propertyKey) != null) {
                 return System.getProperty(propertyKey);
+            }
             return propertiesMap.get(propertyKey);
         }
 
@@ -85,7 +87,6 @@ public class ExtentService implements Serializable {
             String out = getProperty(ExtentReportsLoader.OUT_SPARK_KEY);
             return isNullOrEmpty(out) ? OUTPUT_PATH + ExtentReportsLoader.OUT_SPARK_KEY.split("\\.")[2] + "/" : out;
         }
-
 
         private static boolean getBooleanProperty(String propertyKey) {
             String value = getProperty(propertyKey);
@@ -106,25 +107,25 @@ public class ExtentService implements Serializable {
             attach(spark);
         }
 
-
         private static void sparkReportViewOrder(ExtentSparkReporter spark) {
             try {
                 List<ViewName> viewOrder = Arrays.stream(getProperty(VIEW_ORDER_SPARK_KEY).split(","))
                         .map(v -> ViewName.valueOf(v.toUpperCase())).collect(Collectors.toList());
                 spark.viewConfigurer().viewOrder().as(viewOrder).apply();
             } catch (Exception ignored) {
-                //Gobble exception
+                // Gobble exception
             }
         }
 
         private static void attach(ReporterConfigurable reporterConfigurable) {
             String configPath = getProperty(CONFIG_SPARK_KEY);
-            if (!isNullOrEmpty(configPath))
+            if (!isNullOrEmpty(configPath)) {
                 try {
                     reporterConfigurable.loadXMLConfig(configPath);
                 } catch (IOException ignored) {
-                    //Gobble exception
+                    // Gobble exception
                 }
+            }
             INSTANCE.attachReporter((ExtentObserver<?>) reporterConfigurable);
         }
 

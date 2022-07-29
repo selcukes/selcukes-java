@@ -13,24 +13,25 @@ public class SelcukesColorFormatter extends SelcukesLoggerFormatter {
     private static final String COLOR_FINER = "\u001b[35m";
     private static final String COLOR_FINEST = "\u001b[90m";
 
-    private String getColoredMessage(Level level, String message) {
+    private String getColoredMessage(final Level level, final String message) {
         String prefix;
-        if (level == Level.SEVERE)
+        if (level == Level.SEVERE) {
             prefix = COLOR_SEVERE;
-        else if (level == Level.WARNING)
+        } else if (level == Level.WARNING) {
             prefix = COLOR_WARNING;
-        else if (level == Level.INFO)
+        } else if (level == Level.INFO) {
             prefix = COLOR_INFO;
-        else if (level == Level.CONFIG)
+        } else if (level == Level.CONFIG) {
             prefix = COLOR_CONFIG;
-        else if (level == Level.FINE)
+        } else if (level == Level.FINE) {
             prefix = COLOR_FINE;
-        else if (level == Level.FINER)
+        } else if (level == Level.FINER) {
             prefix = COLOR_FINER;
-        else if (level == Level.FINEST)
+        } else if (level == Level.FINEST) {
             prefix = COLOR_FINEST;
-        else
+        } else {
             prefix = COLOR_SEVERE;
+        }
 
         return prefix + message + COLOR_RESET;
     }

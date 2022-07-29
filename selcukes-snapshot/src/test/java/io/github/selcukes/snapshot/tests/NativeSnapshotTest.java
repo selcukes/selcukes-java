@@ -32,7 +32,7 @@ public class NativeSnapshotTest {
 
     @DataProvider
     public Object[][] driverTypes() {
-        return new Object[][]{{DriverType.CHROME}, {DriverType.EDGE}};
+        return new Object[][] { { DriverType.CHROME }, { DriverType.EDGE } };
     }
 
     @Test(dataProvider = "driverTypes")

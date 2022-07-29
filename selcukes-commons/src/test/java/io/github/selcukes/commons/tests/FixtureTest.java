@@ -20,7 +20,7 @@ import io.github.selcukes.commons.fixture.SelcukesFixture;
 import org.testng.annotations.Test;
 
 public class FixtureTest {
-    @Test(expectedExceptions = {AssertionError.class})
+    @Test(expectedExceptions = { AssertionError.class })
     public void testVerification() {
         SelcukesFixture.setValidator("org.testng.Assert");
         SelcukesFixture.fail("Hello");

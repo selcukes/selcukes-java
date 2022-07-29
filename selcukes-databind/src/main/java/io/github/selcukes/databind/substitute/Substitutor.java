@@ -16,11 +16,28 @@
 
 package io.github.selcukes.databind.substitute;
 
-
 import java.util.Properties;
 
 public interface Substitutor {
+    /**
+     * Replace all occurrences of variables within the value associated with the
+     * given key in the given properties, optionally formatting them
+     *
+     * @param  variables The variables to use for replacement.
+     * @param  key       The key to be replaced.
+     * @param  format    The format of the string to be replaced.
+     * @return           A string with the value of the key in the properties
+     *                   file.
+     */
     String replace(Properties variables, String key, final String format);
 
+    /**
+     * It replaces all occurrences of the string "strToReplace" with the string
+     * "format".
+     *
+     * @param  strToReplace The string to be replaced.
+     * @param  format       The format of the string to be replaced.
+     * @return              A string with the format of the date.
+     */
     String replace(String strToReplace, final String format);
 }

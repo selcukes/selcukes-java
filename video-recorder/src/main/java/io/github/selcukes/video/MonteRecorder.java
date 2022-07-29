@@ -31,7 +31,11 @@ import ws.schild.jave.encode.AudioAttributes;
 import ws.schild.jave.encode.EncodingAttributes;
 import ws.schild.jave.encode.VideoAttributes;
 
-import java.awt.*;
+import java.awt.AWTException;
+import java.awt.Dimension;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 
@@ -106,15 +110,16 @@ class MonteRecorder implements VideoRecorder {
     private MonteRecorderBuilder getScreenRecorder() {
         int frameRate = videoConfig.getFrameRate();
 
-        Format fileFormat = new Format(FormatKeys.MediaTypeKey, MediaType.VIDEO, FormatKeys.MimeTypeKey, FormatKeys.MIME_AVI);
+        Format fileFormat = new Format(FormatKeys.MediaTypeKey, MediaType.VIDEO, FormatKeys.MimeTypeKey,
+            FormatKeys.MIME_AVI);
         Format screenFormat = new Format(FormatKeys.MediaTypeKey, MediaType.VIDEO, FormatKeys.EncodingKey,
-                VideoFormatKeys.ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
-                VideoFormatKeys.CompressorNameKey, VideoFormatKeys.ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
-                VideoFormatKeys.DepthKey, 24, FormatKeys.FrameRateKey, Rational.valueOf(frameRate),
-                VideoFormatKeys.QualityKey, 1.0f,
-                FormatKeys.KeyFrameIntervalKey, 15 * 60);
+            VideoFormatKeys.ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
+            VideoFormatKeys.CompressorNameKey, VideoFormatKeys.ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
+            VideoFormatKeys.DepthKey, 24, FormatKeys.FrameRateKey, Rational.valueOf(frameRate),
+            VideoFormatKeys.QualityKey, 1.0f,
+            FormatKeys.KeyFrameIntervalKey, 15 * 60);
         Format mouseFormat = new Format(FormatKeys.MediaTypeKey, MediaType.VIDEO, FormatKeys.EncodingKey, "black",
-                FormatKeys.FrameRateKey, Rational.valueOf(frameRate));
+            FormatKeys.FrameRateKey, Rational.valueOf(frameRate));
 
         Dimension screenSize = videoConfig.getScreenSize();
         int width = screenSize.width;

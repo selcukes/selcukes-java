@@ -29,7 +29,7 @@ public class SelcukesBanner {
     @SuppressWarnings("all")
     public void printBanner() {
         try (InputStream inputStream = FileHelper.loadResourceFromJar("banner.txt");
-             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             StringBuilder banner = new StringBuilder();
             banner.append(System.lineSeparator());
             banner.append(reader.lines().collect(Collectors.joining(System.lineSeparator())));

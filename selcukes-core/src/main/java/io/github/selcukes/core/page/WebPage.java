@@ -22,7 +22,6 @@ import org.openqa.selenium.PrintsPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.print.PrintOptions;
 
-
 public class WebPage extends WebAuthenticator implements Page {
     WebDriver driver;
 

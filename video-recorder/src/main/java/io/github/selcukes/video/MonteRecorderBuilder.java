@@ -24,7 +24,9 @@ import org.monte.media.Format;
 import org.monte.media.Registry;
 import org.monte.screenrecorder.ScreenRecorder;
 
-import java.awt.*;
+import java.awt.AWTException;
+import java.awt.GraphicsConfiguration;
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 
@@ -33,13 +35,15 @@ class MonteRecorderBuilder extends ScreenRecorder {
     private String currentTempExtension;
 
     @Builder
-    MonteRecorderBuilder(GraphicsConfiguration cfg,
-                         Rectangle rectangle,
-                         Format fileFormat,
-                         Format screenFormat,
-                         Format mouseFormat,
-                         Format audioFormat,
-                         File folder) throws IOException, AWTException {
+    MonteRecorderBuilder(
+            GraphicsConfiguration cfg,
+            Rectangle rectangle,
+            Format fileFormat,
+            Format screenFormat,
+            Format mouseFormat,
+            Format audioFormat,
+            File folder
+    ) throws IOException, AWTException {
         super(cfg, rectangle, fileFormat, screenFormat, mouseFormat, audioFormat);
         super.movieFolder = folder;
     }

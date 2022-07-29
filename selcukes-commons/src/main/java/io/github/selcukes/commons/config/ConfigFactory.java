@@ -44,13 +44,14 @@ public class ConfigFactory {
         ENVIRONMENT.remove();
     }
 
-    public static void loadLoggerProperties() {
+    public void loadLoggerProperties() {
         LogManager logManager = LogManager.getLogManager();
         try (InputStream inputStream = FileHelper.loadResourceAsStream(DEFAULT_LOG_BACK_FILE)) {
-            if (inputStream != null)
+            if (inputStream != null) {
                 logManager.readConfiguration(inputStream);
+            }
         } catch (IOException ignored) {
-            //Gobble exception
+            // Gobble exception
         }
     }
 
@@ -64,7 +65,7 @@ public class ConfigFactory {
             }
             return stream;
         } catch (Exception ignored) {
-            //Gobble exception
+            // Gobble exception
         }
         return null;
     }

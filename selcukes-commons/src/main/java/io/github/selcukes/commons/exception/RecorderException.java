@@ -36,5 +36,4 @@ public class RecorderException extends SelcukesException {
         super(cause);
     }
 
-
 }

@@ -40,12 +40,13 @@ public class Platform {
     }
 
     public OsType getOSType() {
-        if (isWindows())
+        if (isWindows()) {
             return OsType.WIN;
-        else if (isMac()) {
+        } else if (isMac()) {
             return OsType.MAC;
-        } else if (isLinux())
+        } else if (isLinux()) {
             return OsType.LINUX;
+        }
 
         return null;
     }
