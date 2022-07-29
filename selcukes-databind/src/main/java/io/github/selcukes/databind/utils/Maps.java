@@ -68,7 +68,7 @@ public class Maps {
      * @return A new TreeMap with the same keys and values as the original map, but with the keys in case-insensitive
      * order.
      */
-    public static <V> Map<String, V> caseInsensitive(Map<String, V> map) {
+    public <V> Map<String, V> caseInsensitive(Map<String, V> map) {
         var newMap = new TreeMap<String, V>(CASE_INSENSITIVE_ORDER);
         newMap.putAll(map);
         return newMap;

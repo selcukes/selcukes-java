@@ -41,7 +41,7 @@ public class DriverManager {
     private static final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
     private static final Map<Integer, Object> STORED_DRIVER = new ConcurrentHashMap<>();
 
-    public static synchronized <D extends WebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
+    public synchronized <D extends WebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
         Arrays.stream(capabilities).findAny().ifPresent(AppiumOptions::setUserOptions);
         if (getDriver() == null) {
             logger.info(() -> String.format("Creating new %s session...", deviceType));

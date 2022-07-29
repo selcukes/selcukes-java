@@ -88,7 +88,6 @@ public class ExtentService implements Serializable {
             return isNullOrEmpty(out) ? OUTPUT_PATH + ExtentReportsLoader.OUT_SPARK_KEY.split("\\.")[2] + "/" : out;
         }
 
-
         private static boolean getBooleanProperty(String propertyKey) {
             String value = getProperty(propertyKey);
             return (!isNullOrEmpty(value)
@@ -107,7 +106,6 @@ public class ExtentService implements Serializable {
             sparkReportViewOrder(spark);
             attach(spark);
         }
-
 
         private static void sparkReportViewOrder(ExtentSparkReporter spark) {
             try {

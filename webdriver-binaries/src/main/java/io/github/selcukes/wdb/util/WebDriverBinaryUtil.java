@@ -38,7 +38,6 @@ public class WebDriverBinaryUtil {
     private final BinaryFactory binaryFactory;
     private File binaryDownloadDirectory;
 
-
     public WebDriverBinaryUtil(BinaryFactory binaryFactory, String downloadLocation, boolean strictDownload, boolean clearBinaryCache, boolean autoCheck) {
         this.binaryFactory = binaryFactory;
         this.binaryDownloadDirectory = getBinaryDownloadDirectory(downloadLocation, clearBinaryCache);

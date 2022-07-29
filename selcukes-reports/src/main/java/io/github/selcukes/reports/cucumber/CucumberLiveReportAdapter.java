@@ -44,7 +44,6 @@ public class CucumberLiveReportAdapter implements ConcurrentEventListener {
     private final ThreadLocal<FeatureContext> featureContextThreadLocal = new InheritableThreadLocal<>();
     private final ThreadLocal<List<ScenarioContext>> scenarioContextThreadLocal = new InheritableThreadLocal<>();
 
-
     @Override
     public void setEventPublisher(EventPublisher publisher) {
         publisher.registerHandlerFor(TestSourceRead.class, this::getTestSourceReadHandler);
@@ -97,7 +96,6 @@ public class CucumberLiveReportAdapter implements ConcurrentEventListener {
         }
 
     }
-
 
     private synchronized void afterScenario(TestCaseFinished event) {
         String error = event.getResult().getStatus().is(Status.FAILED) ?

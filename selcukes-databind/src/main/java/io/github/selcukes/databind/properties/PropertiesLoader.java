@@ -28,7 +28,7 @@ import java.util.Properties;
 
 @UtilityClass
 class PropertiesLoader {
-    public static Properties getProperties(Path filePath) {
+    public Properties getProperties(Path filePath) {
         var properties = new Properties();
         try (InputStream stream = new FileInputStream(filePath.toFile())) {
             properties.load(stream);
@@ -38,7 +38,7 @@ class PropertiesLoader {
         return properties;
     }
 
-    public static LinkedProperties linkedProperties(String propertyFile) {
+    public LinkedProperties linkedProperties(String propertyFile) {
         var properties = new LinkedProperties();
         try (InputStream stream = new FileInputStream(Paths.get(propertyFile).toFile())) {
             properties.load(stream);

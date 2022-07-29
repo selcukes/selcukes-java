@@ -37,7 +37,7 @@ import static java.util.Optional.ofNullable;
 @CustomLog
 @UtilityClass
 public class SelcukesRuntime {
-    public static void loadOptions() {
+    public void loadOptions() {
         try {
             SelcukesTestProperties properties = new SelcukesTestProperties();
             String features = ofNullable(properties.getSubstitutedConfigProperty(FEATURES)).orElse("");

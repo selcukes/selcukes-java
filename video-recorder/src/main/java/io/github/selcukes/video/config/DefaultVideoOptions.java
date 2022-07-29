@@ -21,8 +21,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.awt.*;
-
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 @EqualsAndHashCode(callSuper = true)
 @Data

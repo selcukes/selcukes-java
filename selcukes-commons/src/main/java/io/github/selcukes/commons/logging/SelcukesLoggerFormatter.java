@@ -22,7 +22,6 @@ import io.github.selcukes.commons.helper.ExceptionHelper;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
-
 public class SelcukesLoggerFormatter extends Formatter {
 
     public String format(LogRecord logRecord) {

@@ -60,7 +60,6 @@ public class SnapshotImpl extends PageSnapshot implements Snapshot {
         return destFile.getAbsolutePath();
     }
 
-
     @Override
     public byte[] shootPageAsBytes() {
         return getScreenshot(OutputType.BYTES);

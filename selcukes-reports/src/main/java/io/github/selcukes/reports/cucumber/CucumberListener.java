@@ -63,7 +63,6 @@ public class CucumberListener implements ConcurrentEventListener {
         cucumberService.beforeTest();
     }
 
-
     private void beforeScenario(TestCaseStarted event) {
         cucumberService.beforeScenario();
     }
@@ -86,7 +85,6 @@ public class CucumberListener implements ConcurrentEventListener {
         }
         cucumberService.afterStep(stepsReport.toString(), event.getResult().getStatus().is(Status.FAILED));
     }
-
 
     private void afterScenario(TestCaseFinished event) {
         cucumberService.afterScenario(event.getTestCase().getName(), event.getResult().getStatus());

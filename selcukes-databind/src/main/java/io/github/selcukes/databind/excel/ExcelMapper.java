@@ -35,7 +35,7 @@ public class ExcelMapper {
      * @param entityClass The class of the entity to be parsed
      * @return the Stream of Entity class objects
      */
-    public static <T> Stream<T> parse(final Class<T> entityClass) {
+    public <T> Stream<T> parse(final Class<T> entityClass) {
         final DataFileHelper<T> dataFile = DataFileHelper.getInstance(entityClass);
         final String fileName = dataFile.getFileName();
         int extensionIndex = fileName.lastIndexOf('.');

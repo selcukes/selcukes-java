@@ -31,7 +31,7 @@ import java.lang.reflect.Modifier;
 public class Reflections {
     @SuppressWarnings("all")
     // Creating a new instance of the class passed to it.
-    public static <T> T newInstance(final Class<T> clazz) {
+    public <T> T newInstance(final Class<T> clazz) {
         try {
             Constructor<T> constructor = clazz.getDeclaredConstructor();
             if ((!Modifier.isPublic(constructor.getModifiers()) ||

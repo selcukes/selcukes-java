@@ -196,7 +196,6 @@ class ScreenPlayImpl implements ScreenPlay {
         return this;
     }
 
-
     @Override
     public void attachLogs() {
         if (isAttachable()) {
@@ -226,13 +225,11 @@ class ScreenPlayImpl implements ScreenPlay {
         return this;
     }
 
-
     @Override
     public ScreenPlay ignoreCondition() {
         isFailedOnly = false;
         return this;
     }
-
 
     private void write(String text) {
         if (result.getTestType().equals(TestType.CUCUMBER)) {

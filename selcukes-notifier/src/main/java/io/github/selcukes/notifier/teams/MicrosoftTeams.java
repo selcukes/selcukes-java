@@ -19,7 +19,6 @@ package io.github.selcukes.notifier.teams;
 import io.github.selcukes.notifier.AbstractNotifier;
 import io.github.selcukes.notifier.Notifier;
 
-
 public class MicrosoftTeams extends AbstractNotifier {
 
     @Override

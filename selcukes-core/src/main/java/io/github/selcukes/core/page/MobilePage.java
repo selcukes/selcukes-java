@@ -121,7 +121,6 @@ public class MobilePage implements Page {
             }
         }
 
-
         scrollParameters.put(
                 "direction", swipeDirection.toString()
         );

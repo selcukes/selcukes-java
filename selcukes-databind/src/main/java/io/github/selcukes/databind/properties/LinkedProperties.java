@@ -16,7 +16,6 @@
 
 package io.github.selcukes.databind.properties;
 
-
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;

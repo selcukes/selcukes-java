@@ -89,7 +89,6 @@ public class WaitManager {
         }
     }
 
-
     private void waitForAngularIfDefined() {
         try {
             Boolean angularDefined = !((Boolean) page.executeScript("return window.angular === undefined"));
@@ -109,6 +108,5 @@ public class WaitManager {
     private void sleep() {
         Await.until(TimeUnit.MILLISECONDS, 20);
     }
-
 
 }

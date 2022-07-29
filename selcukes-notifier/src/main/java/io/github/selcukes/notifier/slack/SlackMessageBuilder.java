@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 public class SlackMessageBuilder {
 
     public void sendMessage(String scenarioTitle, String scenarioStatus, String error, String screenshotPath) {

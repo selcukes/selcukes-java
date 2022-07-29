@@ -42,7 +42,7 @@ public class XmlMapper {
      * @param inputStream The input stream to parse.
      * @return A Document object
      */
-    public static Document parse(final InputStream inputStream) {
+    public Document parse(final InputStream inputStream) {
         try (inputStream) {
             var factory = DocumentBuilderFactory.newInstance();
             factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);

@@ -79,5 +79,4 @@ public class LifecycleManager implements TestLifecycleListener {
         });
     }
 
-
 }

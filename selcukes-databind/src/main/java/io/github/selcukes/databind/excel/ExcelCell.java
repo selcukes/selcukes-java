@@ -31,7 +31,6 @@ import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.RETURN_BLANK_AS_NULL;
 
-
 class ExcelCell<T> extends DataField<T> {
     private final int index;
     private final DataFormatter formatter;

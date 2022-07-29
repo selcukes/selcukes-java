@@ -65,7 +65,7 @@
 
         <!-- Check that parameters for methods, constructors, and catch blocks
             are final. -->
-        <module name="FinalParameters"/>
+        <!--        <module name="FinalParameters"/>-->
 
         <!-- ##### Import statement requirements ##### -->
         <!-- Star imports (e.g. import java.util.*) are NOT ALLOWED -->
