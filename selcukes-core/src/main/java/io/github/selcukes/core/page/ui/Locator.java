@@ -33,10 +33,23 @@ public class Locator {
     public static final String LOCATOR_SEPARATOR = ":";
     public static final String INVALID_LOCATOR = "Invalid Locator[%s]";
 
+    /**
+     * If the locator is a string, parse it, otherwise return the locator
+     *
+     * @param  locator The locator to resolve.
+     * @return         A By object
+     */
     public static By resolve(Object locator) {
         return (locator instanceof String) ? parse((String) locator) : (By) locator;
     }
 
+    /**
+     * It takes a WebElement as an argument and returns the locator of the
+     * element
+     *
+     * @param  element The element to be converted to a string.
+     * @return         The locator of the element.
+     */
     public static String of(WebElement element) {
         String eleText = element.toString();
         Matcher matcher = Pattern.compile("->\\s(.*)(?=])")
