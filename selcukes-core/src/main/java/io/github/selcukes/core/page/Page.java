@@ -616,9 +616,10 @@ public interface Page {
      * @param  script The JavaScript to execute.
      * @return        The return value of the last executed statement.
      */
-    default Object executeScript(String script, Object... args) {
-        JavascriptExecutor exe = (JavascriptExecutor) getDriver();
-        return exe.executeScript(script, args);
+    @SuppressWarnings("unchecked")
+    default <T> T executeScript(String script, Object... args) {
+        var jsExecutor = (JavascriptExecutor) getDriver();
+        return (T) jsExecutor.executeScript(script, args);
     }
 
     /**
@@ -632,20 +633,15 @@ public interface Page {
     }
 
     /**
-     * "Wait for the given condition to be true, or until the timeout is
-     * reached."
-     * <p>
-     * The function is defined as a default method in the Page interface, so it
-     * can be called on any Page object
+     * Wait for the condition to be true, or until the timeout is reached.
      *
      * @param  condition      The ExpectedCondition to wait for.
-     * @param  timeoutSeconds The number of seconds to wait for the condition to
-     *                        be true.
-     * @return                The page object itself.
+     * @param  timeoutSeconds The maximum amount of time to wait for the
+     *                        condition to be true.
+     * @return                The return type is T.
      */
-    default Page waitFor(ExpectedCondition<?> condition, int timeoutSeconds) {
-        waiter(timeoutSeconds).until(condition);
-        return this;
+    default <T> T waitFor(ExpectedCondition<T> condition, int timeoutSeconds) {
+        return waiter(timeoutSeconds).until(condition);
     }
 
     /**
@@ -688,8 +684,15 @@ public interface Page {
         return new PageValidations(this, true);
     }
 
+    /**
+     * It waits for a condition to be met.
+     *
+     * @param  locator   The locator to be used to find the element.
+     * @param  arg       The argument to pass to the condition.
+     * @param  condition The condition to wait for.
+     * @return           The return type is R.
+     */
     @SuppressWarnings("unchecked")
-    // A default method in an interface.
     default <T, V, R> R waitFor(final T locator, final V arg, final WaitCondition condition) {
         return (R) waiter()
                 .pollingEvery(Duration.ofMillis(100))
