@@ -18,7 +18,7 @@ package io.github.selcukes.core.page;
 
 import io.github.selcukes.commons.http.WebClient;
 import io.github.selcukes.core.enums.SwipeDirection;
-import io.github.selcukes.core.page.ui.DropDown;
+import io.github.selcukes.core.page.ui.Dropdown;
 import io.github.selcukes.core.validation.PageValidations;
 import io.github.selcukes.core.wait.WaitCondition;
 import io.github.selcukes.core.wait.WaitManager;
@@ -197,7 +197,7 @@ public interface Page {
      * @return               The page object itself.
      */
     default Page select(Object locator, String optionLocator) {
-        DropDown.select(select(locator), optionLocator);
+        Dropdown.select(select(locator), optionLocator);
         return this;
     }
 

@@ -16,10 +16,10 @@
 
 package io.github.selcukes.commons.fixture;
 
-import io.github.selcukes.commons.exception.SelcukesException;
 import io.github.selcukes.databind.utils.Reflections;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -40,11 +40,12 @@ public class SelcukesFixture {
      *
      * @param param The parameter to be validated.
      */
+    @SneakyThrows
     public static void fail(final String param) {
         try {
             Reflections.invoke(Class.forName(getValidator()), "fail", param);
         } catch (Exception e) {
-            throw new AssertionError(e.getCause());
+            throw e.getCause();
         }
     }
 
@@ -53,11 +54,12 @@ public class SelcukesFixture {
      *
      * @param param The parameter to be attached to the report.
      */
+    @SneakyThrows
     public static void attach(final String param) {
         try {
             Reflections.invoke(getReporter(), "log", param);
         } catch (Exception e) {
-            throw new SelcukesException(e.getCause());
+            throw e.getCause();
         }
     }
 }

@@ -31,7 +31,7 @@ import static java.lang.Integer.parseInt;
 import static java.lang.String.format;
 
 @UtilityClass
-public class DropDown {
+public class Dropdown {
     private static final String ATTRIBUTE = "value";
 
     public void select(Select select, String optionLocator) {
