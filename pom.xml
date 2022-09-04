@@ -40,7 +40,7 @@
 
         <lombok.version>1.18.24</lombok.version>
         <commons.io.version>2.11.0</commons.io.version>
-        <jackson.version>2.13.3</jackson.version>
+        <jackson.version>2.13.4</jackson.version>
         <commons-compress.version>1.21</commons-compress.version>
 
         <poi.version>5.2.2</poi.version>
