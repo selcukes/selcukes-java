@@ -1,6 +1,6 @@
 # Selcukes Java
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.selcukes/selcukes-parent.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.selcukes%22%20AND%20a:%22selcukes-core%22)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.selcukes/selcukes-parent.svg?label=Maven%20Central)](https://central.sonatype.dev/search?q=selcukes-java)
 [![Build Status](https://github.com/selcukes/selcukes-java/workflows/Selcukes%20CI/badge.svg)](https://github.com/selcukes/selcukes-java/actions)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/199789a93bbb4ba98d69f5ca97810e91)](https://www.codacy.com/gh/selcukes/selcukes-java/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=selcukes/selcukes-java&amp;utm_campaign=Badge_Grade)
 [![Last commit](https://img.shields.io/github/last-commit/selcukes/selcukes-java.svg)]()
