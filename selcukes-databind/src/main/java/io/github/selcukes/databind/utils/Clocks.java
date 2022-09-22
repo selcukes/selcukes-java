@@ -22,7 +22,7 @@ import java.time.DateTimeException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 
@@ -133,7 +133,7 @@ public class Clocks {
      */
     public String timeStamp(long epochMilli) {
         return format(LocalDateTime
-                .ofInstant(Instant.ofEpochMilli(epochMilli), ZoneOffset.systemDefault()),
+                .ofInstant(Instant.ofEpochMilli(epochMilli), ZoneId.systemDefault()),
             TIMESTAMP_FORMAT);
     }
 
