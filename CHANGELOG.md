@@ -5,7 +5,20 @@
 ## [Unreleased] (In Git)
 
 ### Added
-* [DataBind] Added support to get data file name from System Properties([#189](https://github.com/selcukes/selcukes-java/pull/189))
+
+### Changed
+
+### Fixed
+
+### Removed
+
+## [2.1.7] (22-09-2022)
+
+### Added
+
+* [DataBind] Added support to get data file name from System
+  Properties([#189](https://github.com/selcukes/selcukes-java/pull/189))
+
 ### Changed
 
 * Update dependency io.cucumber:cucumber-bom to v7.8.0([#185](https://github.com/selcukes/selcukes-java/pull/185))
@@ -19,8 +32,8 @@
 * Update dependency org.junit:junit-bom to v5.9.1([#188](https://github.com/selcukes/selcukes-java/pull/188))
 
 ### Removed
+
 * [Commons] Removed DateHelper Class in favor of Clocks([#189](https://github.com/selcukes/selcukes-java/pull/189))
-### Fixed
 
 ## [2.1.6] (29-07-2022)
 

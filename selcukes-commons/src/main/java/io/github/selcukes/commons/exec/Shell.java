@@ -98,8 +98,9 @@ public class Shell {
      * contain the results of the command."
      * <p>
      * The first thing to notice is that the return type is
-     * {@literal CompletableFuture<ExecResults>}. This means that the function will return
-     * a CompletableFuture that will contain the results of the command
+     * {@literal CompletableFuture<ExecResults>}. This means that the function
+     * will return a CompletableFuture that will contain the results of the
+     * command
      *
      * @param  command The command to run.
      * @return         A CompletableFuture that will return an ExecResults

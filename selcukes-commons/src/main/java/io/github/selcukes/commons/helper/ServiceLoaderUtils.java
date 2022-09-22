@@ -30,8 +30,8 @@ import java.util.stream.Collectors;
  * The function is generic, so it can be used to load any type of service. It
  * uses the Java ServiceLoader to load the service. The ServiceLoader is a Java
  * class that loads services from a file called
- * META-INF/services/{@literal <service-type>}. The file contains a list of fully qualified
- * class names of the services
+ * META-INF/services/{@literal <service-type>}. The file contains a list of
+ * fully qualified class names of the services
  */
 @UtilityClass
 public class ServiceLoaderUtils {
@@ -41,8 +41,8 @@ public class ServiceLoaderUtils {
      * The function is generic, so it can be used to load any type of service.
      * It uses the Java ServiceLoader to load the service. The ServiceLoader is
      * a Java class that loads services from a file called
-     * META-INF/services/{@literal <service-type>}. The file contains a list of fully
-     * qualified class names of the services
+     * META-INF/services/{@literal <service-type>}. The file contains a list of
+     * fully qualified class names of the services
      *
      * @param  type        The type of the service to load.
      * @param  classLoader The class loader to use for loading the service.

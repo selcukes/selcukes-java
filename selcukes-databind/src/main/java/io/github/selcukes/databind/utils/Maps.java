@@ -29,13 +29,14 @@ import java.util.stream.IntStream;
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
 
 /**
- * It's a wrapper around a `{@literal HashMap<String, Object>}` that allows you to access
- * the values in the map using a dot notation
+ * It's a wrapper around a `{@literal HashMap<String, Object>}` that allows you
+ * to access the values in the map using a dot notation
  */
 @UtilityClass
 public class Maps {
     /**
-     * It takes a `Properties` object and returns a `{@literal Map<String, String>}` object
+     * It takes a `Properties` object and returns a
+     * `{@literal Map<String, String>}` object
      *
      * @param  properties The properties object to convert to a map.
      * @return            A map of the properties.
