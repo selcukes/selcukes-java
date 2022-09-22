@@ -28,7 +28,8 @@ import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.databind.utils.Clocks;
 import io.github.selcukes.video.config.DefaultVideoOptions;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
 
 import static io.github.selcukes.databind.utils.Clocks.DATE_TIME_FILE_FORMAT;
