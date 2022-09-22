@@ -7,7 +7,7 @@
     <groupId>io.github.selcukes</groupId>
     <artifactId>selcukes-parent</artifactId>
     <packaging>pom</packaging>
-    <version>2.1.7-SNAPSHOT</version>
+    <version>2.1.8-SNAPSHOT</version>
 
     <modules>
         <module>selcukes-commons</module>
@@ -316,7 +316,6 @@
                     <configuration>
                         <configLocation>assets/checkstyle/checkstyle.xml</configLocation>
                         <consoleOutput>true</consoleOutput>
-                        <encoding>${project.build.sourceEncoding}</encoding>
                         <failOnViolation>true</failOnViolation>
                         <failsOnError>true</failsOnError>
                         <includeTestSourceDirectory>true</includeTestSourceDirectory>
