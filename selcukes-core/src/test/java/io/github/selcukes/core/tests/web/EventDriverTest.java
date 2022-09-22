@@ -16,9 +16,9 @@
 
 package io.github.selcukes.core.tests.web;
 
-import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.core.page.WebPage;
+import io.github.selcukes.databind.utils.Clocks;
 import io.github.selcukes.wdb.driver.LocalDriver;
 import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
@@ -33,6 +33,8 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.nio.file.Paths;
+
+import static io.github.selcukes.databind.utils.Clocks.DATE_TIME_FILE_FORMAT;
 
 @CustomLog
 public class EventDriverTest {
@@ -61,7 +63,8 @@ public class EventDriverTest {
         File srcFile = page.screenshotAs(OutputType.FILE);
         File reportDirectory = new File("target/screenshots");
         FileHelper.createDirectory(reportDirectory);
-        String filePath = reportDirectory + File.separator + "screenshot_" + DateHelper.get().dateTime() + ".png";
+        String filePath = reportDirectory + File.separator + "screenshot_" + Clocks.dateTime(DATE_TIME_FILE_FORMAT)
+                + ".png";
         FileUtils.copyFile(srcFile, Paths.get(filePath).toFile());
         if (driver != null) {
             driver.quit();

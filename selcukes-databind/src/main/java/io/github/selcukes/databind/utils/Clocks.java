@@ -19,8 +19,10 @@ package io.github.selcukes.databind.utils;
 import lombok.experimental.UtilityClass;
 
 import java.time.DateTimeException;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 
@@ -29,8 +31,9 @@ import static java.util.Optional.ofNullable;
 
 @UtilityClass
 public class Clocks {
-    public static final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final String DATE_FORMAT = "MM/dd/yyyy";
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATE_TIME_FILE_FORMAT = "ddMMMyyyy-hh-mm-ss";
     public static final String TIMESTAMP_FORMAT = "MM/dd/yyyy hh:mm:ss";
 
     /**
@@ -54,8 +57,9 @@ public class Clocks {
     /**
      * > Returns the current date in the specified format
      *
-     * @param format The format of the date.
-     * @return A string representation of the current date in the format specified.
+     * @param  format The format of the date.
+     * @return        A string representation of the current date in the format
+     *                specified.
      */
     public String date(final String format) {
         return format(nowDate(), format);
@@ -64,9 +68,9 @@ public class Clocks {
     /**
      * It takes a date and a format and returns a LocalDate
      *
-     * @param date The date to be parsed.
-     * @param format The format of the date string.
-     * @return A LocalDate object
+     * @param  date   The date to be parsed.
+     * @param  format The format of the date string.
+     * @return        A LocalDate object
      */
     public LocalDate dateOf(final String date, final String format) {
         var dateTimeFormatter = dateTimeFormatter(format, DATE_FORMAT);
@@ -82,19 +86,20 @@ public class Clocks {
     /**
      * > Returns the current date and time in the specified format
      *
-     * @param format The format of the date.
-     * @return A string representation of the current date and time.
+     * @param  format The format of the date.
+     * @return        A string representation of the current date and time.
      */
     public String dateTime(final String format) {
         return format(nowDateTime(), format);
     }
 
     /**
-     * > It takes a date time string and a format string and returns a LocalDateTime object
+     * > It takes a date time string and a format string and returns a
+     * LocalDateTime object
      *
-     * @param dateTime The date time string to be parsed.
-     * @param format The format of the dateTime string.
-     * @return A LocalDateTime object
+     * @param  dateTime The date time string to be parsed.
+     * @param  format   The format of the dateTime string.
+     * @return          A LocalDateTime object
      */
     public LocalDateTime dateTimeOf(final String dateTime, final String format) {
         var dateTimeFormatter = dateTimeFormatter(format, DATE_TIME_FORMAT);
@@ -108,32 +113,50 @@ public class Clocks {
     }
 
     /**
-     * > Returns a string representation of the current date and time in the format "yyyy-MM-dd HH:mm:ss.SSS"
+     * > Returns a string representation of the current date and time in the
+     * format "yyyy-MM-dd HH:mm:ss.SSS"
      *
-     * @return A string of the current date and time in the format of "yyyy-MM-dd HH:mm:ss"
+     * @return A string of the current date and time in the format of
+     *         "yyyy-MM-dd HH:mm:ss"
      */
     public String timeStamp() {
         return dateTime(TIMESTAMP_FORMAT);
     }
 
     /**
-     * It takes a date and a format string, and returns a string representation of the date in the specified format
+     * > It takes a long value representing the number of milliseconds since the
+     * epoch, converts it to a LocalDateTime, and then formats it using the
+     * TIMESTAMP_FORMAT constant
      *
-     * @param date The date to be formatted
-     * @param format The format to use for the date.
-     * @return A string representation of the date in the format specified.
+     * @param  epochMilli The epoch time in milliseconds.
+     * @return            A string representation of the date and time.
+     */
+    public String timeStamp(long epochMilli) {
+        return format(LocalDateTime
+                .ofInstant(Instant.ofEpochMilli(epochMilli), ZoneOffset.systemDefault()),
+            TIMESTAMP_FORMAT);
+    }
+
+    /**
+     * It takes a date and a format string, and returns a string representation
+     * of the date in the specified format
+     *
+     * @param  date   The date to be formatted
+     * @param  format The format to use for the date.
+     * @return        A string representation of the date in the format
+     *                specified.
      */
     public String format(final LocalDate date, final String format) {
         return date.format(dateTimeFormatter(format, DATE_FORMAT));
     }
 
     /**
-     * It takes a date time and a format string, and returns a string representation of the date time in the specified
-     * format
+     * It takes a date time and a format string, and returns a string
+     * representation of the date time in the specified format
      *
-     * @param dateTime The date time to format
-     * @param format The format to use for the date.
-     * @return A string representation of the dateTime object.
+     * @param  dateTime The date time to format
+     * @param  format   The format to use for the date.
+     * @return          A string representation of the dateTime object.
      */
     public String format(final LocalDateTime dateTime, final String format) {
         return dateTime.format(dateTimeFormatter(format, DATE_TIME_FORMAT));
@@ -143,10 +166,10 @@ public class Clocks {
      * If the format is not null and not empty, return the format, otherwise
      * return the default format.
      *
-     * @param format        The format to use.
-     * @param defaultFormat The default format to use if the format parameter
-     *                      is null or empty.
-     * @return A DateTimeFormatter
+     * @param  format        The format to use.
+     * @param  defaultFormat The default format to use if the format parameter
+     *                       is null or empty.
+     * @return               A DateTimeFormatter
      */
     public static DateTimeFormatter dateTimeFormatter(final String format, final String defaultFormat) {
         return ofPattern(ofNullable(format)
@@ -157,8 +180,8 @@ public class Clocks {
     /**
      * Return the last day of the month for the given date.
      *
-     * @param date The date to adjust
-     * @return The last day of the month.
+     * @param  date The date to adjust
+     * @return      The last day of the month.
      */
     public LocalDate lastDayOfMonth(final LocalDate date) {
         return date.with(TemporalAdjusters.lastDayOfMonth());

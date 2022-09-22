@@ -17,8 +17,8 @@
 package io.github.selcukes.commons.properties;
 
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.os.Platform;
+import io.github.selcukes.databind.utils.Clocks;
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
 
@@ -31,6 +31,7 @@ import static io.github.selcukes.commons.properties.SelcukesTestProperties.REPOR
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.TAGS;
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.TIMESTAMP_REPORT;
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.setSystemProperty;
+import static io.github.selcukes.databind.utils.Clocks.DATE_TIME_FILE_FORMAT;
 import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
 import static java.util.Optional.ofNullable;
 
@@ -52,7 +53,8 @@ public class SelcukesRuntime {
             String cucumberReportPath = reportsPath + "/cucumber-reports";
             String extentReportPath = reportsPath + "/extent-reports";
 
-            String timestamp = timestampReport.equalsIgnoreCase("true") ? "-" + DateHelper.get().dateTime() : "";
+            String timestamp = timestampReport.equalsIgnoreCase("true") ? "-" + Clocks.dateTime(DATE_TIME_FILE_FORMAT)
+                    : "";
 
             String plugin = String.format("html:%s/%s%s.html, json:%s/cucumber%s.json",
                 cucumberReportPath, reportsFile, timestamp, cucumberReportPath, timestamp);

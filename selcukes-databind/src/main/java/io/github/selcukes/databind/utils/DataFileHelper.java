@@ -40,7 +40,7 @@ public class DataFileHelper<T> {
         this.dataClass = dataClass;
         this.dataFile = ofNullable(dataClass.getDeclaredAnnotation(DataFile.class))
                 .orElseThrow(() -> new DataMapperException(format("Data Class[%s] must have @DataFile annotation.",
-                        dataClass.getSimpleName())));
+                    dataClass.getSimpleName())));
     }
 
     public static <T> DataFileHelper<T> getInstance(final Class<T> dataClass) {
@@ -54,7 +54,7 @@ public class DataFileHelper<T> {
     public String getFileName() {
         if (!this.dataFile.fileName().isEmpty()) {
             return StringHelper.interpolate(this.dataFile.fileName(),
-                    matcher -> systemProperties().getProperty(matcher.group(1)));
+                matcher -> systemProperties().getProperty(matcher.group(1)));
         }
         if (isStream()) {
             throw new DataMapperException("Please provide fileName to perform stream loader");
@@ -76,8 +76,8 @@ public class DataFileHelper<T> {
     public InputStream fileStream() {
         return ofNullable(Thread.currentThread().getContextClassLoader().getResourceAsStream(getFileName()))
                 .orElseThrow(
-                        () -> new DataMapperException(format("Failed to perform stream loader for a File [%s].",
-                                getFileName())));
+                    () -> new DataMapperException(format("Failed to perform stream loader for a File [%s].",
+                        getFileName())));
     }
 
     public boolean isStream() {
