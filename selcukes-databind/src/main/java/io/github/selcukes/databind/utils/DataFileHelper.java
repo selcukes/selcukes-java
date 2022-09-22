@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static io.github.selcukes.databind.properties.PropertiesMapper.systemProperties;
 import static java.lang.String.format;
 import static java.lang.System.getProperty;
 import static java.util.Optional.ofNullable;
@@ -39,7 +40,7 @@ public class DataFileHelper<T> {
         this.dataClass = dataClass;
         this.dataFile = ofNullable(dataClass.getDeclaredAnnotation(DataFile.class))
                 .orElseThrow(() -> new DataMapperException(format("Data Class[%s] must have @DataFile annotation.",
-                    dataClass.getSimpleName())));
+                        dataClass.getSimpleName())));
     }
 
     public static <T> DataFileHelper<T> getInstance(final Class<T> dataClass) {
@@ -52,7 +53,8 @@ public class DataFileHelper<T> {
 
     public String getFileName() {
         if (!this.dataFile.fileName().isEmpty()) {
-            return this.dataFile.fileName();
+            return StringHelper.interpolate(this.dataFile.fileName(),
+                    matcher -> systemProperties().getProperty(matcher.group(1)));
         }
         if (isStream()) {
             throw new DataMapperException("Please provide fileName to perform stream loader");
@@ -74,8 +76,8 @@ public class DataFileHelper<T> {
     public InputStream fileStream() {
         return ofNullable(Thread.currentThread().getContextClassLoader().getResourceAsStream(getFileName()))
                 .orElseThrow(
-                    () -> new DataMapperException(format("Failed to perform stream loader for a File [%s].",
-                        getFileName())));
+                        () -> new DataMapperException(format("Failed to perform stream loader for a File [%s].",
+                                getFileName())));
     }
 
     public boolean isStream() {
