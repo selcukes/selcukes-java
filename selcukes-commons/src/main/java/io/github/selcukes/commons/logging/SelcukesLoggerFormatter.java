@@ -16,8 +16,8 @@
 
 package io.github.selcukes.commons.logging;
 
-import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.helper.ExceptionHelper;
+import io.github.selcukes.databind.utils.Clocks;
 
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
@@ -26,7 +26,7 @@ public class SelcukesLoggerFormatter extends Formatter {
 
     public String format(LogRecord logRecord) {
         StringBuilder builder = new StringBuilder(1000);
-        builder.append(DateHelper.get().timeStamp(logRecord.getMillis())).append(" - ");
+        builder.append(Clocks.timeStamp(logRecord.getMillis())).append(" - ");
         builder.append("[").append(getLevel(logRecord)).append("] - ");
         builder.append("[").append(logRecord.getSourceClassName()).append(".");
         builder.append(logRecord.getSourceMethodName()).append(":").append(getLineNumber(logRecord)).append("] - ");

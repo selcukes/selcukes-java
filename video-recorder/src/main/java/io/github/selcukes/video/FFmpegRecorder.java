@@ -20,17 +20,19 @@ import io.github.selcukes.commons.Await;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.RecorderException;
 import io.github.selcukes.commons.exec.Shell;
-import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.helper.Preconditions;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.os.Platform;
+import io.github.selcukes.databind.utils.Clocks;
 import io.github.selcukes.video.config.DefaultVideoOptions;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
+
+import static io.github.selcukes.databind.utils.Clocks.DATE_TIME_FILE_FORMAT;
 
 class FFmpegRecorder implements VideoRecorder {
     private static final Logger logger = LoggerFactory.getLogger(FFmpegRecorder.class);
@@ -116,7 +118,7 @@ class FFmpegRecorder implements VideoRecorder {
 
     private File getFile(String fileName) {
         File movieFolder = createMovieFolder();
-        String name = fileName + "_recording_" + DateHelper.get().dateTime();
+        String name = fileName + "_recording_" + Clocks.dateTime(DATE_TIME_FILE_FORMAT);
         return new File(movieFolder + File.separator + name + EXTENSION);
     }
 

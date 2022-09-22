@@ -16,9 +16,9 @@
 
 package io.github.selcukes.commons.tests.helper;
 
-import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.databind.utils.Clocks;
 import org.testng.annotations.Test;
 
 import java.time.LocalDate;
@@ -28,11 +28,12 @@ public class DateHelperTest {
 
     @Test
     public void testDate() {
-        DateHelper dh = DateHelper.get();
-        logger.info(dh::dateTime);
-        logger.info(dh::timeStamp);
-        logger.info(() -> DateHelper.get().setDate("10/08/2021").date());
-        LocalDate currentDate = dh.currentDate();
-        logger.info(() -> dh.setDateFormat("MM-dd-YY").formatDate(currentDate));
+        logger.info(() -> Clocks.dateTime(Clocks.DATE_TIME_FILE_FORMAT));
+        logger.info(Clocks::timeStamp);
+        logger.info(() -> Clocks.dateOf("10/08/2021", "").toString());
+        LocalDate currentDate = Clocks.nowDate();
+        logger.info(() -> Clocks.format(currentDate, "MM-dd-YY"));
+        logger.info(() -> Clocks.timeStamp(1000));
+
     }
 }

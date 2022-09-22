@@ -16,12 +16,12 @@
 
 package io.github.selcukes.commons.tests;
 
-import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.properties.SelcukesTestProperties;
 import io.github.selcukes.databind.properties.LinkedProperties;
 import io.github.selcukes.databind.properties.PropertiesMapper;
+import io.github.selcukes.databind.utils.Clocks;
 import org.testng.annotations.Test;
 
 import java.nio.file.Path;
@@ -39,7 +39,7 @@ public class PropertiesTest {
     @Test
     public void createPropertyFileTest() {
         Map<String, String> data = Map.of("userName", "QA",
-            "Time", DateHelper.get().timeStamp());
+            "Time", Clocks.timeStamp());
         Path filePath = Path.of(PROPS_FILE);
         PropertiesMapper.write(filePath.toAbsolutePath().toString(), data);
         assertTrue(filePath.toFile().exists());

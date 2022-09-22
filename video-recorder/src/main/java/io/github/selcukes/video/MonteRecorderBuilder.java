@@ -17,8 +17,8 @@
 package io.github.selcukes.video;
 
 import io.github.selcukes.commons.exception.RecorderException;
-import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.commons.helper.FileHelper;
+import io.github.selcukes.databind.utils.Clocks;
 import lombok.Builder;
 import org.monte.media.Format;
 import org.monte.media.Registry;
@@ -29,6 +29,8 @@ import java.awt.GraphicsConfiguration;
 import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
+
+import static io.github.selcukes.databind.utils.Clocks.DATE_TIME_FILE_FORMAT;
 
 class MonteRecorderBuilder extends ScreenRecorder {
 
@@ -63,7 +65,7 @@ class MonteRecorderBuilder extends ScreenRecorder {
     }
 
     private File getDestinationFile(String filename) {
-        String fileName = filename + "_recording_" + DateHelper.get().dateTime();
+        String fileName = filename + "_recording_" + Clocks.dateTime(DATE_TIME_FILE_FORMAT);
         return new File(this.movieFolder + File.separator + fileName + "." + this.currentTempExtension);
 
     }

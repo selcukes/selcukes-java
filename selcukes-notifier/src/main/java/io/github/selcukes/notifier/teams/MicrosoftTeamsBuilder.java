@@ -17,7 +17,7 @@
 package io.github.selcukes.notifier.teams;
 
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.commons.helper.DateHelper;
+import io.github.selcukes.databind.utils.Clocks;
 import io.github.selcukes.notifier.IncomingWebHookRequest;
 import io.github.selcukes.notifier.NotifierHelper;
 import io.github.selcukes.notifier.enums.NotifierEnum;
@@ -44,7 +44,7 @@ public class MicrosoftTeamsBuilder {
 
         Field field1 = Field.builder()
                 .name(NotifierEnum.TIME_STAMP.getValue())
-                .value(DateHelper.get().timeStamp())
+                .value(Clocks.timeStamp())
                 .build();
 
         Field field2 = Field.builder()

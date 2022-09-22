@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static io.github.selcukes.databind.properties.PropertiesMapper.systemProperties;
 import static java.lang.String.format;
 import static java.lang.System.getProperty;
 import static java.util.Optional.ofNullable;
@@ -52,7 +53,8 @@ public class DataFileHelper<T> {
 
     public String getFileName() {
         if (!this.dataFile.fileName().isEmpty()) {
-            return this.dataFile.fileName();
+            return StringHelper.interpolate(this.dataFile.fileName(),
+                matcher -> systemProperties().getProperty(matcher.group(1)));
         }
         if (isStream()) {
             throw new DataMapperException("Please provide fileName to perform stream loader");

@@ -23,8 +23,8 @@ import com.aventstack.extentreports.observer.ExtentObserver;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.ReporterConfigurable;
 import com.aventstack.extentreports.reporter.configuration.ViewName;
-import io.github.selcukes.commons.helper.DateHelper;
 import io.github.selcukes.databind.properties.PropertiesMapper;
+import io.github.selcukes.databind.utils.Clocks;
 import io.github.selcukes.databind.utils.Maps;
 
 import java.io.IOException;
@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
 
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.THUMBNAIL_REPORT;
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.TIMESTAMP_REPORT;
+import static io.github.selcukes.databind.utils.Clocks.DATE_TIME_FILE_FORMAT;
 import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
 
 public class ExtentService implements Serializable {
@@ -97,7 +98,7 @@ public class ExtentService implements Serializable {
         private static void initSpark() {
             String out = getOutputPath();
             if (getBooleanProperty(TIMESTAMP_REPORT)) {
-                out = Objects.requireNonNull(out).replace(".", DateHelper.get().dateTime() + ".");
+                out = Objects.requireNonNull(out).replace(".", Clocks.dateTime(DATE_TIME_FILE_FORMAT) + ".");
             }
             ExtentSparkReporter spark = new ExtentSparkReporter(out);
             spark.config().setReportName(REPORT_NAME);
