@@ -203,7 +203,7 @@ public class WebClient {
 
     /**
      * This function adds an Authorization header to the request with the value
-     * of Bearer <token>.
+     * of Bearer Token.
      *
      * @param  token The token you received from the authentication service.
      * @return       The WebClient object.
