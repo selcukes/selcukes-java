@@ -5,11 +5,21 @@
 ## [Unreleased] (In Git)
 
 ### Added
-
+* [DataBind] Added support to get data file name from System Properties([#189](https://github.com/selcukes/selcukes-java/pull/189))
 ### Changed
 
-### Removed
+* Update dependency io.cucumber:cucumber-bom to v7.8.0([#185](https://github.com/selcukes/selcukes-java/pull/185))
+* Update dependency selenium.version to v4.4.0([#180](https://github.com/selcukes/selcukes-java/pull/180))
+* Update dependency org.apache.maven.plugins:maven-javadoc-plugin to
+  v3.4.1([#181](https://github.com/selcukes/selcukes-java/pull/181))
+* Update dependency io.appium:java-client to v8.2.0([#182](https://github.com/selcukes/selcukes-java/pull/182))
+* Update dependency org.apache.logging.log4j:log4j-slf4j-impl to
+  v2.19.0([#186](https://github.com/selcukes/selcukes-java/pull/186))
+* Update dependency org.apache.poi:poi-ooxml to v5.2.3([#187](https://github.com/selcukes/selcukes-java/pull/187))
+* Update dependency org.junit:junit-bom to v5.9.1([#188](https://github.com/selcukes/selcukes-java/pull/188))
 
+### Removed
+* [Commons] Removed DateHelper Class in favor of Clocks([#189](https://github.com/selcukes/selcukes-java/pull/189))
 ### Fixed
 
 ## [2.1.6] (29-07-2022)
