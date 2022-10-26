@@ -48,7 +48,7 @@ public class WebAuthTest {
         }
     }
 
-    @Test
+    @Test(enabled = false)
     public void testVirtualAuth() {
         page.open("https://webauthn.io/");
         page.addVirtualAuthenticator();
