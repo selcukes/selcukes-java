@@ -445,6 +445,17 @@ public interface Page {
     }
 
     /**
+     * Switch to the frame specified by the locator.
+     *
+     * @param  locator The locator of the frame to switch to.
+     * @return         The page object itself.
+     */
+    default Page switchToFrame(Object locator) {
+        getDriver().switchTo().frame(find(locator));
+        return this;
+    }
+
+    /**
      * Switch to the parent frame of the current frame.
      *
      * @return The current page.
