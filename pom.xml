@@ -32,19 +32,19 @@
     <inceptionYear>2019</inceptionYear>
 
     <properties>
-        <cucumber.version>7.8.0</cucumber.version>
-        <selenium.version>4.4.0</selenium.version>
+        <cucumber.version>7.8.1</cucumber.version>
+        <selenium.version>4.5.0</selenium.version>
         <appium.version>8.2.0</appium.version>
         <testng.version>7.6.1</testng.version>
         <junit.version>5.9.1</junit.version>
 
         <lombok.version>1.18.24</lombok.version>
         <commons.io.version>2.11.0</commons.io.version>
-        <jackson.version>2.13.4</jackson.version>
+        <jackson.version>2.13.4.20221013</jackson.version>
         <commons-compress.version>1.21</commons-compress.version>
 
         <poi.version>5.2.3</poi.version>
-        <cucumber-reporting.version>5.7.2</cucumber-reporting.version>
+        <cucumber-reporting.version>5.7.3</cucumber-reporting.version>
         <extentreports.version>5.0.9</extentreports.version>
         <recorder.version>0.7.7.0</recorder.version>
         <slfj4.version>2.19.0</slfj4.version>

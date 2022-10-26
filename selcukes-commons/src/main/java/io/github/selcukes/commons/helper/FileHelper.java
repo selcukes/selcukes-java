@@ -369,7 +369,7 @@ public class FileHelper {
      */
     public String readContent(final String filePath) {
         try {
-            return Files.readString(loadThreadResource(filePath).toPath());
+            return new String(loadResourceFromJar(filePath).readAllBytes(), StandardCharsets.UTF_8);
         } catch (Exception e) {
             throw new SelcukesException(String.format("Cannot load [%s] from classpath", filePath));
         }

@@ -46,9 +46,13 @@ public class ResourceCleanupProvider implements TestLifecycleListener {
     }
 
     @Override
+    public void beforeAfterTest(TestResult result) {
+        Validation.failAll();
+    }
+
+    @Override
     public void afterTest(TestResult result) {
         logger.debug(() -> "Cleanup Test Resource...");
-        Validation.failAll();
         DriverFixture.removeDriverFixture();
         DriverManager.removeDriver();
         ConfigFactory.cleanupConfig();
