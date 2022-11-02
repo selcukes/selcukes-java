@@ -44,7 +44,7 @@
         <commons-compress.version>1.21</commons-compress.version>
 
         <poi.version>5.2.3</poi.version>
-        <cucumber-reporting.version>5.7.3</cucumber-reporting.version>
+        <cucumber-reporting.version>5.7.4</cucumber-reporting.version>
         <extentreports.version>5.0.9</extentreports.version>
         <recorder.version>0.7.7.0</recorder.version>
         <slfj4.version>2.19.0</slfj4.version>
