@@ -12,6 +12,25 @@
 
 ### Removed
 
+## [2.2.0] (03-12-2022)
+
+### Changed
+
+* Update dependency selenium.version to v4.7.0 ([#204](https://github.com/selcukes/selcukes-java/pull/204))
+* Update dependency io.appium:java-client to v8.3.0 ([#204](https://github.com/selcukes/selcukes-java/pull/204))
+* Update dependency com.fasterxml.jackson:jackson-bom to
+  v2.14.1 ([#202](https://github.com/selcukes/selcukes-java/pull/202))
+* Update dependency net.masterthought:cucumber-reporting to
+  v5.7.4 ([#199](https://github.com/selcukes/selcukes-java/pull/199))
+* Update dependency io.cucumber:cucumber-bom to v7.9.0 ([#198](https://github.com/selcukes/selcukes-java/pull/198))
+* Update dependency org.apache.commons:commons-compress to
+  v1.22 ([#197](https://github.com/selcukes/selcukes-java/pull/197))
+
+### Fixed
+
+* [Commons]  Reading file content issue ([#192](https://github.com/selcukes/selcukes-java/pull/192))
+* [Core] Error collections issue ([#204](https://github.com/selcukes/selcukes-java/pull/204))
+
 ## [2.1.7] (22-09-2022)
 
 ### Added
