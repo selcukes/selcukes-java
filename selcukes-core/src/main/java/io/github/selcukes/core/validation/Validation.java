@@ -46,8 +46,9 @@ public class Validation {
 
     public void failAll() {
         if (!getErrorMessages().isEmpty()) {
-            fail("Test Failed with Below Errors \n" + String.join("\n", getErrorMessages()));
+            String errors = String.join("\n", getErrorMessages());
             FAILED_MESSAGES.remove();
+            fail("Test Failed with Below Errors \n" + errors);
         }
     }
 }
