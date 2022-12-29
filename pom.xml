@@ -35,7 +35,7 @@
         <cucumber.version>7.10.1</cucumber.version>
         <selenium.version>4.7.2</selenium.version>
         <appium.version>8.3.0</appium.version>
-        <testng.version>7.7.0</testng.version>
+        <testng.version>7.7.1</testng.version>
         <junit.version>5.9.1</junit.version>
 
         <lombok.version>1.18.24</lombok.version>
