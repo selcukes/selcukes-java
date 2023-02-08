@@ -12,6 +12,28 @@
 
 ### Removed
 
+## [2.2.1] (08-02-2023)
+
+### Added
+
+* Added CSV Data Support ([#216](https://github.com/selcukes/selcukes-java/pull/216))
+*
+
+### Changed
+
+* Update dependency org.projectlombok:lombok to v1.18.26 ([#215](https://github.com/selcukes/selcukes-java/pull/215))
+* Update dependency io.cucumber:cucumber-bom to v7.11.([#214](https://github.com/selcukes/selcukes-java/pull/214))
+* Update dependency com.fasterxml.jackson:jackson-bom to
+  v2.14.2 ([#213](https://github.com/selcukes/selcukes-java/pull/213))
+* Update selenium.version to v4.8.0 ([#212](https://github.com/selcukes/selcukes-java/pull/212))
+* Update dependency io.cucumber:cucumber-bom to v7.11.0 ([#211](https://github.com/selcukes/selcukes-java/pull/211))
+* Update dependency org.junit:junit-bom to v5.9.2 ([#210](https://github.com/selcukes/selcukes-java/pull/210))
+* Update dependency org.testng:testng to v7.7.1 ([#209](https://github.com/selcukes/selcukes-java/pull/209))
+
+### Fixed
+
+* Fixed StringHelper toFieldName issue
+
 ## [2.2.0] (03-12-2022)
 
 ### Changed
