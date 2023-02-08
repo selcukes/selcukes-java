@@ -213,12 +213,12 @@ public class StringHelper {
     }
 
     /**
-     * It splits the input string by newline, then splits each line by the delimiter, and finally returns a list of lists
-     * of strings
+     * It splits the input string by newline, then splits each line by the
+     * delimiter, and finally returns a list of lists of strings
      *
-     * @param line The string to be split into a list of lists.
-     * @param delimiter The delimiter to use when splitting the line.
-     * @return A list of lists of strings.
+     * @param  line      The string to be split into a list of lists.
+     * @param  delimiter The delimiter to use when splitting the line.
+     * @return           A list of lists of strings.
      */
     public static List<List<String>> asListOfList(String line, String delimiter) {
         return Arrays.stream(line.split("\n"))

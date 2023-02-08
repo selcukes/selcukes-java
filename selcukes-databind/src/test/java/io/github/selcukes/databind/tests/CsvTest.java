@@ -28,8 +28,7 @@ public class CsvTest {
     @Test
     public void csvDataReaderTest() {
         Path filePath = Path.of(
-                Objects.requireNonNull(CsvTest.class.getClassLoader().getResource("employee.csv")).toURI()
-        );
+            Objects.requireNonNull(CsvTest.class.getClassLoader().getResource("employee.csv")).toURI());
         var csvData = CsvMapper.parse(filePath);
         System.out.println(csvData);
     }
