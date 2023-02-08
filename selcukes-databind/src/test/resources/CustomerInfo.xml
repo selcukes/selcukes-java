@@ -1,0 +1,42 @@
+<MemberProfile>
+    <metaData>
+        <eventNotificationDate>2019-03-06T07:32:26</eventNotificationDate>
+        <eventType>CREATE</eventType>
+        <refNo>1258D20190306T073226</refNo>
+        <status>SCD_SENT</status>
+    </metaData>
+    <name>Central Pacific Bank</name>
+    <maturityDate>2100-31-12</maturityDate>
+    <address>
+        <addressLine1>125 Street</addressLine1>
+        <addressLine2></addressLine2>
+        <city>Des moines</city>
+        <country>USA</country>
+        <state>IA</state>
+        <zip>50303</zip>
+    </address>
+    <contactPersonList>
+        <contactPerson>
+            <contactPersonId>1256</contactPersonId>
+            <email>test@test.com</email>
+            <firstName>Ramesh</firstName>
+            <lastName>Babu</lastName>
+            <mobilePhone>+15168978352</mobilePhone>
+            <title>Treasury</title>
+            <workPhone>+19087253123</workPhone>
+        </contactPerson>
+        <contactPerson>
+            <contactPersonId>5689</contactPersonId>
+            <email>test@test.com</email>
+            <firstName>Mohan</firstName>
+            <lastName>Babu</lastName>
+            <mobilePhone>+19011978123</mobilePhone>
+            <title>Treasury</title>
+            <workPhone>+19011253456</workPhone>
+        </contactPerson>
+    </contactPersonList>
+</MemberProfile>
+
+
+
+

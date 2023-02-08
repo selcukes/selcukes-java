@@ -23,10 +23,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.selcukes.databind.exception.DataMapperException;
 import lombok.experimental.UtilityClass;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static io.github.selcukes.databind.properties.PropertiesMapper.systemProperties;
 
@@ -207,5 +210,19 @@ public class StringHelper {
      */
     public static String normalizeText(final String text) {
         return text != null ? text.replaceAll("\u00A0|\\r\\n|\\r|\\n", " ").trim() : null;
+    }
+
+    /**
+     * It splits the input string by newline, then splits each line by the delimiter, and finally returns a list of lists
+     * of strings
+     *
+     * @param line The string to be split into a list of lists.
+     * @param delimiter The delimiter to use when splitting the line.
+     * @return A list of lists of strings.
+     */
+    public static List<List<String>> asListOfList(String line, String delimiter) {
+        return Arrays.stream(line.split("\n"))
+                .map(row -> Arrays.asList(row.split(delimiter)))
+                .collect(Collectors.toList());
     }
 }

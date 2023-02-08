@@ -76,4 +76,18 @@ public class Maps {
         newMap.putAll(map);
         return newMap;
     }
+
+    /**
+     * Skip the first row, then for each row, create a map from the headers to
+     * the values.
+     *
+     * @param  cells The list of lists of strings that represent the table.
+     * @return       A list of maps.
+     */
+    public List<Map<String, String>> asListOfMap(List<List<String>> cells) {
+        var headers = cells.get(0);
+        return cells.stream().skip(1).map(row -> IntStream.range(0, headers.size())
+                .boxed()
+                .collect(Collectors.toMap(headers::get, row::get))).collect(Collectors.toList());
+    }
 }

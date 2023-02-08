@@ -90,6 +90,8 @@ public class DataMapper {
                 return new YamlData();
             case "json":
                 return new JsonData();
+            case "xml":
+                return new XmlData();
             default:
                 throw new DataMapperException(String.format("File Type[%s] not supported...", extension));
         }
