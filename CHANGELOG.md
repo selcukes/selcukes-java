@@ -17,7 +17,6 @@
 ### Added
 
 * Added CSV Data Support ([#216](https://github.com/selcukes/selcukes-java/pull/216))
-*
 
 ### Changed
 
