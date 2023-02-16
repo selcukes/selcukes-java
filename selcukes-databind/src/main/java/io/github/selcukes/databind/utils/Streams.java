@@ -43,6 +43,16 @@ public class Streams {
                 .stream(Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED), false);
     }
 
+    /**
+     * "Return the index of the first element in the list that matches the predicate, or an empty OptionalInt if no such
+     * element exists."
+     *
+     * The first thing we do is convert the list to a Stream. This is done using the of() method
+     *
+     * @param elements The list of elements to search through.
+     * @param predicate A function that takes an element of the list and returns a boolean.
+     * @return OptionalInt
+     */
     public <T> OptionalInt indexOf(List<T> elements, IntPredicate predicate) {
         return of(elements)
                 .filter(predicate)
