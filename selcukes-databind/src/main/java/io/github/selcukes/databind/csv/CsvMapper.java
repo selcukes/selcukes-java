@@ -32,7 +32,7 @@ public class CsvMapper {
 
     public List<Map<String, String>> parse(Path filePath) {
         try (var lines = Files.lines(filePath)) {
-            return Maps.asListOfMap(lines.map(line -> line.split(","))
+            return Maps.asListOfMap(lines.map(line -> line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"))
                     .filter(line -> line.length != 0)
                     .map(Arrays::asList).collect(Collectors.toList()));
         } catch (Exception e) {
