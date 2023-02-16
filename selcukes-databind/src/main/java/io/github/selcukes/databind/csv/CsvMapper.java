@@ -17,7 +17,7 @@
 package io.github.selcukes.databind.csv;
 
 import io.github.selcukes.databind.exception.DataMapperException;
-import io.github.selcukes.databind.utils.Maps;
+import io.github.selcukes.databind.utils.Streams;
 import lombok.experimental.UtilityClass;
 
 import java.nio.file.Files;
@@ -32,7 +32,7 @@ public class CsvMapper {
 
     public List<Map<String, String>> parse(Path filePath) {
         try (var lines = Files.lines(filePath)) {
-            return Maps.asListOfMap(lines.map(line -> line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"))
+            return Streams.listOfMap(lines.map(line -> line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"))
                     .filter(line -> line.length != 0)
                     .map(Arrays::asList).collect(Collectors.toList()));
         } catch (Exception e) {

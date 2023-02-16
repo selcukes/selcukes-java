@@ -16,26 +16,28 @@
 
 package io.github.selcukes.databind.tests;
 
-import io.github.selcukes.databind.csv.CsvMapper;
-import lombok.SneakyThrows;
+import io.github.selcukes.databind.utils.Streams;
 import org.testng.annotations.Test;
 
-import java.nio.file.Path;
-import java.util.Objects;
+import java.util.List;
+import java.util.Map;
 
-public class CsvTest {
-    @SneakyThrows
+public class CollectionsTest {
     @Test
-    public void csvDataReaderTest() {
-        Path filePath = Path.of(
-                Objects.requireNonNull(CsvTest.class.getClassLoader().getResource("employee.csv")).toURI());
-        var csvData = CsvMapper.parse(filePath);
-
-        csvData.forEach(map -> map.computeIfPresent("ID", (k, v) -> {
-            String phone = map.get("Phone ");
-            return map.get("Country").substring(0, 3).toUpperCase() + "_DDA_" + phone.substring(phone.length() - 4);
-        }));
-        System.out.println(csvData);
+    public void mapOfListTest() {
+        var listMap = List.of(
+                Map.of("a", 1, "b", 2),
+                Map.of("a", 4, "b", 5),
+                Map.of("a", 6, "b", 7));
+        System.out.println(Streams.mapOfList(listMap));
     }
 
+    @Test
+    public void listOfMapTest() {
+        var listMap = List.of(
+                List.of("a", "b", "c"),
+                List.of("1", "2", "3"),
+                List.of("4", "5", "6"));
+        System.out.println(Streams.listOfMap(listMap));
+    }
 }
