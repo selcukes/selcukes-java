@@ -37,28 +37,29 @@ public class Maps {
      * It takes a `Properties` object and returns a
      * `{@literal Map<String, String>}` object
      *
-     * @param properties The properties object to convert to a map.
-     * @return A map of the properties.
+     * @param  properties The properties object to convert to a map.
+     * @return            A map of the properties.
      */
     public static Map<String, String> of(Properties properties) {
         return properties.entrySet().stream().collect(
-                Collectors.toMap(
-                        entry -> String.valueOf(entry.getKey()),
-                        entry -> String.valueOf(entry.getValue()),
-                        (prev, next) -> next, LinkedHashMap::new));
+            Collectors.toMap(
+                entry -> String.valueOf(entry.getKey()),
+                entry -> String.valueOf(entry.getValue()),
+                (prev, next) -> next, LinkedHashMap::new));
     }
 
     /**
-     * "Given a list of keys and a list of values, return a map of the keys to the values, skipping any keys that are null
-     * or empty."
+     * "Given a list of keys and a list of values, return a map of the keys to
+     * the values, skipping any keys that are null or empty."
      * <p>
-     * The first thing we do is create a stream of the keys. We then filter out any keys that are null or empty. We then
-     * collect the stream into a map, using the keys as the keys and the values as the values. We use a LinkedHashMap to
-     * preserve the order of the keys
+     * The first thing we do is create a stream of the keys. We then filter out
+     * any keys that are null or empty. We then collect the stream into a map,
+     * using the keys as the keys and the values as the values. We use a
+     * LinkedHashMap to preserve the order of the keys
      *
-     * @param keys   List of keys
-     * @param values The values to be put into the map.
-     * @return A map of the keys and values.
+     * @param  keys   List of keys
+     * @param  values The values to be put into the map.
+     * @return        A map of the keys and values.
      */
     public <T> Map<String, T> of(List<String> keys, List<T> values) {
         return Streams.of(keys).boxed()
@@ -70,9 +71,9 @@ public class Maps {
      * It takes a map, creates a new map with a case-insensitive comparator, and
      * then puts all the entries from the original map into the new map.
      *
-     * @param map The map to be wrapped.
-     * @return A new TreeMap with the same keys and values as the original
-     * map, but with the keys in case-insensitive order.
+     * @param  map The map to be wrapped.
+     * @return     A new TreeMap with the same keys and values as the original
+     *             map, but with the keys in case-insensitive order.
      */
     public <V> Map<String, V> caseInsensitive(Map<String, V> map) {
         var newMap = new TreeMap<String, V>(CASE_INSENSITIVE_ORDER);

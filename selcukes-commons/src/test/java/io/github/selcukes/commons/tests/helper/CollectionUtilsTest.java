@@ -16,13 +16,14 @@
 
 package io.github.selcukes.commons.tests.helper;
 
-import io.github.selcukes.commons.helper.CollectionUtils;
 import io.github.selcukes.databind.utils.Maps;
+import io.github.selcukes.databind.utils.Streams;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CollectionUtilsTest {
     private final List<String> headers = List.of("NEW",
@@ -35,7 +36,7 @@ public class CollectionUtilsTest {
 
     @Test
     public void enumTest() {
-        Assert.assertEquals(CollectionUtils.toList(State.class), headers);
+        Assert.assertEquals(Streams.of(State.class).collect(Collectors.toList()), headers);
     }
 
     @Test
@@ -46,7 +47,7 @@ public class CollectionUtilsTest {
 
     @Test
     public void trimTest() {
-        Assert.assertEquals(CollectionUtils.trim(values).get(5), "6");
+        Assert.assertEquals(Streams.trim(values).get(5), "6");
     }
 
     private enum State {

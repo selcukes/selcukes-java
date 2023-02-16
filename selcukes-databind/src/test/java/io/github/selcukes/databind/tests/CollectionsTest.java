@@ -26,18 +26,18 @@ public class CollectionsTest {
     @Test
     public void mapOfListTest() {
         var listMap = List.of(
-                Map.of("a", 1, "b", 2),
-                Map.of("a", 4, "b", 5),
-                Map.of("a", 6, "b", 7));
+            Map.of("a", 1, "b", 2),
+            Map.of("a", 4, "b", 5),
+            Map.of("a", 6, "b", 7));
         System.out.println(Streams.mapOfList(listMap));
     }
 
     @Test
     public void listOfMapTest() {
         var listMap = List.of(
-                List.of("a", "b", "c"),
-                List.of("1", "2", "3"),
-                List.of("4", "5", "6"));
+            List.of("a", "b", "c"),
+            List.of("1", "2", "3"),
+            List.of("4", "5", "6"));
         System.out.println(Streams.listOfMap(listMap));
     }
 }
