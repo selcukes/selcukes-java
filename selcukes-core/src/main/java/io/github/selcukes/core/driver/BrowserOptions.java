@@ -72,7 +72,7 @@ public class BrowserOptions {
     }
 
     public static void setBinaries(DriverType driverType) {
-        switch (driverType) {
+        /*switch (driverType) {
             case EDGE:
                 WebDriverBinary.edgeDriver().setup();
                 break;
@@ -84,6 +84,6 @@ public class BrowserOptions {
                 break;
             default:
                 WebDriverBinary.chromeDriver().setup();
-        }
+        }*/
     }
 }
