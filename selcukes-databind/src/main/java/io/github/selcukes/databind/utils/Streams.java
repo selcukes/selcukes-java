@@ -78,7 +78,7 @@ public class Streams {
      * @param  end   The end value (exclusive) for the range to be created
      * @return       IntStream
      */
-    public <T> IntStream of(int start, int end) {
+    public IntStream of(int start, int end) {
         return IntStream.range(start, end);
     }
 
