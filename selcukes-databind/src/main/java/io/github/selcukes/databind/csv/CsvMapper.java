@@ -40,7 +40,7 @@ public class CsvMapper {
      */
     public List<Map<String, String>> parse(Path filePath) {
         try (var lines = Files.lines(filePath)) {
-            return Streams.listOfMap(lines.parallel()
+            return Streams.toListOfMap(lines.parallel()
                     .map(line ->
                             Pattern.compile(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)").splitAsStream(line)
                                     .map(field -> field.replaceAll("^\"|\"$", ""))

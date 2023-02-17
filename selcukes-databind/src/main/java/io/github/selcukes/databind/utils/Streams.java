@@ -89,7 +89,7 @@ public class Streams {
      * @param  cells The list of lists of strings that represent the table.
      * @return       A list of maps.
      */
-    public List<Map<String, String>> listOfMap(List<List<String>> cells) {
+    public List<Map<String, String>> toListOfMap(List<List<String>> cells) {
         var headers = cells.get(0);
         return cells.stream().skip(1).map(row -> Maps.of(headers, row))
                 .collect(Collectors.toList());
@@ -101,7 +101,7 @@ public class Streams {
      * @param  listMap The list of maps to be converted.
      * @return         A map of lists.
      */
-    public <K, V> Map<K, List<V>> mapOfList(List<Map<K, V>> listMap) {
+    public <K, V> Map<K, List<V>> toMapOfList(List<Map<K, V>> listMap) {
         return listMap.stream()
                 .flatMap(map -> map.entrySet().stream())
                 .collect(Collectors.groupingBy(

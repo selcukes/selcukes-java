@@ -29,7 +29,7 @@ public class CollectionsTest {
             Map.of("a", 1, "b", 2),
             Map.of("a", 4, "b", 5),
             Map.of("a", 6, "b", 7));
-        System.out.println(Streams.mapOfList(listMap));
+        System.out.println(Streams.toMapOfList(listMap));
     }
 
     @Test
@@ -38,6 +38,6 @@ public class CollectionsTest {
             List.of("a", "b", "c"),
             List.of("1", "2", "3"),
             List.of("4", "5", "6"));
-        System.out.println(Streams.listOfMap(listMap));
+        System.out.println(Streams.toListOfMap(listMap));
     }
 }
