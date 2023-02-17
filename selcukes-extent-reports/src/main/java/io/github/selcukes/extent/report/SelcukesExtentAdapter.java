@@ -50,8 +50,8 @@ import io.cucumber.plugin.event.TestSourceRead;
 import io.cucumber.plugin.event.TestStepFinished;
 import io.cucumber.plugin.event.TestStepStarted;
 import io.cucumber.plugin.event.WriteEvent;
-import io.github.selcukes.commons.helper.CollectionUtils;
 import io.github.selcukes.commons.helper.ExceptionHelper;
+import io.github.selcukes.databind.utils.Streams;
 import lombok.SneakyThrows;
 
 import java.net.URI;
@@ -392,7 +392,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     }
 
     private String[][] createDataTableList(DataTableArgument dataTable) {
-        return CollectionUtils.toArray(dataTable.cells());
+        return Streams.toArray(dataTable.cells());
     }
 
 }

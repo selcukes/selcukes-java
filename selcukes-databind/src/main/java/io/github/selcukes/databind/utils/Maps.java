@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
 
@@ -50,17 +49,22 @@ public class Maps {
     }
 
     /**
-     * It takes two lists of strings, and returns a map of the non-empty keys to
-     * their corresponding values
+     * "Given a list of keys and a list of values, return a map of the keys to
+     * the values, skipping any keys that are null or empty."
+     * <p>
+     * The first thing we do is create a stream of the keys. We then filter out
+     * any keys that are null or empty. We then collect the stream into a map,
+     * using the keys as the keys and the values as the values. We use a
+     * LinkedHashMap to preserve the order of the keys
      *
      * @param  keys   List of keys
      * @param  values The values to be put into the map.
      * @return        A map of the keys and values.
      */
-    public static Map<String, String> of(List<String> keys, List<String> values) {
-        return IntStream.range(0, keys.size()).boxed()
+    public <T> Map<String, T> of(List<String> keys, List<T> values) {
+        return Streams.of(keys).boxed()
                 .filter(i -> !StringHelper.isNullOrEmpty(keys.get(i)))
-                .collect(Collectors.toMap(keys::get, values::get));
+                .collect(Collectors.toMap(keys::get, values::get, (k, v) -> k, LinkedHashMap::new));
     }
 
     /**
@@ -75,19 +79,5 @@ public class Maps {
         var newMap = new TreeMap<String, V>(CASE_INSENSITIVE_ORDER);
         newMap.putAll(map);
         return newMap;
-    }
-
-    /**
-     * Skip the first row, then for each row, create a map from the headers to
-     * the values.
-     *
-     * @param  cells The list of lists of strings that represent the table.
-     * @return       A list of maps.
-     */
-    public List<Map<String, String>> asListOfMap(List<List<String>> cells) {
-        var headers = cells.get(0);
-        return cells.stream().skip(1).map(row -> IntStream.range(0, headers.size())
-                .boxed()
-                .collect(Collectors.toMap(headers::get, row::get))).collect(Collectors.toList());
     }
 }

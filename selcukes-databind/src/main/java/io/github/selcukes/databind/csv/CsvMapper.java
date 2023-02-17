@@ -17,24 +17,35 @@
 package io.github.selcukes.databind.csv;
 
 import io.github.selcukes.databind.exception.DataMapperException;
-import io.github.selcukes.databind.utils.Maps;
+import io.github.selcukes.databind.utils.Streams;
 import lombok.experimental.UtilityClass;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @UtilityClass
 public class CsvMapper {
 
+    /**
+     * It takes a CSV file, reads it line by line, splits each line by comma, removes the quotes, and returns a list of
+     * maps
+     *
+     * @param filePath The path to the file to be parsed.
+     * @return A list of maps.
+     */
     public List<Map<String, String>> parse(Path filePath) {
         try (var lines = Files.lines(filePath)) {
-            return Maps.asListOfMap(lines.map(line -> line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"))
-                    .filter(line -> line.length != 0)
-                    .map(Arrays::asList).collect(Collectors.toList()));
+            return Streams.toListOfMap(lines.parallel()
+                    .map(line ->
+                            Pattern.compile(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)").splitAsStream(line)
+                                    .map(field -> field.replaceAll("^\"|\"$", ""))
+                                    .collect(Collectors.toCollection(LinkedList::new)))
+                    .collect(Collectors.toCollection(LinkedList::new)));
         } catch (Exception e) {
             throw new DataMapperException("Failed parsing CSV File: ", e);
         }
