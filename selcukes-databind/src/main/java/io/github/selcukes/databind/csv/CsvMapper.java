@@ -32,7 +32,8 @@ import java.util.stream.Collectors;
 public class CsvMapper {
 
     /**
-     * It parses a CSV file and returns a list of maps.
+     * It takes a CSV file, reads it line by line, splits each line by comma, removes the quotes, and returns a list of
+     * maps
      *
      * @param filePath The path to the file to be parsed.
      * @return A list of maps.
@@ -42,6 +43,7 @@ public class CsvMapper {
             return Streams.listOfMap(lines.parallel()
                     .map(line ->
                             Pattern.compile(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)").splitAsStream(line)
+                                    .map(field -> field.replaceAll("^\"|\"$", ""))
                                     .collect(Collectors.toCollection(LinkedList::new)))
                     .collect(Collectors.toCollection(LinkedList::new)));
         } catch (Exception e) {
