@@ -220,7 +220,7 @@ public class StringHelper {
      * @param  delimiter The delimiter to use when splitting the line.
      * @return           A list of lists of strings.
      */
-    public static List<List<String>> asListOfList(String text, String delimiter) {
+    public static List<List<String>> toListOfList(String text, String delimiter) {
         return text.lines()
                 .map(row -> Arrays.asList(row.split(delimiter)))
                 .collect(Collectors.toList());
