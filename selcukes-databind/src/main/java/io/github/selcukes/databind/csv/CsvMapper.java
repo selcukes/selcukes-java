@@ -22,7 +22,6 @@ import lombok.experimental.UtilityClass;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -33,17 +32,17 @@ import java.util.stream.Collectors;
 public class CsvMapper {
 
     /**
-     * It takes a file path, reads the file line by line, splits each line by comma, filters out empty lines, converts each
-     * line to a list, collects all the lines into a linked list, and returns a list of maps
+     * It parses a CSV file and returns a list of maps.
      *
      * @param filePath The path to the file to be parsed.
      * @return A list of maps.
      */
     public List<Map<String, String>> parse(Path filePath) {
         try (var lines = Files.lines(filePath)) {
-            return Streams.listOfMap(lines.map(line -> Pattern.compile(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)").split(line))
-                    .filter(line -> line.length != 0)
-                    .map(Arrays::asList)
+            return Streams.listOfMap(lines.parallel()
+                    .map(line ->
+                            Pattern.compile(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)").splitAsStream(line)
+                                    .collect(Collectors.toCollection(LinkedList::new)))
                     .collect(Collectors.toCollection(LinkedList::new)));
         } catch (Exception e) {
             throw new DataMapperException("Failed parsing CSV File: ", e);
