@@ -42,7 +42,7 @@ public class CsvMapper {
         try (var lines = Files.lines(filePath)) {
             return Streams.toListOfMap(lines.parallel()
                     .map(line -> Pattern.compile(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)").splitAsStream(line)
-                            .map(field -> field.trim().replace("\"", ""))
+                            .map(field -> field.replaceAll("^\"|\"$", ""))
                             .collect(Collectors.toCollection(LinkedList::new)))
                     .collect(Collectors.toCollection(LinkedList::new)));
         } catch (Exception e) {
