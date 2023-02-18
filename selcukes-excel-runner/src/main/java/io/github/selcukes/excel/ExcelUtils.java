@@ -58,7 +58,7 @@ public class ExcelUtils {
                 .forEach(entry -> modifyFirstColumnData(entry.getValue(),
                         entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "Screen" : TEST,
                         entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "" : "Example"));
-        filterScenariosToRun();
+        runScenarios = getScenariosToRun();
     }
 
     private static List<String> getScenariosToRun() {
@@ -79,10 +79,6 @@ public class ExcelUtils {
         }
         return dataList.stream().filter(name -> anyMatch(masterList, name))
                 .collect(Collectors.toList());
-    }
-
-    private static void filterScenariosToRun() {
-        runScenarios = getScenariosToRun();
     }
 
     public Map<String, String> getTestDataAsMap(String testName) {
