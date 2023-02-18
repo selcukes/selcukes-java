@@ -43,7 +43,8 @@ public class ExcelUtils {
     private static final String HYPHEN = " - ";
     private static final String EXAMPLE = " - Example";
     private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcel().get("suiteName");
-    private static final List<String> IGNORE_SHEETS = new ArrayList<>(Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
+    private static final List<String> IGNORE_SHEETS = new ArrayList<>(
+        Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
     private static Map<String, List<Map<String, String>>> excelData = new LinkedHashMap<>();
 
     public static void initTestRunner() {
@@ -56,8 +57,8 @@ public class ExcelUtils {
         excelData.entrySet().stream()
                 .filter(entry -> !IGNORE_SHEETS.contains(entry.getKey()))
                 .forEach(entry -> modifyFirstColumnData(entry.getValue(),
-                        entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "Screen" : TEST,
-                        entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "" : "Example"));
+                    entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "Screen" : TEST,
+                    entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "" : "Example"));
         runScenarios = getScenariosToRun();
     }
 
@@ -66,13 +67,14 @@ public class ExcelUtils {
         var dataList = new ArrayList<String>();
         excelData.forEach((key, value) -> {
             if (!IGNORE_SHEETS.contains(key)) {
-                value.stream().filter(entry -> entry.get(RUN).equalsIgnoreCase("Yes")).forEach(entry -> {
-                    if (key.equalsIgnoreCase(TEST_SUITE_RUNNER_SHEET)) {
-                        masterList.add(entry.get("Feature") + NAME_SEPARATOR + entry.get(TEST));
-                    } else {
-                        dataList.add(entry.get(TEST));
-                    }
-                });
+                value.stream().filter(entry -> entry.get(RUN).equalsIgnoreCase("Yes"))
+                        .forEach(entry -> {
+                            if (key.equalsIgnoreCase(TEST_SUITE_RUNNER_SHEET)) {
+                                masterList.add(entry.get("Feature") + NAME_SEPARATOR + entry.get(TEST));
+                            } else {
+                                dataList.add(entry.get(TEST));
+                            }
+                        });
             }
         });
         return dataList.stream().filter(name -> anyMatch(masterList, name))
@@ -108,7 +110,8 @@ public class ExcelUtils {
                 String newTestName;
                 if (!StringHelper.isNullOrEmpty(secondColumn)) {
                     if (!sheetData.get(i - 1).get(firstColumn).startsWith(testName + EXAMPLE)) {
-                        sheetData.get(i - 1).put(firstColumn, testName + HYPHEN + ofNullable(sheetData.get(i - 1).get(secondColumn)).orElse(""));
+                        sheetData.get(i - 1).put(firstColumn,
+                            testName + HYPHEN + ofNullable(sheetData.get(i - 1).get(secondColumn)).orElse(""));
                     }
                     newTestName = testName + HYPHEN + ofNullable(sheetData.get(i).get(secondColumn)).orElse("");
                 } else {

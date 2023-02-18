@@ -60,11 +60,11 @@ public class WebAuthTest {
         page.enter(By.id("input-email"), randomId);
         page.click(By.id("register-button"));
         page.waitFor(ExpectedConditions.textToBePresentInElementLocated(
-                By.className("popover-body"), "Success! Now try logging in"), 20);
+            By.className("popover-body"), "Success! Now try logging in"), 20);
 
         page.click(By.id("login-button"));
         page.waitFor(By.xpath("//*[contains(@class,'main-content')]//h3"), "You're logged in!",
-                WaitCondition.TEXT_TO_BE);
+            WaitCondition.TEXT_TO_BE);
         page.removeVirtualAuthenticator();
 
     }

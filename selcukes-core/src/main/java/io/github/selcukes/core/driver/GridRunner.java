@@ -37,7 +37,7 @@ public class GridRunner {
             hubPort = PortProber.findFreePort();
             if (isSeleniumServerNotRunning()) {
                 logger.debug(() -> "Using Free Hub Port: " + hubPort);
-                Main.main(new String[]{"standalone", "--port", String.valueOf(hubPort)});
+                Main.main(new String[] { "standalone", "--port", String.valueOf(hubPort) });
                 isRunning = true;
                 logger.info(() -> "Selenium Server started...");
             }

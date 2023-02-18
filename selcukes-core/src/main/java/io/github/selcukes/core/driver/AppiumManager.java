@@ -52,7 +52,7 @@ public class AppiumManager implements RemoteManager {
             serviceUrl = new URL(ConfigFactory.getConfig().getMobile().getServiceUrl());
         }
         logger.debug(() -> String.format("Using ServiceUrl[%s://%s:%s]", serviceUrl.getProtocol(), serviceUrl.getHost(),
-                serviceUrl.getPort()));
+            serviceUrl.getPort()));
         return serviceUrl;
     }
 

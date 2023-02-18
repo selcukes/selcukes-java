@@ -36,7 +36,7 @@ public class ClassicGridTest {
 
     @DataProvider(parallel = true)
     public Object[][] driverTypes() {
-        return new Object[][]{{Browser.CHROME}, {Browser.EDGE}
+        return new Object[][] { { Browser.CHROME }, { Browser.EDGE }
         };
     }
 

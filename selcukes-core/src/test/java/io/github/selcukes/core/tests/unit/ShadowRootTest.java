@@ -32,7 +32,7 @@ public class ShadowRootTest {
 
     @BeforeMethod
     private void setup() {
-        var options=new ChromeOptions();
+        var options = new ChromeOptions();
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
         page = new WebPage(driver);
@@ -50,7 +50,7 @@ public class ShadowRootTest {
 
         page.open("http://watir.com/examples/shadow_dom.html");
         WebElement shadowContent = page.findShadowChild(By.cssSelector("#shadow_host"),
-                By.cssSelector("#shadow_content"));
+            By.cssSelector("#shadow_content"));
         page.assertThat().element(shadowContent).textAs("some text");
 
     }
