@@ -7,7 +7,8 @@ Feature: Yahoo
       | Scenario  |
       | Example 1 |
       | Example 2 |
+      | Example 2 |
 
-  Scenario: Different kind of opening
+  Scenario: Yahoo Home
     Given I kinda open Yahoo page
     Then I am very happy
