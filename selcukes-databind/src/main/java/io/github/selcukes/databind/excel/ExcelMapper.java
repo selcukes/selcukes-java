@@ -74,7 +74,7 @@ public class ExcelMapper {
      * @return      A map of sheet names to a list of maps of column names to
      *              cell values.
      */
-    public Map<String, List<Map<String, String>>> parse(File file) {
+    public static Map<String, List<Map<String, String>>> parse(File file) {
         try (var workbook = WorkbookFactory.create(new FileInputStream(file))) {
             formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
             return Streams.of(workbook.iterator())
@@ -89,7 +89,7 @@ public class ExcelMapper {
 
     }
 
-    private Map<String, String> readRow(Row row) {
+    private static Map<String, String> readRow(Row row) {
         return Streams.of(row.iterator())
                 .collect(Collectors.toMap(cell -> cell.getSheet().getRow(0)
                         .getCell(cell.getColumnIndex()).getStringCellValue(),
