@@ -46,7 +46,7 @@ public class ExcelUtils {
     private static final List<String> IGNORE_SHEETS = new ArrayList<>(Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
     private static Map<String, List<Map<String, String>>> excelData = new LinkedHashMap<>();
 
-    public void initTestRunner() {
+    public static void initTestRunner() {
 
         var filePath = FileHelper.loadResource(ConfigFactory.getConfig().getExcel().get("fileName"));
         excelData = ExcelMapper.parse(filePath);
