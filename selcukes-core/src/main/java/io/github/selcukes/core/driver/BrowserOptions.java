@@ -33,12 +33,14 @@ import static org.openqa.selenium.remote.Browser.IE;
 
 @UtilityClass
 public class BrowserOptions {
+    public static final String HEADLESS = "--headless";
+
     public static Capabilities getBrowserOptions(Browser browser, String platform) {
-        boolean headless = RunMode.isHeadless();
+        boolean isHeadless = RunMode.isHeadless();
         if (EDGE.equals(browser)) {
             EdgeOptions edgeOptions = new EdgeOptions();
-            if (headless) {
-                edgeOptions.addArguments("--headless");
+            if (isHeadless) {
+                edgeOptions.addArguments(HEADLESS);
             }
             if (!StringHelper.isNullOrEmpty(platform)) {
                 edgeOptions.setPlatformName(platform);
@@ -46,8 +48,8 @@ public class BrowserOptions {
             return edgeOptions;
         } else if (FIREFOX.equals(browser)) {
             FirefoxOptions firefoxOptions = new FirefoxOptions();
-            if (headless) {
-                firefoxOptions.addArguments("--headless");
+            if (isHeadless) {
+                firefoxOptions.addArguments(HEADLESS);
             }
             return firefoxOptions;
         } else if (IE.equals(browser)) {
@@ -60,8 +62,8 @@ public class BrowserOptions {
             return ieOptions;
         }
         ChromeOptions chromeOptions = new ChromeOptions();
-        if (headless) {
-            chromeOptions.addArguments("--headless");
+        if (isHeadless) {
+            chromeOptions.addArguments(HEADLESS);
         }
         if (!StringHelper.isNullOrEmpty(platform)) {
             chromeOptions.setPlatformName(platform);
