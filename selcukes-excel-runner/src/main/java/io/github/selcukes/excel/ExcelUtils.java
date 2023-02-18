@@ -88,7 +88,7 @@ public class ExcelUtils {
         if (rowTestData.isPresent()) {
             return rowTestData.get();
         } else {
-            throw new ExcelConfigException("Unable to read Test Row for the test name:" + testName);
+            throw new ExcelConfigException(String.format("Unable to read Test Data Row for [%s]", testName));
         }
     }
 
