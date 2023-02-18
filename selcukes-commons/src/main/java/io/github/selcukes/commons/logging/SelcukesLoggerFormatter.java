@@ -19,66 +19,45 @@ package io.github.selcukes.commons.logging;
 import io.github.selcukes.commons.helper.ExceptionHelper;
 import io.github.selcukes.databind.utils.Clocks;
 
+import java.util.Map;
 import java.util.logging.Formatter;
+import java.util.logging.Level;
 import java.util.logging.LogRecord;
+import java.util.stream.Stream;
 
 public class SelcukesLoggerFormatter extends Formatter {
+    private static final Map<Level, String> LOG_LEVELS = Map.of(
+        Level.SEVERE, "ERROR",
+        Level.FINE, "DEBUG",
+        Level.FINER, "TRACE");
 
     public String format(LogRecord logRecord) {
-        StringBuilder builder = new StringBuilder(1000);
-        builder.append(Clocks.timeStamp(logRecord.getMillis())).append(" - ");
-        builder.append("[").append(getLevel(logRecord)).append("] - ");
-        builder.append("[").append(logRecord.getSourceClassName()).append(".");
-        builder.append(logRecord.getSourceMethodName()).append(":").append(getLineNumber(logRecord)).append("] - ");
-        builder.append(formatMessage(logRecord));
         Throwable throwable = logRecord.getThrown();
-        if (null != throwable) {
-            builder.append('\n').append(ExceptionHelper.getStackTrace(throwable));
-        }
-        builder.append("\n");
+        String throwableString = throwable != null ? String.format("%n%s", ExceptionHelper.getStackTrace(throwable))
+                : "";
 
-        return builder.toString();
+        return String.format("%s - [%s] - [%s.%s:%s] - %s%s%n",
+            Clocks.timeStamp(logRecord.getMillis()),
+            getLevel(logRecord),
+            logRecord.getSourceClassName(),
+            logRecord.getSourceMethodName(),
+            getLineNumber(logRecord),
+            formatMessage(logRecord),
+            throwableString);
     }
 
-    public String getLevel(LogRecord logRecord) {
-        String level = logRecord.getLevel().getName();
-        switch (level) {
-            case "SEVERE":
-                level = "ERROR";
-                break;
-            case "FINE":
-                level = "DEBUG";
-                break;
-            case "FINER":
-                level = "TRACE";
-                break;
-            default:
-        }
-        return level;
-    }
-
-    private StackTraceElement getCallerStackFrame(final String callerName) {
-        StackTraceElement callerFrame = null;
-
-        final StackTraceElement[] stack = new Throwable().getStackTrace();
-        // Search the stack trace to find the calling class
-        for (final StackTraceElement frame : stack) {
-            if (callerName.equals(frame.getClassName())) {
-                callerFrame = frame;
-                break;
-            }
-        }
-        return callerFrame;
+    private String getLevel(LogRecord logRecord) {
+        var level = logRecord.getLevel();
+        return LOG_LEVELS.getOrDefault(level, level.getName());
     }
 
     private String getLineNumber(LogRecord logRecord) {
-        final StackTraceElement callerFrame = getCallerStackFrame(logRecord.getSourceClassName());
-
-        if (callerFrame != null) {
-
-            final int lineNumber = callerFrame.getLineNumber();
-            return lineNumber + "";
-        }
-        return "";
+        return Stream.of(new Throwable().getStackTrace())
+                .filter(frame -> frame.getClassName().equals(logRecord.getSourceClassName()))
+                .findFirst()
+                .map(StackTraceElement::getLineNumber)
+                .map(String::valueOf)
+                .orElse("");
     }
+
 }

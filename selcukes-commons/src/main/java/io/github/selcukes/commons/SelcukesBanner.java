@@ -19,22 +19,17 @@ package io.github.selcukes.commons;
 import io.github.selcukes.commons.helper.FileHelper;
 import lombok.experimental.UtilityClass;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.stream.Collectors;
+import java.util.StringJoiner;
 
 @UtilityClass
 public class SelcukesBanner {
     @SuppressWarnings("all")
     public void printBanner() {
-        try (InputStream inputStream = FileHelper.loadResourceFromJar("banner.txt");
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-            StringBuilder banner = new StringBuilder();
-            banner.append(System.lineSeparator());
-            banner.append(reader.lines().collect(Collectors.joining(System.lineSeparator())));
-            banner.append(System.lineSeparator());
-            System.out.println(banner);
+        try {
+            String banner = FileHelper.readContent("banner.txt");
+            System.out.println(new StringJoiner(System.lineSeparator(), System.lineSeparator(), System.lineSeparator())
+                    .add(banner)
+                    .toString());
         } catch (Exception ignore) {
             // Ignored
         }

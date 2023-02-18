@@ -176,13 +176,9 @@ public class WebClient {
      */
     public WebClient proxy(final String proxy) {
         Optional<URL> url = getProxyUrl(proxy);
-        if (url.isPresent()) {
-            String proxyHost = url.get().getHost();
-            int proxyPort = url.get().getPort() == -1 ? 80
-                    : url.get().getPort();
-            clientBuilder = clientBuilder
-                    .proxy(ProxySelector.of(new InetSocketAddress(proxyHost, proxyPort)));
-        }
+        url.ifPresent(u -> clientBuilder = clientBuilder
+                .proxy(ProxySelector.of(new InetSocketAddress(u.getHost(),
+                    u.getPort() == -1 ? 80 : u.getPort()))));
         return this;
     }
 
