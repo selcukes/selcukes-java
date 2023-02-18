@@ -64,19 +64,17 @@ public class ExcelUtils {
     private static List<String> getScenariosToRun() {
         var masterList = new ArrayList<String>();
         var dataList = new ArrayList<String>();
-        for (var entry : excelData.entrySet()) {
-            if (!IGNORE_SHEETS.contains(entry.getKey())) {
-                for (var map : entry.getValue()) {
-                    if (map.get(RUN).equalsIgnoreCase("Yes")) {
-                        if (entry.getKey().equalsIgnoreCase(TEST_SUITE_RUNNER_SHEET)) {
-                            masterList.add(map.get("Feature") + NAME_SEPARATOR + map.get(TEST));
-                        } else {
-                            dataList.add(map.get(TEST));
-                        }
+        excelData.forEach((key, value) -> {
+            if (!IGNORE_SHEETS.contains(key)) {
+                value.stream().filter(entry -> entry.get(RUN).equalsIgnoreCase("Yes")).forEach(entry -> {
+                    if (key.equalsIgnoreCase(TEST_SUITE_RUNNER_SHEET)) {
+                        masterList.add(entry.get("Feature") + NAME_SEPARATOR + entry.get(TEST));
+                    } else {
+                        dataList.add(entry.get(TEST));
                     }
-                }
+                });
             }
-        }
+        });
         return dataList.stream().filter(name -> anyMatch(masterList, name))
                 .collect(Collectors.toList());
     }
