@@ -35,7 +35,7 @@ public class CsvTest {
             String phone = map.get("Phone ");
             return map.get("Country").substring(0, 3).toUpperCase() + "_DDA_" + phone.substring(phone.length() - 4);
         }));
-        System.out.println(csvData);
+        csvData.forEach(System.out::println);
     }
 
 }
