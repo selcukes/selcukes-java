@@ -61,7 +61,7 @@ public class ExcelUtils {
         filterScenariosToRun();
     }
 
-    private void filterScenariosToRun() {
+    private static List<String> getScenariosToRun() {
         var masterList = new ArrayList<String>();
         var dataList = new ArrayList<String>();
         for (var entry : excelData.entrySet()) {
@@ -77,8 +77,12 @@ public class ExcelUtils {
                 }
             }
         }
-        runScenarios = dataList.stream().filter(name -> anyMatch(masterList, name))
+        return dataList.stream().filter(name -> anyMatch(masterList, name))
                 .collect(Collectors.toList());
+    }
+
+    private static void filterScenariosToRun() {
+        runScenarios = getScenariosToRun();
     }
 
     public Map<String, String> getTestDataAsMap(String testName) {
