@@ -75,7 +75,6 @@ public class ExcelUtils {
         }
         runScenarios = dataList.stream().filter(name -> anyMatch(masterList, name))
                 .collect(Collectors.toList());
-        runScenarios.forEach(System.out::println);
     }
 
     public Map<String, String> getTestDataAsMap(String testName) {
