@@ -52,14 +52,18 @@ public class ExcelUtils {
         excelData = ExcelMapper.parse(filePath);
         IGNORE_SHEETS.remove(TEST_SUITE_RUNNER_SHEET);
         logger.debug(() -> "Using excel runner sheet : " + TEST_SUITE_RUNNER_SHEET);
-        var masterList = new ArrayList<String>();
-        var dataList = new ArrayList<String>();
+
         excelData.entrySet().stream()
                 .filter(entry -> !IGNORE_SHEETS.contains(entry.getKey()))
                 .forEach(entry -> modifyFirstColumnData(entry.getValue(),
                         entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "Screen" : TEST,
                         entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "" : "Example"));
+        filterScenariosToRun();
+    }
 
+    private void filterScenariosToRun() {
+        var masterList = new ArrayList<String>();
+        var dataList = new ArrayList<String>();
         for (var entry : excelData.entrySet()) {
             if (!IGNORE_SHEETS.contains(entry.getKey())) {
                 for (var map : entry.getValue()) {
