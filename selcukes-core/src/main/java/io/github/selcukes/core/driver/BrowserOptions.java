@@ -17,8 +17,6 @@
 package io.github.selcukes.core.driver;
 
 import io.github.selcukes.databind.utils.StringHelper;
-import io.github.selcukes.wdb.WebDriverBinary;
-import io.github.selcukes.wdb.enums.DriverType;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -26,64 +24,61 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
+import org.openqa.selenium.remote.Browser;
+
+import static org.openqa.selenium.remote.Browser.CHROME;
+import static org.openqa.selenium.remote.Browser.EDGE;
+import static org.openqa.selenium.remote.Browser.FIREFOX;
+import static org.openqa.selenium.remote.Browser.IE;
 
 @UtilityClass
 public class BrowserOptions {
-    public Capabilities getBrowserOptions(DriverType driverType, boolean ignoreBinarySetup) {
-        return getBrowserOptions(driverType, ignoreBinarySetup, "");
-    }
-
-    public static Capabilities getBrowserOptions(DriverType driverType, boolean ignoreBinarySetup, String platform) {
+    public static Capabilities getBrowserOptions(Browser browser, String platform) {
         boolean headless = RunMode.isHeadless();
-        if (!ignoreBinarySetup) {
-            setBinaries(driverType);
+        if (EDGE.equals(browser)) {
+            EdgeOptions edgeOptions = new EdgeOptions();
+            if (headless) {
+                edgeOptions.addArguments("--headless");
+            }
+            if (!StringHelper.isNullOrEmpty(platform)) {
+                edgeOptions.setPlatformName(platform);
+            }
+            return edgeOptions;
+        } else if (FIREFOX.equals(browser)) {
+            FirefoxOptions firefoxOptions = new FirefoxOptions();
+            if (headless) {
+                firefoxOptions.addArguments("--headless");
+            }
+            return firefoxOptions;
+        } else if (IE.equals(browser)) {
+            InternetExplorerOptions ieOptions = new InternetExplorerOptions().requireWindowFocus();
+            ieOptions.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+            ieOptions.setCapability(InternetExplorerDriver.IGNORE_ZOOM_SETTING, true);
+            ieOptions.setCapability("ignoreProtectedModeSettings", true);
+            ieOptions.setCapability("disable-popup-blocking", true);
+            ieOptions.setCapability("enablePersistentHover", true);
+            return ieOptions;
         }
-
-        switch (driverType) {
-            case EDGE:
-
-                EdgeOptions edgeOptions = new EdgeOptions();
-                edgeOptions.setHeadless(headless);
-                if (!StringHelper.isNullOrEmpty(platform)) {
-                    edgeOptions.setPlatformName(platform);
-                }
-                return edgeOptions;
-            case FIREFOX:
-                FirefoxOptions firefoxOptions = new FirefoxOptions();
-                firefoxOptions.setHeadless(headless);
-                return firefoxOptions;
-            case IEXPLORER:
-                InternetExplorerOptions ieOptions = new InternetExplorerOptions().requireWindowFocus();
-                ieOptions.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-                ieOptions.setCapability(InternetExplorerDriver.IGNORE_ZOOM_SETTING, true);
-                ieOptions.setCapability("ignoreProtectedModeSettings", true);
-                ieOptions.setCapability("disable-popup-blocking", true);
-                ieOptions.setCapability("enablePersistentHover", true);
-                return ieOptions;
-            default:
-                ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.setHeadless(headless);
-                if (!StringHelper.isNullOrEmpty(platform)) {
-                    chromeOptions.setPlatformName(platform);
-                }
-                return chromeOptions;
+        ChromeOptions chromeOptions = new ChromeOptions();
+        if (headless) {
+            chromeOptions.addArguments("--headless");
         }
+        if (!StringHelper.isNullOrEmpty(platform)) {
+            chromeOptions.setPlatformName(platform);
+        }
+        return chromeOptions;
 
     }
 
-    public static void setBinaries(DriverType driverType) {
-        /*switch (driverType) {
-            case EDGE:
-                WebDriverBinary.edgeDriver().setup();
-                break;
-            case FIREFOX:
-                WebDriverBinary.firefoxDriver().setup();
-                break;
-            case IEXPLORER:
-                WebDriverBinary.ieDriver().setup();
-                break;
-            default:
-                WebDriverBinary.chromeDriver().setup();
-        }*/
+    public Browser valueOf(String browserName) {
+        if (browserName.equalsIgnoreCase("Edge")) {
+            return EDGE;
+        } else if (browserName.equalsIgnoreCase("IE")) {
+            return IE;
+        } else if (browserName.equalsIgnoreCase("Firefox")) {
+            return FIREFOX;
+        } else {
+            return CHROME;
+        }
     }
 }

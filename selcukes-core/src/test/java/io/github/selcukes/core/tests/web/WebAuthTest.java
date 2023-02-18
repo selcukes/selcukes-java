@@ -18,11 +18,11 @@ package io.github.selcukes.core.tests.web;
 
 import io.github.selcukes.core.page.WebPage;
 import io.github.selcukes.core.wait.WaitCondition;
-import io.github.selcukes.wdb.driver.LocalDriver;
-import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -37,7 +37,9 @@ public class WebAuthTest {
 
     @BeforeMethod
     private void setup() {
-        driver = new LocalDriver().createWebDriver(DriverType.CHROME);
+        var options = new ChromeOptions();
+        options.addArguments("--headless");
+        driver = new ChromeDriver(options);
         page = new WebPage(driver);
     }
 
@@ -58,11 +60,11 @@ public class WebAuthTest {
         page.enter(By.id("input-email"), randomId);
         page.click(By.id("register-button"));
         page.waitFor(ExpectedConditions.textToBePresentInElementLocated(
-            By.className("popover-body"), "Success! Now try logging in"), 20);
+                By.className("popover-body"), "Success! Now try logging in"), 20);
 
         page.click(By.id("login-button"));
         page.waitFor(By.xpath("//*[contains(@class,'main-content')]//h3"), "You're logged in!",
-            WaitCondition.TEXT_TO_BE);
+                WaitCondition.TEXT_TO_BE);
         page.removeVirtualAuthenticator();
 
     }

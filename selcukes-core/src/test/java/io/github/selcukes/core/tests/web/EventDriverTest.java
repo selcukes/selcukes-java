@@ -19,14 +19,14 @@ package io.github.selcukes.core.tests.web;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.core.page.WebPage;
 import io.github.selcukes.databind.utils.Clocks;
-import io.github.selcukes.wdb.driver.LocalDriver;
-import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -43,7 +43,9 @@ public class EventDriverTest {
 
     @BeforeMethod
     private void setup() {
-        driver = new LocalDriver().createWebDriver(DriverType.CHROME);
+        var options = new ChromeOptions();
+        options.addArguments("--headless");
+        driver = new ChromeDriver(options);
         page = new WebPage(driver);
     }
 

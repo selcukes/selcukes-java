@@ -17,7 +17,6 @@
 package io.github.selcukes.core.driver;
 
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.Capabilities;
@@ -40,8 +39,7 @@ public class WebManager implements RemoteManager {
         logger.debug(() -> "Initiating New Browser Session...");
         Capabilities capabilities = AppiumOptions.getUserOptions();
         if (capabilities == null) {
-            capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser),
-                !(isLocalBrowser() || isCloudBrowser()));
+            capabilities = BrowserOptions.getBrowserOptions(BrowserOptions.valueOf(browser), "");
             if (isCloudBrowser()) {
                 capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions(false));
             }

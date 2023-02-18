@@ -17,11 +17,11 @@
 package io.github.selcukes.core.tests.unit;
 
 import io.github.selcukes.core.page.WebPage;
-import io.github.selcukes.wdb.driver.LocalDriver;
-import io.github.selcukes.wdb.enums.DriverType;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -32,7 +32,9 @@ public class ShadowRootTest {
 
     @BeforeMethod
     private void setup() {
-        driver = new LocalDriver().createWebDriver(DriverType.CHROME);
+        var options=new ChromeOptions();
+        options.addArguments("--headless");
+        driver = new ChromeDriver(options);
         page = new WebPage(driver);
     }
 
@@ -48,7 +50,7 @@ public class ShadowRootTest {
 
         page.open("http://watir.com/examples/shadow_dom.html");
         WebElement shadowContent = page.findShadowChild(By.cssSelector("#shadow_host"),
-            By.cssSelector("#shadow_content"));
+                By.cssSelector("#shadow_content"));
         page.assertThat().element(shadowContent).textAs("some text");
 
     }

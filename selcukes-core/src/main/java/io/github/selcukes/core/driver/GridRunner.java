@@ -16,13 +16,10 @@
 
 package io.github.selcukes.core.driver;
 
-import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.grid.Main;
 import org.openqa.selenium.net.PortProber;
-
-import java.util.Arrays;
 
 import static io.github.selcukes.core.driver.RunMode.isCloudAppium;
 import static io.github.selcukes.core.driver.RunMode.isCloudBrowser;
@@ -34,14 +31,13 @@ public class GridRunner {
     static int hubPort;
     private static boolean isRunning = false;
 
-    public synchronized void startSelenium(DriverType... driverType) {
+    public synchronized void startSelenium() {
         if (!isCloudBrowser() || !isLocalBrowser()) {
             logger.info(() -> "Starting Selenium Server ...");
-            Arrays.stream(driverType).distinct().forEach(BrowserOptions::setBinaries);
             hubPort = PortProber.findFreePort();
             if (isSeleniumServerNotRunning()) {
                 logger.debug(() -> "Using Free Hub Port: " + hubPort);
-                Main.main(new String[] { "standalone", "--port", String.valueOf(hubPort) });
+                Main.main(new String[]{"standalone", "--port", String.valueOf(hubPort)});
                 isRunning = true;
                 logger.info(() -> "Selenium Server started...");
             }
