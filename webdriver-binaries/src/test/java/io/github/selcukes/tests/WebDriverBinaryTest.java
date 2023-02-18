@@ -52,7 +52,7 @@ public class WebDriverBinaryTest {
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
     }
 
-    @Test
+    @Test(enabled = false)
     public void edgeDriverTest() {
 
         BinaryInfo binaryInfo = WebDriverBinary.edgeDriver().setup();

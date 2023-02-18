@@ -20,8 +20,8 @@ import io.github.selcukes.commons.annotation.Lifecycle;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.core.driver.GridRunner;
 import io.github.selcukes.core.page.Pages;
-import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
+import org.openqa.selenium.remote.Browser;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -31,19 +31,19 @@ import org.testng.annotations.Test;
 public class ClassicGridTest {
     @BeforeSuite
     public static void beforeSuite() {
-        GridRunner.startSelenium(DriverType.CHROME, DriverType.EDGE);
+        GridRunner.startSelenium();
     }
 
     @DataProvider(parallel = true)
     public Object[][] driverTypes() {
-        return new Object[][] { { DriverType.CHROME }, { DriverType.EDGE }
+        return new Object[][] { { Browser.CHROME }, { Browser.EDGE }
         };
     }
 
     @Test(dataProvider = "driverTypes")
-    public void parallelBrowserTest(DriverType driverType) {
-        logger.debug(() -> "In Parallel Test for " + driverType.getName());
-        ConfigFactory.getConfig().getWeb().setBrowser(driverType.getName());
+    public void parallelBrowserTest(Browser driverType) {
+        logger.debug(() -> "In Parallel Test for " + driverType.browserName());
+        ConfigFactory.getConfig().getWeb().setBrowser(driverType.browserName());
         Pages.webPage().open("https://www.google.com/")
                 .assertThat().title("Google");
     }

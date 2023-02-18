@@ -18,7 +18,6 @@ package io.github.selcukes.core.driver;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.Capabilities;
@@ -62,7 +61,7 @@ public class AppiumManager implements RemoteManager {
         Capabilities capabilities = AppiumOptions.getUserOptions();
         if (capabilities == null) {
             String platform = ConfigFactory.getConfig().getMobile().getPlatform();
-            capabilities = BrowserOptions.getBrowserOptions(DriverType.valueOf(browser), isCloudAppium(), platform);
+            capabilities = BrowserOptions.getBrowserOptions(BrowserOptions.valueOf(browser), platform);
             if (isCloudAppium()) {
                 capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions(false));
             }

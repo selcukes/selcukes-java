@@ -18,6 +18,9 @@ package io.github.selcukes.excel;
 
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ExcelConfigException;
+import io.github.selcukes.commons.helper.FileHelper;
+import io.github.selcukes.databind.excel.ExcelMapper;
+import io.github.selcukes.databind.utils.StringHelper;
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
 
@@ -28,129 +31,101 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.util.Optional.ofNullable;
+
 @UtilityClass
 @CustomLog
 public class ExcelUtils {
     static final String NAME_SEPARATOR = "::";
-    static final List<String> runScenarios = new ArrayList<>();
+    static List<String> runScenarios = new ArrayList<>();
+    private static final String TEST = "Test";
     private static final String RUN = "Run";
     private static final String HYPHEN = " - ";
     private static final String EXAMPLE = " - Example";
-    private static final Map<String, List<List<String>>> allSheetsDataMap = new LinkedHashMap<>();
     private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcel().get("suiteName");
     private static final List<String> IGNORE_SHEETS = new ArrayList<>(
         Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
-    private static Map<String, List<List<String>>> allSheetsMap = new LinkedHashMap<>();
+    private static Map<String, List<Map<String, String>>> excelData = new LinkedHashMap<>();
 
     public static void initTestRunner() {
-        ExcelReader excelReader = new ExcelReader(
-            ConfigFactory.getConfig().getExcel().get("fileName"));
 
-        // Store all sheets data
-        allSheetsMap = excelReader.getAllSheetsDataMap();
-
-        // Replace Empty test name with previous row test name and if it is
-        // examples test then add Example row
-        allSheetsMap.keySet().forEach(sheet -> allSheetsDataMap.put(sheet, modifySheetFirstColumn(sheet)));
-
+        var filePath = FileHelper.loadResource(ConfigFactory.getConfig().getExcel().get("fileName"));
+        excelData = ExcelMapper.parse(filePath);
         IGNORE_SHEETS.remove(TEST_SUITE_RUNNER_SHEET);
-
         logger.debug(() -> "Using excel runner sheet : " + TEST_SUITE_RUNNER_SHEET);
 
-        // Filter runOnly Tests
-        Map<String, List<List<String>>> allSheetsModifiedMap = allSheetsDataMap.keySet().stream()
-                .filter(s -> !IGNORE_SHEETS.contains(s))
-                .collect(Collectors.toMap(sheet -> sheet, sheet -> allSheetsDataMap.get(sheet).stream().skip(1)
-                        .filter(row -> {
-                            int exeStatus = allSheetsDataMap.get(sheet).get(0).indexOf(RUN);
-                            return row.get(exeStatus).equalsIgnoreCase("yes");
-                        }).collect(Collectors.toList())));
-
-        // Stores FeatureName::Tests from master sheet
-        List<String> masterList = allSheetsModifiedMap.get(TEST_SUITE_RUNNER_SHEET).stream()
-                .map(row -> row.get(1) + NAME_SEPARATOR + row.get(2)).collect(Collectors.toList());
-
-        if (TEST_SUITE_RUNNER_SHEET.equalsIgnoreCase("Master")) {
-            allSheetsModifiedMap.keySet().stream().skip(1).forEach(
-                sheet -> allSheetsModifiedMap.get(sheet).stream().filter(row -> anyMatch(masterList, row.get(0)))
-                        .forEach(row -> runScenarios.add(row.get(0))));
-        } else {
-            runScenarios.addAll(masterList);
-        }
+        excelData.entrySet().stream()
+                .filter(entry -> !IGNORE_SHEETS.contains(entry.getKey()))
+                .forEach(entry -> modifyFirstColumnData(entry.getValue(),
+                    entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "Screen" : TEST,
+                    entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "" : "Example"));
+        runScenarios = getScenariosToRun();
     }
 
-    public static Map<String, String> getTestDataAsMap(String testName) {
+    private static List<String> getScenariosToRun() {
+        var masterList = new ArrayList<String>();
+        var dataList = new ArrayList<String>();
+
+        excelData.forEach((key, value) -> {
+            if (!IGNORE_SHEETS.contains(key)) {
+                value.stream()
+                        .filter(entry -> entry.get(RUN).equalsIgnoreCase("Yes"))
+                        .forEach(entry -> {
+                            var testName = entry.get(TEST);
+                            if (key.equalsIgnoreCase(TEST_SUITE_RUNNER_SHEET)) {
+                                masterList.add(entry.get("Feature") + NAME_SEPARATOR + testName);
+                            } else {
+                                dataList.add(testName);
+                            }
+                        });
+            }
+        });
+
+        return dataList.stream()
+                .filter(name -> anyMatch(masterList, name))
+                .collect(Collectors.toList());
+    }
+
+    public Map<String, String> getTestDataAsMap(String testName) {
+
         logger.debug(() -> "TestName:" + testName);
-        String testSheetName = getTestSheetName(testName);
+        String testSheetName = testName.split(NAME_SEPARATOR)[0];
         logger.debug(() -> "TestSheetName:" + testSheetName);
-
-        List<List<String>> listRow = allSheetsDataMap.get(testSheetName);
-        int testRowIndex = getColumnData(listRow, 0).indexOf(testName);
-        Map<String, String> testDataRowMap = new LinkedHashMap<>();
-        if (testRowIndex < 0) {
-            throw new ExcelConfigException("Unable to read Test Row for the test name:" + testName);
+        var rowTestData = excelData.get(testSheetName).parallelStream()
+                .filter(row -> row.get(TEST).equalsIgnoreCase(testName))
+                .findFirst();
+        if (rowTestData.isPresent()) {
+            return rowTestData.get();
+        } else {
+            throw new ExcelConfigException(String.format("Unable to read Test Data Row for [%s]", testName));
         }
-        for (int i = 0; i < getRowData(listRow, 0).size(); i++) {
-            // Adding Key as Column Header and Value as Test Data Row value
-            testDataRowMap.put(getRowData(allSheetsDataMap.get(testSheetName), 0).get(i),
-                getRowData(listRow, testRowIndex).get(i));
-        }
-        return testDataRowMap;
     }
 
-    private static List<String> getRowData(List<List<String>> rowList, int rowIndex) {
-        return new ArrayList<>(rowList.get(rowIndex));
-    }
-
-    private static String getTestSheetName(String testName) {
-        String tests = testName.split(NAME_SEPARATOR)[1];
-
-        List<List<String>> masterSheetList = allSheetsDataMap.get(TEST_SUITE_RUNNER_SHEET);
-        int index = getColumnData(masterSheetList, 2).indexOf(tests);
-        if (index < 0) {
-            int i = tests.lastIndexOf(HYPHEN.trim());
-            if (i > 0 && tests.substring(i).trim().startsWith(EXAMPLE.trim())) {
-                tests = tests.substring(0, i - 1);
-            }
-            index = getColumnData(masterSheetList, 2).indexOf(tests);
-            if (index < 0) {
-                throw new ExcelConfigException("Unable to read SheetName for the given testName:" + testName);
-            }
-        }
-
-        return masterSheetList.get(index).get(0);
-    }
-
-    private static List<String> getColumnData(List<List<String>> sheetDataList, int columnIndex) {
-        return sheetDataList.stream().map(row -> row.get(columnIndex)).collect(Collectors.toList());
-    }
-
-    private static boolean anyMatch(List<String> masterList, String testName) {
+    private boolean anyMatch(List<String> masterList, String testName) {
         return masterList.stream().anyMatch(name -> {
             String scenarioName = name + EXAMPLE;
             return testName.startsWith(scenarioName) || testName.equalsIgnoreCase(name);
         });
     }
 
-    private List<List<String>> modifySheetFirstColumn(String sheetName) {
-        List<List<String>> sheetDataList = new ArrayList<>(allSheetsMap.get(sheetName));
+    private void modifyFirstColumnData(List<Map<String, String>> sheetData, String firstColumn, String secondColumn) {
         String testName = "";
-        for (int i = 0; i < sheetDataList.size(); i++) {
-            if (sheetDataList.get(i).get(0).isEmpty()) {
+        for (int i = 0; i < sheetData.size(); i++) {
+            if (StringHelper.isNullOrEmpty(sheetData.get(i).get(firstColumn))) {
                 String newTestName;
-                if (!sheetName.equalsIgnoreCase(TEST_SUITE_RUNNER_SHEET)) {
-                    if (!sheetDataList.get(i - 1).get(0).startsWith(testName + EXAMPLE)) {
-                        sheetDataList.get(i - 1).set(0, testName + HYPHEN + sheetDataList.get(i - 1).get(1));
+                if (!StringHelper.isNullOrEmpty(secondColumn)) {
+                    if (!sheetData.get(i - 1).get(firstColumn).startsWith(testName + EXAMPLE)) {
+                        sheetData.get(i - 1).put(firstColumn,
+                            testName + HYPHEN + ofNullable(sheetData.get(i - 1).get(secondColumn)).orElse(""));
                     }
-                    newTestName = testName + HYPHEN + sheetDataList.get(i).get(1);
+                    newTestName = testName + HYPHEN + ofNullable(sheetData.get(i).get(secondColumn)).orElse("");
                 } else {
                     newTestName = testName;
                 }
-                sheetDataList.get(i).set(0, newTestName);
+                sheetData.get(i).put(firstColumn, newTestName);
             } else {
-                testName = sheetDataList.get(i).get(0);
+                testName = sheetData.get(i).get(firstColumn);
             }
         }
-        return sheetDataList;
     }
 }

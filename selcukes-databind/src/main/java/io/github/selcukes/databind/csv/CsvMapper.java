@@ -32,19 +32,18 @@ import java.util.stream.Collectors;
 public class CsvMapper {
 
     /**
-     * It takes a CSV file, reads it line by line, splits each line by comma, removes the quotes, and returns a list of
-     * maps
+     * It takes a CSV file, reads it line by line, splits each line by comma,
+     * removes the quotes, and returns a list of maps
      *
-     * @param filePath The path to the file to be parsed.
-     * @return A list of maps.
+     * @param  filePath The path to the file to be parsed.
+     * @return          A list of maps.
      */
     public List<Map<String, String>> parse(Path filePath) {
         try (var lines = Files.lines(filePath)) {
             return Streams.toListOfMap(lines.parallel()
-                    .map(line ->
-                            Pattern.compile(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)").splitAsStream(line)
-                                    .map(field -> field.replaceAll("^\"|\"$", ""))
-                                    .collect(Collectors.toCollection(LinkedList::new)))
+                    .map(line -> Pattern.compile(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)").splitAsStream(line)
+                            .map(field -> field.replaceAll("^\"|\"$", ""))
+                            .collect(Collectors.toCollection(LinkedList::new)))
                     .collect(Collectors.toCollection(LinkedList::new)));
         } catch (Exception e) {
             throw new DataMapperException("Failed parsing CSV File: ", e);

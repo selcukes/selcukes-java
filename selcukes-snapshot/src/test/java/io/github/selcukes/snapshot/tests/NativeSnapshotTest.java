@@ -17,14 +17,20 @@
 package io.github.selcukes.snapshot.tests;
 
 import io.github.selcukes.commons.os.Platform;
-import io.github.selcukes.wdb.driver.LocalDriver;
-import io.github.selcukes.wdb.enums.DriverType;
 import lombok.CustomLog;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.remote.Browser;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import static org.openqa.selenium.remote.Browser.CHROME;
+import static org.openqa.selenium.remote.Browser.EDGE;
 
 @CustomLog
 public class NativeSnapshotTest {
@@ -32,13 +38,13 @@ public class NativeSnapshotTest {
 
     @DataProvider
     public Object[][] driverTypes() {
-        return new Object[][] { { DriverType.CHROME }, { DriverType.EDGE } };
+        return new Object[][] { { CHROME }, { EDGE } };
     }
 
     @Test(dataProvider = "driverTypes")
-    public void browserTest(DriverType driverType) {
-        logger.debug(() -> "DriverType : " + driverType);
-        setDriver(driverType);
+    public void browserTest(Browser browser) {
+        logger.debug(() -> "Browser : " + browser);
+        setDriver(browser);
         new HomePage(getDriver()).navigateToHomePage();
 
     }
@@ -57,7 +63,23 @@ public class NativeSnapshotTest {
         return LOCAL_DRIVER.get();
     }
 
-    private void setDriver(DriverType driverType) {
-        LOCAL_DRIVER.set(new LocalDriver().createWebDriver(driverType, Platform.isLinux()));
+    private void setDriver(Browser browser) {
+        LOCAL_DRIVER.set(createWebDriver(browser, Platform.isLinux()));
+    }
+
+    private WebDriver createWebDriver(Browser browser, boolean headless) {
+        if (browser.equals(EDGE)) {
+            EdgeOptions edgeOptions = new EdgeOptions();
+            if (headless) {
+                edgeOptions.addArguments("--headless");
+            }
+            return new EdgeDriver(edgeOptions);
+        } else {
+            ChromeOptions chromeOptions = new ChromeOptions();
+            if (headless) {
+                chromeOptions.addArguments("--headless");
+            }
+            return new ChromeDriver(chromeOptions);
+        }
     }
 }
