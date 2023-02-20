@@ -19,7 +19,7 @@ package io.github.selcukes.core.validation;
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import static io.github.selcukes.commons.fixture.SelcukesFixture.fail;
@@ -28,7 +28,7 @@ import static io.github.selcukes.commons.fixture.SelcukesFixture.fail;
 @CustomLog
 public class Validation {
     private static final ThreadLocal<List<String>> FAILED_MESSAGES = InheritableThreadLocal
-            .withInitial(Collections::emptyList);
+            .withInitial(ArrayList::new);
 
     public static void failWithMessage(boolean isSoft, String errorMessage, Object... args) {
         var message = String.format(errorMessage, args);
