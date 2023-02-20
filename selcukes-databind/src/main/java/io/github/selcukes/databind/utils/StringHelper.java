@@ -25,9 +25,11 @@ import lombok.experimental.UtilityClass;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.MatchResult;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -224,5 +226,22 @@ public class StringHelper {
         return text.lines()
                 .map(row -> Arrays.asList(row.split(delimiter)))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * "If the text is not null, then create a matcher from the text and the
+     * compiled pattern, and if the matcher finds a match, then return the first
+     * group of the match." The first thing we do is compile the pattern. This
+     * is a one-time operation, so we can do it outside the function
+     *
+     * @param  pattern The regular expression pattern to match.
+     * @param  text    The text to search for the pattern.
+     * @return         Optional<String>
+     */
+    public static Optional<String> findPattern(String pattern, String text) {
+        var compiledPattern = Pattern.compile(pattern);
+        return Optional.ofNullable(text).map(compiledPattern::matcher)
+                .filter(Matcher::find)
+                .map(matcher -> matcher.group(1));
     }
 }

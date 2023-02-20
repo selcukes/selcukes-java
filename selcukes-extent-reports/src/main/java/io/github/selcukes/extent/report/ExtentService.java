@@ -78,10 +78,8 @@ public class ExtentService implements Serializable {
         }
 
         private static String getProperty(String propertyKey) {
-            if (System.getProperty(propertyKey) != null) {
-                return System.getProperty(propertyKey);
-            }
-            return propertiesMap.get(propertyKey);
+            return (System.getProperty(propertyKey) != null) ? System.getProperty(propertyKey)
+                    : propertiesMap.get(propertyKey);
         }
 
         private static String getOutputPath() {
@@ -92,7 +90,7 @@ public class ExtentService implements Serializable {
         private static boolean getBooleanProperty(String propertyKey) {
             String value = getProperty(propertyKey);
             return (!isNullOrEmpty(value)
-                    && Objects.requireNonNull(value).equalsIgnoreCase("true"));
+                    && value.equalsIgnoreCase("true"));
         }
 
         private static void initSpark() {

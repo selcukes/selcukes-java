@@ -19,12 +19,10 @@ package io.github.selcukes.core.page.ui;
 import io.appium.java_client.AppiumBy;
 import io.github.selcukes.commons.exception.SelcukesException;
 import io.github.selcukes.commons.helper.Preconditions;
+import io.github.selcukes.databind.utils.StringHelper;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static java.lang.String.format;
 
@@ -51,12 +49,8 @@ public class Locator {
      * @return         The locator of the element.
      */
     public static String of(WebElement element) {
-        String eleText = element.toString();
-        Matcher matcher = Pattern.compile("->\\s(.*)(?=])")
-                .matcher(eleText);
-        return matcher.find() && matcher.groupCount() > 0
-                ? matcher.group(1)
-                : eleText;
+        return StringHelper.findPattern("->\\s(.*)(?=])", element.toString())
+                .orElse(element.getText());
     }
 
     private By parse(String locator) {
@@ -90,7 +84,7 @@ public class Locator {
             case "partiallink":
                 return By.partialLinkText(locatorValue);
             default:
-                throw new SelcukesException("Unknown Locator type");
+                throw new SelcukesException("Unknown Locator type " + locatorType);
         }
     }
 }

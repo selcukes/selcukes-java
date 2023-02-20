@@ -20,12 +20,13 @@ import io.github.selcukes.commons.exception.BusinessException;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.databind.DataMapper;
+import io.github.selcukes.databind.utils.StringHelper;
 import lombok.experimental.UtilityClass;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import static java.util.Optional.ofNullable;
 
 @UtilityClass
 public class ExceptionHelper {
@@ -52,36 +53,26 @@ public class ExceptionHelper {
      * @return           A string representation of the stack trace of the
      *                   throwable.
      */
-    public String getStackTrace(final Throwable throwable) {
-        if (throwable == null) {
-            return null;
-        }
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        throwable.printStackTrace(pw);
-        return sw.toString();
+    public String getStackTrace(Throwable throwable) {
+        return ofNullable(throwable)
+                .map(ex -> {
+                    var stringWriter = new StringWriter();
+                    ex.printStackTrace(new PrintWriter(stringWriter));
+                    return stringWriter.toString();
+                })
+                .orElse(null);
     }
 
     /**
-     * "Get the first line of the stack trace, and return the first word of that
-     * line."
-     * <p>
-     * The first line of the stack trace is the exception title. The exception
-     * title is the first word of the first line of the stack trace
+     * > It returns the first word of the first line of the stack trace of the
+     * given throwable
      *
      * @param  throwable The exception that was thrown.
-     * @return           The first word of the stack trace.
+     * @return           The title of the exception.
      */
     public String getExceptionTitle(final Throwable throwable) {
-        Pattern pattern = Pattern.compile("([\\w.]+)(:.*)?");
-        String stackTrace = getStackTrace(throwable);
-        Matcher matcher = pattern.matcher(stackTrace);
-
-        if (matcher.find()) {
-            return matcher.group(1);
-        }
-
-        return null;
+        return StringHelper.findPattern("([\\w.]+)(:.*)?", getStackTrace(throwable))
+                .orElse(null);
     }
 
     /**

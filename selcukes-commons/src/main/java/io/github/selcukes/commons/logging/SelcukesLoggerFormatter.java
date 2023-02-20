@@ -32,8 +32,8 @@ public class SelcukesLoggerFormatter extends Formatter {
         Level.FINER, "TRACE");
 
     public String format(LogRecord logRecord) {
-        Throwable throwable = logRecord.getThrown();
-        String throwableString = throwable != null ? String.format("%n%s", ExceptionHelper.getStackTrace(throwable))
+        var throwable = logRecord.getThrown();
+        var throwableString = throwable != null ? String.format("%n%s", ExceptionHelper.getStackTrace(throwable))
                 : "";
 
         return String.format("%s - [%s] - [%s.%s:%s] - %s%s%n",
