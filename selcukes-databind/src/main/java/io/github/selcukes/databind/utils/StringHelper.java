@@ -221,7 +221,7 @@ public class StringHelper {
      * into a list of strings, filters out empty lists, and returns a list of
      * lists of strings
      *
-     * @param  lines      The stream of lines to be converted to a list of list.
+     * @param  lines     The stream of lines to be converted to a list of list.
      * @param  delimiter The delimiter to use to split the lines into rows.
      * @return           A list of lists of strings.
      */
