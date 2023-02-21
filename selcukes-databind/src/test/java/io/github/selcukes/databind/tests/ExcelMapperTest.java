@@ -31,13 +31,13 @@ public class ExcelMapperTest {
 
     @Test
     public void excelMapperTest() {
-        Stream<SampleExcel> pojoStream = ExcelMapper.parse(SampleExcel.class);
-        pojoStream.forEach(System.out::println);
+        var excelStream = ExcelMapper.parse(SampleExcel.class);
+        excelStream.forEach(System.out::println);
     }
 
     @Test
     public void interpolateExcelMapperTest() {
-        Stream<SampleExcel1> excelStream = ExcelMapper.parse(SampleExcel1.class);
+        var excelStream = ExcelMapper.parse(SampleExcel1.class);
         excelStream.forEach(System.out::println);
     }
 

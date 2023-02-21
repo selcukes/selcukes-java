@@ -62,12 +62,8 @@ public class DataFileHelper<T> {
 
         return ofNullable(findFile(folder, fileName))
                 .map(path -> path.getFileName().toString())
-                .orElseGet(() -> {
-                    if (isNewFile) {
-                        return newFile(folder, fileName);
-                    } else {
-                        throw new DataMapperException(format("File [%s] not found.", fileName));
-                    }
+                .orElseGet(isNewFile ? () -> newFile(folder, fileName) : () -> {
+                    throw new DataMapperException(format("File [%s] not found.", fileName));
                 });
     }
 
@@ -75,7 +71,7 @@ public class DataFileHelper<T> {
         return this.dataFile.streamLoader();
     }
 
-    public Path getFolder() {
+    private Path getFolder() {
         var folder = this.dataFile.folderPath();
         if (folder.isEmpty()) {
             folder = TEST_RESOURCES;

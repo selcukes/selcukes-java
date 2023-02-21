@@ -33,15 +33,14 @@ public class Resources {
     public static final String TEST_RESOURCES = "src/test/resources";
 
     /**
-     * If the file path is absolute, return it, otherwise return the file path
-     * relative to the user's home directory
+     * If the file path is absolute, return it, otherwise return the absolute
+     * path of the file path
      *
      * @param  filePath The path to the file.
      * @return          A Path object
      */
     public Path of(final String filePath) {
-        return Path.of(filePath).isAbsolute() ? Path.of(filePath)
-                : Path.of(USER_DIR).resolve(filePath);
+        return Path.of(filePath).isAbsolute() ? Path.of(filePath) : Path.of(USER_DIR).resolve(filePath);
     }
 
     /**
@@ -105,13 +104,12 @@ public class Resources {
 
     /**
      * "If the file exists, return it as a stream, otherwise throw an
-     * exception." The function is a bit more complicated than that, but that's
-     * the gist of it
+     * exception."
      *
      * @param  fileName The name of the file to be loaded.
      * @return          InputStream
      */
-    public InputStream fileStream(String fileName) {
+    public InputStream fileStream(final String fileName) {
         return ofNullable(Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName))
                 .orElseThrow(() -> new DataMapperException(
                     format("Failed to load file [%s] as a stream from classpath. " +
