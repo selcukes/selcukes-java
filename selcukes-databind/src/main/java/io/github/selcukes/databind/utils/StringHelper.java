@@ -24,6 +24,7 @@ import io.github.selcukes.databind.exception.DataMapperException;
 import lombok.experimental.UtilityClass;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -32,6 +33,7 @@ import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static io.github.selcukes.databind.properties.PropertiesMapper.systemProperties;
 
@@ -215,17 +217,19 @@ public class StringHelper {
     }
 
     /**
-     * It splits the input string by newline, then splits each line by the
-     * delimiter, and finally returns a list of lists of strings
+     * It takes a stream of strings, filters out empty lines, splits each line
+     * into a list of strings, filters out empty lists, and returns a list of
+     * lists of strings
      *
-     * @param  text      The string to be split into a list of lists.
-     * @param  delimiter The delimiter to use when splitting the line.
+     * @param  lines      The stream of lines to be converted to a list of list.
+     * @param  delimiter The delimiter to use to split the lines into rows.
      * @return           A list of lists of strings.
      */
-    public static List<List<String>> toListOfList(String text, String delimiter) {
-        return text.lines()
+    public static List<List<String>> toListOfList(Stream<String> lines, String delimiter) {
+        return lines.filter(line -> !line.trim().isEmpty())
                 .map(row -> Arrays.asList(row.split(delimiter)))
-                .collect(Collectors.toList());
+                .filter(row -> !row.isEmpty())
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**

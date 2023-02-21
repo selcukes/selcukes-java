@@ -32,7 +32,7 @@ public class CsvTest {
         var csvData = CsvMapper.parse(filePath);
 
         csvData.forEach(map -> map.computeIfPresent("ID", (k, v) -> {
-            String phone = map.get("Phone ");
+            String phone = map.get("Phone");
             return map.get("Country").substring(0, 3).toUpperCase() + "_DDA_" + phone.substring(phone.length() - 4);
         }));
         csvData.forEach(System.out::println);

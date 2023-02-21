@@ -18,15 +18,13 @@ package io.github.selcukes.databind.csv;
 
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.Streams;
+import io.github.selcukes.databind.utils.StringHelper;
 import lombok.experimental.UtilityClass;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @UtilityClass
 public class CsvMapper {
@@ -40,11 +38,8 @@ public class CsvMapper {
      */
     public List<Map<String, String>> parse(Path filePath) {
         try (var lines = Files.lines(filePath)) {
-            return Streams.toListOfMap(lines.parallel()
-                    .map(line -> Pattern.compile(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)").splitAsStream(line)
-                            .map(field -> field.replaceAll("^\"|\"$", ""))
-                            .collect(Collectors.toCollection(LinkedList::new)))
-                    .collect(Collectors.toCollection(LinkedList::new)));
+            var listOfLines = StringHelper.toListOfList(lines, "\\s*,\\s*");
+            return Streams.toListOfMap(listOfLines);
         } catch (Exception e) {
             throw new DataMapperException("Failed parsing CSV File: ", e);
         }

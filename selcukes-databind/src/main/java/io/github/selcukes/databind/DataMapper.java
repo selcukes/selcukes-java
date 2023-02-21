@@ -21,6 +21,7 @@ package io.github.selcukes.databind;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.DataFileHelper;
+import io.github.selcukes.databind.utils.Resources;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
@@ -41,11 +42,11 @@ public class DataMapper {
      * @return             A generic object of type T
      */
     public <T> T parse(final Class<T> entityClass) {
-        final DataFileHelper<T> dataFile = DataFileHelper.getInstance(entityClass);
+        final var dataFile = DataFileHelper.getInstance(entityClass);
         final String fileName = dataFile.getFileName();
         final String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
-        final DataBind dataBind = lookup(extension);
-        return dataFile.isStream() ? dataBind.parse(dataFile.fileStream(), entityClass)
+        final var dataBind = lookup(extension);
+        return dataFile.isStream() ? dataBind.parse(Resources.fileStream(fileName), entityClass)
                 : dataBind.parse(dataFile.getPath(), entityClass);
     }
 
@@ -59,11 +60,11 @@ public class DataMapper {
      */
     @SuppressWarnings("unchecked")
     public <T> void write(final T value) {
-        final DataFileHelper<T> dataFile = (DataFileHelper<T>) DataFileHelper.getInstance(value.getClass());
+        final var dataFile = (DataFileHelper<T>) DataFileHelper.getInstance(value.getClass());
         dataFile.setNewFile(true);
         final String fileName = dataFile.getFileName();
         final String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
-        final DataBind dataBind = lookup(extension);
+        final var dataBind = lookup(extension);
         dataBind.write(dataFile.getPath(), value);
     }
 
@@ -78,7 +79,7 @@ public class DataMapper {
      */
     @SneakyThrows
     public <T> T parse(final String content, final Class<T> entityClass) {
-        ObjectMapper mapper = new ObjectMapper();
+        var mapper = new ObjectMapper();
         mapper.setPropertyNamingStrategy(SNAKE_CASE);
         return mapper.readValue(content, entityClass);
     }
