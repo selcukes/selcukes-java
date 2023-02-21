@@ -29,7 +29,7 @@ import static java.util.Optional.ofNullable;
 
 @UtilityClass
 public class Resources {
-    public static final String USER_HOME = System.getProperty("user.home");
+    public static final String USER_DIR = System.getProperty("user.dir");
     public static final String TEST_RESOURCES = "src/test/resources";
 
     /**
@@ -41,7 +41,7 @@ public class Resources {
      */
     public Path of(final String filePath) {
         return Path.of(filePath).isAbsolute() ? Path.of(filePath)
-                : Path.of(USER_HOME).resolve(filePath);
+                : Path.of(USER_DIR).resolve(filePath);
     }
 
     /**
