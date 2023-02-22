@@ -17,25 +17,27 @@
 package io.github.selcukes.databind.tests;
 
 import io.github.selcukes.databind.csv.CsvMapper;
+import io.github.selcukes.databind.utils.Resources;
 import lombok.SneakyThrows;
 import org.testng.annotations.Test;
 
-import java.nio.file.Path;
-import java.util.Objects;
+import static io.github.selcukes.databind.csv.CsvMapper.CSV_STRIP_REGEX;
 
 public class CsvTest {
     @SneakyThrows
     @Test
     public void csvDataReaderTest() {
-        Path filePath = Path.of(
-            Objects.requireNonNull(CsvTest.class.getClassLoader().getResource("employee.csv")).toURI());
-        var csvData = CsvMapper.parse(filePath);
-
-        csvData.forEach(map -> map.computeIfPresent("ID", (k, v) -> {
-            String phone = map.get("Phone ");
-            return map.get("Country").substring(0, 3).toUpperCase() + "_DDA_" + phone.substring(phone.length() - 4);
-        }));
+        var filePath = Resources.ofTest("employee.csv");
+        var csvData = CsvMapper.parse(filePath, CSV_STRIP_REGEX);
+        csvData.forEach(map -> map.computeIfPresent("ID", (k, v) -> updateID(map.get("Phone"), map.get("Country"))));
         csvData.forEach(System.out::println);
+
+    }
+
+    private String updateID(String phone, String country) {
+        var countryCode = country.substring(0, 3).toUpperCase();
+        var lastFourDigits = phone.substring(phone.length() - 4);
+        return countryCode + "_DDA_" + lastFourDigits;
     }
 
 }
