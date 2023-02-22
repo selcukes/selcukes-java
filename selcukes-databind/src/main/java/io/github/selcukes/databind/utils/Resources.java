@@ -19,6 +19,7 @@ package io.github.selcukes.databind.utils;
 import io.github.selcukes.databind.exception.DataMapperException;
 import lombok.experimental.UtilityClass;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -115,5 +116,16 @@ public class Resources {
                     format("Failed to load file [%s] as a stream from classpath. " +
                             "Make sure the file exists and is included in the classpath.",
                         fileName)));
+    }
+
+    /**
+     * Given a file name, return a Path object that points to the file in the
+     * test resources' directory.
+     *
+     * @param  fileName The name of the file to be read.
+     * @return          A Path object
+     */
+    public Path ofTest(final String fileName) {
+        return of(TEST_RESOURCES + File.separator + fileName);
     }
 }
