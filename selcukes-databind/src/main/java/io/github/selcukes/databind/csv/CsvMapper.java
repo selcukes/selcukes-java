@@ -22,16 +22,39 @@ import lombok.experimental.UtilityClass;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @UtilityClass
 public class CsvMapper {
     private static final String CSV_REGEX = ",(?=([^\"]*\"[^\"]*\")*[^\"]*$)";
     private static final String DOUBLE_QUOTES_REGEX = "^\"|\"$";
+    public static final String CSV_STRIP_REGEX = "\\s*,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\\s*";
+
+    /**
+     * It takes a file path and a regex, reads the file line by line, splits
+     * each line by the regex, removes the double quotes, and returns a list of
+     * maps
+     *
+     * @param  filePath The path to the CSV file.
+     * @param  regex    The regex to split the line by.
+     * @return          A list of maps.
+     */
+    public List<Map<String, String>> parse(Path filePath, String regex) {
+        try (var lines = Files.lines(filePath)) {
+            return Streams.toListOfMap(lines.parallel()
+                    .map(line -> Arrays.stream(line.split(regex))
+                            .map(field -> field.replaceAll(DOUBLE_QUOTES_REGEX, ""))
+                            .collect(Collectors.toCollection(LinkedList::new)))
+                    .filter(row -> !row.isEmpty())
+                    .collect(Collectors.toCollection(LinkedList::new)));
+        } catch (Exception e) {
+            throw new DataMapperException("Failed parsing CSV File: ", e);
+        }
+    }
 
     /**
      * It takes a CSV file, reads it line by line, splits each line into a
@@ -43,16 +66,6 @@ public class CsvMapper {
      * @return          A list of maps.
      */
     public List<Map<String, String>> parse(Path filePath) {
-        try (var lines = Files.lines(filePath)) {
-            return Streams.toListOfMap(lines.parallel()
-                    .filter(line -> !line.trim().isEmpty())
-                    .map(line -> Pattern.compile(CSV_REGEX).splitAsStream(line)
-                            .map(field -> field.replaceAll(DOUBLE_QUOTES_REGEX, "").trim())
-                            .collect(Collectors.toCollection(LinkedList::new)))
-                    .filter(row -> !row.isEmpty())
-                    .collect(Collectors.toCollection(LinkedList::new)));
-        } catch (Exception e) {
-            throw new DataMapperException("Failed parsing CSV File: ", e);
-        }
+        return parse(filePath, CSV_REGEX);
     }
 }

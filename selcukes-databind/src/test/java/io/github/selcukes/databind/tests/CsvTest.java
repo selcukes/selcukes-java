@@ -23,13 +23,15 @@ import org.testng.annotations.Test;
 import java.nio.file.Path;
 import java.util.Objects;
 
+import static io.github.selcukes.databind.csv.CsvMapper.CSV_STRIP_REGEX;
+
 public class CsvTest {
     @SneakyThrows
     @Test
     public void csvDataReaderTest() {
         Path filePath = Path.of(
             Objects.requireNonNull(CsvTest.class.getClassLoader().getResource("employee.csv")).toURI());
-        var csvData = CsvMapper.parse(filePath);
+        var csvData = CsvMapper.parse(filePath, CSV_STRIP_REGEX);
 
         csvData.forEach(map -> map.computeIfPresent("ID", (k, v) -> {
             String phone = map.get("Phone");
