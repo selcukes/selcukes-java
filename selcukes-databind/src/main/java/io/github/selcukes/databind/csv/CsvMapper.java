@@ -18,28 +18,39 @@ package io.github.selcukes.databind.csv;
 
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.Streams;
-import io.github.selcukes.databind.utils.StringHelper;
 import lombok.experimental.UtilityClass;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @UtilityClass
 public class CsvMapper {
+    private static final String CSV_REGEX = ",(?=([^\"]*\"[^\"]*\")*[^\"]*$)";
+    private static final String DOUBLE_QUOTES_REGEX = "^\"|\"$";
 
     /**
-     * It takes a CSV file, reads it line by line, splits each line by comma,
-     * removes the quotes, and returns a list of maps
+     * It takes a CSV file, reads it line by line, splits each line into a
+     * stream of fields, removes double quotes, trims each field, collects the
+     * fields into a list, collects the list of fields into a list of lists, and
+     * finally converts the list of lists into a list of maps
      *
-     * @param  filePath The path to the file to be parsed.
+     * @param  filePath The path to the CSV file.
      * @return          A list of maps.
      */
     public List<Map<String, String>> parse(Path filePath) {
         try (var lines = Files.lines(filePath)) {
-            var listOfLines = StringHelper.toListOfList(lines, "\\s*,\\s*");
-            return Streams.toListOfMap(listOfLines);
+            return Streams.toListOfMap(lines.parallel()
+                    .filter(line -> !line.trim().isEmpty())
+                    .map(line -> Pattern.compile(CSV_REGEX).splitAsStream(line)
+                            .map(field -> field.replaceAll(DOUBLE_QUOTES_REGEX, "").trim())
+                            .collect(Collectors.toCollection(LinkedList::new)))
+                    .filter(row -> !row.isEmpty())
+                    .collect(Collectors.toCollection(LinkedList::new)));
         } catch (Exception e) {
             throw new DataMapperException("Failed parsing CSV File: ", e);
         }
