@@ -41,7 +41,7 @@ public class ExcelUtils {
     private static final String TEST = "Test";
     private static final String RUN = "Run";
     private static final String HYPHEN = " - ";
-    private static final String EXAMPLE = " - Example";
+    private static final String EXAMPLE = "Example";
     private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcel().get("suiteName");
     private static final List<String> IGNORE_SHEETS = new ArrayList<>(
         Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
@@ -58,13 +58,13 @@ public class ExcelUtils {
                 .filter(entry -> !IGNORE_SHEETS.contains(entry.getKey()))
                 .forEach(entry -> modifyFirstColumnData(entry.getValue(),
                     entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "Screen" : TEST,
-                    entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "" : "Example"));
+                    entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "" : EXAMPLE));
         runScenarios = getScenariosToRun();
     }
 
     private static List<String> getScenariosToRun() {
-        var masterList = new ArrayList<String>();
-        var dataList = new ArrayList<String>();
+        var suiteScenarios = new ArrayList<String>();
+        var testScenarios = new ArrayList<String>();
 
         excelData.forEach((key, value) -> {
             if (!IGNORE_SHEETS.contains(key)) {
@@ -73,37 +73,37 @@ public class ExcelUtils {
                         .forEach(entry -> {
                             var testName = entry.get(TEST);
                             if (key.equalsIgnoreCase(TEST_SUITE_RUNNER_SHEET)) {
-                                masterList.add(entry.get("Feature") + NAME_SEPARATOR + testName);
+                                suiteScenarios.add(entry.get("Feature") + NAME_SEPARATOR + testName);
                             } else {
-                                dataList.add(testName);
+                                testScenarios.add(testName);
                             }
                         });
             }
         });
 
-        return dataList.stream()
-                .filter(name -> anyMatch(masterList, name))
+        return testScenarios.stream()
+                .filter(name -> anyMatch(suiteScenarios, name))
                 .collect(Collectors.toList());
     }
 
     public Map<String, String> getTestDataAsMap(String testName) {
 
-        logger.debug(() -> "TestName:" + testName);
+        logger.debug(() -> "TestName: " + testName);
         String testSheetName = testName.split(NAME_SEPARATOR)[0];
-        logger.debug(() -> "TestSheetName:" + testSheetName);
+        logger.debug(() -> "TestSheetName: " + testSheetName);
         var rowTestData = excelData.get(testSheetName).parallelStream()
                 .filter(row -> row.get(TEST).equalsIgnoreCase(testName))
                 .findFirst();
         if (rowTestData.isPresent()) {
             return rowTestData.get();
         } else {
-            throw new ExcelConfigException(String.format("Unable to read Test Data Row for [%s]", testName));
+            throw new ExcelConfigException(String.format("Unable to read [%s] Test Data Row", testName));
         }
     }
 
-    private boolean anyMatch(List<String> masterList, String testName) {
-        return masterList.stream().anyMatch(name -> {
-            String scenarioName = name + EXAMPLE;
+    private boolean anyMatch(List<String> scenarios, String testName) {
+        return scenarios.stream().anyMatch(name -> {
+            String scenarioName = name + HYPHEN + EXAMPLE;
             return testName.startsWith(scenarioName) || testName.equalsIgnoreCase(name);
         });
     }
@@ -114,7 +114,7 @@ public class ExcelUtils {
             if (StringHelper.isNullOrEmpty(sheetData.get(i).get(firstColumn))) {
                 String newTestName;
                 if (!StringHelper.isNullOrEmpty(secondColumn)) {
-                    if (!sheetData.get(i - 1).get(firstColumn).startsWith(testName + EXAMPLE)) {
+                    if (!sheetData.get(i - 1).get(firstColumn).startsWith(testName + HYPHEN + EXAMPLE)) {
                         sheetData.get(i - 1).put(firstColumn,
                             testName + HYPHEN + ofNullable(sheetData.get(i - 1).get(secondColumn)).orElse(""));
                     }
