@@ -25,8 +25,6 @@ import io.github.selcukes.databind.substitute.StringSubstitutor;
 import lombok.Data;
 import org.testng.annotations.Test;
 
-import java.util.stream.Stream;
-
 public class ExcelMapperTest {
 
     @Test

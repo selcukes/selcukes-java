@@ -86,6 +86,10 @@ public class ExcelUtils {
                 .collect(Collectors.toList());
     }
 
+    public Map<String, String> getTestDataAsMap() {
+        return getTestDataAsMap(ScenarioContext.getTestName());
+    }
+
     public Map<String, String> getTestDataAsMap(String testName) {
         logger.debug(() -> "TestName: " + testName);
         String testSheetName = testName.split(NAME_SEPARATOR)[0];
