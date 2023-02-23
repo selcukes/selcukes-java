@@ -58,7 +58,7 @@ class ExcelParser<T> {
 
             var headers = Streams.of(sheet.getRow(startIndex).cellIterator())
                     .collect(
-                        Maps.toIgnoreCaseMap(cell -> formatter.formatCellValue(cell).trim(), Cell::getColumnIndex));
+                        Maps.ofIgnoreCase(cell -> formatter.formatCellValue(cell).trim(), Cell::getColumnIndex));
 
             var cellMappers = Stream.of(entityClass.getDeclaredFields())
                     .map(field -> new ExcelCell<>(field, headers, defaultConverters))

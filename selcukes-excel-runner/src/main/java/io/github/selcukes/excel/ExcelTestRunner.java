@@ -49,7 +49,7 @@ public class ExcelTestRunner extends SelcukesTestNGRunner {
             return filteredScenarios;
         } else {
             var scenarioMap = Stream.of(filteredScenarios)
-                    .collect(Maps.toIgnoreCaseMap(s -> s[0].toString().replace("\"", ""), s -> s));
+                    .collect(Maps.ofIgnoreCase(s -> s[0].toString().replace("\"", ""), s -> s));
             return runScenarios.stream()
                     .map(s -> s.split(NAME_SEPARATOR)[1])
                     .map(scenarioMap::get)
