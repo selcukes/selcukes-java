@@ -6,7 +6,8 @@ proxy: false
 baseUrl:
 excel:
   runner: true
-  fileName: "TestData.xlsx"
+  suiteFile: "TestSuite.xlsx"
+  dataFile: "TestData.xlsx"
   suiteName: "Smoke"
 cucumber:
   module:

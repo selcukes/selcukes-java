@@ -38,10 +38,10 @@ import static java.util.Optional.ofNullable;
 public class ExcelUtils {
     static final String NAME_SEPARATOR = "::";
     static List<String> runScenarios = new ArrayList<>();
-    private static final String TEST = "Test";
-    private static final String RUN = "Run";
-    private static final String HYPHEN = " - ";
-    private static final String EXAMPLE = "Example";
+    static final String TEST = "Test";
+    static final String RUN = "Run";
+    static final String HYPHEN = " - ";
+    static final String EXAMPLE = "Example";
     private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcel().get("suiteName");
     private static final List<String> IGNORE_SHEETS = new ArrayList<>(
         Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
@@ -49,7 +49,7 @@ public class ExcelUtils {
 
     public static void initTestRunner() {
 
-        var filePath = FileHelper.loadResource(ConfigFactory.getConfig().getExcel().get("fileName"));
+        var filePath = FileHelper.loadResource(ConfigFactory.getConfig().getExcel().get("dataFile"));
         excelData = ExcelMapper.parse(filePath);
         IGNORE_SHEETS.remove(TEST_SUITE_RUNNER_SHEET);
         logger.debug(() -> "Using excel runner sheet : " + TEST_SUITE_RUNNER_SHEET);
@@ -87,18 +87,17 @@ public class ExcelUtils {
     }
 
     public Map<String, String> getTestDataAsMap(String testName) {
-
         logger.debug(() -> "TestName: " + testName);
         String testSheetName = testName.split(NAME_SEPARATOR)[0];
         logger.debug(() -> "TestSheetName: " + testSheetName);
-        var rowTestData = excelData.get(testSheetName).parallelStream()
+        return getTestData(testName, excelData.get(testSheetName));
+    }
+
+    Map<String, String> getTestData(String testName, List<Map<String, String>> sheetData) {
+        return sheetData.parallelStream()
                 .filter(row -> row.get(TEST).equalsIgnoreCase(testName))
-                .findFirst();
-        if (rowTestData.isPresent()) {
-            return rowTestData.get();
-        } else {
-            throw new ExcelConfigException(String.format("Unable to read [%s] Test Data Row", testName));
-        }
+                .findFirst().orElseThrow(
+                    () -> new ExcelConfigException(String.format("Unable to read [%s] Test Data Row", testName)));
     }
 
     private boolean anyMatch(List<String> scenarios, String testName) {
@@ -108,7 +107,7 @@ public class ExcelUtils {
         });
     }
 
-    private void modifyFirstColumnData(List<Map<String, String>> sheetData, String firstColumn, String secondColumn) {
+    void modifyFirstColumnData(List<Map<String, String>> sheetData, String firstColumn, String secondColumn) {
         String testName = "";
         for (int i = 0; i < sheetData.size(); i++) {
             if (StringHelper.isNullOrEmpty(sheetData.get(i).get(firstColumn))) {
