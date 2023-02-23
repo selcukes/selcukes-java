@@ -19,7 +19,6 @@ package io.github.selcukes.databind.excel;
 import io.github.selcukes.databind.DataField;
 import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.converters.Converter;
-import io.github.selcukes.databind.utils.Maps;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 
@@ -60,7 +59,7 @@ class ExcelCell<T> extends DataField<T> {
         String header = getColumn()
                 .map(Key::name)
                 .orElse(getFieldName());
-        return ofNullable(Maps.caseInsensitive(headers).get(header))
+        return ofNullable(headers.get(header))
                 .orElseThrow(() -> new IllegalArgumentException(format("Column %s not found", getFieldName())));
     }
 }

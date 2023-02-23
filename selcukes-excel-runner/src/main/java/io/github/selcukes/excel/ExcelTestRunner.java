@@ -18,6 +18,7 @@ package io.github.selcukes.excel;
 
 import io.cucumber.testng.Pickle;
 import io.github.selcukes.commons.properties.SelcukesTestProperties;
+import io.github.selcukes.databind.utils.Maps;
 import io.github.selcukes.testng.SelcukesTestNGRunner;
 import lombok.CustomLog;
 import org.testng.ITestContext;
@@ -25,7 +26,6 @@ import org.testng.annotations.BeforeClass;
 
 import java.util.Objects;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static io.github.selcukes.excel.ExcelUtils.NAME_SEPARATOR;
@@ -49,10 +49,7 @@ public class ExcelTestRunner extends SelcukesTestNGRunner {
             return filteredScenarios;
         } else {
             var scenarioMap = Stream.of(filteredScenarios)
-                    .collect(Collectors.toMap(
-                            s -> s[0].toString().replace("\"", ""),
-                            s -> s,
-                            (s1, s2) -> s1));
+                    .collect(Maps.toIgnoreCaseMap(s -> s[0].toString().replace("\"", ""), s -> s));
             return runScenarios.stream()
                     .map(s -> s.split(NAME_SEPARATOR)[1])
                     .map(scenarioMap::get)
