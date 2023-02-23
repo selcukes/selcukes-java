@@ -7,7 +7,7 @@ Feature: Yahoo
       | Scenario  |
       | Example 1 |
       | Example 2 |
-      | Example 2 |
+      | Example 3 |
 
   Scenario: Yahoo Home
     Given I kinda open Yahoo page

@@ -32,7 +32,6 @@ import static io.github.selcukes.excel.ExcelUtils.EXAMPLE;
 import static io.github.selcukes.excel.ExcelUtils.NAME_SEPARATOR;
 import static io.github.selcukes.excel.ExcelUtils.RUN;
 import static io.github.selcukes.excel.ExcelUtils.TEST;
-import static io.github.selcukes.excel.ExcelUtils.getTestData;
 
 @CustomLog
 @UtilityClass
@@ -69,7 +68,7 @@ public class MultiDataSuite {
 
         var testData = readTestData(testDataFile);
 
-        return getTestData(testName, testData.get(testSheetName));
+        return ExcelUtils.getTestData(testName, testData.get(testSheetName));
     }
 
     private Map<String, List<Map<String, String>>> readTestData(String testDataFile) {
