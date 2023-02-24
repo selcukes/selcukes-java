@@ -18,6 +18,7 @@ package io.github.selcukes.databind.substitute;
 
 import java.util.Properties;
 
+// A Java interface.
 public interface Substitutor {
     /**
      * Replace all occurrences of variables within the value associated with the

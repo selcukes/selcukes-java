@@ -30,10 +30,17 @@ import static java.time.format.DateTimeFormatter.ofPattern;
 import static java.util.Optional.ofNullable;
 
 @UtilityClass
+/**
+ * A class that represents a clock.
+ */
 public class Clocks {
+    // A constant that is used to format the date.
     public static final String DATE_FORMAT = "MM/dd/yyyy";
+    // A constant that is used to format the date.
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    // A constant that is used to format the date.
     public static final String DATE_TIME_FILE_FORMAT = "ddMMMyyyy-hh-mm-ss";
+    // A constant that is used to format the date.
     public static final String TIMESTAMP_FORMAT = "MM/dd/yyyy hh:mm:ss";
 
     /**

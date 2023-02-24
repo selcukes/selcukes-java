@@ -30,8 +30,13 @@ import java.util.stream.Collectors;
 
 @UtilityClass
 public class CsvMapper {
+    // A regex that splits a line by commas, but ignores commas that are inside
+    // double quotes.
     private static final String CSV_REGEX = ",(?=([^\"]*\"[^\"]*\")*[^\"]*$)";
+    // A regex that removes double quotes from the beginning and end of a field.
     private static final String DOUBLE_QUOTES_REGEX = "^\"|\"$";
+    // A regex that splits a line by commas, but ignores commas that are inside
+    // double quotes.
     public static final String CSV_STRIP_REGEX = "\\s*,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\\s*";
 
     /**

@@ -25,7 +25,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 /**
- * > Reflections is a class that provides a way to get a list of all the classes
+ * Reflections is a class that provides a way to get a list of all the classes
  * in a package
  */
 @UtilityClass

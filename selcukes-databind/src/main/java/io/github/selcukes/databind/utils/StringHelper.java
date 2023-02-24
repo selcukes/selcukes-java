@@ -47,9 +47,18 @@ public class StringHelper {
     // A static final variable that is a predicate that takes a string and
     // returns a boolean value.
     public static final Predicate<String> nullOrEmpty = StringHelper::isNullOrEmpty;
+    // A regular expression that matches a lowercase letter followed by an
+    // uppercase letter.
     private static final String SNAKE_CASE_REGEX = "([a-z])([A-Z]+)";
+    // A regular expression that matches any character that is not a letter or a
+    // number.
     private static final String CAMEL_CASE_REGEX = "[^a-zA-Z0-9]";
+    // A regular expression that matches a dollar sign, followed by an open
+    // curly brace, followed by one or more
+    // characters, followed by a close curly brace.
     private static final String INTERPOLATE_REGEX = "\\$\\{(.+?)}";
+    // A regular expression that matches any character that is not a number, an
+    // underscore, or a period.
     private static final String VERSION_NUMBER_REGEX = "[^0-9_.]";
 
     /**
@@ -233,14 +242,14 @@ public class StringHelper {
     }
 
     /**
-     * "If the text is not null, then create a matcher from the text and the
-     * compiled pattern, and if the matcher finds a match, then return the first
-     * group of the match." The first thing we do is compile the pattern. This
-     * is a one-time operation, so we can do it outside the function
+     * Returns the first group of the match if the text is not null and the
+     * compiled pattern matches. Note: This function compiles the pattern only
+     * once, so subsequent calls with the same pattern are faster.
      *
      * @param  pattern The regular expression pattern to match.
      * @param  text    The text to search for the pattern.
-     * @return         Optional<String>
+     * @return         An Optional String containing the first group of the
+     *                 match, or empty if no match is found or the text is null.
      */
     public static Optional<String> findPattern(String pattern, String text) {
         var compiledPattern = Pattern.compile(pattern);
