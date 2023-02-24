@@ -29,24 +29,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static io.github.selcukes.excel.ExcelUtils.EXAMPLE;
-import static io.github.selcukes.excel.ExcelUtils.NAME_SEPARATOR;
-import static io.github.selcukes.excel.ExcelUtils.RUN;
-import static io.github.selcukes.excel.ExcelUtils.TEST;
+import static io.github.selcukes.excel.SingleExcelData.EXAMPLE;
+import static io.github.selcukes.excel.SingleExcelData.NAME_SEPARATOR;
+import static io.github.selcukes.excel.SingleExcelData.RUN;
+import static io.github.selcukes.excel.SingleExcelData.TEST;
 
 @CustomLog
 @UtilityClass
-public class MultiDataSuite {
+public class MultiExcelData {
 
     private static List<Map<String, String>> excelSuite = new ArrayList<>();
     private static final Map<String, Map<String, List<Map<String, String>>>> runtimeDataMap = new LinkedHashMap<>();
 
-    public static List<String> start() {
+    public static List<String> initTestRunner() {
         var filePath = FileHelper.loadResource(ConfigFactory.getConfig().getExcel().get("suiteFile"));
         var excelData = ExcelMapper.parse(filePath);
         var suiteName = ConfigFactory.getConfig().getExcel().get("suiteFile");
         excelSuite = excelData.get(suiteName);
-        ExcelUtils.modifyFirstColumnData(excelSuite, "Screen", "");
+        SingleExcelData.modifyFirstColumnData(excelSuite, "Screen", "");
         return excelSuite.parallelStream()
                 .filter(map -> map.get(RUN).equalsIgnoreCase("yes"))
                 .map(map -> map.get(TEST))
@@ -70,13 +70,13 @@ public class MultiDataSuite {
         var testData = runtimeDataMap.containsKey(testDataFile) ? runtimeDataMap.get(testDataFile)
                 : readAndCacheTestData(testDataFile);
 
-        return ExcelUtils.getTestData(testName, testData.get(testSheetName));
+        return SingleExcelData.getTestData(testName, testData.get(testSheetName));
     }
 
     private Map<String, List<Map<String, String>>> readAndCacheTestData(String testDataFile) {
         var filePath = FileHelper.loadResource(testDataFile);
         var testData = ExcelMapper.parse(filePath);
-        testData.forEach((key, value) -> ExcelUtils.modifyFirstColumnData(value, TEST, EXAMPLE));
+        testData.forEach((key, value) -> SingleExcelData.modifyFirstColumnData(value, TEST, EXAMPLE));
         runtimeDataMap.put(testDataFile, testData);
         return testData;
     }

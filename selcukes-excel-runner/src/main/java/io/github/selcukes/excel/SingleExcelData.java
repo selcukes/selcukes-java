@@ -20,6 +20,7 @@ import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ExcelConfigException;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.databind.excel.ExcelMapper;
+import io.github.selcukes.databind.utils.Maps;
 import io.github.selcukes.databind.utils.StringHelper;
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
@@ -29,25 +30,26 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Optional.ofNullable;
 
 @UtilityClass
 @CustomLog
-public class ExcelUtils {
+public class SingleExcelData {
     static final String NAME_SEPARATOR = "::";
-    static List<String> runScenarios = new ArrayList<>();
     static final String TEST = "Test";
     static final String RUN = "Run";
     static final String HYPHEN = " - ";
     static final String EXAMPLE = "Example";
     private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcel().get("suiteName");
     private static final List<String> IGNORE_SHEETS = new ArrayList<>(
-        Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
+            Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
     private static Map<String, List<Map<String, String>>> excelData = new LinkedHashMap<>();
 
-    public static void initTestRunner() {
+    public static List<String> initTestRunner() {
 
         var filePath = FileHelper.loadResource(ConfigFactory.getConfig().getExcel().get("dataFile"));
         excelData = ExcelMapper.parse(filePath);
@@ -57,9 +59,9 @@ public class ExcelUtils {
         excelData.entrySet().stream()
                 .filter(entry -> !IGNORE_SHEETS.contains(entry.getKey()))
                 .forEach(entry -> modifyFirstColumnData(entry.getValue(),
-                    entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "Screen" : TEST,
-                    entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "" : EXAMPLE));
-        runScenarios = getScenariosToRun();
+                        entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "Screen" : TEST,
+                        entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "" : EXAMPLE));
+        return getScenariosToRun();
     }
 
     private static List<String> getScenariosToRun() {
@@ -101,7 +103,7 @@ public class ExcelUtils {
         return sheetData.parallelStream()
                 .filter(row -> row.get(TEST).equalsIgnoreCase(testName))
                 .findFirst().orElseThrow(
-                    () -> new ExcelConfigException(String.format("Unable to read [%s] Test Data Row", testName)));
+                        () -> new ExcelConfigException(String.format("Unable to read [%s] Test Data Row", testName)));
     }
 
     private boolean anyMatch(List<String> scenarios, String testName) {
@@ -109,6 +111,21 @@ public class ExcelUtils {
             String scenarioName = name + HYPHEN + EXAMPLE;
             return testName.startsWith(scenarioName) || testName.equalsIgnoreCase(name);
         });
+    }
+
+    static Object[][] filteredScenarios(Object[][] cucumberScenarios, List<String> runScenarios) {
+        if (runScenarios.isEmpty()) {
+            logger.info(() -> "No scenario is selected to execute.");
+            return cucumberScenarios;
+        } else {
+            var scenarioMap = Stream.of(cucumberScenarios)
+                    .collect(Maps.ofIgnoreCase(s -> s[0].toString().replace("\"", ""), s -> s));
+            return runScenarios.stream()
+                    .map(s -> s.split(NAME_SEPARATOR)[1])
+                    .map(scenarioMap::get)
+                    .filter(Objects::nonNull)
+                    .toArray(Object[][]::new);
+        }
     }
 
     void modifyFirstColumnData(List<Map<String, String>> sheetData, String firstColumn, String secondColumn) {
@@ -119,7 +136,7 @@ public class ExcelUtils {
                 if (!StringHelper.isNullOrEmpty(secondColumn)) {
                     if (!sheetData.get(i - 1).get(firstColumn).startsWith(testName + HYPHEN + EXAMPLE)) {
                         sheetData.get(i - 1).put(firstColumn,
-                            testName + HYPHEN + ofNullable(sheetData.get(i - 1).get(secondColumn)).orElse(""));
+                                testName + HYPHEN + ofNullable(sheetData.get(i - 1).get(secondColumn)).orElse(""));
                     }
                     newTestName = testName + HYPHEN + ofNullable(sheetData.get(i).get(secondColumn)).orElse("");
                 } else {
