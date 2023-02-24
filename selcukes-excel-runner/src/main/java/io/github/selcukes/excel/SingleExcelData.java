@@ -46,7 +46,7 @@ public class SingleExcelData {
     static final String EXAMPLE = "Example";
     private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcel().get("suiteName");
     private static final List<String> IGNORE_SHEETS = new ArrayList<>(
-            Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
+        Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
     private static Map<String, List<Map<String, String>>> excelData = new LinkedHashMap<>();
 
     public static List<String> initTestRunner() {
@@ -59,8 +59,8 @@ public class SingleExcelData {
         excelData.entrySet().stream()
                 .filter(entry -> !IGNORE_SHEETS.contains(entry.getKey()))
                 .forEach(entry -> modifyFirstColumnData(entry.getValue(),
-                        entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "Screen" : TEST,
-                        entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "" : EXAMPLE));
+                    entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "Screen" : TEST,
+                    entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "" : EXAMPLE));
         return getScenariosToRun();
     }
 
@@ -103,7 +103,7 @@ public class SingleExcelData {
         return sheetData.parallelStream()
                 .filter(row -> row.get(TEST).equalsIgnoreCase(testName))
                 .findFirst().orElseThrow(
-                        () -> new ExcelConfigException(String.format("Unable to read [%s] Test Data Row", testName)));
+                    () -> new ExcelConfigException(String.format("Unable to read [%s] Test Data Row", testName)));
     }
 
     private boolean anyMatch(List<String> scenarios, String testName) {
@@ -136,7 +136,7 @@ public class SingleExcelData {
                 if (!StringHelper.isNullOrEmpty(secondColumn)) {
                     if (!sheetData.get(i - 1).get(firstColumn).startsWith(testName + HYPHEN + EXAMPLE)) {
                         sheetData.get(i - 1).put(firstColumn,
-                                testName + HYPHEN + ofNullable(sheetData.get(i - 1).get(secondColumn)).orElse(""));
+                            testName + HYPHEN + ofNullable(sheetData.get(i - 1).get(secondColumn)).orElse(""));
                     }
                     newTestName = testName + HYPHEN + ofNullable(sheetData.get(i).get(secondColumn)).orElse("");
                 } else {
