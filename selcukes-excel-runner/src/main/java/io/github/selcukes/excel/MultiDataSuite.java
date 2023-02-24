@@ -24,6 +24,7 @@ import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -38,8 +39,9 @@ import static io.github.selcukes.excel.ExcelUtils.TEST;
 public class MultiDataSuite {
 
     private static List<Map<String, String>> excelSuite = new ArrayList<>();
+    private static final Map<String, Map<String, List<Map<String, String>>>> runtimeDataMap = new LinkedHashMap<>();
 
-    public List<String> start() {
+    public static List<String> start() {
         var filePath = FileHelper.loadResource(ConfigFactory.getConfig().getExcel().get("suiteFile"));
         var excelData = ExcelMapper.parse(filePath);
         var suiteName = ConfigFactory.getConfig().getExcel().get("suiteFile");
@@ -65,16 +67,17 @@ public class MultiDataSuite {
                     () -> new ExcelConfigException(String.format("Unable to find Test Data File for [%s]", testName)));
 
         logger.debug(() -> "Using Test Data File: " + testDataFile);
-
-        var testData = readTestData(testDataFile);
+        var testData = runtimeDataMap.containsKey(testDataFile) ? runtimeDataMap.get(testDataFile)
+                : readAndCacheTestData(testDataFile);
 
         return ExcelUtils.getTestData(testName, testData.get(testSheetName));
     }
 
-    private Map<String, List<Map<String, String>>> readTestData(String testDataFile) {
+    private Map<String, List<Map<String, String>>> readAndCacheTestData(String testDataFile) {
         var filePath = FileHelper.loadResource(testDataFile);
         var testData = ExcelMapper.parse(filePath);
         testData.forEach((key, value) -> ExcelUtils.modifyFirstColumnData(value, TEST, EXAMPLE));
+        runtimeDataMap.put(testDataFile, testData);
         return testData;
     }
 

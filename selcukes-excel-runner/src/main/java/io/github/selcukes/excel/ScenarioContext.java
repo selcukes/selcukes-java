@@ -21,7 +21,7 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class ScenarioContext {
-    public static ThreadLocal<String> testName = new InheritableThreadLocal<>();
+    public static final ThreadLocal<String> testName = new InheritableThreadLocal<>();
 
     private String getFeatureName(Scenario scenario) {
         String featureName = scenario.getUri().getPath();
