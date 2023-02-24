@@ -19,6 +19,7 @@ package io.github.selcukes.databind.excel;
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.converters.Converter;
 import io.github.selcukes.databind.exception.DataMapperException;
+import io.github.selcukes.databind.utils.Maps;
 import io.github.selcukes.databind.utils.Streams;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -56,7 +57,8 @@ class ExcelParser<T> {
                     .orElse(workbook.getSheetAt(startIndex));
 
             var headers = Streams.of(sheet.getRow(startIndex).cellIterator())
-                    .collect(Collectors.toMap(cell -> formatter.formatCellValue(cell).trim(), Cell::getColumnIndex));
+                    .collect(
+                        Maps.ofIgnoreCase(cell -> formatter.formatCellValue(cell).trim(), Cell::getColumnIndex));
 
             var cellMappers = Stream.of(entityClass.getDeclaredFields())
                     .map(field -> new ExcelCell<>(field, headers, defaultConverters))

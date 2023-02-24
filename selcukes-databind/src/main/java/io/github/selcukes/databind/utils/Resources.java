@@ -34,23 +34,24 @@ public class Resources {
     public static final String TEST_RESOURCES = "src/test/resources";
 
     /**
-     * If the file path is absolute, return it, otherwise return the absolute
-     * path of the file path
+     * Returns the absolute path of a file given a file path. If the file path
+     * is absolute, the same path is returned. If the file path is relative, the
+     * absolute path is computed relative to the user's current working
+     * directory.
      *
      * @param  filePath The path to the file.
-     * @return          A Path object
+     * @return          A Path object representing the absolute path of the
+     *                  file.
      */
     public Path of(final String filePath) {
         return Path.of(filePath).isAbsolute() ? Path.of(filePath) : Path.of(USER_DIR).resolve(filePath);
     }
 
     /**
-     * "If the folder is not a directory, throw an exception."
-     * <p>
-     * The function isDirectory() is a good example of a function that is easy
-     * to understand. It's easy to understand because it's short, and it's easy
-     * to understand because it's written in a way that makes it easy to
-     * understand
+     * This function checks whether the given folder path is a directory using
+     * the Files.isDirectory method. If the path does not refer to a directory,
+     * the function throws a DataMapperException with an error message
+     * indicating that the path is not a directory.
      *
      * @param  folder The folder to check.
      * @return        A Path object.

@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
@@ -41,11 +43,9 @@ public class Maps {
      * @return            A map of the properties.
      */
     public static Map<String, String> of(Properties properties) {
-        return properties.entrySet().stream().collect(
-            Collectors.toMap(
-                entry -> String.valueOf(entry.getKey()),
-                entry -> String.valueOf(entry.getValue()),
-                (prev, next) -> next, LinkedHashMap::new));
+        return properties.entrySet().stream().collect(of(
+            entry -> String.valueOf(entry.getKey()),
+            entry -> String.valueOf(entry.getValue())));
     }
 
     /**
@@ -64,7 +64,7 @@ public class Maps {
     public <T> Map<String, T> of(List<String> keys, List<T> values) {
         return Streams.of(keys).boxed()
                 .filter(i -> !StringHelper.isNullOrEmpty(keys.get(i)))
-                .collect(Collectors.toMap(keys::get, values::get, (k, v) -> k, LinkedHashMap::new));
+                .collect(of(keys::get, values::get));
     }
 
     /**
@@ -75,9 +75,56 @@ public class Maps {
      * @return     A new TreeMap with the same keys and values as the original
      *             map, but with the keys in case-insensitive order.
      */
-    public <V> Map<String, V> caseInsensitive(Map<String, V> map) {
+    public <V> Map<String, V> ofIgnoreCase(Map<String, V> map) {
         var newMap = new TreeMap<String, V>(CASE_INSENSITIVE_ORDER);
         newMap.putAll(map);
         return newMap;
     }
+
+    /**
+     * "Collects the elements of a stream into a TreeMap whose keys are case
+     * insensitive."
+     * <p>
+     * The first two parameters are the same as the ones for the `toMap`
+     * collector. The third parameter is a function that takes two values and
+     * returns one of them. In this case, we're just returning the first value.
+     * The fourth parameter is a supplier that creates a new instance of the
+     * map. In this case, we're creating a new TreeMap with a custom comparator
+     * that ignores case
+     *
+     * @param  keyMapper   A function that maps the input elements to keys.
+     * @param  valueMapper a function that maps the input elements to the values
+     *                     of the map
+     * @return             A Collector that will collect the elements of a
+     *                     stream into a TreeMap.
+     */
+    public <T, V> Collector<T, ?, TreeMap<String, V>> ofIgnoreCase(
+            Function<? super T, String> keyMapper,
+            Function<? super T, ? extends V> valueMapper
+    ) {
+        return Collectors.toMap(keyMapper, valueMapper,
+            (u, v) -> u,
+            () -> new TreeMap<>(CASE_INSENSITIVE_ORDER));
+    }
+
+    /**
+     * Given a stream of elements, create a LinkedHashMap where the key is the
+     * result of applying the keyMapper function to each element, and the value
+     * is the result of applying the valueMapper function to each element.
+     *
+     * @param  keyMapper   A function that maps the input elements to keys.
+     * @param  valueMapper a function that maps the input elements to the values
+     *                     of the map
+     * @return             A Collector that accumulates the input elements into
+     *                     a new LinkedHashMap.
+     */
+    public <K, T, V> Collector<T, ?, LinkedHashMap<K, V>> of(
+            Function<? super T, ? extends K> keyMapper,
+            Function<? super T, ? extends V> valueMapper
+    ) {
+        return Collectors.toMap(keyMapper, valueMapper,
+            (u, v) -> u,
+            LinkedHashMap::new);
+    }
+
 }

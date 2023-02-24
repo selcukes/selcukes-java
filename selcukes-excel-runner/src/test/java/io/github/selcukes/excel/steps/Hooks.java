@@ -19,24 +19,17 @@ package io.github.selcukes.excel.steps;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import io.github.selcukes.excel.ScenarioContext;
 
 public class Hooks {
-    public static ThreadLocal<String> testName = new InheritableThreadLocal<>();
-
-    public static String getFeatureName(Scenario scenario) {
-        String featureName = scenario.getUri().getPath();
-        featureName = featureName.substring(featureName.lastIndexOf("/") + 1, featureName.indexOf("."));
-        return featureName;
-    }
 
     @Before
     public void beforeTest(Scenario scenario) {
-        String test = getFeatureName(scenario) + "::" + scenario.getName();
-        testName.set(test);
+        ScenarioContext.setTestName(scenario);
     }
 
     @After
     public void afterTest(Scenario scenario) {
-        testName.remove();
+        ScenarioContext.removeTestName();
     }
 }

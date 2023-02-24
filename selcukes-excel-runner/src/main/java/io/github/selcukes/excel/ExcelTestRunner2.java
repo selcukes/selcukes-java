@@ -27,14 +27,14 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @CustomLog
-public class ExcelTestRunner extends SelcukesTestNGRunner {
+public class ExcelTestRunner2 extends SelcukesTestNGRunner {
     private List<String> runScenarios;
 
     @BeforeClass(alwaysRun = true)
     public void setUpExcel(ITestContext context) {
         var testProperties = new SelcukesTestProperties();
         if (!testProperties.getExcelProperty(SelcukesTestProperties.EXCEL_RUNNER).equalsIgnoreCase("false")) {
-            runScenarios = SingleExcelData.initTestRunner();
+            runScenarios = MultiExcelData.initTestRunner();
         }
     }
 

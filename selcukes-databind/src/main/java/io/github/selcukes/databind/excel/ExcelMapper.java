@@ -18,6 +18,7 @@ package io.github.selcukes.databind.excel;
 
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.DataFileHelper;
+import io.github.selcukes.databind.utils.Maps;
 import io.github.selcukes.databind.utils.Streams;
 import lombok.experimental.UtilityClass;
 import org.apache.poi.ss.usermodel.CellType;
@@ -78,11 +79,10 @@ public class ExcelMapper {
         try (var workbook = WorkbookFactory.create(new FileInputStream(file))) {
             formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
             return Streams.of(workbook.iterator())
-                    .collect(Collectors.toMap(Sheet::getSheetName, sheet -> Streams.of(sheet.iterator())
+                    .collect(Maps.of(Sheet::getSheetName, sheet -> Streams.of(sheet.iterator())
                             .skip(1)
                             .map(ExcelMapper::readRow)
-                            .collect(Collectors.toList()),
-                        (k, v) -> k, LinkedHashMap::new));
+                            .collect(Collectors.toList())));
         } catch (Exception e) {
             throw new DataMapperException("Unable to parse Excel file " + file.getAbsolutePath(), e);
         }

@@ -27,12 +27,12 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.support.events.EventFiringDecorator;
-import org.openqa.selenium.support.events.WebDriverListener;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static java.lang.String.format;
 
 @CustomLog
 @UtilityClass
@@ -44,7 +44,7 @@ public class DriverManager {
     public synchronized <D extends WebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
         Arrays.stream(capabilities).findAny().ifPresent(AppiumOptions::setUserOptions);
         if (getDriver() == null) {
-            logger.info(() -> String.format("Creating new %s session...", deviceType));
+            logger.info(() -> format("Creating new %s session...", deviceType));
             RemoteManager remoteManager;
             switch (deviceType) {
                 case BROWSER:
@@ -60,12 +60,12 @@ public class DriverManager {
                     throw new DriverSetupException(
                         "Unable to create new driver session for Driver Type[" + deviceType + "]");
             }
-            WebDriver wd = remoteManager.createDriver();
+            var wd = remoteManager.createDriver();
             if (wd instanceof WindowsDriver) {
                 setDriver(wd);
             } else {
-                WebDriverListener eventCapture = new EventCapture();
-                WebDriver eventDriver = new EventFiringDecorator(eventCapture).decorate(wd);
+                var eventCapture = new EventCapture();
+                var eventDriver = new EventFiringDecorator<>(eventCapture).decorate(wd);
                 setDriver(eventDriver);
             }
         }
@@ -102,14 +102,21 @@ public class DriverManager {
     }
 
     public static synchronized void removeAllDrivers() {
-        logger.debug(() -> String.format("Closing [%d] stored drivers..", STORED_DRIVER.size()));
-        STORED_DRIVER.values().stream().filter(Objects::nonNull).forEach(d -> {
-            try {
-                ((WebDriver) d).quit();
-            } finally {
-                STORED_DRIVER.remove(d.hashCode());
-            }
-        });
+        logger.debug(() -> format("Closing [%d] stored drivers..", STORED_DRIVER.size()));
+
+        STORED_DRIVER.values().stream()
+                .filter(WebDriver.class::isInstance)
+                .map(WebDriver.class::cast)
+                .forEach(webDriver -> {
+                    try {
+                        webDriver.quit();
+                    } catch (Exception e) {
+                        logger.warn(
+                            () -> format("Failed to close driver %d: %s", webDriver.hashCode(), e.getMessage()));
+                    }
+                });
+
+        STORED_DRIVER.clear();
         DRIVER_THREAD.remove();
     }
 }
