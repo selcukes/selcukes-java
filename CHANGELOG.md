@@ -12,6 +12,27 @@
 
 ### Removed
 
+## [2.2.2] (24-02-2023)
+
+### Added
+
+* [Excel Runner] Support different testdata excel files ([#223](https://github.com/selcukes/selcukes-java/pull/223))
+* [Excel Runner] Parse Excel as Map of Maps ([#219](https://github.com/selcukes/selcukes-java/pull/219))
+
+### Changed
+
+* Core Refactoring ([#217](https://github.com/selcukes/selcukes-java/pull/217))
+  , ([#221](https://github.com/selcukes/selcukes-java/pull/221))
+
+### Fixed
+
+* [Data Bind] Fixed CSV Parser issue with double quotes
+
+### Removed
+
+[Core] Removed `webdriver-binaries` dependency from core module. `webdriver-binaries` will no longer maintained instead
+using inbuilt Selenium Manager ([#219](https://github.com/selcukes/selcukes-java/pull/219))
+
 ## [2.2.1] (08-02-2023)
 
 ### Added
