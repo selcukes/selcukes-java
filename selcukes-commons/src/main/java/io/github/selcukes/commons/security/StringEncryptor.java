@@ -17,10 +17,10 @@
 package io.github.selcukes.commons.security;
 
 import io.github.selcukes.commons.exception.EncryptionException;
-import io.github.selcukes.commons.helper.Preconditions;
 
 import java.security.GeneralSecurityException;
 import java.util.Base64;
+import java.util.Objects;
 
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.CRYPTO_KEY;
 
@@ -42,8 +42,8 @@ public class StringEncryptor implements Encryptor {
 
     @Override
     public String encrypt(final String cryptoKey, final String text) {
-        Preconditions.checkNotNull(text, "Password Text must not be null");
-        Preconditions.checkNotNull(cryptoKey, "Crypto Key must not be null");
+        Objects.requireNonNull(text, "Password Text must not be null");
+        Objects.requireNonNull(cryptoKey, "Crypto Key must not be null");
         try {
             byte[] textToEncrypt = ByteEncryptor.encryptData(cryptoKey, text.getBytes());
             return Base64.getEncoder().encodeToString(textToEncrypt);
@@ -54,8 +54,8 @@ public class StringEncryptor implements Encryptor {
 
     @Override
     public String decrypt(final String cryptoKey, final String encrypted) {
-        Preconditions.checkNotNull(encrypted, "Encrypted Text must not be null");
-        Preconditions.checkNotNull(cryptoKey, "Crypto Key must not be null");
+        Objects.requireNonNull(encrypted, "Encrypted Text must not be null");
+        Objects.requireNonNull(cryptoKey, "Crypto Key must not be null");
         try {
             byte[] textToDecrypt = Base64.getDecoder().decode(encrypted);
             return new String(ByteEncryptor.decryptData(cryptoKey, textToDecrypt));

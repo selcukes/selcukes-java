@@ -39,29 +39,22 @@ public class Shell {
      * @return         ExecResults
      */
     public ExecResults runCommand(final String command) {
-        ExecResults results;
-        Process process = null;
+        logger.info(() -> String.format("Executing the command [%s]", command));
         try {
-            logger.info(() -> String.format("Executing the command [%s]", command));
-            process = new ProcessBuilder(command.split("\\s"))
-                    .start();
-            results = interactWithProcess(process);
-        } catch (IOException e) {
-            logger.error(e, () -> "There was a problem executing command : " + command);
-            throw new CommandException(e);
-        } finally {
-            if (process != null) {
-                process.destroy();
+            Process process = new ProcessBuilder(command.split("\\s")).start();
+            ExecResults results = interactWithProcess(process);
+            if (results.hasErrors()) {
+                logger.warn(() -> String.format("Results of the command execution: %s", results.getError()));
             }
+            return results;
+        } catch (IOException e) {
+            logger.error(e, () -> "There was a problem executing command: " + command);
+            throw new CommandException(e);
         }
-        if (results.hasErrors()) {
-            logger.warn(() -> String.format("Results of the command execution : %s", results.getError()));
-        }
-        return results;
     }
 
     private void extractPidOf(final Process process) {
-        pid = process.toString().split(",")[0].split("=")[1];
+        pid = Long.toString(process.pid());
         logger.debug(() -> "Process Id: " + pid);
     }
 
@@ -109,5 +102,21 @@ public class Shell {
     public CompletableFuture<ExecResults> runCommandAsync(final String command) {
 
         return CompletableFuture.supplyAsync(() -> runCommand(command));
+    }
+
+    /**
+     * Kills all processes whose command ends with the given process name. The
+     * method uses ProcessHandle.allProcesses() to get a Stream of all running
+     * processes and filters the ones whose command ends with the provided
+     * process name. Then, it forcibly destroys each filtered process
+     *
+     * @param processName The name of the process you want to kill.
+     */
+    public static void killProcess(String processName) {
+        ProcessHandle.allProcesses()
+                .filter(process -> process.info().command()
+                        .map(command -> command.endsWith(processName))
+                        .orElse(false))
+                .forEach(ProcessHandle::destroyForcibly);
     }
 }

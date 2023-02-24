@@ -24,7 +24,6 @@ import io.appium.java_client.windows.WindowsDriver;
 import io.cucumber.java.Scenario;
 import io.github.selcukes.commons.fixture.SelcukesFixture;
 import io.github.selcukes.commons.helper.FileHelper;
-import io.github.selcukes.commons.helper.Preconditions;
 import io.github.selcukes.notifier.Notifier;
 import io.github.selcukes.notifier.NotifierFactory;
 import io.github.selcukes.notifier.enums.NotifierType;
@@ -38,6 +37,7 @@ import org.openqa.selenium.WebDriver;
 
 import java.io.File;
 import java.time.Duration;
+import java.util.Objects;
 import java.util.UUID;
 
 import static io.github.selcukes.extent.report.Reporter.getReporter;
@@ -173,7 +173,7 @@ class ScreenPlayImpl implements ScreenPlay {
         if (isNativeDevice) {
             return stopAndSaveNativeVideo(result.getTestName());
         }
-        Preconditions.checkNotNull(recorder, "Recording not started...");
+        Objects.requireNonNull(recorder, "Recording not started...");
         return recorder.stopAndSave(result.getTestName());
     }
 

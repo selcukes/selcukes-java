@@ -27,10 +27,6 @@ import static io.github.selcukes.databind.utils.Reflections.newInstance;
  */
 public class Singleton {
 
-    private static final Singleton INSTANCE = new Singleton();
-
-    private final Map<String, Object> mapHolder = new HashMap<>();
-
     private Singleton() {
     }
 
@@ -41,12 +37,23 @@ public class Singleton {
      * @param  clazz The class to be instantiated.
      * @return       An instance of the class passed in.
      */
-    @SuppressWarnings("unchecked")
     public static <T> T instanceOf(final Class<T> clazz, final Object... initArgs) {
-        if (!INSTANCE.mapHolder.containsKey(clazz.getName())) {
-            T obj = newInstance(clazz, initArgs);
-            INSTANCE.mapHolder.put(clazz.getName(), obj);
+        return SingletonHolder.INSTANCE.getOrCreate(clazz, initArgs);
+    }
+
+    private static class SingletonHolder {
+        private final Map<String, Object> mapHolder = new HashMap<>();
+
+        private static final SingletonHolder INSTANCE = new SingletonHolder();
+
+        @SuppressWarnings("unchecked")
+        public <T> T getOrCreate(Class<T> clazz, Object... initArgs) {
+            String className = clazz.getName();
+            if (!mapHolder.containsKey(className)) {
+                T obj = newInstance(clazz, initArgs);
+                mapHolder.put(className, obj);
+            }
+            return (T) mapHolder.get(className);
         }
-        return (T) INSTANCE.mapHolder.get(clazz.getName());
     }
 }

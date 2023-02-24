@@ -20,9 +20,8 @@ import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.util.Arrays;
 
 /**
  * Reflections is a class that provides a way to get a list of all the classes
@@ -35,23 +34,20 @@ public class Reflections {
     public <T> T newInstance(final Class<T> clazz) {
         try {
             Constructor<T> constructor = clazz.getDeclaredConstructor();
-            if ((!Modifier.isPublic(constructor.getModifiers()) ||
-                    !Modifier.isPublic(constructor.getDeclaringClass().getModifiers())) &&
-                    !constructor.isAccessible()) {
+            if (!constructor.canAccess(null)) {
                 constructor.setAccessible(true);
             }
             return constructor.newInstance();
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
-
     }
 
     @SuppressWarnings("all")
     // Creating a new instance of the class passed to it.
     public static <T> T newInstance(final Class<T> clazz, final Object... initArgs) {
         try {
-            return (T) clazz.getConstructors()[0].newInstance(initArgs);
+            return clazz.getDeclaredConstructor(getClasses(initArgs)).newInstance(initArgs);
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
@@ -61,8 +57,8 @@ public class Reflections {
     // Setting the value of the field in the object.
     public static void setField(final Object object, final String fieldName, final Object value) {
         try {
-            Class<?> clazz = object == null ? Object.class : object.getClass();
-            Field field = clazz.getDeclaredField(fieldName);
+            var clazz = object == null ? Object.class : object.getClass();
+            var field = clazz.getDeclaredField(fieldName);
             field.setAccessible(true);
             field.set(object, value);
         } catch (Exception e) {
@@ -75,7 +71,7 @@ public class Reflections {
     // Getting the method from the class.
     public static <T> Method getDeclaredMethod(Class<T> clazz, String name, Class<?>... param) {
         try {
-            Method method = clazz.getDeclaredMethod(name, param);
+            var method = clazz.getDeclaredMethod(name, param);
             method.setAccessible(true);
             return method;
         } catch (Exception e) {
@@ -86,7 +82,13 @@ public class Reflections {
     @SneakyThrows
     // Invoking a static method on a class.
     public static void invoke(final Class<?> clazz, final String methodName, final String param) {
-        Method method = clazz.getMethod(methodName, String.class);
+        var method = clazz.getMethod(methodName, String.class);
         method.invoke(null, param);
+    }
+
+    private Class<?>[] getClasses(Object... objects) {
+        return Arrays.stream(objects)
+                .map(Object::getClass)
+                .toArray(Class[]::new);
     }
 }
