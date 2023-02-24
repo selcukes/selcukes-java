@@ -22,7 +22,7 @@ import io.github.selcukes.notifier.IncomingWebHookRequest;
 import io.github.selcukes.notifier.NotifierHelper;
 import io.github.selcukes.notifier.enums.NotifierEnum;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -57,10 +57,7 @@ public class MicrosoftTeamsBuilder {
                 .value(error)
                 .build();
 
-        List<Field> fieldList = new ArrayList<>();
-        fieldList.add(field);
-        fieldList.add(field1);
-        fieldList.add(field2);
+        List<Field> fieldList = Arrays.asList(field, field1, field2);
         if (scenarioStatus.equalsIgnoreCase("FAILED") && error != null) {
             fieldList.add(field3);
         }
