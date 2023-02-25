@@ -120,4 +120,25 @@ public class Shell {
                         .orElse(false))
                 .forEach(ProcessHandle::destroyForcibly);
     }
+
+    /**
+     * Starts a new process with the given service path.
+     *
+     * @param  servicePath      the path to the service executable to start
+     * @return                  the Process object representing the started
+     *                          process
+     * @throws CommandException if the process fails to start
+     */
+    public static Process startProcess(String servicePath) throws CommandException {
+        ProcessBuilder processBuilder = new ProcessBuilder(servicePath);
+        processBuilder.inheritIO();
+        try {
+            Process process = processBuilder.start();
+            logger.info(() -> servicePath + " started...");
+            return process;
+        } catch (IOException e) {
+            String message = String.format("Unable to start process '%s': %s", servicePath, e.getMessage());
+            throw new CommandException(message, e);
+        }
+    }
 }
