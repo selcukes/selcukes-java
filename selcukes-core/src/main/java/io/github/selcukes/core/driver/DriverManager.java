@@ -31,8 +31,10 @@ import org.openqa.selenium.support.events.EventFiringDecorator;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 
 import static java.lang.String.format;
+import static java.util.Optional.ofNullable;
 
 @CustomLog
 @UtilityClass
@@ -44,30 +46,19 @@ public class DriverManager {
     public synchronized <D extends WebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
         Arrays.stream(capabilities).findAny().ifPresent(AppiumOptions::setUserOptions);
         if (getDriver() == null) {
-            logger.info(() -> format("Creating new %s session...", deviceType));
-            RemoteManager remoteManager;
-            switch (deviceType) {
-                case BROWSER:
-                    remoteManager = new WebManager();
-                    break;
-                case DESKTOP:
-                    remoteManager = new DesktopManager();
-                    break;
-                case MOBILE:
-                    remoteManager = new AppiumManager();
-                    break;
-                default:
-                    throw new DriverSetupException(
-                        "Unable to create new driver session for Driver Type[" + deviceType + "]");
-            }
-            var wd = remoteManager.createDriver();
-            if (wd instanceof WindowsDriver) {
-                setDriver(wd);
-            } else {
-                var eventCapture = new EventCapture();
-                var eventDriver = new EventFiringDecorator<>(eventCapture).decorate(wd);
-                setDriver(eventDriver);
-            }
+            logger.info(() -> String.format("Creating new %s session...", deviceType));
+            Map<DeviceType, Supplier<RemoteManager>> driverManagerMap = Map.of(
+                DeviceType.BROWSER, WebManager::new,
+                DeviceType.DESKTOP, DesktopManager::new,
+                DeviceType.MOBILE, AppiumManager::new);
+            var remoteManager = ofNullable(driverManagerMap.get(deviceType))
+                    .map(Supplier::get)
+                    .orElseThrow(
+                        () -> new DriverSetupException(
+                            "Unable to create new driver session for Driver Type[" + deviceType + "]"));
+            var webDriver = remoteManager.createDriver();
+            setDriver(webDriver instanceof WindowsDriver ? webDriver
+                    : new EventFiringDecorator<>(new EventCapture()).decorate(webDriver));
         }
         return getDriver();
     }
