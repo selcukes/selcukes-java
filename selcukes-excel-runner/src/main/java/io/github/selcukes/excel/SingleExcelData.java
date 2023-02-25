@@ -100,6 +100,7 @@ public class SingleExcelData {
     }
 
     Map<String, String> getTestData(String testName, List<Map<String, String>> sheetData) {
+        Objects.requireNonNull(sheetData, String.format("Unable to read sheet data for [%s]", testName));
         return sheetData.parallelStream()
                 .filter(row -> row.get(TEST).equalsIgnoreCase(testName))
                 .findFirst().orElseThrow(

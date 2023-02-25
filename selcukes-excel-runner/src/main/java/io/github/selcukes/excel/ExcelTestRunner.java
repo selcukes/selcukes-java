@@ -23,12 +23,13 @@ import lombok.CustomLog;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
 @CustomLog
 public class ExcelTestRunner extends SelcukesTestNGRunner {
-    private List<String> runScenarios;
+    private List<String> runScenarios = new ArrayList<>();
 
     @BeforeClass(alwaysRun = true)
     public void setUpExcel(ITestContext context) {
