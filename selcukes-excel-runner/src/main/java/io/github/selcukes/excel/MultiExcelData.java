@@ -41,12 +41,15 @@ public class MultiExcelData {
     private static List<Map<String, String>> excelSuite = new ArrayList<>();
     private static final Map<String, Map<String, List<Map<String, String>>>> runtimeDataMap = new LinkedHashMap<>();
 
-    public static List<String> initTestRunner() {
+    public static void init() {
         var filePath = FileHelper.loadResource(ConfigFactory.getConfig().getExcel().get("suiteFile"));
         var excelData = ExcelMapper.parse(filePath);
         var suiteName = ConfigFactory.getConfig().getExcel().get("suiteFile");
         excelSuite = excelData.get(suiteName);
         SingleExcelData.modifyFirstColumnData(excelSuite, "Screen", "");
+    }
+
+    public static List<String> getScenariosToRun() {
         return excelSuite.parallelStream()
                 .filter(map -> map.get(RUN).equalsIgnoreCase("yes"))
                 .map(map -> map.get(TEST))

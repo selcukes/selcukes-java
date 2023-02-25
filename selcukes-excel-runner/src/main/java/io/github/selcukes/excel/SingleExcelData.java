@@ -49,7 +49,7 @@ public class SingleExcelData {
         Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
     private static Map<String, List<Map<String, String>>> excelData = new LinkedHashMap<>();
 
-    public static List<String> initTestRunner() {
+    public static void init() {
 
         var filePath = FileHelper.loadResource(ConfigFactory.getConfig().getExcel().get("dataFile"));
         excelData = ExcelMapper.parse(filePath);
@@ -61,10 +61,9 @@ public class SingleExcelData {
                 .forEach(entry -> modifyFirstColumnData(entry.getValue(),
                     entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "Screen" : TEST,
                     entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "" : EXAMPLE));
-        return getScenariosToRun();
     }
 
-    private static List<String> getScenariosToRun() {
+    public static List<String> getScenariosToRun() {
         var suiteScenarios = new ArrayList<String>();
         var testScenarios = new ArrayList<String>();
 
@@ -100,6 +99,7 @@ public class SingleExcelData {
     }
 
     Map<String, String> getTestData(String testName, List<Map<String, String>> sheetData) {
+        Objects.requireNonNull(sheetData, String.format("Unable to read sheet data for [%s]", testName));
         return sheetData.parallelStream()
                 .filter(row -> row.get(TEST).equalsIgnoreCase(testName))
                 .findFirst().orElseThrow(
