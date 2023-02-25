@@ -32,7 +32,6 @@ import ws.schild.jave.encode.EncodingAttributes;
 import ws.schild.jave.encode.VideoAttributes;
 
 import java.awt.AWTException;
-import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
@@ -110,22 +109,24 @@ class MonteRecorder implements VideoRecorder {
     private MonteRecorderBuilder getScreenRecorder() {
         int frameRate = videoConfig.getFrameRate();
 
-        Format fileFormat = new Format(FormatKeys.MediaTypeKey, MediaType.VIDEO, FormatKeys.MimeTypeKey,
-            FormatKeys.MIME_AVI);
-        Format screenFormat = new Format(FormatKeys.MediaTypeKey, MediaType.VIDEO, FormatKeys.EncodingKey,
-            VideoFormatKeys.ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
+        var fileFormat = new Format(
+            FormatKeys.MediaTypeKey, MediaType.VIDEO,
+            FormatKeys.MimeTypeKey, FormatKeys.MIME_AVI);
+        var screenFormat = new Format(
+            FormatKeys.MediaTypeKey, MediaType.VIDEO,
+            FormatKeys.EncodingKey, VideoFormatKeys.ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
             VideoFormatKeys.CompressorNameKey, VideoFormatKeys.ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
-            VideoFormatKeys.DepthKey, 24, FormatKeys.FrameRateKey, Rational.valueOf(frameRate),
+            VideoFormatKeys.DepthKey, 24,
+            FormatKeys.FrameRateKey, Rational.valueOf(frameRate),
             VideoFormatKeys.QualityKey, 1.0f,
             FormatKeys.KeyFrameIntervalKey, 15 * 60);
-        Format mouseFormat = new Format(FormatKeys.MediaTypeKey, MediaType.VIDEO, FormatKeys.EncodingKey, "black",
+        var mouseFormat = new Format(
+            FormatKeys.MediaTypeKey, MediaType.VIDEO,
+            FormatKeys.EncodingKey, "black",
             FormatKeys.FrameRateKey, Rational.valueOf(frameRate));
 
-        Dimension screenSize = videoConfig.getScreenSize();
-        int width = screenSize.width;
-        int height = screenSize.height;
-
-        Rectangle captureSize = new Rectangle(0, 0, width, height);
+        var screenSize = videoConfig.getScreenSize();
+        var captureSize = new Rectangle(0, 0, screenSize.width, screenSize.height);
 
         try {
             return MonteRecorderBuilder
@@ -138,7 +139,6 @@ class MonteRecorder implements VideoRecorder {
                     .mouseFormat(mouseFormat).build();
         } catch (IOException | AWTException e) {
             throw new RecorderException(e);
-
         }
     }
 }

@@ -26,7 +26,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import java.awt.image.BufferedImage;
 import java.util.Map;
 
 class PageSnapshot extends DefaultPageSnapshot {
@@ -50,15 +49,12 @@ class PageSnapshot extends DefaultPageSnapshot {
     }
 
     public <X> X getScreenshotWithText(OutputType<X> outputType) {
-        BufferedImage screenshotImage = ImageUtil.toBufferedImage(getFullScreenshotAs(OutputType.BYTES));
-        BufferedImage textImage = ImageUtil.generateImageWithLogo(getScreenshotText(), screenshotImage);
-        BufferedImage finalImage;
-        if (!Platform.isLinux() && isAddressBar) {
-            finalImage = ImageUtil.generateImageWithAddressBar(captureAddressBar(textImage.getWidth()), textImage);
+        var screenshotImage = ImageUtil.toBufferedImage(getFullScreenshotAs(OutputType.BYTES));
+        var textImage = ImageUtil.generateImageWithLogo(getScreenshotText(), screenshotImage);
+        var finalImage = (!Platform.isLinux() && isAddressBar)
+                ? ImageUtil.generateImageWithAddressBar(captureAddressBar(textImage.getWidth()), textImage)
+                : textImage;
 
-        } else {
-            finalImage = textImage;
-        }
         return outputType.convertFromPngBytes(ImageUtil.toByteArray(finalImage));
     }
 

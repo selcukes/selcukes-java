@@ -57,10 +57,7 @@ public class MicrosoftTeamsBuilder {
                 .value(error)
                 .build();
 
-        List<Field> fieldList = new ArrayList<>();
-        fieldList.add(field);
-        fieldList.add(field1);
-        fieldList.add(field2);
+        List<Field> fieldList = new ArrayList<>(List.of(field, field1, field2));
         if (scenarioStatus.equalsIgnoreCase("FAILED") && error != null) {
             fieldList.add(field3);
         }

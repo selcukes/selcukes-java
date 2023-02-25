@@ -21,7 +21,7 @@ import io.github.selcukes.notifier.IncomingWebHookRequest;
 import io.github.selcukes.notifier.NotifierHelper;
 import io.github.selcukes.notifier.enums.NotifierEnum;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -43,9 +43,7 @@ public class SlackMessageBuilder {
                 .shortValue(true)
                 .build();
 
-        List<Field> fieldList = new ArrayList<>();
-        fieldList.add(pro);
-        fieldList.add(env);
+        List<Field> fieldList = Arrays.asList(pro, env);
 
         Attachment attachment = Attachment.builder()
                 .fallback(NotifierEnum.PRETEXT.getValue())

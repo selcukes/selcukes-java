@@ -26,7 +26,6 @@ import net.masterthought.cucumber.presentation.PresentationMode;
 import net.masterthought.cucumber.sorting.SortingMethod;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,8 +35,7 @@ import static io.github.selcukes.commons.config.ConfigFactory.getConfig;
 public class HtmlReporter {
     public void generateReports(String cucumberJsonPath) {
         File reportOutputDirectory = new File(getConfig().getReports().get("path"));
-        List<String> jsonFiles = new ArrayList<>();
-        jsonFiles.add(cucumberJsonPath);
+        List<String> jsonFiles = Collections.singletonList(cucumberJsonPath);
 
         String buildNumber = RandomUtils.randomNumeric(4);
         String projectName = getConfig().getProjectName();

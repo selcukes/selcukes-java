@@ -58,8 +58,8 @@ class MonteRecorderBuilder extends ScreenRecorder {
 
     protected File saveAs(String filename) {
         this.stop();
-        File tempFile = this.getCreatedMovieFiles().get(0);
-        File destFile = getDestinationFile(filename);
+        var tempFile = this.getCreatedMovieFiles().get(0);
+        var destFile = getDestinationFile(filename);
         FileHelper.renameFile(tempFile, destFile);
         return destFile;
     }

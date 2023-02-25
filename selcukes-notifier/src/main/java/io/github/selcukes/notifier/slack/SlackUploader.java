@@ -32,14 +32,13 @@ public class SlackUploader {
                 .fileName("Sample")
                 .build();
 
-        StringBuilder url = new StringBuilder();
-        url.append(NotifierEnum.SLACK_API_URL.getValue())
-                .append(slackFileUploader.getToken())
-                .append("&channels=")
-                .append(slackFileUploader.getChannel())
-                .append("&pretty=1");
-
-        IncomingWebHookRequest.forUrl(url.toString())
+        String url = String.join("",
+            NotifierEnum.SLACK_API_URL.getValue(),
+            slackFileUploader.getToken(),
+            "&channels=",
+            slackFileUploader.getChannel(),
+            "&pretty=1");
+        IncomingWebHookRequest.forUrl(url)
                 .post(Paths.get(slackFileUploader.getFilePath()));
 
     }
