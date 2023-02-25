@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @CustomLog
 public class CucumberLiveReportAdapter implements ConcurrentEventListener {
@@ -121,9 +120,11 @@ public class CucumberLiveReportAdapter implements ConcurrentEventListener {
     }
 
     private synchronized String getFeatureStatus(List<ScenarioContext> scenarioContexts) {
-        Optional<ScenarioContext> contextOptional = scenarioContexts.stream()
-                .filter(scenarioContext -> scenarioContext.getStatus().equalsIgnoreCase("FAILED")).findFirst();
-        return contextOptional.isPresent() ? contextOptional.get().getStatus() : "PASSED";
+        return scenarioContexts.stream()
+                .filter(scenarioContext -> scenarioContext.getStatus().equalsIgnoreCase("FAILED"))
+                .findFirst()
+                .map(ScenarioContext::getStatus)
+                .orElse("PASSED");
     }
 
     @Builder
