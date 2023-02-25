@@ -49,11 +49,7 @@ public class Singleton {
         @SuppressWarnings("unchecked")
         public <T> T getOrCreate(Class<T> clazz, Object... initArgs) {
             String className = clazz.getName();
-            if (!mapHolder.containsKey(className)) {
-                T obj = newInstance(clazz, initArgs);
-                mapHolder.put(className, obj);
-            }
-            return (T) mapHolder.get(className);
+            return (T) mapHolder.computeIfAbsent(className, key -> newInstance(clazz, initArgs));
         }
     }
 }
