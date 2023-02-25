@@ -16,8 +16,7 @@
 
 package io.github.selcukes.commons.helper;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static io.github.selcukes.databind.utils.Reflections.newInstance;
 
@@ -42,7 +41,7 @@ public class Singleton {
     }
 
     private static class SingletonHolder {
-        private final Map<String, Object> mapHolder = new HashMap<>();
+        private final ConcurrentHashMap<String, Object> mapHolder = new ConcurrentHashMap<>();
 
         private static final SingletonHolder INSTANCE = new SingletonHolder();
 
