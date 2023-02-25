@@ -76,17 +76,17 @@ public class EventCapture implements WebDriverListener {
 
     @Override
     public void afterQuit(WebDriver driver) {
-        logger.info(() -> "Browser closed");
+        logger.info(() -> "Driver closed");
     }
 
     @Override
     public void afterRefresh(WebDriver.Navigation navigation) {
-        logger.info(() -> "Browser Refreshed");
+        logger.info(() -> "Screen Refreshed");
     }
 
     @Override
     public void afterMaximize(WebDriver.Window window) {
-        logger.info(() -> "Browser Maximized");
+        logger.info(() -> "Screen Maximized");
     }
 
     @Override
