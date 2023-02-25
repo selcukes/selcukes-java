@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import static io.github.selcukes.commons.properties.SelcukesTestProperties.EXCEL_RUNNER;
+
 @CustomLog
 public class ExcelTestRunner2 extends SelcukesTestNGRunner {
     private List<String> runScenarios = new ArrayList<>();
@@ -35,7 +37,7 @@ public class ExcelTestRunner2 extends SelcukesTestNGRunner {
     public void setUpExcel(ITestContext context) {
         var testProperties = new SelcukesTestProperties();
         MultiExcelData.init();
-        if (!testProperties.getExcelProperty(SelcukesTestProperties.EXCEL_RUNNER).equalsIgnoreCase("false")) {
+        if (!testProperties.getExcelProperty(EXCEL_RUNNER).equalsIgnoreCase("false")) {
             runScenarios = MultiExcelData.getScenariosToRun();
         }
     }
