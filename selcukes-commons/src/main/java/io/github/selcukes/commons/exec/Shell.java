@@ -113,6 +113,7 @@ public class Shell {
      * @param processName The name of the process you want to kill.
      */
     public static void killProcess(String processName) {
+        logger.debug(() -> String.format("Killing all [%s] processes.", processName));
         ProcessHandle.allProcesses()
                 .filter(process -> process.info().command()
                         .map(command -> command.endsWith(processName))
