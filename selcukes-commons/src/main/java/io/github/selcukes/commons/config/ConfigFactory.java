@@ -32,7 +32,7 @@ import java.util.logging.LogManager;
 public class ConfigFactory {
     private static final String DEFAULT_LOG_BACK_FILE = "selcukes-logback.yaml";
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigFactory.class);
-    private final static SingletonContext<Environment> ENVIRONMENT_CONTEXT = SingletonContext
+    private static final SingletonContext<Environment> ENVIRONMENT_CONTEXT = SingletonContext
             .with(() -> DataMapper.parse(Environment.class));
 
     public static Environment getConfig() {
