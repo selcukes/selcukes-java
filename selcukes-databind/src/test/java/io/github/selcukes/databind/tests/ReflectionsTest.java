@@ -29,23 +29,21 @@ public class ReflectionsTest {
     public void reflectionsTest() {
         var memberInfo = DataMapper.parse(XmlTest.CustomerInfo.class);
         var persons = List.of(Map.of(
-                        "contactPersonId", "1256",
-                        "email", "test@test.com",
-                        "firstName", "Ramesh",
-                        "lastName", "Babu",
-                        "mobilePhone", "+15168978352",
-                        "title", "Sr QA",
-                        "workPhone", "+19087253123"
-                ),
-                Map.of(
-                        "contactPersonId", "1266",
-                        "email", "test2@test.com",
-                        "firstName", "Ramesh1",
-                        "lastName", "Babu1",
-                        "mobilePhone", "+15168978000",
-                        "title", "QA",
-                        "workPhone", "+19087253000"
-                ));
+            "contactPersonId", "1256",
+            "email", "test@test.com",
+            "firstName", "Ramesh",
+            "lastName", "Babu",
+            "mobilePhone", "+15168978352",
+            "title", "Sr QA",
+            "workPhone", "+19087253123"),
+            Map.of(
+                "contactPersonId", "1266",
+                "email", "test2@test.com",
+                "firstName", "Ramesh1",
+                "lastName", "Babu1",
+                "mobilePhone", "+15168978000",
+                "title", "QA",
+                "workPhone", "+19087253000"));
         Reflections.setField(memberInfo, "contactPersonList", persons);
         Assert.assertEquals(memberInfo.getContactPersonList(), persons);
     }
