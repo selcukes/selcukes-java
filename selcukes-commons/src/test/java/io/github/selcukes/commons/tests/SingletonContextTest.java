@@ -17,58 +17,82 @@
 package io.github.selcukes.commons.tests;
 
 import io.github.selcukes.commons.helper.SingletonContext;
-import lombok.SneakyThrows;
 import org.testng.annotations.Test;
 
 import java.util.function.Supplier;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.*;
 
 public class SingletonContextTest {
-    @Test
-    void getSameInstanceForSameThread() {
-        Supplier<MyObject> supplier = MyObject::new;
-        SingletonContext<MyObject> context = SingletonContext.with(supplier);
 
-        MyObject instance1 = context.get();
-        MyObject instance2 = context.get();
+    @Test(threadPoolSize = 5, invocationCount = 10, timeOut = 10000)
+    public void testReturnsSameInstanceForSameThread() {
+        Supplier<MySingleton> supplier = MySingleton::new;
+        SingletonContext<MySingleton> context = SingletonContext.with(supplier);
 
-        assertEquals(instance1, instance2);
+        MySingleton instance1 = context.get();
+        MySingleton instance2 = context.get();
+
+        assertSame(instance1, instance2, "Instances should be the same for the same thread");
     }
 
-    @SneakyThrows
-    @Test
-    void getDifferentInstancesForDifferentThreads() {
-        Supplier<MyObject> supplier = MyObject::new;
-        SingletonContext<MyObject> context = SingletonContext.with(supplier);
+    @Test(threadPoolSize = 5, invocationCount = 10, timeOut = 10000)
+    public void testReturnsDifferentInstancesForDifferentThreads() {
+        Supplier<MySingleton> supplier = MySingleton::new;
+        SingletonContext<MySingleton> context = SingletonContext.with(supplier);
 
-        MyObject[] instances = new MyObject[2];
+        MySingleton instance1 = context.get();
 
-        Thread thread1 = new Thread(() -> {
-            instances[0] = context.get();
+        Thread thread = new Thread(() -> {
+            MySingleton instance2 = context.get();
+            assertNotSame(instance1, instance2, "Instances should be different for different threads");
         });
-        Thread thread2 = new Thread(() -> {
-            instances[1] = context.get();
-        });
-
-        thread1.start();
-        thread2.start();
-
-        thread1.join();
-        thread2.join();
-
-        assertNotEquals(instances[0], instances[1]);
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            fail("Interrupted while waiting for thread to complete");
+        }
     }
 
-    static class MyObject {
+    @Test(threadPoolSize = 5, invocationCount = 10, timeOut = 10000)
+    public void testRemovesInstanceForCurrentThread() {
+        Supplier<MySingleton> supplier = MySingleton::new;
+        SingletonContext<MySingleton> context = SingletonContext.with(supplier);
+
+        MySingleton instance1 = context.get();
+        context.remove();
+        MySingleton instance2 = context.get();
+
+        assertNotSame(instance1, instance2, "Instances should be different after removal");
+    }
+
+    @Test(threadPoolSize = 5, invocationCount = 10, timeOut = 10000)
+    public void testRemovesAllInstancesForCurrentThread() {
+        Supplier<MySingleton> supplier = MySingleton::new;
+        SingletonContext<MySingleton> context = SingletonContext.with(supplier);
+
+        MySingleton instance1 = context.get();
+        MySingleton instance2 = context.get();
+
+        context.removeAll();
+
+        MySingleton instance3 = context.get();
+        MySingleton instance4 = context.get();
+
+        assertNotSame(instance1, instance3, "Instances should be different after removeAll");
+        assertNotSame(instance2, instance4, "Instances should be different after removeAll");
+    }
+
+    private static class MySingleton {
         private final String name;
 
-        MyObject() {
+        MySingleton() {
             this.name = "MyObject";
         }
 
-        MyObject(String name) {
+        MySingleton(String name) {
             this.name = name;
         }
 
