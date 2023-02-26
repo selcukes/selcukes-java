@@ -17,6 +17,7 @@
 package io.github.selcukes.commons.config;
 
 import io.github.selcukes.commons.helper.FileHelper;
+import io.github.selcukes.commons.helper.SingletonContext;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.databind.DataMapper;
@@ -31,17 +32,15 @@ import java.util.logging.LogManager;
 public class ConfigFactory {
     private static final String DEFAULT_LOG_BACK_FILE = "selcukes-logback.yaml";
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigFactory.class);
-    private static final ThreadLocal<Environment> ENVIRONMENT = new InheritableThreadLocal<>();
+    private final static SingletonContext<Environment> ENVIRONMENT_CONTEXT = SingletonContext
+            .with(() -> DataMapper.parse(Environment.class));
 
     public static Environment getConfig() {
-        if (ENVIRONMENT.get() == null) {
-            ENVIRONMENT.set(DataMapper.parse(Environment.class));
-        }
-        return ENVIRONMENT.get();
+        return ENVIRONMENT_CONTEXT.get();
     }
 
     public static void cleanupConfig() {
-        ENVIRONMENT.remove();
+        ENVIRONMENT_CONTEXT.remove();
     }
 
     public void loadLoggerProperties() {
