@@ -19,7 +19,10 @@ package io.github.selcukes.databind.excel;
 import io.github.selcukes.databind.DataField;
 import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.converters.Converter;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.lang.reflect.Field;
@@ -31,8 +34,9 @@ import static java.util.Optional.ofNullable;
 import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.RETURN_BLANK_AS_NULL;
 
 class ExcelCell<T> extends DataField<T> {
+    private static final DataFormatter DATA_FORMATTER = new DataFormatter();
+    private static FormulaEvaluator formulaEvaluator;
     private final int index;
-    private final DataFormatter formatter;
 
     public ExcelCell(
             final Field field,
@@ -41,12 +45,11 @@ class ExcelCell<T> extends DataField<T> {
     ) {
         super(field, defaultConverters);
         this.index = getIndex(headers);
-        this.formatter = new DataFormatter();
     }
 
     public ExcelCell<T> parse(final Row row) {
         var cellValue = ofNullable(row.getCell(index, RETURN_BLANK_AS_NULL))
-                .map(cell -> formatter.formatCellValue(cell).trim())
+                .map(ExcelCell::getCellData)
                 .orElse("");
         var format = getColumn().map(Key::format).orElse("");
         var substituted = getSubstitutor().replace(cellValue, format);
@@ -61,5 +64,15 @@ class ExcelCell<T> extends DataField<T> {
                 .orElse(getFieldName());
         return ofNullable(headers.get(header))
                 .orElseThrow(() -> new IllegalArgumentException(format("Column %s not found", getFieldName())));
+    }
+
+    protected static String getCellData(Cell cell) {
+        if (formulaEvaluator == null) {
+            formulaEvaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
+        }
+        var cellData = cell.getCellType().equals(CellType.FORMULA)
+                ? DATA_FORMATTER.formatCellValue(cell, formulaEvaluator)
+                : DATA_FORMATTER.formatCellValue(cell);
+        return cellData.trim();
     }
 }

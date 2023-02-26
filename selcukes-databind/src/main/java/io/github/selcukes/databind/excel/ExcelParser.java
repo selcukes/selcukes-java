@@ -22,7 +22,6 @@ import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.Maps;
 import io.github.selcukes.databind.utils.Streams;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.FileInputStream;
@@ -48,7 +47,6 @@ class ExcelParser<T> {
 
     public Stream<T> parse(Path filePath) {
         try (var workbook = WorkbookFactory.create(new FileInputStream(filePath.toFile()))) {
-            var formatter = new DataFormatter();
             var startIndex = 0;
             var skip = 1;
 
@@ -57,8 +55,7 @@ class ExcelParser<T> {
                     .orElse(workbook.getSheetAt(startIndex));
 
             var headers = Streams.of(sheet.getRow(startIndex).cellIterator())
-                    .collect(
-                        Maps.ofIgnoreCase(cell -> formatter.formatCellValue(cell).trim(), Cell::getColumnIndex));
+                    .collect(Maps.ofIgnoreCase(ExcelCell::getCellData, Cell::getColumnIndex));
 
             var cellMappers = Stream.of(entityClass.getDeclaredFields())
                     .map(field -> new ExcelCell<>(field, headers, defaultConverters))

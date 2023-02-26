@@ -21,16 +21,12 @@ import io.github.selcukes.databind.utils.DataFileHelper;
 import io.github.selcukes.databind.utils.Maps;
 import io.github.selcukes.databind.utils.Streams;
 import lombok.experimental.UtilityClass;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.DataFormatter;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,8 +38,6 @@ import java.util.stream.Stream;
  */
 @UtilityClass
 public class ExcelMapper {
-    private static final DataFormatter DATA_FORMATTER = new DataFormatter();
-    private static FormulaEvaluator formulaEvaluator;
 
     /**
      * Parses the Excel file to an Entity Class. It takes a class as input and
@@ -77,7 +71,6 @@ public class ExcelMapper {
      */
     public static Map<String, List<Map<String, String>>> parse(File file) {
         try (var workbook = WorkbookFactory.create(new FileInputStream(file))) {
-            formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
             return Streams.of(workbook.iterator())
                     .collect(Maps.of(Sheet::getSheetName, sheet -> Streams.of(sheet.iterator())
                             .skip(1)
@@ -90,15 +83,9 @@ public class ExcelMapper {
     }
 
     private static Map<String, String> readRow(Row row) {
-        return Streams.of(row.iterator())
-                .collect(Collectors.toMap(cell -> cell.getSheet().getRow(0)
+        return Streams.of(row.cellIterator())
+                .collect(Maps.of(cell -> cell.getSheet().getRow(0)
                         .getCell(cell.getColumnIndex()).getStringCellValue(),
-                    cell -> {
-                        if (cell.getCellType().equals(CellType.FORMULA)) {
-                            return DATA_FORMATTER.formatCellValue(cell, formulaEvaluator);
-                        } else {
-                            return DATA_FORMATTER.formatCellValue(cell);
-                        }
-                    }, (k, v) -> k, LinkedHashMap::new));
+                    ExcelCell::getCellData));
     }
 }

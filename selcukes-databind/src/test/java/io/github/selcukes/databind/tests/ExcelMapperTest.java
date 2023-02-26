@@ -64,6 +64,7 @@ public class ExcelMapperTest {
         String firstName;
         @Key(name = "Last Name")
         String lastName;
+        String location;
         String date;
     }
 

@@ -107,4 +107,8 @@ public class Reporter {
     public void attachScreenshot() {
         SelcukesExtentAdapter.attachScreenshot(snapshot.shootPageAsBytes());
     }
+
+    public void attachVisibleScreenshot() {
+        SelcukesExtentAdapter.attachScreenshot(snapshot.shootVisiblePageAsBytes());
+    }
 }
