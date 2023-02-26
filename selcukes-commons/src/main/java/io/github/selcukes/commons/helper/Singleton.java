@@ -22,9 +22,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import static io.github.selcukes.databind.utils.Reflections.newInstance;
 
 /**
- * The `Singleton` class provides a thread-safe way to create a single instance of a class.
- * It uses a `ConcurrentHashMap` to store the instances and ensures that only one instance
- * is created for a given class and constructor arguments.
+ * The `Singleton` class provides a thread-safe way to create a single instance
+ * of a class. It uses a `ConcurrentHashMap` to store the instances and ensures
+ * that only one instance is created for a given class and constructor
+ * arguments.
  */
 public class Singleton {
 
@@ -33,13 +34,15 @@ public class Singleton {
     }
 
     /**
-     * Returns an instance of the specified class with the given constructor arguments.
-     * If an instance with the same constructor arguments exists in the map, that instance
-     * is returned. Otherwise, a new instance is created, stored in the map, and returned.
+     * Returns an instance of the specified class with the given constructor
+     * arguments. If an instance with the same constructor arguments exists in
+     * the map, that instance is returned. Otherwise, a new instance is created,
+     * stored in the map, and returned.
      *
-     * @param clazz     the class to be instantiated
-     * @param initArgs  the constructor arguments for the class
-     * @return          an instance of the specified class with the given constructor arguments
+     * @param  clazz    the class to be instantiated
+     * @param  initArgs the constructor arguments for the class
+     * @return          an instance of the specified class with the given
+     *                  constructor arguments
      */
     public static <T> T instanceOf(final Class<T> clazz, final Object... initArgs) {
         return SingletonHolder.INSTANCE.getOrCreate(clazz, initArgs);
@@ -51,13 +54,15 @@ public class Singleton {
         private static final SingletonHolder INSTANCE = new SingletonHolder();
 
         /**
-         * Returns an instance of the specified class with the given constructor arguments.
-         * If an instance with the same constructor arguments exists in the map, that instance
-         * is returned. Otherwise, a new instance is created, stored in the map, and returned.
+         * Returns an instance of the specified class with the given constructor
+         * arguments. If an instance with the same constructor arguments exists
+         * in the map, that instance is returned. Otherwise, a new instance is
+         * created, stored in the map, and returned.
          *
-         * @param clazz     the class to be instantiated
-         * @param initArgs  the constructor arguments for the class
-         * @return          an instance of the specified class with the given constructor arguments
+         * @param  clazz    the class to be instantiated
+         * @param  initArgs the constructor arguments for the class
+         * @return          an instance of the specified class with the given
+         *                  constructor arguments
          */
         public <T> T getOrCreate(Class<T> clazz, Object... initArgs) {
             String className = clazz.getName();
@@ -66,4 +71,3 @@ public class Singleton {
         }
     }
 }
-
