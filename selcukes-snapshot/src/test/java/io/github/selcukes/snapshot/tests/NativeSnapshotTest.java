@@ -69,7 +69,7 @@ public class NativeSnapshotTest {
         context = SingletonContext.with(() -> createWebDriver(browser, Platform.isLinux()));
     }
 
-    private WebDriver createWebDriver(Object browser, boolean headless) {
+    private WebDriver createWebDriver(Browser browser, boolean headless) {
         if (browser.equals(EDGE)) {
             EdgeOptions edgeOptions = new EdgeOptions();
             if (headless) {
