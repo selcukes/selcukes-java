@@ -16,6 +16,8 @@
 
 package io.github.selcukes.databind.tests;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.annotation.DataFile;
 import lombok.Data;
@@ -39,6 +41,8 @@ public class XmlTest {
         String name;
         String maturityDate;
         Map<String, String> address;
+        @JacksonXmlProperty(localName = "contactPerson")
+        @JacksonXmlElementWrapper(localName = "contactPersonList")
         List<Map<String, String>> contactPersonList;
     }
 }

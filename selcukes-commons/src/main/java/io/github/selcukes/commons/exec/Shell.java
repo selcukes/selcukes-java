@@ -113,10 +113,32 @@ public class Shell {
      * @param processName The name of the process you want to kill.
      */
     public static void killProcess(String processName) {
+        logger.debug(() -> String.format("Killing all [%s] processes.", processName));
         ProcessHandle.allProcesses()
                 .filter(process -> process.info().command()
                         .map(command -> command.endsWith(processName))
                         .orElse(false))
                 .forEach(ProcessHandle::destroyForcibly);
+    }
+
+    /**
+     * Starts a new process with the given service path.
+     *
+     * @param  servicePath      the path to the service executable to start
+     * @return                  the Process object representing the started
+     *                          process
+     * @throws CommandException if the process fails to start
+     */
+    public static Process startProcess(String servicePath) throws CommandException {
+        ProcessBuilder processBuilder = new ProcessBuilder(servicePath);
+        processBuilder.inheritIO();
+        try {
+            Process process = processBuilder.start();
+            logger.info(() -> servicePath + " started...");
+            return process;
+        } catch (IOException e) {
+            String message = String.format("Unable to start process '%s': %s", servicePath, e.getMessage());
+            throw new CommandException(message, e);
+        }
     }
 }

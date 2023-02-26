@@ -19,7 +19,6 @@ package io.github.selcukes.databind.utils;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
@@ -29,25 +28,16 @@ import java.util.Arrays;
  */
 @UtilityClass
 public class Reflections {
-    @SuppressWarnings("all")
-    // Creating a new instance of the class passed to it.
-    public <T> T newInstance(final Class<T> clazz) {
-        try {
-            Constructor<T> constructor = clazz.getDeclaredConstructor();
-            if (!constructor.canAccess(null)) {
-                constructor.setAccessible(true);
-            }
-            return constructor.newInstance();
-        } catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
-    }
 
     @SuppressWarnings("all")
     // Creating a new instance of the class passed to it.
     public static <T> T newInstance(final Class<T> clazz, final Object... initArgs) {
         try {
-            return clazz.getDeclaredConstructor(getClasses(initArgs)).newInstance(initArgs);
+            var constructor = clazz.getDeclaredConstructor(getClasses(initArgs));
+            if (!constructor.canAccess(null)) {
+                constructor.setAccessible(true);
+            }
+            return constructor.newInstance(initArgs);
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
