@@ -16,6 +16,7 @@
 
 package io.github.selcukes.snapshot.tests;
 
+import io.github.selcukes.commons.helper.SingletonContext;
 import io.github.selcukes.commons.os.Platform;
 import lombok.CustomLog;
 import org.openqa.selenium.WebDriver;
@@ -34,7 +35,8 @@ import static org.openqa.selenium.remote.Browser.EDGE;
 
 @CustomLog
 public class NativeSnapshotTest {
-    private static final ThreadLocal<WebDriver> LOCAL_DRIVER = new InheritableThreadLocal<>();
+
+    private SingletonContext<WebDriver> context;
 
     @DataProvider
     public Object[][] driverTypes() {
@@ -56,18 +58,18 @@ public class NativeSnapshotTest {
 
     @AfterClass
     void terminate() {
-        LOCAL_DRIVER.remove();
+        context.removeAll();
     }
 
     private WebDriver getDriver() {
-        return LOCAL_DRIVER.get();
+        return context.get();
     }
 
     private void setDriver(Browser browser) {
-        LOCAL_DRIVER.set(createWebDriver(browser, Platform.isLinux()));
+        context = SingletonContext.with(() -> createWebDriver(browser, Platform.isLinux()));
     }
 
-    private WebDriver createWebDriver(Browser browser, boolean headless) {
+    private WebDriver createWebDriver(Object browser, boolean headless) {
         if (browser.equals(EDGE)) {
             EdgeOptions edgeOptions = new EdgeOptions();
             if (headless) {

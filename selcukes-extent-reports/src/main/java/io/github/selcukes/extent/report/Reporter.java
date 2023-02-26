@@ -18,6 +18,7 @@
 
 package io.github.selcukes.extent.report;
 
+import io.github.selcukes.commons.helper.SingletonContext;
 import io.github.selcukes.commons.logging.LogRecordListener;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.snapshot.Snapshot;
@@ -31,7 +32,7 @@ import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
 import static io.github.selcukes.databind.utils.StringHelper.nullOrEmpty;
 
 public class Reporter {
-    private static final ThreadLocal<Reporter> reporterThreadLocal = new InheritableThreadLocal<>();
+    private static final SingletonContext<Reporter> REPORTER_CONTEXT = SingletonContext.with(Reporter::new);
     private Snapshot snapshot;
     private LogRecordListener logRecordListener;
 
@@ -42,10 +43,7 @@ public class Reporter {
     }
 
     public static Reporter getReporter() {
-        if (reporterThreadLocal.get() == null) {
-            reporterThreadLocal.set(new Reporter());
-        }
-        return reporterThreadLocal.get();
+        return REPORTER_CONTEXT.get();
     }
 
     Reporter start() {
@@ -94,7 +92,7 @@ public class Reporter {
     }
 
     void removeReporter() {
-        reporterThreadLocal.remove();
+        REPORTER_CONTEXT.remove();
     }
 
     void attachAndClear() {
