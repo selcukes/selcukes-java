@@ -21,7 +21,9 @@ import org.testng.annotations.Test;
 
 import java.util.function.Supplier;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertNotSame;
+import static org.testng.Assert.assertSame;
+import static org.testng.Assert.fail;
 
 public class SingletonContextTest {
 
@@ -86,18 +88,6 @@ public class SingletonContextTest {
     }
 
     private static class MySingleton {
-        private final String name;
-
-        MySingleton() {
-            this.name = "MyObject";
-        }
-
-        MySingleton(String name) {
-            this.name = name;
-        }
-
-        String getName() {
-            return name;
-        }
+        // Singleton object for testing
     }
 }
