@@ -19,36 +19,50 @@ package io.github.selcukes.commons.tests;
 import io.github.selcukes.commons.helper.Singleton;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotSame;
+import static org.testng.Assert.assertSame;
 
 public class SingletonTest {
 
-    @Test(expectedExceptions = AssertionError.class)
-    void testSingletonInstance() {
+    @Test
+    public void testInstanceOfReturnsSameInstance() {
+        DummyClass obj1 = Singleton.instanceOf(DummyClass.class);
+        DummyClass obj2 = Singleton.instanceOf(DummyClass.class);
 
-        var instance1 = Singleton.instanceOf(MyClass.class);
-        assertEquals("MyClass", instance1.getName());
-
-        var instance2 = Singleton.instanceOf(MyClass.class);
-        assertEquals(instance1, instance2);
-
-        var instance3 = Singleton.instanceOf(MyClass.class, "MyName");
-        assertEquals("MyName", instance3.getName());
+        assertSame(obj1, obj2);
     }
 
-    static class MyClass {
+    @Test
+    public void testDifferentParametersReturnsDifferentInstances() {
+        DummyClass obj1 = Singleton.instanceOf(DummyClass.class, "Hey");
+        DummyClass obj2 = Singleton.instanceOf(DummyClass.class, "Hello");
+        assertNotSame(obj1.getName(), obj2.getName());
+    }
+
+    @Test
+    public void testDifferentClassesReturnsDifferentInstances() {
+        DummyClass obj1 = Singleton.instanceOf(DummyClass.class);
+        OtherClass obj2 = Singleton.instanceOf(OtherClass.class);
+        assertNotSame(obj1, obj2);
+    }
+
+    private static class DummyClass {
         private final String name;
 
-        MyClass() {
+        DummyClass() {
             this.name = "MyClass";
         }
 
-        MyClass(String name) {
+        DummyClass(String name) {
             this.name = name;
         }
 
         String getName() {
             return name;
         }
+    }
+
+    private static class OtherClass {
+        // Singleton object for testing
     }
 }
