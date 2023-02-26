@@ -12,7 +12,14 @@
 
 ### Removed
 
-## [2.2.2] (24-02-2023)
+## [2.2.4] (26-02-2023)
+
+### Added
+* [Excel Runner] Singleton and SingletonContext class for Singleton Instances ([#226](https://github.com/selcukes/selcukes-java/pull/226))
+### Fixed
+* [Excel Runner] Hot Fixes ([#225](https://github.com/selcukes/selcukes-java/pull/225))
+
+## [2.2.3] (24-02-2023)
 
 ### Added
 
