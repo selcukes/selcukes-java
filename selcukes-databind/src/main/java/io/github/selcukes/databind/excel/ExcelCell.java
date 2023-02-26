@@ -19,6 +19,7 @@ package io.github.selcukes.databind.excel;
 import io.github.selcukes.databind.DataField;
 import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.converters.Converter;
+import lombok.Setter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -35,6 +36,7 @@ import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.RETURN_BLANK_AS_
 
 class ExcelCell<T> extends DataField<T> {
     private static final DataFormatter DATA_FORMATTER = new DataFormatter();
+    @Setter
     private static FormulaEvaluator formulaEvaluator;
     private final int index;
 
@@ -67,9 +69,6 @@ class ExcelCell<T> extends DataField<T> {
     }
 
     protected static String getCellData(Cell cell) {
-        if (formulaEvaluator == null) {
-            formulaEvaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
-        }
         var cellData = cell.getCellType().equals(CellType.FORMULA)
                 ? DATA_FORMATTER.formatCellValue(cell, formulaEvaluator)
                 : DATA_FORMATTER.formatCellValue(cell);

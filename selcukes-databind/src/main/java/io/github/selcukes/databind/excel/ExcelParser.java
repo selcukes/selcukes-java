@@ -49,6 +49,7 @@ class ExcelParser<T> {
         try (var workbook = WorkbookFactory.create(new FileInputStream(filePath.toFile()))) {
             var startIndex = 0;
             var skip = 1;
+            ExcelCell.setFormulaEvaluator(workbook.getCreationHelper().createFormulaEvaluator());
 
             var sheet = ofNullable(entityClass.getDeclaredAnnotation(DataFile.class))
                     .map(annotation -> workbook.getSheet(annotation.sheetName()))

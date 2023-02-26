@@ -71,6 +71,8 @@ public class ExcelMapper {
      */
     public static Map<String, List<Map<String, String>>> parse(File file) {
         try (var workbook = WorkbookFactory.create(new FileInputStream(file))) {
+            ExcelCell.setFormulaEvaluator(workbook.getCreationHelper().createFormulaEvaluator());
+
             return Streams.of(workbook.iterator())
                     .collect(Maps.of(Sheet::getSheetName, sheet -> Streams.of(sheet.iterator())
                             .skip(1)
