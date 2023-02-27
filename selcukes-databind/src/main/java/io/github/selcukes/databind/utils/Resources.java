@@ -27,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static java.lang.String.format;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static java.util.Optional.ofNullable;
 
 @UtilityClass
@@ -76,6 +77,22 @@ public class Resources {
             return Files.createFile(filePath).getFileName().toString();
         } catch (IOException e) {
             throw new DataMapperException("Failed to create new File : " + filePath.getFileName().toString());
+        }
+    }
+
+    /**
+     * Copies a file from the source path to the destination path.
+     *
+     * @param  sourceFile          the path of the file to copy
+     * @param  destinationFile     the path to copy the file to
+     * @throws DataMapperException if an error occurs while copying the file
+     */
+    public void copyFile(final Path sourceFile, final Path destinationFile) {
+        try {
+            Files.copy(sourceFile, destinationFile, REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new DataMapperException(format("Failed to copy file from [%s] to [%s]: %s",
+                sourceFile.toAbsolutePath(), destinationFile.toAbsolutePath(), e.getMessage()));
         }
     }
 

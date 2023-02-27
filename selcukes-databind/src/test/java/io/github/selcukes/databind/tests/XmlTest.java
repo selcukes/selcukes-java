@@ -21,6 +21,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.annotation.DataFile;
 import lombok.Data;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -29,9 +30,35 @@ import java.util.Map;
 public class XmlTest {
     @Test
     public void xmlTest() {
-        CustomerInfo memberInfo = DataMapper.parse(CustomerInfo.class);
-        System.out.println(memberInfo.getMetaData().get("eventNotificationDate"));
-        System.out.println(memberInfo.getContactPersonList().get(0).get("firstName"));
+        var customerInfo = DataMapper.parse(CustomerInfo.class);
+        System.out.println(customerInfo.getMetaData().get("eventNotificationDate"));
+        System.out.println(customerInfo.getContactPersonList().get(0).get("firstName"));
+    }
+
+    @Test
+    public void updateXmlTest() {
+        var excelData = Map.of(
+            "contactPersonList", List.of(Map.of(
+                "contactPersonId", "4567",
+                "email", "test@test.com",
+                "firstName", "Ramesh",
+                "lastName", "Babu",
+                "mobilePhone", "+15168978352",
+                "title", "Treasury",
+                "workPhone", "+19087253123")));
+        var customerInfo = DataMapper.parse(CustomerInfo.class);
+        var contactPersonList = customerInfo.getContactPersonList();
+        /*
+         * Streams.of(1,
+         * contactPersonList.size()).forEach(contactPersonList::remove);
+         * contactPersonList.get(0).clear();
+         */
+        contactPersonList.addAll(excelData.get("contactPersonList"));
+
+        DataMapper.write(customerInfo);
+        var customerInfo1 = DataMapper.parse(CustomerInfo.class);
+        Assert.assertEquals(contactPersonList, customerInfo1.getContactPersonList());
+
     }
 
     @Data
