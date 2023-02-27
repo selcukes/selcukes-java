@@ -106,23 +106,24 @@ public class Resources {
     }
 
     /**
-     * Returns an input stream for the specified file. If the file can be loaded
-     * from the classpath, returns a stream obtained from the class loader.
-     * Otherwise, tries to open the file from the file system. If the file
-     * cannot be found or opened, throws a {@code DataMapperException}.
+     * Returns an InputStream that represents the contents of the specified
+     * file.
      *
-     * @param  fileName            The name of the file to be loaded.
-     * @return                     An input stream for the specified file.
-     * @throws DataMapperException if the file cannot be found or opened.
+     * @param  fileName            the name of the file to load
+     * @return                     an InputStream that represents the contents
+     *                             of the file
+     * @throws DataMapperException if the file cannot be loaded as a stream or
+     *                             if an I/O error occurs while reading the file
      */
     public InputStream fileStream(final String fileName) {
         try {
-            return ofNullable(Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName))
-                    .orElse(new FileInputStream(fileName));
-        } catch (Exception e) {
-            throw new DataMapperException(format("Failed to load file [%s] as a stream. " +
+            var stream = ofNullable(Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName))
+                    .orElse(Resources.class.getResourceAsStream(fileName));
+            return ofNullable(stream).orElse(new FileInputStream(fileName));
+        } catch (IOException e) {
+            throw new DataMapperException(String.format("Failed to load file [%s] as a stream. " +
                     "Make sure the file exists and is accessible.",
-                fileName));
+                fileName), e);
         }
     }
 
