@@ -44,7 +44,7 @@ public class MultiExcelData {
     public static void init() {
         var filePath = FileHelper.loadResource(ConfigFactory.getConfig().getExcel().get("suiteFile"));
         var excelData = ExcelMapper.parse(filePath);
-        var suiteName = ConfigFactory.getConfig().getExcel().get("suiteFile");
+        var suiteName = ConfigFactory.getConfig().getExcel().get("suiteName");
         excelSuite = excelData.get(suiteName);
         SingleExcelData.modifyFirstColumnData(excelSuite, "Screen", "");
     }
@@ -52,7 +52,7 @@ public class MultiExcelData {
     public static List<String> getScenariosToRun() {
         return excelSuite.parallelStream()
                 .filter(map -> map.get(RUN).equalsIgnoreCase("yes"))
-                .map(map -> map.get(TEST))
+                .map(map -> map.get("Feature") + NAME_SEPARATOR + map.get(TEST))
                 .collect(Collectors.toList());
     }
 
