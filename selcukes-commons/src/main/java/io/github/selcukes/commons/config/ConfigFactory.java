@@ -18,12 +18,9 @@ package io.github.selcukes.commons.config;
 
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.helper.SingletonContext;
-import io.github.selcukes.commons.logging.Logger;
-import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.databind.DataMapper;
 import lombok.experimental.UtilityClass;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.LogManager;
@@ -31,7 +28,6 @@ import java.util.logging.LogManager;
 @UtilityClass
 public class ConfigFactory {
     private static final String DEFAULT_LOG_BACK_FILE = "selcukes-logback.yaml";
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConfigFactory.class);
     private static final SingletonContext<Environment> ENVIRONMENT_CONTEXT = SingletonContext
             .with(() -> DataMapper.parse(Environment.class));
 
@@ -52,20 +48,5 @@ public class ConfigFactory {
         } catch (IOException ignored) {
             // Gobble exception
         }
-    }
-
-    public static InputStream getStream(final String fileName) {
-        try {
-            LOGGER.config(() -> String.format("Attempting to read %s as resource.", fileName));
-            InputStream stream = FileHelper.loadThreadResourceAsStream(fileName);
-            if (stream == null) {
-                LOGGER.config(() -> String.format("Re-attempting to read %s as a local file.", fileName));
-                return new FileInputStream(fileName);
-            }
-            return stream;
-        } catch (Exception ignored) {
-            // Gobble exception
-        }
-        return null;
     }
 }

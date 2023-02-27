@@ -20,6 +20,7 @@ import io.github.selcukes.databind.exception.DataMapperException;
 import lombok.experimental.UtilityClass;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -105,18 +106,24 @@ public class Resources {
     }
 
     /**
-     * "If the file exists, return it as a stream, otherwise throw an
-     * exception."
+     * Returns an input stream for the specified file. If the file can be loaded
+     * from the classpath, returns a stream obtained from the class loader.
+     * Otherwise, tries to open the file from the file system. If the file
+     * cannot be found or opened, throws a {@code DataMapperException}.
      *
-     * @param  fileName The name of the file to be loaded.
-     * @return          InputStream
+     * @param  fileName            The name of the file to be loaded.
+     * @return                     An input stream for the specified file.
+     * @throws DataMapperException if the file cannot be found or opened.
      */
     public InputStream fileStream(final String fileName) {
-        return ofNullable(Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName))
-                .orElseThrow(() -> new DataMapperException(
-                    format("Failed to load file [%s] as a stream from classpath. " +
-                            "Make sure the file exists and is included in the classpath.",
-                        fileName)));
+        try {
+            return ofNullable(Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName))
+                    .orElse(new FileInputStream(fileName));
+        } catch (Exception e) {
+            throw new DataMapperException(format("Failed to load file [%s] as a stream. " +
+                    "Make sure the file exists and is accessible.",
+                fileName));
+        }
     }
 
     /**
@@ -129,4 +136,5 @@ public class Resources {
     public Path ofTest(final String fileName) {
         return of(TEST_RESOURCES + File.separator + fileName);
     }
+
 }

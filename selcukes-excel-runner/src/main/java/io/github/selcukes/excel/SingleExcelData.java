@@ -18,7 +18,6 @@ package io.github.selcukes.excel;
 
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ExcelConfigException;
-import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.databind.excel.ExcelMapper;
 import io.github.selcukes.databind.utils.Maps;
 import io.github.selcukes.databind.utils.StringHelper;
@@ -50,8 +49,7 @@ public class SingleExcelData {
     private static Map<String, List<Map<String, String>>> excelData = new LinkedHashMap<>();
 
     public static void init() {
-
-        var filePath = FileHelper.loadResource(ConfigFactory.getConfig().getExcel().get("dataFile"));
+        var filePath = ConfigFactory.getConfig().getExcel().get("dataFile");
         excelData = ExcelMapper.parse(filePath);
         IGNORE_SHEETS.remove(TEST_SUITE_RUNNER_SHEET);
         logger.debug(() -> "Using excel runner sheet : " + TEST_SUITE_RUNNER_SHEET);
