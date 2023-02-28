@@ -138,7 +138,7 @@ public class Resources {
                     .orElse(Resources.class.getResourceAsStream(fileName));
             return (stream == null) ? new FileInputStream(fileName) : stream;
         } catch (IOException e) {
-            throw new DataMapperException(String.format("Failed to load file [%s] as a stream. " +
+            throw new DataMapperException(format("Failed to load file [%s] as a stream. " +
                     "Make sure the file exists and is accessible.",
                 fileName), e);
         }
@@ -154,5 +154,4 @@ public class Resources {
     public Path ofTest(final String fileName) {
         return of(TEST_RESOURCES + File.separator + fileName);
     }
-
 }
