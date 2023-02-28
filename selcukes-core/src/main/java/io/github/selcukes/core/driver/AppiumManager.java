@@ -20,16 +20,15 @@ import io.appium.java_client.android.AndroidDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URL;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static io.github.selcukes.core.driver.RunMode.isCloudAppium;
 import static io.github.selcukes.core.driver.RunMode.isLocalAppium;
+import static java.util.Optional.ofNullable;
 
 @CustomLog
 public class AppiumManager implements RemoteManager {
@@ -58,33 +57,29 @@ public class AppiumManager implements RemoteManager {
 
     public WebDriver createBrowserDriver(String browser) {
         logger.debug(() -> "Initiating New Mobile Browser Session...");
-        Capabilities capabilities = AppiumOptions.getUserOptions();
-        if (capabilities == null) {
-            String platform = ConfigFactory.getConfig().getMobile().getPlatform();
-            capabilities = BrowserOptions.getBrowserOptions(BrowserOptions.valueOf(browser), platform);
-            if (isCloudAppium()) {
-                capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions(false));
-            }
-
-        }
+        var capabilities = ofNullable(AppiumOptions.getUserOptions())
+                .orElseGet(() -> {
+                    String platform = ConfigFactory.getConfig().getMobile().getPlatform();
+                    var driverOptions = BrowserOptions.getBrowserOptions(BrowserOptions.valueOf(browser), platform);
+                    return isCloudAppium() ? driverOptions.merge(CloudOptions.getBrowserStackOptions(false))
+                            : driverOptions;
+                });
         return new RemoteWebDriver(getServiceUrl(), capabilities);
     }
 
     public WebDriver createAppDriver() {
-
         logger.debug(() -> "Initiating New Mobile App Session...");
-        Capabilities capabilities = AppiumOptions.getUserOptions();
-        if (capabilities == null) {
-            if (isCloudAppium()) {
-                capabilities = CloudOptions.getBrowserStackOptions(true);
-            } else {
-                Path appPath = Paths.get(ConfigFactory.getConfig()
-                        .getMobile().getApp());
-                String app = appPath.toAbsolutePath().toString();
-                logger.info(() -> "Using APP: " + app);
-                capabilities = AppiumOptions.getAndroidOptions(app);
-            }
-        }
+        var capabilities = ofNullable(AppiumOptions.getUserOptions())
+                .orElseGet(() -> {
+                    if (isCloudAppium()) {
+                        return CloudOptions.getBrowserStackOptions(true);
+                    } else {
+                        var app = ConfigFactory.getConfig().getMobile().getApp();
+                        String appPath = Path.of(app).toAbsolutePath().toString();
+                        logger.info(() -> "Using APP: " + appPath);
+                        return AppiumOptions.getAndroidOptions(appPath);
+                    }
+                });
         return new AndroidDriver(getServiceUrl(), capabilities);
     }
 

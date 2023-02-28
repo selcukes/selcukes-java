@@ -52,14 +52,12 @@ public class MobilePage implements Page {
     public MobilePage swipe(Object source, Object target, SwipeDirection swipeDirection) {
         boolean isElementFound = false;
         boolean isScrollable = true;
-        do {
-            if (!findAll(target).isEmpty() && find(target).isDisplayed()) {
-                isElementFound = true;
-            } else {
+        while (Boolean.FALSE.equals(isElementFound) && Boolean.TRUE.equals(isScrollable)) {
+            isElementFound = !findAll(target).isEmpty() && find(target).isDisplayed();
+            if (!isElementFound) {
                 isScrollable = attemptToScroll(swipeDirection, Locator.resolve(source));
             }
-        } while (Boolean.FALSE.equals(isElementFound) && Boolean.TRUE.equals(isScrollable));
-
+        }
         return this;
     }
 
@@ -121,7 +119,7 @@ public class MobilePage implements Page {
 
         scrollParameters.put(
             "direction", swipeDirection.toString());
-        isScrollable = (Boolean) executeScript("mobile: scrollGesture", scrollParameters);
+        isScrollable = executeScript("mobile: scrollGesture", scrollParameters);
         Await.until(1);
         return isScrollable;
     }

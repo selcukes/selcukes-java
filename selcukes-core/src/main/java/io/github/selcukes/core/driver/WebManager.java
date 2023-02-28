@@ -19,10 +19,8 @@ package io.github.selcukes.core.driver;
 import io.github.selcukes.commons.config.ConfigFactory;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.remote.RemoteWebDriverBuilder;
 
 import java.net.URL;
 
@@ -30,6 +28,7 @@ import static io.github.selcukes.core.driver.GridRunner.hubPort;
 import static io.github.selcukes.core.driver.GridRunner.isSeleniumServerNotRunning;
 import static io.github.selcukes.core.driver.RunMode.isCloudBrowser;
 import static io.github.selcukes.core.driver.RunMode.isLocalBrowser;
+import static java.util.Optional.ofNullable;
 
 @CustomLog
 public class WebManager implements RemoteManager {
@@ -37,14 +36,16 @@ public class WebManager implements RemoteManager {
     public synchronized WebDriver createDriver() {
         String browser = ConfigFactory.getConfig().getWeb().getBrowser().toUpperCase();
         logger.debug(() -> "Initiating New Browser Session...");
-        Capabilities capabilities = AppiumOptions.getUserOptions();
-        if (capabilities == null) {
-            capabilities = BrowserOptions.getBrowserOptions(BrowserOptions.valueOf(browser), "");
-            if (isCloudBrowser()) {
-                capabilities = capabilities.merge(CloudOptions.getBrowserStackOptions(false));
-            }
-        }
-        RemoteWebDriverBuilder driverBuilder = RemoteWebDriver.builder().oneOf(capabilities);
+
+        var capabilities = ofNullable(AppiumOptions.getUserOptions())
+                .orElseGet(() -> {
+                    var driverOptions = BrowserOptions
+                            .getBrowserOptions(BrowserOptions.valueOf(browser), "");
+                    return isCloudBrowser() ? driverOptions
+                            .merge(CloudOptions.getBrowserStackOptions(false)) : driverOptions;
+                });
+
+        var driverBuilder = RemoteWebDriver.builder().oneOf(capabilities);
         if (!isLocalBrowser()) {
             logger.info(() -> "Starting Remote WebDriver session...");
             driverBuilder.address(getServiceUrl());
