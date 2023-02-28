@@ -42,7 +42,7 @@ public class MultiExcelData {
     private static final Map<String, Map<String, List<Map<String, String>>>> runtimeDataMap = new LinkedHashMap<>();
 
     public static void init() {
-        var filePath = FileHelper.loadResource(ConfigFactory.getConfig().getExcel().get("suiteFile"));
+        var filePath = ConfigFactory.getConfig().getExcel().get("suiteFile");
         var excelData = ExcelMapper.parse(filePath);
         var suiteName = ConfigFactory.getConfig().getExcel().get("suiteName");
         excelSuite = excelData.get(suiteName);
@@ -77,8 +77,7 @@ public class MultiExcelData {
     }
 
     private Map<String, List<Map<String, String>>> readAndCacheTestData(String testDataFile) {
-        var filePath = FileHelper.loadResource(testDataFile);
-        var testData = ExcelMapper.parse(filePath);
+        var testData = ExcelMapper.parse(testDataFile);
         testData.forEach((key, value) -> SingleExcelData.modifyFirstColumnData(value, TEST, EXAMPLE));
         runtimeDataMap.put(testDataFile, testData);
         return testData;

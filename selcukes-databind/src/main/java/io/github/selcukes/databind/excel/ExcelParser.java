@@ -20,11 +20,11 @@ import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.converters.Converter;
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.Maps;
+import io.github.selcukes.databind.utils.Resources;
 import io.github.selcukes.databind.utils.Streams;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import java.io.FileInputStream;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,7 +46,7 @@ class ExcelParser<T> {
     }
 
     public Stream<T> parse(Path filePath) {
-        try (var workbook = WorkbookFactory.create(new FileInputStream(filePath.toFile()))) {
+        try (var workbook = WorkbookFactory.create(Resources.fileStream(filePath.toString()))) {
             var startIndex = 0;
             var skip = 1;
             ExcelCell.setFormulaEvaluator(workbook.getCreationHelper().createFormulaEvaluator());

@@ -19,14 +19,13 @@ package io.github.selcukes.databind.excel;
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.DataFileHelper;
 import io.github.selcukes.databind.utils.Maps;
+import io.github.selcukes.databind.utils.Resources;
 import io.github.selcukes.databind.utils.Streams;
 import lombok.experimental.UtilityClass;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -61,16 +60,19 @@ public class ExcelMapper {
     }
 
     /**
-     * It creates a workbook from the file, creates a formula evaluator, and
-     * then creates a map of sheet names to a list of maps of column names to
-     * cell values
+     * This method takes a file path as input, creates a workbook from the file
+     * at the path, and then creates a map of sheet names to a list of maps of
+     * column names to cell values. The first row of each sheet is assumed to
+     * contain column headers,and is skipped in the output. The remaining rows
+     * are parsed and stored in the output map.
      *
-     * @param  file The file to be parsed.
-     * @return      A map of sheet names to a list of maps of column names to
-     *              cell values.
+     * @param  filePath            The file path of the Excel file to be parsed.
+     * @return                     A map of sheet names to a list of maps of
+     *                             column names to cell values.
+     * @throws DataMapperException If there is an error parsing the Excel file.
      */
-    public static Map<String, List<Map<String, String>>> parse(File file) {
-        try (var workbook = WorkbookFactory.create(new FileInputStream(file))) {
+    public static Map<String, List<Map<String, String>>> parse(String filePath) {
+        try (var workbook = WorkbookFactory.create(Resources.fileStream(filePath))) {
             ExcelCell.setFormulaEvaluator(workbook.getCreationHelper().createFormulaEvaluator());
 
             return Streams.of(workbook.iterator())
@@ -79,7 +81,7 @@ public class ExcelMapper {
                             .map(ExcelMapper::readRow)
                             .collect(Collectors.toList())));
         } catch (Exception e) {
-            throw new DataMapperException("Unable to parse Excel file " + file.getAbsolutePath(), e);
+            throw new DataMapperException("Unable to parse Excel file " + filePath, e);
         }
 
     }
