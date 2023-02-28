@@ -136,7 +136,7 @@ public class Resources {
         try {
             var stream = ofNullable(Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName))
                     .orElse(Resources.class.getResourceAsStream(fileName));
-            return ofNullable(stream).orElse(new FileInputStream(fileName));
+            return (stream == null) ? new FileInputStream(fileName) : stream;
         } catch (IOException e) {
             throw new DataMapperException(String.format("Failed to load file [%s] as a stream. " +
                     "Make sure the file exists and is accessible.",
