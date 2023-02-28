@@ -20,15 +20,16 @@ import io.github.selcukes.databind.exception.DataMapperException;
 import lombok.experimental.UtilityClass;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import static java.lang.String.format;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-import static java.util.Optional.ofNullable;
 
 @UtilityClass
 public class Resources {
@@ -123,25 +124,42 @@ public class Resources {
     }
 
     /**
-     * Returns an InputStream that represents the contents of the specified
-     * file.
+     * Returns an input stream for reading from the file at the given file path.
+     * This method attempts to load the file from several locations in the
+     * following order:
+     * <ol>
+     * <li>The file is loaded from the current thread's context class loader as
+     * a resource</li>
+     * <li>The file is loaded from the file system using the
+     * {@link #newFileStream(String)} method</li>
+     * <li>The file is loaded from the class loader of the {@link Resources}
+     * class as a resource</li>
+     * <li>The file is loaded from the package of the {@link Resources} class as
+     * a resource</li>
+     * </ol>
+     * The method returns the first non-null input stream that is successfully
+     * loaded from one of these locations.
      *
-     * @param  fileName            the name of the file to load
-     * @return                     an InputStream that represents the contents
-     *                             of the file
-     * @throws DataMapperException if the file cannot be loaded as a stream or
-     *                             if an I/O error occurs while reading the file
+     * @param  filePath            the path to the file to read from
+     * @return                     an input stream for the file
+     * @throws DataMapperException if the file cannot be loaded from any of the
+     *                             locations or an error occurs while opening
+     *                             the stream
      */
-    public InputStream fileStream(final String fileName) {
-        try {
-            var stream = ofNullable(Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName))
-                    .orElse(Resources.class.getResourceAsStream(fileName));
-            return (stream == null) ? new FileInputStream(fileName) : stream;
-        } catch (IOException e) {
-            throw new DataMapperException(format("Failed to load file [%s] as a stream. " +
-                    "Make sure the file exists and is accessible.",
-                fileName), e);
-        }
+    public InputStream fileStream(final String filePath) {
+        return Stream.<Supplier<InputStream>>of(
+            () -> Thread.currentThread().getContextClassLoader().getResourceAsStream(filePath),
+            () -> newFileStream(filePath),
+            () -> Resources.class.getClassLoader().getResourceAsStream(filePath),
+            () -> Resources.class.getResourceAsStream(filePath))
+                .parallel()
+                .map(Supplier::get)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElseThrow(
+                    () -> new DataMapperException(format("Failed to load file [%s] as a stream. " +
+                            "Make sure the file exists and is accessible.",
+                        filePath)));
     }
 
     /**
@@ -153,5 +171,25 @@ public class Resources {
      */
     public Path ofTest(final String fileName) {
         return of(TEST_RESOURCES + File.separator + fileName);
+    }
+
+    /**
+     * Returns an input stream for reading from the file at the given file path.
+     *
+     * @param  filePath the path to the file to read from
+     * @return          an input stream for the file, or {@code null} if the
+     *                  file does not exist or an error occurs while opening the
+     *                  stream
+     */
+    public static InputStream newFileStream(String filePath) {
+        Path path = Path.of(filePath);
+        if (Files.exists(path)) {
+            try {
+                return Files.newInputStream(path);
+            } catch (IOException ignored) {
+                // Gobble exception
+            }
+        }
+        return null;
     }
 }
