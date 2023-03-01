@@ -18,19 +18,16 @@ package io.github.selcukes.databind.tests;
 
 import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.annotation.DataFile;
+import io.github.selcukes.databind.utils.Clocks;
 import lombok.Data;
 import org.testng.annotations.Test;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class CreateDataFileWithAgsTest {
     private static final String TIMESTAMP_FORMAT = "MM/dd/yyyy hh:mm:ss";
 
     @Test(enabled = false)
     public void dataTest() {
-        String currentDataTime = LocalDateTime.now()
-                .format(DateTimeFormatter.ofPattern(TIMESTAMP_FORMAT));
+        String currentDataTime = Clocks.dateTime(TIMESTAMP_FORMAT);
         Resolve resolve = new Resolve();
         resolve.setChromeVersion("10.11.213");
         resolve.setDataTime(currentDataTime);

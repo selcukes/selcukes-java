@@ -25,6 +25,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.events.WebDriverListener;
 
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @CustomLog
 public class EventCapture implements WebDriverListener {
@@ -60,18 +62,15 @@ public class EventCapture implements WebDriverListener {
     @Override
     public void beforeSendKeys(WebElement element, CharSequence... keysToSend) {
         logger.debug(() -> "Entering Text using locator " + Locator.of(element));
-        if (keysToSend != null) {
-            var keyChar = Arrays.stream(keysToSend)
-                    .filter(Keys.class::isInstance)
-                    .findFirst()
-                    .map(Keys.class::cast);
-            if (keyChar.isPresent()) {
-                logger.info(() -> keyChar.get().name() + " Key Pressed");
-            } else {
-                logger.info(() -> String.format("Entering Text %s in %s Field", Arrays.toString(keysToSend),
-                    element.getAttribute(fieldAttribute)));
-            }
+        if (keysToSend == null) {
+            return;
         }
+        String text = Arrays.stream(keysToSend)
+                .filter(Objects::nonNull)
+                .map(key -> key instanceof Keys ? ((Keys) key).name() + " Key Pressed"
+                        : String.format("Entering Text [%s] in %s Field", key, element.getAttribute(fieldAttribute)))
+                .collect(Collectors.joining("\n And "));
+        logger.info(() -> text);
     }
 
     @Override

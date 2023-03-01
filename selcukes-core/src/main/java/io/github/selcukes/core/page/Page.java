@@ -146,7 +146,7 @@ public interface Page {
      * @param  text    The text to enter into the field.
      * @return         The page object itself.
      */
-    default Page enter(Object locator, CharSequence text) {
+    default Page enter(Object locator, CharSequence... text) {
         find(locator, VISIBLE).sendKeys(text);
         return this;
     }
