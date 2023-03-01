@@ -57,14 +57,14 @@ public class Reporter {
     }
 
     public String getLogRecords() {
-        if (logRecordListener == null) {
-            return "";
+        if (logRecordListener != null) {
+            return logRecordListener.getLogRecords()
+                    .filter(record -> record.getLevel() == Level.INFO || record.getLevel() == Level.SEVERE)
+                    .filter(record -> !isNullOrEmpty(record.getMessage()))
+                    .map(this::mapLogMessage)
+                    .collect(Collectors.joining("</li><li>", "<ul><li> ", "</li></ul><br/>"));
         }
-        return logRecordListener.getLogRecords()
-                .filter(record -> record.getLevel() == Level.INFO || record.getLevel() == Level.SEVERE)
-                .filter(record -> !isNullOrEmpty(record.getMessage()))
-                .map(this::mapLogMessage)
-                .collect(Collectors.joining("</li><li>", "<ul><li>", "</li></ul><br/>"));
+        return "";
     }
 
     private String mapLogMessage(LogRecord record) {
