@@ -26,10 +26,10 @@ import io.github.selcukes.snapshot.SnapshotImpl;
 import org.openqa.selenium.WebDriver;
 
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.stream.Collectors;
 
 import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
-import static io.github.selcukes.databind.utils.StringHelper.nullOrEmpty;
 
 public class Reporter {
     private static final SingletonContext<Reporter> REPORTER_CONTEXT = SingletonContext.with(Reporter::new);
@@ -57,23 +57,19 @@ public class Reporter {
     }
 
     public String getLogRecords() {
-        if (logRecordListener != null) {
-            return logRecordListener.getLogRecords()
-                    .filter(logRecord -> logRecord.getLevel() == Level.INFO || logRecord.getLevel() == Level.SEVERE)
-                    .map(logRecord -> {
-                        if (logRecord.getLevel() == Level.SEVERE) {
-                            return "<span style=\"color:red;\">" + logRecord.getMessage().replace("\n", "<br/>")
-                                    + "</span>";
-                        } else {
-                            return logRecord.getMessage();
-                        }
-
-                    })
-                    .filter(nullOrEmpty.negate())
-                    .collect(Collectors.joining("</li><li>", "<ul><li> ",
-                        "</li></ul><br/>"));
+        if (logRecordListener == null) {
+            return "";
         }
-        return "";
+        return logRecordListener.getLogRecords()
+                .filter(record -> record.getLevel() == Level.INFO || record.getLevel() == Level.SEVERE)
+                .filter(record -> !isNullOrEmpty(record.getMessage()))
+                .map(this::mapLogMessage)
+                .collect(Collectors.joining("</li><li>", "<ul><li>", "</li></ul><br/>"));
+    }
+
+    private String mapLogMessage(LogRecord record) {
+        String message = record.getMessage().replace("\n", "<br/>");
+        return (record.getLevel() == Level.SEVERE) ? "<span style=\"color:red;\">" + message + "</span>" : message;
     }
 
     private Reporter attachLog() {
@@ -108,7 +104,7 @@ public class Reporter {
         SelcukesExtentAdapter.attachScreenshot(snapshot.shootPageAsBytes());
     }
 
-    public void attachVisibleScreenshot() {
+    public void attachVisiblePageScreenshot() {
         SelcukesExtentAdapter.attachScreenshot(snapshot.shootVisiblePageAsBytes());
     }
 }
