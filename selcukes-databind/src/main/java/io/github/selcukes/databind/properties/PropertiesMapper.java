@@ -39,7 +39,7 @@ public class PropertiesMapper {
      * @param  entityClass The class of the entity to be parsed.
      * @return             A new instance of the class passed in.
      */
-    public static <T> T parse(final Class<T> entityClass) {
+    public <T> T parse(final Class<T> entityClass) {
         final DataFileHelper<T> dataFile = DataFileHelper.getInstance(entityClass);
         final String fileName = dataFile.getFileName();
         int extensionIndex = fileName.lastIndexOf('.');
@@ -49,7 +49,7 @@ public class PropertiesMapper {
                 fileName.substring(0, extensionIndex) + ".properties"));
         }
         PropertiesParser<T> propertiesParser = new PropertiesParser<>(entityClass);
-        return propertiesParser.parse(dataFile.getPath());
+        return propertiesParser.parse(dataFile.getPath(fileName));
     }
 
     /**

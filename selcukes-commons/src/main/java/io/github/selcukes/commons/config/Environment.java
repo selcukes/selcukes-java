@@ -22,7 +22,7 @@ import lombok.Data;
 import java.util.Map;
 
 @Data
-@DataFile(fileName = "selcukes.yaml")
+@DataFile(fileName = "selcukes.yaml", streamLoader = true)
 public class Environment {
     private String projectName;
     private String env;

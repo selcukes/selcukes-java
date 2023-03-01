@@ -60,7 +60,7 @@ public class SelcukesRuntime {
                 cucumberReportPath, reportsFile, timestamp, cucumberReportPath, timestamp);
 
             if (!isNullOrEmpty(additionalPlugin)) {
-                plugin = plugin + "," + additionalPlugin;
+                plugin += "," + additionalPlugin;
             }
             if (!isNullOrEmpty(emailReport) && !emailReport.equalsIgnoreCase("false")) {
                 setSystemProperty("extent.reporter.spark.start", "true");
@@ -71,7 +71,7 @@ public class SelcukesRuntime {
                     "dashboard,test,category,exception,author,device,log");
                 setSystemProperty("systeminfo.Platform", Platform.getPlatform().getOsName());
                 setSystemProperty("systeminfo.Environment", ConfigFactory.getConfig().getEnv());
-                plugin = plugin + "," + "io.github.selcukes.extent.report.SelcukesExtentAdapter:";
+                plugin += "," + "io.github.selcukes.extent.report.SelcukesExtentAdapter:";
             }
             setSystemProperty("cucumber.plugin", plugin);
             setSystemProperty("cucumber.features", features);
@@ -84,7 +84,7 @@ public class SelcukesRuntime {
                             "\n ",
                         features, glue, tag));
         } catch (Exception exception) {
-            logger.warn(() -> "Failed loading selcukes properties. Using default CucumberOptions to execute...");
+            logger.warn(() -> "Failed to load selcukes properties. Using default CucumberOptions to execute...");
         }
     }
 }

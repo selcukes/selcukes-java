@@ -21,6 +21,7 @@ package io.github.selcukes.databind.utils;
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.exception.DataMapperException;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static io.github.selcukes.databind.properties.PropertiesMapper.systemProperties;
@@ -79,8 +80,13 @@ public class DataFileHelper<T> {
         return Resources.isDirectory(folder);
     }
 
-    public Path getPath() {
-        return getFolder().resolve(Path.of(getFileName()));
+    public Path getPath(String fileName) {
+        var filePath = getFolder().resolve(fileName);
+        if (Files.exists(filePath)) {
+            return filePath;
+        } else {
+            throw new DataMapperException(format("File [%s] not found.", fileName));
+        }
     }
 
     private String newFile(final Path folder, final String fileName) {

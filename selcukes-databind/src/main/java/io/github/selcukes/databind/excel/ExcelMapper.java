@@ -56,7 +56,7 @@ public class ExcelMapper {
                 fileName.substring(0, extensionIndex) + ".xlsx"));
         }
         ExcelParser<T> excelMapper = new ExcelParser<>(entityClass);
-        return excelMapper.parse(dataFile.getPath());
+        return excelMapper.parse(dataFile.getPath(fileName));
     }
 
     /**

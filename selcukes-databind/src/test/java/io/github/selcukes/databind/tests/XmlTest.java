@@ -20,6 +20,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.annotation.DataFile;
+import io.github.selcukes.databind.utils.Streams;
 import lombok.Data;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -48,11 +49,11 @@ public class XmlTest {
                 "workPhone", "+19087253123")));
         var customerInfo = DataMapper.parse(CustomerInfo.class);
         var contactPersonList = customerInfo.getContactPersonList();
-        /*
-         * Streams.of(1,
-         * contactPersonList.size()).forEach(contactPersonList::remove);
-         * contactPersonList.get(0).clear();
-         */
+
+        Streams.indexOf(contactPersonList,
+            i -> contactPersonList.get(i).get("contactPersonId").equalsIgnoreCase("5689"))
+                .ifPresent(contactPersonList::remove);
+
         contactPersonList.addAll(excelData.get("contactPersonList"));
 
         DataMapper.write(customerInfo);
