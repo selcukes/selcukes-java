@@ -80,6 +80,10 @@ public class DataFileHelper<T> {
         return Resources.isDirectory(folder);
     }
 
+    public Path newFilePath(String fileName) {
+        return getFolder().resolve(fileName);
+    }
+
     public Path getPath(String fileName) {
         var filePath = getFolder().resolve(fileName);
         if (Files.exists(filePath)) {

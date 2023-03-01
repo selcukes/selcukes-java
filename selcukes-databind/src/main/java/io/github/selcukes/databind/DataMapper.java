@@ -65,7 +65,7 @@ public class DataMapper {
         final String fileName = dataFile.getFileName();
         final String extension = fileName.substring(fileName.lastIndexOf('.') + 1);
         final var dataBind = lookup(extension);
-        dataBind.write(dataFile.getPath(fileName), value);
+        dataBind.write(dataFile.newFilePath(fileName), value);
     }
 
     /**
