@@ -49,22 +49,26 @@ public class Maps {
     }
 
     /**
-     * "Given a list of keys and a list of values, return a map of the keys to
-     * the values, skipping any keys that are null or empty."
+     * Given a list of keys and a list of values, return a map of the keys to
+     * the values, skipping any keys that are null or empty.
      * <p>
-     * The first thing we do is create a stream of the keys. We then filter out
-     * any keys that are null or empty. We then collect the stream into a map,
-     * using the keys as the keys and the values as the values. We use a
-     * LinkedHashMap to preserve the order of the keys
+     * The method first creates a stream of the keys, then filters out any keys
+     * that are null or empty. It then collects the stream into a map, using the
+     * keys as the keys and the values as the values. If a key has no
+     * corresponding value in the values list, or if the corresponding value is
+     * null, the default value provided is used instead. The order of the keys
+     * is preserved in the resulting map.
+     * </p>
      *
-     * @param  keys   List of keys
-     * @param  values The values to be put into the map.
-     * @return        A map of the keys and values.
+     * @param  keys         the list of keys
+     * @param  values       the list of values to be put into the map
+     * @param  defaultValue the default value to use for missing or null values
+     * @return              a map of the keys and values
      */
-    public <T> Map<String, T> of(List<String> keys, List<T> values) {
+    public <T> Map<String, T> of(List<String> keys, List<T> values, T defaultValue) {
         return Streams.of(keys).boxed()
                 .filter(i -> !StringHelper.isNullOrEmpty(keys.get(i)))
-                .collect(of(keys::get, values::get));
+                .collect(of(keys::get, i -> i < values.size() && values.get(i) != null ? values.get(i) : defaultValue));
     }
 
     /**

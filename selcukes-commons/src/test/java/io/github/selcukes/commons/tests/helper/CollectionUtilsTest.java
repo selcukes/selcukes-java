@@ -22,7 +22,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CollectionUtilsTest {
@@ -41,8 +40,15 @@ public class CollectionUtilsTest {
 
     @Test
     public void mapTest() {
-        Map<String, String> stringMap = Maps.of(headers, values);
+        var stringMap = Maps.of(headers, values, "");
         Assert.assertEquals(stringMap.get("WAITING"), "4");
+    }
+
+    @Test
+    public void integerListMapTest() {
+        var integerList = List.of(1, 2, 3, 4);
+        var stringIntegerMap = Maps.of(headers, integerList, 0);
+        Assert.assertEquals(stringIntegerMap.get("TERMINATED"), 0);
     }
 
     @Test

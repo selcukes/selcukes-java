@@ -83,23 +83,34 @@ public class Streams {
     }
 
     /**
-     * Skip the first row, then for each row, create a map from the headers to
-     * the values.
+     * Converts a list of lists of strings into a list of maps, where each map
+     * represents a row in the table and the keys correspond to the column
+     * headers.
+     * <p>
+     * The first row in the list represents the headers, and is skipped. For
+     * each subsequent row, a map is created with keys corresponding to the
+     * headers and values corresponding to the cell values in the row. If a cell
+     * value is missing, an empty string is used as the default value.
      *
-     * @param  cells The list of lists of strings that represent the table.
-     * @return       A list of maps.
+     * @param  cells a list of lists of strings that represent the table
+     * @return       a list of maps, where each map represents a row in the
+     *               table
      */
     public List<Map<String, String>> toListOfMap(List<List<String>> cells) {
         var headers = cells.get(0);
-        return cells.stream().skip(1).map(row -> Maps.of(headers, row))
+        return cells.stream().skip(1).map(row -> Maps.of(headers, row, ""))
                 .collect(Collectors.toList());
     }
 
     /**
-     * It takes a list of maps and returns a map of lists
+     * Convert a List of Maps into a Map of Lists, where the keys of each Map in
+     * the input List become the keys of the output Map and the values of each
+     * Map in the input List are added to the corresponding List in the output
+     * Map.
      *
-     * @param  listMap The list of maps to be converted.
-     * @return         A map of lists.
+     * @param  listMap A List of Maps to be converted into a Map of Lists.
+     * @return         A Map of Lists where each key is mapped to a List of
+     *                 values from the input List.
      */
     public <K, V> Map<K, List<V>> toMapOfList(List<Map<K, V>> listMap) {
         return listMap.stream()
@@ -136,21 +147,23 @@ public class Streams {
     }
 
     /**
-     * It takes an enum class and returns a stream of the enum's string values.
+     * Returns a stream of string representations of the constants of the given
+     * enum class.
      *
-     * @param  enumData The enum class to get the values from.
-     * @return          A stream of strings.
+     * @param  enumData The enum class whose constants are to be streamed.
+     * @return          A stream of string representations of the enum
+     *                  constants.
      */
     public Stream<String> of(final Class<? extends Enum<?>> enumData) {
         return Stream.of(enumData.getEnumConstants()).map(Enum::toString);
     }
 
     /**
-     * Group a list of maps by a key, and return a map of lists of maps.
+     * Groups a list of maps by a specified key.
      *
-     * @param  data The list of maps to be grouped
-     * @param  key  The key to group by
-     * @return      A map of lists of maps.
+     * @param  data A list of maps representing the data to group.
+     * @param  key  The key to group the data by.
+     * @return      A map of lists of maps grouped by the specified key.
      */
     public Map<String, List<Map<String, String>>> groupBy(List<Map<String, String>> data, String key) {
         return data.stream()
