@@ -20,6 +20,7 @@ import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ExcelConfigException;
 import io.github.selcukes.databind.excel.ExcelMapper;
 import io.github.selcukes.databind.utils.Maps;
+import io.github.selcukes.databind.utils.Streams;
 import io.github.selcukes.databind.utils.StringHelper;
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
@@ -98,9 +99,8 @@ public class SingleExcelData {
 
     Map<String, String> getTestData(String testName, List<Map<String, String>> sheetData) {
         Objects.requireNonNull(sheetData, String.format("Unable to read sheet data for [%s]", testName));
-        return sheetData.parallelStream()
-                .filter(row -> row.get(TEST).equalsIgnoreCase(testName))
-                .findFirst().orElseThrow(
+        return Streams.findFirst(sheetData, row -> row.get(TEST).equalsIgnoreCase(testName))
+                .orElseThrow(
                     () -> new ExcelConfigException(String.format("Unable to read [%s] Test Data Row", testName)));
     }
 
