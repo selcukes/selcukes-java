@@ -22,6 +22,7 @@ import io.github.selcukes.databind.converters.Converter;
 import io.github.selcukes.databind.substitute.DefaultSubstitutor;
 import io.github.selcukes.databind.substitute.Substitutor;
 import io.github.selcukes.databind.utils.Reflections;
+import io.github.selcukes.databind.utils.Streams;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -90,9 +91,9 @@ public class DataField<T> {
                 .map(Key::converter)
                 .map(converterClass -> (Converter<T>) newInstance(converterClass))
                 .filter(converterInstance -> converterInstance.getType().equals(getFieldType()))
-                .orElseGet(() -> defaultConverters.stream()
-                        .filter(converterInstance -> converterInstance.getType().equals(getFieldType()))
-                        .findFirst()
+                .orElseGet(() -> Streams
+                        .findFirst(defaultConverters,
+                            converterInstance -> converterInstance.getType().equals(getFieldType()))
                         .orElseThrow(() -> new IllegalStateException(format(
                             "There's no matching converter found for %s field of type %s", getFieldName(),
                             getFieldType()))));

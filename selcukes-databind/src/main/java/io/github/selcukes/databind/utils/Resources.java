@@ -147,12 +147,12 @@ public class Resources {
      *                             the stream
      */
     public InputStream fileStream(final String filePath) {
-        return Stream.<Supplier<InputStream>>of(
+        Stream<Supplier<InputStream>> streamSupplier = Stream.of(
             () -> Thread.currentThread().getContextClassLoader().getResourceAsStream(filePath),
             () -> newFileStream(filePath),
             () -> Resources.class.getClassLoader().getResourceAsStream(filePath),
-            () -> Resources.class.getResourceAsStream(filePath))
-                .parallel()
+            () -> Resources.class.getResourceAsStream(filePath));
+        return streamSupplier.parallel()
                 .map(Supplier::get)
                 .filter(Objects::nonNull)
                 .findFirst()

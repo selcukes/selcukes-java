@@ -21,10 +21,11 @@ import lombok.experimental.UtilityClass;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Spliterator;
 import java.util.Spliterators;
-import java.util.function.IntPredicate;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -44,19 +45,45 @@ public class Streams {
     }
 
     /**
-     * "Return the index of the first element in the list that matches the
-     * predicate, or an empty OptionalInt if no such element exists."
+     * Returns an OptionalInt that contains the index of the first element in
+     * the list that matches the given predicate, or an empty OptionalInt if no
+     * such element exists.
      * <p>
-     * The first thing we do is convert the list to a Stream. This is done using
-     * the of() method
+     * This method converts the input list to a Stream using the of() method,
+     * filters the stream using the provided predicate, and returns the index of
+     * the first element that matches the predicate using the findFirst()
+     * method. If no element matches the predicate, an empty OptionalInt is
+     * returned.
      *
-     * @param  elements  The list of elements to search through.
-     * @param  predicate A function that takes an element of the list and
-     *                   returns a boolean.
-     * @return           OptionalInt
+     * @param  elements  the list of elements to search through
+     * @param  predicate the predicate to apply to the elements
+     * @return           an OptionalInt containing the index of the first
+     *                   matching element, or an empty OptionalInt if no such
+     *                   element exists
      */
-    public <T> OptionalInt indexOf(List<T> elements, IntPredicate predicate) {
-        return of(elements)
+    public <T> OptionalInt indexOf(List<T> elements, Predicate<T> predicate) {
+        return of(elements).parallel()
+                .filter(i -> predicate.test(elements.get(i)))
+                .findFirst();
+    }
+
+    /**
+     * Returns an {@code Optional} describing the first element of this list
+     * that matches the given predicate, or an empty {@code Optional} if no such
+     * element is found.
+     *
+     * @param  elements             the list of elements to search for a
+     *                              matching element
+     * @param  predicate            the predicate to apply to each element in
+     *                              the list
+     * @param  <T>                  the type of the elements in the list
+     * @return                      an {@code Optional} describing the first
+     *                              matching element, or an empty
+     *                              {@code Optional} if no such element is found
+     * @throws NullPointerException if the specified list or predicate is null
+     */
+    public <T> Optional<T> findFirst(List<T> elements, Predicate<T> predicate) {
+        return elements.parallelStream()
                 .filter(predicate)
                 .findFirst();
     }

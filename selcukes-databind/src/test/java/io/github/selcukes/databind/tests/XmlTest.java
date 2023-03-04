@@ -51,7 +51,7 @@ public class XmlTest {
         var contactPersonList = customerInfo.getContactPersonList();
 
         Streams.indexOf(contactPersonList,
-            i -> contactPersonList.get(i).get("contactPersonId").equalsIgnoreCase("5689"))
+            contact -> contact.get("contactPersonId").equalsIgnoreCase("5689"))
                 .ifPresent(contactPersonList::remove);
 
         contactPersonList.addAll(excelData.get("contactPersonList"));
