@@ -38,7 +38,7 @@ import java.util.stream.Stream;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 @CustomLog
-public class SeleniumService {
+class SeleniumService {
     private static final List<Runnable> SHUTDOWN_ACTIONS = new LinkedList<>();
 
     private String baseUrl;
