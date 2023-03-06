@@ -25,13 +25,13 @@ import java.util.List;
 
 @UtilityClass
 public final class PageElement {
-    public String FILED_ATTRIBUTE_PROPERTY = "selcukes.page.fieldAttribute";
+    public static final String FILED_ATTRIBUTE_PROPERTY = "selcukes.page.fieldAttribute";
     private static final String DEFAULT_FIELD_ATTRIBUTE = "placeholder";
-    private static final String fieldAttribute;
+    private static final String FIELD_ATTRIBUTE;
 
     static {
         String attribute = System.getProperty(FILED_ATTRIBUTE_PROPERTY);
-        fieldAttribute = StringHelper.isNullOrEmpty(attribute) ? DEFAULT_FIELD_ATTRIBUTE : attribute;
+        FIELD_ATTRIBUTE = StringHelper.isNullOrEmpty(attribute) ? DEFAULT_FIELD_ATTRIBUTE : attribute;
     }
 
     public String labelName(WebElement element) {
@@ -43,7 +43,7 @@ public final class PageElement {
             if (StringHelper.isNonEmpty(text)) {
                 return text;
             }
-            String attributeValue = element.getAttribute(fieldAttribute);
+            String attributeValue = element.getAttribute(FIELD_ATTRIBUTE);
             if (StringHelper.isNonEmpty(attributeValue)) {
                 return attributeValue;
             }
