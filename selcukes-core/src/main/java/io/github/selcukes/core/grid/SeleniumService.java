@@ -66,8 +66,8 @@ public class SeleniumService {
                 .map(entry -> "-D" + entry.getKey() + "=" + entry.getValue());
 
         command = new CommandLine("java", Stream.concat(javaFlags, Stream.concat(
-            Stream.of("-jar", serverJar, mode, "--port", String.valueOf(port)),
-            Stream.of(extraFlags))).toArray(String[]::new));
+                Stream.of("-jar", serverJar, mode, "--port", String.valueOf(port)),
+                Stream.of(extraFlags))).toArray(String[]::new));
 
         if (Platform.getCurrent().is(Platform.WINDOWS)) {
             File workingDir = new File(".");
@@ -82,6 +82,7 @@ public class SeleniumService {
             new UrlChecker().waitUntilAvailable(10, SECONDS, url);
             logger.info(() -> "Selenium Server is ready...");
         } catch (UrlChecker.TimeoutException e) {
+            logger.error(() -> "Server failed to start: " + e.getMessage());
             command.destroy();
             command = null;
             throw new DriverSetupException(e);
@@ -96,23 +97,20 @@ public class SeleniumService {
     public void stop() {
         if (command != null) {
             command.destroy();
-            logger.info(() -> "Selenium Server stopped...");
+            logger.info(() -> "Selenium Server stopped.");
             command = null;
         }
     }
 
+    @SneakyThrows
     public URL getServiceUrl() {
-        try {
-            return new URL(baseUrl);
-        } catch (MalformedURLException e) {
-            throw new DriverSetupException(e);
-        }
+        return new URL(baseUrl);
     }
 
     @SneakyThrows
     public String getServerJar() {
         var serverJarUrl = new URL(
-            "https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.8.0/selenium-server-4.8.1.jar");
+                "https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.8.0/selenium-server-4.8.1.jar");
         Path serverJarPath = Resources.of("target/selenium-server.jar");
         FileHelper.download(serverJarUrl, serverJarPath.toFile());
         return serverJarPath.toAbsolutePath().toString();
