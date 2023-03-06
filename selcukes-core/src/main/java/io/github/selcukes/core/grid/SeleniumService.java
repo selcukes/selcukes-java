@@ -96,6 +96,7 @@ public class SeleniumService {
     public void stop() {
         if (command != null) {
             command.destroy();
+            logger.info(() -> "Selenium Server stopped...");
             command = null;
         }
     }
