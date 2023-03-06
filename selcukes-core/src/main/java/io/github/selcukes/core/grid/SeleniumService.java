@@ -73,13 +73,14 @@ public class SeleniumService {
             File workingDir = new File(".");
             command.setWorkingDirectory(workingDir.getAbsolutePath());
         }
-
         command.copyOutputTo(System.err);
+        logger.info(() -> "Starting selenium server: " + command.toString());
         command.executeAsync();
 
         try {
             URL url = new URL(baseUrl + "/status");
             new UrlChecker().waitUntilAvailable(10, SECONDS, url);
+            logger.info(() -> "Selenium Server is ready...");
         } catch (UrlChecker.TimeoutException e) {
             command.destroy();
             command = null;
