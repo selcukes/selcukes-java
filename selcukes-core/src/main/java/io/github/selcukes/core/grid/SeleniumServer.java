@@ -39,10 +39,7 @@ public class SeleniumServer {
         Wait<WebClient> wait = new FluentWait<>(webClient)
                 .ignoring(RuntimeException.class)
                 .withTimeout(Duration.ofSeconds(30));
-        wait.until(client -> {
-            var isReady = client.get().bodyJson().at("/value/ready").asBoolean();
-            return Boolean.TRUE.equals(isReady);
-        });
+        wait.until(client -> client.get().bodyJson().at("/value/ready").asBoolean());
 
         started = true;
         return hub.getServiceUrl();
