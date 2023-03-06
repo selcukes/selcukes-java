@@ -38,8 +38,9 @@ import java.util.stream.Stream;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 @CustomLog
-class SeleniumService {
+public class SeleniumService {
     private static final List<Runnable> shutdownActions = new LinkedList<>();
+
     private String baseUrl;
     private CommandLine command;
 
@@ -47,19 +48,12 @@ class SeleniumService {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> shutdownActions.forEach(Runnable::run)));
     }
 
-    /**
-     * Creates Selenium Server process.
-     *
-     * @return The new server.
-     */
     public SeleniumService start(String mode, String... extraFlags) {
-        logger.debug(() -> "Got a request to start a new selenium server");
         if (command != null) {
-            logger.info(() -> "Server already started");
             throw new DriverSetupException("Server already started");
         }
-        String serverJar = getServerJar();
 
+        String serverJar = getServerJar();
         int port = PortProber.findFreePort();
         String localAddress = new NetworkUtils().getPrivateLocalAddress();
         baseUrl = String.format("http://%s:%d", localAddress, port);
@@ -72,8 +66,8 @@ class SeleniumService {
                 .map(entry -> "-D" + entry.getKey() + "=" + entry.getValue());
 
         command = new CommandLine("java", Stream.concat(javaFlags, Stream.concat(
-            Stream.of("-jar", serverJar, mode, "--port", String.valueOf(port)),
-            Stream.of(extraFlags))).toArray(String[]::new));
+                Stream.of("-jar", serverJar, mode, "--port", String.valueOf(port)),
+                Stream.of(extraFlags))).toArray(String[]::new));
 
         if (Platform.getCurrent().is(Platform.WINDOWS)) {
             File workingDir = new File(".");
@@ -81,33 +75,26 @@ class SeleniumService {
         }
 
         command.copyOutputTo(System.err);
-        logger.info(() -> "Starting selenium server: " + command.toString());
         command.executeAsync();
 
         try {
             URL url = new URL(baseUrl + "/status");
-            logger.info(() -> "Waiting for server status on URL " + url);
             new UrlChecker().waitUntilAvailable(10, SECONDS, url);
-            logger.info(() -> "Server is ready");
         } catch (UrlChecker.TimeoutException e) {
-            logger.error(() -> "Server failed to start: " + e.getMessage());
             command.destroy();
-            logger.error(() -> command.getStdOut());
             command = null;
             throw new DriverSetupException(e);
         } catch (MalformedURLException e) {
             throw new DriverSetupException(e);
         }
-        shutdownActions.add(this::stop);
 
+        shutdownActions.add(this::stop);
         return this;
     }
 
     public void stop() {
         if (command != null) {
-            logger.info(() -> "Stopping selenium server");
             command.destroy();
-            logger.info(() -> "Selenium server stopped");
             command = null;
         }
     }
@@ -123,7 +110,7 @@ class SeleniumService {
     @SneakyThrows
     public String getServerJar() {
         var serverJarUrl = new URL(
-            "https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.8.0/selenium-server-4.8.1.jar");
+                "https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.8.0/selenium-server-4.8.1.jar");
         Path serverJarPath = Resources.of("target/selenium-server.jar");
         FileHelper.download(serverJarUrl, serverJarPath.toFile());
         return serverJarPath.toAbsolutePath().toString();
