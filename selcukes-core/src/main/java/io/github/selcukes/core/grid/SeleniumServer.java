@@ -19,7 +19,6 @@ package io.github.selcukes.core.grid;
 import io.github.selcukes.commons.http.WebClient;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
 
 import java.net.URL;
 import java.time.Duration;
@@ -36,7 +35,7 @@ public class SeleniumServer {
         hub = new SeleniumService().start(mode, extraFlags);
 
         WebClient webClient = new WebClient(hub.getServiceUrl().toString() + "/status");
-        Wait<WebClient> wait = new FluentWait<>(webClient)
+        var wait = new FluentWait<>(webClient)
                 .ignoring(RuntimeException.class)
                 .withTimeout(Duration.ofSeconds(30));
         wait.until(client -> client.get().bodyJson().at("/value/ready").asBoolean());
