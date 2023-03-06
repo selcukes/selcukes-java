@@ -17,16 +17,18 @@
 package io.github.selcukes.core.tests.web;
 
 import io.github.selcukes.commons.helper.FileHelper;
+import io.github.selcukes.core.listener.EventCapture;
 import io.github.selcukes.core.page.WebPage;
 import io.github.selcukes.databind.utils.Clocks;
+import io.github.selcukes.databind.utils.Resources;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -46,6 +48,8 @@ public class EventDriverTest {
         var options = new ChromeOptions();
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
+        EventCapture.setFieldAttribute("class");
+        driver = new EventFiringDecorator<>(new EventCapture()).decorate(driver);
         page = new WebPage(driver);
     }
 
@@ -67,7 +71,7 @@ public class EventDriverTest {
         FileHelper.createDirectory(reportDirectory);
         String filePath = reportDirectory + File.separator + "screenshot_" + Clocks.dateTime(DATE_TIME_FILE_FORMAT)
                 + ".png";
-        FileUtils.copyFile(srcFile, Paths.get(filePath).toFile());
+        Resources.copyFile(srcFile.toPath(), Paths.get(filePath));
         if (driver != null) {
             driver.quit();
         }

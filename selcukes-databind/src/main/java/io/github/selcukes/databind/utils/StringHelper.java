@@ -24,15 +24,12 @@ import io.github.selcukes.databind.exception.DataMapperException;
 import lombok.experimental.UtilityClass;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static io.github.selcukes.databind.properties.PropertiesMapper.systemProperties;
@@ -44,9 +41,6 @@ import static io.github.selcukes.databind.properties.PropertiesMapper.systemProp
 @UtilityClass
 public class StringHelper {
 
-    // A static final variable that is a predicate that takes a string and
-    // returns a boolean value.
-    public static final Predicate<String> nullOrEmpty = StringHelper::isNullOrEmpty;
     // A regular expression that matches a lowercase letter followed by an
     // uppercase letter.
     private static final String SNAKE_CASE_REGEX = "([a-z])([A-Z]+)";
@@ -54,24 +48,35 @@ public class StringHelper {
     // number.
     private static final String CAMEL_CASE_REGEX = "[^a-zA-Z0-9]";
     // A regular expression that matches a dollar sign, followed by an open
-    // curly brace, followed by one or more
-    // characters, followed by a close curly brace.
+    // curly brace,
+    // followed by one or more characters, followed by a close curly brace.
     private static final String INTERPOLATE_REGEX = "\\$\\{(.+?)}";
     // A regular expression that matches any character that is not a number, an
     // underscore, or a period.
     private static final String VERSION_NUMBER_REGEX = "[^0-9_.]";
 
     /**
-     * `text == null || text.isEmpty() || text.isBlank()`
-     * <p>
-     * The above function is a boolean expression that returns true if the text
-     * is null, empty, or blank
+     * Determines if a string is null, empty, or contains only whitespace
+     * characters.
      *
-     * @param  text The text to check.
-     * @return      A boolean value
+     * @param  text the string to check for null or empty values
+     * @return      true if the string is null, empty, or contains only
+     *              whitespace characters, false otherwise
      */
     public boolean isNullOrEmpty(final String text) {
         return text == null || text.isEmpty() || text.isBlank();
+    }
+
+    /**
+     * Determines if a string is non-null and not empty or containing only
+     * whitespace characters.
+     *
+     * @param  text the string to check for non-null and non-empty values
+     * @return      true if the string is non-null and not empty or containing
+     *              only whitespace characters, false otherwise
+     */
+    public boolean isNonEmpty(final String text) {
+        return !isNullOrEmpty(text);
     }
 
     /**
@@ -235,10 +240,7 @@ public class StringHelper {
      * @return           A list of lists of strings.
      */
     public static List<List<String>> toListOfList(Stream<String> lines, String delimiter) {
-        return lines.filter(line -> !line.trim().isEmpty())
-                .map(row -> Arrays.asList(row.split(delimiter)))
-                .filter(row -> !row.isEmpty())
-                .collect(Collectors.toCollection(LinkedList::new));
+        return Lists.of(lines, row -> Arrays.asList(row.split(delimiter)));
     }
 
     /**

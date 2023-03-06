@@ -35,7 +35,7 @@ public class WaitManager {
     }
 
     private void waitForJQueryLoadIfDefined() {
-        Boolean jQueryDefined = (Boolean) page.executeScript("return typeof jQuery != 'undefined'");
+        Boolean jQueryDefined = page.executeScript("return typeof jQuery != 'undefined'");
         if (Boolean.TRUE.equals(jQueryDefined)) {
             ExpectedCondition<Boolean> jQueryLoad = null;
             try {
@@ -45,7 +45,7 @@ public class WaitManager {
                 // do nothing
             }
             // Get JQuery is Ready
-            boolean jqueryReady = (Boolean) page.executeScript("return jQuery.active==0");
+            boolean jqueryReady = page.executeScript("return jQuery.active==0");
 
             if (!jqueryReady) {
                 // Wait JQuery until it is Ready!
@@ -59,7 +59,7 @@ public class WaitManager {
                     }
                     sleep();
                     tryCounter++;
-                    jqueryReady = (Boolean) page.executeScript("return jQuery.active == 0");
+                    jqueryReady = page.executeScript("return jQuery.active == 0");
                 }
             }
         }

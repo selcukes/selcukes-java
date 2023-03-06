@@ -55,4 +55,16 @@ public class StringHelperTest {
         String text = "Hello\nbe";
         Assert.assertEquals(StringHelper.normalizeText(text), "Hello be");
     }
+
+    @Test
+    public void listOfListTest() {
+        String text = "  Name , Email , Phone , Country, State\n" +
+                ",Rajeev Kumar Singh ,rajeevs@example.com,+91-9999999999,India\n" +
+                ",Sachin Tendulkar,sachin@example.com,+91-9999999998,India\n" +
+                ",Barak Obama,barak.obama@example.com,+1-1111111111,United States\n" +
+                ",Donald Trump,donald.trump@example.com,+1-2222222222,United States\n" +
+                ", ,,";
+        var data = StringHelper.toListOfList(text.lines(), ",");
+        data.forEach(System.out::println);
+    }
 }

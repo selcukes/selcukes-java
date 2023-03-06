@@ -28,8 +28,8 @@ import static java.lang.String.format;
 
 @UtilityClass
 public class Locator {
-    public static final String LOCATOR_SEPARATOR = ":";
-    public static final String INVALID_LOCATOR = "Invalid Locator[%s]";
+    static final String LOCATOR_SEPARATOR = ":";
+    static final String INVALID_LOCATOR = "Invalid Locator[%s]";
 
     /**
      * If the locator is a string, parse it, otherwise return the locator
@@ -56,9 +56,9 @@ public class Locator {
     private By parse(String locator) {
         Preconditions.checkArgument(locator.contains(LOCATOR_SEPARATOR), format(INVALID_LOCATOR, locator));
         String[] output = locator.split(LOCATOR_SEPARATOR);
-        String locatorType = output[0];
+        String locatorType = output[0].toLowerCase();
         String locatorValue = output[1];
-        switch (locatorType.toLowerCase()) {
+        switch (locatorType) {
             case "id":
                 return By.id(locatorValue);
             case "name":

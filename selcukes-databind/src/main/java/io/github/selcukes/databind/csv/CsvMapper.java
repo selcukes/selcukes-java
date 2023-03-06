@@ -17,6 +17,7 @@
 package io.github.selcukes.databind.csv;
 
 import io.github.selcukes.databind.exception.DataMapperException;
+import io.github.selcukes.databind.utils.Lists;
 import io.github.selcukes.databind.utils.Streams;
 import lombok.experimental.UtilityClass;
 
@@ -50,12 +51,10 @@ public class CsvMapper {
      */
     public List<Map<String, String>> parse(Path filePath, String regex) {
         try (var lines = Files.lines(filePath)) {
-            return Streams.toListOfMap(lines.parallel()
-                    .map(line -> Arrays.stream(line.split(regex))
-                            .map(field -> field.replaceAll(DOUBLE_QUOTES_REGEX, ""))
-                            .collect(Collectors.toCollection(LinkedList::new)))
-                    .filter(row -> !row.isEmpty())
-                    .collect(Collectors.toCollection(LinkedList::new)));
+            return Streams.toListOfMap(
+                Lists.of(lines, line -> Arrays.stream(line.split(regex))
+                        .map(field -> field.replaceAll(DOUBLE_QUOTES_REGEX, ""))
+                        .collect(Collectors.toCollection(LinkedList::new))));
         } catch (Exception e) {
             throw new DataMapperException("Failed parsing CSV File: ", e);
         }
