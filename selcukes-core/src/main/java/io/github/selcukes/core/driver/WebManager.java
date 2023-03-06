@@ -24,7 +24,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URL;
 
-import static io.github.selcukes.core.driver.GridRunner.hubPort;
 import static io.github.selcukes.core.driver.GridRunner.isSeleniumServerNotRunning;
 import static io.github.selcukes.core.driver.RunMode.isCloudBrowser;
 import static io.github.selcukes.core.driver.RunMode.isLocalBrowser;
@@ -68,8 +67,7 @@ public class WebManager implements RemoteManager {
                         "Please use 'GridRunner.startSeleniumServer' method to start automatically.\n" +
                         " Ignore this message if you have started manually or executing in Cloud...");
             } else {
-                String urlString = String.format("%s://%s:%s", serviceUrl.getProtocol(), serviceUrl.getHost(), hubPort);
-                serviceUrl = new URL(urlString);
+                return GridRunner.getLocalServiceUrl();
             }
         }
         return serviceUrl;

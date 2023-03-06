@@ -1,0 +1,74 @@
+/*
+ *  Copyright (c) Ramesh Babu Prudhvi.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+
+package io.github.selcukes.core.page.ui;
+
+import io.github.selcukes.databind.utils.StringHelper;
+import lombok.experimental.UtilityClass;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
+
+@UtilityClass
+public final class PageElement {
+    public String FILED_ATTRIBUTE_PROPERTY = "selcukes.page.fieldAttribute";
+    private static final String DEFAULT_FIELD_ATTRIBUTE = "placeholder";
+    private static final String fieldAttribute;
+
+    static {
+        String attribute = System.getProperty(FILED_ATTRIBUTE_PROPERTY);
+        fieldAttribute = StringHelper.isNullOrEmpty(attribute) ? DEFAULT_FIELD_ATTRIBUTE : attribute;
+    }
+
+    public String labelName(WebElement element) {
+        if (element == null) {
+            return "";
+        }
+        try {
+            String text = element.getText();
+            if (StringHelper.isNonEmpty(text)) {
+                return text;
+            }
+            String attributeValue = element.getAttribute(fieldAttribute);
+            if (StringHelper.isNonEmpty(attributeValue)) {
+                return attributeValue;
+            }
+        } catch (Exception ignored) {
+            // Ignore
+        }
+        return Locator.of(element);
+    }
+
+    public String elementValue(String label, String value) {
+        var sensitiveFields = List.of("password");
+        if (sensitiveFields.contains(label)) {
+            return "*********";
+        } else {
+            return value;
+        }
+    }
+
+    public String toLogMessage(WebElement element, CharSequence key) {
+        if (key instanceof Keys) {
+            return "Pressing Key " + ((Keys) key).name();
+        } else {
+            String labelName = PageElement.labelName(element);
+            String elementValue = PageElement.elementValue(labelName, key.toString());
+            return String.format("Entering Text [%s] in %s Field", elementValue, labelName);
+        }
+    }
+}

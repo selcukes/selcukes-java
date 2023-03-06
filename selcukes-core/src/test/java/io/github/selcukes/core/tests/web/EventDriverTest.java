@@ -36,6 +36,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.nio.file.Paths;
 
+import static io.github.selcukes.core.page.ui.PageElement.FILED_ATTRIBUTE_PROPERTY;
 import static io.github.selcukes.databind.utils.Clocks.DATE_TIME_FILE_FORMAT;
 
 @CustomLog
@@ -48,7 +49,7 @@ public class EventDriverTest {
         var options = new ChromeOptions();
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
-        EventCapture.setFieldAttribute("class");
+        System.setProperty(FILED_ATTRIBUTE_PROPERTY, "class");
         driver = new EventFiringDecorator<>(new EventCapture()).decorate(driver);
         page = new WebPage(driver);
     }

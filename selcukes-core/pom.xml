@@ -35,11 +35,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-grid</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>io.github.selcukes</groupId>
             <artifactId>selcukes-commons</artifactId>
         </dependency>

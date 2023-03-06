@@ -16,10 +16,12 @@
 
 package io.github.selcukes.core.driver;
 
+import io.github.selcukes.core.grid.SeleniumServer;
 import lombok.CustomLog;
+import lombok.Getter;
 import lombok.experimental.UtilityClass;
-import org.openqa.selenium.grid.Main;
-import org.openqa.selenium.net.PortProber;
+
+import java.net.URL;
 
 import static io.github.selcukes.core.driver.RunMode.isCloudAppium;
 import static io.github.selcukes.core.driver.RunMode.isCloudBrowser;
@@ -28,16 +30,15 @@ import static io.github.selcukes.core.driver.RunMode.isLocalBrowser;
 @CustomLog
 @UtilityClass
 public class GridRunner {
-    static int hubPort;
+    @Getter
+    static URL localServiceUrl;
     private static boolean isRunning = false;
 
     public synchronized void startSelenium() {
         if (!isCloudBrowser() || !isLocalBrowser()) {
             logger.info(() -> "Starting Selenium Server ...");
-            hubPort = PortProber.findFreePort();
             if (isSeleniumServerNotRunning()) {
-                logger.debug(() -> "Using Free Hub Port: " + hubPort);
-                Main.main(new String[] { "standalone", "--port", String.valueOf(hubPort) });
+                localServiceUrl = SeleniumServer.start("standalone");
                 isRunning = true;
                 logger.info(() -> "Selenium Server started...");
             }
