@@ -16,10 +16,8 @@
 
 package io.github.selcukes.core.listener;
 
-import io.github.selcukes.core.page.ui.Locator;
+import io.github.selcukes.core.page.ui.PageElement;
 import lombok.CustomLog;
-import lombok.Setter;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.events.WebDriverListener;
@@ -30,8 +28,6 @@ import java.util.stream.Collectors;
 
 @CustomLog
 public class EventCapture implements WebDriverListener {
-    @Setter
-    public static String fieldAttribute = "placeholder";
 
     @Override
     public void afterGetTitle(WebDriver driver, String result) {
@@ -40,7 +36,7 @@ public class EventCapture implements WebDriverListener {
 
     @Override
     public void beforeGet(WebDriver driver, String url) {
-        logger.info(() -> String.format("Opening URL[%s]", url));
+        logger.info(() -> String.format("Opening URL [%s]", url));
     }
 
     @Override
@@ -50,25 +46,22 @@ public class EventCapture implements WebDriverListener {
 
     @Override
     public void beforeClick(WebElement element) {
-        String elementName = element.getText();
-        logger.info(() -> "Clicking on " + (elementName.isBlank() ? Locator.of(element) : elementName));
+        logger.info(() -> "Clicking on " + PageElement.labelName(element));
     }
 
     @Override
     public void beforeClear(WebElement element) {
-        logger.info(() -> "Clearing " + element.getAttribute(fieldAttribute));
+        logger.info(() -> "Clearing " + PageElement.labelName(element));
     }
 
     @Override
     public void beforeSendKeys(WebElement element, CharSequence... keysToSend) {
-        logger.debug(() -> "Entering Text using locator " + Locator.of(element));
         if (keysToSend == null) {
             return;
         }
         String text = Arrays.stream(keysToSend)
                 .filter(Objects::nonNull)
-                .map(key -> key instanceof Keys ? ((Keys) key).name() + " Key Pressed"
-                        : String.format("Entering Text [%s] in %s Field", key, element.getAttribute(fieldAttribute)))
+                .map(key -> PageElement.toLogMessage(element, key))
                 .collect(Collectors.joining("\n And "));
         logger.info(() -> text);
     }

@@ -73,9 +73,9 @@ public class BrowserOptions {
     }
 
     public Browser valueOf(String browserName) {
-        if (browserName.equalsIgnoreCase("Edge")) {
+        if (browserName.equalsIgnoreCase("MicroSoftEdge")) {
             return EDGE;
-        } else if (browserName.equalsIgnoreCase("IE")) {
+        } else if (browserName.equalsIgnoreCase("internet explorer")) {
             return IE;
         } else if (browserName.equalsIgnoreCase("Firefox")) {
             return FIREFOX;
