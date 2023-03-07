@@ -55,7 +55,7 @@ public final class PageElement {
 
     public String elementValue(String label, String value) {
         var sensitiveFields = List.of("password");
-        if (sensitiveFields.contains(label)) {
+        if (StringHelper.containsWord(label, sensitiveFields)) {
             return "*********";
         } else {
             return value;
