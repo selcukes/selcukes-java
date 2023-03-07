@@ -21,6 +21,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StringHelperTest {
@@ -66,5 +67,12 @@ public class StringHelperTest {
                 ", ,,";
         var data = StringHelper.toListOfList(text.lines(), ",");
         data.forEach(System.out::println);
+    }
+
+    @Test
+    public void keywordTest() {
+        String line = "This is a Sample line containing the keyword 'Test'.";
+        var keywords = List.of("test");
+        Assert.assertTrue(StringHelper.containsWord(line, keywords));
     }
 }

@@ -259,4 +259,19 @@ public class StringHelper {
                 .filter(Matcher::find)
                 .map(matcher -> matcher.group(1));
     }
+
+    /**
+     * Checks if the given label contains any of the words in the specified
+     * list, ignoring case.
+     *
+     * @param  label the label to check for word matches
+     * @param  words the list of words to check against the label
+     * @return       true if the label contains any of the words, false
+     *               otherwise
+     */
+    public boolean containsWord(String label, List<String> words) {
+        return words.stream()
+                .anyMatch(word -> label.toLowerCase().contains(word.toLowerCase()));
+    }
+
 }
