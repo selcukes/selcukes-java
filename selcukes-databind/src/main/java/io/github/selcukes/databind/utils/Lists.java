@@ -16,8 +16,11 @@
 
 package io.github.selcukes.databind.utils;
 
+import lombok.NoArgsConstructor;
 import lombok.experimental.UtilityClass;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -88,4 +91,28 @@ public class Lists {
         return !StringHelper.isNullOrEmpty(value.toString());
     }
 
+    /**
+     * Returns a new case-insensitive list containing the specified elements.
+     *
+     * @param  elements the elements to include in the list
+     * @return          a new case-insensitive list containing the specified
+     *                  elements
+     */
+    public List<String> ofIgnoreCase(String... elements) {
+        var stringList = Arrays.asList(elements);
+        return new IgnoreCaseList(stringList);
+    }
+
+    @NoArgsConstructor
+    private static class IgnoreCaseList extends ArrayList<String> {
+
+        public IgnoreCaseList(final List<String> stringList) {
+            super(stringList);
+        }
+
+        @Override
+        public boolean contains(Object o) {
+            return this.stream().anyMatch(s -> s.equalsIgnoreCase(o.toString()));
+        }
+    }
 }

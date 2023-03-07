@@ -16,6 +16,7 @@
 
 package io.github.selcukes.databind.tests;
 
+import io.github.selcukes.databind.utils.Lists;
 import io.github.selcukes.databind.utils.Streams;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -31,6 +32,13 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class CollectionsTest {
+
+    @Test
+    public void listIgnoreCaseTest() {
+        var list = Lists.ofIgnoreCase("World");
+        assertTrue(list.contains("world"));
+    }
+
     @Test
     public void mapOfListTest() {
         var listMap = List.of(
