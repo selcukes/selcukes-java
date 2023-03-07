@@ -12,11 +12,37 @@
 
 ### Removed
 
+## [2.2.5] (07-03-2023)
+
+### Added
+
+* Added PageElement class to read element name for EventCapture of Page Actions
+
+### Changed
+
+* Performance enhancement and Core Refactoring
+* Added support for default value in Maps of list of keys and list of values by accepting an additional argument
+* Update dependency net.masterthought:cucumber-reporting to
+  v5.7.5 ([#228](https://github.com/selcukes/selcukes-java/pull/228))
+
+### Fixed
+
+* [Excel Runner] Fixed reading Excel files from jar ([#227](https://github.com/selcukes/selcukes-java/pull/227))
+
+### Removed
+
+* [Core] Remove Selenium Grid dependency in favor of SeleniumSever
+  Class ([#229](https://github.com/selcukes/selcukes-java/pull/229))
+
 ## [2.2.4] (26-02-2023)
 
 ### Added
-* [Excel Runner] Singleton and SingletonContext class for Singleton Instances ([#226](https://github.com/selcukes/selcukes-java/pull/226))
+
+* [Excel Runner] Singleton and SingletonContext class for Singleton
+  Instances ([#226](https://github.com/selcukes/selcukes-java/pull/226))
+
 ### Fixed
+
 * [Excel Runner] Hot Fixes ([#225](https://github.com/selcukes/selcukes-java/pull/225))
 
 ## [2.2.3] (24-02-2023)
