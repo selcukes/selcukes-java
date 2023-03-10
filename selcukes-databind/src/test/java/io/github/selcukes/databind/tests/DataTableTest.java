@@ -112,6 +112,6 @@ public class DataTableTest {
 
     @Test(testName = "Test GetColumnValues")
     public void testGetColumnValues() {
-        assertEquals(dataTable.getColumnValues("Name"), List.of("Alice","Bob"));
+        assertEquals(dataTable.getColumnValues("Name"), List.of("Alice", "Bob"));
     }
 }
