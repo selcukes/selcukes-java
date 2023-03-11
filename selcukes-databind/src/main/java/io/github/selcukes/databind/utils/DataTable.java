@@ -21,12 +21,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
  * A generic data table that stores data in the form of rows and columns, where
- * each row is represented by a map of column names to values.
+ * each row is represented by a map of column names to value.
  *
  * @param <T> the type of the column values
  */
@@ -100,6 +101,18 @@ public class DataTable<T> {
                 .collect(Collectors.groupingBy(map -> map.get(key),
                     Collectors.collectingAndThen(Collectors.toList(),
                         Collections::unmodifiableList)));
+    }
+
+    /**
+     * Updates the rows in the DataTable using the provided function. The
+     * function receives each row and should return an updated version of it, or
+     * the original row if no updates are required.
+     *
+     * @param  function             the function to update the rows
+     * @throws NullPointerException if function is null
+     */
+    public synchronized void updateRows(Function<Map<String, T>, Map<String, T>> function) {
+        rows.replaceAll(function::apply);
     }
 
     /**

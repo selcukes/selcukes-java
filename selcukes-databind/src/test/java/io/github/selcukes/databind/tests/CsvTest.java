@@ -17,6 +17,7 @@
 package io.github.selcukes.databind.tests;
 
 import io.github.selcukes.databind.csv.CsvMapper;
+import io.github.selcukes.databind.utils.DataTable;
 import io.github.selcukes.databind.utils.Resources;
 import lombok.SneakyThrows;
 import org.testng.annotations.Test;
@@ -29,8 +30,15 @@ public class CsvTest {
     public void csvDataReaderTest() {
         var filePath = Resources.ofTest("employee.csv");
         var csvData = CsvMapper.parse(filePath, CSV_STRIP_REGEX);
-        csvData.forEach(map -> map.computeIfPresent("ID", (k, v) -> updateID(map.get("Phone"), map.get("Country"))));
-        csvData.forEach(System.out::println);
+        var table = DataTable.of(csvData);
+        table.updateRows(row -> {
+            if (row.get("ID").isEmpty()) {
+                row.put("ID", updateID(row.get("Phone"), row.get("Country")));
+            }
+            return row;
+        });
+
+        table.getRows().forEach(System.out::println);
 
     }
 
