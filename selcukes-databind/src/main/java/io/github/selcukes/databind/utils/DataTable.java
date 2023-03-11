@@ -58,7 +58,8 @@ public class DataTable<K, T> {
 
     /**
      * Returns a list of column keys from the first row of the data table.
-     * @return a list of column keys
+     * 
+     * @return                       a list of column keys
      * @throws IllegalStateException if the data table is empty
      */
     public List<K> getColumns() {
