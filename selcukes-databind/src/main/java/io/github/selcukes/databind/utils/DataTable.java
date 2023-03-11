@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -75,7 +74,7 @@ public class DataTable<K, T> {
      * @param row the map representing the new row to add
      */
     @Synchronized
-    public void addRow(Map<K, T> row) {
+    public void addRow(@NonNull Map<K, T> row) {
         rows.add(Map.copyOf(row));
     }
 
@@ -85,7 +84,7 @@ public class DataTable<K, T> {
      * @param rows the list of maps representing the rows to add
      */
     @Synchronized
-    public void addRows(List<Map<K, T>> rows) {
+    public void addRows(@NonNull List<Map<K, T>> rows) {
         this.rows.addAll(List.copyOf(rows));
     }
 
@@ -123,7 +122,7 @@ public class DataTable<K, T> {
      * @return     a map of rows grouped by the specified column value
      */
     @Synchronized
-    public Map<T, List<Map<K, T>>> getRowsGroupedByColumn(K key) {
+    public Map<T, List<Map<K, T>>> getRowsGroupedByColumn(@NonNull K key) {
         return getRows().stream()
                 .filter(map -> map.containsKey(key))
                 .collect(Collectors.groupingBy(map -> map.get(key),
@@ -151,7 +150,7 @@ public class DataTable<K, T> {
      *                                  table
      */
     @Synchronized
-    public List<T> getColumnValues(K columnName) {
+    public List<T> getColumnValues(@NonNull K columnName) {
         int columnIndex = getColumns().indexOf(columnName);
         if (columnIndex < 0) {
             throw new IllegalArgumentException("Column not found: " + columnName);
@@ -170,8 +169,7 @@ public class DataTable<K, T> {
      * @throws NullPointerException if the expected row is null
      */
     @Synchronized
-    public boolean contains(Map<K, T> expectedRow) {
-        Objects.requireNonNull(expectedRow, "Expected row cannot be null");
+    public boolean contains(@NonNull Map<K, T> expectedRow) {
         return rows.stream().anyMatch(actualRow -> expectedRow.entrySet().containsAll(actualRow.entrySet()));
     }
 
@@ -186,8 +184,7 @@ public class DataTable<K, T> {
      * @return                      a new DataTable instance
      * @throws NullPointerException if dataList is null
      */
-    public static <K, V> DataTable<K, V> of(List<Map<K, V>> dataList) {
-        Objects.requireNonNull(dataList, "Data list cannot be null");
+    public static <K, V> DataTable<K, V> of(@NonNull List<Map<K, V>> dataList) {
         var dataTable = new DataTable<K, V>();
         dataTable.addRows(dataList);
         return dataTable;
