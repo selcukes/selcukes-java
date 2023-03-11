@@ -17,6 +17,7 @@
 package io.github.selcukes.databind.tests;
 
 import io.github.selcukes.databind.utils.DataTable;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -119,23 +120,24 @@ public class DataTableTest {
 
     @Test(testName = "Test updateRows")
     void testUpdateRows() {
-        var rowA = Map.of("id", "1", "name", "John", "age", "20");
-        var rowB = Map.of("id", "2", "name", "Jane", "age", "25");
-        var rowC = Map.of("id", "3", "name", "Bob", "age", "30");
-        var rowD = Map.of("id", "4", "name", "Alice", "age", "20");
-        var rowE = Map.of("id", "5", "name", "Tom", "age", "25");
-        List<Map<String, String>> rows = List.of(
-            new HashMap<>(rowA), new HashMap<>(rowB), new HashMap<>(rowC), new HashMap<>(rowD), new HashMap<>(rowE));
-        var table = DataTable.of(rows);
-        var rowsByAge = table.getRowsGroupedByColumn("age").get("30");
-        assertEquals(1, rowsByAge.size());
-        table.updateRows(row -> {
-            if (row.get("age").equalsIgnoreCase("20")) {
-                row.put("age", "30");
-            }
+        Map<String, Object> rowA = new HashMap<>(Map.of("ID", 1, "Name", "John Doe", "Age", 25, "IsEmployed", false));
+        Map<String, Object> rowB = new HashMap<>(Map.of("ID", 2, "Name", "Jane Smith", "Age", 30, "IsEmployed", false));
+        Map<String, Object> rowC = new HashMap<>(Map.of("ID", 3, "Name", "Tom", "Age", 25, "IsEmployed", false));
+
+        DataTable<String, Object> dataTable = DataTable.of(List.of(rowA, rowB, rowC));
+        assertEquals(3, dataTable.getRows().size());
+        assertTrue(dataTable.contains(rowA));
+        assertTrue(dataTable.contains(rowB));
+        assertTrue(dataTable.contains(rowC));
+        dataTable.updateRows(row -> {
+            row.put("Age", (int) row.get("Age") + 5);
+            row.put("IsEmployed", !(boolean) row.get("IsEmployed"));
             return row;
         });
-        rowsByAge = table.getRowsGroupedByColumn("age").get("30");
-        assertEquals(3, rowsByAge.size());
+        dataTable.getColumnValues("IsEmployed")
+                .stream()
+                .map(value -> (boolean) value)
+                .forEach(Assert::assertTrue);
+        assertEquals(dataTable.getRows().get(0).get("Age"),30);
     }
 }
