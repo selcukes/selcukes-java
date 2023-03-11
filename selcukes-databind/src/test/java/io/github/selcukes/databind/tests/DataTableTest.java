@@ -20,6 +20,7 @@ import io.github.selcukes.databind.utils.DataTable;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -114,5 +115,27 @@ public class DataTableTest {
     @Test(testName = "Test GetColumnValues")
     public void testGetColumnValues() {
         assertEquals(dataTable.getColumnValues("Name"), List.of("Alice", "Bob"));
+    }
+
+    @Test(testName = "Test updateRows")
+    void testUpdateRows() {
+        var rowA = Map.of("id", "1", "name", "John", "age", "20");
+        var rowB = Map.of("id", "2", "name", "Jane", "age", "25");
+        var rowC = Map.of("id", "3", "name", "Bob", "age", "30");
+        var rowD = Map.of("id", "4", "name", "Alice", "age", "20");
+        var rowE = Map.of("id", "5", "name", "Tom", "age", "25");
+        List<Map<String, String>> rows = List.of(
+            new HashMap<>(rowA), new HashMap<>(rowB), new HashMap<>(rowC), new HashMap<>(rowD), new HashMap<>(rowE));
+        var table = DataTable.of(rows);
+        var rowsByAge = table.getRowsGroupedByColumn("age").get("30");
+        assertEquals(1, rowsByAge.size());
+        table.updateRows(row -> {
+            if (row.get("age").equalsIgnoreCase("20")) {
+                row.put("age", "30");
+            }
+            return row;
+        });
+        rowsByAge = table.getRowsGroupedByColumn("age").get("30");
+        assertEquals(3, rowsByAge.size());
     }
 }
