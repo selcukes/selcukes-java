@@ -19,6 +19,7 @@ package io.github.selcukes.databind.utils;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Synchronized;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,6 +40,7 @@ import java.util.stream.Collectors;
  * @param <K> the type of column keys in the data table
  * @param <T> the type of column values in the data table
  */
+@ToString
 @Getter
 public class DataTable<K, T> {
 
