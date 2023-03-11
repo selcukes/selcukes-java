@@ -22,19 +22,20 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class DataTableTest {
-    private DataTable<String> dataTable;
+    private DataTable<String, String> dataTable;
     private Map<String, String> row2;
-    private List<String> columns;
+    private Set<String> columns;
 
     @BeforeMethod
     public void beforeMethod() {
-        columns = List.of("Name", "Age", "Country");
-        dataTable = new DataTable<>(columns);
+        columns = Set.of("Name", "Age", "Country");
+        dataTable = new DataTable<>();
         var row1 = Map.of("Name", "Alice", "Age", "25", "Country", "USA");
         row2 = Map.of("Name", "Bob", "Age", "35", "Country", "Canada");
         dataTable.addRow(row1);
@@ -107,7 +108,7 @@ public class DataTableTest {
 
     @Test(testName = "Test getColumns")
     public void testGetColumns() {
-        assertEquals(dataTable.getColumns(), columns);
+        assertEquals(Set.copyOf(dataTable.getColumns()), columns);
     }
 
     @Test(testName = "Test GetColumnValues")

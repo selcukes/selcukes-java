@@ -16,6 +16,10 @@
 
 package io.github.selcukes.databind.utils;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Synchronized;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,63 +30,83 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * A generic data table that stores data in the form of rows and columns, where
- * each row is represented by a map of column names to value.
+ * A generic data table that stores data in rows and columns.
+ * <p>
+ * The data table is implemented as a list of maps where each map represents a
+ * row in the table,
+ * <p>
+ * and the keys of the maps represent the column names.
  *
- * @param <T> the type of the column values
+ * @param <K> the type of column keys in the data table
+ * @param <T> the type of column values in the data table
  */
-public class DataTable<T> {
-    private final List<Map<String, T>> rows;
-    private final List<String> columns;
+@Getter
+public class DataTable<K, T> {
 
     /**
-     * Constructs a new DataTable with the given column names.
-     *
-     * @param  columns              the names of the columns
-     * @throws NullPointerException if columns is null
+     * The list of maps representing the data table.
      */
-    public DataTable(List<String> columns) {
-        this.columns = Objects.requireNonNull(columns, "Columns cannot be null");
+    @NonNull
+    private final List<Map<K, T>> rows;
+
+    /**
+     * Constructs a new, empty DataTable.
+     */
+    public DataTable() {
         rows = new ArrayList<>();
     }
 
     /**
-     * Adds a new row to the DataTable.
-     *
-     * @param row the row to add
+     * Returns a list of column keys from the first row of the data table.
+     * @return a list of column keys
+     * @throws IllegalStateException if the data table is empty
      */
-    public synchronized void addRow(Map<String, T> row) {
+    public List<K> getColumns() {
+        if (rows.isEmpty()) {
+            throw new IllegalStateException("Data table is empty");
+        }
+        return List.copyOf(rows.get(0).keySet());
+    }
+
+    /**
+     * Adds a new row to the data table.
+     *
+     * @param row the map representing the new row to add
+     */
+    @Synchronized
+    public void addRow(Map<K, T> row) {
         rows.add(Map.copyOf(row));
     }
 
     /**
-     * Adds multiple rows to the DataTable.
+     * Adds multiple rows to the data table.
      *
-     * @param rows the rows to add
+     * @param rows the list of maps representing the rows to add
      */
-    public synchronized void addRows(List<Map<String, T>> rows) {
+    @Synchronized
+    public void addRows(List<Map<K, T>> rows) {
         this.rows.addAll(List.copyOf(rows));
     }
 
     /**
-     * Returns a copy of the rows in the DataTable.
+     * Returns an unmodifiable list of all the rows in the data table.
      *
-     * @return a copy of the rows
+     * @return an unmodifiable list of rows
      */
-    public synchronized List<Map<String, T>> getRows() {
+    @Synchronized
+    public List<Map<K, T>> getRows() {
         return List.copyOf(rows);
     }
 
     /**
-     * Returns the first row in the DataTable that satisfies the given
-     * predicate.
+     * Returns the first row that matches the given predicate.
      *
-     * @param  predicate                the predicate to test each row
-     * @return                          the first row that satisfies the
-     *                                  predicate
-     * @throws IllegalArgumentException if no row satisfies the predicate
+     * @param  predicate                the predicate to match against rows
+     * @return                          the first row that matches the predicate
+     * @throws IllegalArgumentException if no row matches the predicate
      */
-    public synchronized Map<String, T> getRow(Predicate<Map<String, T>> predicate) {
+    @Synchronized
+    public Map<K, T> getRow(Predicate<Map<K, T>> predicate) {
         return rows.stream()
                 .filter(predicate)
                 .findFirst()
@@ -90,12 +114,15 @@ public class DataTable<T> {
     }
 
     /**
-     * Groups the rows in the DataTable by the value of the given key column.
+     * Groups the rows by the value in the specified column and returns a map
+     * where the keys are the unique column values and the values are the lists
+     * of rows that contain those values.
      *
-     * @param  key the name of the key column
-     * @return     a map of key column values to lists of rows with that value
+     * @param  key the column key to group rows by
+     * @return     a map of rows grouped by the specified column value
      */
-    public synchronized Map<T, List<Map<String, T>>> getRowsGroupedByColumn(String key) {
+    @Synchronized
+    public Map<T, List<Map<K, T>>> getRowsGroupedByColumn(K key) {
         return getRows().stream()
                 .filter(map -> map.containsKey(key))
                 .collect(Collectors.groupingBy(map -> map.get(key),
@@ -104,37 +131,27 @@ public class DataTable<T> {
     }
 
     /**
-     * Updates the rows in the DataTable using the provided function. The
-     * function receives each row and should return an updated version of it, or
-     * the original row if no updates are required.
+     * Updates each row in the data table with the result of applying the given
+     * function to the row.
      *
-     * @param  function             the function to update the rows
-     * @throws NullPointerException if function is null
+     * @param function the function to apply to each row
      */
-    public synchronized void updateRows(Function<Map<String, T>, Map<String, T>> function) {
+    @Synchronized
+    public void updateRows(Function<Map<K, T>, Map<K, T>> function) {
         rows.replaceAll(function::apply);
     }
 
     /**
-     * Returns a copy of the column names in the DataTable.
+     * Returns a list of values for a given column.
      *
-     * @return a copy of the column names
+     * @param  columnName               the column name
+     * @return                          a list of values for the given column
+     * @throws IllegalArgumentException if the column name is not found in the
+     *                                  table
      */
-    public synchronized List<String> getColumns() {
-        return List.copyOf(columns);
-    }
-
-    /**
-     * Returns a copy of the values in the given column.
-     *
-     * @param  columnName               the name of the column to get values
-     *                                  from
-     * @return                          a copy of the column values
-     * @throws IllegalArgumentException if the column does not exist in the
-     *                                  DataTable
-     */
-    public synchronized List<T> getColumnValues(String columnName) {
-        int columnIndex = columns.indexOf(columnName);
+    @Synchronized
+    public List<T> getColumnValues(K columnName) {
+        int columnIndex = getColumns().indexOf(columnName);
         if (columnIndex < 0) {
             throw new IllegalArgumentException("Column not found: " + columnName);
         }
@@ -144,61 +161,34 @@ public class DataTable<T> {
     }
 
     /**
-     * Determines whether the DataTable contains a row that has the same values
-     * as the given row.
+     * Returns true if the data table contains the expected row.
      *
-     * @param  expectedRow          the row to check for
-     * @return                      true if the DataTable contains the expected
+     * @param  expectedRow          the map representing the expected row
+     * @return                      true if the data table contains the expected
      *                              row, false otherwise
-     * @throws NullPointerException if the expectedRow is null
+     * @throws NullPointerException if the expected row is null
      */
-    public synchronized boolean contains(Map<String, T> expectedRow) {
+    @Synchronized
+    public boolean contains(Map<K, T> expectedRow) {
         Objects.requireNonNull(expectedRow, "Expected row cannot be null");
         return rows.stream().anyMatch(actualRow -> expectedRow.entrySet().containsAll(actualRow.entrySet()));
     }
 
     /**
-     * Constructs a new DataTable from the given list of maps. The method
-     * creates a new DataTable instance with the columns derived from the keys
-     * of the first map in the dataList. It then populates the DataTable with
-     * rows from the maps in the dataList.
+     * Returns a new DataTable instance initialized with the data provided as a
+     * List of Map objects.
      *
-     * @param  dataList             the list of maps representing the data to be
-     *                              used to populate the DataTable
-     * @param  <T>                  the data type of the values in the maps
-     * @return                      the new DataTable instance
-     * @throws NullPointerException if the dataList is null
+     * @param  dataList             a list of Maps representing the data rows to
+     *                              add to the new DataTable instance
+     * @param  <K>                  the type of the column keys
+     * @param  <V>                  the type of the column values
+     * @return                      a new DataTable instance
+     * @throws NullPointerException if dataList is null
      */
-    public static <T> DataTable<T> of(List<Map<String, T>> dataList) {
+    public static <K, V> DataTable<K, V> of(List<Map<K, V>> dataList) {
         Objects.requireNonNull(dataList, "Data list cannot be null");
-        var columns = List.copyOf(dataList.get(0).keySet());
-        var dataTable = new DataTable<T>(columns);
+        var dataTable = new DataTable<K, V>();
         dataTable.addRows(dataList);
         return dataTable;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (!(obj instanceof DataTable)) {
-            return false;
-        }
-        DataTable<?> other = (DataTable<?>) obj;
-        return Objects.equals(columns, other.columns) && Objects.equals(rows, other.rows);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(columns, rows);
-    }
-
-    @Override
-    public String toString() {
-        return "DataTable{" +
-                "rows=" + rows +
-                ", columns=" + columns +
-                '}';
     }
 }
