@@ -138,6 +138,6 @@ public class DataTableTest {
                 .stream()
                 .map(value -> (boolean) value)
                 .forEach(Assert::assertTrue);
-        assertEquals(dataTable.getRows().get(0).get("Age"),30);
+        assertEquals(dataTable.getRows().get(0).get("Age"), 30);
     }
 }
