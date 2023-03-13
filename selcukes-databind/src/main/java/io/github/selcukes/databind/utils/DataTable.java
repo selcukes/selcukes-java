@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 /**
@@ -139,8 +139,8 @@ public class DataTable<K, T> {
      * @param function the function to apply to each row
      */
     @Synchronized
-    public void updateRows(Function<Map<K, T>, Map<K, T>> function) {
-        rows.replaceAll(function::apply);
+    public void updateRows(UnaryOperator<Map<K, T>> function) {
+        rows.replaceAll(function);
     }
 
     /**
