@@ -48,7 +48,7 @@ public class DataTableTest {
     void testAddRow() {
         var newRow = Map.of("Name", "Charlie", "Age", "30", "Country", "UK");
         dataTable.addRow(newRow);
-        assertEquals(3, dataTable.getRows().size());
+        assertEquals(dataTable.getRows().size(), 3);
         assertTrue(dataTable.contains(newRow));
     }
 
@@ -58,7 +58,7 @@ public class DataTableTest {
         var row4 = Map.of("Name", "Eve", "Age", "20", "Country", "France");
         var newRows = List.of(row3, row4);
         dataTable.addRows(newRows);
-        assertEquals(4, dataTable.getRows().size());
+        assertEquals(dataTable.getRows().size(), 4);
         assertTrue(dataTable.contains(row3));
         assertTrue(dataTable.contains(row4));
     }
@@ -70,20 +70,20 @@ public class DataTableTest {
         assertEquals(2, rows.size());
 
         Map<String, String> row1 = rows.get(0);
-        assertEquals("Alice", row1.get("Name"));
-        assertEquals("25", row1.get("Age"));
-        assertEquals("USA", row1.get("Country"));
+        assertEquals(row1.get("Name"), "Alice");
+        assertEquals(row1.get("Age"), "25");
+        assertEquals(row1.get("Country"), "USA");
 
         Map<String, String> row2 = rows.get(1);
-        assertEquals("Bob", row2.get("Name"));
-        assertEquals("35", row2.get("Age"));
-        assertEquals("Canada", row2.get("Country"));
+        assertEquals(row2.get("Name"), "Bob");
+        assertEquals(row2.get("Age"), "35");
+        assertEquals(row2.get("Country"), "Canada");
     }
 
     @Test(testName = "Test getRow")
     void testGetRow() {
         Map<String, String> actualRow = dataTable.getRow(row -> row.get("Name").equals("Bob"));
-        assertEquals(row2, actualRow);
+        assertEquals(actualRow, row2);
     }
 
     @Test(testName = "Test getRowsGroupedByColumn")
@@ -96,14 +96,14 @@ public class DataTableTest {
         var rows = List.of(rowA, rowB, rowC, rowD, rowE);
         var table = DataTable.of(rows);
         var rowsByAge = table.getRowsGroupedByColumn("age");
-        assertEquals(3, rowsByAge.size());
+        assertEquals(rowsByAge.size(), 3);
         var age20Rows = rowsByAge.get("20");
-        assertEquals(2, age20Rows.size());
+        assertEquals(age20Rows.size(), 2);
         assertTrue(age20Rows.contains(rowA));
         assertTrue(age20Rows.contains(rowD));
 
         var age25Rows = rowsByAge.get("25");
-        assertEquals(2, age25Rows.size());
+        assertEquals(age25Rows.size(), 2);
         assertTrue(age25Rows.contains(rowB));
         assertTrue(age25Rows.contains(rowE));
     }
@@ -125,7 +125,7 @@ public class DataTableTest {
         Map<String, Object> rowC = new HashMap<>(Map.of("ID", 3, "Name", "Tom", "Age", 25, "IsEmployed", false));
 
         DataTable<String, Object> dataTable = DataTable.of(List.of(rowA, rowB, rowC));
-        assertEquals(3, dataTable.getRows().size());
+        assertEquals(dataTable.getRows().size(), 3);
         assertTrue(dataTable.contains(rowA));
         assertTrue(dataTable.contains(rowB));
         assertTrue(dataTable.contains(rowC));
