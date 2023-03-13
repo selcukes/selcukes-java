@@ -16,7 +16,6 @@
 
 package io.github.selcukes.databind.utils;
 
-import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
 import java.lang.reflect.Method;
@@ -28,9 +27,17 @@ import java.util.Arrays;
  */
 @UtilityClass
 public class Reflections {
-
+    /**
+     * Creates a new instance of the class passed to it.
+     *
+     * @param  clazz                    the class to instantiate
+     * @param  initArgs                 the arguments to pass to the constructor
+     * @param  <T>                      the type of the class to instantiate
+     * @return                          an instance of the class
+     * @throws IllegalArgumentException if an error occurs while creating the
+     *                                  instance
+     */
     @SuppressWarnings("all")
-    // Creating a new instance of the class passed to it.
     public static <T> T newInstance(final Class<T> clazz, final Object... initArgs) {
         try {
             var constructor = clazz.getDeclaredConstructor(getClasses(initArgs));
@@ -43,8 +50,16 @@ public class Reflections {
         }
     }
 
+    /**
+     * Sets the value of the field in the object.
+     *
+     * @param  object                   the object to modify
+     * @param  fieldName                the name of the field to modify
+     * @param  value                    the new value of the field
+     * @throws IllegalArgumentException if an error occurs while setting the
+     *                                  field
+     */
     @SuppressWarnings("squid:S3011")
-    // Setting the value of the field in the object.
     public static void setField(final Object object, final String fieldName, final Object value) {
         try {
             var clazz = object == null ? Object.class : object.getClass();
@@ -57,8 +72,19 @@ public class Reflections {
 
     }
 
+    /**
+     * Gets the method from the class.
+     *
+     * @param  clazz                    the class to get the method from
+     * @param  name                     the name of the method to get
+     * @param  param                    the parameter types of the method to get
+     * @param  <T>                      the type of the class to get the method
+     *                                  from
+     * @return                          the method from the class
+     * @throws IllegalArgumentException if an error occurs while getting the
+     *                                  method
+     */
     @SuppressWarnings("squid:S3011")
-    // Getting the method from the class.
     public static <T> Method getDeclaredMethod(Class<T> clazz, String name, Class<?>... param) {
         try {
             var method = clazz.getDeclaredMethod(name, param);
@@ -69,11 +95,23 @@ public class Reflections {
         }
     }
 
-    @SneakyThrows
-    // Invoking a static method on a class.
-    public static void invoke(final Class<?> clazz, final String methodName, final String param) {
-        var method = clazz.getMethod(methodName, String.class);
-        method.invoke(null, param);
+    /**
+     * Invokes a static method on a class with a single string parameter.
+     *
+     * @param  clazz                    the class containing the method
+     * @param  methodName               the name of the method to invoke
+     * @param  param                    the string parameter to pass to the
+     *                                  method
+     * @throws IllegalArgumentException if the method cannot be found, accessed
+     *                                  or invoked
+     */
+    public static void invokeStaticMethod(final Class<?> clazz, final String methodName, final String param) {
+        try {
+            var method = clazz.getMethod(methodName, String.class);
+            method.invoke(null, param);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     private Class<?>[] getClasses(Object... objects) {
