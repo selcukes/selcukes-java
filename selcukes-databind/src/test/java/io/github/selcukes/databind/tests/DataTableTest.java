@@ -67,7 +67,7 @@ public class DataTableTest {
     void testGetRows() {
         List<Map<String, String>> rows = dataTable.getRows();
 
-        assertEquals(2, rows.size());
+        assertEquals(rows.size(),2);
 
         Map<String, String> row1 = rows.get(0);
         assertEquals(row1.get("Name"), "Alice");
