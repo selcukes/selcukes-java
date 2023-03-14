@@ -53,7 +53,7 @@ public class DataFileHelper<T> {
     public String getFileName() {
         if (!this.dataFile.fileName().isEmpty()) {
             return StringHelper.interpolate(this.dataFile.fileName(),
-                matcher -> systemProperties().getProperty(matcher.group(1)));
+                matcher -> systemProperties().getProperty(matcher));
         }
         if (isStream()) {
             throw new DataMapperException("Please provide fileName to perform stream loader");

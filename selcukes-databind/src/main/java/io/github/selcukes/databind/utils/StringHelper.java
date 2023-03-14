@@ -27,7 +27,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -128,19 +127,18 @@ public class StringHelper {
     }
 
     /**
-     * It takes a string and a function that takes a match result and returns a
-     * string, and returns a string
+     * Interpolates a string by replacing placeholders with values obtained from
+     * a function.
      *
-     * @param  text     The text to interpolate.
-     * @param  replacer A function that takes a MatchResult and returns a
-     *                  String.
-     * @return          A string with the interpolated values.
+     * @param  text     The string to interpolate.
+     * @param  replacer A function that takes a placeholder string and returns a
+     *                  replacement string.
+     * @return          The interpolated string.
      */
-    public String interpolate(final String text, final Function<MatchResult, String> replacer) {
-
+    public String interpolate(final String text, final Function<String, String> replacer) {
         return Pattern.compile(INTERPOLATE_REGEX)
                 .matcher(text)
-                .replaceAll(replacer);
+                .replaceAll(match -> replacer.apply(match.group(1)));
     }
 
     /**
