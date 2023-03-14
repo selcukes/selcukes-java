@@ -16,6 +16,7 @@
 
 package io.github.selcukes.databind.utils;
 
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
 import java.lang.reflect.Method;
@@ -105,13 +106,10 @@ public class Reflections {
      * @throws IllegalArgumentException if the method cannot be found, accessed
      *                                  or invoked
      */
+    @SneakyThrows
     public static void invokeStaticMethod(final Class<?> clazz, final String methodName, final String param) {
-        try {
-            var method = clazz.getMethod(methodName, String.class);
-            method.invoke(null, param);
-        } catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
+        var method = clazz.getMethod(methodName, String.class);
+        method.invoke(null, param);
     }
 
     private Class<?>[] getClasses(Object... objects) {
