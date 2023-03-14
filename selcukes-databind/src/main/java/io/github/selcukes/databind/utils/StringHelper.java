@@ -26,7 +26,7 @@ import lombok.experimental.UtilityClass;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -135,7 +135,7 @@ public class StringHelper {
      *                  replacement string.
      * @return          The interpolated string.
      */
-    public String interpolate(final String text, final Function<String, String> replacer) {
+    public String interpolate(final String text, final UnaryOperator<String> replacer) {
         return Pattern.compile(INTERPOLATE_REGEX)
                 .matcher(text)
                 .replaceAll(match -> replacer.apply(match.group(1)));
