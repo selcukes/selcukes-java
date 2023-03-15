@@ -250,7 +250,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
 
     private void checkRowIndex(int rowIndex) {
         if (rowIndex < 0 || rowIndex >= size()) {
-            throw new IndexOutOfBoundsException("Invalid row index");
+            throw new IndexOutOfBoundsException("Invalid row index: " + rowIndex);
         }
     }
 
