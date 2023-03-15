@@ -21,6 +21,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -139,5 +140,60 @@ public class DataTableTest {
                 .map(value -> (boolean) value)
                 .forEach(Assert::assertTrue);
         assertEquals(dataTable.getRows().get(0).get("Age"), 30);
+    }
+
+    @Test
+    public void testAddColumn() {
+        DataTable<String, String> table = new DataTable<>();
+        table.addRow(new HashMap<>(Map.of("Name", "Alice", "Age", "30")));
+        table.addRow(new HashMap<>(Map.of("Name", "Bob", "Age", "40")));
+
+        table.addColumn("Country", "USA");
+
+        List<String> countries = table.getColumnValues("Country");
+
+        List<String> expected = List.of("USA", "USA");
+        assertEquals(countries, expected);
+    }
+
+    @Test
+    public void testUpdateCell() {
+        DataTable<String, String> table = new DataTable<>();
+        table.addRow(new HashMap<>(Map.of("Name", "Alice", "Age", "30")));
+        table.addRow(new HashMap<>(Map.of("Name", "Bob", "Age", "40")));
+
+        table.updateCell(1, "Age", "45");
+
+        List<String> ages = table.getColumnValues("Age");
+
+        List<String> expected = List.of("30", "45");
+        assertEquals(ages, expected);
+    }
+
+    @Test
+    public void testSortByColumn() {
+        DataTable<String, Integer> table = new DataTable<>();
+        table.addRow(new HashMap<>(Map.of("ID", 1234, "Age", 30)));
+        table.addRow(new HashMap<>(Map.of("ID", 4567, "Age", 40)));
+        table.addRow(new HashMap<>(Map.of("ID", 7890, "Age", 35)));
+        table.sortByColumn("Age", Comparator.naturalOrder());
+        List<Integer> ages = table.getColumnValues("Age");
+        List<Integer> expected = List.of(30, 35, 40);
+        assertEquals(ages, expected);
+    }
+
+    @Test
+    public void testRemoveRow() {
+        DataTable<String, String> table = new DataTable<>();
+        table.addRow(new HashMap<>(Map.of("Name", "Alice", "Age", "30")));
+        table.addRow(new HashMap<>(Map.of("Name", "Bob", "Age", "40")));
+        table.addRow(new HashMap<>(Map.of("Name", "Charlie", "Age", "35")));
+
+        table.removeRow(1);
+
+        List<String> names = table.getColumnValues("Name");
+
+        List<String> expected = List.of("Alice", "Charlie");
+        assertEquals(names, expected);
     }
 }

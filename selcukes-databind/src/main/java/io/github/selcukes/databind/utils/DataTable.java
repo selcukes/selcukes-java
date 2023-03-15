@@ -18,13 +18,13 @@ package io.github.selcukes.databind.utils;
 
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Synchronized;
-import lombok.ToString;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
@@ -38,36 +38,22 @@ import java.util.stream.Collectors;
  * and the keys of the maps represent the column names.
  *
  * @param <K> the type of column keys in the data table
- * @param <T> the type of column values in the data table
+ * @param <V> the type of column values in the data table
  */
-@ToString
 @Getter
-public class DataTable<K, T> {
-
-    /**
-     * The list of maps representing the data table.
-     */
-    @NonNull
-    private final List<Map<K, T>> rows;
-
-    /**
-     * Constructs a new, empty DataTable.
-     */
-    public DataTable() {
-        rows = new ArrayList<>();
-    }
+public class DataTable<K, V> extends LinkedList<Map<K, V>> {
 
     /**
      * Returns a list of column keys from the first row of the data table.
-     * 
+     *
      * @return                       a list of column keys
      * @throws IllegalStateException if the data table is empty
      */
     public List<K> getColumns() {
-        if (rows.isEmpty()) {
+        if (isEmpty()) {
             throw new IllegalStateException("Data table is empty");
         }
-        return List.copyOf(rows.get(0).keySet());
+        return List.copyOf(get(0).keySet());
     }
 
     /**
@@ -75,9 +61,8 @@ public class DataTable<K, T> {
      *
      * @param row the map representing the new row to add
      */
-    @Synchronized
-    public void addRow(@NonNull Map<K, T> row) {
-        rows.add(Map.copyOf(row));
+    public void addRow(@NonNull Map<K, V> row) {
+        add(Map.copyOf(row));
     }
 
     /**
@@ -85,9 +70,8 @@ public class DataTable<K, T> {
      *
      * @param rows the list of maps representing the rows to add
      */
-    @Synchronized
-    public void addRows(@NonNull List<Map<K, T>> rows) {
-        this.rows.addAll(List.copyOf(rows));
+    public void addRows(@NonNull List<Map<K, V>> rows) {
+        addAll(rows);
     }
 
     /**
@@ -95,9 +79,8 @@ public class DataTable<K, T> {
      *
      * @return an unmodifiable list of rows
      */
-    @Synchronized
-    public List<Map<K, T>> getRows() {
-        return List.copyOf(rows);
+    public List<Map<K, V>> getRows() {
+        return List.copyOf(this);
     }
 
     /**
@@ -107,9 +90,8 @@ public class DataTable<K, T> {
      * @return                          the first row that matches the predicate
      * @throws IllegalArgumentException if no row matches the predicate
      */
-    @Synchronized
-    public Map<K, T> getRow(Predicate<Map<K, T>> predicate) {
-        return rows.stream()
+    public Map<K, V> getRow(Predicate<Map<K, V>> predicate) {
+        return stream()
                 .filter(predicate)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Row not found for predicate: " + predicate));
@@ -123,8 +105,7 @@ public class DataTable<K, T> {
      * @param  key the column key to group rows by
      * @return     a map of rows grouped by the specified column value
      */
-    @Synchronized
-    public Map<T, List<Map<K, T>>> getRowsGroupedByColumn(@NonNull K key) {
+    public Map<V, List<Map<K, V>>> getRowsGroupedByColumn(@NonNull K key) {
         return getRows().stream()
                 .filter(map -> map.containsKey(key))
                 .collect(Collectors.groupingBy(map -> map.get(key),
@@ -138,9 +119,8 @@ public class DataTable<K, T> {
      *
      * @param function the function to apply to each row
      */
-    @Synchronized
-    public void updateRows(UnaryOperator<Map<K, T>> function) {
-        rows.replaceAll(function);
+    public void updateRows(UnaryOperator<Map<K, V>> function) {
+        replaceAll(function);
     }
 
     /**
@@ -151,13 +131,12 @@ public class DataTable<K, T> {
      * @throws IllegalArgumentException if the column name is not found in the
      *                                  table
      */
-    @Synchronized
-    public List<T> getColumnValues(@NonNull K columnName) {
+    public List<V> getColumnValues(@NonNull K columnName) {
         int columnIndex = getColumns().indexOf(columnName);
         if (columnIndex < 0) {
             throw new IllegalArgumentException("Column not found: " + columnName);
         }
-        return List.copyOf(rows).stream()
+        return List.copyOf(this).stream()
                 .map(row -> row.getOrDefault(columnName, null))
                 .collect(Collectors.toList());
     }
@@ -170,9 +149,8 @@ public class DataTable<K, T> {
      *                              row, false otherwise
      * @throws NullPointerException if the expected row is null
      */
-    @Synchronized
-    public boolean contains(@NonNull Map<K, T> expectedRow) {
-        return rows.stream().anyMatch(actualRow -> expectedRow.entrySet().containsAll(actualRow.entrySet()));
+    public boolean contains(@NonNull Map<K, V> expectedRow) {
+        return stream().anyMatch(actualRow -> expectedRow.entrySet().containsAll(actualRow.entrySet()));
     }
 
     /**
@@ -190,5 +168,87 @@ public class DataTable<K, T> {
         var dataTable = new DataTable<K, V>();
         dataTable.addRows(dataList);
         return dataTable;
+    }
+
+    /**
+     * Removes rows from the DataTable that match the given predicate.
+     *
+     * @param predicate the predicate to use for filtering the rows to remove
+     */
+    public void removeRows(Predicate<Map<K, V>> predicate) {
+        removeIf(predicate);
+    }
+
+    /**
+     * Gets the cell value at the specified row and column in the DataTable.
+     *
+     * @param  rowIndex   the index of the row to get the cell value from
+     * @param  columnName the name of the column to get the cell value from
+     * @return            the cell value at the specified row and column
+     */
+    public V getCellValue(int rowIndex, K columnName) {
+        return get(rowIndex).get(columnName);
+    }
+
+    /**
+     * Returns a string representation of the DataTable.
+     *
+     * @return a string representation of the DataTable
+     */
+    @Override
+    public String toString() {
+        StringJoiner table = new StringJoiner("\n");
+        table.add(getColumns().toString());
+        forEach(row -> table.add(row.values().toString()));
+        return table.toString();
+    }
+
+    /**
+     * Adds a new column to the table with the given key and default value.
+     *
+     * @param key          the key for the new column
+     * @param defaultValue the default value for the new column
+     */
+    public void addColumn(K key, V defaultValue) {
+        forEach(row -> row.putIfAbsent(key, defaultValue));
+    }
+
+    /**
+     * Updates the value in the cell at the given row index and column key.
+     *
+     * @param  rowIndex                  the index of the row to update
+     * @param  key                       the key of the column to update
+     * @param  value                     the new value for the cell
+     * @throws IndexOutOfBoundsException if the row index is invalid
+     */
+    public void updateCell(int rowIndex, K key, V value) {
+        get(rowIndex).put(key, value);
+    }
+
+    /**
+     * Sorts the rows in the table by the values in the column with the given
+     * columnName, using the given comparator to determine the order.
+     *
+     * @param  columnName               the name of the column to sort by
+     * @param  comparator               a comparator to determine the order of
+     *                                  the values
+     * @throws IllegalArgumentException if the column columnName is not found in
+     *                                  the table
+     */
+    public void sortByColumn(K columnName, Comparator<V> comparator) {
+        int columnIndex = getColumns().indexOf(columnName);
+        if (columnIndex < 0) {
+            throw new IllegalArgumentException("Column not found: " + columnName);
+        }
+        sort((row1, row2) -> comparator.compare(row1.get(columnName), row2.get(columnName)));
+    }
+
+    /**
+     * Removes the row at the specified index from the DataTable.
+     *
+     * @param index The index of the row to remove
+     */
+    public void removeRow(int index) {
+        remove(index);
     }
 }
