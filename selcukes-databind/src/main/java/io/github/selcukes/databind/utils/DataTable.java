@@ -21,9 +21,11 @@ import lombok.NonNull;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
@@ -206,11 +208,20 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     /**
      * Adds a new column to the table with the given key and default value.
      *
-     * @param key          the key for the new column
-     * @param defaultValue the default value for the new column
+     * @param key   the key for the new column
+     * @param value the value for the new column
      */
-    public void addColumn(K key, V defaultValue) {
-        forEach(row -> row.putIfAbsent(key, defaultValue));
+    public void addColumn(K key, V value) {
+
+        var updatedRows = stream()
+                .map(row -> {
+                    var updatedRow = new LinkedHashMap<>(row);
+                    updatedRow.putIfAbsent(key, value);
+                    return updatedRow;
+                })
+                .collect(Collectors.toList());
+        clear();
+        addAll(updatedRows);
     }
 
     /**
@@ -222,7 +233,12 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @throws IndexOutOfBoundsException if the row index is invalid
      */
     public void updateCell(int rowIndex, K key, V value) {
-        get(rowIndex).put(key, value);
+        if (rowIndex < 0 || rowIndex >= size()) {
+            throw new IndexOutOfBoundsException("Invalid row index");
+        }
+        var updatedRow = new LinkedHashMap<>(get(rowIndex));
+        updatedRow.put(key, value);
+        set(rowIndex, updatedRow);
     }
 
     /**
@@ -236,10 +252,8 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      *                                  the table
      */
     public void sortByColumn(K columnName, Comparator<V> comparator) {
-        int columnIndex = getColumns().indexOf(columnName);
-        if (columnIndex < 0) {
-            throw new IllegalArgumentException("Column not found: " + columnName);
-        }
+        Optional.of(getColumns().indexOf(columnName)).filter(index -> index >= 0)
+                .orElseThrow(() -> new IllegalArgumentException("Column not found: " + columnName));
         sort((row1, row2) -> comparator.compare(row1.get(columnName), row2.get(columnName)));
     }
 
