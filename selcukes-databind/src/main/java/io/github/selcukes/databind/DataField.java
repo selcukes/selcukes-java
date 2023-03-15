@@ -18,11 +18,11 @@ package io.github.selcukes.databind;
 
 import io.github.selcukes.databind.annotation.Interpolate;
 import io.github.selcukes.databind.annotation.Key;
+import io.github.selcukes.databind.collections.Streams;
 import io.github.selcukes.databind.converters.Converter;
 import io.github.selcukes.databind.substitute.DefaultSubstitutor;
 import io.github.selcukes.databind.substitute.Substitutor;
 import io.github.selcukes.databind.utils.Reflections;
-import io.github.selcukes.databind.collections.Streams;
 import lombok.Getter;
 import lombok.Setter;
 
