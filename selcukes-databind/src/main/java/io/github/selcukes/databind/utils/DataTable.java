@@ -25,7 +25,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
@@ -252,8 +251,10 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      *                                  the table
      */
     public void sortByColumn(K columnName, Comparator<V> comparator) {
-        Optional.of(getColumns().indexOf(columnName)).filter(index -> index >= 0)
-                .orElseThrow(() -> new IllegalArgumentException("Column not found: " + columnName));
+        int columnIndex = getColumns().indexOf(columnName);
+        if (columnIndex < 0) {
+            throw new IllegalArgumentException("Column not found: " + columnName);
+        }
         sort((row1, row2) -> comparator.compare(row1.get(columnName), row2.get(columnName)));
     }
 
