@@ -246,6 +246,12 @@ public class DataTableTest {
                 joinedRow.put("Sum", sum);
                 return joinedRow;
             });
-        System.out.println(joinedTable);
+        assertEquals(joinedTable.size(), 2);
+        assertEquals(joinedTable.get(0).get("Sum"), 3500);
+        assertEquals(joinedTable.get(1).get("Sum"), 6000);
+        assertTrue(joinedTable.getColumns().contains("id"));
+        assertTrue(joinedTable.getColumns().contains("Salary"));
+        assertTrue(joinedTable.getColumns().contains("IsEmployed"));
+        assertTrue(joinedTable.getColumns().contains("Sum"));
     }
 }
