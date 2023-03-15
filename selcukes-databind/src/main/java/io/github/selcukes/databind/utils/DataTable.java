@@ -58,6 +58,25 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     }
 
     /**
+     * Adds a new column to the table with the given key and defaultValue.
+     *
+     * @param key   the key for the new column
+     * @param defaultValue the defaultValue for the new column
+     */
+    public void addColumn(K key, V defaultValue) {
+
+        var updatedRows = stream()
+                .map(row -> {
+                    var updatedRow = new LinkedHashMap<>(row);
+                    updatedRow.putIfAbsent(key, defaultValue);
+                    return updatedRow;
+                })
+                .collect(Collectors.toList());
+        clear();
+        addAll(updatedRows);
+    }
+
+    /**
      * Adds a new row to the data table.
      *
      * @param row the map representing the new row to add
@@ -76,15 +95,6 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     }
 
     /**
-     * Returns an unmodifiable list of all the rows in the data table.
-     *
-     * @return an unmodifiable list of rows
-     */
-    public List<Map<K, V>> getRows() {
-        return List.copyOf(this);
-    }
-
-    /**
      * Returns the first row that matches the given predicate.
      *
      * @param  predicate                the predicate to match against rows
@@ -96,6 +106,15 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
                 .filter(predicate)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Row not found for predicate: " + predicate));
+    }
+
+    /**
+     * Returns an unmodifiable list of all the rows in the data table.
+     *
+     * @return an unmodifiable list of rows
+     */
+    public List<Map<K, V>> getRows() {
+        return List.copyOf(this);
     }
 
     /**
@@ -125,6 +144,23 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     }
 
     /**
+     * Updates the value in the cell at the given row index and column key.
+     *
+     * @param  rowIndex                  the index of the row to update
+     * @param  key                       the key of the column to update
+     * @param  value                     the new value for the cell
+     * @throws IndexOutOfBoundsException if the row index is invalid
+     */
+    public void updateCell(int rowIndex, K key, V value) {
+        if (rowIndex < 0 || rowIndex >= size()) {
+            throw new IndexOutOfBoundsException("Invalid row index");
+        }
+        var updatedRow = new LinkedHashMap<>(get(rowIndex));
+        updatedRow.put(key, value);
+        set(rowIndex, updatedRow);
+    }
+
+    /**
      * Returns a list of values for a given column.
      *
      * @param  columnName               the column name
@@ -140,6 +176,17 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
         return List.copyOf(this).stream()
                 .map(row -> row.getOrDefault(columnName, null))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Gets the cell value at the specified row and column in the DataTable.
+     *
+     * @param  rowIndex   the index of the row to get the cell value from
+     * @param  columnName the name of the column to get the cell value from
+     * @return            the cell value at the specified row and column
+     */
+    public V getCellValue(int rowIndex, K columnName) {
+        return get(rowIndex).get(columnName);
     }
 
     /**
@@ -181,63 +228,12 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     }
 
     /**
-     * Gets the cell value at the specified row and column in the DataTable.
+     * Removes the row at the specified index from the DataTable.
      *
-     * @param  rowIndex   the index of the row to get the cell value from
-     * @param  columnName the name of the column to get the cell value from
-     * @return            the cell value at the specified row and column
+     * @param index The index of the row to remove
      */
-    public V getCellValue(int rowIndex, K columnName) {
-        return get(rowIndex).get(columnName);
-    }
-
-    /**
-     * Returns a string representation of the DataTable.
-     *
-     * @return a string representation of the DataTable
-     */
-    @Override
-    public String toString() {
-        StringJoiner table = new StringJoiner("\n");
-        table.add(getColumns().toString());
-        forEach(row -> table.add(row.values().toString()));
-        return table.toString();
-    }
-
-    /**
-     * Adds a new column to the table with the given key and default value.
-     *
-     * @param key   the key for the new column
-     * @param value the value for the new column
-     */
-    public void addColumn(K key, V value) {
-
-        var updatedRows = stream()
-                .map(row -> {
-                    var updatedRow = new LinkedHashMap<>(row);
-                    updatedRow.putIfAbsent(key, value);
-                    return updatedRow;
-                })
-                .collect(Collectors.toList());
-        clear();
-        addAll(updatedRows);
-    }
-
-    /**
-     * Updates the value in the cell at the given row index and column key.
-     *
-     * @param  rowIndex                  the index of the row to update
-     * @param  key                       the key of the column to update
-     * @param  value                     the new value for the cell
-     * @throws IndexOutOfBoundsException if the row index is invalid
-     */
-    public void updateCell(int rowIndex, K key, V value) {
-        if (rowIndex < 0 || rowIndex >= size()) {
-            throw new IndexOutOfBoundsException("Invalid row index");
-        }
-        var updatedRow = new LinkedHashMap<>(get(rowIndex));
-        updatedRow.put(key, value);
-        set(rowIndex, updatedRow);
+    public void removeRow(int index) {
+        remove(index);
     }
 
     /**
@@ -259,11 +255,15 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     }
 
     /**
-     * Removes the row at the specified index from the DataTable.
+     * Returns a string representation of the DataTable.
      *
-     * @param index The index of the row to remove
+     * @return a string representation of the DataTable
      */
-    public void removeRow(int index) {
-        remove(index);
+    @Override
+    public String toString() {
+        StringJoiner table = new StringJoiner("\n");
+        table.add(getColumns().toString());
+        forEach(row -> table.add(row.values().toString()));
+        return table.toString();
     }
 }
