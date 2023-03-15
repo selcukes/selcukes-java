@@ -21,6 +21,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -170,6 +171,21 @@ public class DataTableTest {
         var ages = table.getColumnValues("Age");
         var expected = List.of(30, 35, 40);
         assertEquals(ages, expected);
+    }
+
+    @Test
+    public void testSort() {
+        Map<String, Object> rowA = Map.of("ID", 1, "Name", "John Doe", "Age", 25, "IsEmployed", false);
+        Map<String, Object> rowB = Map.of("ID", 2, "Name", "Jane Smith", "Age", 30, "IsEmployed", false);
+        Map<String, Object> rowC = Map.of("ID", 3, "Name", "Tom", "Age", 25, "IsEmployed", false);
+        var rows = new ArrayList<>(List.of(rowA, rowB, rowC));
+        var table = DataTable.of(rows);
+        Comparator<Map<String, Object>> comparator = Comparator.comparing(row -> (String) row.get("Name"),
+            Comparator.reverseOrder());
+        table.sort(comparator);
+        var actualNames = table.getColumnValues("Name");
+        var expectedName = List.of("Tom", "John Doe", "Jane Smith");
+        assertEquals(actualNames, expectedName);
     }
 
     @Test
