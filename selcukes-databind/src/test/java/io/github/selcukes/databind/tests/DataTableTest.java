@@ -144,29 +144,17 @@ public class DataTableTest {
 
     @Test
     public void testAddColumn() {
-        DataTable<String, String> table = new DataTable<>();
-        table.addRow(new HashMap<>(Map.of("Name", "Alice", "Age", "30")));
-        table.addRow(new HashMap<>(Map.of("Name", "Bob", "Age", "40")));
-
-        table.addColumn("Country", "USA");
-
-        List<String> countries = table.getColumnValues("Country");
-
-        List<String> expected = List.of("USA", "USA");
+        dataTable.addColumn("IsEmployed", "true");
+        var countries = dataTable.getColumnValues("IsEmployed");
+        var expected = List.of("true", "true");
         assertEquals(countries, expected);
     }
 
     @Test
     public void testUpdateCell() {
-        DataTable<String, String> table = new DataTable<>();
-        table.addRow(new HashMap<>(Map.of("Name", "Alice", "Age", "30")));
-        table.addRow(new HashMap<>(Map.of("Name", "Bob", "Age", "40")));
-
-        table.updateCell(1, "Age", "45");
-
-        List<String> ages = table.getColumnValues("Age");
-
-        List<String> expected = List.of("30", "45");
+        dataTable.updateCell(1, "Age", "45");
+        var ages = dataTable.getColumnValues("Age");
+        var expected = List.of("25", "45");
         assertEquals(ages, expected);
     }
 
@@ -177,23 +165,23 @@ public class DataTableTest {
         table.addRow(new HashMap<>(Map.of("ID", 4567, "Age", 40)));
         table.addRow(new HashMap<>(Map.of("ID", 7890, "Age", 35)));
         table.sortByColumn("Age", Comparator.naturalOrder());
-        List<Integer> ages = table.getColumnValues("Age");
-        List<Integer> expected = List.of(30, 35, 40);
+        var ages = table.getColumnValues("Age");
+        var expected = List.of(30, 35, 40);
         assertEquals(ages, expected);
     }
 
     @Test
     public void testRemoveRow() {
-        DataTable<String, String> table = new DataTable<>();
-        table.addRow(new HashMap<>(Map.of("Name", "Alice", "Age", "30")));
-        table.addRow(new HashMap<>(Map.of("Name", "Bob", "Age", "40")));
-        table.addRow(new HashMap<>(Map.of("Name", "Charlie", "Age", "35")));
-
-        table.removeRow(1);
-
-        List<String> names = table.getColumnValues("Name");
-
-        List<String> expected = List.of("Alice", "Charlie");
+        dataTable.removeRow(1);
+        var names = dataTable.getColumnValues("Name");
+        var expected = List.of("Alice");
         assertEquals(names, expected);
+        dataTable.removeRows(row -> row.get("Name").equals("Alice"));
+        assertTrue(dataTable.isEmpty());
+    }
+
+    @Test(testName = "Test GetCellValues")
+    public void testGetCellValues() {
+        assertEquals(dataTable.getCellValue(1, "Name"), "Bob");
     }
 }
