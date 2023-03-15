@@ -26,6 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
+import java.util.function.BiFunction;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
@@ -259,6 +260,51 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
         if (columnIndex < 0) {
             throw new IllegalArgumentException("Column not found: " + columnName);
         }
+    }
+
+    /**
+     * Selects the specified columns from the current DataTable and returns a
+     * new DataTable with only the selected columns.
+     *
+     * @param  columns The list of column names to select.
+     * @return         A new DataTable with only the selected columns.
+     */
+    public DataTable<K, V> select(List<K> columns) {
+        var selectedColumns = new DataTable<K, V>();
+        selectedColumns.addAll(this);
+        selectedColumns.replaceAll(row -> columns.stream()
+                .collect(Collectors.toMap(
+                    column -> column,
+                    row::get,
+                    (oldValue, newValue) -> oldValue,
+                    LinkedHashMap::new)));
+        return selectedColumns;
+    }
+
+    /**
+     * Joins the current DataTable with another DataTable on the specified join
+     * column and returns a new DataTable with the combined rows.
+     *
+     * @param  otherTable   The DataTable to join with.
+     * @param  joinColumn   The column name to join on.
+     * @param  joinFunction The function to apply to each matching row pair.
+     * @param  <R>          The type of the value for the joined table.
+     * @return              A new DataTable with the combined rows.
+     */
+    public <R> DataTable<K, R> join(
+            DataTable<K, ?> otherTable, K joinColumn, BiFunction<Map<K, V>, Map<K, ?>, Map<K, R>> joinFunction
+    ) {
+        var joinedTable = new DataTable<K, R>();
+        this.forEach(row -> {
+            var matchingRows = otherTable.getRows().stream()
+                    .filter(otherRow -> row.get(joinColumn).equals(otherRow.get(joinColumn)))
+                    .collect(Collectors.toList());
+            matchingRows.forEach(matchingRow -> {
+                var joinedRow = joinFunction.apply(row, matchingRow);
+                joinedTable.addRow(joinedRow);
+            });
+        });
+        return joinedTable;
     }
 
     /**

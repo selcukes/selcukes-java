@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 public class DataTableTest {
@@ -183,5 +184,44 @@ public class DataTableTest {
     @Test(testName = "Test GetCellValues")
     public void testGetCellValues() {
         assertEquals(dataTable.getCellValue(1, "Name"), "Bob");
+    }
+
+    @Test
+    public void testJoin() {
+        List<Map<String, Object>> table1Rows = List.of(
+            Map.of("id", 1, "name", "Alice"),
+            Map.of("id", 2, "name", "Bob"));
+        DataTable<String, Object> table1 = DataTable.of(table1Rows);
+
+        List<Map<String, Object>> table2Rows = List.of(
+            Map.of("id", 1, "age", 25),
+            Map.of("id", 2, "age", 30));
+        DataTable<String, Object> table2 = DataTable.of(table2Rows);
+
+        DataTable<String, Object> result = table1.join(table2, "id",
+            (row1, row2) -> {
+                var resultRow = new HashMap<String, Object>();
+                resultRow.putAll(row1);
+                resultRow.putAll(row2);
+                return resultRow;
+            });
+        assertEquals(result.size(), 2);
+        assertTrue(result.get(0).containsKey("name"));
+        assertTrue(result.get(1).containsKey("name"));
+        assertTrue(result.get(0).containsKey("age"));
+        assertTrue(result.get(1).containsKey("age"));
+        assertEquals(result.get(0).get("name"), "Alice");
+        assertEquals(result.get(0).get("age"), 25);
+        assertEquals(result.get(1).get("name"), "Bob");
+        assertEquals(result.get(1).get("age"), 30);
+    }
+
+    @Test
+    public void testSelectMultipleColumns() {
+        var selectedColumns = dataTable.select(List.of("Name", "Age"));
+        assertEquals(selectedColumns.size(), 2);
+        assertFalse(selectedColumns.get(0).containsKey("Country"));
+        assertTrue(selectedColumns.get(0).containsKey("Name"));
+        assertTrue(selectedColumns.get(0).containsKey("Age"));
     }
 }
