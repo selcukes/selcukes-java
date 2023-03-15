@@ -17,7 +17,7 @@
 package io.github.selcukes.databind.tests;
 
 import io.github.selcukes.databind.csv.CsvMapper;
-import io.github.selcukes.databind.utils.DataTable;
+import io.github.selcukes.databind.collections.DataTable;
 import io.github.selcukes.databind.utils.Resources;
 import org.testng.annotations.Test;
 

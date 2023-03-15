@@ -19,9 +19,9 @@ package io.github.selcukes.databind.excel;
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.converters.Converter;
 import io.github.selcukes.databind.exception.DataMapperException;
-import io.github.selcukes.databind.utils.Maps;
+import io.github.selcukes.databind.collections.Maps;
 import io.github.selcukes.databind.utils.Resources;
-import io.github.selcukes.databind.utils.Streams;
+import io.github.selcukes.databind.collections.Streams;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 

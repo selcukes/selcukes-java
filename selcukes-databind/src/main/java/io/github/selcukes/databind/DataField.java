@@ -22,7 +22,7 @@ import io.github.selcukes.databind.converters.Converter;
 import io.github.selcukes.databind.substitute.DefaultSubstitutor;
 import io.github.selcukes.databind.substitute.Substitutor;
 import io.github.selcukes.databind.utils.Reflections;
-import io.github.selcukes.databind.utils.Streams;
+import io.github.selcukes.databind.collections.Streams;
 import lombok.Getter;
 import lombok.Setter;
 

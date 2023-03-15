@@ -16,8 +16,8 @@
 
 package io.github.selcukes.databind.tests;
 
-import io.github.selcukes.databind.utils.Lists;
-import io.github.selcukes.databind.utils.Streams;
+import io.github.selcukes.databind.collections.Lists;
+import io.github.selcukes.databind.collections.Streams;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

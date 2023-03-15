@@ -18,9 +18,9 @@ package io.github.selcukes.databind.excel;
 
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.DataFileHelper;
-import io.github.selcukes.databind.utils.Maps;
+import io.github.selcukes.databind.collections.Maps;
 import io.github.selcukes.databind.utils.Resources;
-import io.github.selcukes.databind.utils.Streams;
+import io.github.selcukes.databind.collections.Streams;
 import lombok.experimental.UtilityClass;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;

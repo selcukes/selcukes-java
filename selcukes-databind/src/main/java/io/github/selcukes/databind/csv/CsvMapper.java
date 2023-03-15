@@ -17,8 +17,8 @@
 package io.github.selcukes.databind.csv;
 
 import io.github.selcukes.databind.exception.DataMapperException;
-import io.github.selcukes.databind.utils.Lists;
-import io.github.selcukes.databind.utils.Streams;
+import io.github.selcukes.databind.collections.Lists;
+import io.github.selcukes.databind.collections.Streams;
 import lombok.experimental.UtilityClass;
 
 import java.nio.file.Files;

@@ -18,7 +18,7 @@ package io.github.selcukes.databind.properties;
 
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.DataFileHelper;
-import io.github.selcukes.databind.utils.Maps;
+import io.github.selcukes.databind.collections.Maps;
 import lombok.experimental.UtilityClass;
 
 import java.io.FileOutputStream;

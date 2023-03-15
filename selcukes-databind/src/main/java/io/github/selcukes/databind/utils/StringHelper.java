@@ -20,6 +20,7 @@ package io.github.selcukes.databind.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.selcukes.databind.collections.Lists;
 import io.github.selcukes.databind.exception.DataMapperException;
 import lombok.experimental.UtilityClass;
 
