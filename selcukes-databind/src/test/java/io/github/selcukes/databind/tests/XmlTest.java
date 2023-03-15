@@ -20,7 +20,6 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.annotation.DataFile;
-import io.github.selcukes.databind.utils.Streams;
 import lombok.Data;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -50,9 +49,7 @@ public class XmlTest {
         var customerInfo = DataMapper.parse(CustomerInfo.class);
         var contactPersonList = customerInfo.getContactPersonList();
 
-        Streams.indexOf(contactPersonList,
-            contact -> contact.get("contactPersonId").equalsIgnoreCase("5689"))
-                .ifPresent(contactPersonList::remove);
+        contactPersonList.removeIf(contact -> contact.get("contactPersonId").equalsIgnoreCase("5689"));
 
         contactPersonList.addAll(excelData.get("contactPersonList"));
 
