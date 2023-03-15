@@ -127,7 +127,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @return     a map of rows grouped by the specified column value
      */
     public Map<V, List<Map<K, V>>> getRowsGroupedByColumn(@NonNull K key) {
-        return getRows().stream()
+        return stream()
                 .filter(map -> map.containsKey(key))
                 .collect(Collectors.groupingBy(map -> map.get(key),
                     Collectors.collectingAndThen(Collectors.toList(),
@@ -244,7 +244,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @throws IllegalArgumentException if the column columnName is not found in
      *                                  the table
      */
-    public void sortByColumn(K columnName, Comparator<V> comparator) {
+    public void sortByColumn(@NonNull K columnName, Comparator<V> comparator) {
         checkColumnIndex(columnName);
         sort((row1, row2) -> comparator.compare(row1.get(columnName), row2.get(columnName)));
     }
@@ -269,15 +269,11 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @param  columns The list of column names to select.
      * @return         A new DataTable with only the selected columns.
      */
-    public DataTable<K, V> select(List<K> columns) {
+    public DataTable<K, V> select(@NonNull List<K> columns) {
         var selectedColumns = new DataTable<K, V>();
         selectedColumns.addAll(this);
         selectedColumns.replaceAll(row -> columns.stream()
-                .collect(Collectors.toMap(
-                    column -> column,
-                    row::get,
-                    (oldValue, newValue) -> oldValue,
-                    LinkedHashMap::new)));
+                .collect(Maps.of(column -> column, row::get)));
         return selectedColumns;
     }
 
