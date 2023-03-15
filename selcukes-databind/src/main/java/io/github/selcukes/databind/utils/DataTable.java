@@ -91,7 +91,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      *
      * @param rows the list of maps representing the rows to add
      */
-    public void addRows(@NonNull List<Map<K, V>> rows) {
+    public void addRows(@NonNull List<? extends Map<K, V>> rows) {
         addAll(rows);
     }
 
@@ -209,7 +209,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @return                      a new DataTable instance
      * @throws NullPointerException if dataList is null
      */
-    public static <K, V> DataTable<K, V> of(@NonNull List<Map<K, V>> dataList) {
+    public static <K, V> DataTable<K, V> of(@NonNull List<? extends Map<K, V>> dataList) {
         var dataTable = new DataTable<K, V>();
         dataTable.addRows(dataList);
         return dataTable;
@@ -285,14 +285,15 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * Joins the current DataTable with another DataTable on the specified join
      * column and returns a new DataTable with the combined rows.
      *
+     * @param  <R>          The type of the value for the joined table.
+     * @param  <L>          The type of the value for the other table.
      * @param  otherTable   The DataTable to join with.
      * @param  joinColumn   The column name to join on.
      * @param  joinFunction The function to apply to each matching row pair.
-     * @param  <R>          The type of the value for the joined table.
      * @return              A new DataTable with the combined rows.
      */
-    public <R> DataTable<K, R> join(
-            DataTable<K, ?> otherTable, K joinColumn, BiFunction<Map<K, V>, Map<K, ?>, Map<K, R>> joinFunction
+    public <R, L> DataTable<K, R> join(
+            DataTable<K, L> otherTable, K joinColumn, BiFunction<Map<K, V>, Map<K, L>, Map<K, R>> joinFunction
     ) {
         var joinedTable = new DataTable<K, R>();
         this.forEach(row -> {

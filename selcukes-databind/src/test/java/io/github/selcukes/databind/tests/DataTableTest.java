@@ -67,7 +67,7 @@ public class DataTableTest {
 
     @Test(testName = "Test getRows")
     void testGetRows() {
-        List<Map<String, String>> rows = dataTable.getRows();
+        var rows = dataTable.getRows();
 
         assertEquals(rows.size(), 2);
 
@@ -122,19 +122,20 @@ public class DataTableTest {
 
     @Test(testName = "Test updateRows")
     void testUpdateRows() {
-        Map<String, Object> rowA = new HashMap<>(Map.of("ID", 1, "Name", "John Doe", "Age", 25, "IsEmployed", false));
-        Map<String, Object> rowB = new HashMap<>(Map.of("ID", 2, "Name", "Jane Smith", "Age", 30, "IsEmployed", false));
-        Map<String, Object> rowC = new HashMap<>(Map.of("ID", 3, "Name", "Tom", "Age", 25, "IsEmployed", false));
+        Map<String, Object> rowA = Map.of("ID", 1, "Name", "John Doe", "Age", 25, "IsEmployed", false);
+        Map<String, Object> rowB = Map.of("ID", 2, "Name", "Jane Smith", "Age", 30, "IsEmployed", false);
+        Map<String, Object> rowC = Map.of("ID", 3, "Name", "Tom", "Age", 25, "IsEmployed", false);
 
-        DataTable<String, Object> dataTable = DataTable.of(List.of(rowA, rowB, rowC));
+        var dataTable = DataTable.of(List.of(rowA, rowB, rowC));
         assertEquals(dataTable.getRows().size(), 3);
         assertTrue(dataTable.contains(rowA));
         assertTrue(dataTable.contains(rowB));
         assertTrue(dataTable.contains(rowC));
         dataTable.updateRows(row -> {
-            row.put("Age", (int) row.get("Age") + 5);
-            row.put("IsEmployed", !(boolean) row.get("IsEmployed"));
-            return row;
+            var updatedRow = new HashMap<>(row);
+            updatedRow.put("Age", (int) updatedRow.get("Age") + 5);
+            updatedRow.put("IsEmployed", !(boolean) updatedRow.get("IsEmployed"));
+            return updatedRow;
         });
         dataTable.getColumnValues("IsEmployed")
                 .stream()
@@ -162,9 +163,9 @@ public class DataTableTest {
     @Test
     public void testSortByColumn() {
         DataTable<String, Integer> table = new DataTable<>();
-        table.addRow(new HashMap<>(Map.of("ID", 1234, "Age", 30)));
-        table.addRow(new HashMap<>(Map.of("ID", 4567, "Age", 40)));
-        table.addRow(new HashMap<>(Map.of("ID", 7890, "Age", 35)));
+        table.addRow(Map.of("ID", 1234, "Age", 30));
+        table.addRow(Map.of("ID", 4567, "Age", 40));
+        table.addRow(Map.of("ID", 7890, "Age", 35));
         table.sortByColumn("Age", Comparator.naturalOrder());
         var ages = table.getColumnValues("Age");
         var expected = List.of(30, 35, 40);
@@ -188,17 +189,17 @@ public class DataTableTest {
 
     @Test
     public void testJoin() {
-        List<Map<String, Object>> table1Rows = List.of(
+        var table1Rows = List.of(
             Map.of("id", 1, "name", "Alice"),
             Map.of("id", 2, "name", "Bob"));
-        DataTable<String, Object> table1 = DataTable.of(table1Rows);
+        var table1 = DataTable.of(table1Rows);
 
-        List<Map<String, Object>> table2Rows = List.of(
+        var table2Rows = List.of(
             Map.of("id", 1, "age", 25),
             Map.of("id", 2, "age", 30));
-        DataTable<String, Object> table2 = DataTable.of(table2Rows);
+        var table2 = DataTable.of(table2Rows);
 
-        DataTable<String, Object> result = table1.join(table2, "id",
+        var result = table1.join(table2, "id",
             (row1, row2) -> {
                 var resultRow = new HashMap<String, Object>();
                 resultRow.putAll(row1);
@@ -223,5 +224,28 @@ public class DataTableTest {
         assertFalse(selectedColumns.get(0).containsKey("Country"));
         assertTrue(selectedColumns.get(0).containsKey("Name"));
         assertTrue(selectedColumns.get(0).containsKey("Age"));
+    }
+
+    @Test
+    public void testJoinSum() {
+        var table1Rows = List.of(
+            Map.of("id", 1, "Salary", 1000),
+            Map.of("id", 2, "Salary", 3000));
+        var table1 = DataTable.of(table1Rows);
+
+        var table2Rows = List.of(
+            Map.of("id", 1, "Salary", 2500, "IsEmployed", true),
+            Map.of("id", 2, "Salary", 3000, "IsEmployed", false));
+        var table2 = DataTable.of(table2Rows);
+        var joinedTable = table1.join(table2, "id",
+            (firstTableRow, secondTableRow) -> {
+                var joinedRow = new HashMap<String, Object>();
+                int sum = firstTableRow.get("Salary") + (Integer) secondTableRow.get("Salary");
+                joinedRow.putAll(firstTableRow);
+                joinedRow.putAll(secondTableRow);
+                joinedRow.put("Sum", sum);
+                return joinedRow;
+            });
+        System.out.println(joinedTable);
     }
 }
