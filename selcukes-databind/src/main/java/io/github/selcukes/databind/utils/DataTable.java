@@ -60,10 +60,10 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     /**
      * Adds a new column to the table with the given key and defaultValue.
      *
-     * @param key   the key for the new column
+     * @param key          the key for the new column
      * @param defaultValue the defaultValue for the new column
      */
-    public void addColumn(K key, V defaultValue) {
+    public void addColumn(@NonNull K key, @NonNull V defaultValue) {
 
         var updatedRows = stream()
                 .map(row -> {
@@ -151,10 +151,8 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @param  value                     the new value for the cell
      * @throws IndexOutOfBoundsException if the row index is invalid
      */
-    public void updateCell(int rowIndex, K key, V value) {
-        if (rowIndex < 0 || rowIndex >= size()) {
-            throw new IndexOutOfBoundsException("Invalid row index");
-        }
+    public void updateCell(int rowIndex, @NonNull K key, @NonNull V value) {
+        checkRowIndex(rowIndex);
         var updatedRow = new LinkedHashMap<>(get(rowIndex));
         updatedRow.put(key, value);
         set(rowIndex, updatedRow);
@@ -169,10 +167,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      *                                  table
      */
     public List<V> getColumnValues(@NonNull K columnName) {
-        int columnIndex = getColumns().indexOf(columnName);
-        if (columnIndex < 0) {
-            throw new IllegalArgumentException("Column not found: " + columnName);
-        }
+        checkColumnIndex(columnName);
         return List.copyOf(this).stream()
                 .map(row -> row.getOrDefault(columnName, null))
                 .collect(Collectors.toList());
@@ -185,7 +180,8 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @param  columnName the name of the column to get the cell value from
      * @return            the cell value at the specified row and column
      */
-    public V getCellValue(int rowIndex, K columnName) {
+    public V getCellValue(int rowIndex, @NonNull K columnName) {
+        checkRowIndex(rowIndex);
         return get(rowIndex).get(columnName);
     }
 
@@ -233,6 +229,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @param index The index of the row to remove
      */
     public void removeRow(int index) {
+        checkRowIndex(index);
         remove(index);
     }
 
@@ -247,11 +244,21 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      *                                  the table
      */
     public void sortByColumn(K columnName, Comparator<V> comparator) {
-        int columnIndex = getColumns().indexOf(columnName);
+        checkColumnIndex(columnName);
+        sort((row1, row2) -> comparator.compare(row1.get(columnName), row2.get(columnName)));
+    }
+
+    private void checkRowIndex(int rowIndex) {
+        if (rowIndex < 0 || rowIndex >= size()) {
+            throw new IndexOutOfBoundsException("Invalid row index");
+        }
+    }
+
+    private void checkColumnIndex(K columnName) {
+        var columnIndex = getColumns().indexOf(columnName);
         if (columnIndex < 0) {
             throw new IllegalArgumentException("Column not found: " + columnName);
         }
-        sort((row1, row2) -> comparator.compare(row1.get(columnName), row2.get(columnName)));
     }
 
     /**
