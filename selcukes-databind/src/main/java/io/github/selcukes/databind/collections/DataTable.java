@@ -51,10 +51,10 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @throws IllegalStateException if the data table is empty
      */
     public List<K> getColumns() {
-        if (isEmpty()) {
-            throw new IllegalStateException("Data table is empty");
-        }
-        return List.copyOf(get(0).keySet());
+        return stream().findFirst()
+                .map(Map::keySet)
+                .map(List::copyOf)
+                .orElseThrow(() -> new IllegalStateException("Data table is empty"));
     }
 
     /**
@@ -64,7 +64,6 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @param defaultValue the defaultValue for the new column
      */
     public void addColumn(@NonNull K key, @NonNull V defaultValue) {
-
         var updatedRows = stream()
                 .map(row -> {
                     var updatedRow = new LinkedHashMap<>(row);
@@ -72,6 +71,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
                     return updatedRow;
                 })
                 .collect(Collectors.toList());
+
         clear();
         addAll(updatedRows);
     }
@@ -169,7 +169,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      */
     public List<V> getColumnValues(@NonNull K columnName) {
         checkColumnIndex(columnName);
-        return List.copyOf(this).stream()
+        return stream()
                 .map(row -> row.getOrDefault(columnName, null))
                 .collect(Collectors.toList());
     }
