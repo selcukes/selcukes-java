@@ -19,7 +19,6 @@ package io.github.selcukes.databind.collections;
 import lombok.Getter;
 import lombok.NonNull;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -119,19 +118,24 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     }
 
     /**
-     * Groups the rows by the value in the specified column and returns a map
-     * where the keys are the unique column values and the values are the lists
-     * of rows that contain those values.
+     * Groups the rows of the DataTable based on the values of the specified
+     * column key.
      *
-     * @param  key the column key to group rows by
-     * @return     a map of rows grouped by the specified column value
+     * @param  key                  the key of the column to group by
+     * @return                      a map containing the unique column values as
+     *                              keys and DataTables containing the
+     *                              corresponding rows as values
+     * @throws NullPointerException if key is null
      */
-    public Map<V, List<Map<K, V>>> getRowsGroupedByColumn(@NonNull K key) {
-        return stream()
+    public Map<V, DataTable<K, V>> groupByColumnValues(@NonNull K key) {
+        var groupedRows = stream()
                 .filter(map -> map.containsKey(key))
                 .collect(Collectors.groupingBy(map -> map.get(key),
-                    Collectors.collectingAndThen(Collectors.toList(),
-                        Collections::unmodifiableList)));
+                    LinkedHashMap::new,
+                    Collectors.toList()));
+        return groupedRows.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey,
+                    e -> DataTable.of(e.getValue())));
     }
 
     /**
