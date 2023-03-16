@@ -128,14 +128,10 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @throws NullPointerException if key is null
      */
     public Map<V, DataTable<K, V>> groupByColumnValues(@NonNull K key) {
-        var groupedRows = stream()
-                .filter(map -> map.containsKey(key))
+        return stream().filter(map -> map.containsKey(key))
                 .collect(Collectors.groupingBy(map -> map.get(key),
-                    LinkedHashMap::new,
-                    Collectors.toList()));
-        return groupedRows.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey,
-                    e -> DataTable.of(e.getValue())));
+                    Collectors.collectingAndThen(Collectors.toList(),
+                        DataTable::of)));
     }
 
     /**
