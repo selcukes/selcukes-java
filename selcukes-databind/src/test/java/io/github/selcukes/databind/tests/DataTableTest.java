@@ -118,7 +118,7 @@ public class DataTableTest {
 
     @Test(testName = "Test GetColumnValues")
     public void testGetColumnValues() {
-        assertEquals(dataTable.getColumnValues("Name"), List.of("Alice", "Bob"));
+        assertEquals(dataTable.getColumnEntries("Name"), List.of("Alice", "Bob"));
     }
 
     @Test(testName = "Test updateRows")
@@ -138,7 +138,7 @@ public class DataTableTest {
             updatedRow.put("IsEmployed", !(boolean) updatedRow.get("IsEmployed"));
             return updatedRow;
         });
-        dataTable.getColumnValues("IsEmployed")
+        dataTable.getColumnEntries("IsEmployed")
                 .stream()
                 .map(value -> (boolean) value)
                 .forEach(Assert::assertTrue);
@@ -148,7 +148,7 @@ public class DataTableTest {
     @Test
     public void testAddColumn() {
         dataTable.addColumn("IsEmployed", "true");
-        var countries = dataTable.getColumnValues("IsEmployed");
+        var countries = dataTable.getColumnEntries("IsEmployed");
         var expected = List.of("true", "true");
         assertEquals(countries, expected);
     }
@@ -156,7 +156,7 @@ public class DataTableTest {
     @Test
     public void testUpdateCell() {
         dataTable.updateCell(1, "Age", "45");
-        var ages = dataTable.getColumnValues("Age");
+        var ages = dataTable.getColumnEntries("Age");
         var expected = List.of("25", "45");
         assertEquals(ages, expected);
     }
@@ -168,7 +168,7 @@ public class DataTableTest {
         table.addRow(Map.of("ID", 4567, "Age", 40));
         table.addRow(Map.of("ID", 7890, "Age", 35));
         table.sortByColumn("Age", Comparator.naturalOrder());
-        var ages = table.getColumnValues("Age");
+        var ages = table.getColumnEntries("Age");
         var expected = List.of(30, 35, 40);
         assertEquals(ages, expected);
     }
@@ -183,7 +183,7 @@ public class DataTableTest {
         Comparator<Map<String, Object>> comparator = Comparator.comparing(row -> (String) row.get("Name"),
             Comparator.reverseOrder());
         table.sort(comparator);
-        var actualNames = table.getColumnValues("Name");
+        var actualNames = table.getColumnEntries("Name");
         var expectedName = List.of("Tom", "John Doe", "Jane Smith");
         assertEquals(actualNames, expectedName);
     }
@@ -191,7 +191,7 @@ public class DataTableTest {
     @Test
     public void testRemoveRow() {
         dataTable.removeRow(1);
-        var names = dataTable.getColumnValues("Name");
+        var names = dataTable.getColumnEntries("Name");
         var expected = List.of("Alice");
         assertEquals(names, expected);
         dataTable.removeRows(row -> row.get("Name").equals("Alice"));

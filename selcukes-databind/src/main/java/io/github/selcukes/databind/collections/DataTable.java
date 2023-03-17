@@ -24,6 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.function.BiFunction;
 import java.util.function.Predicate;
@@ -65,11 +66,8 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      */
     public void addColumn(@NonNull K key, @NonNull V defaultValue) {
         var updatedRows = stream()
-                .map(row -> {
-                    var updatedRow = new LinkedHashMap<>(row);
-                    updatedRow.putIfAbsent(key, defaultValue);
-                    return updatedRow;
-                })
+                .map(LinkedHashMap::new)
+                .peek(row -> row.putIfAbsent(key, defaultValue))
                 .collect(Collectors.toList());
 
         clear();
@@ -97,14 +95,27 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     /**
      * Returns the first row that matches the given predicate.
      *
+     * @param  predicate the predicate to match against rows
+     * @return           an {@code Optional} containing the first row that
+     *                   matches the predicate, or an empty {@code Optional} if
+     *                   no such row is found
+     */
+    public Optional<Map<K, V>> findRow(Predicate<Map<K, V>> predicate) {
+        return stream()
+                .filter(predicate)
+                .findFirst()
+                .map(Map::copyOf);
+    }
+
+    /**
+     * Returns the first row that matches the given predicate.
+     *
      * @param  predicate                the predicate to match against rows
      * @return                          the first row that matches the predicate
      * @throws IllegalArgumentException if no row matches the predicate
      */
     public Map<K, V> getRow(Predicate<Map<K, V>> predicate) {
-        return stream()
-                .filter(predicate)
-                .findFirst()
+        return findRow(predicate)
                 .orElseThrow(() -> new IllegalArgumentException("Row not found for predicate: " + predicate));
     }
 
@@ -167,7 +178,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @throws IllegalArgumentException if the column name is not found in the
      *                                  table
      */
-    public List<V> getColumnValues(@NonNull K columnName) {
+    public List<V> getColumnEntries(@NonNull K columnName) {
         checkColumnIndex(columnName);
         return stream()
                 .map(row -> row.getOrDefault(columnName, null))
