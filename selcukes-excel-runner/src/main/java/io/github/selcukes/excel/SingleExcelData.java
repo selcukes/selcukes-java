@@ -31,10 +31,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static java.util.Optional.ofNullable;
 
 @UtilityClass
 @CustomLog
@@ -127,23 +127,26 @@ public class SingleExcelData {
     }
 
     void modifyFirstColumnData(List<Map<String, String>> sheetData, String firstColumn, String secondColumn) {
-        String testName = "";
-        for (int i = 0; i < sheetData.size(); i++) {
-            if (StringHelper.isNullOrEmpty(sheetData.get(i).get(firstColumn))) {
-                String newTestName;
+        var testName = new AtomicReference<>("");
+        Optional<Map<String, String>> previousRowMap = Optional.empty();
+        for (var row : sheetData) {
+            var currentTestName = row.get(firstColumn);
+            if (StringHelper.isNullOrEmpty(currentTestName)) {
+                var newTestName = testName.get();
                 if (!StringHelper.isNullOrEmpty(secondColumn)) {
-                    if (!sheetData.get(i - 1).get(firstColumn).startsWith(testName + HYPHEN + EXAMPLE)) {
-                        sheetData.get(i - 1).put(firstColumn,
-                            testName + HYPHEN + ofNullable(sheetData.get(i - 1).get(secondColumn)).orElse(""));
-                    }
-                    newTestName = testName + HYPHEN + ofNullable(sheetData.get(i).get(secondColumn)).orElse("");
-                } else {
-                    newTestName = testName;
+                    previousRowMap.ifPresent(previousRow -> {
+                        if (!previousRow.get(firstColumn).startsWith(testName.get() + HYPHEN + EXAMPLE)) {
+                            previousRow.replace(firstColumn,
+                                testName.get() + HYPHEN + previousRow.getOrDefault(secondColumn, ""));
+                        }
+                    });
+                    newTestName = testName.get() + HYPHEN + row.getOrDefault(secondColumn, "");
                 }
-                sheetData.get(i).put(firstColumn, newTestName);
+                row.replace(firstColumn, newTestName);
             } else {
-                testName = sheetData.get(i).get(firstColumn);
+                testName.set(currentTestName);
             }
+            previousRowMap = Optional.of(row);
         }
     }
 }
