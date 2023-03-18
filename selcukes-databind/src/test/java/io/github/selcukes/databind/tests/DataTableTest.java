@@ -89,8 +89,8 @@ public class DataTableTest {
         assertEquals(actualRow, row2);
     }
 
-    @Test(testName = "Test groupByColumnValues")
-    void testGroupByColumnValues() {
+    @Test(testName = "Test groupByColumn")
+    void testGroupByColumn() {
         var rowA = Map.of("id", "1", "name", "John", "age", "20");
         var rowB = Map.of("id", "2", "name", "Jane", "age", "25");
         var rowC = Map.of("id", "3", "name", "Bob", "age", "30");
@@ -98,7 +98,7 @@ public class DataTableTest {
         var rowE = Map.of("id", "5", "name", "Tom", "age", "25");
         var rows = List.of(rowA, rowB, rowC, rowD, rowE);
         var table = DataTable.of(rows);
-        var rowsByAge = table.groupByColumnValues("age");
+        var rowsByAge = table.groupByColumn("age");
         assertEquals(rowsByAge.size(), 3);
         var age20Rows = rowsByAge.get("20");
         assertEquals(age20Rows.size(), 2);

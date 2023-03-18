@@ -138,11 +138,10 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      *                              corresponding rows as values
      * @throws NullPointerException if key is null
      */
-    public Map<V, DataTable<K, V>> groupByColumnValues(@NonNull K key) {
+    public Map<V, DataTable<K, V>> groupByColumn(@NonNull K key) {
         return stream().filter(map -> map.containsKey(key))
-                .collect(Collectors.groupingBy(map -> map.get(key),
-                    Collectors.collectingAndThen(Collectors.toList(),
-                        DataTable::of)));
+                .collect(Collectors.groupingBy(row -> row.get(key),
+                    Collectors.toCollection(DataTable::new)));
     }
 
     /**
