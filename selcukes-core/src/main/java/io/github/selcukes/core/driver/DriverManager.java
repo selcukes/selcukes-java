@@ -46,6 +46,7 @@ public class DriverManager {
     public synchronized <D extends WebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
         Arrays.stream(capabilities).findAny().ifPresent(AppiumOptions::setUserOptions);
         if (getDriver() == null) {
+            System.setProperty("webdriver.http.factory", "jdk-http-client");
             logger.info(() -> String.format("Creating new %s session...", deviceType));
             Map<DeviceType, Supplier<RemoteManager>> driverManagerMap = Map.of(
                 DeviceType.BROWSER, WebManager::new,

@@ -62,7 +62,6 @@ public class BrowserOptions {
             return ieOptions;
         }
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*");
         if (isHeadless) {
             chromeOptions.addArguments(HEADLESS);
         }
