@@ -260,7 +260,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      */
     public void sortByColumn(@NonNull K columnName, Comparator<V> comparator) {
         checkColumnIndex(columnName);
-        sort((row1, row2) -> comparator.compare(row1.get(columnName), row2.get(columnName)));
+        sort(Comparator.comparing(row -> row.get(columnName), comparator));
     }
 
     private void checkRowIndex(int rowIndex) {
@@ -277,18 +277,17 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     }
 
     /**
-     * Selects the specified columns from the current DataTable and returns a
-     * new DataTable with only the selected columns.
+     * Returns a new DataTable with only the selected columns.
      *
      * @param  columns The list of column names to select.
      * @return         A new DataTable with only the selected columns.
      */
-    public DataTable<K, V> select(@NonNull List<K> columns) {
-        var selectedColumns = new DataTable<K, V>();
-        selectedColumns.addAll(this);
-        selectedColumns.replaceAll(row -> columns.stream()
-                .collect(Maps.of(column -> column, row::get)));
-        return selectedColumns;
+    public DataTable<K, V> selectColumns(@NonNull List<K> columns) {
+        return stream()
+                .map(row -> row.entrySet().stream()
+                        .filter(entry -> columns.contains(entry.getKey()))
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
+                .collect(DataTable::new, DataTable::addRow, DataTable::addAll);
     }
 
     /**
@@ -303,9 +302,10 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @return              A new DataTable with the combined rows.
      */
     public <R, L> DataTable<K, R> join(
-            @NonNull DataTable<K, L> otherTable, @NonNull K joinColumn, @NonNull BiFunction<Map<K, V>, Map<K, L>, Map<K, R>> joinFunction
+            @NonNull DataTable<K, L> otherTable, @NonNull K joinColumn,
+            @NonNull BiFunction<Map<K, V>, Map<K, L>, Map<K, R>> joinFunction
     ) {
-        return this.getRows().stream()
+        return stream()
                 .flatMap(row -> otherTable.getRows().stream()
                         .filter(otherRow -> row.get(joinColumn).equals(otherRow.get(joinColumn)))
                         .map(matchingRow -> joinFunction.apply(row, matchingRow)))

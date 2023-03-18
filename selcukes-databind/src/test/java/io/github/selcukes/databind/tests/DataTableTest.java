@@ -162,29 +162,22 @@ public class DataTableTest {
 
     @Test
     public void testSortByColumn() {
-        DataTable<String, Integer> table = new DataTable<>();
-        table.addRow(Map.of("ID", 1234, "Age", 30));
-        table.addRow(Map.of("ID", 4567, "Age", 40));
-        table.addRow(Map.of("ID", 7890, "Age", 35));
-        table.sortByColumn("Age", Comparator.naturalOrder());
-        var ages = table.getColumnEntries("Age");
-        var expected = List.of(30, 35, 40);
-        assertEquals(ages, expected);
-    }
-
-    @Test
-    public void testSort() {
-        Map<String, Object> rowA = Map.of("ID", 1, "Name", "John Doe", "Age", 25, "IsEmployed", false);
-        Map<String, Object> rowB = Map.of("ID", 2, "Name", "Jane Smith", "Age", 30, "IsEmployed", false);
-        Map<String, Object> rowC = Map.of("ID", 3, "Name", "Tom", "Age", 25, "IsEmployed", false);
+        Map<String, Object> rowA = Map.of("ID", 1, "Name", "John Doe", "Age", 30, "IsEmployed", false);
+        Map<String, Object> rowB = Map.of("ID", 2, "Name", "Jane Smith", "Age", 40, "IsEmployed", false);
+        Map<String, Object> rowC = Map.of("ID", 3, "Name", "Tom", "Age", 35, "IsEmployed", false);
         var rows = new ArrayList<>(List.of(rowA, rowB, rowC));
         var table = DataTable.of(rows);
-        Comparator<Map<String, Object>> comparator = Comparator.comparing(row -> (String) row.get("Name"),
-            Comparator.reverseOrder());
-        table.sort(comparator);
+        Comparator<Object> ageComparator = Comparator.comparing(Object::toString);
+        table.sortByColumn("Age", ageComparator);
+        var actualAges = table.getColumnEntries("Age");
+        var expectedAges = List.of(30, 35, 40);
+        assertEquals(expectedAges, actualAges);
+
+        Comparator<Object> nameComparator = Comparator.comparing(Object::toString);
+        table.sortByColumn("Name", nameComparator.reversed());
         var actualNames = table.getColumnEntries("Name");
-        var expectedName = List.of("Tom", "John Doe", "Jane Smith");
-        assertEquals(actualNames, expectedName);
+        var expectedNames = List.of("Tom", "John Doe", "Jane Smith");
+        assertEquals(expectedNames, actualNames);
     }
 
     @Test
@@ -234,7 +227,7 @@ public class DataTableTest {
 
     @Test
     public void testSelectMultipleColumns() {
-        var selectedColumns = dataTable.select(List.of("Name", "Age"));
+        var selectedColumns = dataTable.selectColumns(List.of("Name", "Age"));
         assertEquals(selectedColumns.size(), 2);
         assertFalse(selectedColumns.get(0).containsKey("Country"));
         assertTrue(selectedColumns.get(0).containsKey("Name"));
