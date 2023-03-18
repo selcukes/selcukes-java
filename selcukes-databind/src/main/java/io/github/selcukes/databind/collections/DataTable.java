@@ -80,7 +80,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @param row the map representing the new row to add
      */
     public void addRow(@NonNull Map<K, V> row) {
-        add(Map.copyOf(row));
+        add(row);
     }
 
     /**
@@ -103,8 +103,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     public Optional<Map<K, V>> findRow(Predicate<Map<K, V>> predicate) {
         return stream()
                 .filter(predicate)
-                .findFirst()
-                .map(Map::copyOf);
+                .findFirst();
     }
 
     /**
