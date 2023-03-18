@@ -71,13 +71,14 @@ public class NativeSnapshotTest {
 
     private WebDriver createWebDriver(Browser browser, boolean headless) {
         if (browser.equals(EDGE)) {
-            EdgeOptions edgeOptions = new EdgeOptions();
+            var edgeOptions = new EdgeOptions();
             if (headless) {
                 edgeOptions.addArguments("--headless");
             }
             return new EdgeDriver(edgeOptions);
         } else {
-            ChromeOptions chromeOptions = new ChromeOptions();
+            var chromeOptions = new ChromeOptions();
+            chromeOptions.addArguments("--remote-allow-origins=*");
             if (headless) {
                 chromeOptions.addArguments("--headless");
             }
