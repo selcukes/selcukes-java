@@ -237,9 +237,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      */
     @SafeVarargs
     public static <K, V> DataTable<K, V> of(Map<K, V>... elements) {
-        var dataTable = new DataTable<K, V>();
-        dataTable.addRows(List.of(elements));
-        return dataTable;
+        return of(List.of(elements));
     }
 
     /**
