@@ -17,16 +17,17 @@
 package io.github.selcukes.databind.properties;
 
 import io.github.selcukes.databind.exception.DataMapperException;
-import lombok.experimental.UtilityClass;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Properties;
 
-@UtilityClass
 class PropertiesLoader {
-    public Properties getProperties(Path filePath) {
+    private PropertiesLoader() {
+    }
+
+    public static Properties getProperties(Path filePath) {
         var properties = new Properties();
         try (var stream = new FileInputStream(filePath.toFile())) {
             properties.load(stream);
