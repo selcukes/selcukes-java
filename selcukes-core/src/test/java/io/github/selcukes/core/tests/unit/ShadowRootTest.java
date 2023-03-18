@@ -20,11 +20,11 @@ import io.github.selcukes.core.page.WebPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static io.github.selcukes.core.tests.TestDriver.getChromeDriver;
 
 public class ShadowRootTest {
     WebPage page;
@@ -32,9 +32,7 @@ public class ShadowRootTest {
 
     @BeforeMethod
     private void setup() {
-        var options = new ChromeOptions();
-        options.addArguments("--headless");
-        driver = new ChromeDriver(options);
+        driver = getChromeDriver();
         page = new WebPage(driver);
     }
 
