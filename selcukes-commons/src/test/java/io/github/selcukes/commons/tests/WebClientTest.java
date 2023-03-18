@@ -19,17 +19,15 @@
 package io.github.selcukes.commons.tests;
 
 import io.github.selcukes.commons.http.WebClient;
-import io.github.selcukes.commons.logging.Logger;
-import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.databind.utils.Resources;
 import org.testng.annotations.Test;
 
 import java.util.Map;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class WebClientTest {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Test
     public void postTest() {
@@ -48,16 +46,17 @@ public class WebClientTest {
     public void uploadFileTest() {
         var file = Resources.ofTest("sample.csv");
         var client = new WebClient("http://postman-echo.com/post");
-        Map<Object, Object> param = Map.of("files", file);
-        var response = client.multiPart(param).post();
-        assertTrue(response.bodyJson().at("/files").has("sample.csv"));
+        var param = Map.of("files", file);
+        var responseBody = client.multiPart(param).post().bodyJson();
+        assertTrue(responseBody.at("/files").has("sample.csv"));
     }
 
     @Test
     public void requestTest() {
-        var client = new WebClient("https://httpbin.org/get");
-        var response = client.get();
-        logger.info(response::body);
+        var client = new WebClient("https://reqres.in/api/users/2");
+        var responseBody = client.get().bodyJson();
+        assertEquals(responseBody.at("/data/id").asText(), "2");
+        assertEquals(responseBody.at("/data/first_name").asText(), "Janet");
     }
 
     @Test
@@ -65,7 +64,7 @@ public class WebClientTest {
         var client = new WebClient("https://httpbin.org/#/Auth/get_bearer");
         var response = client.authenticator("hello")
                 .get();
-        logger.debug(response::body);
+        assertEquals(response.statusCode(), 200);
     }
 
     @Test
