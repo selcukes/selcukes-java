@@ -27,8 +27,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 /**
@@ -146,13 +146,16 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     }
 
     /**
-     * Updates each row in the data table with the result of applying the given
-     * function to the row.
+     * Updates each row in the table by applying the given function to the map
+     * representing each row.
      *
-     * @param function the function to apply to each row
+     * @param  function             a function that takes a map representing a
+     *                              row as input and returns a modified version
+     *                              of the map
+     * @throws NullPointerException if the function is null
      */
-    public void updateRows(UnaryOperator<Map<K, V>> function) {
-        replaceAll(function);
+    public void updateRows(Function<Map<K, V>, Map<K, V>> function) {
+        replaceAll(map -> function.apply(new LinkedHashMap<>(map)));
     }
 
     /**

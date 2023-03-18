@@ -133,10 +133,9 @@ public class DataTableTest {
         assertTrue(dataTable.contains(rowB));
         assertTrue(dataTable.contains(rowC));
         dataTable.updateRows(row -> {
-            var updatedRow = new HashMap<>(row);
-            updatedRow.put("Age", (int) updatedRow.get("Age") + 5);
-            updatedRow.put("IsEmployed", !(boolean) updatedRow.get("IsEmployed"));
-            return updatedRow;
+            row.put("Age", (int) row.get("Age") + 5);
+            row.put("IsEmployed", !(boolean) row.get("IsEmployed"));
+            return row;
         });
         dataTable.getColumnEntries("IsEmployed")
                 .stream()
