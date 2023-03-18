@@ -229,6 +229,21 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     }
 
     /**
+     * Creates a new DataTable from a list of Maps.
+     *
+     * @param  elements a variable number of Maps containing key-value pairs to
+     *                  be added to the DataTable
+     * @return          a new DataTable object containing the key-value pairs
+     *                  from the input Maps
+     */
+    @SafeVarargs
+    public static <K, V, E extends Map<K, V>> DataTable<K, V> of(E... elements) {
+        var dataTable = new DataTable<K, V>();
+        dataTable.addRows(List.of(elements));
+        return dataTable;
+    }
+
+    /**
      * Removes rows from the DataTable that match the given predicate.
      *
      * @param predicate the predicate to use for filtering the rows to remove

@@ -21,7 +21,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -96,8 +95,7 @@ public class DataTableTest {
         var rowC = Map.of("id", "3", "name", "Bob", "age", "30");
         var rowD = Map.of("id", "4", "name", "Alice", "age", "20");
         var rowE = Map.of("id", "5", "name", "Tom", "age", "25");
-        var rows = List.of(rowA, rowB, rowC, rowD, rowE);
-        var table = DataTable.of(rows);
+        var table = DataTable.of(rowA, rowB, rowC, rowD, rowE);
         var rowsByAge = table.groupByColumn("age");
         assertEquals(rowsByAge.size(), 3);
         var age20Rows = rowsByAge.get("20");
@@ -126,8 +124,7 @@ public class DataTableTest {
         Map<String, Object> rowA = Map.of("ID", 1, "Name", "John Doe", "Age", 25, "IsEmployed", false);
         Map<String, Object> rowB = Map.of("ID", 2, "Name", "Jane Smith", "Age", 30, "IsEmployed", false);
         Map<String, Object> rowC = Map.of("ID", 3, "Name", "Tom", "Age", 25, "IsEmployed", false);
-
-        var dataTable = DataTable.of(List.of(rowA, rowB, rowC));
+        var dataTable = DataTable.of(rowA, rowB, rowC);
         assertEquals(dataTable.getRows().size(), 3);
         assertTrue(dataTable.contains(rowA));
         assertTrue(dataTable.contains(rowB));
@@ -165,8 +162,7 @@ public class DataTableTest {
         Map<String, Object> rowA = Map.of("ID", 1, "Name", "John Doe", "Age", 30, "IsEmployed", false);
         Map<String, Object> rowB = Map.of("ID", 2, "Name", "Jane Smith", "Age", 40, "IsEmployed", false);
         Map<String, Object> rowC = Map.of("ID", 3, "Name", "Tom", "Age", 35, "IsEmployed", false);
-        var rows = new ArrayList<>(List.of(rowA, rowB, rowC));
-        var table = DataTable.of(rows);
+        var table = DataTable.of(rowA, rowB, rowC);
         Comparator<Object> ageComparator = Comparator.comparing(Object::toString);
         table.sortByColumn("Age", ageComparator);
         var actualAges = table.getColumnEntries("Age");
