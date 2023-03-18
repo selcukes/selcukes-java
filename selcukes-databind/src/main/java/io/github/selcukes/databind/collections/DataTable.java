@@ -303,19 +303,13 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @return              A new DataTable with the combined rows.
      */
     public <R, L> DataTable<K, R> join(
-            DataTable<K, L> otherTable, K joinColumn, BiFunction<Map<K, V>, Map<K, L>, Map<K, R>> joinFunction
+            @NonNull DataTable<K, L> otherTable, @NonNull K joinColumn, @NonNull BiFunction<Map<K, V>, Map<K, L>, Map<K, R>> joinFunction
     ) {
-        var joinedTable = new DataTable<K, R>();
-        this.forEach(row -> {
-            var matchingRows = otherTable.getRows().stream()
-                    .filter(otherRow -> row.get(joinColumn).equals(otherRow.get(joinColumn)))
-                    .collect(Collectors.toList());
-            matchingRows.forEach(matchingRow -> {
-                var joinedRow = joinFunction.apply(row, matchingRow);
-                joinedTable.addRow(joinedRow);
-            });
-        });
-        return joinedTable;
+        return this.getRows().stream()
+                .flatMap(row -> otherTable.getRows().stream()
+                        .filter(otherRow -> row.get(joinColumn).equals(otherRow.get(joinColumn)))
+                        .map(matchingRow -> joinFunction.apply(row, matchingRow)))
+                .collect(Collectors.toCollection(DataTable::new));
     }
 
     /**
