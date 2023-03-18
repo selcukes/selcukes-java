@@ -23,6 +23,7 @@ import lombok.experimental.UtilityClass;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.Properties;
 
@@ -59,7 +60,7 @@ public class PropertiesMapper {
      * @return              A map of the properties in the file.
      */
     public static Map<String, String> parse(final String propertyFile) {
-        return Maps.of(PropertiesLoader.linkedProperties(propertyFile));
+        return Maps.of(PropertiesLoader.getProperties(Path.of(propertyFile)));
     }
 
     /**
@@ -70,17 +71,17 @@ public class PropertiesMapper {
      *                     property file.
      */
     public static void write(final String propertyFile, final Map<String, String> dataMap) {
-        write(propertyFile, new LinkedProperties(), dataMap);
+        write(propertyFile, new Properties(), dataMap);
     }
 
     private static void write(
-            final String propertyFile, final LinkedProperties linkedProperties, final Map<String, String> dataMap
+            final String propertyFile, final Properties linkedProperties, final Map<String, String> dataMap
     ) {
         dataMap.forEach(linkedProperties::setProperty);
         write(propertyFile, linkedProperties);
     }
 
-    private static void write(final String propertyFile, final LinkedProperties properties) {
+    private static void write(final String propertyFile, final Properties properties) {
         try (OutputStream output = new FileOutputStream(propertyFile)) {
             properties.store(output, null);
         } catch (Exception e) {
@@ -97,7 +98,7 @@ public class PropertiesMapper {
      * @param value        the value to be written to the property file
      */
     public static void updateProperty(final String propertyFile, final String key, final String value) {
-        LinkedProperties properties = PropertiesLoader.linkedProperties(propertyFile);
+        Properties properties = PropertiesLoader.getProperties(Path.of(propertyFile));
         properties.setProperty(key, value);
         write(propertyFile, properties);
     }
@@ -111,7 +112,7 @@ public class PropertiesMapper {
      *                     the properties file.
      */
     public static void updateProperties(final String propertyFile, final Map<String, String> dataMap) {
-        write(propertyFile, PropertiesLoader.linkedProperties(propertyFile), dataMap);
+        write(propertyFile, PropertiesLoader.getProperties(Path.of(propertyFile)), dataMap);
     }
 
     /**
