@@ -18,17 +18,19 @@
 
 package io.github.selcukes.commons.tests;
 
-import io.github.selcukes.commons.http.Response;
 import io.github.selcukes.commons.http.WebClient;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import lombok.SneakyThrows;
+import io.github.selcukes.databind.utils.Resources;
 import org.testng.annotations.Test;
+
+import java.util.Map;
+
+import static org.testng.Assert.assertTrue;
 
 public class WebClientTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @SneakyThrows
     @Test
     public void postTest() {
         StringBuilder json = new StringBuilder();
@@ -37,38 +39,40 @@ public class WebClientTest {
         json.append("\"notes\":\"hello\"");
         json.append("}");
 
-        WebClient client = new WebClient("https://httpbin.org/post");
-        Response response = client.post(json);
-
-        logger.info(response::body);
+        var client = new WebClient("https://httpbin.org/post");
+        var response = client.post(json);
+        assertTrue(response.body().contains("Ramesh"));
     }
 
-    @SneakyThrows
+    @Test
+    public void uploadFileTest() {
+        var file = Resources.ofTest("sample.csv");
+        var client = new WebClient("http://postman-echo.com/post");
+        Map<Object, Object> param = Map.of("files", file);
+        var response = client.multiPart(param).post();
+        assertTrue(response.bodyJson().at("/files").has("sample.csv"));
+    }
+
     @Test
     public void requestTest() {
-
-        WebClient client = new WebClient("https://httpbin.org/get");
-        Response response = client.get();
+        var client = new WebClient("https://httpbin.org/get");
+        var response = client.get();
         logger.info(response::body);
     }
 
-    @SneakyThrows
     @Test
     public void bearerAuthTest() {
-
-        WebClient client = new WebClient("https://httpbin.org/#/Auth/get_bearer");
-        Response response = client.authenticator("hello")
+        var client = new WebClient("https://httpbin.org/#/Auth/get_bearer");
+        var response = client.authenticator("hello")
                 .get();
         logger.debug(response::body);
     }
 
-    @SneakyThrows
     @Test
     public void authTest() {
-
-        WebClient client = new WebClient("https://httpbin.org/#/Auth/get_basic_auth__user___passwd_");
-        Response response = client.authenticator("hello", "hello")
-                .get();
-        logger.debug(() -> response.statusCode() + "");
+        var client = new WebClient("https://postman-echo.com/basic-auth");
+        var responseBody = client.authenticator("postman", "password")
+                .get().bodyJson();
+        assertTrue(responseBody.at("/authenticated").asBoolean());
     }
 }

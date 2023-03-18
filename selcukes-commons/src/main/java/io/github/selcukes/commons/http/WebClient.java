@@ -118,12 +118,12 @@ public class WebClient {
     }
 
     @SneakyThrows
-    private BodyPublisher multiPartBody(final Map<Object, Object> data, final String boundary) {
+    private <K, V> BodyPublisher multiPartBody(final Map<K, V> data, final String boundary) {
         var byteArrays = new ArrayList<byte[]>();
         byte[] separator = ("--" + boundary
                 + "\r\nContent-Disposition: form-data; name=")
                         .getBytes(StandardCharsets.UTF_8);
-        for (Map.Entry<Object, Object> entry : data.entrySet()) {
+        for (var entry : data.entrySet()) {
             byteArrays.add(separator);
 
             if (entry.getValue() instanceof Path) {
@@ -231,7 +231,7 @@ public class WebClient {
      * @param  data The data to be sent.
      * @return      A WebClient object
      */
-    public WebClient multiPart(final Map<Object, Object> data) {
+    public <K, V> WebClient multiPart(final Map<K, V> data) {
         String boundary = "-------------" + UUID.randomUUID();
         contentType("multipart/form-data; boundary=" + boundary);
         bodyPublisher = multiPartBody(data, boundary);
