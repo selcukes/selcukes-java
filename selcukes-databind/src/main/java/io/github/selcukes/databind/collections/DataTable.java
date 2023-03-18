@@ -27,8 +27,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 /**
@@ -48,7 +48,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     /**
      * Returns a list of column keys from the first row of the data table.
      *
-     * @return                       a list of column keys
+     * @return a list of column keys
      * @throws IllegalStateException if the data table is empty
      */
     public List<K> getColumns() {
@@ -65,13 +65,10 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @param defaultValue the defaultValue for the new column
      */
     public void addColumn(@NonNull K key, @NonNull V defaultValue) {
-        var updatedRows = stream()
-                .map(LinkedHashMap::new)
-                .peek(row -> row.putIfAbsent(key, defaultValue))
-                .collect(Collectors.toList());
-
-        clear();
-        addAll(updatedRows);
+        updateRows(row -> {
+            row.putIfAbsent(key, defaultValue);
+            return row;
+        });
     }
 
     /**
@@ -95,10 +92,10 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     /**
      * Returns the first row that matches the given predicate.
      *
-     * @param  predicate the predicate to match against rows
-     * @return           an {@code Optional} containing the first row that
-     *                   matches the predicate, or an empty {@code Optional} if
-     *                   no such row is found
+     * @param predicate the predicate to match against rows
+     * @return an {@code Optional} containing the first row that
+     * matches the predicate, or an empty {@code Optional} if
+     * no such row is found
      */
     public Optional<Map<K, V>> findRow(Predicate<Map<K, V>> predicate) {
         return stream()
@@ -109,8 +106,8 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     /**
      * Returns the first row that matches the given predicate.
      *
-     * @param  predicate                the predicate to match against rows
-     * @return                          the first row that matches the predicate
+     * @param predicate the predicate to match against rows
+     * @return the first row that matches the predicate
      * @throws IllegalArgumentException if no row matches the predicate
      */
     public Map<K, V> getRow(Predicate<Map<K, V>> predicate) {
@@ -131,37 +128,37 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * Groups the rows of the DataTable based on the values of the specified
      * column key.
      *
-     * @param  key                  the key of the column to group by
-     * @return                      a map containing the unique column values as
-     *                              keys and DataTables containing the
-     *                              corresponding rows as values
+     * @param key the key of the column to group by
+     * @return a map containing the unique column values as
+     * keys and DataTables containing the
+     * corresponding rows as values
      * @throws NullPointerException if key is null
      */
     public Map<V, DataTable<K, V>> groupByColumn(@NonNull K key) {
         return stream().filter(map -> map.containsKey(key))
                 .collect(Collectors.groupingBy(row -> row.get(key),
-                    Collectors.toCollection(DataTable::new)));
+                        Collectors.toCollection(DataTable::new)));
     }
 
     /**
      * Updates each row in the table by applying the given function to the map
      * representing each row.
      *
-     * @param  function             a function that takes a map representing a
-     *                              row as input and returns a modified version
-     *                              of the map
+     * @param function a function that takes a map representing a
+     *                 row as input and returns a modified version
+     *                 of the map
      * @throws NullPointerException if the function is null
      */
-    public void updateRows(Function<Map<K, V>, Map<K, V>> function) {
+    public void updateRows(UnaryOperator<Map<K, V>> function) {
         replaceAll(map -> function.apply(new LinkedHashMap<>(map)));
     }
 
     /**
      * Updates the value in the cell at the given row index and column key.
      *
-     * @param  rowIndex                  the index of the row to update
-     * @param  key                       the key of the column to update
-     * @param  value                     the new value for the cell
+     * @param rowIndex the index of the row to update
+     * @param key      the key of the column to update
+     * @param value    the new value for the cell
      * @throws IndexOutOfBoundsException if the row index is invalid
      */
     public void updateCell(int rowIndex, @NonNull K key, @NonNull V value) {
@@ -174,8 +171,8 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     /**
      * Returns a list of values for a given column.
      *
-     * @param  columnName               the column name
-     * @return                          a list of values for the given column
+     * @param columnName the column name
+     * @return a list of values for the given column
      * @throws IllegalArgumentException if the column name is not found in the
      *                                  table
      */
@@ -189,9 +186,9 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     /**
      * Gets the cell value at the specified row and column in the DataTable.
      *
-     * @param  rowIndex   the index of the row to get the cell value from
-     * @param  columnName the name of the column to get the cell value from
-     * @return            the cell value at the specified row and column
+     * @param rowIndex   the index of the row to get the cell value from
+     * @param columnName the name of the column to get the cell value from
+     * @return the cell value at the specified row and column
      */
     public V getCellValue(int rowIndex, @NonNull K columnName) {
         checkRowIndex(rowIndex);
@@ -201,9 +198,9 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     /**
      * Returns true if the data table contains the expected row.
      *
-     * @param  expectedRow          the map representing the expected row
-     * @return                      true if the data table contains the expected
-     *                              row, false otherwise
+     * @param expectedRow the map representing the expected row
+     * @return true if the data table contains the expected
+     * row, false otherwise
      * @throws NullPointerException if the expected row is null
      */
     public boolean contains(@NonNull Map<K, V> expectedRow) {
@@ -214,11 +211,11 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * Returns a new DataTable instance initialized with the data provided as a
      * List of Map objects.
      *
-     * @param  dataList             a list of Maps representing the data rows to
-     *                              add to the new DataTable instance
-     * @param  <K>                  the type of the column keys
-     * @param  <V>                  the type of the column values
-     * @return                      a new DataTable instance
+     * @param dataList a list of Maps representing the data rows to
+     *                 add to the new DataTable instance
+     * @param <K>      the type of the column keys
+     * @param <V>      the type of the column values
+     * @return a new DataTable instance
      * @throws NullPointerException if dataList is null
      */
     public static <K, V> DataTable<K, V> of(@NonNull List<? extends Map<K, V>> dataList) {
@@ -230,10 +227,10 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     /**
      * Creates a new DataTable from a list of Maps.
      *
-     * @param  elements a variable number of Maps containing key-value pairs to
-     *                  be added to the DataTable
-     * @return          a new DataTable object containing the key-value pairs
-     *                  from the input Maps
+     * @param elements a variable number of Maps containing key-value pairs to
+     *                 be added to the DataTable
+     * @return a new DataTable object containing the key-value pairs
+     * from the input Maps
      */
     @SafeVarargs
     public static <K, V> DataTable<K, V> of(Map<K, V>... elements) {
@@ -263,9 +260,9 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * Sorts the rows in the table by the values in the column with the given
      * columnName, using the given comparator to determine the order.
      *
-     * @param  columnName               the name of the column to sort by
-     * @param  comparator               a comparator to determine the order of
-     *                                  the values
+     * @param columnName the name of the column to sort by
+     * @param comparator a comparator to determine the order of
+     *                   the values
      * @throws IllegalArgumentException if the column columnName is not found in
      *                                  the table
      */
@@ -290,8 +287,8 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     /**
      * Returns a new DataTable with only the selected columns.
      *
-     * @param  columns The list of column names to select.
-     * @return         A new DataTable with only the selected columns.
+     * @param columns The list of column names to select.
+     * @return A new DataTable with only the selected columns.
      */
     public DataTable<K, V> selectColumns(@NonNull List<K> columns) {
         return stream()
@@ -305,12 +302,12 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * Joins the current DataTable with another DataTable on the specified join
      * column and returns a new DataTable with the combined rows.
      *
-     * @param  <R>          The type of the value for the joined table.
-     * @param  <L>          The type of the value for the other table.
-     * @param  otherTable   The DataTable to join with.
-     * @param  joinColumn   The column name to join on.
-     * @param  joinFunction The function to apply to each matching row pair.
-     * @return              A new DataTable with the combined rows.
+     * @param <R>          The type of the value for the joined table.
+     * @param <L>          The type of the value for the other table.
+     * @param otherTable   The DataTable to join with.
+     * @param joinColumn   The column name to join on.
+     * @param joinFunction The function to apply to each matching row pair.
+     * @return A new DataTable with the combined rows.
      */
     public <R, L> DataTable<K, R> join(
             @NonNull DataTable<K, L> otherTable, @NonNull K joinColumn,
