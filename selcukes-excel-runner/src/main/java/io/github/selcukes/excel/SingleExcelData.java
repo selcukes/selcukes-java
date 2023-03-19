@@ -166,11 +166,11 @@ public class SingleExcelData {
             if (StringHelper.isNullOrEmpty(currentTestName)) {
                 var newTestName = testName;
                 if (!StringHelper.isNullOrEmpty(secondColumn)) {
-                    if (!previousRow.isEmpty()) {
-                        if (!previousRow.get(firstColumn).startsWith(testName + HYPHEN + EXAMPLE)) {
-                            previousRow.replace(firstColumn,
-                                testName + HYPHEN + previousRow.getOrDefault(secondColumn, ""));
-                        }
+                    if (!previousRow.isEmpty()
+                            && !previousRow.get(firstColumn).startsWith(testName + HYPHEN + EXAMPLE)) {
+                        previousRow.replace(firstColumn,
+                            testName + HYPHEN + previousRow.getOrDefault(secondColumn, ""));
+
                     }
                     newTestName = testName + HYPHEN + row.getOrDefault(secondColumn, "");
                 }
