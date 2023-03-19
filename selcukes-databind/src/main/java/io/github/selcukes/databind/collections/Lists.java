@@ -128,8 +128,9 @@ public class Lists {
         }
 
         @Override
-        public boolean contains(Object o) {
-            return this.stream().anyMatch(s -> s.equalsIgnoreCase(o.toString()));
+        public boolean contains(final Object o) {
+            final String s = (String) o;
+            return this.stream().anyMatch(str -> str.equalsIgnoreCase(s));
         }
     }
 }
