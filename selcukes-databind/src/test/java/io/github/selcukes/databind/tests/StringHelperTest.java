@@ -29,7 +29,7 @@ public class StringHelperTest {
     public void interpolateTest() {
         Map<String, String> stringMap = Map.of("module", "question");
         String label = "This is sample ${module} maker";
-        String updatedLabel = StringHelper.interpolate(label, matcher -> stringMap.get(matcher.group(1)));
+        String updatedLabel = StringHelper.interpolate(label, stringMap::get);
         Assert.assertEquals(updatedLabel, "This is sample question maker");
     }
 

@@ -21,14 +21,14 @@ import io.github.selcukes.core.wait.WaitCondition;
 import lombok.CustomLog;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.UUID;
+
+import static io.github.selcukes.core.tests.TestDriver.getChromeDriver;
 
 @CustomLog
 public class WebAuthTest {
@@ -37,9 +37,7 @@ public class WebAuthTest {
 
     @BeforeMethod
     private void setup() {
-        var options = new ChromeOptions();
-        options.addArguments("--headless");
-        driver = new ChromeDriver(options);
+        driver = getChromeDriver();
         page = new WebPage(driver);
     }
 

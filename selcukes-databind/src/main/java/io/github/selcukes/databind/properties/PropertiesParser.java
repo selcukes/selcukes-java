@@ -18,7 +18,6 @@ package io.github.selcukes.databind.properties;
 
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -36,7 +35,7 @@ class PropertiesParser<T> {
     }
 
     public T parse(Path filePath) {
-        Properties properties = getProperties(filePath);
+        var properties = getProperties(filePath);
 
         var fields = Stream.of(entityClass.getDeclaredFields())
                 .map(field -> new PropertyField<T>(field, properties, defaultConverters()))

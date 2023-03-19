@@ -16,8 +16,8 @@
 
 package io.github.selcukes.databind.tests;
 
-import io.github.selcukes.databind.utils.Lists;
-import io.github.selcukes.databind.utils.Streams;
+import io.github.selcukes.databind.collections.Lists;
+import io.github.selcukes.databind.collections.Streams;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -55,21 +55,9 @@ public class CollectionsTest {
             List.of("a", "b", "c"),
             List.of("1", "2", "3"),
             List.of("4", "5", "6"));
-        var listMap = Streams.toListOfMap(listOfList);
+        var table = Streams.toTable(listOfList);
 
-        assertEquals(listMap.get(1).get("a"), "4");
-    }
-
-    @Test
-    public void groupByTest() {
-        var listMap = List.of(
-            Map.of("Scenario", "Test1", "Name", "Ram"),
-            Map.of("Scenario", "Test1", "Name", "Hello"),
-            Map.of("Scenario", "Test2", "Name", "RB"),
-            Map.of("Scenario", "Test2", "Name", "Pojo"),
-            Map.of("Scenario", "Test3", "Name", "Babu"));
-        var mapOfList = Streams.groupBy(listMap, "Scenario");
-        assertEquals(mapOfList.get("Test2").get(1).get("Name"), "Pojo");
+        assertEquals(table.get(1).get("a"), "4");
     }
 
     @Test

@@ -16,17 +16,17 @@
 
 package io.github.selcukes.databind.excel;
 
+import io.github.selcukes.databind.collections.DataTable;
+import io.github.selcukes.databind.collections.Maps;
+import io.github.selcukes.databind.collections.Streams;
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.DataFileHelper;
-import io.github.selcukes.databind.utils.Maps;
 import io.github.selcukes.databind.utils.Resources;
-import io.github.selcukes.databind.utils.Streams;
 import lombok.experimental.UtilityClass;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -67,11 +67,11 @@ public class ExcelMapper {
      * are parsed and stored in the output map.
      *
      * @param  filePath            The file path of the Excel file to be parsed.
-     * @return                     A map of sheet names to a list of maps of
-     *                             column names to cell values.
+     * @return                     A map of sheet names to a DataTable of column
+     *                             names to cell values.
      * @throws DataMapperException If there is an error parsing the Excel file.
      */
-    public static Map<String, List<Map<String, String>>> parse(String filePath) {
+    public static Map<String, DataTable<String, String>> parse(String filePath) {
         try (var workbook = WorkbookFactory.create(Resources.fileStream(filePath))) {
             ExcelCell.setFormulaEvaluator(workbook.getCreationHelper().createFormulaEvaluator());
 
@@ -79,7 +79,7 @@ public class ExcelMapper {
                     .collect(Maps.of(Sheet::getSheetName, sheet -> Streams.of(sheet.iterator())
                             .skip(1)
                             .map(ExcelMapper::readRow)
-                            .collect(Collectors.toList())));
+                            .collect(Collectors.toCollection(DataTable::new))));
         } catch (Exception e) {
             throw new DataMapperException("Unable to parse Excel file " + filePath, e);
         }

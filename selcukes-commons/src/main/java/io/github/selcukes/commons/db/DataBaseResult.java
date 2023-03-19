@@ -16,59 +16,98 @@
 
 package io.github.selcukes.commons.db;
 
+import io.github.selcukes.databind.collections.DataTable;
 import lombok.SneakyThrows;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
- * It wraps a JDBC ResultSet and provides a method to convert it to a List of
- * Maps
+ * The {@code DataBaseResult} class is a wrapper around a JDBC
+ * {@link ResultSet}, providing a method to convert it to a {@link DataTable}.
+ * <p>
+ * It can be used to represent the result set of a database query as a
+ * table-like structure with named columns and rows.
+ * <p>
+ * Usage:
+ *
+ * <pre>
+ * {@code
+ * // Obtain a ResultSet from a JDBC connection
+ *
+ * ResultSet resultSet = ...
+ *
+ * // Wrap the ResultSet in a DataBaseResult object
+ *
+ * DataBaseResult dataBaseResult = new DataBaseResult(resultSet);
+ *
+ * // Convert the result set to a DataTable
+ *
+ * DataTable<String, Object> dataTable = dataBaseResult.asTable();
+ *
+ * }
+ * </pre>
+ * 
+ * 1.0
  */
 public class DataBaseResult {
+    /**
+     * The underlying JDBC ResultSet.
+     */
     private final ResultSet resultSet;
 
+    /**
+     * Constructs a new {@code DataBaseResult} object with the specified JDBC
+     * ResultSet.
+     *
+     * @param resultSet the ResultSet to be wrapped.
+     */
     public DataBaseResult(final ResultSet resultSet) {
         this.resultSet = resultSet;
     }
 
     /**
-     * It takes a ResultSet and returns a List of Maps, where each Map
-     * represents a row in the ResultSet
+     * Converts the underlying ResultSet to a {@link DataTable}.
      *
-     * @return A list of maps.
+     * @return a {@code DataTable} object representing the result set as a
+     *         table.
      */
     @SneakyThrows
-    public List<Map<String, Object>> asList() {
-        List<Map<String, Object>> list = new ArrayList<>();
+    public DataTable<String, Object> asTable() {
+        var table = new DataTable<String, Object>();
         ResultSetMetaData meta = resultSet.getMetaData();
         while (resultSet.next()) {
-            list.add(asRow(meta, resultSet));
+            table.addRow(asRow(meta, resultSet));
         }
-        return list;
+        return table;
     }
 
     /**
-     * This function returns the result set.
+     * Returns the underlying ResultSet.
      *
-     * @return The resultSet is being returned.
+     * @return the ResultSet wrapped by this object.
      */
     public ResultSet getResultSet() {
         return resultSet;
     }
 
+    /**
+     * Converts a row of the underlying ResultSet to a {@link Map} with column
+     * names as keys and column values as values.
+     *
+     * @param  metaData  the metadata for the ResultSet.
+     * @param  resultSet the ResultSet to be converted.
+     * @return           a {@code Map} object representing the row.
+     */
     @SneakyThrows
     private Map<String, Object> asRow(final ResultSetMetaData metaData, final ResultSet resultSet) {
-        Map<String, Object> map = new LinkedHashMap<>();
+        var map = new LinkedHashMap<String, Object>();
         for (int i = 1; i <= metaData.getColumnCount(); i++) {
             map.put(metaData.getColumnName(i), resultSet.getString(i));
         }
         return Collections.unmodifiableMap(map);
     }
-
 }

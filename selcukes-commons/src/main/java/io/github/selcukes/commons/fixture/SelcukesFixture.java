@@ -43,7 +43,7 @@ public class SelcukesFixture {
     @SneakyThrows
     public static void fail(final String param) {
         try {
-            Reflections.invoke(Class.forName(getValidator()), "fail", param);
+            Reflections.invokeStaticMethod(Class.forName(getValidator()), "fail", param);
         } catch (Exception e) {
             throw e.getCause();
         }
@@ -57,7 +57,7 @@ public class SelcukesFixture {
     @SneakyThrows
     public static void attach(final String param) {
         try {
-            Reflections.invoke(getReporter(), "log", param);
+            Reflections.invokeStaticMethod(getReporter(), "log", param);
         } catch (Exception e) {
             throw e.getCause();
         }

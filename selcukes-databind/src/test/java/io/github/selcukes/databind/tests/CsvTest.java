@@ -18,20 +18,30 @@ package io.github.selcukes.databind.tests;
 
 import io.github.selcukes.databind.csv.CsvMapper;
 import io.github.selcukes.databind.utils.Resources;
-import lombok.SneakyThrows;
 import org.testng.annotations.Test;
+
+import java.util.Map;
 
 import static io.github.selcukes.databind.csv.CsvMapper.CSV_STRIP_REGEX;
 
 public class CsvTest {
-    @SneakyThrows
+
     @Test
     public void csvDataReaderTest() {
         var filePath = Resources.ofTest("employee.csv");
-        var csvData = CsvMapper.parse(filePath, CSV_STRIP_REGEX);
-        csvData.forEach(map -> map.computeIfPresent("ID", (k, v) -> updateID(map.get("Phone"), map.get("Country"))));
-        csvData.forEach(System.out::println);
+        var table = CsvMapper.parse(filePath, CSV_STRIP_REGEX);
 
+        Map<String, String> keyMapping = Map.of("Name", "FullName");
+        table.renameColumn(keyMapping);
+
+        table.updateRows(row -> {
+            // Update ID Column values
+            if (row.get("ID").isEmpty()) {
+                row.put("ID", updateID(row.get("Phone"), row.get("Country")));
+            }
+            return row;
+        });
+        table.getRows().forEach(System.out::println);
     }
 
     private String updateID(String phone, String country) {

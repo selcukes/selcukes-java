@@ -18,11 +18,12 @@ package io.github.selcukes.excel;
 
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ExcelConfigException;
+import io.github.selcukes.commons.helper.Preconditions;
+import io.github.selcukes.databind.collections.DataTable;
 import io.github.selcukes.databind.excel.ExcelMapper;
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,13 +33,14 @@ import static io.github.selcukes.excel.SingleExcelData.EXAMPLE;
 import static io.github.selcukes.excel.SingleExcelData.NAME_SEPARATOR;
 import static io.github.selcukes.excel.SingleExcelData.RUN;
 import static io.github.selcukes.excel.SingleExcelData.TEST;
+import static java.lang.String.format;
 
 @CustomLog
 @UtilityClass
 public class MultiExcelData {
 
-    private static List<Map<String, String>> excelSuite = new ArrayList<>();
-    private static final Map<String, Map<String, List<Map<String, String>>>> runtimeDataMap = new LinkedHashMap<>();
+    private static DataTable<String, String> excelSuite = new DataTable<>();
+    private static final Map<String, Map<String, DataTable<String, String>>> runtimeDataMap = new LinkedHashMap<>();
 
     public static void init() {
         var filePath = ConfigFactory.getConfig().getExcel().get("suiteFile");
@@ -48,6 +50,13 @@ public class MultiExcelData {
         SingleExcelData.modifyFirstColumnData(excelSuite, "Screen", "");
     }
 
+    /**
+     * Returns a list of scenarios that should be executed based on the 'RUN'
+     * flag in the Excel test data sheet.
+     *
+     * @return a list of scenario names in the format
+     *         'FeatureName::ScenarioName'
+     */
     public static List<String> getScenariosToRun() {
         return excelSuite.parallelStream()
                 .filter(map -> map.get(RUN).equalsIgnoreCase("yes"))
@@ -55,27 +64,58 @@ public class MultiExcelData {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Returns the test data for the current test as a map of key-value pairs.
+     * The current test name is obtained from the ScenarioContext.
+     *
+     * @return                          a map of key-value pairs containing the
+     *                                  test data
+     * @throws ExcelConfigException     if the test data file cannot be found
+     *                                  for the current test
+     * @throws IllegalArgumentException if the current test name is not in the
+     *                                  correct format
+     */
+    public Map<String, String> getTestDataAsMap() {
+        return getTestDataAsMap(ScenarioContext.getTestName());
+    }
+
+    /**
+     * Returns the test data for the given test name as a map of key-value
+     * pairs.
+     * <p>
+     * The test name should be in the format 'FeatureName::ScenarioName'.
+     *
+     * @param  testName                 the name of the test in the format
+     *                                  'FeatureName::ScenarioName'
+     * @return                          a map of key-value pairs containing the
+     *                                  test data
+     * @throws ExcelConfigException     if the test data file cannot be found
+     *                                  for the given test name
+     * @throws IllegalArgumentException if the test name is not in the correct
+     *                                  format
+     */
     public Map<String, String> getTestDataAsMap(String testName) {
         logger.debug(() -> "TestName: " + testName);
+        Preconditions.checkArgument(testName.contains(NAME_SEPARATOR),
+            format("Invalid Test Name [%s], TestName should be in the format 'FeatureName::ScenarioName'", testName));
         String testSheetName = testName.split(NAME_SEPARATOR)[0];
         String scenarioName = testName.split(NAME_SEPARATOR)[1];
         logger.debug(() -> "TestSheetName: " + testSheetName);
 
-        var testDataFile = excelSuite.stream()
-                .filter(map -> map.get("Feature").equalsIgnoreCase(testSheetName)
+        var testDataFile = excelSuite
+                .findRow(map -> map.get("Feature").equalsIgnoreCase(testSheetName)
                         && map.get(TEST).equalsIgnoreCase(scenarioName))
                 .map(map -> map.get("DataFile"))
-                .findFirst().orElseThrow(
+                .orElseThrow(
                     () -> new ExcelConfigException(String.format("Unable to find Test Data File for [%s]", testName)));
 
         logger.debug(() -> "Using Test Data File: " + testDataFile);
-        var testData = runtimeDataMap.containsKey(testDataFile) ? runtimeDataMap.get(testDataFile)
-                : readAndCacheTestData(testDataFile);
-
+        var testData = runtimeDataMap.computeIfAbsent(testDataFile,
+            MultiExcelData::readAndCacheTestData);
         return SingleExcelData.getTestData(testName, testData.get(testSheetName));
     }
 
-    private Map<String, List<Map<String, String>>> readAndCacheTestData(String testDataFile) {
+    private Map<String, DataTable<String, String>> readAndCacheTestData(String testDataFile) {
         var testData = ExcelMapper.parse(testDataFile);
         testData.forEach((key, value) -> SingleExcelData.modifyFirstColumnData(value, TEST, EXAMPLE));
         runtimeDataMap.put(testDataFile, testData);

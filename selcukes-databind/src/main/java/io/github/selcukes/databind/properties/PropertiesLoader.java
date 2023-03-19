@@ -17,33 +17,22 @@
 package io.github.selcukes.databind.properties;
 
 import io.github.selcukes.databind.exception.DataMapperException;
-import lombok.experimental.UtilityClass;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Properties;
 
-@UtilityClass
 class PropertiesLoader {
+    private PropertiesLoader() {
+    }
+
     public static Properties getProperties(Path filePath) {
         var properties = new Properties();
-        try (InputStream stream = new FileInputStream(filePath.toFile())) {
+        try (var stream = new FileInputStream(filePath.toFile())) {
             properties.load(stream);
         } catch (IOException e) {
             throw new DataMapperException("Could not parse property file '" + filePath.toFile().getName() + "'", e);
-        }
-        return properties;
-    }
-
-    public LinkedProperties linkedProperties(String propertyFile) {
-        var properties = new LinkedProperties();
-        try (InputStream stream = new FileInputStream(Paths.get(propertyFile).toFile())) {
-            properties.load(stream);
-        } catch (IOException e) {
-            throw new DataMapperException("Could not parse property file '" + propertyFile + "'", e);
         }
         return properties;
     }

@@ -16,60 +16,51 @@
 
 package io.github.selcukes.databind.csv;
 
+import io.github.selcukes.databind.collections.DataTable;
+import io.github.selcukes.databind.collections.Lists;
+import io.github.selcukes.databind.collections.Streams;
 import io.github.selcukes.databind.exception.DataMapperException;
-import io.github.selcukes.databind.utils.Lists;
-import io.github.selcukes.databind.utils.Streams;
 import lombok.experimental.UtilityClass;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @UtilityClass
 public class CsvMapper {
-    // A regex that splits a line by commas, but ignores commas that are inside
-    // double quotes.
     private static final String CSV_REGEX = ",(?=([^\"]*\"[^\"]*\")*[^\"]*$)";
-    // A regex that removes double quotes from the beginning and end of a field.
     private static final String DOUBLE_QUOTES_REGEX = "^\"|\"$";
-    // A regex that splits a line by commas, but ignores commas that are inside
-    // double quotes.
     public static final String CSV_STRIP_REGEX = "\\s*,(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)\\s*";
 
     /**
-     * It takes a file path and a regex, reads the file line by line, splits
-     * each line by the regex, removes the double quotes, and returns a list of
-     * maps
+     * Parses a CSV file at the given file path using the specified regex.
      *
-     * @param  filePath The path to the CSV file.
-     * @param  regex    The regex to split the line by.
-     * @return          A list of maps.
+     * @param  filePath            The path to the CSV file.
+     * @param  regex               The regex to split the line by.
+     * @return                     A DataTable representing the parsed CSV file.
+     * @throws DataMapperException If an error occurs while parsing the file.
      */
-    public List<Map<String, String>> parse(Path filePath, String regex) {
+    public DataTable<String, String> parse(Path filePath, String regex) {
         try (var lines = Files.lines(filePath)) {
-            return Streams.toListOfMap(
-                Lists.of(lines, line -> Arrays.stream(line.split(regex))
-                        .map(field -> field.replaceAll(DOUBLE_QUOTES_REGEX, ""))
-                        .collect(Collectors.toCollection(LinkedList::new))));
+            var linesOnWords = Lists.of(lines, line -> Arrays.stream(line.split(regex))
+                    .map(field -> field.replaceAll(DOUBLE_QUOTES_REGEX, ""))
+                    .collect(Collectors.toCollection(LinkedList::new)));
+            return Streams.toTable(linesOnWords);
         } catch (Exception e) {
             throw new DataMapperException("Failed parsing CSV File: ", e);
         }
     }
 
     /**
-     * It takes a CSV file, reads it line by line, splits each line into a
-     * stream of fields, removes double quotes, trims each field, collects the
-     * fields into a list, collects the list of fields into a list of lists, and
-     * finally converts the list of lists into a list of maps
+     * Parses a CSV file at the given file path using a default regex.
      *
-     * @param  filePath The path to the CSV file.
-     * @return          A list of maps.
+     * @param  filePath            The path to the CSV file.
+     * @return                     A DataTable representing the parsed CSV file.
+     * @throws DataMapperException If an error occurs while parsing the file.
      */
-    public List<Map<String, String>> parse(Path filePath) {
+    public DataTable<String, String> parse(Path filePath) {
         return parse(filePath, CSV_REGEX);
     }
 }

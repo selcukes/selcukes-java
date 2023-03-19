@@ -51,7 +51,7 @@ import io.cucumber.plugin.event.TestStepFinished;
 import io.cucumber.plugin.event.TestStepStarted;
 import io.cucumber.plugin.event.WriteEvent;
 import io.github.selcukes.commons.helper.ExceptionHelper;
-import io.github.selcukes.databind.utils.Streams;
+import io.github.selcukes.databind.collections.Streams;
 import lombok.SneakyThrows;
 
 import java.net.URI;

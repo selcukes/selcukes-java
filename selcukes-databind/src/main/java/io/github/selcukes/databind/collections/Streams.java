@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.utils;
+package io.github.selcukes.databind.collections;
 
 import lombok.experimental.UtilityClass;
 
@@ -110,23 +110,25 @@ public class Streams {
     }
 
     /**
-     * Converts a list of lists of strings into a list of maps, where each map
+     * Converts a list of lists of strings into a DataTable, where each map
      * represents a row in the table and the keys correspond to the column
      * headers.
      * <p>
-     * The first row in the list represents the headers, and is skipped. For
-     * each subsequent row, a map is created with keys corresponding to the
-     * headers and values corresponding to the cell values in the row. If a cell
-     * value is missing, an empty string is used as the default value.
+     * The first row in the list represents the headers and is skipped. For each
+     * subsequent row, a map is created with keys corresponding to the headers
+     * and values corresponding to the cell values in the row. If a cell value
+     * is missing, an empty string is used as the default value.
      *
      * @param  cells a list of lists of strings that represent the table
      * @return       a list of maps, where each map represents a row in the
      *               table
      */
-    public List<Map<String, String>> toListOfMap(List<List<String>> cells) {
-        var headers = cells.get(0);
-        return cells.stream().skip(1).map(row -> Maps.of(headers, row, ""))
-                .collect(Collectors.toList());
+    public DataTable<String, String> toTable(List<? extends List<String>> cells) {
+        List<String> headers = cells.get(0);
+        return cells.stream()
+                .skip(1)
+                .map(row -> Maps.of(headers, row, ""))
+                .collect(Collectors.toCollection(DataTable::new));
     }
 
     /**
@@ -183,19 +185,6 @@ public class Streams {
      */
     public Stream<String> of(final Class<? extends Enum<?>> enumData) {
         return Stream.of(enumData.getEnumConstants()).map(Enum::toString);
-    }
-
-    /**
-     * Groups a list of maps by a specified key.
-     *
-     * @param  data A list of maps representing the data to group.
-     * @param  key  The key to group the data by.
-     * @return      A map of lists of maps grouped by the specified key.
-     */
-    public Map<String, List<Map<String, String>>> groupBy(List<Map<String, String>> data, String key) {
-        return data.stream()
-                .filter(map -> map.containsKey(key))
-                .collect(Collectors.groupingBy(map -> map.get(key), Collectors.toList()));
     }
 
 }

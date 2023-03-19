@@ -830,4 +830,80 @@ public interface Page {
     default Cookie cookie(String name) {
         return getDriver().manage().getCookieNamed(name);
     }
+
+    default void addCookie(Cookie cookie) {
+        getDriver().manage().addCookie(cookie);
+    }
+
+    /**
+     * Sets the value of the specified key in the local storage.
+     * 
+     * @param key   the key to be set
+     * @param value the value to be set for the key
+     */
+    default void setLocalStorageItem(String key, String value) {
+        executeScript(String.format("localStorage.setItem('%s','%s');", key, value));
+    }
+
+    /**
+     * Gets the value of the specified key from the local storage.
+     * 
+     * @param  key the key for which the value needs to be retrieved
+     * @return     the value of the specified key
+     */
+    default String getLocalStorageItem(String key) {
+        return executeScript(String.format("return localStorage.getItem('%s');", key));
+    }
+
+    /**
+     * Removes the specified key from the local storage.
+     * 
+     * @param key the key to be removed
+     */
+    default void removeLocalStorageItem(String key) {
+        executeScript(String.format("localStorage.removeItem('%s');", key));
+    }
+
+    /**
+     * Clears all the keys and values from the local storage.
+     */
+    default void clearLocalStorage() {
+        executeScript("localStorage.clear();");
+    }
+
+    /**
+     * Sets the value of the specified key in the session storage.
+     * 
+     * @param key   the key to be set
+     * @param value the value to be set for the key
+     */
+    default void setSessionStorageItem(String key, String value) {
+        executeScript(String.format("sessionStorage.setItem('%s','%s');", key, value));
+    }
+
+    /**
+     * Gets the value of the specified key from the session storage.
+     * 
+     * @param  key the key for which the value needs to be retrieved
+     * @return     the value of the specified key
+     */
+    default String getSessionStorageItem(String key) {
+        return executeScript(String.format("return sessionStorage.getItem('%s');", key));
+    }
+
+    /**
+     * Removes the specified key from the session storage.
+     * 
+     * @param key the key to be removed
+     */
+    default void removeSessionStorageItem(String key) {
+        executeScript(String.format("sessionStorage.removeItem('%s');", key));
+    }
+
+    /**
+     * Clears all the keys and values from the session storage.
+     */
+    default void clearSessionStorage() {
+        executeScript("sessionStorage.clear();");
+    }
 }

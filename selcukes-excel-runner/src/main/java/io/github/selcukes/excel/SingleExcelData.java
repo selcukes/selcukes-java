@@ -18,23 +18,23 @@ package io.github.selcukes.excel;
 
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ExcelConfigException;
+import io.github.selcukes.commons.helper.Preconditions;
+import io.github.selcukes.databind.collections.DataTable;
+import io.github.selcukes.databind.collections.Lists;
+import io.github.selcukes.databind.collections.Maps;
 import io.github.selcukes.databind.excel.ExcelMapper;
-import io.github.selcukes.databind.utils.Maps;
-import io.github.selcukes.databind.utils.Streams;
 import io.github.selcukes.databind.utils.StringHelper;
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.Optional.ofNullable;
+import static java.lang.String.format;
 
 @UtilityClass
 @CustomLog
@@ -45,9 +45,8 @@ public class SingleExcelData {
     static final String HYPHEN = " - ";
     static final String EXAMPLE = "Example";
     private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcel().get("suiteName");
-    private static final List<String> IGNORE_SHEETS = new ArrayList<>(
-        Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
-    private static Map<String, List<Map<String, String>>> excelData = new LinkedHashMap<>();
+    private static final List<String> IGNORE_SHEETS = Lists.of("Master", "Smoke", "Regression", "StaticData");
+    private static Map<String, DataTable<String, String>> excelData = new LinkedHashMap<>();
 
     public static void init() {
         var filePath = ConfigFactory.getConfig().getExcel().get("dataFile");
@@ -62,6 +61,16 @@ public class SingleExcelData {
                     entry.getKey().equals(TEST_SUITE_RUNNER_SHEET) ? "" : EXAMPLE));
     }
 
+    /**
+     * Returns a list of scenarios that should be executed based on the 'RUN'
+     * flag in the Excel test data sheet.
+     * <p>
+     * The list includes both individual scenarios and scenarios listed in the
+     * test suite runner sheet.
+     *
+     * @return a list of scenario names in the format
+     *         'FeatureName::ScenarioName'
+     */
     public static List<String> getScenariosToRun() {
         var suiteScenarios = new ArrayList<String>();
         var testScenarios = new ArrayList<String>();
@@ -80,26 +89,49 @@ public class SingleExcelData {
                         });
             }
         });
-
-        return testScenarios.stream()
-                .filter(name -> anyMatch(suiteScenarios, name))
-                .collect(Collectors.toList());
+        return Lists.retainIf(testScenarios, name -> anyMatch(suiteScenarios, name));
     }
 
+    /**
+     * Returns the test data for the current test as a map of key-value pairs.
+     * The current test name is obtained from the ScenarioContext.
+     *
+     * @return                          a map of key-value pairs containing the
+     *                                  test data
+     * @throws ExcelConfigException     if the test data file cannot be found
+     *                                  for the current test
+     * @throws IllegalArgumentException if the current test name is not in the
+     *                                  correct format
+     */
     public Map<String, String> getTestDataAsMap() {
         return getTestDataAsMap(ScenarioContext.getTestName());
     }
 
+    /**
+     * Returns the test data for the given test name as a map of key-value
+     * pairs. The test name should be in the format 'FeatureName::ScenarioName'.
+     *
+     * @param  testName                 the name of the test in the format
+     *                                  'FeatureName::ScenarioName'
+     * @return                          a map of key-value pairs containing the
+     *                                  test data
+     * @throws ExcelConfigException     if the test data file cannot be found
+     *                                  for the given test name
+     * @throws IllegalArgumentException if the test name is not in the correct
+     *                                  format
+     */
     public Map<String, String> getTestDataAsMap(String testName) {
         logger.debug(() -> "TestName: " + testName);
+        Preconditions.checkArgument(testName.contains(NAME_SEPARATOR),
+            format("Invalid Test Name [%s], TestName should be in the format 'FeatureName::ScenarioName'", testName));
         String testSheetName = testName.split(NAME_SEPARATOR)[0];
         logger.debug(() -> "TestSheetName: " + testSheetName);
         return getTestData(testName, excelData.get(testSheetName));
     }
 
-    Map<String, String> getTestData(String testName, List<Map<String, String>> sheetData) {
+    Map<String, String> getTestData(String testName, DataTable<String, String> sheetData) {
         Objects.requireNonNull(sheetData, String.format("Unable to read sheet data for [%s]", testName));
-        return Streams.findFirst(sheetData, row -> row.get(TEST).equalsIgnoreCase(testName))
+        return sheetData.findRow(row -> row.get(TEST).equalsIgnoreCase(testName))
                 .orElseThrow(
                     () -> new ExcelConfigException(String.format("Unable to read [%s] Test Data Row", testName)));
     }
@@ -126,24 +158,27 @@ public class SingleExcelData {
         }
     }
 
-    void modifyFirstColumnData(List<Map<String, String>> sheetData, String firstColumn, String secondColumn) {
+    void modifyFirstColumnData(DataTable<String, String> sheetData, String firstColumn, String secondColumn) {
         String testName = "";
-        for (int i = 0; i < sheetData.size(); i++) {
-            if (StringHelper.isNullOrEmpty(sheetData.get(i).get(firstColumn))) {
-                String newTestName;
+        Map<String, String> previousRow = new LinkedHashMap<>();
+        for (var row : sheetData) {
+            var currentTestName = row.get(firstColumn);
+            if (StringHelper.isNullOrEmpty(currentTestName)) {
+                var newTestName = testName;
                 if (!StringHelper.isNullOrEmpty(secondColumn)) {
-                    if (!sheetData.get(i - 1).get(firstColumn).startsWith(testName + HYPHEN + EXAMPLE)) {
-                        sheetData.get(i - 1).put(firstColumn,
-                            testName + HYPHEN + ofNullable(sheetData.get(i - 1).get(secondColumn)).orElse(""));
+                    if (!previousRow.isEmpty()
+                            && !previousRow.get(firstColumn).startsWith(testName + HYPHEN + EXAMPLE)) {
+                        previousRow.replace(firstColumn,
+                            testName + HYPHEN + previousRow.getOrDefault(secondColumn, ""));
+
                     }
-                    newTestName = testName + HYPHEN + ofNullable(sheetData.get(i).get(secondColumn)).orElse("");
-                } else {
-                    newTestName = testName;
+                    newTestName = testName + HYPHEN + row.getOrDefault(secondColumn, "");
                 }
-                sheetData.get(i).put(firstColumn, newTestName);
+                row.replace(firstColumn, newTestName);
             } else {
-                testName = sheetData.get(i).get(firstColumn);
+                testName = currentTestName;
             }
+            previousRow = row;
         }
     }
 }

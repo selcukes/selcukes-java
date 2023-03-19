@@ -19,13 +19,13 @@ package io.github.selcukes.commons.tests;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.properties.SelcukesTestProperties;
-import io.github.selcukes.databind.properties.LinkedProperties;
 import io.github.selcukes.databind.properties.PropertiesMapper;
 import io.github.selcukes.databind.utils.Clocks;
 import org.testng.annotations.Test;
 
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.Properties;
 
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.FEATURES;
 import static org.testng.Assert.assertEquals;
@@ -53,18 +53,17 @@ public class PropertiesTest {
         propertiesMap.forEach((k, v) -> logger.info(() -> String.format("Key :[%s]   Value :[%s]", k, v)));
     }
 
-    @Test(expectedExceptions = UnsupportedOperationException.class)
+    @Test
     public void linkedPropertiesTest() {
-        LinkedProperties linkedProperties = new LinkedProperties();
-        assertFalse(linkedProperties.contains("value1"));
-        linkedProperties.put("key1", "value1");
-        assertTrue(linkedProperties.contains("value1"));
-        linkedProperties.put("key2", "value2");
-        assertTrue(linkedProperties.containsKey("key2"));
-        assertEquals(linkedProperties.entrySet().size(), 2);
-        linkedProperties.clear();
-        assertEquals(linkedProperties.entrySet().size(), 0);
-        linkedProperties.elements();
+        Properties properties = new Properties();
+        assertFalse(properties.contains("value1"));
+        properties.put("key1", "value1");
+        assertTrue(properties.contains("value1"));
+        properties.put("key2", "value2");
+        assertTrue(properties.containsKey("key2"));
+        assertEquals(properties.entrySet().size(), 2);
+        properties.clear();
+        assertEquals(properties.entrySet().size(), 0);
     }
 
     @Test

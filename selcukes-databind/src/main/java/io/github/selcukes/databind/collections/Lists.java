@@ -14,8 +14,9 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.utils;
+package io.github.selcukes.databind.collections;
 
+import io.github.selcukes.databind.utils.StringHelper;
 import lombok.NoArgsConstructor;
 import lombok.experimental.UtilityClass;
 
@@ -25,6 +26,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -100,19 +102,35 @@ public class Lists {
      */
     public List<String> ofIgnoreCase(String... elements) {
         var stringList = Arrays.asList(elements);
-        return new IgnoreCaseList(stringList);
+        return new CaseInsensitiveList(stringList);
+    }
+
+    /**
+     * Returns a new list containing only the elements of the given list that
+     * match the specified predicate.
+     *
+     * @param  <T>       the type of elements in the list
+     * @param  list      the list to be filtered
+     * @param  predicate the predicate used to test elements for inclusion
+     * @return           a new list containing only the matching elements
+     */
+    public <T> List<T> retainIf(List<T> list, Predicate<T> predicate) {
+        return list.stream()
+                .filter(predicate)
+                .collect(Collectors.toList());
     }
 
     @NoArgsConstructor
-    private static class IgnoreCaseList extends ArrayList<String> {
+    private static class CaseInsensitiveList extends ArrayList<String> {
 
-        public IgnoreCaseList(final List<String> stringList) {
-            super(stringList);
+        public CaseInsensitiveList(final Collection<String> collection) {
+            super(collection);
         }
 
         @Override
-        public boolean contains(Object o) {
-            return this.stream().anyMatch(s -> s.equalsIgnoreCase(o.toString()));
+        public boolean contains(final Object o) {
+            final String s = (String) o;
+            return this.stream().anyMatch(str -> str.equalsIgnoreCase(s));
         }
     }
 }

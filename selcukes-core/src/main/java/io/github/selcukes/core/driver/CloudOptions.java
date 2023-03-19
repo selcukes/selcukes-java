@@ -58,7 +58,7 @@ public class CloudOptions {
 
     @SneakyThrows
     public String browserStackUrl() {
-        return StringHelper.interpolate(getBrowserStack().getUrl(), matcher -> System.getProperty(matcher.group(1)));
+        return StringHelper.interpolate(getBrowserStack().getUrl(), System::getProperty);
     }
 
     @Data
