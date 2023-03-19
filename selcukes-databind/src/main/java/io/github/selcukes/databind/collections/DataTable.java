@@ -16,7 +16,6 @@
 
 package io.github.selcukes.databind.collections;
 
-import lombok.Getter;
 import lombok.NonNull;
 
 import java.util.Comparator;
@@ -42,7 +41,6 @@ import java.util.stream.Collectors;
  * @param <K> the type of column keys in the data table
  * @param <V> the type of column values in the data table
  */
-@Getter
 public class DataTable<K, V> extends LinkedList<Map<K, V>> {
 
     /**
