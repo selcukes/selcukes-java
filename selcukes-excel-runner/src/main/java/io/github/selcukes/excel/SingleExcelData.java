@@ -18,8 +18,9 @@ package io.github.selcukes.excel;
 
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ExcelConfigException;
+import io.github.selcukes.commons.helper.Preconditions;
+import io.github.selcukes.databind.collections.DataTable;
 import io.github.selcukes.databind.collections.Maps;
-import io.github.selcukes.databind.collections.Streams;
 import io.github.selcukes.databind.excel.ExcelMapper;
 import io.github.selcukes.databind.utils.StringHelper;
 import lombok.CustomLog;
@@ -36,6 +37,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.lang.String.format;
+
 @UtilityClass
 @CustomLog
 public class SingleExcelData {
@@ -47,7 +50,7 @@ public class SingleExcelData {
     private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcel().get("suiteName");
     private static final List<String> IGNORE_SHEETS = new ArrayList<>(
         Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
-    private static Map<String, List<Map<String, String>>> excelData = new LinkedHashMap<>();
+    private static Map<String, DataTable<String, String>> excelData = new LinkedHashMap<>();
 
     public static void init() {
         var filePath = ConfigFactory.getConfig().getExcel().get("dataFile");
@@ -92,14 +95,16 @@ public class SingleExcelData {
 
     public Map<String, String> getTestDataAsMap(String testName) {
         logger.debug(() -> "TestName: " + testName);
+        Preconditions.checkArgument(testName.contains(NAME_SEPARATOR),
+            format("Invalid Test Name [%s], TestName should be in the format 'FeatureName::ScenarioName'", testName));
         String testSheetName = testName.split(NAME_SEPARATOR)[0];
         logger.debug(() -> "TestSheetName: " + testSheetName);
         return getTestData(testName, excelData.get(testSheetName));
     }
 
-    Map<String, String> getTestData(String testName, List<Map<String, String>> sheetData) {
+    Map<String, String> getTestData(String testName, DataTable<String, String> sheetData) {
         Objects.requireNonNull(sheetData, String.format("Unable to read sheet data for [%s]", testName));
-        return Streams.findFirst(sheetData, row -> row.get(TEST).equalsIgnoreCase(testName))
+        return sheetData.findRow(row -> row.get(TEST).equalsIgnoreCase(testName))
                 .orElseThrow(
                     () -> new ExcelConfigException(String.format("Unable to read [%s] Test Data Row", testName)));
     }
@@ -126,7 +131,7 @@ public class SingleExcelData {
         }
     }
 
-    void modifyFirstColumnData(List<Map<String, String>> sheetData, String firstColumn, String secondColumn) {
+    void modifyFirstColumnData(DataTable<String, String> sheetData, String firstColumn, String secondColumn) {
         var testName = new AtomicReference<>("");
         Optional<Map<String, String>> previousRowMap = Optional.empty();
         for (var row : sheetData) {
