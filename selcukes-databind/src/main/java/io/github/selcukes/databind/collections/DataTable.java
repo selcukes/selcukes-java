@@ -316,6 +316,21 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     }
 
     /**
+     * Returns a new DataTable instance that contains only the rows that satisfy
+     * the given predicate.
+     *
+     * @param  predicate            the predicate used to filter the rows
+     * @return                      a new DataTable instance that contains only
+     *                              the rows that satisfy the given predicate
+     * @throws NullPointerException if the given predicate is null
+     */
+    public DataTable<K, V> selectRows(Predicate<Map<K, V>> predicate) {
+        return parallelStream()
+                .filter(predicate)
+                .collect(DataTable::new, DataTable::addRow, DataTable::addAll);
+    }
+
+    /**
      * Joins the current DataTable with another DataTable on the specified join
      * column and returns a new DataTable with the combined rows.
      *

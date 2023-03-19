@@ -223,11 +223,24 @@ public class DataTableTest {
 
     @Test
     public void testSelectMultipleColumns() {
-        var selectedColumns = dataTable.selectColumns(List.of("Name", "Age"));
-        assertEquals(selectedColumns.size(), 2);
-        assertFalse(selectedColumns.get(0).containsKey("Country"));
-        assertTrue(selectedColumns.get(0).containsKey("Name"));
-        assertTrue(selectedColumns.get(0).containsKey("Age"));
+        var selectedColumnsTable = dataTable.selectColumns(List.of("Name", "Age"));
+        assertEquals(selectedColumnsTable.size(), 2);
+        assertFalse(selectedColumnsTable.get(0).containsKey("Country"));
+        assertTrue(selectedColumnsTable.get(0).containsKey("Name"));
+        assertTrue(selectedColumnsTable.get(0).containsKey("Age"));
+    }
+
+    @Test
+    public void testSelectRows() {
+        Map<String, Object> rowA = Map.of("ID", 1, "Name", "John Doe", "Age", 25, "IsEmployed", false);
+        Map<String, Object> rowB = Map.of("ID", 2, "Name", "Jane Smith", "Age", 30, "IsEmployed", false);
+        Map<String, Object> rowC = Map.of("ID", 3, "Name", "Tom", "Age", 28, "IsEmployed", false);
+        var table = DataTable.of(rowA, rowB, rowC);
+        var selectedRowsTable = table.selectRows(row -> (Integer) row.get("Age") > 25);
+        assertEquals(selectedRowsTable.size(), 2);
+        assertFalse(selectedRowsTable.contains(rowA));
+        assertTrue(selectedRowsTable.contains(rowB));
+        assertTrue(selectedRowsTable.contains(rowC));
     }
 
     @Test
