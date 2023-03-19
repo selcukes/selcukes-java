@@ -50,6 +50,13 @@ public class MultiExcelData {
         SingleExcelData.modifyFirstColumnData(excelSuite, "Screen", "");
     }
 
+    /**
+     * Returns a list of scenarios that should be executed based on the 'RUN'
+     * flag in the Excel test data sheet.
+     *
+     * @return a list of scenario names in the format
+     *         'FeatureName::ScenarioName'
+     */
     public static List<String> getScenariosToRun() {
         return excelSuite.parallelStream()
                 .filter(map -> map.get(RUN).equalsIgnoreCase("yes"))
@@ -57,10 +64,36 @@ public class MultiExcelData {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Returns the test data for the current test as a map of key-value pairs.
+     * The current test name is obtained from the ScenarioContext.
+     *
+     * @return                          a map of key-value pairs containing the
+     *                                  test data
+     * @throws ExcelConfigException     if the test data file cannot be found
+     *                                  for the current test
+     * @throws IllegalArgumentException if the current test name is not in the
+     *                                  correct format
+     */
     public Map<String, String> getTestDataAsMap() {
         return getTestDataAsMap(ScenarioContext.getTestName());
     }
 
+    /**
+     * Returns the test data for the given test name as a map of key-value
+     * pairs.
+     * <p>
+     * The test name should be in the format 'FeatureName::ScenarioName'.
+     *
+     * @param  testName                 the name of the test in the format
+     *                                  'FeatureName::ScenarioName'
+     * @return                          a map of key-value pairs containing the
+     *                                  test data
+     * @throws ExcelConfigException     if the test data file cannot be found
+     *                                  for the given test name
+     * @throws IllegalArgumentException if the test name is not in the correct
+     *                                  format
+     */
     public Map<String, String> getTestDataAsMap(String testName) {
         logger.debug(() -> "TestName: " + testName);
         Preconditions.checkArgument(testName.contains(NAME_SEPARATOR),
