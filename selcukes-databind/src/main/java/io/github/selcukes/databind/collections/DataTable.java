@@ -16,6 +16,7 @@
 
 package io.github.selcukes.databind.collections;
 
+import io.github.selcukes.databind.exception.DataTableException;
 import lombok.NonNull;
 
 import java.util.Collections;
@@ -54,7 +55,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
         return Collections.unmodifiableList(parallelStream().findFirst()
                 .map(Map::keySet)
                 .map(List::copyOf)
-                .orElseThrow(() -> new IllegalStateException("Data table is empty")));
+                .orElseThrow(() -> new DataTableException("Data table is empty, cannot retrieve column names")));
     }
 
     /**
@@ -105,13 +106,13 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     /**
      * Returns the first row that matches the given predicate.
      *
-     * @param  predicate                the predicate to match against rows
-     * @return                          the first row that matches the predicate
-     * @throws IllegalArgumentException if no row matches the predicate
+     * @param  predicate          the predicate to match against rows
+     * @return                    the first row that matches the predicate
+     * @throws DataTableException if no row matches the predicate
      */
     public Map<K, V> getRow(Predicate<Map<K, V>> predicate) {
         return findRow(predicate)
-                .orElseThrow(() -> new IllegalArgumentException("Row not found for predicate: " + predicate));
+                .orElseThrow(() -> new DataTableException("Row not found for predicate: " + predicate));
     }
 
     /**
@@ -155,10 +156,10 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     /**
      * Updates the value in the cell at the given row index and column key.
      *
-     * @param  rowIndex                  the index of the row to update
-     * @param  key                       the key of the column to update
-     * @param  value                     the new value for the cell
-     * @throws IndexOutOfBoundsException if the row index is invalid
+     * @param  rowIndex           the index of the row to update
+     * @param  key                the key of the column to update
+     * @param  value              the new value for the cell
+     * @throws DataTableException if the row index is invalid
      */
     public void updateCell(int rowIndex, @NonNull K key, @NonNull V value) {
         checkRowIndex(rowIndex);
@@ -170,10 +171,9 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     /**
      * Returns a list of values for a given column.
      *
-     * @param  columnName               the column name
-     * @return                          a list of values for the given column
-     * @throws IllegalArgumentException if the column name is not found in the
-     *                                  table
+     * @param  columnName         the column name
+     * @return                    a list of values for the given column
+     * @throws DataTableException if the column name is not found in the table
      */
     public List<V> getColumnEntries(@NonNull K columnName) {
         checkColumnIndex(columnName);
@@ -277,11 +277,11 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * Sorts the rows in the table by the values in the column with the given
      * columnName, using the given comparator to determine the order.
      *
-     * @param  columnName               the name of the column to sort by
-     * @param  comparator               a comparator to determine the order of
-     *                                  the values
-     * @throws IllegalArgumentException if the column columnName is not found in
-     *                                  the table
+     * @param  columnName         the name of the column to sort by
+     * @param  comparator         a comparator to determine the order of the
+     *                            values
+     * @throws DataTableException if the column columnName is not found in the
+     *                            table
      */
     public void sortByColumn(@NonNull K columnName, Comparator<V> comparator) {
         checkColumnIndex(columnName);
@@ -290,14 +290,14 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
 
     private void checkRowIndex(int rowIndex) {
         if (rowIndex < 0 || rowIndex >= size()) {
-            throw new IndexOutOfBoundsException("Invalid row index: " + rowIndex);
+            throw new DataTableException("Invalid row index: " + rowIndex);
         }
     }
 
     private void checkColumnIndex(K columnName) {
         var columnIndex = getColumns().indexOf(columnName);
         if (columnIndex < 0) {
-            throw new IllegalArgumentException("Column not found: " + columnName);
+            throw new DataTableException("Column not found: " + columnName);
         }
     }
 
