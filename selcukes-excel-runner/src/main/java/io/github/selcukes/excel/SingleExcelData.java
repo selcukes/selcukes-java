@@ -32,7 +32,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import static java.lang.String.format;
@@ -161,26 +160,25 @@ public class SingleExcelData {
 
     void modifyFirstColumnData(DataTable<String, String> sheetData, String firstColumn, String secondColumn) {
         String testName = "";
-        Optional<Map<String, String>> previousRowMap = Optional.empty();
+        Map<String, String> previousRow = new LinkedHashMap<>();
         for (var row : sheetData) {
             var currentTestName = row.get(firstColumn);
             if (StringHelper.isNullOrEmpty(currentTestName)) {
                 var newTestName = testName;
                 if (!StringHelper.isNullOrEmpty(secondColumn)) {
-                    String finalTestName = testName;
-                    previousRowMap.ifPresent(previousRow -> {
-                        if (!previousRow.get(firstColumn).startsWith(finalTestName + HYPHEN + EXAMPLE)) {
+                    if (!previousRow.isEmpty()) {
+                        if (!previousRow.get(firstColumn).startsWith(testName + HYPHEN + EXAMPLE)) {
                             previousRow.replace(firstColumn,
-                                finalTestName + HYPHEN + previousRow.getOrDefault(secondColumn, ""));
+                                testName + HYPHEN + previousRow.getOrDefault(secondColumn, ""));
                         }
-                    });
+                    }
                     newTestName = testName + HYPHEN + row.getOrDefault(secondColumn, "");
                 }
                 row.replace(firstColumn, newTestName);
             } else {
                 testName = currentTestName;
             }
-            previousRowMap = Optional.of(row);
+            previousRow = row;
         }
     }
 }
