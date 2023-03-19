@@ -184,6 +184,24 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     }
 
     /**
+     * Updates the column names in the provided map using the mapping specified
+     * in the {@code columnMapping} parameter.
+     *
+     * @param columnMapping a map containing the old column names as keys and
+     *                      the corresponding new column names as values
+     */
+    public void updateColumnName(Map<K, K> columnMapping) {
+        updateRows(row -> {
+            columnMapping.forEach((oldKey, newKey) -> {
+                if (row.containsKey(oldKey)) {
+                    row.put(newKey, row.remove(oldKey));
+                }
+            });
+            return row;
+        });
+    }
+
+    /**
      * Gets the cell value at the specified row and column in the DataTable.
      *
      * @param  rowIndex   the index of the row to get the cell value from

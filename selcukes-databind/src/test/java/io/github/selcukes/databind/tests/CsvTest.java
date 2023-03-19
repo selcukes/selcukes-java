@@ -16,7 +16,6 @@
 
 package io.github.selcukes.databind.tests;
 
-import io.github.selcukes.databind.collections.DataTable;
 import io.github.selcukes.databind.csv.CsvMapper;
 import io.github.selcukes.databind.utils.Resources;
 import org.testng.annotations.Test;
@@ -30,17 +29,12 @@ public class CsvTest {
     @Test
     public void csvDataReaderTest() {
         var filePath = Resources.ofTest("employee.csv");
-        var csvData = CsvMapper.parse(filePath, CSV_STRIP_REGEX);
-        var table = DataTable.of(csvData);
+        var table = CsvMapper.parse(filePath, CSV_STRIP_REGEX);
 
         Map<String, String> keyMapping = Map.of("Name", "FullName");
+        table.updateColumnName(keyMapping);
+
         table.updateRows(row -> {
-            // Update Map Keys using keyMapping
-            keyMapping.forEach((oldKey, newKey) -> {
-                if (row.containsKey(oldKey)) {
-                    row.put(newKey, row.remove(oldKey));
-                }
-            });
             // Update ID Column values
             if (row.get("ID").isEmpty()) {
                 row.put("ID", updateID(row.get("Phone"), row.get("Country")));
