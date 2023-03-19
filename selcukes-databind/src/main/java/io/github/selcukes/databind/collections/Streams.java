@@ -110,23 +110,25 @@ public class Streams {
     }
 
     /**
-     * Converts a list of lists of strings into a list of maps, where each map
+     * Converts a list of lists of strings into a DataTable, where each map
      * represents a row in the table and the keys correspond to the column
      * headers.
      * <p>
-     * The first row in the list represents the headers, and is skipped. For
-     * each subsequent row, a map is created with keys corresponding to the
-     * headers and values corresponding to the cell values in the row. If a cell
-     * value is missing, an empty string is used as the default value.
+     * The first row in the list represents the headers and is skipped. For each
+     * subsequent row, a map is created with keys corresponding to the headers
+     * and values corresponding to the cell values in the row. If a cell value
+     * is missing, an empty string is used as the default value.
      *
      * @param  cells a list of lists of strings that represent the table
      * @return       a list of maps, where each map represents a row in the
      *               table
      */
-    public List<Map<String, String>> toListOfMap(List<List<String>> cells) {
-        var headers = cells.get(0);
-        return cells.stream().skip(1).map(row -> Maps.of(headers, row, ""))
-                .collect(Collectors.toList());
+    public DataTable<String, String> toTable(List<List<String>> cells) {
+        List<String> headers = cells.get(0);
+        return cells.stream()
+                .skip(1)
+                .map(row -> Maps.of(headers, row, ""))
+                .collect(Collectors.toCollection(DataTable::new));
     }
 
     /**

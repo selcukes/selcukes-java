@@ -55,9 +55,9 @@ public class CollectionsTest {
             List.of("a", "b", "c"),
             List.of("1", "2", "3"),
             List.of("4", "5", "6"));
-        var listMap = Streams.toListOfMap(listOfList);
+        var table = Streams.toTable(listOfList);
 
-        assertEquals(listMap.get(1).get("a"), "4");
+        assertEquals(table.get(1).get("a"), "4");
     }
 
     @Test
