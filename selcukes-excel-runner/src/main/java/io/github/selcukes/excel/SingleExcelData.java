@@ -20,6 +20,7 @@ import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ExcelConfigException;
 import io.github.selcukes.commons.helper.Preconditions;
 import io.github.selcukes.databind.collections.DataTable;
+import io.github.selcukes.databind.collections.Lists;
 import io.github.selcukes.databind.collections.Maps;
 import io.github.selcukes.databind.excel.ExcelMapper;
 import io.github.selcukes.databind.utils.StringHelper;
@@ -34,7 +35,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.lang.String.format;
@@ -93,10 +93,7 @@ public class SingleExcelData {
                         });
             }
         });
-
-        return testScenarios.stream()
-                .filter(name -> anyMatch(suiteScenarios, name))
-                .collect(Collectors.toList());
+        return Lists.retainIf(testScenarios, name -> anyMatch(suiteScenarios, name));
     }
 
     /**
