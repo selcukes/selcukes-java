@@ -28,13 +28,11 @@ import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
 import static java.lang.String.format;
@@ -48,8 +46,7 @@ public class SingleExcelData {
     static final String HYPHEN = " - ";
     static final String EXAMPLE = "Example";
     private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcel().get("suiteName");
-    private static final List<String> IGNORE_SHEETS = new ArrayList<>(
-        Arrays.asList("Master", "Smoke", "Regression", "StaticData"));
+    private static final List<String> IGNORE_SHEETS = Lists.of("Master", "Smoke", "Regression", "StaticData");
     private static Map<String, DataTable<String, String>> excelData = new LinkedHashMap<>();
 
     public static void init() {
@@ -163,24 +160,25 @@ public class SingleExcelData {
     }
 
     void modifyFirstColumnData(DataTable<String, String> sheetData, String firstColumn, String secondColumn) {
-        var testName = new AtomicReference<>("");
+        String testName = "";
         Optional<Map<String, String>> previousRowMap = Optional.empty();
         for (var row : sheetData) {
             var currentTestName = row.get(firstColumn);
             if (StringHelper.isNullOrEmpty(currentTestName)) {
-                var newTestName = testName.get();
+                var newTestName = testName;
                 if (!StringHelper.isNullOrEmpty(secondColumn)) {
+                    String finalTestName = testName;
                     previousRowMap.ifPresent(previousRow -> {
-                        if (!previousRow.get(firstColumn).startsWith(testName.get() + HYPHEN + EXAMPLE)) {
+                        if (!previousRow.get(firstColumn).startsWith(finalTestName + HYPHEN + EXAMPLE)) {
                             previousRow.replace(firstColumn,
-                                testName.get() + HYPHEN + previousRow.getOrDefault(secondColumn, ""));
+                                finalTestName + HYPHEN + previousRow.getOrDefault(secondColumn, ""));
                         }
                     });
-                    newTestName = testName.get() + HYPHEN + row.getOrDefault(secondColumn, "");
+                    newTestName = testName + HYPHEN + row.getOrDefault(secondColumn, "");
                 }
                 row.replace(firstColumn, newTestName);
             } else {
-                testName.set(currentTestName);
+                testName = currentTestName;
             }
             previousRowMap = Optional.of(row);
         }

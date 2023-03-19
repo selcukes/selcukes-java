@@ -39,19 +39,19 @@ public class Lists {
      * is annotated with {@code @SafeVarargs} to suppress unchecked warnings
      * that would otherwise occur due to the use of a varargs parameter.
      *
-     * @param <E>      the type of elements in the list
-     * @param elements the elements to include in the list
-     * @return a new {@code LinkedList} containing
-     * the specified elements
-     * @throws NullPointerException     if the specified array is {@code null}
-     *                                  or contains {@code null} elements
-     * @throws IllegalArgumentException if the specified array is empty
-     * @implNote This method does not modify the input
-     * array or expose it to external code,
-     * which makes the use of
-     * {@code @SafeVarargs} safe in this
-     * context.
-     * @see List#of(Object[])
+     * @param    <E>                      the type of elements in the list
+     * @param    elements                 the elements to include in the list
+     * @return                            a new {@code LinkedList} containing
+     *                                    the specified elements
+     * @throws   NullPointerException     if the specified array is {@code null}
+     *                                    or contains {@code null} elements
+     * @throws   IllegalArgumentException if the specified array is empty
+     * @implNote                          This method does not modify the input
+     *                                    array or expose it to external code,
+     *                                    which makes the use of
+     *                                    {@code @SafeVarargs} safe in this
+     *                                    context.
+     * @see                               List#of(Object[])
      */
     @SafeVarargs
     public <E> List<E> of(E... elements) {
@@ -62,12 +62,12 @@ public class Lists {
      * Returns a list of non-empty values from a stream by applying a mapper
      * function to each element.
      *
-     * @param stream the stream of elements to be mapped and filtered
-     * @param mapper the function to apply to each element in the stream
-     * @param <T>    the type of the input elements in the stream
-     * @param <R>    the type of the output elements in the resulting list
-     * @return a list of non-empty values produced by applying the mapper
-     * function to the elements of the input stream
+     * @param  stream the stream of elements to be mapped and filtered
+     * @param  mapper the function to apply to each element in the stream
+     * @param  <T>    the type of the input elements in the stream
+     * @param  <R>    the type of the output elements in the resulting list
+     * @return        a list of non-empty values produced by applying the mapper
+     *                function to the elements of the input stream
      */
     public <T, R> List<R> of(Stream<T> stream, Function<? super T, ? extends R> mapper) {
         return stream.parallel()
@@ -79,9 +79,9 @@ public class Lists {
     /**
      * Checks if a given value is non-empty.
      *
-     * @param value the value to be checked for emptiness
-     * @param <T>   the type of the input value
-     * @return true if the value is not empty, false otherwise
+     * @param  value the value to be checked for emptiness
+     * @param  <T>   the type of the input value
+     * @return       true if the value is not empty, false otherwise
      */
     public <T> boolean nonEmpty(T value) {
         if (value instanceof Collection) {
@@ -96,9 +96,9 @@ public class Lists {
     /**
      * Returns a new case-insensitive list containing the specified elements.
      *
-     * @param elements the elements to include in the list
-     * @return a new case-insensitive list containing the specified
-     * elements
+     * @param  elements the elements to include in the list
+     * @return          a new case-insensitive list containing the specified
+     *                  elements
      */
     public List<String> ofIgnoreCase(String... elements) {
         var stringList = Arrays.asList(elements);
@@ -106,12 +106,13 @@ public class Lists {
     }
 
     /**
-     * Returns a new list containing only the elements of the given list that match the specified predicate.
+     * Returns a new list containing only the elements of the given list that
+     * match the specified predicate.
      *
-     * @param <T>       the type of elements in the list
-     * @param list      the list to be filtered
-     * @param predicate the predicate used to test elements for inclusion
-     * @return a new list containing only the matching elements
+     * @param  <T>       the type of elements in the list
+     * @param  list      the list to be filtered
+     * @param  predicate the predicate used to test elements for inclusion
+     * @return           a new list containing only the matching elements
      */
     public <T> List<T> retainIf(List<T> list, Predicate<T> predicate) {
         return list.stream()
