@@ -32,7 +32,7 @@ public class CsvTest {
         var table = CsvMapper.parse(filePath, CSV_STRIP_REGEX);
 
         Map<String, String> keyMapping = Map.of("Name", "FullName");
-        table.updateColumnName(keyMapping);
+        table.renameColumn(keyMapping);
 
         table.updateRows(row -> {
             // Update ID Column values

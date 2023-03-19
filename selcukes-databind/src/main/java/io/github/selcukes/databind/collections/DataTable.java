@@ -18,6 +18,7 @@ package io.github.selcukes.databind.collections;
 
 import lombok.NonNull;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -50,10 +51,10 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @throws IllegalStateException if the data table is empty
      */
     public List<K> getColumns() {
-        return stream().findFirst()
+        return Collections.unmodifiableList(parallelStream().findFirst()
                 .map(Map::keySet)
                 .map(List::copyOf)
-                .orElseThrow(() -> new IllegalStateException("Data table is empty"));
+                .orElseThrow(() -> new IllegalStateException("Data table is empty")));
     }
 
     /**
@@ -96,7 +97,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      *                   no such row is found
      */
     public Optional<Map<K, V>> findRow(Predicate<Map<K, V>> predicate) {
-        return stream()
+        return parallelStream()
                 .filter(predicate)
                 .findFirst();
     }
@@ -133,7 +134,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @throws NullPointerException if key is null
      */
     public Map<V, DataTable<K, V>> groupByColumn(@NonNull K key) {
-        return stream().filter(map -> map.containsKey(key))
+        return parallelStream().filter(map -> map.containsKey(key))
                 .collect(Collectors.groupingBy(row -> row.get(key),
                     Collectors.toCollection(DataTable::new)));
     }
@@ -176,7 +177,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      */
     public List<V> getColumnEntries(@NonNull K columnName) {
         checkColumnIndex(columnName);
-        return stream()
+        return parallelStream()
                 .map(row -> row.getOrDefault(columnName, null))
                 .collect(Collectors.toList());
     }
@@ -188,7 +189,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @param columnMapping a map containing the old column names as keys and
      *                      the corresponding new column names as values
      */
-    public void updateColumnName(Map<K, K> columnMapping) {
+    public void renameColumn(Map<K, K> columnMapping) {
         updateRows(row -> {
             columnMapping.forEach((oldKey, newKey) -> {
                 if (row.containsKey(oldKey)) {
@@ -220,7 +221,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @throws NullPointerException if the expected row is null
      */
     public boolean contains(@NonNull Map<K, V> expectedRow) {
-        return stream().anyMatch(actualRow -> expectedRow.entrySet().containsAll(actualRow.entrySet()));
+        return parallelStream().anyMatch(actualRow -> expectedRow.entrySet().containsAll(actualRow.entrySet()));
     }
 
     /**
@@ -307,7 +308,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @return         A new DataTable with only the selected columns.
      */
     public DataTable<K, V> selectColumns(@NonNull List<K> columns) {
-        return stream()
+        return parallelStream()
                 .map(row -> row.entrySet().stream()
                         .filter(entry -> columns.contains(entry.getKey()))
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
@@ -329,7 +330,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
             @NonNull DataTable<K, L> otherTable, @NonNull K joinColumn,
             @NonNull BiFunction<Map<K, V>, Map<K, L>, Map<K, R>> joinFunction
     ) {
-        return stream()
+        return parallelStream()
                 .flatMap(row -> otherTable.getRows().stream()
                         .filter(otherRow -> row.get(joinColumn).equals(otherRow.get(joinColumn)))
                         .map(matchingRow -> joinFunction.apply(row, matchingRow)))
