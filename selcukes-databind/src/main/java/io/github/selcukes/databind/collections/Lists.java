@@ -123,7 +123,7 @@ public class Lists {
     @NoArgsConstructor
     private static class CaseInsensitiveList extends ArrayList<String> {
 
-        public CaseInsensitiveList(final Collection<? extends String> collection) {
+        public CaseInsensitiveList(final Collection<String> collection) {
             super(collection);
         }
 
