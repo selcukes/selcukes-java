@@ -44,10 +44,10 @@ public class CsvMapper {
      */
     public DataTable<String, String> parse(Path filePath, String regex) {
         try (var lines = Files.lines(filePath)) {
-            return Streams.toTable(
-                Lists.of(lines, line -> Arrays.stream(line.split(regex))
-                        .map(field -> field.replaceAll(DOUBLE_QUOTES_REGEX, ""))
-                        .collect(Collectors.toCollection(LinkedList::new))));
+            var linesOnWords = Lists.of(lines, line -> Arrays.stream(line.split(regex))
+                    .map(field -> field.replaceAll(DOUBLE_QUOTES_REGEX, ""))
+                    .collect(Collectors.toCollection(LinkedList::new)));
+            return Streams.toTable(linesOnWords);
         } catch (Exception e) {
             throw new DataMapperException("Failed parsing CSV File: ", e);
         }

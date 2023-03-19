@@ -123,7 +123,7 @@ public class Streams {
      * @return       a list of maps, where each map represents a row in the
      *               table
      */
-    public DataTable<String, String> toTable(List<List<String>> cells) {
+    public DataTable<String, String> toTable(List<? extends List<String>> cells) {
         List<String> headers = cells.get(0);
         return cells.stream()
                 .skip(1)
