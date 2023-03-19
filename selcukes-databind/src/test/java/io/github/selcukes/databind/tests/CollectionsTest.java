@@ -61,18 +61,6 @@ public class CollectionsTest {
     }
 
     @Test
-    public void groupByTest() {
-        var listMap = List.of(
-            Map.of("Scenario", "Test1", "Name", "Ram"),
-            Map.of("Scenario", "Test1", "Name", "Hello"),
-            Map.of("Scenario", "Test2", "Name", "RB"),
-            Map.of("Scenario", "Test2", "Name", "Pojo"),
-            Map.of("Scenario", "Test3", "Name", "Babu"));
-        var mapOfList = Streams.groupBy(listMap, "Scenario");
-        assertEquals(mapOfList.get("Test2").get(1).get("Name"), "Pojo");
-    }
-
-    @Test
     public void testFindFirstAndIndex() {
         List<String> strings = List.of("foo", "bar", "baz");
 

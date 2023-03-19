@@ -187,17 +187,4 @@ public class Streams {
         return Stream.of(enumData.getEnumConstants()).map(Enum::toString);
     }
 
-    /**
-     * Groups a list of maps by a specified key.
-     *
-     * @param  data A list of maps representing the data to group.
-     * @param  key  The key to group the data by.
-     * @return      A map of lists of maps grouped by the specified key.
-     */
-    public Map<String, List<Map<String, String>>> groupBy(List<Map<String, String>> data, String key) {
-        return data.stream()
-                .filter(map -> map.containsKey(key))
-                .collect(Collectors.groupingBy(map -> map.get(key), Collectors.toList()));
-    }
-
 }
