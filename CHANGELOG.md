@@ -12,6 +12,24 @@
 
 ### Removed
 
+## [2.2.6] (21-03-2023)
+
+### Added
+
+[DataBind] Added a new class called DataTable that provides a set of common table operations for working with data in various formats including Excel, CSV, web tables, and databases ([#230](https://github.com/selcukes/selcukes-java/pull/230))
+
+### Changed
+
+[DataBind] Moved Streams, Lists, Maps, and DataTable into a new "collections" package ([#230](https://github.com/selcukes/selcukes-java/pull/230))
+[DataBind] Updated parse Excel and CSV to return a DataTable instead of a List of Map<String, String> ([#230](https://github.com/selcukes/selcukes-java/pull/230))
+
+### Fixed
+[Core] Fixed issue in launching Chrome browser of 111 series ([#230](https://github.com/selcukes/selcukes-java/pull/230))
+
+### Removed
+
+[DataBind] Removed LinkedProperties class and instead use Properties class([#230](https://github.com/selcukes/selcukes-java/pull/230))
+
 ## [2.2.5] (07-03-2023)
 
 ### Added
