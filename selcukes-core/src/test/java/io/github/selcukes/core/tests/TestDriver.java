@@ -17,16 +17,14 @@
 package io.github.selcukes.core.tests;
 
 import lombok.experimental.UtilityClass;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 @UtilityClass
 public class TestDriver {
-    public static WebDriver getChromeDriver() {
+    public static ChromeOptions getCustomOptions() {
         var options = new ChromeOptions();
         options.addArguments("--headless");
         options.addArguments("--remote-allow-origins=*");
-        return new ChromeDriver(options);
+        return options;
     }
 }

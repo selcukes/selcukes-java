@@ -17,16 +17,15 @@
 package io.github.selcukes.core.tests.web;
 
 import io.github.selcukes.commons.helper.FileHelper;
-import io.github.selcukes.core.listener.EventCapture;
+import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WebPage;
+import io.github.selcukes.core.tests.TestDriver;
 import io.github.selcukes.databind.utils.Clocks;
 import io.github.selcukes.databind.utils.Resources;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -35,20 +34,16 @@ import java.io.File;
 import java.nio.file.Paths;
 
 import static io.github.selcukes.core.page.ui.PageElement.FILED_ATTRIBUTE_PROPERTY;
-import static io.github.selcukes.core.tests.TestDriver.getChromeDriver;
 import static io.github.selcukes.databind.utils.Clocks.DATE_TIME_FILE_FORMAT;
 
 @CustomLog
 public class EventDriverTest {
     WebPage page;
-    WebDriver driver;
 
     @BeforeMethod
     private void setup() {
-        driver = getChromeDriver();
         System.setProperty(FILED_ATTRIBUTE_PROPERTY, "class");
-        driver = new EventFiringDecorator<>(new EventCapture()).decorate(driver);
-        page = new WebPage(driver);
+        page = Pages.webPage(TestDriver.getCustomOptions());
     }
 
     @Test(description = "TechyWorks Web Test")
@@ -70,8 +65,5 @@ public class EventDriverTest {
         String filePath = reportDirectory + File.separator + "screenshot_" + Clocks.dateTime(DATE_TIME_FILE_FORMAT)
                 + ".png";
         Resources.copyFile(srcFile.toPath(), Paths.get(filePath));
-        if (driver != null) {
-            driver.quit();
-        }
     }
 }

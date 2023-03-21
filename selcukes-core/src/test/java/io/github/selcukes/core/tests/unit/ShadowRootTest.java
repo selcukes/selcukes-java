@@ -16,31 +16,21 @@
 
 package io.github.selcukes.core.tests.unit;
 
+import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WebPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static io.github.selcukes.core.tests.TestDriver.getChromeDriver;
+import static io.github.selcukes.core.tests.TestDriver.getCustomOptions;
 
 public class ShadowRootTest {
     WebPage page;
-    WebDriver driver;
 
     @BeforeMethod
     private void setup() {
-        driver = getChromeDriver();
-        page = new WebPage(driver);
-    }
-
-    @AfterMethod
-    private void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+        page = Pages.webPage(getCustomOptions());
     }
 
     @Test

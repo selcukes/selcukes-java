@@ -16,36 +16,26 @@
 
 package io.github.selcukes.core.tests.web;
 
+import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WebPage;
 import io.github.selcukes.core.wait.WaitCondition;
 import lombok.CustomLog;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.UUID;
 
-import static io.github.selcukes.core.tests.TestDriver.getChromeDriver;
+import static io.github.selcukes.core.tests.TestDriver.getCustomOptions;
 
 @CustomLog
 public class WebAuthTest {
     WebPage page;
-    WebDriver driver;
 
     @BeforeMethod
     private void setup() {
-        driver = getChromeDriver();
-        page = new WebPage(driver);
-    }
-
-    @AfterMethod
-    private void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+        page = Pages.webPage(getCustomOptions());
     }
 
     @Test(enabled = false)
