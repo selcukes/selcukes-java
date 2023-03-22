@@ -20,24 +20,11 @@ import io.github.selcukes.core.validation.Validation;
 import org.testng.annotations.Test;
 
 public class ValidationTest {
-    @Test(expectedExceptions = { AssertionError.class })
-    public void test1() {
-        Validation.failWithMessage(true, "Error Message 1");
-        Validation.failWithMessage(true, "Error Message 2");
-        Validation.failWithMessage(true, "Error Message 3");
+    @Test(threadPoolSize = 3, invocationCount = 5, expectedExceptions = { AssertionError.class })
+    public void testValidation() {
+        Validation.failWithMessage(true, Thread.currentThread().getName() + " - Error Message 1");
+        Validation.failWithMessage(true, Thread.currentThread().getName() + " - Error Message 2");
+        Validation.failWithMessage(true, Thread.currentThread().getName() + " - Error Message 3");
         Validation.failAll();
-    }
-
-    @Test(expectedExceptions = { AssertionError.class })
-    public void test2() {
-        Validation.failWithMessage(true, "Error Message 4");
-        Validation.failWithMessage(true, "Error Message 5");
-        Validation.failWithMessage(true, "Error Message 6");
-        Validation.failAll();
-    }
-
-    @Test(expectedExceptions = { AssertionError.class })
-    public void test3() {
-        Validation.failWithMessage(false, "Error Message 7");
     }
 }

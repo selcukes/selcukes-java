@@ -29,7 +29,7 @@ import static org.testng.Assert.assertTrue;
 public class StringHelperTest {
     @Test
     public void interpolateTest() {
-        Map<String, String> stringMap = Map.of("module", "question");
+        var stringMap = Map.of("module", "question");
         String label = "This is sample ${module} maker";
         String updatedLabel = StringHelper.interpolate(label, stringMap::get);
         assertEquals(updatedLabel, "This is sample question maker");
@@ -45,7 +45,7 @@ public class StringHelperTest {
 
     @Test
     public void jsonTest() {
-        Map<String, String> map = new LinkedHashMap<>();
+        var map = new LinkedHashMap<>();
         map.put("a", "1");
         map.put("b", "2");
         map.put("c", "3");

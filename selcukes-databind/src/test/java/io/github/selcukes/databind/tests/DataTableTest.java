@@ -17,15 +17,18 @@
 package io.github.selcukes.databind.tests;
 
 import io.github.selcukes.databind.collections.DataTable;
+import io.github.selcukes.databind.collections.Maths;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -33,7 +36,6 @@ import static org.testng.Assert.assertTrue;
 
 public class DataTableTest {
     private DataTable<String, String> dataTable;
-    private Map<String, String> row2;
     private Set<String> columns;
 
     @BeforeMethod
@@ -41,7 +43,7 @@ public class DataTableTest {
         columns = Set.of("Name", "Age", "Country");
         dataTable = new DataTable<>();
         var row1 = Map.of("Name", "Alice", "Age", "25", "Country", "USA");
-        row2 = Map.of("Name", "Bob", "Age", "35", "Country", "Canada");
+        Map<String, String> row2 = Map.of("Name", "Bob", "Age", "35", "Country", "Canada");
         dataTable.addRow(row1);
         dataTable.addRow(row2);
     }
@@ -50,7 +52,7 @@ public class DataTableTest {
     void testAddRow() {
         var newRow = Map.of("Name", "Charlie", "Age", "30", "Country", "UK");
         dataTable.addRow(newRow);
-        assertEquals(dataTable.getRows().size(), 3);
+        assertEquals(dataTable.size(), 3);
         assertTrue(dataTable.contains(newRow));
     }
 
@@ -60,14 +62,14 @@ public class DataTableTest {
         var row4 = Map.of("Name", "Eve", "Age", "20", "Country", "France");
         var newRows = List.of(row3, row4);
         dataTable.addRows(newRows);
-        assertEquals(dataTable.getRows().size(), 4);
+        assertEquals(dataTable.size(), 4);
         assertTrue(dataTable.contains(row3));
         assertTrue(dataTable.contains(row4));
     }
 
     @Test(testName = "Test getRows")
     void testGetRows() {
-        var rows = dataTable.getRows();
+        var rows = dataTable.rows().collect(Collectors.toList());
 
         assertEquals(rows.size(), 2);
 
@@ -80,12 +82,6 @@ public class DataTableTest {
         assertEquals(row2.get("Name"), "Bob");
         assertEquals(row2.get("Age"), "35");
         assertEquals(row2.get("Country"), "Canada");
-    }
-
-    @Test(testName = "Test getRow")
-    void testGetRow() {
-        Map<String, String> actualRow = dataTable.getRow(row -> row.get("Name").equals("Bob"));
-        assertEquals(actualRow, row2);
     }
 
     @Test(testName = "Test groupByColumn")
@@ -125,7 +121,7 @@ public class DataTableTest {
         Map<String, Object> rowB = Map.of("ID", 2, "Name", "Jane Smith", "Age", 30, "IsEmployed", false);
         Map<String, Object> rowC = Map.of("ID", 3, "Name", "Tom", "Age", 25, "IsEmployed", false);
         var dataTable = DataTable.of(rowA, rowB, rowC);
-        assertEquals(dataTable.getRows().size(), 3);
+        assertEquals(dataTable.size(), 3);
         assertTrue(dataTable.contains(rowA));
         assertTrue(dataTable.contains(rowB));
         assertTrue(dataTable.contains(rowC));
@@ -138,7 +134,7 @@ public class DataTableTest {
                 .stream()
                 .map(value -> (boolean) value)
                 .forEach(Assert::assertTrue);
-        assertEquals(dataTable.getRows().get(0).get("Age"), 30);
+        assertEquals(dataTable.get(0).get("Age"), 30);
     }
 
     @Test
@@ -270,5 +266,35 @@ public class DataTableTest {
         assertTrue(joinedTable.getColumns().contains("Salary"));
         assertTrue(joinedTable.getColumns().contains("IsEmployed"));
         assertTrue(joinedTable.getColumns().contains("Sum"));
+    }
+
+    @Test(threadPoolSize = 3, invocationCount = 5)
+    public void testAggregateByColumn() {
+        var table = DataTable.of(
+            Map.of("id", "1", "Amount", "9,852,855.97", "Type", "Debit"),
+            Map.of("id", "2", "Amount", "9,840,000.00", "Type", "Debit"),
+            Map.of("id", "3", "Amount", "120,000.00", "Type", "Credit"),
+            Map.of("id", "4", "Amount", "132,855.97", "Type", "Debit"),
+            Map.of("id", "5", "Amount", "19,945,711.94", "Type", "Credit"));
+
+        var aggregatedMap = table.aggregateByColumn("Amount", "Type",
+            Maths.of(BigDecimal::add));
+        assertEquals(aggregatedMap.get("Debit"), "19,825,711.94");
+        assertEquals(aggregatedMap.get("Credit"), "20,065,711.94");
+    }
+
+    @Test
+    public void testFindingFirstAndLast() {
+        var table = DataTable.of(
+            Map.of("id", "1", "Amount", "9,852,855.97", "Type", "Debit"),
+            Map.of("id", "2", "Amount", "9,840,000.00", "Type", "Debit"),
+            Map.of("id", "3", "Amount", "120,000.00", "Type", "Credit"),
+            Map.of("id", "4", "Amount", "132,855.97", "Type", "Debit"),
+            Map.of("id", "5", "Amount", "19,945,711.94", "Type", "Credit"));
+
+        table.findLast(row -> row.get("Type").equalsIgnoreCase("Debit"))
+                .ifPresent(row -> assertEquals(row.get("id"), "4"));
+        table.findFirst(row -> row.get("Type").equalsIgnoreCase("Credit"))
+                .ifPresent(row -> assertEquals(row.get("id"), "3"));
     }
 }

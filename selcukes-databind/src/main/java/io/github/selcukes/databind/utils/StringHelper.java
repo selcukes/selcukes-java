@@ -30,6 +30,7 @@ import java.util.Optional;
 import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static io.github.selcukes.databind.properties.PropertiesMapper.systemProperties;
@@ -101,17 +102,10 @@ public class StringHelper {
      * @return      A string that is in camel case.
      */
     public String toCamelCase(final String text) {
-
-        final StringBuilder stringBuilder = new StringBuilder(text.length());
-
-        for (final String word : text.replaceAll(CAMEL_CASE_REGEX, "_").split("_")) {
-            if (!word.isEmpty()) {
-                stringBuilder.append(Character.toUpperCase(word.charAt(0)));
-                stringBuilder.append(word.substring(1).toLowerCase());
-            }
-        }
-
-        return stringBuilder.toString();
+        return Arrays.stream(text.replaceAll(CAMEL_CASE_REGEX, "_").split("_"))
+                .filter(word -> !word.isEmpty())
+                .map(word -> Character.toUpperCase(word.charAt(0)) + word.substring(1).toLowerCase())
+                .collect(Collectors.joining());
     }
 
     /**
