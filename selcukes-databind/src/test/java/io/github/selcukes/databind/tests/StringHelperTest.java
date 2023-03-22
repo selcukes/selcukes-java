@@ -80,20 +80,12 @@ public class StringHelperTest {
 
     @Test
     public void fieldNameTest() {
-        String text = " Account-Number-123?";
-        String expectedFieldName = "accountNumber123";
-        String actualFieldName = StringHelper.toFieldName(text);
-        assertEquals(actualFieldName, expectedFieldName, "Field name should be " + expectedFieldName);
+        verifyFieldName(" Account-Number-123?", "accountNumber123");
+        verifyFieldName("Account Number", "accountNumber");
+        verifyFieldName("account123%45", "account12345");
+    }
 
-        text = "Account Number";
-        expectedFieldName = "accountNumber";
-        actualFieldName = StringHelper.toFieldName(text);
-        assertEquals(actualFieldName, expectedFieldName, "Field name should be " + expectedFieldName);
-
-        text = "account123%45";
-        expectedFieldName = "account12345";
-        actualFieldName = StringHelper.toFieldName(text);
-        assertEquals(actualFieldName, expectedFieldName, "Field name should be " + expectedFieldName);
-
+    private void verifyFieldName(String actual, String expected) {
+        assertEquals(StringHelper.toFieldName(actual), expected, "Field name should be " + expected);
     }
 }
