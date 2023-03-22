@@ -75,29 +75,32 @@ public class Reflections {
     /**
      * Invokes a method with the specified parameters on the specified object.
      *
-     * @param object     the object on which to invoke the method
-     * @param methodName the name of the method to invoke
-     * @param param      the parameters to pass to the method
+     * @param  object     the object on which to invoke the method
+     * @param  methodName the name of the method to invoke
+     * @param  param      the parameters to pass to the method
+     * @return            the result of the method invocation
      */
     @SneakyThrows
-    public static void invokeMethod(final Object object, final String methodName, final Object... param) {
+    public static Object invokeMethod(final Object object, final String methodName, final Object... param) {
         var method = object.getClass().getDeclaredMethod(methodName, getClasses(param));
         method.setAccessible(true);
-        method.invoke(object, param);
+        return method.invoke(object, param);
     }
 
     /**
      * Invokes a static method with the specified parameters on the specified
      * class.
-     *
-     * @param clazz      the class containing the static method
-     * @param methodName the name of the static method to invoke
-     * @param param      the parameters to pass to the method
+     * 
+     * @param  clazz      the class containing the static method
+     * @param  methodName the name of the static method to invoke
+     * @param  param      the parameters to pass to the method
+     * @return            the result of the method invocation
      */
     @SneakyThrows
-    public static void invokeStaticMethod(final Class<?> clazz, final String methodName, final Object... param) {
-        var method = clazz.getMethod(methodName, getClasses(param));
-        method.invoke(null, param);
+    public static Object invokeStaticMethod(final Class<?> clazz, final String methodName, final Object... param) {
+        var method = clazz.getDeclaredMethod(methodName, getClasses(param));
+        method.setAccessible(true);
+        return method.invoke(null, param);
     }
 
     private Class<?>[] getClasses(Object... objects) {
