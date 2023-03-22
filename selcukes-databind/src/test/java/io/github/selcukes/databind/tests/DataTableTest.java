@@ -277,7 +277,7 @@ public class DataTableTest {
             Map.of("id", "1", "Amount", "132,855.97", "Type", "Debit"),
             Map.of("id", "1", "Amount", "19,945,711.94", "Type", "Credit"));
 
-        var aggregatedMap = table.aggregateByColumn("Amount", "Type", Maths.decimalCalculator(BigDecimal::add));
+        var aggregatedMap = table.aggregateByColumn("Amount", "Type", Maths.of(BigDecimal::add));
         assertEquals(aggregatedMap.get("Debit"), "19,825,711.94");
         assertEquals(aggregatedMap.get("Credit"), "20,065,711.94");
     }

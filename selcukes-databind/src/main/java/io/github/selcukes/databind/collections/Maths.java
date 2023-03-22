@@ -36,7 +36,7 @@ public class Maths {
      *                                  decimal calculation.
      * @throws IllegalArgumentException if the input is invalid.
      */
-    public BinaryOperator<String> decimalCalculator(BinaryOperator<BigDecimal> operator) {
+    public BinaryOperator<String> of(BinaryOperator<BigDecimal> operator) {
         DECIMAL_FORMAT.setParseBigDecimal(true);
         return (s1, s2) -> {
             try {
