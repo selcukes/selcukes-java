@@ -31,6 +31,7 @@ import java.util.function.BiFunction;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A generic data table that stores data in rows and columns.
@@ -98,30 +99,18 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      *                   no such row is found
      */
     public Optional<Map<K, V>> findRow(Predicate<Map<K, V>> predicate) {
-        return parallelStream()
+        return rows()
                 .filter(predicate)
                 .findFirst();
     }
 
     /**
-     * Returns the first row that matches the given predicate.
+     * Returns a parallel stream of all the rows in the data table.
      *
-     * @param  predicate          the predicate to match against rows
-     * @return                    the first row that matches the predicate
-     * @throws DataTableException if no row matches the predicate
+     * @return a parallel stream of rows
      */
-    public Map<K, V> getRow(Predicate<Map<K, V>> predicate) {
-        return findRow(predicate)
-                .orElseThrow(() -> new DataTableException("Row not found for predicate: " + predicate));
-    }
-
-    /**
-     * Returns an unmodifiable list of all the rows in the data table.
-     *
-     * @return an unmodifiable list of rows
-     */
-    public List<Map<K, V>> getRows() {
-        return List.copyOf(this);
+    public Stream<Map<K, V>> rows() {
+        return parallelStream();
     }
 
     /**
@@ -135,7 +124,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @throws NullPointerException if key is null
      */
     public Map<V, DataTable<K, V>> groupByColumn(@NonNull K key) {
-        return parallelStream().filter(map -> map.containsKey(key))
+        return rows().filter(map -> map.containsKey(key))
                 .collect(Collectors.groupingBy(row -> row.get(key),
                     Collectors.toCollection(DataTable::new)));
     }
@@ -177,7 +166,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      */
     public List<V> getColumnEntries(@NonNull K columnName) {
         checkColumnIndex(columnName);
-        return parallelStream()
+        return rows()
                 .map(row -> row.getOrDefault(columnName, null))
                 .collect(Collectors.toList());
     }
@@ -221,7 +210,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @throws NullPointerException if the expected row is null
      */
     public boolean contains(@NonNull Map<K, V> expectedRow) {
-        return parallelStream().anyMatch(actualRow -> expectedRow.entrySet().containsAll(actualRow.entrySet()));
+        return rows().anyMatch(actualRow -> expectedRow.entrySet().containsAll(actualRow.entrySet()));
     }
 
     /**
@@ -308,7 +297,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @return         A new DataTable with only the selected columns.
      */
     public DataTable<K, V> selectColumns(@NonNull List<K> columns) {
-        return parallelStream()
+        return rows()
                 .map(row -> row.entrySet().stream()
                         .filter(entry -> columns.contains(entry.getKey()))
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
@@ -325,7 +314,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @throws NullPointerException if the given predicate is null
      */
     public DataTable<K, V> selectRows(Predicate<Map<K, V>> predicate) {
-        return parallelStream()
+        return rows()
                 .filter(predicate)
                 .collect(DataTable::new, DataTable::addRow, DataTable::addAll);
     }
@@ -345,8 +334,8 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
             @NonNull DataTable<K, L> otherTable, @NonNull K joinColumn,
             @NonNull BiFunction<Map<K, V>, Map<K, L>, Map<K, R>> joinFunction
     ) {
-        return parallelStream()
-                .flatMap(row -> otherTable.getRows().stream()
+        return rows()
+                .flatMap(row -> otherTable.rows()
                         .filter(otherRow -> row.get(joinColumn).equals(otherRow.get(joinColumn)))
                         .map(matchingRow -> joinFunction.apply(row, matchingRow)))
                 .collect(Collectors.toCollection(DataTable::new));

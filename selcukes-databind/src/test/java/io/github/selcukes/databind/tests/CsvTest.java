@@ -41,7 +41,7 @@ public class CsvTest {
             }
             return row;
         });
-        table.getRows().forEach(System.out::println);
+        table.forEach(System.out::println);
     }
 
     private String updateID(String phone, String country) {

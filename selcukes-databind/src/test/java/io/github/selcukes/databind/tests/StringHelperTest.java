@@ -44,7 +44,7 @@ public class StringHelperTest {
 
     @Test
     public void jsonTest() {
-        var map = Map.of("a", "1","b", "2","c", "3");
+        var map = Map.of("a", "1", "b", "2", "c", "3");
         String expected = "{\"a\":\"1\",\"b\":\"2\",\"c\":\"3\"}";
         assertEquals(StringHelper.toJson(map), expected);
     }
