@@ -17,12 +17,14 @@
 package io.github.selcukes.databind.tests;
 
 import io.github.selcukes.databind.utils.StringHelper;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class StringHelperTest {
     @Test
@@ -30,15 +32,15 @@ public class StringHelperTest {
         Map<String, String> stringMap = Map.of("module", "question");
         String label = "This is sample ${module} maker";
         String updatedLabel = StringHelper.interpolate(label, stringMap::get);
-        Assert.assertEquals(updatedLabel, "This is sample question maker");
+        assertEquals(updatedLabel, "This is sample question maker");
     }
 
     @Test
     public void stringCaseTest() {
         String camelCase = "HelloWorld";
         String snakeCase = "hello_world";
-        Assert.assertEquals(StringHelper.toCamelCase(snakeCase), camelCase);
-        Assert.assertEquals(StringHelper.toSnakeCase(camelCase), snakeCase);
+        assertEquals(StringHelper.toCamelCase(snakeCase), camelCase);
+        assertEquals(StringHelper.toSnakeCase(camelCase), snakeCase);
     }
 
     @Test
@@ -48,13 +50,13 @@ public class StringHelperTest {
         map.put("b", "2");
         map.put("c", "3");
         String expected = "{\"a\":\"1\",\"b\":\"2\",\"c\":\"3\"}";
-        Assert.assertEquals(StringHelper.toJson(map), expected);
+        assertEquals(StringHelper.toJson(map), expected);
     }
 
     @Test
     public void normalizeTextTest() {
         String text = "Hello\nbe";
-        Assert.assertEquals(StringHelper.normalizeText(text), "Hello be");
+        assertEquals(StringHelper.normalizeText(text), "Hello be");
     }
 
     @Test
@@ -73,6 +75,25 @@ public class StringHelperTest {
     public void keywordTest() {
         String line = "This is a Sample line containing the keyword 'Test'.";
         var keywords = List.of("test");
-        Assert.assertTrue(StringHelper.containsWord(line, keywords));
+        assertTrue(StringHelper.containsWord(line, keywords));
+    }
+
+    @Test
+    public void fieldNameTest() {
+        String text = " Account-Number-123?";
+        String expectedFieldName = "accountNumber123";
+        String actualFieldName = StringHelper.toFieldName(text);
+        assertEquals(actualFieldName, expectedFieldName, "Field name should be " + expectedFieldName);
+
+        text = "Account Number";
+        expectedFieldName = "accountNumber";
+        actualFieldName = StringHelper.toFieldName(text);
+        assertEquals(actualFieldName, expectedFieldName, "Field name should be " + expectedFieldName);
+
+        text = "account123%45";
+        expectedFieldName = "account12345";
+        actualFieldName = StringHelper.toFieldName(text);
+        assertEquals(actualFieldName, expectedFieldName, "Field name should be " + expectedFieldName);
+
     }
 }
