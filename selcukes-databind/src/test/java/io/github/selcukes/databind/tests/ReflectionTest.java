@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.commons.tests.helper;
+package io.github.selcukes.databind.tests;
 
 import io.github.selcukes.databind.utils.Reflections;
 import lombok.AllArgsConstructor;

@@ -80,6 +80,7 @@ public class Reflections {
      * @param  param      the parameters to pass to the method
      * @return            the result of the method invocation
      */
+    @SuppressWarnings("squid:S3011")
     @SneakyThrows
     public static Object invokeMethod(final Object object, final String methodName, final Object... param) {
         var method = object.getClass().getDeclaredMethod(methodName, getClasses(param));
@@ -96,6 +97,7 @@ public class Reflections {
      * @param  param      the parameters to pass to the method
      * @return            the result of the method invocation
      */
+    @SuppressWarnings("squid:S3011")
     @SneakyThrows
     public static Object invokeStaticMethod(final Class<?> clazz, final String methodName, final Object... param) {
         var method = clazz.getDeclaredMethod(methodName, getClasses(param));
