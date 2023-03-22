@@ -19,7 +19,6 @@ package io.github.selcukes.databind.utils;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
-import java.lang.reflect.Method;
 import java.util.Arrays;
 
 /**
@@ -74,41 +73,31 @@ public class Reflections {
     }
 
     /**
-     * Gets the method from the class.
+     * Invokes a method with a single parameter on the specified object using
+     * Java reflection.
      *
-     * @param  clazz                    the class to get the method from
-     * @param  name                     the name of the method to get
-     * @param  param                    the parameter types of the method to get
-     * @param  <T>                      the type of the class to get the method
-     *                                  from
-     * @return                          the method from the class
-     * @throws IllegalArgumentException if an error occurs while getting the
-     *                                  method
+     * @param object     the object on which to invoke the method
+     * @param methodName the name of the method to invoke
+     * @param param      the parameter to pass to the method
      */
-    @SuppressWarnings("squid:S3011")
-    public static <T> Method getDeclaredMethod(Class<T> clazz, String name, Class<?>... param) {
-        try {
-            var method = clazz.getDeclaredMethod(name, param);
-            method.setAccessible(true);
-            return method;
-        } catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
+    @SneakyThrows
+    public static void invokeMethod(final Object object, final String methodName, final Object param) {
+        var method = object.getClass().getDeclaredMethod(methodName, param.getClass());
+        method.setAccessible(true);
+        method.invoke(object, param);
     }
 
     /**
-     * Invokes a static method on a class with a single string parameter.
+     * Invokes a static method on the specified class with a single parameter,
+     * using Java reflection.
      *
-     * @param  clazz                    the class containing the method
-     * @param  methodName               the name of the method to invoke
-     * @param  param                    the string parameter to pass to the
-     *                                  method
-     * @throws IllegalArgumentException if the method cannot be found, accessed
-     *                                  or invoked
+     * @param clazz      the class containing the static method
+     * @param methodName the name of the static method to invoke
+     * @param param      the parameter to pass to the method
      */
     @SneakyThrows
-    public static void invokeStaticMethod(final Class<?> clazz, final String methodName, final String param) {
-        var method = clazz.getMethod(methodName, String.class);
+    public static void invokeStaticMethod(final Class<?> clazz, final String methodName, final Object param) {
+        var method = clazz.getMethod(methodName, param.getClass());
         method.invoke(null, param);
     }
 
