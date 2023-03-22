@@ -343,26 +343,26 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     }
 
     /**
-     * Returns the aggregated value of a specific column in the DataTable that
-     * satisfies a given predicate using the provided binary operator function.
+     * Aggregates the values in a DataTable by a specified column and group
+     * column using a BinaryOperator.
      *
-     * @param  key                the key of the column to be aggregated
-     * @param  predicate          a predicate used to filter the rows that will
-     *                            be included in the aggregation
-     * @param  function           a binary operator function that will be used
-     *                            to aggregate the values of the specified
-     *                            column
-     * @return                    the aggregated value of the specified column
-     *                            that satisfies the given predicate
-     * @throws DataTableException if the DataTable is empty and no aggregation
-     *                            can be performed
+     * @param  columnName           the column to be aggregated
+     * @param  groupColumn          the column used to group the data
+     * @param  valueMapper          a BinaryOperator used to aggregate the
+     *                              values
+     * @return                      a Map containing the aggregated values keyed
+     *                              by the group column values
+     * @throws NullPointerException if columnName, groupColumn or valueMapper is
+     *                              null
      */
-    public V aggregateByColumn(K key, Predicate<Map<K, V>> predicate, BinaryOperator<V> function) {
-        return rows()
-                .filter(predicate)
-                .map(row -> row.get(key))
-                .reduce(function)
-                .orElseThrow(() -> new DataTableException("Data table is empty, cannot aggregate column values"));
+    public Map<V, V> aggregateByColumn(K columnName, K groupColumn, BinaryOperator<V> valueMapper) {
+        return stream()
+                .filter(row -> row.containsKey(columnName) && row.containsKey(groupColumn))
+                .collect(Collectors.groupingBy(
+                    row -> row.get(groupColumn),
+                    Collectors.mapping(
+                        row -> row.get(columnName),
+                        Collectors.reducing(null, (a, b) -> (a == null) ? b : valueMapper.apply(a, b)))));
     }
 
     /**

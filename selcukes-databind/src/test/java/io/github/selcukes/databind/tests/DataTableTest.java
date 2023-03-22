@@ -276,8 +276,9 @@ public class DataTableTest {
             Map.of("id", "1", "Amount", "500.50", "Type", "Debit"),
             Map.of("id", "1", "Amount", "250.45", "Type", "Withdraw"));
 
-        var sum = table.aggregateByColumn("Amount", row -> row.get("Type").equals("Withdraw"), sumOperator());
-        assertEquals(sum, "400.47");
+        var aggregatedMap = table.aggregateByColumn("Amount", "Type", sumOperator());
+        assertEquals(aggregatedMap.get("Debit"), "950.5");
+        assertEquals(aggregatedMap.get("Withdraw"), "400.47");
     }
 
     private BinaryOperator<String> sumOperator() {
