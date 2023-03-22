@@ -24,8 +24,6 @@ import java.util.function.BinaryOperator;
 
 @UtilityClass
 public class Maths {
-    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,##0.00");
-
     /**
      * Returns a binary operator that performs decimal calculations using the
      * specified operator.
@@ -37,13 +35,14 @@ public class Maths {
      * @throws IllegalArgumentException if the input is invalid.
      */
     public BinaryOperator<String> of(BinaryOperator<BigDecimal> operator) {
-        DECIMAL_FORMAT.setParseBigDecimal(true);
+        var decimalFormat = new DecimalFormat("#,##0.00");
+        decimalFormat.setParseBigDecimal(true);
         return (s1, s2) -> {
             try {
-                var value1 = (BigDecimal) DECIMAL_FORMAT.parse(s1);
-                var value2 = (BigDecimal) DECIMAL_FORMAT.parse(s2);
+                var value1 = (BigDecimal) decimalFormat.parse(s1);
+                var value2 = (BigDecimal) decimalFormat.parse(s2);
                 var result = operator.apply(value1, value2);
-                return DECIMAL_FORMAT.format(result);
+                return decimalFormat.format(result);
             } catch (Exception e) {
                 throw new IllegalArgumentException("Invalid input: " + e.getMessage());
             }
