@@ -131,7 +131,7 @@ public class SingleExcelData {
 
     Map<String, String> getTestData(String testName, DataTable<String, String> sheetData) {
         Objects.requireNonNull(sheetData, String.format("Unable to read sheet data for [%s]", testName));
-        return sheetData.findRow(row -> row.get(TEST).equalsIgnoreCase(testName))
+        return sheetData.findFirst(row -> row.get(TEST).equalsIgnoreCase(testName))
                 .orElseThrow(
                     () -> new ExcelConfigException(String.format("Unable to read [%s] Test Data Row", testName)));
     }

@@ -92,6 +92,17 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     }
 
     /**
+     * Returns a Stream of maps filtered by the given predicate.
+     * 
+     * @param  predicate a predicate to filter the maps by
+     * @return           a Stream of maps that satisfy the given predicate
+     */
+    public Stream<Map<K, V>> filter(Predicate<Map<K, V>> predicate) {
+        return rows()
+                .filter(predicate);
+    }
+
+    /**
      * Returns the first row that matches the given predicate.
      *
      * @param  predicate the predicate to match against rows
@@ -99,10 +110,21 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      *                   matches the predicate, or an empty {@code Optional} if
      *                   no such row is found
      */
-    public Optional<Map<K, V>> findRow(Predicate<Map<K, V>> predicate) {
-        return rows()
-                .filter(predicate)
+    public Optional<Map<K, V>> findFirst(Predicate<Map<K, V>> predicate) {
+        return filter(predicate)
                 .findFirst();
+    }
+
+    /**
+     * Returns the last row that matches the given predicate.
+     *
+     * @param  predicate the predicate to match against rows
+     * @return           an {@code Optional} containing the last row that
+     *                   matches the predicate, or an empty {@code Optional} if
+     *                   no such row is found
+     */
+    public Optional<Map<K, V>> findLast(Predicate<Map<K, V>> predicate) {
+        return Streams.of(descendingIterator()).filter(predicate).findFirst();
     }
 
     /**
@@ -125,7 +147,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @throws NullPointerException if key is null
      */
     public Map<V, DataTable<K, V>> groupByColumn(@NonNull K key) {
-        return rows().filter(map -> map.containsKey(key))
+        return filter(map -> map.containsKey(key))
                 .collect(Collectors.groupingBy(row -> row.get(key),
                     Collectors.toCollection(DataTable::new)));
     }
@@ -302,7 +324,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
                 .map(row -> row.entrySet().stream()
                         .filter(entry -> columns.contains(entry.getKey()))
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
-                .collect(DataTable::new, DataTable::addRow, DataTable::addAll);
+                .collect(DataTable::new, DataTable::addRow, DataTable::addRows);
     }
 
     /**
@@ -315,9 +337,8 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @throws NullPointerException if the given predicate is null
      */
     public DataTable<K, V> selectRows(Predicate<Map<K, V>> predicate) {
-        return rows()
-                .filter(predicate)
-                .collect(DataTable::new, DataTable::addRow, DataTable::addAll);
+        return filter(predicate)
+                .collect(DataTable::new, DataTable::addRow, DataTable::addRows);
     }
 
     /**
@@ -336,7 +357,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
             @NonNull BiFunction<Map<K, V>, Map<K, L>, Map<K, R>> joinFunction
     ) {
         return rows()
-                .flatMap(row -> otherTable.rows()
+                .flatMap(row -> otherTable
                         .filter(otherRow -> row.get(joinColumn).equals(otherRow.get(joinColumn)))
                         .map(matchingRow -> joinFunction.apply(row, matchingRow)))
                 .collect(Collectors.toCollection(DataTable::new));
@@ -356,8 +377,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      *                              null
      */
     public Map<V, V> aggregateByColumn(K columnName, K groupColumn, BinaryOperator<V> valueMapper) {
-        return stream()
-                .filter(row -> row.containsKey(columnName) && row.containsKey(groupColumn))
+        return filter(row -> row.containsKey(columnName) && row.containsKey(groupColumn))
                 .collect(Collectors.groupingBy(
                     row -> row.get(groupColumn),
                     Collectors.mapping(

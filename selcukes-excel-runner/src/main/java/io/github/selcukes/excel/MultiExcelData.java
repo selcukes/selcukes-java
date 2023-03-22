@@ -58,7 +58,7 @@ public class MultiExcelData {
      *         'FeatureName::ScenarioName'
      */
     public static List<String> getScenariosToRun() {
-        return excelSuite.parallelStream()
+        return excelSuite
                 .filter(map -> map.get(RUN).equalsIgnoreCase("yes"))
                 .map(map -> map.get("Feature") + NAME_SEPARATOR + map.get(TEST))
                 .collect(Collectors.toList());
@@ -103,7 +103,7 @@ public class MultiExcelData {
         logger.debug(() -> "TestSheetName: " + testSheetName);
 
         var testDataFile = excelSuite
-                .findRow(map -> map.get("Feature").equalsIgnoreCase(testSheetName)
+                .findFirst(map -> map.get("Feature").equalsIgnoreCase(testSheetName)
                         && map.get(TEST).equalsIgnoreCase(scenarioName))
                 .map(map -> map.get("DataFile"))
                 .orElseThrow(

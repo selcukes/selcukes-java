@@ -272,13 +272,28 @@ public class DataTableTest {
     public void testAggregateByColumn() {
         var table = DataTable.of(
             Map.of("id", "1", "Amount", "9,852,855.97", "Type", "Debit"),
-            Map.of("id", "1", "Amount", "9,840,000.00", "Type", "Debit"),
-            Map.of("id", "1", "Amount", "120,000.00", "Type", "Credit"),
-            Map.of("id", "1", "Amount", "132,855.97", "Type", "Debit"),
-            Map.of("id", "1", "Amount", "19,945,711.94", "Type", "Credit"));
+            Map.of("id", "2", "Amount", "9,840,000.00", "Type", "Debit"),
+            Map.of("id", "3", "Amount", "120,000.00", "Type", "Credit"),
+            Map.of("id", "4", "Amount", "132,855.97", "Type", "Debit"),
+            Map.of("id", "5", "Amount", "19,945,711.94", "Type", "Credit"));
 
         var aggregatedMap = table.aggregateByColumn("Amount", "Type", Maths.of(BigDecimal::add));
         assertEquals(aggregatedMap.get("Debit"), "19,825,711.94");
         assertEquals(aggregatedMap.get("Credit"), "20,065,711.94");
+    }
+
+    @Test
+    public void testFindingFirstAndLast() {
+        var table = DataTable.of(
+            Map.of("id", "1", "Amount", "9,852,855.97", "Type", "Debit"),
+            Map.of("id", "2", "Amount", "9,840,000.00", "Type", "Debit"),
+            Map.of("id", "3", "Amount", "120,000.00", "Type", "Credit"),
+            Map.of("id", "4", "Amount", "132,855.97", "Type", "Debit"),
+            Map.of("id", "5", "Amount", "19,945,711.94", "Type", "Credit"));
+
+        table.findLast(row -> row.get("Type").equalsIgnoreCase("Debit"))
+                .ifPresent(row -> assertEquals(row.get("id"), "4"));
+        table.findFirst(row -> row.get("Type").equalsIgnoreCase("Credit"))
+                .ifPresent(row -> assertEquals(row.get("id"), "3"));
     }
 }
