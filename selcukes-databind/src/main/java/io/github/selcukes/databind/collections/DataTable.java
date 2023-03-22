@@ -105,9 +105,9 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     }
 
     /**
-     * Returns an unmodifiable list of all the rows in the data table.
+     * Returns a parallel stream of all the rows in the data table.
      *
-     * @return an unmodifiable list of rows
+     * @return a parallel stream of rows
      */
     public Stream<Map<K, V>> rows() {
         return parallelStream();
