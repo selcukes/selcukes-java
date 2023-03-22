@@ -377,7 +377,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      *                              null
      */
     public Map<V, V> aggregateByColumn(K columnName, K groupColumn, BinaryOperator<V> valueMapper) {
-        return filter(row -> row.containsKey(columnName) && row.containsKey(groupColumn))
+        return stream().filter(row -> row.containsKey(columnName) && row.containsKey(groupColumn))
                 .collect(Collectors.groupingBy(
                     row -> row.get(groupColumn),
                     Collectors.mapping(
