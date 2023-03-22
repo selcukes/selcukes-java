@@ -128,12 +128,12 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     }
 
     /**
-     * Returns a parallel stream of all the rows in the data table.
+     * Returns a stream of all the rows in the data table.
      *
      * @return a parallel stream of rows
      */
     public Stream<Map<K, V>> rows() {
-        return parallelStream();
+        return stream();
     }
 
     /**
@@ -376,8 +376,8 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @throws NullPointerException if columnName, groupColumn or valueMapper is
      *                              null
      */
-    public Map<V, V> aggregateByColumn(K columnName, K groupColumn, BinaryOperator<V> valueMapper) {
-        return stream().filter(row -> row.containsKey(columnName) && row.containsKey(groupColumn))
+    public Map<V, V> aggregateByColumn(@NonNull K columnName, @NonNull K groupColumn, BinaryOperator<V> valueMapper) {
+        return filter(row -> row.containsKey(columnName) && row.containsKey(groupColumn))
                 .collect(Collectors.groupingBy(
                     row -> row.get(groupColumn),
                     Collectors.mapping(
