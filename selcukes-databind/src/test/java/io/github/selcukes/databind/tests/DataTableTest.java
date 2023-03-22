@@ -17,10 +17,12 @@
 package io.github.selcukes.databind.tests;
 
 import io.github.selcukes.databind.collections.DataTable;
+import io.github.selcukes.databind.utils.Maths;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -270,18 +272,14 @@ public class DataTableTest {
     @Test
     public void testAggregateByColumn() {
         var table = DataTable.of(
-            Map.of("id", "1", "Amount", "250.00", "Type", "Debit"),
-            Map.of("id", "1", "Amount", "200.00", "Type", "Debit"),
-            Map.of("id", "1", "Amount", "150.02", "Type", "Withdraw"),
-            Map.of("id", "1", "Amount", "500.50", "Type", "Debit"),
-            Map.of("id", "1", "Amount", "250.45", "Type", "Withdraw"));
+            Map.of("id", "1", "Amount", "9,852,855.97", "Type", "Debit"),
+            Map.of("id", "1", "Amount", "9,840,000.00", "Type", "Debit"),
+            Map.of("id", "1", "Amount", "120,000.00", "Type", "Withdraw1"),
+            Map.of("id", "1", "Amount", "132,855.97", "Type", "Debit"),
+            Map.of("id", "1", "Amount", "19,945,711.94", "Type", "Withdraw"));
 
-        var aggregatedMap = table.aggregateByColumn("Amount", "Type", sumOperator());
-        assertEquals(aggregatedMap.get("Debit"), "950.5");
-        assertEquals(aggregatedMap.get("Withdraw"), "400.47");
-    }
-
-    private BinaryOperator<String> sumOperator() {
-        return (s1, s2) -> String.valueOf(Double.parseDouble(s1) + Double.parseDouble(s2));
+        var aggregatedMap = table.aggregateByColumn("Amount", "Type", Maths.decimalCalculator(BigDecimal::add));
+        assertEquals(aggregatedMap.get("Debit"), "19,825,711.94");
+        assertEquals(aggregatedMap.get("Withdraw"), "19,945,711.94");
     }
 }
