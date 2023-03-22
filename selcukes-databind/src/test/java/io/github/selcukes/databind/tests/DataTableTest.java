@@ -17,7 +17,7 @@
 package io.github.selcukes.databind.tests;
 
 import io.github.selcukes.databind.collections.DataTable;
-import io.github.selcukes.databind.utils.Maths;
+import io.github.selcukes.databind.collections.Maths;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 
 import static org.testng.Assert.assertEquals;
