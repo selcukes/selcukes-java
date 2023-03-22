@@ -274,12 +274,12 @@ public class DataTableTest {
         var table = DataTable.of(
             Map.of("id", "1", "Amount", "9,852,855.97", "Type", "Debit"),
             Map.of("id", "1", "Amount", "9,840,000.00", "Type", "Debit"),
-            Map.of("id", "1", "Amount", "120,000.00", "Type", "Withdraw1"),
+            Map.of("id", "1", "Amount", "120,000.00", "Type", "Credit"),
             Map.of("id", "1", "Amount", "132,855.97", "Type", "Debit"),
-            Map.of("id", "1", "Amount", "19,945,711.94", "Type", "Withdraw"));
+            Map.of("id", "1", "Amount", "19,945,711.94", "Type", "Credit"));
 
         var aggregatedMap = table.aggregateByColumn("Amount", "Type", Maths.decimalCalculator(BigDecimal::add));
         assertEquals(aggregatedMap.get("Debit"), "19,825,711.94");
-        assertEquals(aggregatedMap.get("Withdraw"), "19,945,711.94");
+        assertEquals(aggregatedMap.get("Credit"), "20,065,711.94");
     }
 }
