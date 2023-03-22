@@ -12,12 +12,15 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 
 public class LocalDriver {
+    public static final String HEADLESS = "--headless";
     public WebDriver createWebDriver(DriverType driverType, boolean headless) {
         switch (driverType) {
             case EDGE:
                 WebDriverBinary.edgeDriver().setup();
                 EdgeOptions edgeOptions = new EdgeOptions();
-                edgeOptions.setHeadless(headless);
+                if (headless) {
+                    edgeOptions.addArguments(HEADLESS);
+                }
                 return new EdgeDriver(edgeOptions);
             case FIREFOX:
                 WebDriverBinary.firefoxDriver().setup();
@@ -34,7 +37,9 @@ public class LocalDriver {
             default:
                 WebDriverBinary.chromeDriver().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.setHeadless(headless);
+                if (headless) {
+                    chromeOptions.addArguments(HEADLESS);
+                }
                 return new ChromeDriver(chromeOptions);
         }
 
