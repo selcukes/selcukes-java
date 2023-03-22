@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
@@ -339,6 +340,29 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
                         .filter(otherRow -> row.get(joinColumn).equals(otherRow.get(joinColumn)))
                         .map(matchingRow -> joinFunction.apply(row, matchingRow)))
                 .collect(Collectors.toCollection(DataTable::new));
+    }
+
+    /**
+     * Returns the aggregated value of a specific column in the DataTable that
+     * satisfies a given predicate using the provided binary operator function.
+     *
+     * @param  key                the key of the column to be aggregated
+     * @param  predicate          a predicate used to filter the rows that will
+     *                            be included in the aggregation
+     * @param  function           a binary operator function that will be used
+     *                            to aggregate the values of the specified
+     *                            column
+     * @return                    the aggregated value of the specified column
+     *                            that satisfies the given predicate
+     * @throws DataTableException if the DataTable is empty and no aggregation
+     *                            can be performed
+     */
+    public V aggregateByColumn(K key, Predicate<Map<K, V>> predicate, BinaryOperator<V> function) {
+        return rows()
+                .filter(predicate)
+                .map(row -> row.get(key))
+                .reduce(function)
+                .orElseThrow(() -> new DataTableException("Data table is empty, cannot aggregate column values"));
     }
 
     /**

@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 
 import static org.testng.Assert.assertEquals;
@@ -264,5 +265,22 @@ public class DataTableTest {
         assertTrue(joinedTable.getColumns().contains("Salary"));
         assertTrue(joinedTable.getColumns().contains("IsEmployed"));
         assertTrue(joinedTable.getColumns().contains("Sum"));
+    }
+
+    @Test
+    public void testAggregateByColumn() {
+        var table = DataTable.of(
+            Map.of("id", "1", "Amount", "250.00", "Type", "Debit"),
+            Map.of("id", "1", "Amount", "200.00", "Type", "Debit"),
+            Map.of("id", "1", "Amount", "150.02", "Type", "Withdraw"),
+            Map.of("id", "1", "Amount", "500.50", "Type", "Debit"),
+            Map.of("id", "1", "Amount", "250.45", "Type", "Withdraw"));
+
+        var sum = table.aggregateByColumn("Amount", row -> row.get("Type").equals("Withdraw"), sumOperator());
+        assertEquals(sum, "400.47");
+    }
+
+    private BinaryOperator<String> sumOperator() {
+        return (s1, s2) -> String.valueOf(Double.parseDouble(s1) + Double.parseDouble(s2));
     }
 }
