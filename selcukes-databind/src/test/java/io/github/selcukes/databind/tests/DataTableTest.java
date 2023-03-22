@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -66,7 +67,7 @@ public class DataTableTest {
 
     @Test(testName = "Test getRows")
     void testGetRows() {
-        var rows = dataTable.rows();
+        var rows = dataTable.rows().collect(Collectors.toList());
 
         assertEquals(rows.size(), 2);
 
