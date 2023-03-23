@@ -26,6 +26,7 @@ import com.aventstack.extentreports.reporter.configuration.ViewName;
 import io.github.selcukes.databind.collections.Maps;
 import io.github.selcukes.databind.properties.PropertiesMapper;
 import io.github.selcukes.databind.utils.Clocks;
+import io.github.selcukes.databind.utils.Resources;
 import io.github.selcukes.databind.utils.StringHelper;
 
 import java.io.IOException;
@@ -68,7 +69,7 @@ public class ExtentService {
 
     private Map<String, String> initProperties() {
         try {
-            return PropertiesMapper.parse("extent.properties");
+            return PropertiesMapper.parse(Resources.ofTest("extent.properties"));
         } catch (Exception e) {
             return Maps.of(System.getProperties());
         }

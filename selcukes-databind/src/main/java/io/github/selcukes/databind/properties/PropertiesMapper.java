@@ -19,10 +19,9 @@ package io.github.selcukes.databind.properties;
 import io.github.selcukes.databind.collections.Maps;
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.DataFileHelper;
+import io.github.selcukes.databind.utils.Resources;
 import lombok.experimental.UtilityClass;
 
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Properties;
@@ -59,8 +58,8 @@ public class PropertiesMapper {
      * @param  propertyFile The name of the property file to parse.
      * @return              A map of the properties in the file.
      */
-    public static Map<String, String> parse(final String propertyFile) {
-        return Maps.of(PropertiesLoader.getProperties(Path.of(propertyFile)));
+    public static Map<String, String> parse(final Path propertyFile) {
+        return Maps.of(PropertiesLoader.getProperties(propertyFile));
     }
 
     /**
@@ -70,19 +69,19 @@ public class PropertiesMapper {
      * @param dataMap      A map of key-value pairs to be written to the
      *                     property file.
      */
-    public static void write(final String propertyFile, final Map<String, String> dataMap) {
+    public static void write(final Path propertyFile, final Map<String, String> dataMap) {
         write(propertyFile, new Properties(), dataMap);
     }
 
     private static void write(
-            final String propertyFile, final Properties linkedProperties, final Map<String, String> dataMap
+            final Path propertyFile, final Properties linkedProperties, final Map<String, String> dataMap
     ) {
         dataMap.forEach(linkedProperties::setProperty);
         write(propertyFile, linkedProperties);
     }
 
-    private static void write(final String propertyFile, final Properties properties) {
-        try (OutputStream output = new FileOutputStream(propertyFile)) {
+    private static void write(final Path propertyFile, final Properties properties) {
+        try (var output = Resources.newOutputStream(propertyFile)) {
             properties.store(output, null);
         } catch (Exception e) {
             throw new DataMapperException("Could not write property file '" + propertyFile + "'", e);
@@ -97,8 +96,8 @@ public class PropertiesMapper {
      * @param key          the key of the property you want to update
      * @param value        the value to be written to the property file
      */
-    public static void updateProperty(final String propertyFile, final String key, final String value) {
-        Properties properties = PropertiesLoader.getProperties(Path.of(propertyFile));
+    public static void updateProperty(final Path propertyFile, final String key, final String value) {
+        Properties properties = PropertiesLoader.getProperties(propertyFile);
         properties.setProperty(key, value);
         write(propertyFile, properties);
     }
@@ -111,8 +110,8 @@ public class PropertiesMapper {
      * @param dataMap      A map of key-value pairs that you want to update in
      *                     the properties file.
      */
-    public static void updateProperties(final String propertyFile, final Map<String, String> dataMap) {
-        write(propertyFile, PropertiesLoader.getProperties(Path.of(propertyFile)), dataMap);
+    public static void updateProperties(final Path propertyFile, final Map<String, String> dataMap) {
+        write(propertyFile, PropertiesLoader.getProperties(propertyFile), dataMap);
     }
 
     /**

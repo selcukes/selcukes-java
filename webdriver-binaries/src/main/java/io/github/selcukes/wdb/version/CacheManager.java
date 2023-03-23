@@ -28,7 +28,6 @@ import java.util.Optional;
 
 public class CacheManager {
     private static Path versionPath = Path.of("");
-    private static String versionFilePath;
 
     private CacheManager() {
         // Do nothing
@@ -36,12 +35,11 @@ public class CacheManager {
 
     public static void setTargetPath(String targetPath) {
         versionPath = Paths.get(targetPath, "version.properties");
-        versionFilePath = versionPath.toAbsolutePath().toString();
     }
 
     static Optional<String> resolveVersion(String key) {
         if (versionPath.toFile().exists()) {
-            Map<String, String> props = PropertiesMapper.parse(versionFilePath);
+            Map<String, String> props = PropertiesMapper.parse(versionPath);
             String timestamp = props.get("timestamp");
             LocalDateTime dateTime = LocalDateTime.parse(timestamp);
             if (dateTime.isBefore(LocalDateTime.now())) {
@@ -60,8 +58,8 @@ public class CacheManager {
             data.put("chromedriver", "");
             data.put("msedgedriver", "");
             data.put("timestamp", String.valueOf(LocalDateTime.now().plusHours(1)));
-            PropertiesMapper.write(versionFilePath, data);
+            PropertiesMapper.write(versionPath, data);
         }
-        PropertiesMapper.updateProperty(versionFilePath, key, value);
+        PropertiesMapper.updateProperty(versionPath, key, value);
     }
 }

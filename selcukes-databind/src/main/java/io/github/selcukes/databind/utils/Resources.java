@@ -22,6 +22,7 @@ import lombok.experimental.UtilityClass;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
@@ -186,6 +187,27 @@ public class Resources {
         if (Files.exists(path)) {
             try {
                 return Files.newInputStream(path);
+            } catch (IOException ignored) {
+                // Gobble exception
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns a new output stream for the given file path.
+     *
+     * @param  filePath             the path of the file to create an output
+     *                              stream for
+     * @return                      a new output stream for the given file path,
+     *                              or null if the file does not exist or an I/O
+     *                              exception occurs
+     * @throws NullPointerException if filePath is null
+     */
+    public static OutputStream newOutputStream(Path filePath) {
+        if (Files.exists(filePath)) {
+            try {
+                return Files.newOutputStream(filePath);
             } catch (IOException ignored) {
                 // Gobble exception
             }
