@@ -16,8 +16,8 @@
 
 package io.github.selcukes.commons.properties;
 
+import io.github.selcukes.commons.config.Config;
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.commons.config.Environment;
 import io.github.selcukes.databind.utils.StringHelper;
 import lombok.CustomLog;
 
@@ -47,7 +47,7 @@ public class SelcukesTestProperties {
         ofNullable(value).ifPresent(v -> System.setProperty(key, v));
     }
 
-    private String getProperty(String propertyKey, Function<Environment, Map<String, String>> mapGetter) {
+    private String getProperty(String propertyKey, Function<Config, Map<String, String>> mapGetter) {
         return ofNullable(System.getProperty(propertyKey))
                 .orElseGet(() -> {
                     String key = propertyKey.substring(propertyKey.lastIndexOf(".") + 1);
@@ -56,15 +56,15 @@ public class SelcukesTestProperties {
     }
 
     public String getExcelProperty(String propertyKey) {
-        return getProperty(propertyKey, Environment::getExcel);
+        return getProperty(propertyKey, Config::getExcel);
     }
 
     public String getCucumberProperty(String propertyKey) {
-        return getProperty(propertyKey, Environment::getCucumber);
+        return getProperty(propertyKey, Config::getCucumber);
     }
 
     public String getReportsProperty(String propertyKey) {
-        return getProperty(propertyKey, Environment::getReports);
+        return getProperty(propertyKey, Config::getReports);
     }
 
     public String getSubstitutedConfigProperty(String propertyKey) {
