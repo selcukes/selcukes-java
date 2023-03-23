@@ -44,7 +44,9 @@ public class SelcukesTestProperties {
     public static final String CRYPTO_KEY = "selcukes.crypto.key";
 
     public static void setSystemProperty(String key, String value) {
-        ofNullable(value).ifPresent(v -> System.setProperty(key, v));
+        if (StringHelper.isNonEmpty(value)) {
+            System.setProperty(key, value);
+        }
     }
 
     private String getProperty(String propertyKey, Function<Config, Map<String, String>> mapGetter) {
