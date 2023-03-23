@@ -54,12 +54,12 @@ public class SelcukesTestProperties {
         return ofNullable(System.getProperty(propertyKey))
                 .orElseGet(() -> {
                     String key = propertyKey.substring(propertyKey.lastIndexOf(".") + 1);
-                    return mapGetter.apply(ConfigFactory.getConfig()).getOrDefault(key, "");
+                    return mapGetter.apply(ConfigFactory.getConfig()).get(key);
                 });
     }
 
     public String getExcelProperty(String propertyKey) {
-        return getProperty(propertyKey, Config::getExcel);
+        return ofNullable(getProperty(propertyKey, Config::getExcel)).orElse("");
     }
 
     public String getCucumberProperty(String propertyKey) {
