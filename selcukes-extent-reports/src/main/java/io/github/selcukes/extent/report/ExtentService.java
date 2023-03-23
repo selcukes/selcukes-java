@@ -28,7 +28,6 @@ import io.github.selcukes.databind.properties.PropertiesMapper;
 import io.github.selcukes.databind.utils.Clocks;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -40,9 +39,8 @@ import static io.github.selcukes.commons.properties.SelcukesTestProperties.TIMES
 import static io.github.selcukes.databind.utils.Clocks.DATE_TIME_FILE_FORMAT;
 import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
 
-public class ExtentService implements Serializable {
+public class ExtentService {
 
-    private static final long serialVersionUID = -5008231199972325650L;
     private static final String SYS_INFO_MARKER = "systeminfo.";
     private static final String OUTPUT_PATH = "target/";
     private static final String INIT_SPARK_KEY = "extent.reporter.spark.start";
@@ -52,7 +50,7 @@ public class ExtentService implements Serializable {
     private static final String REPORT_NAME = "Automation Report";
     private static final String REPORT_TITLE = "Automation Report";
     private final ExtentReports extentReports;
-    private static Map<String, String> propertiesMap;
+    private Map<String, String> propertiesMap;
 
     public ExtentService(ExtentReports extentReports) {
         this.extentReports = extentReports;

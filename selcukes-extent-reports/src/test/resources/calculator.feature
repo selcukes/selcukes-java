@@ -12,13 +12,13 @@ Feature: Basic Arithmetic
     Then the result is 5
 
   @parallel
-  Scenario Outline: Several additions
-    When I add <a> and <b>
-    Then the result is <c>
+  Scenario Outline: Sum of <arg1> and <arg2>
+    When I add <arg1> and <arg2>
+    Then the result is <sum>
 
     Examples: Single digits
-      | a | b | c  |
-      | 1 | 2 | 3  |
-      | 3 | 7 | 10 |
-      | 6 | 8 | 14 |
-      | 8 | 7 | 15 |
+      | arg1 | arg2 | sum |
+      | 1    | 2    | 3   |
+      | 3    | 7    | 10  |
+      | 6    | 8    | 14  |
+      | 8    | 7    | 15  |
