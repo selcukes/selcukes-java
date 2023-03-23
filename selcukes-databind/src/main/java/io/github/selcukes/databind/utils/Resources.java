@@ -17,6 +17,7 @@
 package io.github.selcukes.databind.utils;
 
 import io.github.selcukes.databind.exception.DataMapperException;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
 import java.io.File;
@@ -195,23 +196,14 @@ public class Resources {
     }
 
     /**
-     * Returns a new output stream for the given file path.
+     * Returns a new output stream that writes to the file with the specified
+     * file path.
      *
-     * @param  filePath             the path of the file to create an output
-     *                              stream for
-     * @return                      a new output stream for the given file path,
-     *                              or null if the file does not exist or an I/O
-     *                              exception occurs
-     * @throws NullPointerException if filePath is null
+     * @param  filePath the path of the file to write to
+     * @return          a new output stream that writes to the specified file
      */
+    @SneakyThrows
     public static OutputStream newOutputStream(Path filePath) {
-        if (Files.exists(filePath)) {
-            try {
-                return Files.newOutputStream(filePath);
-            } catch (IOException ignored) {
-                // Gobble exception
-            }
-        }
-        return null;
+        return Files.newOutputStream(filePath);
     }
 }
