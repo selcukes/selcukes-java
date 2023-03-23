@@ -44,7 +44,7 @@ public class SelcukesRuntime {
             String glue = properties.getCucumberProperty(GLUE);
             String tag = properties.getCucumberProperty(TAGS);
             String additionalPlugin = properties.getCucumberProperty(PLUGIN);
-            String reportsPath = properties.getReportsProperty(REPORTS_PATH).orElse("");
+            String reportsPath = properties.getReportsProperty(REPORTS_PATH).orElse("target");
             String timestampReport = properties.getReportsProperty(TIMESTAMP_REPORT).orElse("");
             String emailReport = properties.getReportsProperty(EMAIL_REPORT).orElse("");
             String reportsFile = properties.getReportsProperty(REPORTS_FILE).orElse("TestReport");
