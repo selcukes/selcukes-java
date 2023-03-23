@@ -22,6 +22,7 @@ import io.github.selcukes.databind.utils.StringHelper;
 import lombok.CustomLog;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static java.util.Optional.ofNullable;
@@ -62,15 +63,15 @@ public class SelcukesTestProperties {
     }
 
     public String getCucumberProperty(String propertyKey) {
-        return getProperty(propertyKey, Config::getCucumber);
+        return ofNullable(getProperty(propertyKey, Config::getCucumber)).orElse("");
     }
 
-    public String getReportsProperty(String propertyKey) {
-        return getProperty(propertyKey, Config::getReports);
+    public Optional<String> getReportsProperty(String propertyKey) {
+        return ofNullable(getProperty(propertyKey, Config::getReports));
     }
 
     public String getSubstitutedConfigProperty(String propertyKey) {
-        return StringHelper.interpolate(getCucumberProperty(propertyKey),
-            this::getCucumberProperty);
+        return ofNullable(StringHelper.interpolate(getCucumberProperty(propertyKey),
+            this::getCucumberProperty)).orElse("");
     }
 }
