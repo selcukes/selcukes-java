@@ -17,11 +17,13 @@
 package io.github.selcukes.databind.utils;
 
 import io.github.selcukes.databind.exception.DataMapperException;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
@@ -191,5 +193,17 @@ public class Resources {
             }
         }
         return null;
+    }
+
+    /**
+     * Returns a new output stream that writes to the file with the specified
+     * file path.
+     *
+     * @param  filePath the path of the file to write to
+     * @return          a new output stream that writes to the specified file
+     */
+    @SneakyThrows
+    public static OutputStream newOutputStream(Path filePath) {
+        return Files.newOutputStream(filePath);
     }
 }

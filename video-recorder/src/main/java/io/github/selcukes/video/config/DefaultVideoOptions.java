@@ -16,7 +16,7 @@
 
 package io.github.selcukes.video.config;
 
-import io.github.selcukes.commons.config.Environment;
+import io.github.selcukes.commons.config.Config;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,7 +27,7 @@ import java.awt.Toolkit;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
-public class DefaultVideoOptions extends Environment {
+public class DefaultVideoOptions extends Config {
     @Builder.Default
     String videoFolder = "video-report";
     @Builder.Default

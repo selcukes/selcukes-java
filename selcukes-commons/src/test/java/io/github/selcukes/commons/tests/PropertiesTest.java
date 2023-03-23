@@ -33,16 +33,16 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 public class PropertiesTest {
-    private final static String PROPS_FILE = "target/temp.properties";
+    private final static Path PROPS_FILE = Path.of("target/temp.properties");
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Test
     public void createPropertyFileTest() {
         Map<String, String> data = Map.of("userName", "QA",
             "Time", Clocks.timeStamp());
-        Path filePath = Path.of(PROPS_FILE);
-        PropertiesMapper.write(filePath.toAbsolutePath().toString(), data);
-        assertTrue(filePath.toFile().exists());
+
+        PropertiesMapper.write(PROPS_FILE, data);
+        assertTrue(PROPS_FILE.toFile().exists());
     }
 
     @Test(dependsOnMethods = "createPropertyFileTest")

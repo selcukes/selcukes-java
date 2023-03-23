@@ -28,15 +28,15 @@ import java.util.logging.LogManager;
 @UtilityClass
 public class ConfigFactory {
     private static final String DEFAULT_LOG_BACK_FILE = "selcukes-logback.yaml";
-    private static final SingletonContext<Environment> ENVIRONMENT_CONTEXT = SingletonContext
-            .with(() -> DataMapper.parse(Environment.class));
+    private static final SingletonContext<Config> CONFIG_CONTEXT = SingletonContext
+            .with(() -> DataMapper.parse(Config.class));
 
-    public static Environment getConfig() {
-        return ENVIRONMENT_CONTEXT.get();
+    public static Config getConfig() {
+        return CONFIG_CONTEXT.get();
     }
 
     public static void cleanupConfig() {
-        ENVIRONMENT_CONTEXT.remove();
+        CONFIG_CONTEXT.remove();
     }
 
     public void loadLoggerProperties() {

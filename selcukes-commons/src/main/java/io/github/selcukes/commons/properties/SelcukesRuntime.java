@@ -32,23 +32,22 @@ import static io.github.selcukes.commons.properties.SelcukesTestProperties.TAGS;
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.TIMESTAMP_REPORT;
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.setSystemProperty;
 import static io.github.selcukes.databind.utils.Clocks.DATE_TIME_FILE_FORMAT;
-import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
-import static java.util.Optional.ofNullable;
+import static io.github.selcukes.databind.utils.StringHelper.isNonEmpty;
 
 @CustomLog
 @UtilityClass
 public class SelcukesRuntime {
     public void loadOptions() {
         try {
-            SelcukesTestProperties properties = new SelcukesTestProperties();
-            String features = ofNullable(properties.getSubstitutedConfigProperty(FEATURES)).orElse("");
-            String glue = ofNullable(properties.getCucumberProperty(GLUE)).orElse("");
-            String tag = ofNullable(properties.getCucumberProperty(TAGS)).orElse("");
+            var properties = new SelcukesTestProperties();
+            String features = properties.getSubstitutedConfigProperty(FEATURES);
+            String glue = properties.getCucumberProperty(GLUE);
+            String tag = properties.getCucumberProperty(TAGS);
             String additionalPlugin = properties.getCucumberProperty(PLUGIN);
-            String reportsPath = ofNullable(properties.getReportsProperty(REPORTS_PATH)).orElse("target");
-            String timestampReport = properties.getReportsProperty(TIMESTAMP_REPORT);
-            String emailReport = properties.getReportsProperty(EMAIL_REPORT);
-            String reportsFile = ofNullable(properties.getReportsProperty(REPORTS_FILE)).orElse("TestReport");
+            String reportsPath = properties.getReportsProperty(REPORTS_PATH).orElse("target");
+            String timestampReport = properties.getReportsProperty(TIMESTAMP_REPORT).orElse("");
+            String emailReport = properties.getReportsProperty(EMAIL_REPORT).orElse("");
+            String reportsFile = properties.getReportsProperty(REPORTS_FILE).orElse("TestReport");
 
             String cucumberReportPath = reportsPath + "/cucumber-reports";
             String extentReportPath = reportsPath + "/extent-reports";
@@ -59,10 +58,10 @@ public class SelcukesRuntime {
             String plugin = String.format("html:%s/%s%s.html, json:%s/cucumber%s.json",
                 cucumberReportPath, reportsFile, timestamp, cucumberReportPath, timestamp);
 
-            if (!isNullOrEmpty(additionalPlugin)) {
+            if (isNonEmpty(additionalPlugin)) {
                 plugin += "," + additionalPlugin;
             }
-            if (!isNullOrEmpty(emailReport) && !emailReport.equalsIgnoreCase("false")) {
+            if (isNonEmpty(emailReport) && !emailReport.equalsIgnoreCase("false")) {
                 setSystemProperty("extent.reporter.spark.start", "true");
                 setSystemProperty("extent.reporter.spark.out",
                     String.format("%s/%s.html", extentReportPath, reportsFile));
@@ -71,7 +70,7 @@ public class SelcukesRuntime {
                     "dashboard,test,category,exception,author,device,log");
                 setSystemProperty("systeminfo.Platform", Platform.getPlatform().getOsName());
                 setSystemProperty("systeminfo.Environment", ConfigFactory.getConfig().getEnv());
-                plugin += "," + "io.github.selcukes.extent.report.SelcukesExtentAdapter:";
+                plugin += "," + "io.github.selcukes.extent.report.SelcukesExtentAdapter";
             }
             setSystemProperty("cucumber.plugin", plugin);
             setSystemProperty("cucumber.features", features);

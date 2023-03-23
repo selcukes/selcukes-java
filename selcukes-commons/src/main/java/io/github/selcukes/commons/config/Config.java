@@ -23,7 +23,7 @@ import java.util.Map;
 
 @Data
 @DataFile(fileName = "selcukes.yaml", streamLoader = true)
-public class Environment {
+public class Config {
     private String projectName;
     private String env;
     private String baseUrl;

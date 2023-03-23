@@ -16,10 +16,16 @@
 
 package io.github.selcukes.commons.properties;
 
+import io.github.selcukes.commons.config.Config;
+import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.databind.utils.StringHelper;
 import lombok.CustomLog;
 
-import static io.github.selcukes.commons.config.ConfigFactory.getConfig;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+
+import static java.util.Optional.ofNullable;
 
 @CustomLog
 public class SelcukesTestProperties {
@@ -39,37 +45,33 @@ public class SelcukesTestProperties {
     public static final String CRYPTO_KEY = "selcukes.crypto.key";
 
     public static void setSystemProperty(String key, String value) {
-        if (!StringHelper.isNullOrEmpty(value)) {
+        if (StringHelper.isNonEmpty(value)) {
             System.setProperty(key, value);
         }
     }
 
+    private String getProperty(String propertyKey, Function<Config, Map<String, String>> mapGetter) {
+        return ofNullable(System.getProperty(propertyKey))
+                .orElseGet(() -> {
+                    String key = propertyKey.substring(propertyKey.lastIndexOf(".") + 1);
+                    return mapGetter.apply(ConfigFactory.getConfig()).get(key);
+                });
+    }
+
     public String getExcelProperty(String propertyKey) {
-        if (System.getProperty(propertyKey) != null) {
-            return System.getProperty(propertyKey);
-        }
-        String key = propertyKey.substring(propertyKey.lastIndexOf(".") + 1);
-        return getConfig().getExcel().getOrDefault(key, "");
+        return ofNullable(getProperty(propertyKey, Config::getExcel)).orElse("");
     }
 
     public String getCucumberProperty(String propertyKey) {
-        if (System.getProperty(propertyKey) != null) {
-            return System.getProperty(propertyKey);
-        }
-        String key = propertyKey.substring(propertyKey.lastIndexOf(".") + 1);
-        return getConfig().getCucumber().getOrDefault(key, "");
+        return ofNullable(getProperty(propertyKey, Config::getCucumber)).orElse("");
     }
 
-    public String getReportsProperty(String propertyKey) {
-        if (System.getProperty(propertyKey) != null) {
-            return System.getProperty(propertyKey);
-        }
-        String key = propertyKey.substring(propertyKey.lastIndexOf(".") + 1);
-        return getConfig().getReports().getOrDefault(key, "");
+    public Optional<String> getReportsProperty(String propertyKey) {
+        return ofNullable(getProperty(propertyKey, Config::getReports));
     }
 
     public String getSubstitutedConfigProperty(String propertyKey) {
-        return StringHelper.interpolate(getCucumberProperty(propertyKey),
-            this::getCucumberProperty);
+        return ofNullable(StringHelper.interpolate(getCucumberProperty(propertyKey),
+            this::getCucumberProperty)).orElse("");
     }
 }
