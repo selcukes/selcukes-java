@@ -27,7 +27,10 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * The type Properties mapper.
+ * The PropertiesMapper class provides utilities for parsing, writing and
+ * updating
+ * <p>
+ * property files and maps.
  */
 @UtilityClass
 public class PropertiesMapper {
@@ -55,36 +58,36 @@ public class PropertiesMapper {
     /**
      * It takes a property file and returns a map of the properties
      *
-     * @param  propertyFile The name of the property file to parse.
-     * @return              A map of the properties in the file.
+     * @param  filePath The path of the property file to parse.
+     * @return          A map of the properties in the file.
      */
-    public static Map<String, String> parse(final Path propertyFile) {
-        return Maps.of(PropertiesLoader.getProperties(propertyFile));
+    public static Map<String, String> parse(final Path filePath) {
+        return Maps.of(PropertiesLoader.getProperties(filePath));
     }
 
     /**
      * > This function writes the dataMap to the propertyFile
      *
-     * @param propertyFile The path to the property file.
-     * @param dataMap      A map of key-value pairs to be written to the
-     *                     property file.
+     * @param filePath The path to the property file.
+     * @param dataMap  A map of key-value pairs to be written to the property
+     *                 file.
      */
-    public static void write(final Path propertyFile, final Map<String, String> dataMap) {
-        write(propertyFile, new Properties(), dataMap);
+    public static void write(final Path filePath, final Map<String, String> dataMap) {
+        write(filePath, new Properties(), dataMap);
     }
 
     private static void write(
-            final Path propertyFile, final Properties linkedProperties, final Map<String, String> dataMap
+            final Path filePath, final Properties properties, final Map<String, String> dataMap
     ) {
-        dataMap.forEach(linkedProperties::setProperty);
-        write(propertyFile, linkedProperties);
+        dataMap.forEach(properties::setProperty);
+        write(filePath, properties);
     }
 
-    private static void write(final Path propertyFile, final Properties properties) {
-        try (var output = Resources.newOutputStream(propertyFile)) {
+    private static void write(final Path filePath, final Properties properties) {
+        try (var output = Resources.newOutputStream(filePath)) {
             properties.store(output, null);
         } catch (Exception e) {
-            throw new DataMapperException("Could not write property file '" + propertyFile + "'", e);
+            throw new DataMapperException("Could not write property file '" + filePath + "'", e);
         }
     }
 
@@ -92,26 +95,26 @@ public class PropertiesMapper {
      * It loads the properties file, sets the property, and writes the file back
      * to disk
      *
-     * @param propertyFile The path to the properties file.
-     * @param key          the key of the property you want to update
-     * @param value        the value to be written to the property file
+     * @param filePath The path to the properties file.
+     * @param key      the key of the property you want to update
+     * @param value    the value to be written to the property file
      */
-    public static void updateProperty(final Path propertyFile, final String key, final String value) {
-        Properties properties = PropertiesLoader.getProperties(propertyFile);
+    public static void updateProperty(final Path filePath, final String key, final String value) {
+        Properties properties = PropertiesLoader.getProperties(filePath);
         properties.setProperty(key, value);
-        write(propertyFile, properties);
+        write(filePath, properties);
     }
 
     /**
      * It takes a property file and a map of key-value pairs, and updates the
      * property file with the key-value pairs
      *
-     * @param propertyFile The path to the properties file.
-     * @param dataMap      A map of key-value pairs that you want to update in
-     *                     the properties file.
+     * @param filePath The path to the properties file.
+     * @param dataMap  A map of key-value pairs that you want to update in the
+     *                 properties file.
      */
-    public static void updateProperties(final Path propertyFile, final Map<String, String> dataMap) {
-        write(propertyFile, PropertiesLoader.getProperties(propertyFile), dataMap);
+    public static void updateProperties(final Path filePath, final Map<String, String> dataMap) {
+        write(filePath, PropertiesLoader.getProperties(filePath), dataMap);
     }
 
     /**
