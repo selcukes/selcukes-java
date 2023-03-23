@@ -71,7 +71,7 @@ public class SelcukesRuntime {
                     "dashboard,test,category,exception,author,device,log");
                 setSystemProperty("systeminfo.Platform", Platform.getPlatform().getOsName());
                 setSystemProperty("systeminfo.Environment", ConfigFactory.getConfig().getEnv());
-                plugin += "," + "io.github.selcukes.extent.report.SelcukesExtentAdapter:";
+                plugin += "," + "io.github.selcukes.extent.report.SelcukesExtentAdapter";
             }
             setSystemProperty("cucumber.plugin", plugin);
             setSystemProperty("cucumber.features", features);

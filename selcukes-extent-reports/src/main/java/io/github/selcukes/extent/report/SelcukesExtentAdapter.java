@@ -18,6 +18,7 @@
 
 package io.github.selcukes.extent.report;
 
+import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.GherkinKeyword;
 import com.aventstack.extentreports.MediaEntityBuilder;
@@ -98,10 +99,11 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     private final EventHandler<EmbedEvent> embedEventHandler = this::handleEmbed;
     private final EventHandler<WriteEvent> writeEventHandler = this::handleWrite;
     private final EventHandler<TestRunFinished> runFinishedHandler = this::handleTestRunFinished;
+    private final ExtentService extentService;
 
-    @SuppressWarnings("unused")
-    public SelcukesExtentAdapter(String arg) {
-        ExtentService.getInstance();
+    public SelcukesExtentAdapter() {
+
+        extentService = new ExtentService(new ExtentReports());
     }
 
     public static synchronized void addTestStepLog(final String message) {
@@ -174,7 +176,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
                 break;
             case "skipped":
                 if (isHookThreadLocal.get().equals(Boolean.TRUE)) {
-                    ExtentService.getInstance().removeTest(stepTestThreadLocal.get());
+                    extentService.getExtentReports().removeTest(stepTestThreadLocal.get());
                     break;
                 }
                 boolean currentEndingEventSkipped = test.hasLog()
@@ -192,7 +194,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
                     if (isHookThreadLocal.get().equals(Boolean.TRUE)) {
                         boolean mediaLogs = test.getLogs().stream().anyMatch(l -> l.getMedia() != null);
                         if (!test.hasLog() && !mediaLogs) {
-                            ExtentService.getInstance().removeTest(stepTestThreadLocal.get());
+                            extentService.getExtentReports().removeTest(stepTestThreadLocal.get());
                         }
                     }
                     stepTestThreadLocal.get().pass("");
@@ -243,7 +245,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
 
     private void finishReport() {
         getReporter().attachAndClear();
-        ExtentService.getInstance().flush();
+        extentService.getExtentReports().flush();
     }
 
     private synchronized void handleStartOfFeature(TestCase testCase) {
@@ -257,7 +259,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     private synchronized void createFeature(TestCase testCase) {
         Feature feature = testSources.getFeature(testCase.getUri());
 
-        ExtentService.getInstance().setGherkinDialect(Objects.requireNonNull(feature).getLanguage());
+        extentService.getExtentReports().setGherkinDialect(Objects.requireNonNull(feature).getLanguage());
 
         if (featureMap.containsKey(feature.getName())) {
             featureTestThreadLocal.set(featureMap.get(feature.getName()));
@@ -267,7 +269,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
                 && featureTestThreadLocal.get().getModel().getName().equals(feature.getName())) {
             return;
         }
-        ExtentTest t = ExtentService.getInstance().createTest(
+        ExtentTest t = extentService.getExtentReports().createTest(
             com.aventstack.extentreports.gherkin.model.Feature.class, feature.getName(),
             feature.getDescription());
         featureTestThreadLocal.set(t);
