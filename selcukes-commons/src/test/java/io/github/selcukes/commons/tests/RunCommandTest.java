@@ -25,6 +25,12 @@ import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.os.Platform;
 import org.testng.annotations.Test;
 
+import java.util.concurrent.ExecutionException;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 public class RunCommandTest {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -39,5 +45,29 @@ public class RunCommandTest {
 
             logger.info(() -> "Browser Version Number: " + browserVersion);
         }
+    }
+
+    @Test
+    public void testRunCommandAsync() throws ExecutionException, InterruptedException {
+        var shell = new Shell();
+        String command = "ping -n 1 8.8.8.8";
+        int expectedReturnCode = 0;
+        String expectedOutputLine = "Reply from 8.8.8.8: bytes=";
+        var future = shell.runCommandAsync(command);
+        var results = future.get();
+        assertTrue(results.getOutput().stream().anyMatch(line -> line.contains(expectedOutputLine)));
+        assertFalse(results.hasErrors());
+        assertEquals(results.getReturnCode(), expectedReturnCode);
+    }
+
+    @Test
+    public void testRunCommand() {
+        var shell = new Shell();
+        var results = shell.runCommand("echo 'hello, world!'");
+        var output = results.getOutput();
+        assertEquals(output.size(), 1);
+        assertEquals(output.get(0), "'hello, world!'");
+        assertFalse(results.hasErrors());
+        assertEquals(results.getReturnCode(), 0);
     }
 }
