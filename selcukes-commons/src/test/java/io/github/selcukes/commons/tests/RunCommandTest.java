@@ -25,7 +25,6 @@ import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.os.Platform;
 import org.testng.annotations.Test;
 
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static org.testng.Assert.assertEquals;
