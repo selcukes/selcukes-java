@@ -16,186 +16,170 @@
 
 package io.github.selcukes.databind.utils;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
- * The Try class provides static methods to handle checked exceptions in a
- * functional way.
- * <p>
- * It offers ways to execute code blocks that throw checked exceptions, catch
- * them, and convert them into unchecked exceptions.
+ * Represents the result of an operation that may fail with an exception. A
+ * `Try` instance can either contain a result of type `T` or an exception.
+ *
+ * @param <T> The type of the result that can be contained in the `Try`
+ *            instance.
  */
-public final class Try {
+public class Try<T> {
+    private final T result;
+    private final Exception exception;
+
     /**
-     * Private constructor to prevent instantiation of the class.
+     * Constructs a new `Try` instance with the given result and exception.
+     *
+     * @param result    The result of the operation, or `null` if an exception
+     *                  was thrown.
+     * @param exception The exception that was thrown, or `null` if the
+     *                  operation succeeded.
      */
-    private Try() {
-        // Private constructor
+    private Try(T result, Exception exception) {
+        this.result = result;
+        this.exception = exception;
     }
 
     /**
-     * Executes a checked Runnable and ignores any exceptions thrown by it.
+     * Runs the given `runnable` without throwing any checked exceptions. If the
+     * `runnable` throws an exception, a `Try` instance with the exception is
+     * returned.
      *
-     * @param action the Runnable to execute
+     * @param  runnable The `CheckedRunnable` to run.
+     * @param  <T>      The type of the result that can be contained in the
+     *                  `Try` instance.
+     * @return          A `Try` instance with the result set to `null` and the
+     *                  exception set to the one thrown by the `runnable`.
      */
-    public static void ignore(CheckedRunnable action) {
+    public static <T> Try<T> ignore(CheckedRunnable runnable) {
         try {
-            action.run();
-        } catch (Exception ignored) {
-            // ignore
+            runnable.run();
+            return new Try<>(null, null);
+        } catch (Exception e) {
+            return new Try<>(null, e);
         }
     }
 
     /**
-     * Executes a checked Supplier and returns its result. If the Supplier
-     * throws an exception, it is caught and rethrown as an unchecked exception.
+     * Invokes the given `supplier` and returns a `Try` instance with the result
+     * or the exception thrown by the `supplier`. The `exceptionMapper` is used
+     * to map the caught exception to a runtime exception to the desired type.
      *
-     * @param  supplier         the Supplier to execute
-     * @param  <T>              the type of the result
-     * @param  <E>              the type of the checked exception that can be
-     *                          thrown
-     * @return                  the result of the Supplier
-     * @throws RuntimeException if the Supplier throws an exception
+     * @param  supplier         The `CheckedSupplier` to invoke.
+     * @param  exceptionMapper  The `Function` that maps the caught exception to
+     *                          a runtime exception.
+     * @param  <T>              The type of the result that can be contained in
+     *                          the `Try` instance.
+     * @return                  A `Try` instance with the result set to the
+     *                          value returned by the `supplier` and the
+     *                          exception set to the one caught.
+     * @throws RuntimeException The exception returned by the `exceptionMapper`.
      */
-    public static <T, E extends Exception> T of(CheckedSupplier<T, E> supplier) {
+    public static <T> Try<T> of(
+            CheckedSupplier<T> supplier, Function<Exception, ? extends RuntimeException> exceptionMapper
+    ) {
         try {
-            return supplier.get();
+            return new Try<>(supplier.get(), null);
         } catch (Exception e) {
-            throw ExceptionUtils.wrapAndThrow(e, RuntimeException::new);
+            throw exceptionMapper.apply(e);
         }
     }
 
     /**
-     * Executes a checked Runnable and converts any exceptions thrown by it to a
-     * user-defined checked exception.
+     * Invokes the given `supplier` to create a resource of type `T` and applies
+     * the `resourceMapper` to the resource. The resource is automatically
+     * closed after the `resourceMapper` is applied.
      *
-     * @param  action            the Runnable to execute
-     * @param  exceptionSupplier a Function to convert the caught Exception into
-     *                           a user-defined checked exception
-     * @param  <E>               the type of the user-defined checked exception
-     * @throws E                 the user-defined checked exception, if the
-     *                           Runnable throws an exception
+     * @param  supplier       The `CheckedSupplier` to create the resource.
+     * @param  resourceMapper The `CheckedFunction` to apply to the resource.
+     * @param  <T>            The type of the resource to create.
+     * @param  <R>            The type of the result that can be contained in
+     *                        the `Try` instance.
+     * @return                A `Try` instance with the result set to the value
+     *                        returned by the `resourceMapper` and the exception
+     *                        set to the one caught.
      */
-    public static <E extends Exception> void of(CheckedRunnable action, Function<Exception, E> exceptionSupplier)
-            throws E {
-        try {
-            action.run();
+    public static <T extends AutoCloseable, R> Try<R> with(
+            CheckedSupplier<T> supplier, CheckedFunction<T, R> resourceMapper
+    ) {
+        try (T resource = supplier.get()) {
+            return new Try<>(resourceMapper.apply(resource), null);
         } catch (Exception e) {
-            throw ExceptionUtils.wrapAndThrow(e, exceptionSupplier);
+            return new Try<>(null, e);
         }
     }
 
     /**
-     * Executes a checked Supplier and converts any exceptions thrown by it to a
-     * user-defined checked exception.
+     * Returns `true` if the operation succeeded (i.e., no exception was
+     * thrown).
      *
-     * @param  supplier          the Supplier to execute
-     * @param  exceptionSupplier a Function to convert the caught Exception into
-     *                           a user-defined checked exception
-     * @param  <T>               the type of the result
-     * @param  <E>               the type of the user-defined checked exception
-     * @return                   the result of the Supplier
-     * @throws E                 the user-defined checked exception, if the
-     *                           Supplier throws an exception
+     * @return `true` if the operation succeeded, `false` otherwise.
      */
-    public static <T, E extends Exception> T of(
-            CheckedSupplier<T, E> supplier, Function<Exception, E> exceptionSupplier
-    ) throws E {
-        try {
-            return supplier.get();
-        } catch (Exception e) {
-            throw ExceptionUtils.wrapAndThrow(e, exceptionSupplier);
-        }
+    public boolean isSuccess() {
+        return exception == null;
     }
 
     /**
-     * Executes a checked Consumer on an AutoCloseable resource. The resource is
-     * automatically closed after the Consumer is executed. If the Consumer
-     * throws an exception, it is caught and rethrown as an unchecked exception.
+     * Returns `true` if the operation failed (i.e., an exception was thrown).
      *
-     * @param <T>      the type of the AutoCloseable resource
-     * @param <E>      the type of the checked exception that can be thrown by
-     *                 the Consumer
-     * @param resource the AutoCloseable resource to execute the Consumer on
-     * @param action   the Consumer to execute
+     * @return `true` if the operation failed, `false` otherwise.
      */
-    public static <T extends AutoCloseable, E extends Exception> void of(T resource, CheckedConsumer<T, E> action) {
-        try (resource) {
-            action.accept(resource, null);
-        } catch (Exception e) {
-            throw ExceptionUtils.wrapAndThrow(e, RuntimeException::new);
-        }
+    public boolean isFailure() {
+        return exception != null;
     }
 
     /**
-     * A functional interface for a Consumer that can throw a checked exception.
+     * Returns the result held by this Try object wrapped in an Optional.
      *
-     * @param <T> the type of the argument to the Consumer
-     * @param <E> the type of the checked exception that can be thrown by the
-     *            Consumer
+     * @return an Optional containing the result held by this Try object, or an
+     *         empty Optional if this Try object represents a failure
+     */
+    public Optional<T> get() {
+        return Optional.ofNullable(result);
+    }
+
+    /**
+     * Returns the cause of the failure represented by this Try object.
+     *
+     * @return the cause of the failure represented by this Try object, or null
+     *         if this Try object represents a success
+     */
+    public Exception getCause() {
+        return exception;
+    }
+
+    /**
+     * A functional interface representing a function that takes an argument of
+     * type T and returns a result of type R, and may throw an Exception.
+     *
+     * @param <T> the type of the input to the function
+     * @param <R> the type of the result of the function
      */
     @FunctionalInterface
-    public interface CheckedConsumer<T, E extends Exception> {
-        void accept(T t, E e) throws E;
+    public interface CheckedFunction<T, R> {
+        R apply(T t) throws Exception;
     }
 
     /**
-     * A functional interface for a Runnable that can throw a checked exception.
+     * A functional interface representing a supplier of values of type T, which
+     * may throw an Exception.
+     *
+     * @param <T> the type of results supplied by this supplier
+     */
+    @FunctionalInterface
+    public interface CheckedSupplier<T> {
+        T get() throws Exception;
+    }
+
+    /**
+     * A functional interface representing an operation that may throw an
+     * Exception.
      */
     @FunctionalInterface
     public interface CheckedRunnable {
-        @SuppressWarnings("squid:S112")
         void run() throws Exception;
     }
-
-    /**
-     * A functional interface for a Supplier that can throw a checked exception.
-     *
-     * @param <T> the type of the result supplied by the Supplier
-     * @param <E> the type of the checked exception that can be thrown by the
-     *            Supplier
-     */
-    @FunctionalInterface
-    public interface CheckedSupplier<T, E extends Exception> {
-        T get() throws E;
-    }
-
-    /**
-     * A utility class for working with exceptions.
-     */
-    private static class ExceptionUtils {
-
-        /**
-         * Wraps a checked exception in an unchecked exception using the
-         * provided wrapper function. If the original exception is already an
-         * unchecked exception, it is simply rethrown.
-         *
-         * @param  <T>       the type of the original exception
-         * @param  <E>       the type of the wrapped exception
-         * @param  throwable the original exception to wrap
-         * @param  wrapper   a function that takes the original exception as
-         *                   input and returns the wrapped exception
-         * @return           the wrapped exception, which is always an unchecked
-         *                   exception
-         * @throws E         if the wrapper function throws an exception while
-         *                   wrapping the original exception
-         */
-        public static <T extends Throwable, E extends Exception> RuntimeException wrapAndThrow(
-                T throwable, Function<? super T, E> wrapper
-        ) throws E {
-            if (throwable instanceof RuntimeException) {
-                throw (RuntimeException) throwable;
-            } else if (throwable instanceof Error) {
-                throw (Error) throwable;
-            } else {
-                Throwable cause = throwable.getCause();
-                if (cause == null) {
-                    throw wrapper.apply(throwable);
-                } else {
-                    throw wrapper.apply((T) cause);
-                }
-            }
-        }
-    }
-
 }

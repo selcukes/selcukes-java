@@ -16,35 +16,31 @@
 
 package io.github.selcukes.databind.tests;
 
+import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.Try;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertThrows;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 public class TryTest {
 
-    @Test
-    public void testOf() {
-        int result = Try.of(() -> 1);
-        assertEquals(result, 1);
-    }
-
-    @Test
+    @Test(expectedExceptions = RuntimeException.class)
     public void testOfWithCheckedException() {
-        assertThrows(IOException.class, () -> Try.<Object, IOException> of(() -> {
-            throw new IOException("Test exception");
-        }, IOException::new));
+        var result = Try.of(() -> {
+            throw new IOException("oops");
+        }, RuntimeException::new);
     }
 
-    @Test
+    @Test(expectedExceptions = DataMapperException.class)
     public void testOfWithRuntimeException() {
-        assertThrows(RuntimeException.class, () -> Try.of(() -> {
+        Try.of(() -> {
             throw new RuntimeException("Test exception");
-        }));
+        }, DataMapperException::new);
     }
 
     @Test
@@ -52,7 +48,13 @@ public class TryTest {
         Try.ignore(() -> {
             throw new RuntimeException("Test exception");
         });
-        // No exception should be thrown
+        var result = Try.ignore(() -> {
+            throw new IOException("oops");
+        });
+        assertTrue(result.isFailure());
+        assertFalse(result.isSuccess());
+        assertFalse(result.get().isPresent());
+        assertNotNull(result.getCause());
     }
 
     @Test
@@ -60,18 +62,19 @@ public class TryTest {
         class TestResource implements AutoCloseable {
             boolean closed = false;
 
+            public int doSomething() {
+                return 42;
+            }
+
             @Override
             public void close() {
                 closed = true;
             }
         }
-
         TestResource resource = new TestResource();
-        Try.of(resource, (r, e) -> {
-            // Do nothing
-        });
-
+        var result = Try.with(() -> resource, TestResource::doSomething);
         assertTrue(resource.closed);
+        assertEquals(result.get().orElseThrow(), 42);
     }
 
 }
