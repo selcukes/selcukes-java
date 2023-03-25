@@ -86,10 +86,10 @@ public class Shell {
         executors.submit(error);
         executors.submit(output);
         executors.shutdown();
-        Await.await()
-                .poll(250)
-                .atMax(1000)
-                .until(executors::isTerminated);
+        while (!executors.isTerminated()) {
+            // Wait for all the tasks to complete.
+            Await.until(1);
+        }
 
         return new ExecResults(output.getContent(), error.getContent(), process.exitValue());
     }
