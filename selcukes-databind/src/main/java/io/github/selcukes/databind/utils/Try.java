@@ -89,6 +89,29 @@ public class Try<T> {
     }
 
     /**
+     * Invokes the given runnable and returns a Try instance with no result and
+     * the exception thrown by the runnable. The exceptionMapper is used to map
+     * the caught exception to a runtime exception to the desired type.
+     *
+     * @param  runnable         The CheckedRunnable to invoke.
+     * @param  exceptionMapper  The Function that maps the caught exception to a
+     *                          runtime exception.
+     * @return                  A Try instance with no result and the exception
+     *                          set to the one caught.
+     * @throws RuntimeException The exception returned by the exceptionMapper.
+     */
+    public static <T> Try<T> of(
+            CheckedRunnable runnable, Function<Exception, ? extends RuntimeException> exceptionMapper
+    ) {
+        try {
+            runnable.run();
+            return new Try<>(null, null);
+        } catch (Exception e) {
+            throw exceptionMapper.apply(e);
+        }
+    }
+
+    /**
      * Invokes the given `supplier` to create a resource of type `T` and applies
      * the `resourceMapper` to the resource. The resource is automatically
      * closed after the `resourceMapper` is applied.

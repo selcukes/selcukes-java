@@ -35,11 +35,16 @@ public class TryTest {
         }, RuntimeException::new);
     }
 
-    @Test(expectedExceptions = DataMapperException.class)
-    public void testOfWithRuntimeException() {
-        Try.of(() -> {
-            throw new RuntimeException("Test exception");
+    @Test
+    public void testOfCheckedRunnableAndCheckedSupplier() {
+        var result = Try.of(() -> "Hello", DataMapperException::new);
+        assertEquals(result.get().orElse(""), "Hello");
+
+        var result1 = Try.of(() -> {
+            // Do Nothing
         }, DataMapperException::new);
+
+        assertEquals(result1.get().orElse("Its Me"), "Its Me");
     }
 
     @Test

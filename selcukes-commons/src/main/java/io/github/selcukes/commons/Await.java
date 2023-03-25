@@ -51,10 +51,7 @@ public class Await {
     }
 
     public static void until(TimeUnit timeUnit, int timeout) {
-        Try.of(() -> {
-            timeUnit.sleep(timeout);
-            return null;
-        }, e -> new SelcukesException("Timeout exception", e));
+        Try.of(() -> timeUnit.sleep(timeout), e -> new SelcukesException("Timeout exception", e));
     }
 
     public Await poll(long pollTimeoutInMillis) {
