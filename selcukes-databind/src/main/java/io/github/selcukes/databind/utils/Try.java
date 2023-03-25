@@ -144,7 +144,13 @@ public final class Try {
      */
     @FunctionalInterface
     public interface CheckedRunnable {
-        void run() throws Exception;
+        void run() throws SelcukesCheckedException;
+
+        class SelcukesCheckedException extends Exception {
+            public SelcukesCheckedException(String message, Throwable cause) {
+                super(message, cause);
+            }
+        }
     }
 
     /**
@@ -180,12 +186,19 @@ public final class Try {
          *                   wrapping the original exception
          */
         public static <T extends Throwable, E extends Exception> RuntimeException wrapAndThrow(
-                T throwable, Function<T, E> wrapper
+                T throwable, Function<? super T, E> wrapper
         ) throws E {
             if (throwable instanceof RuntimeException) {
                 throw (RuntimeException) throwable;
+            } else if (throwable instanceof Error) {
+                throw (Error) throwable;
             } else {
-                throw wrapper.apply(throwable);
+                Throwable cause = throwable.getCause();
+                if (cause == null) {
+                    throw wrapper.apply(throwable);
+                } else {
+                    throw wrapper.apply((T) cause);
+                }
             }
         }
     }
