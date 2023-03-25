@@ -41,13 +41,7 @@ public class Shell {
     public ExecResults runCommand(final String command) {
         logger.info(() -> String.format("Executing the command [%s]", command));
         try {
-            var processBuilder = new ProcessBuilder();
-            if (Platform.isWindows()) {
-                processBuilder.command("cmd.exe", "/c", command);
-            } else {
-                processBuilder.command(command.split("\\s"));
-            }
-            var process = processBuilder.start();
+            var process = new ProcessBuilder(command.split("\\s")).start();
             var results = interactWithProcess(process);
             if (results.hasErrors()) {
                 logger.warn(() -> String.format("Results of the command execution: %s", results.getError()));

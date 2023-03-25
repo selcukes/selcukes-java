@@ -25,6 +25,7 @@ import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.os.Platform;
 import org.testng.annotations.Test;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static org.testng.Assert.assertEquals;
@@ -66,7 +67,8 @@ public class RunCommandTest {
     public void testRunCommand() {
         if (Platform.isWindows()) {
             var shell = new Shell();
-            var results = shell.runCommand("echo 'hello, world!'");
+            var command = "cmd.exe /c echo 'hello, world!'";
+            var results = shell.runCommand(command);
             var output = results.getOutput();
             assertEquals(output.size(), 1);
             assertEquals(output.get(0), "'hello, world!'");
