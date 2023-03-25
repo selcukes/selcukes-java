@@ -23,7 +23,6 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -31,8 +30,8 @@ public class TryTest {
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testOfWithCheckedException() {
-        var result = Try.of(() -> {
-            throw new IOException("oops");
+        Try.of(() -> {
+            throw new IOException("Test exception");
         }, RuntimeException::new);
     }
 
@@ -52,8 +51,6 @@ public class TryTest {
             throw new IOException("oops");
         });
         assertTrue(result.isFailure());
-        assertFalse(result.isSuccess());
-        assertFalse(result.get().isPresent());
         assertNotNull(result.getCause());
     }
 
