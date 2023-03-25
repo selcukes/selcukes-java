@@ -25,52 +25,76 @@ import java.util.concurrent.TimeUnit;
 
 public class Await {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private long maxTimeout = 1;
-    private long pollTimeout = 1;
+
+    private final long maxTimeoutInMillis;
+    private final long pollTimeoutInMillis;
+
+    private static final long DEFAULT_POLL_TIMEOUT_MILLIS = 100;
+
+    public Await() {
+        this.maxTimeoutInMillis = 1000;
+        this.pollTimeoutInMillis = DEFAULT_POLL_TIMEOUT_MILLIS;
+    }
+
+    public Await(long maxTimeoutInMillis, long pollTimeoutInMillis) {
+        this.maxTimeoutInMillis = maxTimeoutInMillis;
+        this.pollTimeoutInMillis = pollTimeoutInMillis;
+    }
 
     public static Await await() {
-
         return new Await();
     }
 
     public static void until(int timeoutInSeconds) {
-        try {
-            TimeUnit.SECONDS.sleep(timeoutInSeconds);
-        } catch (Exception e) { // NOSONAR
-            throw new SelcukesException("Timeout exception : ", e);
-        }
+        until(TimeUnit.SECONDS, timeoutInSeconds);
     }
 
     public static void until(TimeUnit timeUnit, int timeout) {
         try {
             timeUnit.sleep(timeout);
-        } catch (Exception e) { // NOSONAR
-            throw new SelcukesException("Timeout exception : ", e);
+        } catch (InterruptedException e) {
+            throw new SelcukesException("Timeout exception", e);
         }
     }
 
-    public Await poll(long pollTimeout) {
-        this.pollTimeout = pollTimeout;
-        return this;
+    public Await poll(long pollTimeoutInMillis) {
+        return new Await(this.maxTimeoutInMillis, pollTimeoutInMillis);
     }
 
-    public Await atMax(long maxTimeout) {
-        this.maxTimeout = maxTimeout;
-        return this;
+    public Await atMax(long maxTimeoutInMillis) {
+        return new Await(maxTimeoutInMillis, this.pollTimeoutInMillis);
     }
 
-    public void until(Callable<Boolean> conditionEvaluator) throws Exception {
-        long stopwatch = 1;
-        while (Boolean.FALSE.equals(conditionEvaluator.call()) && stopwatch <= maxTimeout) {
-            logger.debug(() -> "Waiting...");
-            TimeUnit.SECONDS.sleep(pollTimeout);
-            stopwatch += pollTimeout;
+    /**
+     * Waits for the specified condition to be met, polling periodically until
+     * either the condition is met or the maximum timeout is reached.
+     *
+     * @param  conditionEvaluator a function that evaluates the condition to be
+     *                            met
+     * @return                    true if the condition is met within the
+     *                            maximum timeout period, false otherwise
+     */
+    public boolean until(Callable<Boolean> conditionEvaluator) {
+        long stopwatch = 0;
+        while (stopwatch <= maxTimeoutInMillis) {
+            try {
+                if (conditionEvaluator.call()) {
+                    logger.info(() -> "Condition met within the given time");
+                    return true;
+                }
+                logger.debug(() -> "Waiting for condition to be met...");
+                TimeUnit.MILLISECONDS.sleep(pollTimeoutInMillis);
+                stopwatch += pollTimeoutInMillis;
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                logger.error(e, () -> "Interrupted while waiting for condition");
+                return false;
+            } catch (Exception e) {
+                logger.error(e, () -> "Error while evaluating condition");
+                return false;
+            }
         }
-        if (stopwatch > maxTimeout) {
-            logger.error(() -> "Condition not successful");
-        } else {
-            logger.info(() -> "Condition successful");
-        }
-
+        logger.error(() -> "Condition not met within the given time");
+        return false;
     }
 }

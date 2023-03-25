@@ -57,7 +57,7 @@ public class ExtentService {
     public ExtentService(ExtentReports extentReports) {
         this.extentReports = extentReports;
         propertiesMap = initProperties();
-        if ("true".equals(getProperty(INIT_SPARK_KEY))) {
+        if (getBooleanProperty(INIT_SPARK_KEY)) {
             initSpark();
         }
         addSystemInfo();
@@ -76,8 +76,8 @@ public class ExtentService {
     }
 
     private String getProperty(String propertyKey) {
-        return (System.getProperty(propertyKey) != null) ? System.getProperty(propertyKey)
-                : propertiesMap.get(propertyKey);
+        return ofNullable(System.getProperty(propertyKey))
+                .orElse(propertiesMap.get(propertyKey));
     }
 
     private String getOutputPath() {
