@@ -24,7 +24,6 @@ import io.github.selcukes.commons.os.Platform;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Shell {
@@ -41,8 +40,8 @@ public class Shell {
     public ExecResults runCommand(final String command) {
         logger.info(() -> String.format("Executing the command [%s]", command));
         try {
-            Process process = new ProcessBuilder(command.split("\\s")).start();
-            ExecResults results = interactWithProcess(process);
+            var process = new ProcessBuilder(command.split("\\s")).start();
+            var results = interactWithProcess(process);
             if (results.hasErrors()) {
                 logger.warn(() -> String.format("Results of the command execution: %s", results.getError()));
             }
@@ -73,16 +72,17 @@ public class Shell {
         if (Platform.isWindows()) {
             extractPidOf(process);
         }
-        StreamGuzzler output = new StreamGuzzler(process.getInputStream());
-        StreamGuzzler error = new StreamGuzzler(process.getErrorStream());
-        ExecutorService executors = Executors.newFixedThreadPool(2);
+        var output = new StreamGuzzler(process.getInputStream());
+        var error = new StreamGuzzler(process.getErrorStream());
+        var executors = Executors.newFixedThreadPool(2);
         executors.submit(error);
         executors.submit(output);
         executors.shutdown();
-        while (!executors.isTerminated()) {
-            // Wait for all the tasks to complete.
-            Await.until(1);
-        }
+        Await.await()
+                .poll(250)
+                .atMax(1000)
+                .until(executors::isTerminated);
+
         return new ExecResults(output.getContent(), error.getContent(), process.exitValue());
     }
 
@@ -130,7 +130,7 @@ public class Shell {
      * @throws CommandException if the process fails to start
      */
     public static Process startProcess(String servicePath) throws CommandException {
-        ProcessBuilder processBuilder = new ProcessBuilder(servicePath);
+        var processBuilder = new ProcessBuilder(servicePath);
         processBuilder.inheritIO();
         try {
             Process process = processBuilder.start();
