@@ -41,7 +41,7 @@ public final class Try {
     public static void ignore(CheckedRunnable action) {
         try {
             action.run();
-        } catch (Exception ignored) {
+        } catch (Throwable ignored) {
             // ignore
         }
     }
@@ -57,10 +57,10 @@ public final class Try {
      * @return                  the result of the Supplier
      * @throws RuntimeException if the Supplier throws an exception
      */
-    public static <T, E extends Exception> T of(CheckedSupplier<T, E> supplier) {
+    public static <T, E extends Throwable> T of(CheckedSupplier<T, E> supplier) {
         try {
             return supplier.get();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             throw ExceptionUtils.wrapAndThrow(e, RuntimeException::new);
         }
     }
@@ -76,11 +76,11 @@ public final class Try {
      * @throws E                 the user-defined checked exception, if the
      *                           Runnable throws an exception
      */
-    public static <E extends Exception> void of(CheckedRunnable action, Function<Exception, E> exceptionSupplier)
+    public static <E extends Throwable> void of(CheckedRunnable action, Function<Throwable, E> exceptionSupplier)
             throws E {
         try {
             action.run();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             throw ExceptionUtils.wrapAndThrow(e, exceptionSupplier);
         }
     }
@@ -98,12 +98,12 @@ public final class Try {
      * @throws E                 the user-defined checked exception, if the
      *                           Supplier throws an exception
      */
-    public static <T, E extends Exception> T of(
-            CheckedSupplier<T, E> supplier, Function<Exception, E> exceptionSupplier
+    public static <T, E extends Throwable> T of(
+            CheckedSupplier<T, E> supplier, Function<Throwable, E> exceptionSupplier
     ) throws E {
         try {
             return supplier.get();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             throw ExceptionUtils.wrapAndThrow(e, exceptionSupplier);
         }
     }
@@ -119,10 +119,10 @@ public final class Try {
      * @param resource the AutoCloseable resource to execute the Consumer on
      * @param action   the Consumer to execute
      */
-    public static <T extends AutoCloseable, E extends Exception> void of(T resource, CheckedConsumer<T, E> action) {
+    public static <T extends AutoCloseable, E extends Throwable> void of(T resource, CheckedConsumer<T, E> action) {
         try (resource) {
             action.accept(resource, null);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             throw ExceptionUtils.wrapAndThrow(e, RuntimeException::new);
         }
     }
@@ -135,7 +135,7 @@ public final class Try {
      *            Consumer
      */
     @FunctionalInterface
-    public interface CheckedConsumer<T, E extends Exception> {
+    public interface CheckedConsumer<T, E extends Throwable> {
         void accept(T t, E e) throws E;
     }
 
@@ -144,7 +144,7 @@ public final class Try {
      */
     @FunctionalInterface
     public interface CheckedRunnable {
-        void run() throws Exception;
+        void run() throws Throwable;
     }
 
     /**
@@ -155,7 +155,7 @@ public final class Try {
      *            Supplier
      */
     @FunctionalInterface
-    public interface CheckedSupplier<T, E extends Exception> {
+    public interface CheckedSupplier<T, E extends Throwable> {
         T get() throws E;
     }
 
@@ -179,7 +179,7 @@ public final class Try {
          * @throws E         if the wrapper function throws an exception while
          *                   wrapping the original exception
          */
-        public static <T extends Throwable, E extends Exception> RuntimeException wrapAndThrow(
+        public static <T extends Throwable, E extends Throwable> RuntimeException wrapAndThrow(
                 T throwable, Function<? super T, E> wrapper
         ) throws E {
             if (throwable instanceof RuntimeException) {

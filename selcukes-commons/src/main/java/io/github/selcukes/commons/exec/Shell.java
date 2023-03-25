@@ -23,7 +23,6 @@ import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.os.Platform;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,7 +43,7 @@ public class Shell {
         try {
             var processBuilder = new ProcessBuilder();
             if (Platform.isWindows()) {
-                processBuilder.command(List.of("cmd.exe", "/c", command));
+                processBuilder.command("cmd.exe", "/c", command);
             } else {
                 processBuilder.command(command.split("\\s"));
             }
