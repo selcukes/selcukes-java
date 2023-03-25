@@ -49,10 +49,10 @@ public class TryTest {
 
     @Test
     public void testIgnore() {
-        Try.ignore(() -> {
+        Try.attempt(() -> {
             throw new RuntimeException("Test exception");
         });
-        var result = Try.ignore(() -> {
+        var result = Try.attempt(() -> {
             throw new IOException("oops");
         });
         assertTrue(result.isFailure());
@@ -77,6 +77,42 @@ public class TryTest {
         var result = Try.with(() -> resource, TestResource::doSomething);
         assertTrue(resource.closed);
         assertEquals(result.get().orElseThrow(), 42);
+    }
+
+    @Test
+    void testFlatMap() {
+        var result = Try.of(() -> "Hello", DataMapperException::new)
+                .flatMap(value -> Try.of(() -> value + " result", DataMapperException::new));
+        assertEquals(result.get().orElseThrow(), "Hello result");
+    }
+
+    @Test
+    void testRecover() {
+        var result = Try.of(() -> "Hello", DataMapperException::new)
+                .flatMap(value -> Try.of(() -> {
+                    throw new IOException("Something wrong");
+                }, RuntimeException::new))
+                .recover(() -> "fallback");
+        assertEquals(result, "fallback");
+    }
+
+    @Test
+    void testFold() {
+        var result = Try.of(() -> "Hello", DataMapperException::new)
+                .flatMap(value -> Try.of(() -> value + " result", DataMapperException::new))
+                .fold(ex -> "error", value -> value);
+
+        assertEquals(result, "Hello result");
+    }
+
+    @Test
+    void testFold1() {
+        var result = Try.of(() -> "Hello", DataMapperException::new)
+                .flatMap(value -> Try.of(() -> {
+                    throw new IOException("Something wrong");
+                }, RuntimeException::new))
+                .fold(ex -> "error", value -> value);
+        assertEquals(result, "error");
     }
 
 }

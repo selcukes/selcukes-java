@@ -18,6 +18,7 @@ package io.github.selcukes.databind.utils;
 
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Represents the result of an operation that may fail with an exception. A
@@ -54,7 +55,7 @@ public class Try<T> {
      * @return          A `Try` instance with the result set to `null` and the
      *                  exception set to the one thrown by the `runnable`.
      */
-    public static <T> Try<T> ignore(CheckedRunnable runnable) {
+    public static <T> Try<T> attempt(CheckedRunnable runnable) {
         try {
             runnable.run();
             return new Try<>(null, null);
@@ -172,6 +173,61 @@ public class Try<T> {
      */
     public Exception getCause() {
         return exception;
+    }
+
+    /**
+     * Applies the given function to the result of this Try, which produces a
+     * new Try. If this Try contains an exception, a new Try containing the
+     * exception is returned.
+     *
+     * @param  mapper the function to apply to the result of this Try
+     * @param  <R>    the type of the result of the new Try
+     * @return        a new Try containing the result of the given function or
+     *                an exception
+     */
+    public <R> Try<R> flatMap(Function<T, Try<R>> mapper) {
+        if (exception != null) {
+            return new Try<>(null, exception);
+        }
+        try {
+            return mapper.apply(result);
+        } catch (Exception e) {
+            return new Try<>(null, e);
+        }
+    }
+
+    /**
+     * Returns the result of this Try if it contains one, otherwise returns the
+     * result of the given fallback supplier.
+     *
+     * @param  fallback the fallback supplier to call if this Try contains an
+     *                  exception
+     * @return          the result of this Try if it contains one, otherwise the
+     *                  result of the fallback supplier
+     */
+    public T recover(Supplier<T> fallback) {
+        return exception != null ? fallback.get() : result;
+    }
+
+    /**
+     * Returns the result of applying the successHandler function to the result
+     * of this Try if it contains one, otherwise returns the result of applying
+     * the errorHandler function to the exception contained in this Try.
+     *
+     * @param  errorHandler   the function to apply to the exception contained
+     *                        in this Try
+     * @param  successHandler the function to apply to the result of this Try if
+     *                        it contains one
+     * @param  <R>            the type of the result of the function applied to
+     *                        the result of this Try or the exception contained
+     *                        in this Try
+     * @return                the result of applying the successHandler function
+     *                        to the result of this Try if it contains one,
+     *                        otherwise the result of applying the errorHandler
+     *                        function to the exception contained in this Try
+     */
+    public <R> R fold(Function<Exception, R> errorHandler, Function<T, R> successHandler) {
+        return exception != null ? errorHandler.apply(exception) : successHandler.apply(result);
     }
 
     /**
