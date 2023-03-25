@@ -144,13 +144,7 @@ public final class Try {
      */
     @FunctionalInterface
     public interface CheckedRunnable {
-        void run() throws SelcukesCheckedException;
-
-        class SelcukesCheckedException extends Exception {
-            public SelcukesCheckedException(String message, Throwable cause) {
-                super(message, cause);
-            }
-        }
+        void run() throws Exception;
     }
 
     /**

@@ -19,6 +19,7 @@ package io.github.selcukes.commons;
 import io.github.selcukes.commons.exception.SelcukesException;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.databind.utils.Try;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
@@ -50,11 +51,8 @@ public class Await {
     }
 
     public static void until(TimeUnit timeUnit, int timeout) {
-        try {
-            timeUnit.sleep(timeout);
-        } catch (InterruptedException e) {
-            throw new SelcukesException("Timeout exception", e);
-        }
+        Try.of(() -> timeUnit.sleep(timeout),
+            e -> new SelcukesException("Timeout exception", e));
     }
 
     public Await poll(long pollTimeoutInMillis) {
@@ -78,7 +76,7 @@ public class Await {
         long stopwatch = 0;
         while (stopwatch <= maxTimeoutInMillis) {
             try {
-                if (conditionEvaluator.call()) {
+                if (conditionEvaluator.call().equals(Boolean.TRUE)) {
                     logger.info(() -> "Condition met within the given time");
                     return true;
                 }
