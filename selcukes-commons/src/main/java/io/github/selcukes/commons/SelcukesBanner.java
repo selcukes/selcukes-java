@@ -17,6 +17,7 @@
 package io.github.selcukes.commons;
 
 import io.github.selcukes.commons.helper.FileHelper;
+import io.github.selcukes.databind.utils.Try;
 import lombok.experimental.UtilityClass;
 
 import java.util.StringJoiner;
@@ -25,13 +26,11 @@ import java.util.StringJoiner;
 public class SelcukesBanner {
     @SuppressWarnings("all")
     public void printBanner() {
-        try {
+        Try.attempt(() -> {
             String banner = FileHelper.readContent("banner.txt");
             System.out.println(new StringJoiner(System.lineSeparator(), System.lineSeparator(), System.lineSeparator())
                     .add(banner)
                     .toString());
-        } catch (Exception ignore) {
-            // Ignored
-        }
+        });
     }
 }

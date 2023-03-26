@@ -65,6 +65,25 @@ public class Try<T> {
     }
 
     /**
+     * Runs the given `supplier` without throwing any checked exceptions. If the
+     * `supplier` throws an exception, a `Try` instance with the exception is
+     * returned.
+     *
+     * @param  supplier The `CheckedSupplier` to run.
+     * @param  <T>      The type of the result that can be contained in the
+     *                  `Try` instance.
+     * @return          A `Try` instance with the result set to `null` and the
+     *                  exception set to the one thrown by the `supplier`.
+     */
+    public static <T> Try<T> attempt(CheckedSupplier<T> supplier) {
+        try {
+            return new Try<>(supplier.get(), null);
+        } catch (Exception e) {
+            return new Try<>(null, e);
+        }
+    }
+
+    /**
      * Returns a `Try` that represents the result of executing the provided
      * `supplier`. If the `supplier` throws an exception, the caught exception
      * is wrapped in a `RuntimeException` with a message indicating that the

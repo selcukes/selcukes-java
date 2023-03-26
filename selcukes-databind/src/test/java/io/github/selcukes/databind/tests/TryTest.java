@@ -57,14 +57,22 @@ public class TryTest {
 
     @Test
     public void testIgnore() {
+        var result = Try.attempt(() -> "Hello");
+        assertEquals(result.get().orElseThrow(), "Hello");
+
+        var result1 = Try.attempt(() -> {
+            // Do nothing
+        });
+        assertEquals(result1.get().orElse("Its Me"), "Its Me");
+
         Try.attempt(() -> {
             throw new RuntimeException("Test exception");
         });
-        var result = Try.attempt(() -> {
+        var result3 = Try.attempt(() -> {
             throw new IOException("oops");
         });
-        assertFalse(result.isSuccess());
-        assertNotNull(result.getException());
+        assertFalse(result3.isSuccess());
+        assertNotNull(result3.getException());
     }
 
     @Test
