@@ -65,6 +65,23 @@ public class Try<T> {
     }
 
     /**
+     * Returns a `Try` that represents the result of executing the provided
+     * `supplier`. If the `supplier` throws an exception, the caught exception
+     * is wrapped in a `RuntimeException` with a message indicating that the
+     * exception was caught.
+     *
+     * @param  supplier             the `CheckedSupplier` to execute
+     * @param  <T>                  the type of the result returned by the
+     *                              `supplier`
+     * @return                      a `Try` that represents the result of
+     *                              executing the provided `supplier`
+     * @throws NullPointerException if the `supplier` is `null`
+     */
+    public static <T> Try<T> of(CheckedSupplier<T> supplier) {
+        return of(supplier, e -> new RuntimeException("Exception caught: " + e.getMessage(), e));
+    }
+
+    /**
      * Invokes the given `supplier` and returns a `Try` instance with the result
      * or the exception thrown by the `supplier`. The `exceptionMapper` is used
      * to map the caught exception to a runtime exception to the desired type.
@@ -87,6 +104,23 @@ public class Try<T> {
         } catch (Exception e) {
             throw exceptionMapper.apply(e);
         }
+    }
+
+    /**
+     * Returns a `Try` that represents the result of executing the provided
+     * `runnable`. If the `runnable` throws an exception, the caught exception
+     * is wrapped in a `RuntimeException` with a message indicating that the
+     * exception was caught.
+     *
+     * @param  runnable             The CheckedRunnable to invoke.
+     * @param  <T>                  the type of the result returned by the
+     *                              `runnable`
+     * @return                      A Try instance with no result and the
+     *                              exception set to the one caught.
+     * @throws NullPointerException if the `runnable` is `null`
+     */
+    public static <T> Try<T> of(CheckedRunnable runnable) {
+        return of(runnable, e -> new RuntimeException("Exception caught: " + e.getMessage(), e));
     }
 
     /**

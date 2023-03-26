@@ -32,17 +32,24 @@ public class TryTest {
     public void testOfWithCheckedException() {
         Try.of(() -> {
             throw new IOException("Test exception");
-        }, RuntimeException::new);
+        });
+    }
+
+    @Test(expectedExceptions = DataMapperException.class)
+    public void testCheckedExceptionAs() {
+        Try.of(() -> {
+            throw new InterruptedException("Test exception");
+        }, DataMapperException::new);
     }
 
     @Test
     public void testOfCheckedRunnableAndCheckedSupplier() {
-        var result = Try.of(() -> "Hello", DataMapperException::new);
-        assertEquals(result.get().orElse(""), "Hello");
+        var result = Try.of(() -> "Hello");
+        assertEquals(result.get().orElseThrow(), "Hello");
 
-        var result1 = Try.of(() -> {
+        Try<String> result1 = Try.of(() -> {
             // Do Nothing
-        }, DataMapperException::new);
+        });
 
         assertEquals(result1.get().orElse("Its Me"), "Its Me");
     }
@@ -81,25 +88,25 @@ public class TryTest {
 
     @Test
     void testFlatMap() {
-        var result = Try.of(() -> "Hello", DataMapperException::new)
-                .flatMap(value -> Try.of(() -> value + " result", DataMapperException::new));
+        var result = Try.of(() -> "Hello")
+                .flatMap(value -> Try.of(() -> value + " result"));
         assertEquals(result.get().orElseThrow(), "Hello result");
     }
 
     @Test
     void testRecover() {
-        var result = Try.of(() -> "Hello", DataMapperException::new)
+        var result = Try.of(() -> "Hello")
                 .flatMap(value -> Try.of(() -> {
                     throw new IOException("Something wrong");
-                }, RuntimeException::new))
+                }))
                 .recover(() -> "fallback");
         assertEquals(result, "fallback");
     }
 
     @Test
     void testFold() {
-        var result = Try.of(() -> "Hello", DataMapperException::new)
-                .flatMap(value -> Try.of(() -> value + " result", DataMapperException::new))
+        var result = Try.of(() -> "Hello")
+                .flatMap(value -> Try.of(() -> value + " result"))
                 .fold(ex -> "error", value -> value);
 
         assertEquals(result, "Hello result");
@@ -107,10 +114,10 @@ public class TryTest {
 
     @Test
     void testFold1() {
-        var result = Try.of(() -> "Hello", DataMapperException::new)
+        var result = Try.of(() -> "Hello")
                 .flatMap(value -> Try.of(() -> {
                     throw new IOException("Something wrong");
-                }, RuntimeException::new))
+                }))
                 .fold(ex -> "error", value -> value);
         assertEquals(result, "error");
     }
