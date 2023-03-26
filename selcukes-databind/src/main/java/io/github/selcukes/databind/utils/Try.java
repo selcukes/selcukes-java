@@ -108,7 +108,7 @@ public class Try<T> {
      * @throws RuntimeException if the operation failed
      */
     public T orElseThrow(UnaryOperator<Throwable> errorHandler) {
-        return fold(
+        return or(
             exception -> {
                 throw wrapAsRuntimeException(errorHandler.apply(exception));
             },
@@ -164,7 +164,7 @@ public class Try<T> {
      * @return an Optional containing the result held by this Try object, or an
      *         empty Optional if this Try object represents a failure
      */
-    public Optional<T> get() {
+    public Optional<T> getResult() {
         return Optional.ofNullable(result);
     }
 
@@ -229,7 +229,7 @@ public class Try<T> {
      *                        otherwise the result of applying the errorHandler
      *                        function to the exception contained in this Try
      */
-    public <R> R fold(Function<Exception, R> errorHandler, Function<T, R> successHandler) {
+    public <R> R or(Function<Exception, R> errorHandler, Function<T, R> successHandler) {
         return isFailure() ? errorHandler.apply(exception) : successHandler.apply(result);
     }
 

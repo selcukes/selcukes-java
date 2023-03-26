@@ -52,18 +52,18 @@ public class TryTest {
         var result1 = Try.of(() -> {
             // Do nothing
         });
-        assertTrue(result1.get().isEmpty());
+        assertTrue(result1.getResult().isEmpty());
     }
 
     @Test
     public void testIgnore() {
         var result = Try.of(() -> "Hello");
-        assertEquals(result.get().orElseThrow(), "Hello");
+        assertEquals(result.getResult().orElseThrow(), "Hello");
 
         var result1 = Try.of(() -> {
             // Do nothing
         });
-        assertTrue(result1.get().isEmpty());
+        assertTrue(result1.getResult().isEmpty());
 
         Try.of(() -> {
             throw new RuntimeException("Test exception");
@@ -118,7 +118,7 @@ public class TryTest {
     void testFold() {
         var result = Try.of(() -> "Hello")
                 .flatMap(value -> Try.of(() -> value + " result"))
-                .fold(ex -> "error", value -> value);
+                .or(ex -> "error", value -> value);
 
         assertEquals(result, "Hello result");
     }
@@ -129,7 +129,7 @@ public class TryTest {
                 .flatMap(value -> Try.of(() -> {
                     throw new IOException("Something wrong");
                 }))
-                .fold(ex -> "error", value -> value);
+                .or(ex -> "error", value -> value);
         assertEquals(result, "error");
     }
 
