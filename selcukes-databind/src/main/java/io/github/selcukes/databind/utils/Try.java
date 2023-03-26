@@ -96,7 +96,7 @@ public class Try<T> {
      * @throws NullPointerException if the `supplier` is `null`
      */
     public static <T> Try<T> of(CheckedSupplier<T> supplier) {
-        return of(supplier, e -> new RuntimeException("Exception caught: " + e.getMessage(), e));
+        return of(supplier, Try::wrapAsRuntimeException);
     }
 
     /**
@@ -120,9 +120,8 @@ public class Try<T> {
         try {
             return new Try<>(supplier.get(), null);
         } catch (Throwable e) {
-            wrapAndRethrow(exceptionMapper.apply(e));
+            throw wrapAsRuntimeException(exceptionMapper.apply(e));
         }
-        return null;
     }
 
     /**
@@ -137,7 +136,7 @@ public class Try<T> {
      * @throws NullPointerException if the `runnable` is `null`
      */
     public static Try<Void> of(CheckedRunnable runnable) {
-        return of(runnable, e -> new RuntimeException("Exception caught: " + e.getMessage(), e));
+        return of(runnable, Try::wrapAsRuntimeException);
     }
 
     /**
@@ -159,9 +158,8 @@ public class Try<T> {
             runnable.run();
             return new Try<>(null, null);
         } catch (Throwable e) {
-            wrapAndRethrow(exceptionMapper.apply(e));
+            throw wrapAsRuntimeException(exceptionMapper.apply(e));
         }
-        return null;
     }
 
     /**
@@ -318,18 +316,24 @@ public class Try<T> {
     }
 
     /**
-     * Rethrows the given throwable as a runtime exception.
+     * Wraps the given Throwable object as a RuntimeException if necessary. If
+     * the Throwable object is an instance of RuntimeException or one of its
+     * subtypes, it is returned as-is. If it is an instance of Error, it is
+     * thrown immediately. Otherwise, a new RuntimeException object is created
+     * with the Throwable object as its cause, and returned.
      *
-     * @param  throwable        The throwable to rethrow.
-     * @throws RuntimeException The rethrown exception.
+     * @param  throwable the Throwable object to wrap as a RuntimeException
+     * @return           a RuntimeException object representing the original
+     *                   Throwable
+     * @throws Error     if the Throwable object is an instance of Error
      */
-    private static void wrapAndRethrow(Throwable throwable) {
+    private static RuntimeException wrapAsRuntimeException(Throwable throwable) {
         if (throwable instanceof RuntimeException) {
-            throw (RuntimeException) throwable;
+            return (RuntimeException) throwable;
         } else if (throwable instanceof Error) {
             throw (Error) throwable;
         } else {
-            throw new RuntimeException(throwable);
+            return new RuntimeException(throwable);
         }
     }
 
