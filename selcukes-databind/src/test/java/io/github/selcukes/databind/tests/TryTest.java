@@ -48,27 +48,26 @@ public class TryTest {
         var result = Try.of(() -> "Hello");
         assertEquals(result.get().orElseThrow(), "Hello");
 
-        Try<String> result1 = Try.of(() -> {
-            // Do Nothing
+        var result1 = Try.of(() -> {
+            // Do nothing
         });
-
-        assertEquals(result1.get().orElse("Its Me"), "Its Me");
+        assertTrue(result1.get().isEmpty());
     }
 
     @Test
     public void testIgnore() {
-        var result = Try.attempt(() -> "Hello");
+        var result = Try.silently(() -> "Hello");
         assertEquals(result.get().orElseThrow(), "Hello");
 
-        var result1 = Try.attempt(() -> {
+        var result1 = Try.silently(() -> {
             // Do nothing
         });
-        assertEquals(result1.get().orElse("Its Me"), "Its Me");
+        assertTrue(result1.get().isEmpty());
 
-        Try.attempt(() -> {
+        Try.silently(() -> {
             throw new RuntimeException("Test exception");
         });
-        var result3 = Try.attempt(() -> {
+        var result3 = Try.silently(() -> {
             throw new IOException("oops");
         });
         assertFalse(result3.isSuccess());

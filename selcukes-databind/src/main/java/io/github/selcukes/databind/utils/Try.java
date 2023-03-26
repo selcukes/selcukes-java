@@ -50,12 +50,10 @@ public class Try<T> {
      * returned.
      *
      * @param  runnable The `CheckedRunnable` to run.
-     * @param  <T>      The type of the result that can be contained in the
-     *                  `Try` instance.
      * @return          A `Try` instance with the result set to `null` and the
      *                  exception set to the one thrown by the `runnable`.
      */
-    public static <T> Try<T> attempt(CheckedRunnable runnable) {
+    public static <T> Try<Void> silently(CheckedRunnable runnable) {
         try {
             runnable.run();
             return new Try<>(null, null);
@@ -75,7 +73,7 @@ public class Try<T> {
      * @return          A `Try` instance with the result set to `null` and the
      *                  exception set to the one thrown by the `supplier`.
      */
-    public static <T> Try<T> attempt(CheckedSupplier<T> supplier) {
+    public static <T> Try<T> silently(CheckedSupplier<T> supplier) {
         try {
             return new Try<>(supplier.get(), null);
         } catch (Exception e) {
@@ -132,13 +130,11 @@ public class Try<T> {
      * exception was caught.
      *
      * @param  runnable             The CheckedRunnable to invoke.
-     * @param  <T>                  the type of the result returned by the
-     *                              `runnable`
      * @return                      A Try instance with no result and the
      *                              exception set to the one caught.
      * @throws NullPointerException if the `runnable` is `null`
      */
-    public static <T> Try<T> of(CheckedRunnable runnable) {
+    public static <T> Try<Void> of(CheckedRunnable runnable) {
         return of(runnable, e -> new RuntimeException("Exception caught: " + e.getMessage(), e));
     }
 
