@@ -26,7 +26,7 @@ import java.util.StringJoiner;
 public class SelcukesBanner {
     @SuppressWarnings("all")
     public void printBanner() {
-        Try.silently(() -> {
+        Try.of(() -> {
             String banner = FileHelper.readContent("banner.txt");
             System.out.println(new StringJoiner(System.lineSeparator(), System.lineSeparator(), System.lineSeparator())
                     .add(banner)
