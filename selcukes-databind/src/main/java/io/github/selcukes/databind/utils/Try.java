@@ -109,8 +109,8 @@ public class Try<T> {
      */
     public T orElseThrow(UnaryOperator<Throwable> errorHandler) {
         return or(
-            exception -> {
-                throw wrapAsRuntimeException(errorHandler.apply(exception));
+            ex -> {
+                throw wrapAsRuntimeException(errorHandler.apply(ex));
             },
             Function.identity());
     }
