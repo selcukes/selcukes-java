@@ -17,30 +17,39 @@
 package io.github.selcukes.commons.tests;
 
 import io.github.selcukes.commons.Await;
-import io.github.selcukes.commons.logging.Logger;
-import io.github.selcukes.commons.logging.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.File;
-
 public class AwaitTest {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Test
-    public void awaitTest() throws Exception {
-        File file = new File("hello.jpg");
-        String s1 = "Hello";
-        String s2 = "hello";
-        long startTime = System.currentTimeMillis() / 1000;
-        Await.await().poll(2)
-                .atMax(10)
-                .until(file::exists);
-        long endTime = System.currentTimeMillis() / 1000;
-        long duration = endTime - startTime;
-        logger.info(() -> "Duration:" + duration);
-        Await.await().poll(2)
-                .atMax(10)
-                .until(() -> s1.equalsIgnoreCase(s2));
+    public void testUntil() {
+        long startTime = System.currentTimeMillis();
+        Await.until(1);
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        Assert.assertTrue(elapsedTime >= 1000 && elapsedTime < 1100);
+    }
 
+    @Test
+    public void testUntilConditionMet() {
+        Await await = Await.await().poll(50).atMax(200);
+        boolean result = await.until(() -> true);
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testUntilConditionNotMet() {
+        Await await = Await.await().poll(50).atMax(200);
+        boolean result = await.until(() -> false);
+        Assert.assertFalse(result);
+    }
+
+    @Test
+    public void testUntilConditionThrowsException() {
+        Await await = Await.await().poll(50).atMax(200);
+        boolean result = await.until(() -> {
+            throw new RuntimeException("Test exception");
+        });
+        Assert.assertFalse(result);
     }
 }
