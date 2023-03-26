@@ -33,20 +33,21 @@ public class TryTest {
     public void testOfWithCheckedException() {
         Try.of(() -> {
             throw new IOException("Test exception");
-        });
+        }).orElseThrow();
     }
 
     @Test(expectedExceptions = DataMapperException.class)
     public void testCheckedExceptionAs() {
         Try.of(() -> {
             throw new InterruptedException("Test exception");
-        }, DataMapperException::new);
+        }).orElseThrow(DataMapperException::new);
     }
 
     @Test
     public void testOfCheckedRunnableAndCheckedSupplier() {
-        var result = Try.of(() -> "Hello");
-        assertEquals(result.get().orElseThrow(), "Hello");
+        var result = Try.of(() -> "Hello")
+                .orElseThrow();
+        assertEquals(result, "Hello");
 
         var result1 = Try.of(() -> {
             // Do nothing
@@ -56,18 +57,18 @@ public class TryTest {
 
     @Test
     public void testIgnore() {
-        var result = Try.silently(() -> "Hello");
+        var result = Try.of(() -> "Hello");
         assertEquals(result.get().orElseThrow(), "Hello");
 
-        var result1 = Try.silently(() -> {
+        var result1 = Try.of(() -> {
             // Do nothing
         });
         assertTrue(result1.get().isEmpty());
 
-        Try.silently(() -> {
+        Try.of(() -> {
             throw new RuntimeException("Test exception");
         });
-        var result3 = Try.silently(() -> {
+        var result3 = Try.of(() -> {
             throw new IOException("oops");
         });
         assertFalse(result3.isSuccess());
@@ -89,16 +90,18 @@ public class TryTest {
             }
         }
         TestResource resource = new TestResource();
-        var result = Try.with(() -> resource, TestResource::doSomething);
+        var result = Try.with(() -> resource, TestResource::doSomething)
+                .orElseThrow();
         assertTrue(resource.closed);
-        assertEquals(result.get().orElseThrow(), 42);
+        assertEquals(result, 42);
     }
 
     @Test
     void testFlatMap() {
         var result = Try.of(() -> "Hello")
-                .flatMap(value -> Try.of(() -> value + " result"));
-        assertEquals(result.get().orElseThrow(), "Hello result");
+                .flatMap(value -> Try.of(() -> value + " result"))
+                .orElseThrow();
+        assertEquals(result, "Hello result");
     }
 
     @Test
@@ -128,6 +131,25 @@ public class TryTest {
                 }))
                 .fold(ex -> "error", value -> value);
         assertEquals(result, "error");
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void testOfWithNullSupplier() {
+        Try.of((Try.CheckedRunnable) null).orElseThrow();
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void testOrElseThrowWithNullExceptionSupplier() {
+        Try.of(() -> {
+            throw new IOException("Test exception");
+        }).orElseThrow(null);
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void testFlatMapWithNullFunction() {
+        Try.of(() -> "Hello")
+                .flatMap(null)
+                .orElseThrow();
     }
 
 }

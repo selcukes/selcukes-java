@@ -27,19 +27,17 @@ import java.util.concurrent.TimeUnit;
 public class Await {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private final long maxTimeoutInMillis;
-    private final long pollTimeoutInMillis;
-
-    private static final long DEFAULT_POLL_TIMEOUT_MILLIS = 100;
+    private final long maxTimeout;
+    private final long pollTimeout;
 
     public Await() {
-        this.maxTimeoutInMillis = 1000;
-        this.pollTimeoutInMillis = DEFAULT_POLL_TIMEOUT_MILLIS;
+        this.maxTimeout = 1000;
+        this.pollTimeout = 100;
     }
 
-    public Await(long maxTimeoutInMillis, long pollTimeoutInMillis) {
-        this.maxTimeoutInMillis = maxTimeoutInMillis;
-        this.pollTimeoutInMillis = pollTimeoutInMillis;
+    public Await(long maxTimeout, long pollTimeout) {
+        this.maxTimeout = maxTimeout;
+        this.pollTimeout = pollTimeout;
     }
 
     public static Await await() {
@@ -51,15 +49,16 @@ public class Await {
     }
 
     public static void until(TimeUnit timeUnit, int timeout) {
-        Try.of(() -> timeUnit.sleep(timeout), e -> new SelcukesException("Timeout exception", e));
+        Try.of(() -> timeUnit.sleep(timeout))
+                .orElseThrow(e -> new SelcukesException("Timeout exception", e));
     }
 
-    public Await poll(long pollTimeoutInMillis) {
-        return new Await(this.maxTimeoutInMillis, pollTimeoutInMillis);
+    public Await poll(long pollTimeout) {
+        return new Await(this.maxTimeout, pollTimeout);
     }
 
-    public Await atMax(long maxTimeoutInMillis) {
-        return new Await(maxTimeoutInMillis, this.pollTimeoutInMillis);
+    public Await atMax(long maxTimeout) {
+        return new Await(maxTimeout, this.pollTimeout);
     }
 
     /**
@@ -73,15 +72,15 @@ public class Await {
      */
     public boolean until(Callable<Boolean> conditionEvaluator) {
         long stopwatch = 0;
-        while (stopwatch <= maxTimeoutInMillis) {
+        while (stopwatch <= maxTimeout) {
             try {
                 if (conditionEvaluator.call().equals(Boolean.TRUE)) {
                     logger.info(() -> "Condition met within the given time");
                     return true;
                 }
                 logger.debug(() -> "Waiting for condition to be met...");
-                TimeUnit.MILLISECONDS.sleep(pollTimeoutInMillis);
-                stopwatch += pollTimeoutInMillis;
+                TimeUnit.MILLISECONDS.sleep(pollTimeout);
+                stopwatch += pollTimeout;
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 logger.error(e, () -> "Interrupted while waiting for condition");
