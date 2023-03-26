@@ -19,6 +19,7 @@ package io.github.selcukes.databind.utils;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 /**
  * Represents the result of an operation that may fail with an exception. A
@@ -114,13 +115,14 @@ public class Try<T> {
      * @throws RuntimeException The exception returned by the `exceptionMapper`.
      */
     public static <T> Try<T> of(
-            CheckedSupplier<T> supplier, Function<Exception, ? extends RuntimeException> exceptionMapper
+            CheckedSupplier<T> supplier, UnaryOperator<Throwable> exceptionMapper
     ) {
         try {
             return new Try<>(supplier.get(), null);
-        } catch (Exception e) {
-            throw exceptionMapper.apply(e);
+        } catch (Throwable e) {
+            wrapAndRethrow(exceptionMapper.apply(e));
         }
+        return null;
     }
 
     /**
@@ -151,14 +153,15 @@ public class Try<T> {
      * @throws RuntimeException The exception returned by the exceptionMapper.
      */
     public static <T> Try<T> of(
-            CheckedRunnable runnable, Function<Exception, ? extends RuntimeException> exceptionMapper
+            CheckedRunnable runnable, UnaryOperator<Throwable> exceptionMapper
     ) {
         try {
             runnable.run();
             return new Try<>(null, null);
-        } catch (Exception e) {
-            throw exceptionMapper.apply(e);
+        } catch (Throwable e) {
+            wrapAndRethrow(exceptionMapper.apply(e));
         }
+        return null;
     }
 
     /**
@@ -313,4 +316,21 @@ public class Try<T> {
         @SuppressWarnings("squid:S112")
         void run() throws Exception;
     }
+
+    /**
+     * Rethrows the given throwable as a runtime exception.
+     *
+     * @param  throwable        The throwable to rethrow.
+     * @throws RuntimeException The rethrown exception.
+     */
+    private static void wrapAndRethrow(Throwable throwable) {
+        if (throwable instanceof RuntimeException) {
+            throw (RuntimeException) throwable;
+        } else if (throwable instanceof Error) {
+            throw (Error) throwable;
+        } else {
+            throw new RuntimeException(throwable);
+        }
+    }
+
 }
