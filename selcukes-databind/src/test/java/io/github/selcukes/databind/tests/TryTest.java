@@ -63,7 +63,7 @@ public class TryTest {
             throw new IOException("oops");
         });
         assertTrue(result.isFailure());
-        assertNotNull(result.getCause());
+        assertNotNull(result.getException());
     }
 
     @Test

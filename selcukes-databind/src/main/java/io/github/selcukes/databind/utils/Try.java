@@ -205,7 +205,7 @@ public class Try<T> {
      * @return the cause of the failure represented by this Try object, or null
      *         if this Try object represents a success
      */
-    public Exception getCause() {
+    public Exception getException() {
         return exception;
     }
 
