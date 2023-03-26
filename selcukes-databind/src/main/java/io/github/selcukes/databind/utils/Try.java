@@ -53,7 +53,7 @@ public class Try<T> {
      * @return          A `Try` instance with the result set to `null` and the
      *                  exception set to the one thrown by the `runnable`.
      */
-    public static <T> Try<Void> silently(CheckedRunnable runnable) {
+    public static Try<Void> silently(CheckedRunnable runnable) {
         try {
             runnable.run();
             return new Try<>(null, null);
@@ -134,7 +134,7 @@ public class Try<T> {
      *                              exception set to the one caught.
      * @throws NullPointerException if the `runnable` is `null`
      */
-    public static <T> Try<Void> of(CheckedRunnable runnable) {
+    public static Try<Void> of(CheckedRunnable runnable) {
         return of(runnable, e -> new RuntimeException("Exception caught: " + e.getMessage(), e));
     }
 
