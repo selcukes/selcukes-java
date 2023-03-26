@@ -209,7 +209,7 @@ public class Try<T> {
      *                  result of the fallback supplier
      */
     public T orElse(Supplier<T> fallback) {
-        return isFailure() ? fallback.get() : result;
+        return getResult().orElseGet(fallback);
     }
 
     /**
