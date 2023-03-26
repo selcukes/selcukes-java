@@ -119,7 +119,7 @@ public class Try<T> {
     ) {
         try {
             return new Try<>(supplier.get(), null);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw wrapAsRuntimeException(exceptionMapper.apply(e));
         }
     }
@@ -157,7 +157,7 @@ public class Try<T> {
         try {
             runnable.run();
             return new Try<>(null, null);
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw wrapAsRuntimeException(exceptionMapper.apply(e));
         }
     }
