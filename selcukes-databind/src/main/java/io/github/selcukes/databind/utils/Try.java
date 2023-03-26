@@ -220,7 +220,7 @@ public class Try<T> {
      *                an exception
      */
     public <R> Try<R> flatMap(Function<T, Try<R>> mapper) {
-        if (exception != null) {
+        if (isFailure()) {
             return new Try<>(null, exception);
         }
         try {
@@ -239,8 +239,8 @@ public class Try<T> {
      * @return          the result of this Try if it contains one, otherwise the
      *                  result of the fallback supplier
      */
-    public T recover(Supplier<T> fallback) {
-        return exception != null ? fallback.get() : result;
+    public T orElse(Supplier<T> fallback) {
+        return isFailure() ? fallback.get() : result;
     }
 
     /**
@@ -261,7 +261,7 @@ public class Try<T> {
      *                        function to the exception contained in this Try
      */
     public <R> R fold(Function<Exception, R> errorHandler, Function<T, R> successHandler) {
-        return exception != null ? errorHandler.apply(exception) : successHandler.apply(result);
+        return isFailure() ? errorHandler.apply(exception) : successHandler.apply(result);
     }
 
     /**

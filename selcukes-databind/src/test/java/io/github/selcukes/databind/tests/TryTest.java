@@ -23,6 +23,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -62,7 +63,7 @@ public class TryTest {
         var result = Try.attempt(() -> {
             throw new IOException("oops");
         });
-        assertTrue(result.isFailure());
+        assertFalse(result.isSuccess());
         assertNotNull(result.getException());
     }
 
@@ -99,7 +100,7 @@ public class TryTest {
                 .flatMap(value -> Try.of(() -> {
                     throw new IOException("Something wrong");
                 }))
-                .recover(() -> "fallback");
+                .orElse(() -> "fallback");
         assertEquals(result, "fallback");
     }
 
