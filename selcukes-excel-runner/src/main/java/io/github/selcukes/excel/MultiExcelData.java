@@ -24,9 +24,9 @@ import io.github.selcukes.databind.excel.ExcelMapper;
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import static io.github.selcukes.excel.SingleExcelData.EXAMPLE;
@@ -40,7 +40,7 @@ import static java.lang.String.format;
 public class MultiExcelData {
 
     private static DataTable<String, String> excelSuite = new DataTable<>();
-    private static final Map<String, Map<String, DataTable<String, String>>> runtimeDataMap = new LinkedHashMap<>();
+    private static final Map<String, Map<String, DataTable<String, String>>> runtimeDataMap = new ConcurrentHashMap<>();
 
     public static void init() {
         var filePath = ConfigFactory.getConfig().getExcel().get("suiteFile");
@@ -110,16 +110,16 @@ public class MultiExcelData {
                     () -> new ExcelConfigException(String.format("Unable to find Test Data File for [%s]", testName)));
 
         logger.debug(() -> "Using Test Data File: " + testDataFile);
-        var testData = runtimeDataMap.computeIfAbsent(testDataFile,
-            MultiExcelData::readAndCacheTestData);
+        var testData = getCachedTestData(testDataFile);
         return SingleExcelData.getTestData(testName, testData.get(testSheetName));
     }
 
-    private Map<String, DataTable<String, String>> readAndCacheTestData(String testDataFile) {
-        var testData = ExcelMapper.parse(testDataFile);
-        testData.forEach((key, value) -> SingleExcelData.modifyFirstColumnData(value, TEST, EXAMPLE));
-        runtimeDataMap.put(testDataFile, testData);
-        return testData;
+    private Map<String, DataTable<String, String>> getCachedTestData(String testDataFile) {
+        return runtimeDataMap.computeIfAbsent(testDataFile, file -> {
+            var testData = ExcelMapper.parse(file);
+            testData.forEach((key, value) -> SingleExcelData.modifyFirstColumnData(value, TEST, EXAMPLE));
+            return testData;
+        });
     }
 
 }
