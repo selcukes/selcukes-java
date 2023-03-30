@@ -78,7 +78,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      *
      * @param row the map representing the new row to add
      */
-    public void addRow(@NonNull Map<K, V> row) {
+    public synchronized void addRow(@NonNull Map<K, V> row) {
         add(row);
     }
 
@@ -87,7 +87,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      *
      * @param rows the list of maps representing the rows to add
      */
-    public void addRows(@NonNull List<? extends Map<K, V>> rows) {
+    public synchronized void addRows(@NonNull List<? extends Map<K, V>> rows) {
         addAll(rows);
     }
 
@@ -162,7 +162,9 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @throws NullPointerException if the function is null
      */
     public void updateRows(UnaryOperator<Map<K, V>> function) {
-        replaceAll(map -> function.apply(new LinkedHashMap<>(map)));
+        synchronized (this) {
+            replaceAll(map -> function.apply(new LinkedHashMap<>(map)));
+        }
     }
 
     /**
@@ -271,7 +273,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      *
      * @param predicate the predicate to use for filtering the rows to remove
      */
-    public void removeRows(Predicate<Map<K, V>> predicate) {
+    public synchronized void removeRows(Predicate<Map<K, V>> predicate) {
         removeIf(predicate);
     }
 
@@ -297,7 +299,9 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      */
     public void sortByColumn(@NonNull K columnName, Comparator<V> comparator) {
         checkColumnIndex(columnName);
-        sort(Comparator.comparing(row -> row.get(columnName), comparator));
+        synchronized (this) {
+            sort(Comparator.comparing(row -> row.get(columnName), comparator));
+        }
     }
 
     private void checkRowIndex(int rowIndex) {
@@ -324,7 +328,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
                 .map(row -> row.entrySet().stream()
                         .filter(entry -> columns.contains(entry.getKey()))
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
-                .collect(DataTable::new, DataTable::addRow, DataTable::addRows);
+                .collect(Collectors.toCollection(DataTable::new));
     }
 
     /**
@@ -338,7 +342,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      */
     public DataTable<K, V> selectRows(Predicate<Map<K, V>> predicate) {
         return filter(predicate)
-                .collect(DataTable::new, DataTable::addRow, DataTable::addRows);
+                .collect(Collectors.toCollection(DataTable::new));
     }
 
     /**
