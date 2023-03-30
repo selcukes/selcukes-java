@@ -19,35 +19,24 @@ package io.github.selcukes.excel;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ExcelConfigException;
 import io.github.selcukes.commons.helper.Preconditions;
-import io.github.selcukes.databind.collections.DataTable;
 import io.github.selcukes.databind.excel.ExcelMapper;
 import lombok.CustomLog;
-import lombok.experimental.UtilityClass;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import static io.github.selcukes.excel.SingleExcelData.EXAMPLE;
-import static io.github.selcukes.excel.SingleExcelData.NAME_SEPARATOR;
-import static io.github.selcukes.excel.SingleExcelData.RUN;
-import static io.github.selcukes.excel.SingleExcelData.TEST;
 import static java.lang.String.format;
 
 @CustomLog
-@UtilityClass
-public class MultiExcelData {
+public class MultiExcelData extends AbstractExcelDataProvider {
 
-    private static DataTable<String, String> excelSuite = new DataTable<>();
-    private static final Map<String, Map<String, DataTable<String, String>>> runtimeDataMap = new ConcurrentHashMap<>();
-
-    public static void init() {
+    public void init() {
         var filePath = ConfigFactory.getConfig().getExcel().get("suiteFile");
         var excelData = ExcelMapper.parse(filePath);
         var suiteName = ConfigFactory.getConfig().getExcel().get("suiteName");
         excelSuite = excelData.get(suiteName);
-        SingleExcelData.modifyFirstColumnData(excelSuite, "Screen", "");
+        modifyFirstColumnData(excelSuite, "Screen", "");
     }
 
     /**
@@ -57,26 +46,11 @@ public class MultiExcelData {
      * @return a list of scenario names in the format
      *         'FeatureName::ScenarioName'
      */
-    public static List<String> getScenariosToRun() {
+    public List<String> getScenariosToRun() {
         return excelSuite
                 .filter(map -> map.get(RUN).equalsIgnoreCase("yes"))
                 .map(map -> map.get("Feature") + NAME_SEPARATOR + map.get(TEST))
                 .collect(Collectors.toList());
-    }
-
-    /**
-     * Returns the test data for the current test as a map of key-value pairs.
-     * The current test name is obtained from the ScenarioContext.
-     *
-     * @return                          a map of key-value pairs containing the
-     *                                  test data
-     * @throws ExcelConfigException     if the test data file cannot be found
-     *                                  for the current test
-     * @throws IllegalArgumentException if the current test name is not in the
-     *                                  correct format
-     */
-    public Map<String, String> getTestDataAsMap() {
-        return getTestDataAsMap(ScenarioContext.getTestName());
     }
 
     /**
@@ -111,15 +85,6 @@ public class MultiExcelData {
 
         logger.debug(() -> "Using Test Data File: " + testDataFile);
         var testData = getCachedTestData(testDataFile);
-        return SingleExcelData.getTestData(testName, testData.get(testSheetName));
+        return getTestData(testName, testData.get(testSheetName));
     }
-
-    private Map<String, DataTable<String, String>> getCachedTestData(String testDataFile) {
-        return runtimeDataMap.computeIfAbsent(testDataFile, file -> {
-            var testData = ExcelMapper.parse(file);
-            testData.forEach((key, value) -> SingleExcelData.modifyFirstColumnData(value, TEST, EXAMPLE));
-            return testData;
-        });
-    }
-
 }

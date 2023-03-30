@@ -23,9 +23,7 @@ import io.github.selcukes.databind.collections.DataTable;
 import io.github.selcukes.databind.collections.Lists;
 import io.github.selcukes.databind.collections.Maps;
 import io.github.selcukes.databind.excel.ExcelMapper;
-import io.github.selcukes.databind.utils.StringHelper;
 import lombok.CustomLog;
-import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -36,19 +34,14 @@ import java.util.stream.Stream;
 
 import static java.lang.String.format;
 
-@UtilityClass
 @CustomLog
-public class SingleExcelData {
-    static final String NAME_SEPARATOR = "::";
-    static final String TEST = "Test";
-    static final String RUN = "Run";
-    static final String HYPHEN = " - ";
-    static final String EXAMPLE = "Example";
+public class SingleExcelData extends AbstractExcelDataProvider {
+
     private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcel().get("suiteName");
     private static final List<String> IGNORE_SHEETS = Lists.of("Master", "Smoke", "Regression", "StaticData");
     private static Map<String, DataTable<String, String>> excelData = new LinkedHashMap<>();
 
-    public static void init() {
+    public void init() {
         var filePath = ConfigFactory.getConfig().getExcel().get("dataFile");
         excelData = ExcelMapper.parse(filePath);
         IGNORE_SHEETS.remove(TEST_SUITE_RUNNER_SHEET);
@@ -71,7 +64,7 @@ public class SingleExcelData {
      * @return a list of scenario names in the format
      *         'FeatureName::ScenarioName'
      */
-    public static List<String> getScenariosToRun() {
+    public List<String> getScenariosToRun() {
         var suiteScenarios = new ArrayList<String>();
         var testScenarios = new ArrayList<String>();
 
@@ -129,13 +122,6 @@ public class SingleExcelData {
         return getTestData(testName, excelData.get(testSheetName));
     }
 
-    Map<String, String> getTestData(String testName, DataTable<String, String> sheetData) {
-        Objects.requireNonNull(sheetData, String.format("Unable to read sheet data for [%s]", testName));
-        return sheetData.findFirst(row -> row.get(TEST).equalsIgnoreCase(testName))
-                .orElseThrow(
-                    () -> new ExcelConfigException(String.format("Unable to read [%s] Test Data Row", testName)));
-    }
-
     private boolean anyMatch(List<String> scenarios, String testName) {
         return scenarios.stream().anyMatch(name -> {
             String scenarioName = name + HYPHEN + EXAMPLE;
@@ -155,30 +141,6 @@ public class SingleExcelData {
                     .map(scenarioMap::get)
                     .filter(Objects::nonNull)
                     .toArray(Object[][]::new);
-        }
-    }
-
-    void modifyFirstColumnData(DataTable<String, String> sheetData, String firstColumn, String secondColumn) {
-        String testName = "";
-        Map<String, String> previousRow = new LinkedHashMap<>();
-        for (var row : sheetData) {
-            var currentTestName = row.get(firstColumn);
-            if (StringHelper.isNullOrEmpty(currentTestName)) {
-                var newTestName = testName;
-                if (!StringHelper.isNullOrEmpty(secondColumn)) {
-                    if (!previousRow.isEmpty()
-                            && !previousRow.get(firstColumn).startsWith(testName + HYPHEN + EXAMPLE)) {
-                        previousRow.replace(firstColumn,
-                            testName + HYPHEN + previousRow.getOrDefault(secondColumn, ""));
-
-                    }
-                    newTestName = testName + HYPHEN + row.getOrDefault(secondColumn, "");
-                }
-                row.replace(firstColumn, newTestName);
-            } else {
-                testName = currentTestName;
-            }
-            previousRow = row;
         }
     }
 }
