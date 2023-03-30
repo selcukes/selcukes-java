@@ -32,8 +32,6 @@ public abstract class AbstractExcelDataProvider implements ExcelDataProvider {
     static final String RUN = "Run";
     static final String HYPHEN = " - ";
     static final String EXAMPLE = "Example";
-
-    protected static DataTable<String, String> excelSuite = new DataTable<>();
     protected static final Map<String, Map<String, DataTable<String, String>>> runtimeDataMap = new ConcurrentHashMap<>();
 
     protected Map<String, DataTable<String, String>> getCachedTestData(String testDataFile) {

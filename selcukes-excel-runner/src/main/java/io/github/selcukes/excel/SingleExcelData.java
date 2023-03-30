@@ -38,7 +38,7 @@ class SingleExcelData extends AbstractExcelDataProvider {
 
     private static final String TEST_SUITE_RUNNER_SHEET = ConfigFactory.getConfig().getExcel().get("suiteName");
     private static final List<String> IGNORE_SHEETS = Lists.of("Master", "Smoke", "Regression", "StaticData");
-    private static Map<String, DataTable<String, String>> excelData = new LinkedHashMap<>();
+    private Map<String, DataTable<String, String>> excelData = new LinkedHashMap<>();
 
     @Override
     public void init() {

@@ -19,6 +19,7 @@ package io.github.selcukes.excel;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ExcelConfigException;
 import io.github.selcukes.commons.helper.Preconditions;
+import io.github.selcukes.databind.collections.DataTable;
 import io.github.selcukes.databind.excel.ExcelMapper;
 import lombok.CustomLog;
 
@@ -30,6 +31,8 @@ import static java.lang.String.format;
 
 @CustomLog
 class MultiExcelData extends AbstractExcelDataProvider {
+    private DataTable<String, String> excelSuite = new DataTable<>();
+
     @Override
     public void init() {
         var filePath = ConfigFactory.getConfig().getExcel().get("suiteFile");
