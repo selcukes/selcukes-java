@@ -6,6 +6,16 @@
 
 ### Added
 
+### Changed
+
+### Fixed
+
+### Removed
+
+## [2.2.7] (30-03-2023)
+
+### Added
+
 * [DataBind] Added `Try.class` utility to simplify error
   handling ([#236](https://github.com/selcukes/selcukes-java/pull/236))
 
