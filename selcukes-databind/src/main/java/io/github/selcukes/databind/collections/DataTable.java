@@ -328,7 +328,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
                 .map(row -> row.entrySet().stream()
                         .filter(entry -> columns.contains(entry.getKey()))
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)))
-                .collect(DataTable::new, DataTable::addRow, DataTable::addRows);
+                .collect(Collectors.toCollection(DataTable::new));
     }
 
     /**
@@ -342,7 +342,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      */
     public DataTable<K, V> selectRows(Predicate<Map<K, V>> predicate) {
         return filter(predicate)
-                .collect(DataTable::new, DataTable::addRow, DataTable::addRows);
+                .collect(Collectors.toCollection(DataTable::new));
     }
 
     /**
