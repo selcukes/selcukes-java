@@ -16,13 +16,13 @@
 
 package io.github.selcukes.excel.page;
 
-import io.github.selcukes.excel.ExcelDataProvider;
+import io.github.selcukes.excel.ExcelDataFactory;
 
 import java.util.Map;
 
 public class CommonPage {
 
     public Map<String, String> getScenarioData() {
-        return ExcelDataProvider.getInstance().getTestDataAsMap();
+        return ExcelDataFactory.instance().getTestDataAsMap();
     }
 }

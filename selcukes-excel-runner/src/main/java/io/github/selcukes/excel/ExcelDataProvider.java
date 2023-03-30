@@ -16,10 +16,7 @@
 
 package io.github.selcukes.excel;
 
-import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ExcelConfigException;
-import io.github.selcukes.commons.helper.Singleton;
-import io.github.selcukes.databind.utils.StringHelper;
 
 import java.util.List;
 import java.util.Map;
@@ -78,17 +75,4 @@ public interface ExcelDataProvider {
      *                                  format
      */
     Map<String, String> getTestDataAsMap(String testName);
-
-    /**
-     * Returns an instance of the ExcelDataProvider implementation based on the
-     * configuration specified in the application properties file.
-     *
-     * @return an instance of SingleExcelData or MultiExcelData, depending on
-     *         the configuration
-     */
-    static ExcelDataProvider getInstance() {
-        String suiteFile = ConfigFactory.getConfig().getExcel().get("suiteFile");
-        return StringHelper.isNullOrEmpty(suiteFile) ? Singleton.instanceOf(SingleExcelData.class)
-                : Singleton.instanceOf(MultiExcelData.class);
-    }
 }

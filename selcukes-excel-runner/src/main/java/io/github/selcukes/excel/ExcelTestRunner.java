@@ -36,9 +36,9 @@ public class ExcelTestRunner extends SelcukesTestNGRunner {
     @BeforeClass(alwaysRun = true)
     public void setUpExcel(ITestContext context) {
         var testProperties = new SelcukesTestProperties();
-        ExcelDataProvider.getInstance().init();
+        ExcelDataFactory.instance().init();
         if (testProperties.getExcelProperty(EXCEL_RUNNER).equalsIgnoreCase("true")) {
-            runScenarios = ExcelDataProvider.getInstance().getScenariosToRun();
+            runScenarios = ExcelDataFactory.instance().getScenariosToRun();
         }
     }
 
