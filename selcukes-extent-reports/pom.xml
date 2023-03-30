@@ -47,12 +47,6 @@
         <dependency>
             <groupId>com.aventstack</groupId>
             <artifactId>extentreports</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.github.selcukes</groupId>
-            <artifactId>webdriver-binaries</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.github.selcukes</groupId>
