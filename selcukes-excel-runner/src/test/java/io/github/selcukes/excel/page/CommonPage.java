@@ -23,6 +23,6 @@ import java.util.Map;
 public class CommonPage {
 
     public Map<String, String> getScenarioData() {
-        return ExcelDataFactory.excelData().rowMap();
+        return ExcelDataFactory.getInstance().getScenarioData();
     }
 }

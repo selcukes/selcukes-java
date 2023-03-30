@@ -32,7 +32,7 @@ public class ExcelDataFactory {
      * @return an instance of SingleExcelData or MultiExcelData, depending on
      *         the configuration
      */
-    public static ExcelDataProvider excelData() {
+    public static ExcelDataProvider getInstance() {
         String suiteFile = ConfigFactory.getConfig().getExcel().get("suiteFile");
         return StringHelper.isNullOrEmpty(suiteFile) ? Singleton.instanceOf(SingleExcelData.class)
                 : Singleton.instanceOf(MultiExcelData.class);

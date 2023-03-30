@@ -77,7 +77,7 @@ class SingleExcelData extends AbstractExcelDataProvider {
     }
 
     @Override
-    public Map<String, String> rowMap(String testName) {
+    public Map<String, String> getScenarioData(String testName) {
         logger.debug(() -> "TestName: " + testName);
         Preconditions.checkArgument(testName.contains(NAME_SEPARATOR),
             format("Invalid Test Name [%s], TestName should be in the format 'FeatureName::ScenarioName'", testName));
