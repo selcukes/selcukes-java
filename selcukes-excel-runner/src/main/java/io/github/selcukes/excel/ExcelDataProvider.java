@@ -55,8 +55,8 @@ public interface ExcelDataProvider {
      * @throws IllegalArgumentException if the current test name is not in the
      *                                  correct format
      */
-    default Map<String, String> getTestDataAsMap() {
-        return getTestDataAsMap(ScenarioContext.getTestName());
+    default Map<String, String> rowMap() {
+        return rowMap(ScenarioContext.getTestName());
     }
 
     /**
@@ -74,5 +74,5 @@ public interface ExcelDataProvider {
      * @throws IllegalArgumentException if the test name is not in the correct
      *                                  format
      */
-    Map<String, String> getTestDataAsMap(String testName);
+    Map<String, String> rowMap(String testName);
 }
