@@ -6,29 +6,52 @@
 
 ### Added
 
+* [DataBind] Added `Try.class` utility to simplify error
+  handling ([#236](https://github.com/selcukes/selcukes-java/pull/236))
+
 ### Changed
+
+* Update selenium.version to v4.8.3 ([#239](https://github.com/selcukes/selcukes-java/pull/239))
+* Update dependency org.apache.commons:commons-compress to
+  v1.23.0 ([#233](https://github.com/selcukes/selcukes-java/pull/233))
+* Update dependency io.cucumber:cucumber-bom to v7.11.2 ([#235](https://github.com/selcukes/selcukes-java/pull/235))
+* [Extent Reports] Cleanup ExtentService ([#234](https://github.com/selcukes/selcukes-java/pull/234))
 
 ### Fixed
 
+* [ExcelRunner] ConcurrentModificationException when calling MultiExcelData.getTestDataAsMap() in
+  ExcelReader2 ([#241](https://github.com/selcukes/selcukes-java/pull/241))
+
 ### Removed
+
+* [ExcelRunner] Removed `ExcelTestRunner2.java` and added support for running ExcelTestRunner in multi-file data mode
+  when the "
+  suiteFile" parameter contains a file name.([#241](https://github.com/selcukes/selcukes-java/pull/241))
 
 ## [2.2.6] (21-03-2023)
 
 ### Added
 
-* [DataBind] Added a new class called DataTable that provides a set of common table operations for working with data in various formats including Excel, CSV, web tables, and databases ([#230](https://github.com/selcukes/selcukes-java/pull/230))
+* [DataBind] Added a new class called DataTable that provides a set of common table operations for working with data in
+  various formats including Excel, CSV, web tables, and
+  databases ([#230](https://github.com/selcukes/selcukes-java/pull/230))
 
 ### Changed
 
-* [DataBind] Moved Streams, Lists, Maps, and DataTable into a new "collections" package ([#230](https://github.com/selcukes/selcukes-java/pull/230))
-* [DataBind] Updated parse Excel and CSV to return a DataTable instead of a List of Map<String, String> ([#230](https://github.com/selcukes/selcukes-java/pull/230))
+* [DataBind] Moved Streams, Lists, Maps, and DataTable into a new "collections"
+  package ([#230](https://github.com/selcukes/selcukes-java/pull/230))
+* [DataBind] Updated parse Excel and CSV to return a DataTable instead of a List of Map<String,
+  String> ([#230](https://github.com/selcukes/selcukes-java/pull/230))
 
 ### Fixed
-* [Core] Fixed issue in launching Chrome browser of 111 series ([#230](https://github.com/selcukes/selcukes-java/pull/230))
+
+* [Core] Fixed issue in launching Chrome browser of 111
+  series ([#230](https://github.com/selcukes/selcukes-java/pull/230))
 
 ### Removed
 
-* [DataBind] Removed LinkedProperties class and instead use Properties class([#230](https://github.com/selcukes/selcukes-java/pull/230))
+* [DataBind] Removed LinkedProperties class and instead use Properties
+  class([#230](https://github.com/selcukes/selcukes-java/pull/230))
 
 ## [2.2.5] (07-03-2023)
 
