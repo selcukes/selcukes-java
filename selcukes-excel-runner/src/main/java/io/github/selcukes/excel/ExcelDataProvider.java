@@ -17,6 +17,7 @@
 package io.github.selcukes.excel;
 
 import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.commons.exception.ExcelConfigException;
 import io.github.selcukes.commons.helper.Singleton;
 import io.github.selcukes.databind.utils.StringHelper;
 
@@ -29,37 +30,61 @@ import java.util.Map;
 public interface ExcelDataProvider {
 
     /**
-     * Initializes the data provider by reading the test data from the Excel file.
+     * Initializes the data provider by reading the test data from the Excel
+     * file.
      */
     void init();
 
     /**
-     * Returns a list of scenarios to run based on the data in the Excel file.
+     * Returns a list of scenarios that should be executed based on the 'RUN'
+     * flag in the Excel test data sheet.
+     * <p>
+     * The list includes both individual scenarios and scenarios listed in the
+     * test suite runner sheet.
      *
-     * @return a list of scenario names
+     * @return a list of scenario names in the format
+     *         'FeatureName::ScenarioName'
      */
     List<String> getScenariosToRun();
 
     /**
-     * Returns the test data as a map of key-value pairs for all the scenarios in the Excel file.
+     * Returns the test data for the current test as a map of key-value pairs.
+     * The current test name is obtained from the ScenarioContext.
      *
-     * @return a map of key-value pairs representing the test data
+     * @return                          a map of key-value pairs containing the
+     *                                  test data
+     * @throws ExcelConfigException     if the test data file cannot be found
+     *                                  for the current test
+     * @throws IllegalArgumentException if the current test name is not in the
+     *                                  correct format
      */
-    Map<String, String> getTestDataAsMap();
+    default Map<String, String> getTestDataAsMap() {
+        return getTestDataAsMap(ScenarioContext.getTestName());
+    }
 
     /**
-     * Returns the test data as a map of key-value pairs for a specific test scenario in the Excel file.
+     * Returns the test data for the given test name as a map of key-value
+     * pairs.
+     * <p>
+     * The test name should be in the format 'FeatureName::ScenarioName'.
      *
-     * @param testName the name of the test scenario to retrieve the data for
-     * @return a map of key-value pairs representing the test data for the specified scenario
+     * @param  testName                 the name of the test in the format
+     *                                  'FeatureName::ScenarioName'
+     * @return                          a map of key-value pairs containing the
+     *                                  test data
+     * @throws ExcelConfigException     if the test data file cannot be found
+     *                                  for the given test name
+     * @throws IllegalArgumentException if the test name is not in the correct
+     *                                  format
      */
     Map<String, String> getTestDataAsMap(String testName);
 
     /**
-     * Returns an instance of the ExcelDataProvider implementation based on the configuration specified in the
-     * application properties file.
+     * Returns an instance of the ExcelDataProvider implementation based on the
+     * configuration specified in the application properties file.
      *
-     * @return an instance of SingleExcelData or MultiExcelData, depending on the configuration
+     * @return an instance of SingleExcelData or MultiExcelData, depending on
+     *         the configuration
      */
     static ExcelDataProvider getInstance() {
         String suiteFile = ConfigFactory.getConfig().getExcel().get("suiteFile");
@@ -67,4 +92,3 @@ public interface ExcelDataProvider {
                 : Singleton.instanceOf(MultiExcelData.class);
     }
 }
-

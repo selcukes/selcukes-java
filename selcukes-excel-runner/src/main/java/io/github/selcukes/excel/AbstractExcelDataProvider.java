@@ -22,7 +22,6 @@ import io.github.selcukes.databind.excel.ExcelMapper;
 import io.github.selcukes.databind.utils.StringHelper;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,16 +35,6 @@ public abstract class AbstractExcelDataProvider implements ExcelDataProvider {
 
     protected static DataTable<String, String> excelSuite = new DataTable<>();
     protected static final Map<String, Map<String, DataTable<String, String>>> runtimeDataMap = new ConcurrentHashMap<>();
-
-    public abstract void init();
-
-    public abstract List<String> getScenariosToRun();
-
-    public abstract Map<String, String> getTestDataAsMap(String testName);
-
-    public Map<String, String> getTestDataAsMap() {
-        return getTestDataAsMap(ScenarioContext.getTestName());
-    }
 
     protected Map<String, DataTable<String, String>> getCachedTestData(String testDataFile) {
         return runtimeDataMap.computeIfAbsent(testDataFile, file -> {

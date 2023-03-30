@@ -29,8 +29,8 @@ import java.util.stream.Collectors;
 import static java.lang.String.format;
 
 @CustomLog
-public class MultiExcelData extends AbstractExcelDataProvider {
-
+class MultiExcelData extends AbstractExcelDataProvider {
+    @Override
     public void init() {
         var filePath = ConfigFactory.getConfig().getExcel().get("suiteFile");
         var excelData = ExcelMapper.parse(filePath);
@@ -39,13 +39,7 @@ public class MultiExcelData extends AbstractExcelDataProvider {
         modifyFirstColumnData(excelSuite, "Screen", "");
     }
 
-    /**
-     * Returns a list of scenarios that should be executed based on the 'RUN'
-     * flag in the Excel test data sheet.
-     *
-     * @return a list of scenario names in the format
-     *         'FeatureName::ScenarioName'
-     */
+    @Override
     public List<String> getScenariosToRun() {
         return excelSuite
                 .filter(map -> map.get(RUN).equalsIgnoreCase("yes"))
@@ -53,21 +47,7 @@ public class MultiExcelData extends AbstractExcelDataProvider {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Returns the test data for the given test name as a map of key-value
-     * pairs.
-     * <p>
-     * The test name should be in the format 'FeatureName::ScenarioName'.
-     *
-     * @param  testName                 the name of the test in the format
-     *                                  'FeatureName::ScenarioName'
-     * @return                          a map of key-value pairs containing the
-     *                                  test data
-     * @throws ExcelConfigException     if the test data file cannot be found
-     *                                  for the given test name
-     * @throws IllegalArgumentException if the test name is not in the correct
-     *                                  format
-     */
+    @Override
     public Map<String, String> getTestDataAsMap(String testName) {
         logger.debug(() -> "TestName: " + testName);
         Preconditions.checkArgument(testName.contains(NAME_SEPARATOR),
