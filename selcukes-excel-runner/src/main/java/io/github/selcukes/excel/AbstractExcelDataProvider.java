@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-public abstract class AbstractExcelDataProvider implements ExcelDataProvider {
+abstract class AbstractExcelDataProvider implements ExcelDataProvider {
     static final String NAME_SEPARATOR = "::";
     static final String TEST = "Test";
     static final String RUN = "Run";
