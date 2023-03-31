@@ -40,7 +40,6 @@
 
         <lombok.version>1.18.26</lombok.version>
         <jackson.version>2.14.2</jackson.version>
-        <commons-compress.version>1.23.0</commons-compress.version>
 
         <poi.version>5.2.3</poi.version>
         <cucumber-reporting.version>5.7.5</cucumber-reporting.version>
@@ -122,11 +121,6 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-compress</artifactId>
-                <version>${commons-compress.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.cucumber</groupId>
