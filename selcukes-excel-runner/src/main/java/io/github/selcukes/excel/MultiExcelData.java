@@ -64,7 +64,7 @@ class MultiExcelData extends AbstractExcelDataProvider {
                         && map.get(TEST).equalsIgnoreCase(scenarioName))
                 .map(map -> map.get("DataFile"))
                 .orElseThrow(
-                    () -> new ExcelConfigException(String.format("Unable to find Test Data File for [%s]", testName)));
+                    () -> new ExcelConfigException(format("Unable to find Test Data File for [%s]", testName)));
 
         logger.debug(() -> "Using Test Data File: " + testDataFile);
         var testData = getCachedTestData(testDataFile);
