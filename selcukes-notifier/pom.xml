@@ -11,7 +11,7 @@
 
     <artifactId>selcukes-notifier</artifactId>
     <name>selcukes-notifier</name>
-    <description>Selcukes Notifier to send test status notifications using Slack and Microsoft teams.</description>
+    <description>Selcukes Notifier to send test status notifications using Slack and Microsoft Teams.</description>
     <dependencyManagement>
         <dependencies>
             <dependency>

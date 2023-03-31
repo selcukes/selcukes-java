@@ -122,7 +122,7 @@ public class WebClient {
         var byteArrays = new ArrayList<byte[]>();
         byte[] separator = ("--" + boundary
                 + "\r\nContent-Disposition: form-data; name=")
-                        .getBytes(StandardCharsets.UTF_8);
+                .getBytes(StandardCharsets.UTF_8);
         for (var entry : data.entrySet()) {
             byteArrays.add(separator);
 

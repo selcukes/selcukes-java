@@ -105,7 +105,7 @@ public class WebDriverBinary {
                 WebDriverBinary.this.strictDownload,
                 WebDriverBinary.this.clearBinaryCache,
                 WebDriverBinary.this.autoCheck)
-                        .downloadAndSetupBinaryPath();
+                    .downloadAndSetupBinaryPath();
         }
 
     }
