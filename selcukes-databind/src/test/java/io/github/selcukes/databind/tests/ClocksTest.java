@@ -65,7 +65,7 @@ public class ClocksTest {
     @Test
     public void testDateOf() {
         String dateString = "31-03-2023";
-        LocalDate date = Clocks.dateOf(dateString, dateFormat);
+        LocalDate date = Clocks.parseDate(dateString, dateFormat);
         assertNotNull(date);
         assertEquals(date, LocalDate.of(2023, 3, 31));
     }
@@ -89,7 +89,7 @@ public class ClocksTest {
     public void testDateTimeOf_LocalDateTime() {
         String dateTime = "2023-03-31 09:15:30";
         var expectedDateTime = LocalDateTime.of(2023, 3, 31, 9, 15, 30);
-        var actualDateTime = Clocks.dateTimeOf(dateTime, dateTimeFormat);
+        var actualDateTime = Clocks.parseDateTime(dateTime, dateTimeFormat);
         assertEquals(actualDateTime, expectedDateTime);
     }
 
@@ -97,7 +97,7 @@ public class ClocksTest {
     public void testDateTimeOf_ZonedDateTime() {
         String dateTimeZone = "16/07/2017 19:28:33 America/New_York";
         var expectedDateTime = ZonedDateTime.of(2017, 7, 16, 19, 28, 33, 0, ZoneId.of("America/New_York"));
-        var actualDateTime = Clocks.dateTimeZoneOf(dateTimeZone, dateTimeZoneFormat);
+        var actualDateTime = Clocks.parseDateTimeZone(dateTimeZone, dateTimeZoneFormat);
         assertEquals(actualDateTime, expectedDateTime);
     }
 
@@ -118,9 +118,9 @@ public class ClocksTest {
 
     @Test
     public void testLastDayOfMonth() {
-        LocalDate inputDate = LocalDate.of(2022, 3, 7);
-        LocalDate expectedDate = LocalDate.of(2022, 3, 31);
-        LocalDate actualDate = Clocks.lastDayOfMonth(inputDate);
+        var inputDate = LocalDate.of(2022, 3, 7);
+        var expectedDate = LocalDate.of(2022, 3, 31);
+        var actualDate = Clocks.lastDayOfMonth(inputDate);
         assertEquals(actualDate, expectedDate);
     }
 }
