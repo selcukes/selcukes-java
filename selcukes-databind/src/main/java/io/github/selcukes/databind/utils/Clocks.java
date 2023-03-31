@@ -26,6 +26,8 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAdjusters;
 
@@ -248,13 +250,40 @@ public final class Clocks {
     }
 
     /**
-     * Return the last day of the month for the given date.
+     * Returns the last day of the month for the given date.
      *
-     * @param  date The date to adjust
-     * @return      The last day of the month.
+     * @param  date the date for which to get the last day of the month.
+     * @return      the last day of the month for the given date.
      */
     public LocalDate lastDayOfMonth(final LocalDate date) {
         return date.with(TemporalAdjusters.lastDayOfMonth());
     }
 
+    /**
+     * Calculates the difference between two Temporal objects in the specified
+     * unit.
+     *
+     * @param  start                    the starting Temporal object.
+     * @param  end                      the ending Temporal object.
+     * @param  unit                     the unit of time to calculate the
+     *                                  difference in (days, hours, minutes, or
+     *                                  seconds).
+     * @return                          the difference between the two Temporal
+     *                                  objects in the specified unit.
+     * @throws IllegalArgumentException if the specified unit is not supported.
+     */
+    public long difference(Temporal start, Temporal end, String unit) {
+        switch (unit.toLowerCase()) {
+            case "days":
+                return ChronoUnit.DAYS.between(start, end);
+            case "hours":
+                return ChronoUnit.HOURS.between(start, end);
+            case "minutes":
+                return ChronoUnit.MINUTES.between(start, end);
+            case "seconds":
+                return ChronoUnit.SECONDS.between(start, end);
+            default:
+                throw new IllegalArgumentException("Unsupported unit: " + unit);
+        }
+    }
 }
