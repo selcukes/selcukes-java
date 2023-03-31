@@ -101,7 +101,7 @@ public final class Clocks {
         try {
             return LocalDate.parse(date, dateTimeFormatter);
         } catch (DateTimeException e) {
-            String newFormat = format.isBlank() ? DATE_FORMAT : format;
+            String newFormat = StringHelper.isNullOrEmpty(format) ? DATE_FORMAT : format;
             throw new DateTimeException(date + " could not be parsed with '" + newFormat + "' Format");
         }
     }
@@ -146,7 +146,7 @@ public final class Clocks {
         try {
             return dateTimeFormatter(format, DATE_TIME_FORMAT).parse(dateTime);
         } catch (DateTimeParseException e) {
-            String newFormat = format.isBlank() ? DATE_TIME_FORMAT : format;
+            String newFormat = StringHelper.isNullOrEmpty(format) ? DATE_TIME_FORMAT : format;
             throw new DateTimeParseException("Failed to parse date-time string: "
                     + dateTime + " with format: " + newFormat,
                 e.getParsedString(), e.getErrorIndex());
