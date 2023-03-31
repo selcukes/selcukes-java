@@ -243,20 +243,24 @@ public final class Clocks {
      *                       is null or empty.
      * @return               A DateTimeFormatter
      */
-    public static DateTimeFormatter dateTimeFormatter(final String format, final String defaultFormat) {
+    public DateTimeFormatter dateTimeFormatter(final String format, final String defaultFormat) {
         return ofPattern(ofNullable(format)
                 .filter(f -> !f.isEmpty())
                 .orElse(defaultFormat));
     }
 
     /**
-     * Returns the last day of the month for the given date.
+     * Returns the last day of the month for the given temporal object.
      *
-     * @param  date the date for which to get the last day of the month.
-     * @return      the last day of the month for the given date.
+     * @param  temporal          the temporal object to get the last day of the
+     *                           month from.
+     * @return                   the last day of the month for the given
+     *                           temporal object.
+     * @throws DateTimeException if the temporal object cannot be converted to a
+     *                           {@code Temporal}.
      */
-    public LocalDate lastDayOfMonth(final LocalDate date) {
-        return date.with(TemporalAdjusters.lastDayOfMonth());
+    public <T extends Temporal> T lastDayOfMonth(T temporal) {
+        return (T) temporal.with(TemporalAdjusters.lastDayOfMonth());
     }
 
     /**
