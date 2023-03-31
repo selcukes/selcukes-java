@@ -97,7 +97,7 @@ public class ClocksTest {
     public void testDateTimeOf_ZonedDateTime() {
         String dateTimeZone = "16/07/2017 19:28:33 America/New_York";
         var expectedDateTime = ZonedDateTime.of(2017, 7, 16, 19, 28, 33, 0, ZoneId.of("America/New_York"));
-        var actualDateTime = Clocks.parseDateTimeZone(dateTimeZone, dateTimeZoneFormat);
+        var actualDateTime = Clocks.ofDateTimeZone(dateTimeZone, dateTimeZoneFormat);
         assertEquals(actualDateTime, expectedDateTime);
     }
 

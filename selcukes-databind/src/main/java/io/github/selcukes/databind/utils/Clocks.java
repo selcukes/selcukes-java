@@ -181,7 +181,7 @@ public final class Clocks {
      * @throws DateTimeParseException if the date-time string cannot be parsed
      *                                with the given format string
      */
-    public ZonedDateTime parseDateTimeZone(final String dateTime, final String format) {
+    public ZonedDateTime ofDateTimeZone(final String dateTime, final String format) {
         return ZonedDateTime.from(asTemporal(dateTime, format));
     }
 
