@@ -211,18 +211,6 @@ public final class Clocks {
     }
 
     /**
-     * Formats a LocalDate object using the specified format string.
-     *
-     * @param  date   The date to be formatted
-     * @param  format The format to use for the date.
-     * @return        A string representation of the date in the specified
-     *                format.
-     */
-    public String format(final LocalDate date, final String format) {
-        return date.format(dateTimeFormatter(format, DATE_FORMAT));
-    }
-
-    /**
      * Formats a temporal object using the specified format string.
      *
      * @param  temporal The temporal object to format
@@ -230,8 +218,9 @@ public final class Clocks {
      * @return          A string representation of the temporal object in the
      *                  specified format.
      */
-    public String format(final TemporalAccessor temporal, final String format) {
-        return dateTimeFormatter(format, DATE_TIME_FORMAT).format(temporal);
+    public String format(final Temporal temporal, final String format) {
+        String defaultFormat = temporal instanceof LocalDate ? DATE_FORMAT : DATE_TIME_FORMAT;
+        return dateTimeFormatter(format, defaultFormat).format(temporal);
     }
 
     /**
