@@ -26,10 +26,6 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.github.selcukes</groupId>
             <artifactId>selcukes-databind</artifactId>
         </dependency>

@@ -39,7 +39,6 @@
         <junit.version>5.9.2</junit.version>
 
         <lombok.version>1.18.26</lombok.version>
-        <commons.io.version>2.11.0</commons.io.version>
         <jackson.version>2.14.2</jackson.version>
         <commons-compress.version>1.23.0</commons-compress.version>
 
@@ -111,11 +110,6 @@
     </distributionManagement>
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons.io.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>
