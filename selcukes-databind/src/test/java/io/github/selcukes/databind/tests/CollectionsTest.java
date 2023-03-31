@@ -18,6 +18,7 @@ package io.github.selcukes.databind.tests;
 
 import io.github.selcukes.databind.collections.Lists;
 import io.github.selcukes.databind.collections.Streams;
+import io.github.selcukes.databind.utils.Clocks;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -50,14 +51,14 @@ public class CollectionsTest {
     }
 
     @Test
-    public void listOfMapTest() {
-        var listOfList = List.of(
+    public void toTableTest() {
+        List<List<Object>> listOfList = List.of(
             List.of("a", "b", "c"),
-            List.of("1", "2", "3"),
-            List.of("4", "5", "6"));
+            List.of(Clocks.dateNow(), Clocks.dateNow().plusDays(10), Clocks.dateNow().withYear(2033)),
+            List.of(4, 5, 6));
         var table = Streams.toTable(listOfList);
 
-        assertEquals(table.get(1).get("a"), "4");
+        assertEquals(table.get(0).get("a"), Clocks.date("yyyy-MM-dd"));
     }
 
     @Test

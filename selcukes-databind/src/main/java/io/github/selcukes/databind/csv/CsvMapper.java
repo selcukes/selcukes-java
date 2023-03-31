@@ -25,7 +25,6 @@ import lombok.experimental.UtilityClass;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.stream.Collectors;
 
 @UtilityClass
@@ -37,16 +36,17 @@ public class CsvMapper {
     /**
      * Parses a CSV file at the given file path using the specified regex.
      *
-     * @param  filePath            The path to the CSV file.
-     * @param  regex               The regex to split the line by.
-     * @return                     A DataTable representing the parsed CSV file.
-     * @throws DataMapperException If an error occurs while parsing the file.
+     * @param  filePath            the path to the CSV file
+     * @param  regex               the regex to split the line by
+     * @return                     a {@code DataTable<String, String>}
+     *                             representing the parsed CSV file
+     * @throws DataMapperException if an error occurs while parsing the file
      */
     public DataTable<String, String> parse(Path filePath, String regex) {
         try (var lines = Files.lines(filePath)) {
             var linesOnWords = Lists.of(lines, line -> Arrays.stream(line.split(regex))
                     .map(field -> field.replaceAll(DOUBLE_QUOTES_REGEX, ""))
-                    .collect(Collectors.toCollection(LinkedList::new)));
+                    .collect(Collectors.toList()));
             return Streams.toTable(linesOnWords);
         } catch (Exception e) {
             throw new DataMapperException("Failed parsing CSV File: ", e);
@@ -54,11 +54,12 @@ public class CsvMapper {
     }
 
     /**
-     * Parses a CSV file at the given file path using a default regex.
+     * Parses a CSV file at the given file path using the specified regex.
      *
-     * @param  filePath            The path to the CSV file.
-     * @return                     A DataTable representing the parsed CSV file.
-     * @throws DataMapperException If an error occurs while parsing the file.
+     * @param  filePath            the path to the CSV file
+     * @return                     a {@code DataTable<String, String>}
+     *                             representing the parsed CSV file
+     * @throws DataMapperException if an error occurs while parsing the file
      */
     public DataTable<String, String> parse(Path filePath) {
         return parse(filePath, CSV_REGEX);

@@ -18,6 +18,7 @@ package io.github.selcukes.databind.collections;
 
 import io.github.selcukes.databind.utils.StringHelper;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -109,14 +111,33 @@ public class Lists {
      * Returns a new list containing only the elements of the given list that
      * match the specified predicate.
      *
-     * @param  <T>       the type of elements in the list
-     * @param  list      the list to be filtered
-     * @param  predicate the predicate used to test elements for inclusion
-     * @return           a new list containing only the matching elements
+     * @param  <T>                  the type of elements in the list
+     * @param  list                 the list to be filtered
+     * @param  predicate            the predicate used to test elements for
+     *                              inclusion
+     * @return                      a new list containing only the matching
+     *                              elements
+     * @throws NullPointerException if the given list is {@code null}.
      */
-    public <T> List<T> retainIf(List<T> list, Predicate<T> predicate) {
+    public <T> List<T> retainIf(@NonNull List<T> list, Predicate<T> predicate) {
         return list.stream()
                 .filter(predicate)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Returns a list of string representations of the objects in the given
+     * list.
+     *
+     * @param  list                 the list of objects to convert to strings
+     * @param  <T>                  the type of object in the list
+     * @return                      a list of string representations of the
+     *                              objects in the given list.
+     * @throws NullPointerException if the given list is {@code null}.
+     */
+    public <T> List<String> toString(@NonNull List<T> list) {
+        return list.stream()
+                .map(Objects::toString)
                 .collect(Collectors.toList());
     }
 

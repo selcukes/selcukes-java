@@ -110,24 +110,21 @@ public class Streams {
     }
 
     /**
-     * Converts a list of lists of strings into a DataTable, where each map
-     * represents a row in the table and the keys correspond to the column
-     * headers.
+     * Converts a list of lists of values into a {@link DataTable}.
      * <p>
      * The first row in the list represents the headers and is skipped. For each
      * subsequent row, a map is created with keys corresponding to the headers
      * and values corresponding to the cell values in the row. If a cell value
      * is missing, an empty string is used as the default value.
      *
-     * @param  cells a list of lists of strings that represent the table
-     * @return       a list of maps, where each map represents a row in the
-     *               table
+     * @param  cells the list of lists of values to convert
+     * @return       the resulting {@code DataTable<String, String>}
      */
-    public DataTable<String, String> toTable(List<? extends List<String>> cells) {
-        List<String> headers = cells.get(0);
+    public <T> DataTable<String, String> toTable(List<? extends List<T>> cells) {
+        List<String> headers = Lists.toString(cells.get(0));
         return cells.stream()
                 .skip(1)
-                .map(row -> Maps.of(headers, row, ""))
+                .map(row -> Maps.of(headers, Lists.toString(row), ""))
                 .collect(Collectors.toCollection(DataTable::new));
     }
 

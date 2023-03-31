@@ -23,24 +23,23 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAdjusters;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
 import static java.util.Optional.ofNullable;
 
-@UtilityClass
 /**
- * A class that represents a clock.
+ * A final utility class that represents a clock.
  */
-public class Clocks {
-    // A constant that is used to format the date.
+@UtilityClass
+public final class Clocks {
     public static final String DATE_FORMAT = "MM/dd/yyyy";
-    // A constant that is used to format the date.
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    // A constant that is used to format the date.
     public static final String DATE_TIME_FILE_FORMAT = "ddMMMyyyy-hh-mm-ss";
-    // A constant that is used to format the date.
     public static final String TIMESTAMP_FORMAT = "MM/dd/yyyy hh:mm:ss";
 
     /**
@@ -48,7 +47,7 @@ public class Clocks {
      *
      * @return The current date.
      */
-    public LocalDate nowDate() {
+    public LocalDate dateNow() {
         return LocalDate.now();
     }
 
@@ -57,8 +56,22 @@ public class Clocks {
      *
      * @return LocalDateTime.now()
      */
-    public LocalDateTime nowDateTime() {
+    public LocalDateTime dateTimeNow() {
         return LocalDateTime.now();
+    }
+
+    /**
+     * Returns the current date and time in the specified timezone.
+     *
+     * @param  timezoneId        the timezone identifier, such as
+     *                           "America/New_York".
+     * @return                   the current date and time in the specified
+     *                           timezone
+     * @throws DateTimeException if the timezone identifier is invalid
+     */
+    public ZonedDateTime dateTimeNow(String timezoneId) {
+        return ZonedDateTime.now()
+                .withZoneSameInstant(ZoneId.of(timezoneId));
     }
 
     /**
@@ -69,21 +82,22 @@ public class Clocks {
      *                specified.
      */
     public String date(final String format) {
-        return format(nowDate(), format);
+        return format(dateNow(), format);
     }
 
     /**
-     * It takes a date and a format and returns a LocalDate
+     * Returns a LocalDate object of the given date and format.
      *
-     * @param  date   The date to be parsed.
-     * @param  format The format of the date string.
-     * @return        A LocalDate object
+     * @param  date              the date to be parsed.
+     * @param  format            the format of the date string.
+     * @return                   a LocalDate object.
+     * @throws DateTimeException if the date could not be parsed with the given
+     *                           format.
      */
     public LocalDate dateOf(final String date, final String format) {
         var dateTimeFormatter = dateTimeFormatter(format, DATE_FORMAT);
         try {
-            return LocalDate
-                    .parse(date, dateTimeFormatter);
+            return LocalDate.parse(date, dateTimeFormatter);
         } catch (DateTimeException e) {
             String newFormat = format.isBlank() ? DATE_FORMAT : format;
             throw new DateTimeException(date + " could not be parsed with '" + newFormat + "' Format");
@@ -91,36 +105,86 @@ public class Clocks {
     }
 
     /**
-     * > Returns the current date and time in the specified format
+     * Returns the current date and time in the specified format.
      *
-     * @param  format The format of the date.
-     * @return        A string representation of the current date and time.
+     * @param  format the format of the date and time.
+     * @return        a string representation of the current date and time in
+     *                the specified format.
      */
     public String dateTime(final String format) {
-        return format(nowDateTime(), format);
+        return format(dateTimeNow(), format);
     }
 
     /**
-     * > It takes a date time string and a format string and returns a
-     * LocalDateTime object
+     * Returns the current date and time as a string representation in the
+     * specified timezone and format.
      *
-     * @param  dateTime The date time string to be parsed.
-     * @param  format   The format of the dateTime string.
-     * @return          A LocalDateTime object
+     * @param  timezoneId The timezone ID to use for the date and time.
+     * @param  format     The format to use for the date and time.
+     * @return            A string representation of the current date and time
+     *                    in the specified timezone and format.
      */
-    public LocalDateTime dateTimeOf(final String dateTime, final String format) {
-        var dateTimeFormatter = dateTimeFormatter(format, DATE_TIME_FORMAT);
+    public String dateTime(final String timezoneId, final String format) {
+        return format(dateTimeNow(timezoneId), format);
+    }
+
+    /**
+     * Parses a date-time string using the specified format string and returns a
+     * {@link TemporalAccessor}.
+     *
+     * @param  dateTime          the date-time string to parse
+     * @param  format            the format string used to parse the date-time
+     *                           string
+     * @return                   a {@link TemporalAccessor} object representing
+     *                           the parsed date-time string
+     * @throws DateTimeException if the date-time string cannot be parsed with
+     *                           the given format string
+     */
+    public TemporalAccessor asTemporal(final String dateTime, final String format) {
         try {
-            return LocalDateTime
-                    .parse(dateTime, dateTimeFormatter);
-        } catch (DateTimeException e) {
+            return dateTimeFormatter(format, DATE_TIME_FORMAT).parse(dateTime);
+        } catch (DateTimeParseException e) {
             String newFormat = format.isBlank() ? DATE_TIME_FORMAT : format;
-            throw new DateTimeException(dateTime + " could not be parsed with '" + newFormat + "' Format");
+            throw new DateTimeParseException("Failed to parse date-time string: "
+                    + dateTime + " with format: " + newFormat,
+                e.getParsedString(), e.getErrorIndex());
         }
     }
 
     /**
-     * > Returns a string representation of the current date and time in the
+     * Parses a date-time string using the specified format string and returns a
+     * {@link LocalDateTime} object.
+     *
+     * @param  dateTime               the date-time string to parse
+     * @param  format                 the format string used to parse the
+     *                                date-time string
+     * @return                        a {@link LocalDateTime} object
+     *                                representing the parsed date-time string
+     * @throws DateTimeParseException if the date-time string cannot be parsed
+     *                                with the given format string
+     */
+    public LocalDateTime dateTimeOf(final String dateTime, final String format) {
+        return LocalDateTime.from(asTemporal(dateTime, format));
+    }
+
+    /**
+     * Parses a date-time string using the specified format string and returns a
+     * {@link ZonedDateTime} object.
+     *
+     * @param  dateTime               the date-time string to parse
+     * @param  format                 the format string used to parse the
+     *                                date-time string
+     * @return                        a {@link ZonedDateTime} object
+     *                                representing the parsed date-time string
+     * @throws DateTimeParseException if the date-time string cannot be parsed
+     *                                with the given format string
+     */
+    public ZonedDateTime dateTimeZoneOf(final String dateTime, final String format) {
+        return ZonedDateTime.from(asTemporal(dateTime, format));
+    }
+
+    /**
+     * Returns a string representation of the current date and time in the
      * format "yyyy-MM-dd HH:mm:ss.SSS"
      *
      * @return A string of the current date and time in the format of
@@ -131,9 +195,9 @@ public class Clocks {
     }
 
     /**
-     * > It takes a long value representing the number of milliseconds since the
-     * epoch, converts it to a LocalDateTime, and then formats it using the
-     * TIMESTAMP_FORMAT constant
+     * Converts a long value representing the number of milliseconds since the
+     * epoch to a LocalDateTime object, and then formats it using the
+     * TIMESTAMP_FORMAT constant.
      *
      * @param  epochMilli The epoch time in milliseconds.
      * @return            A string representation of the date and time.
@@ -145,28 +209,27 @@ public class Clocks {
     }
 
     /**
-     * It takes a date and a format string, and returns a string representation
-     * of the date in the specified format
+     * Formats a LocalDate object using the specified format string.
      *
      * @param  date   The date to be formatted
      * @param  format The format to use for the date.
-     * @return        A string representation of the date in the format
-     *                specified.
+     * @return        A string representation of the date in the specified
+     *                format.
      */
     public String format(final LocalDate date, final String format) {
         return date.format(dateTimeFormatter(format, DATE_FORMAT));
     }
 
     /**
-     * It takes a date time and a format string, and returns a string
-     * representation of the date time in the specified format
+     * Formats a temporal object using the specified format string.
      *
-     * @param  dateTime The date time to format
+     * @param  temporal The temporal object to format
      * @param  format   The format to use for the date.
-     * @return          A string representation of the dateTime object.
+     * @return          A string representation of the temporal object in the
+     *                  specified format.
      */
-    public String format(final LocalDateTime dateTime, final String format) {
-        return dateTime.format(dateTimeFormatter(format, DATE_TIME_FORMAT));
+    public String format(final TemporalAccessor temporal, final String format) {
+        return dateTimeFormatter(format, DATE_TIME_FORMAT).format(temporal);
     }
 
     /**

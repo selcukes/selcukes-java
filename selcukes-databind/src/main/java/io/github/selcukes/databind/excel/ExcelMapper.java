@@ -60,16 +60,15 @@ public class ExcelMapper {
     }
 
     /**
-     * This method takes a file path as input, creates a workbook from the file
-     * at the path, and then creates a map of sheet names to a list of maps of
-     * column names to cell values. The first row of each sheet is assumed to
-     * contain column headers,and is skipped in the output. The remaining rows
-     * are parsed and stored in the output map.
+     * Parses an Excel file at the given file path and creates a map of sheet
+     * names to a {@code DataTable} of column names to cell values. The first
+     * row of each sheet is assumed to contain column headers, and is skipped in
+     * the output. The remaining rows are parsed and stored in the output map.
      *
-     * @param  filePath            The file path of the Excel file to be parsed.
-     * @return                     A map of sheet names to a DataTable of column
-     *                             names to cell values.
-     * @throws DataMapperException If there is an error parsing the Excel file.
+     * @param  filePath            the path of the Excel file to be parsed
+     * @return                     a map of sheet names to a {@code DataTable}
+     *                             of column names to cell values
+     * @throws DataMapperException if there is an error parsing the Excel file
      */
     public static Map<String, DataTable<String, String>> parse(String filePath) {
         try (var workbook = WorkbookFactory.create(Resources.fileStream(filePath))) {
