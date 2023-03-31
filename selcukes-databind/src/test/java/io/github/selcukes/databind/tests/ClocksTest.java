@@ -65,7 +65,7 @@ public class ClocksTest {
     @Test
     public void testDateOf() {
         String dateString = "31-03-2023";
-        LocalDate date = Clocks.parseDate(dateString, dateFormat);
+        LocalDate date = Clocks.ofDate(dateString, dateFormat);
         assertNotNull(date);
         assertEquals(date, LocalDate.of(2023, 3, 31));
     }
@@ -89,7 +89,7 @@ public class ClocksTest {
     public void testDateTimeOf_LocalDateTime() {
         String dateTime = "2023-03-31 09:15:30";
         var expectedDateTime = LocalDateTime.of(2023, 3, 31, 9, 15, 30);
-        var actualDateTime = Clocks.parseDateTime(dateTime, dateTimeFormat);
+        var actualDateTime = Clocks.ofDateTime(dateTime, dateTimeFormat);
         assertEquals(actualDateTime, expectedDateTime);
     }
 

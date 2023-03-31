@@ -96,7 +96,7 @@ public final class Clocks {
      * @throws DateTimeException if the date could not be parsed with the given
      *                           format.
      */
-    public LocalDate parseDate(final String date, final String format) {
+    public LocalDate ofDate(final String date, final String format) {
         var dateTimeFormatter = dateTimeFormatter(format, DATE_FORMAT);
         try {
             return LocalDate.parse(date, dateTimeFormatter);
@@ -165,7 +165,7 @@ public final class Clocks {
      * @throws DateTimeParseException if the date-time string cannot be parsed
      *                                with the given format string
      */
-    public LocalDateTime parseDateTime(final String dateTime, final String format) {
+    public LocalDateTime ofDateTime(final String dateTime, final String format) {
         return LocalDateTime.from(asTemporal(dateTime, format));
     }
 
