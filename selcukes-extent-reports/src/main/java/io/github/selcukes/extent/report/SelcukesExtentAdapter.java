@@ -159,7 +159,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
         getReporter().attachAndRestart();
         updateResult(event.getResult());
         if (!event.getResult().getStatus().isOk() && event.getResult().getError() != null) {
-            ExceptionHelper.handleException(event.getResult().getError());
+            ExceptionHelper.logError(event.getResult().getError());
         }
 
     }

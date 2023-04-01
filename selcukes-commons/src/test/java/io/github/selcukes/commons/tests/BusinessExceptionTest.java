@@ -18,31 +18,37 @@
 
 package io.github.selcukes.commons.tests;
 
-import io.github.selcukes.commons.exception.BusinessException;
-import io.github.selcukes.commons.logging.Logger;
-import io.github.selcukes.commons.logging.LoggerFactory;
+import io.github.selcukes.commons.exception.SelcukesException;
+import io.github.selcukes.commons.helper.ExceptionHelper;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.util.concurrent.TimeoutException;
 
 public class BusinessExceptionTest {
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
     public void createException() {
-
         try {
-            throw new TimeoutException("Test not found");
+            throw new IOException("Something Wrong");
         } catch (Exception e) {
-            throw new BusinessException("Element not Found", e);
+            throw new RuntimeException(e);
         }
     }
 
-    @Test(enabled = false)
-    public void testException() {
+    public void createTest() {
         try {
             createException();
-        } catch (BusinessException e) {
-            logger.error(e, e.logError());
+        } catch (Exception e) {
+            throw new SelcukesException("Element not Found", e);
+        }
+    }
+
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testException() {
+        try {
+            createTest();
+        } catch (Exception e) {
+            ExceptionHelper.logError(e);
+            ExceptionHelper.rethrow(e);
         }
 
     }

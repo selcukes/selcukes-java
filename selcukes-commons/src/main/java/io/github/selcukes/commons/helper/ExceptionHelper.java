@@ -16,15 +16,18 @@
 
 package io.github.selcukes.commons.helper;
 
-import io.github.selcukes.commons.exception.BusinessException;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.utils.StringHelper;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.LinkedList;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Optional.ofNullable;
 
@@ -40,9 +43,9 @@ public class ExceptionHelper {
      * @param  e The exception to be rethrown.
      * @return   Nothing.
      */
+    @SneakyThrows
     public <T> T rethrow(final Exception e) {
-        logger.error(() -> "Rethrow exception: " + e.getClass().getName() + e.getMessage());
-        throw new IllegalStateException(e);
+        throw multiCause(e).getLast();
     }
 
     /**
@@ -64,8 +67,8 @@ public class ExceptionHelper {
     }
 
     /**
-     * > It returns the first word of the first line of the stack trace of the
-     * given throwable
+     * Returns the first word of the first line of the stack trace of the given
+     * throwable
      *
      * @param  throwable The exception that was thrown.
      * @return           The title of the exception.
@@ -81,7 +84,7 @@ public class ExceptionHelper {
      *
      * @return The errorCodes object.
      */
-    public static ErrorCodes getErrorCodes() {
+    private static ErrorCodes getErrorCodes() {
         if (errorCodes == null) {
             errorCodes = DataMapper.parse(ErrorCodes.class);
         }
@@ -89,13 +92,28 @@ public class ExceptionHelper {
     }
 
     /**
-     * > This function takes a throwable, creates a BusinessException with the
-     * throwable's message and the throwable itself, and then logs the exception
+     * Logs an error message and suggests a solution based on the type of the
+     * provided Throwable object.
      *
-     * @param throwable The exception that was thrown.
+     * @param throwable The Throwable object to log and suggest a solution for.
      */
-    public static void handleException(final Throwable throwable) {
-        BusinessException exception = new BusinessException(throwable.getMessage(), throwable);
-        logger.error(throwable, exception.logError());
+    public void logError(Throwable throwable) {
+        String errorMessage = throwable.getMessage();
+        String solution = getErrorCodes().findSolution(throwable.getClass().getSimpleName());
+        logger.error(throwable, () -> errorMessage + "\nHow to fix: \n" + solution);
+    }
+
+    /**
+     * Returns a linked list of all the causes of a given Throwable, starting
+     * from the original Throwable and going down to the root cause.
+     *
+     * @param  throwable            the Throwable to retrieve the causes from
+     * @return                      a LinkedList of all the causes of the given
+     *                              Throwable
+     * @throws NullPointerException if the given Throwable is null
+     */
+    public static LinkedList<Throwable> multiCause(final Throwable throwable) {
+        return Stream.iterate(throwable, t -> t.getCause() != null, Throwable::getCause)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 }
