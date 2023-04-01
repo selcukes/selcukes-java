@@ -26,6 +26,7 @@ import lombok.experimental.UtilityClass;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,11 +41,12 @@ public class ExceptionHelper {
     /**
      * Rethrows the given throwable as a RuntimeException.
      *
-     * @param  throwable The throwable to be rethrown.
+     * @param throwable The throwable to be rethrown.
      */
     @SneakyThrows
     public void rethrow(final Throwable throwable) {
-        throw multiCause(throwable).getLast();
+        var multiCause = multiCause(throwable);
+        throw multiCause.get(multiCause.size() - 1);
     }
 
     /**
@@ -103,15 +105,15 @@ public class ExceptionHelper {
     }
 
     /**
-     * Returns a linked list of all the causes of a given Throwable, starting
-     * from the original Throwable and going down to the root cause.
+     * Returns a list of all the causes of a given Throwable, starting from the
+     * original Throwable and going down to the root cause.
      *
      * @param  throwable            the Throwable to retrieve the causes from
      * @return                      a LinkedList of all the causes of the given
      *                              Throwable
      * @throws NullPointerException if the given Throwable is null
      */
-    public static LinkedList<Throwable> multiCause(final Throwable throwable) {
+    public static List<Throwable> multiCause(final Throwable throwable) {
         return Stream.iterate(throwable, t -> t.getCause() != null, Throwable::getCause)
                 .collect(Collectors.toCollection(LinkedList::new));
     }
