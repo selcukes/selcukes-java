@@ -38,14 +38,14 @@ public class ExceptionHelper {
     private static ErrorCodes errorCodes;
 
     /**
-     * If you call this function, you're going to get an exception.
+     * Rethrows the given throwable as a RuntimeException.
      *
-     * @param  e The exception to be rethrown.
-     * @return   Nothing.
+     * @param  throwable The throwable to be rethrown.
+     * @return           Nothing. This method always throws an exception.
      */
     @SneakyThrows
-    public <T> T rethrow(final Exception e) {
-        throw multiCause(e).getLast();
+    public <T> T rethrow(final Throwable throwable) {
+        throw multiCause(throwable).getLast();
     }
 
     /**
