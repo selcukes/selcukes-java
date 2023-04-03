@@ -36,18 +36,18 @@ public class ClocksTest {
 
     @Test
     public void testNowDateTime() {
-        var nowDate = Clocks.dateNow();
+        var nowDate = Clocks.nowDate();
         assertNotNull(nowDate);
-        var nowDateTime = Clocks.dateTimeNow();
+        var nowDateTime = Clocks.nowDateTime();
         assertNotNull(nowDateTime);
-        var nowDateTimeZone = Clocks.dateTimeNow(timezoneId);
+        var nowDateTimeZone = Clocks.nowDateTime(timezoneId);
         assertNotNull(nowDateTimeZone);
     }
 
     @Test
     public void testNowDateTimeWithTimezone() {
 
-        var nowDateTime = Clocks.dateTimeNow(timezoneId);
+        var nowDateTime = Clocks.nowDateTime(timezoneId);
         assertNotNull(nowDateTime);
         assertEquals(nowDateTime.getZone(), ZoneId.of(timezoneId));
     }
@@ -65,7 +65,7 @@ public class ClocksTest {
     @Test
     public void testDateOf() {
         String dateString = "31-03-2023";
-        LocalDate date = Clocks.ofDate(dateString, dateFormat);
+        LocalDate date = Clocks.parseDate(dateString, dateFormat);
         assertNotNull(date);
         assertEquals(date, LocalDate.of(2023, 3, 31));
     }
@@ -89,7 +89,7 @@ public class ClocksTest {
     public void testDateTimeOfLocalDateTime() {
         String dateTime = "2023-03-31 09:15:30";
         var expectedDateTime = LocalDateTime.of(2023, 3, 31, 9, 15, 30);
-        var actualDateTime = Clocks.ofDateTime(dateTime, dateTimeFormat);
+        var actualDateTime = Clocks.parseDateTime(dateTime, dateTimeFormat);
         assertEquals(actualDateTime, expectedDateTime);
     }
 
@@ -97,7 +97,7 @@ public class ClocksTest {
     public void testDateTimeOfZonedDateTime() {
         String dateTimeZone = "16/07/2017 19:28:33 America/New_York";
         var expectedDateTime = ZonedDateTime.of(2017, 7, 16, 19, 28, 33, 0, ZoneId.of("America/New_York"));
-        var actualDateTime = Clocks.ofDateTimeZone(dateTimeZone, dateTimeZoneFormat);
+        var actualDateTime = Clocks.parseDateTimeZone(dateTimeZone, dateTimeZoneFormat);
         assertEquals(actualDateTime, expectedDateTime);
     }
 

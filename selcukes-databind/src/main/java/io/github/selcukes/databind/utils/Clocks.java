@@ -49,7 +49,7 @@ public final class Clocks {
      *
      * @return The current date.
      */
-    public LocalDate dateNow() {
+    public LocalDate nowDate() {
         return LocalDate.now();
     }
 
@@ -58,7 +58,7 @@ public final class Clocks {
      *
      * @return LocalDateTime.now()
      */
-    public LocalDateTime dateTimeNow() {
+    public LocalDateTime nowDateTime() {
         return LocalDateTime.now();
     }
 
@@ -71,7 +71,7 @@ public final class Clocks {
      *                           timezone
      * @throws DateTimeException if the timezone identifier is invalid
      */
-    public ZonedDateTime dateTimeNow(String timezoneId) {
+    public ZonedDateTime nowDateTime(String timezoneId) {
         return ZonedDateTime.now()
                 .withZoneSameInstant(ZoneId.of(timezoneId));
     }
@@ -84,7 +84,7 @@ public final class Clocks {
      *                specified.
      */
     public String date(final String format) {
-        return format(dateNow(), format);
+        return format(nowDate(), format);
     }
 
     /**
@@ -96,7 +96,7 @@ public final class Clocks {
      * @throws DateTimeException if the date could not be parsed with the given
      *                           format.
      */
-    public LocalDate ofDate(final String date, final String format) {
+    public LocalDate parseDate(final String date, final String format) {
         var dateTimeFormatter = dateTimeFormatter(format, DATE_FORMAT);
         try {
             return LocalDate.parse(date, dateTimeFormatter);
@@ -114,7 +114,7 @@ public final class Clocks {
      *                the specified format.
      */
     public String dateTime(final String format) {
-        return format(dateTimeNow(), format);
+        return format(nowDateTime(), format);
     }
 
     /**
@@ -127,7 +127,7 @@ public final class Clocks {
      *                    in the specified timezone and format.
      */
     public String dateTime(final String timezoneId, final String format) {
-        return format(dateTimeNow(timezoneId), format);
+        return format(nowDateTime(timezoneId), format);
     }
 
     /**
@@ -165,7 +165,7 @@ public final class Clocks {
      * @throws DateTimeParseException if the date-time string cannot be parsed
      *                                with the given format string
      */
-    public LocalDateTime ofDateTime(final String dateTime, final String format) {
+    public LocalDateTime parseDateTime(final String dateTime, final String format) {
         return LocalDateTime.from(asTemporal(dateTime, format));
     }
 
@@ -181,7 +181,7 @@ public final class Clocks {
      * @throws DateTimeParseException if the date-time string cannot be parsed
      *                                with the given format string
      */
-    public ZonedDateTime ofDateTimeZone(final String dateTime, final String format) {
+    public ZonedDateTime parseDateTimeZone(final String dateTime, final String format) {
         return ZonedDateTime.from(asTemporal(dateTime, format));
     }
 
