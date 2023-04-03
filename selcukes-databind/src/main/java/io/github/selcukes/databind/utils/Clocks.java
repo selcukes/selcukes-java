@@ -49,7 +49,7 @@ public final class Clocks {
      *
      * @return The current date.
      */
-    public LocalDate nowDate() {
+    public LocalDate dateNow() {
         return LocalDate.now();
     }
 
@@ -58,7 +58,7 @@ public final class Clocks {
      *
      * @return LocalDateTime.now()
      */
-    public LocalDateTime nowDateTime() {
+    public LocalDateTime dateTimeNow() {
         return LocalDateTime.now();
     }
 
@@ -71,7 +71,7 @@ public final class Clocks {
      *                           timezone
      * @throws DateTimeException if the timezone identifier is invalid
      */
-    public ZonedDateTime nowDateTime(String timezoneId) {
+    public ZonedDateTime dateTimeNow(String timezoneId) {
         return ZonedDateTime.now()
                 .withZoneSameInstant(ZoneId.of(timezoneId));
     }
@@ -84,7 +84,7 @@ public final class Clocks {
      *                specified.
      */
     public String date(final String format) {
-        return format(nowDate(), format);
+        return format(dateNow(), format);
     }
 
     /**
@@ -114,7 +114,7 @@ public final class Clocks {
      *                the specified format.
      */
     public String dateTime(final String format) {
-        return format(nowDateTime(), format);
+        return format(dateTimeNow(), format);
     }
 
     /**
@@ -127,7 +127,7 @@ public final class Clocks {
      *                    in the specified timezone and format.
      */
     public String dateTime(final String timezoneId, final String format) {
-        return format(nowDateTime(timezoneId), format);
+        return format(dateTimeNow(timezoneId), format);
     }
 
     /**

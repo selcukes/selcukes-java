@@ -54,7 +54,7 @@ public class CollectionsTest {
     public void toTableTest() {
         List<List<Object>> listOfList = List.of(
             List.of("a", "b", "c"),
-            List.of(Clocks.nowDate(), Clocks.nowDate().plusDays(10), Clocks.nowDate().withYear(2033)),
+            List.of(Clocks.dateNow(), Clocks.dateNow().plusDays(10), Clocks.dateNow().withYear(2033)),
             List.of(4, 5, 6));
         var table = Streams.toTable(listOfList);
 

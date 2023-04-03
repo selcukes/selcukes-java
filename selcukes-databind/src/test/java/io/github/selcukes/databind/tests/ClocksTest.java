@@ -36,18 +36,18 @@ public class ClocksTest {
 
     @Test
     public void testNowDateTime() {
-        var nowDate = Clocks.nowDate();
+        var nowDate = Clocks.dateNow();
         assertNotNull(nowDate);
-        var nowDateTime = Clocks.nowDateTime();
+        var nowDateTime = Clocks.dateTimeNow();
         assertNotNull(nowDateTime);
-        var nowDateTimeZone = Clocks.nowDateTime(timezoneId);
+        var nowDateTimeZone = Clocks.dateTimeNow(timezoneId);
         assertNotNull(nowDateTimeZone);
     }
 
     @Test
     public void testNowDateTimeWithTimezone() {
 
-        var nowDateTime = Clocks.nowDateTime(timezoneId);
+        var nowDateTime = Clocks.dateTimeNow(timezoneId);
         assertNotNull(nowDateTime);
         assertEquals(nowDateTime.getZone(), ZoneId.of(timezoneId));
     }
