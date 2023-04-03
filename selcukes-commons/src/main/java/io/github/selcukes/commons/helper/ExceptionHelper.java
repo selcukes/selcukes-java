@@ -25,9 +25,7 @@ import lombok.experimental.UtilityClass;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 import static java.util.Optional.ofNullable;
@@ -39,14 +37,18 @@ public class ExceptionHelper {
     private static ErrorCodes errorCodes;
 
     /**
-     * Rethrows the given throwable as a RuntimeException.
-     *
-     * @param throwable The throwable to be rethrown.
+     * Rethrows the root cause of a given throwable. If the given throwable is
+     * null or has no cause, it will be thrown as is. *
+     * 
+     * @param throwable the throwable to rethrow
      */
     @SneakyThrows
-    public void rethrow(final Throwable throwable) {
-        var multiCause = multiCause(throwable);
-        throw multiCause.get(multiCause.size() - 1);
+    public static void rethrowRootCause(Throwable throwable) {
+        var rootCause = Stream.iterate(throwable, Objects::nonNull, Throwable::getCause)
+                .reduce((prev, curr) -> curr)
+                .orElse(throwable);
+        logError(rootCause);
+        throw rootCause;
     }
 
     /**
@@ -102,19 +104,5 @@ public class ExceptionHelper {
         String errorMessage = throwable.getMessage();
         String solution = getErrorCodes().findSolution(throwable.getClass().getSimpleName());
         logger.error(throwable, () -> errorMessage + "\nHow to fix: \n" + solution);
-    }
-
-    /**
-     * Returns a list of all the causes of a given Throwable, starting from the
-     * original Throwable and going down to the root cause.
-     *
-     * @param  throwable            the Throwable to retrieve the causes from
-     * @return                      a LinkedList of all the causes of the given
-     *                              Throwable
-     * @throws NullPointerException if the given Throwable is null
-     */
-    public static List<Throwable> multiCause(final Throwable throwable) {
-        return Stream.iterate(throwable, t -> t.getCause() != null, Throwable::getCause)
-                .collect(Collectors.toCollection(LinkedList::new));
     }
 }

@@ -42,13 +42,12 @@ public class BusinessExceptionTest {
         }
     }
 
-    @Test(expectedExceptions = RuntimeException.class)
+    @Test(expectedExceptions = IOException.class)
     public void testException() {
         try {
             createTest();
         } catch (Exception e) {
-            ExceptionHelper.logError(e);
-            ExceptionHelper.rethrow(e);
+            ExceptionHelper.rethrowRootCause(e);
         }
 
     }
