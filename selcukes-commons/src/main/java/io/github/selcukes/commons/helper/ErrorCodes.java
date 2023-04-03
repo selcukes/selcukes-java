@@ -24,7 +24,7 @@ import lombok.Data;
 import java.util.Map;
 
 /**
- * > This class contains a list of error codes that can be returned by the API
+ * This class contains a list of error codes that can be returned by the API.
  */
 @Data
 @DataFile(fileName = "error_codes.yaml", streamLoader = true)
@@ -33,12 +33,12 @@ public class ErrorCodes {
 
     /**
      * If the code is found in the errors map, return the value associated with
-     * that key. Otherwise, return the default value
+     * that key. Otherwise, return the default value.
      *
      * @param  code The error code that you want to get the message for.
      * @return      The error message associated with the error code.
      */
-    public String getMessage(final String code) {
-        return this.errors.getOrDefault(code, "Solution not found in error_code.yaml file");
+    public String findSolution(final String code) {
+        return this.errors.getOrDefault(code, "Solution not found in error_codes.yaml file.");
     }
 }
