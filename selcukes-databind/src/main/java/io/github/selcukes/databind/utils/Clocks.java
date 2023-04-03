@@ -19,6 +19,7 @@ package io.github.selcukes.databind.utils;
 import lombok.experimental.UtilityClass;
 
 import java.time.DateTimeException;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -26,7 +27,6 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAdjusters;
@@ -266,17 +266,19 @@ public final class Clocks {
      * @throws IllegalArgumentException if the specified unit is not supported.
      */
     public long difference(Temporal start, Temporal end, String unit) {
+        Duration duration = Duration.between(start, end);
         switch (unit.toLowerCase()) {
             case "days":
-                return ChronoUnit.DAYS.between(start, end);
+                return duration.toDays();
             case "hours":
-                return ChronoUnit.HOURS.between(start, end);
+                return duration.toHours();
             case "minutes":
-                return ChronoUnit.MINUTES.between(start, end);
+                return duration.toMinutes();
             case "seconds":
-                return ChronoUnit.SECONDS.between(start, end);
+                return duration.getSeconds();
             default:
                 throw new IllegalArgumentException("Unsupported unit: " + unit);
         }
     }
+
 }
