@@ -27,6 +27,7 @@ import java.time.format.DateTimeFormatter;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 public class ClocksTest {
     private final String timezoneId = "America/New_York";
@@ -122,5 +123,35 @@ public class ClocksTest {
         var expectedDate = LocalDate.of(2022, 3, 31);
         var actualDate = Clocks.lastDayOfMonth(inputDate);
         assertEquals(actualDate, expectedDate);
+    }
+
+    @Test
+    public void testNext() {
+        LocalDate date = LocalDate.now();
+        LocalDate nextDay = Clocks.next(date, 1, "days");
+        assertEquals(nextDay, date.plusDays(1));
+        LocalDate nextWeek = Clocks.next(date, 1, "weeks");
+        assertEquals(nextWeek, date.plusWeeks(1));
+        LocalDate today = LocalDate.now();
+        LocalDate tomorrow = Clocks.next(today, 1, "days");
+        assertEquals(tomorrow, today.plusDays(1));
+    }
+
+    @Test
+    public void testPrevious() {
+        LocalDate date = LocalDate.now();
+        LocalDate previousDay = Clocks.previous(date, 1, "days");
+        assertEquals(previousDay, date.minusDays(1));
+        LocalDate previousWeek = Clocks.previous(date, 1, "weeks");
+        assertEquals(previousWeek, date.minusWeeks(1));
+        LocalDate today = LocalDate.now();
+        LocalDate yesterday = Clocks.previous(today, 1, "days");
+        assertEquals(yesterday, today.minusDays(1));
+    }
+
+    @Test
+    public void testWeekend() {
+        var inputDate = LocalDate.of(2023, 4, 8);
+        assertTrue(Clocks.isWeekend(inputDate));
     }
 }

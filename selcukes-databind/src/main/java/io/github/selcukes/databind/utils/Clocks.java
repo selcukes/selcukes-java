@@ -19,6 +19,7 @@ package io.github.selcukes.databind.utils;
 import lombok.experimental.UtilityClass;
 
 import java.time.DateTimeException;
+import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -27,10 +28,13 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.TemporalUnit;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
@@ -50,6 +54,11 @@ public final class Clocks {
         "hours", Duration::toHours,
         "minutes", Duration::toMinutes,
         "seconds", Duration::getSeconds);
+    private static final Map<String, TemporalUnit> UNIT_MAPPING = Map.of(
+        "years", ChronoUnit.YEARS,
+        "months", ChronoUnit.MONTHS,
+        "weeks", ChronoUnit.WEEKS,
+        "days", ChronoUnit.DAYS);
 
     /**
      * Return the current date.
@@ -279,5 +288,75 @@ public final class Clocks {
         return ofNullable(DURATION_FUNCTIONS.get(unit.toLowerCase()))
                 .map(func -> func.apply(duration))
                 .orElseThrow(() -> new IllegalArgumentException("Unsupported unit: " + unit));
+    }
+
+    /**
+     * Returns the temporal object that is the specified number of units after
+     * the given temporal object.
+     *
+     * @param  temporal                 the temporal object
+     * @param  number                   the number of units
+     * @param  unit                     the unit of time
+     * @param  <T>                      the type of the temporal object
+     * @return                          the temporal object that is the
+     *                                  specified number of units after the
+     *                                  given temporal object
+     * @throws IllegalArgumentException if the unit is invalid
+     */
+    public <T extends Temporal> T next(T temporal, int number, String unit) {
+        return performOperation(temporal, number, unit, (t, n) -> (T) t.plus(n, UNIT_MAPPING.get(unit)));
+    }
+
+    /**
+     * Returns the temporal object that is the specified number of units before
+     * the given temporal object.
+     *
+     * @param  temporal                 the temporal object
+     * @param  number                   the number of units
+     * @param  unit                     the unit of time
+     * @param  <T>                      the type of the temporal object
+     * @return                          the temporal object that is the
+     *                                  specified number of units before the
+     *                                  given temporal object
+     * @throws IllegalArgumentException if the unit is invalid
+     */
+    public <T extends Temporal> T previous(T temporal, int number, String unit) {
+        return performOperation(temporal, number, unit, (t, n) -> (T) t.minus(n, UNIT_MAPPING.get(unit)));
+    }
+
+    /**
+     * Adds the specified number of units to the given temporal object.
+     *
+     * @param  temporal                 the temporal object to modify
+     * @param  number                   the number of units to add
+     * @param  unit                     the unit to add
+     * @param  operation                the operation to perform on the temporal
+     *                                  object
+     * @param  <T>                      the type of the temporal object
+     * @return                          the modified temporal object
+     * @throws IllegalArgumentException if the unit is invalid
+     */
+    private <T extends Temporal> T performOperation(
+            T temporal, int number, String unit, TemporalFunction<T> operation
+    ) {
+        return ofNullable(UNIT_MAPPING.get(unit))
+                .map(u -> operation.apply(temporal, number * (u.isDateBased() ? 1 : 7)))
+                .orElseThrow(() -> new IllegalArgumentException("Invalid unit: " + unit));
+    }
+
+    /**
+     * Checks if the given date is a weekend day (Saturday or Sunday).
+     *
+     * @param  date The date to check.
+     * @return      true if the date is a weekend day, false otherwise.
+     */
+    public boolean isWeekend(TemporalAccessor date) {
+        var dayOfWeek = DayOfWeek.from(date);
+        return dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY;
+    }
+
+    private interface TemporalFunction<T extends Temporal> extends BiFunction<Temporal, Integer, T> {
+        @Override
+        T apply(Temporal temporal, Integer number);
     }
 }
