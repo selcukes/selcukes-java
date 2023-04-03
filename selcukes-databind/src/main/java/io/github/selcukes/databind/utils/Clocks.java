@@ -30,6 +30,8 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Map;
+import java.util.function.Function;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
 import static java.util.Optional.ofNullable;
@@ -43,6 +45,11 @@ public final class Clocks {
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String DATE_TIME_FILE_FORMAT = "ddMMMyyyy-hh-mm-ss";
     public static final String TIMESTAMP_FORMAT = "MM/dd/yyyy hh:mm:ss";
+    private static final Map<String, Function<Duration, Long>> DURATION_FUNCTIONS = Map.of(
+        "days", Duration::toDays,
+        "hours", Duration::toHours,
+        "minutes", Duration::toMinutes,
+        "seconds", Duration::getSeconds);
 
     /**
      * Return the current date.
@@ -267,18 +274,8 @@ public final class Clocks {
      */
     public long difference(Temporal start, Temporal end, String unit) {
         Duration duration = Duration.between(start, end);
-        switch (unit.toLowerCase()) {
-            case "days":
-                return duration.toDays();
-            case "hours":
-                return duration.toHours();
-            case "minutes":
-                return duration.toMinutes();
-            case "seconds":
-                return duration.getSeconds();
-            default:
-                throw new IllegalArgumentException("Unsupported unit: " + unit);
-        }
+        return ofNullable(DURATION_FUNCTIONS.get(unit.toLowerCase()))
+                .map(func -> func.apply(duration))
+                .orElseThrow(() -> new IllegalArgumentException("Unsupported unit: " + unit));
     }
-
 }
