@@ -22,6 +22,7 @@ import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.os.Platform;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
@@ -128,26 +129,29 @@ public class Shell {
     }
 
     /**
-     * Starts a new process with the given service path.
+     * Starts a process using the specified command and saves the output to a
+     * file.
      *
-     * @param  servicePath      the path to the service executable to start
-     * @return                  the Process object representing the started
-     *                          process
-     * @throws CommandException if the process fails to start
+     * @param  command          the command to execute as a string.
+     * @param  outputFilePath   the path to the file where the output of the
+     *                          command will be saved.
+     * @return                  the {@code Process} object representing the
+     *                          newly started process.
+     * @throws CommandException if an error occurs while starting the process.
      */
-    public static Process startProcess(String servicePath) {
-        var processBuilder = new ProcessBuilder(servicePath);
-        processBuilder.inheritIO();
-        String command = String.join(" ", processBuilder.command());
+    public static Process startProcess(String command, String outputFilePath) {
+        var processBuilder = new ProcessBuilder(command.split("\\s"));
+        var outputFile = new File(outputFilePath);
+        processBuilder.redirectErrorStream(true);
+        processBuilder.redirectOutput(ProcessBuilder.Redirect.appendTo(outputFile));
         logger.info(() -> String.format("Starting process: %s", command));
         try {
-            Process process = processBuilder.start();
-            logger.info(() -> servicePath + " started...");
+            var process = processBuilder.start();
+            logger.info(() -> command + " started...");
             return process;
         } catch (IOException e) {
-            String message = String.format("Unable to start process '%s': %s", servicePath, e.getMessage());
+            String message = String.format("Unable to start process '%s': %s", command, e.getMessage());
             throw new CommandException(message, e);
         }
     }
-
 }
