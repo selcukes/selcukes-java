@@ -11,6 +11,10 @@
 ### Fixed
 
 ### Removed
+## [2.2.8] (04-04-2023)
+
+### Changed
+* [Internal Changes] Conducted a thorough code cleanup and refactoring to improve the code quality and readability. No changes were made to the functionality or features of the software
 
 ## [2.2.7] (30-03-2023)
 
