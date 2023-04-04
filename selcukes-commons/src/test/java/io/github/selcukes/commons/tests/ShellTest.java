@@ -23,7 +23,7 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 public class ShellTest {
-    private final String TEST_COMMAND = "echo Hello World!";
+    private final String TEST_COMMAND = "echo Hello World!"; // For windows prefix "cmd.exe /c "
 
     @Test
     public void testRunCommand() {
