@@ -16,11 +16,11 @@
 
 package io.github.selcukes.databind.utils;
 
+import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
 import java.time.DateTimeException;
 import java.time.DayOfWeek;
-import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,11 +31,11 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
+import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.TemporalUnit;
 import java.util.Map;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
 import static java.util.Optional.ofNullable;
@@ -49,11 +49,13 @@ public final class Clocks {
     public static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String DATE_TIME_FILE_FORMAT = "ddMMMyyyy-hh-mm-ss";
     public static final String TIMESTAMP_FORMAT = "MM/dd/yyyy hh:mm:ss";
-    private static final Map<String, Function<Duration, Long>> DURATION_FUNCTIONS = Map.of(
-        "days", Duration::toDays,
-        "hours", Duration::toHours,
-        "minutes", Duration::toMinutes,
-        "seconds", Duration::getSeconds);
+    private static final Map<String, TemporalAdjuster> ADJUSTERS = Map.of(
+        "firstDayOfMonth", TemporalAdjusters.firstDayOfMonth(),
+        "lastDayOfMonth", TemporalAdjusters.lastDayOfMonth(),
+        "firstDayOfNextMonth", TemporalAdjusters.firstDayOfNextMonth(),
+        "firstDayOfYear", TemporalAdjusters.firstDayOfYear(),
+        "lastDayOfYear", TemporalAdjusters.lastDayOfYear(),
+        "firstDayOfNextYear", TemporalAdjusters.firstDayOfNextYear());
     private static final Map<String, TemporalUnit> UNIT_MAPPING = Map.of(
         "years", ChronoUnit.YEARS,
         "months", ChronoUnit.MONTHS,
@@ -257,17 +259,20 @@ public final class Clocks {
     }
 
     /**
-     * Returns the last day of the month for the given temporal object.
+     * Adjusts a temporal object using the specified TemporalAdjuster identified
+     * by the given name.
      *
-     * @param  temporal          the temporal object to get the last day of the
-     *                           month from.
-     * @return                   the last day of the month for the given
-     *                           temporal object.
-     * @throws DateTimeException if the temporal object cannot be converted to a
-     *                           {@code Temporal}.
+     * @param  temporal                 the temporal object to adjust
+     * @param  name                     the name of the TemporalAdjuster to use
+     *                                  for adjustment
+     * @return                          the adjusted temporal object of type T
+     * @throws IllegalArgumentException if the specified name is unknown
      */
-    public <T extends Temporal> T lastDayOfMonth(T temporal) {
-        return (T) temporal.with(TemporalAdjusters.lastDayOfMonth());
+    public <T extends Temporal> T adjust(T temporal, @NonNull String name) {
+        return ofNullable(ADJUSTERS.get(name))
+                .map(temporal::with)
+                .map(t -> (T) t)
+                .orElseThrow(() -> new IllegalArgumentException("Unknown adjustment: " + name));
     }
 
     /**
@@ -284,10 +289,8 @@ public final class Clocks {
      * @throws IllegalArgumentException if the specified unit is not supported.
      */
     public long difference(Temporal start, Temporal end, String unit) {
-        Duration duration = Duration.between(start, end);
-        return ofNullable(DURATION_FUNCTIONS.get(unit.toLowerCase()))
-                .map(func -> func.apply(duration))
-                .orElseThrow(() -> new IllegalArgumentException("Unsupported unit: " + unit));
+        var chronoUnit = ChronoUnit.valueOf(unit.toUpperCase());
+        return chronoUnit.between(start, end);
     }
 
     /**

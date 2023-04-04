@@ -118,11 +118,14 @@ public class ClocksTest {
     }
 
     @Test
-    public void testLastDayOfMonth() {
+    public void testAdjustment() {
         var inputDate = LocalDate.of(2022, 3, 7);
         var expectedDate = LocalDate.of(2022, 3, 31);
-        var actualDate = Clocks.lastDayOfMonth(inputDate);
+        var actualDate = Clocks.adjust(inputDate, "lastDayOfMonth");
         assertEquals(actualDate, expectedDate);
+
+        var firstDayOfYear = Clocks.adjust(LocalDateTime.now(), "firstDayOfYear");
+        assertEquals(firstDayOfYear.toLocalDate(), LocalDate.of(firstDayOfYear.getYear(), 1, 1));
     }
 
     @Test
