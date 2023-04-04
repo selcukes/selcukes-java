@@ -119,9 +119,10 @@ public class Shell {
         AtomicInteger count = new AtomicInteger(0);
         ProcessHandle.allProcesses()
                 .filter(process -> process.info().command()
-                        .map(command -> command.endsWith(processName))
+                        .map(command -> command.toLowerCase().endsWith(processName.toLowerCase()))
                         .orElse(false))
                 .forEach(process -> {
+                    logger.debug(() -> String.format("Killing process with PID %d", process.pid()));
                     process.destroyForcibly();
                     count.incrementAndGet();
                 });
