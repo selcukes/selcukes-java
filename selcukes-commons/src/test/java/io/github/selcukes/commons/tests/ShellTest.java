@@ -23,7 +23,8 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 public class ShellTest {
-    private final String TEST_COMMAND = "echo Hello World!"; // For windows prefix "cmd.exe /c "
+    // For windows prefix "cmd.exe /c "
+    private final String TEST_COMMAND = "echo Hello World!";
 
     @Test
     public void testRunCommand() {
@@ -42,8 +43,7 @@ public class ShellTest {
 
     @Test
     public void testStartAndKillProcess() {
-        Process process =
-                Shell.startProcess("ping localhost -t","sample.txt");
+        Process process = Shell.startProcess("ping localhost -t", "sample.txt");
         Shell.killProcess("ping.exe");
         Assert.assertFalse(process.isAlive());
     }
