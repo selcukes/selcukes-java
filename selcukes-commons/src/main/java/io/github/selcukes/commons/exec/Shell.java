@@ -144,10 +144,11 @@ public class Shell {
         var outputFile = new File(outputFilePath);
         processBuilder.redirectErrorStream(true);
         processBuilder.redirectOutput(ProcessBuilder.Redirect.appendTo(outputFile));
-        logger.info(() -> String.format("Starting process: %s", command));
+        logger.debug(() -> String.format("Starting process: %s", command));
         try {
             var process = processBuilder.start();
-            logger.info(() -> command + " started...");
+            Await.until(1);
+            logger.debug(() -> command + " started...");
             return process;
         } catch (IOException e) {
             String message = String.format("Unable to start process '%s': %s", command, e.getMessage());
