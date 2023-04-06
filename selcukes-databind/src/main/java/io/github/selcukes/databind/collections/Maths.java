@@ -19,11 +19,11 @@ package io.github.selcukes.databind.collections;
 import lombok.experimental.UtilityClass;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.function.BinaryOperator;
 
 @UtilityClass
 public class Maths {
+
     /**
      * Returns a binary operator that performs decimal calculations using the
      * specified operator.
@@ -35,17 +35,12 @@ public class Maths {
      * @throws IllegalArgumentException if the input is invalid.
      */
     public BinaryOperator<String> of(BinaryOperator<BigDecimal> operator) {
-        var decimalFormat = new DecimalFormat("#,##0.00");
-        decimalFormat.setParseBigDecimal(true);
         return (s1, s2) -> {
-            try {
-                var value1 = (BigDecimal) decimalFormat.parse(s1);
-                var value2 = (BigDecimal) decimalFormat.parse(s2);
-                var result = operator.apply(value1, value2);
-                return decimalFormat.format(result);
-            } catch (Exception e) {
-                throw new IllegalArgumentException("Invalid input: " + e.getMessage());
-            }
+            var numbers = Numbers.getInstance();
+            var value1 = numbers.parseBigDecimal(s1);
+            var value2 = numbers.parseBigDecimal(s2);
+            var result = operator.apply(value1, value2);
+            return numbers.format(result);
         };
     }
 }
