@@ -27,7 +27,7 @@ public class NumbersTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testToBigDecimal() {
-        Numbers numbers = Numbers.getInstance();
+        Numbers numbers = new Numbers();
 
         // Test converting valid string input to BigDecimal
         String validNumber = "123,456.78";
@@ -49,7 +49,7 @@ public class NumbersTest {
 
     @Test
     public void testFormat() {
-        Numbers numbers = Numbers.getInstance();
+        Numbers numbers = new Numbers();
         // Test formatting positive BigDecimal
         BigDecimal positiveNumber = new BigDecimal("123456.78");
         String expected = "123,456.78";

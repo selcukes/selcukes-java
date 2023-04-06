@@ -20,47 +20,61 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 
+/**
+ * Utility class for parsing and formatting decimal numbers using a specified
+ * pattern. This class uses a {@link DecimalFormat} object to perform the
+ * parsing and formatting. The default pattern used by the class is "#,##0.00",
+ * which formats numbers with thousands separators and two decimal places.
+ */
 public final class Numbers {
 
-    private final DecimalFormat defaultDecimalFormat;
-    private static volatile Numbers numbers;
+    /**
+     * The default decimal format used by this class.
+     */
+    private final DecimalFormat decimalFormat;
 
-    private Numbers() {
-        defaultDecimalFormat = new DecimalFormat("#,##0.00");
-        defaultDecimalFormat.setParseBigDecimal(true);
-    }
-
-    public static synchronized Numbers getInstance() {
-        if (numbers == null) {
-            numbers = new Numbers();
-        }
-        return numbers;
+    /**
+     * Constructs a new Numbers object with the specified pattern.
+     *
+     * @param pattern the pattern used to format and parse decimal numbers
+     */
+    public Numbers(String pattern) {
+        this.decimalFormat = new DecimalFormat(pattern);
+        this.decimalFormat.setParseBigDecimal(true);
     }
 
     /**
-     * Parses the specified string into a BigDecimal using the default format.
+     * Constructs a new Numbers object with the default pattern "#,##0.00".
+     */
+    public Numbers() {
+        this("#,##0.00");
+    }
+
+    /**
+     * Parses the specified string into a {@link BigDecimal} using the default
+     * format.
      *
-     * @param  number                   the string to be parsed.
-     * @return                          the BigDecimal represented by the string
-     *                                  argument.
-     * @throws IllegalArgumentException if the string is not in a valid format.
+     * @param  number                   the string to be parsed
+     * @return                          the {@link BigDecimal} represented by
+     *                                  the string argument
+     * @throws IllegalArgumentException if the string is not in a valid format
      */
     public BigDecimal parseBigDecimal(String number) {
         try {
-            return number.isBlank() ? BigDecimal.ZERO : (BigDecimal) defaultDecimalFormat.parse(number);
+            return number.isBlank() ? BigDecimal.ZERO : (BigDecimal) this.decimalFormat.parse(number);
         } catch (ParseException e) {
             throw new IllegalArgumentException("Invalid input: " + number, e);
         }
     }
 
     /**
-     * Formats the specified BigDecimal using the default format.
+     * Formats the specified {@link BigDecimal} using the default format.
      *
-     * @param  bigDecimal the BigDecimal to be formatted.
-     * @return            the string representation of the BigDecimal in the
-     *                    default format.
+     * @param  bigDecimal the {@link BigDecimal} to be formatted
+     * @return            the string representation of the {@link BigDecimal} in
+     *                    the default format
      */
     public String format(BigDecimal bigDecimal) {
-        return defaultDecimalFormat.format(bigDecimal);
+        return this.decimalFormat.format(bigDecimal);
     }
 }
