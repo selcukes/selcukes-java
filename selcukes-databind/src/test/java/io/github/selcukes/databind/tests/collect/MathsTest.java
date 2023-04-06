@@ -26,7 +26,7 @@ import java.util.function.BinaryOperator;
 public class MathsTest {
 
     @Test
-    public void testOf() {
+    public void testOfWithValidInputs() {
         // Test addition operation
         BinaryOperator<String> addOp = Maths.of(BigDecimal::add);
         String expected = "10,000.00";
@@ -52,4 +52,13 @@ public class MathsTest {
         Assert.assertEquals(actual, expected);
 
     }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testOfWithInvalidInputs() {
+        BinaryOperator<String> addOp = Maths.of(BigDecimal::add);
+        String invalidS1 = "abc";
+        String invalidS2 = "def";
+        addOp.apply(invalidS1, invalidS2);
+    }
+
 }
