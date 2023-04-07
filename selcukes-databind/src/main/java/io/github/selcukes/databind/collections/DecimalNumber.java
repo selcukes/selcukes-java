@@ -87,24 +87,13 @@ public final class DecimalNumber {
     }
 
     /**
-     * Formats the specified {@link BigDecimal} using the default format.
+     * Formats the specified number using the default format.
      *
-     * @param  bigDecimal the {@link BigDecimal} to be formatted
-     * @return            the string representation of the {@link BigDecimal} in
-     *                    the default format
+     * @param  number the number to be formatted
+     * @return        the string representation of the number in the default
+     *                format
      */
-    public String format(BigDecimal bigDecimal) {
-        return this.decimalFormat.format(bigDecimal);
-    }
-
-    /**
-     * Formats the specified {@code double} using the default format.
-     *
-     * @param  number the {@code double} to be formatted
-     * @return        the string representation of the {@code double} in the
-     *                default format
-     */
-    public String format(double number) {
+    public String format(Number number) {
         return this.decimalFormat.format(number);
     }
 
