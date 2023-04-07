@@ -36,11 +36,11 @@ public class Maths {
      */
     public BinaryOperator<String> of(BinaryOperator<BigDecimal> operator) {
         return (s1, s2) -> {
-            var numbers = new Numbers();
-            var value1 = numbers.parseBigDecimal(s1);
-            var value2 = numbers.parseBigDecimal(s2);
+            var number = new DecimalNumber();
+            var value1 = number.parseBigDecimal(s1);
+            var value2 = number.parseBigDecimal(s2);
             var result = operator.apply(value1, value2);
-            return numbers.format(result);
+            return number.format(result);
         };
     }
 }

@@ -16,9 +16,14 @@
 
 package io.github.selcukes.databind.collections;
 
+import lombok.NonNull;
+
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
+import java.util.Locale;
 
 /**
  * Utility class for parsing and formatting decimal numbers using a specified
@@ -26,7 +31,7 @@ import java.text.ParseException;
  * parsing and formatting. The default pattern used by the class is "#,##0.00",
  * which formats numbers with thousands separators and two decimal places.
  */
-public final class Numbers {
+public final class DecimalNumber {
 
     /**
      * The default decimal format used by this class.
@@ -34,19 +39,20 @@ public final class Numbers {
     private final DecimalFormat decimalFormat;
 
     /**
-     * Constructs a new Numbers object with the specified pattern.
+     * Constructs a new DecimalNumber object with the specified pattern.
      *
      * @param pattern the pattern used to format and parse decimal numbers
      */
-    public Numbers(String pattern) {
+    public DecimalNumber(String pattern) {
         this.decimalFormat = new DecimalFormat(pattern);
         this.decimalFormat.setParseBigDecimal(true);
     }
 
     /**
-     * Constructs a new Numbers object with the default pattern "#,##0.00".
+     * Constructs a new DecimalNumber object with the default pattern
+     * "#,##0.00".
      */
-    public Numbers() {
+    public DecimalNumber() {
         this("#,##0.00");
     }
 
@@ -59,12 +65,25 @@ public final class Numbers {
      *                                  the string argument
      * @throws IllegalArgumentException if the string is not in a valid format
      */
-    public BigDecimal parseBigDecimal(String number) {
+    public BigDecimal parseBigDecimal(@NonNull String number) {
         try {
             return number.isBlank() ? BigDecimal.ZERO : (BigDecimal) this.decimalFormat.parse(number);
         } catch (ParseException e) {
             throw new IllegalArgumentException("Invalid input: " + number, e);
         }
+    }
+
+    /**
+     * Parses the specified string into a {@code double} using the default
+     * format.
+     *
+     * @param  number                   the string to be parsed
+     * @return                          the {@code double} represented by the
+     *                                  string argument
+     * @throws IllegalArgumentException if the string is not in a valid format
+     */
+    public double parseDouble(@NonNull String number) {
+        return parseBigDecimal(number).doubleValue();
     }
 
     /**
@@ -76,5 +95,35 @@ public final class Numbers {
      */
     public String format(BigDecimal bigDecimal) {
         return this.decimalFormat.format(bigDecimal);
+    }
+
+    /**
+     * Formats the specified {@code double} using the default format.
+     *
+     * @param  number the {@code double} to be formatted
+     * @return        the string representation of the {@code double} in the
+     *                default format
+     */
+    public String format(double number) {
+        return this.decimalFormat.format(number);
+    }
+
+    /**
+     * Sets the rounding mode used by this instance of {@code DecimalNumber}.
+     *
+     * @param roundingMode the rounding mode to be used
+     */
+    public void setRoundingMode(RoundingMode roundingMode) {
+        this.decimalFormat.setRoundingMode(roundingMode);
+    }
+
+    /**
+     * Sets the locale used by this instance of {@code DecimalNumber}.
+     *
+     * @param locale the locale to be used
+     */
+    public void setLocale(Locale locale) {
+        var symbol = new DecimalFormatSymbols(locale);
+        this.decimalFormat.setDecimalFormatSymbols(symbol);
     }
 }
