@@ -1,7 +1,0 @@
-name: Parallel Test Suite
-parallel: "methods"
-threadCount: 2
-tests:
-  - name: Validation Test
-    classes:
-      - name: io.github.selcukes.core.tests.ValidationTest

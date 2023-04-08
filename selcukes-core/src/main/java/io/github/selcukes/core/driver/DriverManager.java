@@ -36,23 +36,9 @@ public class DriverManager {
     private static final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
     private static final Map<Integer, Object> STORED_DRIVER = new ConcurrentHashMap<>();
 
-    public synchronized <D extends WebDriver> D createWebDriver(Capabilities... capabilities) {
+    public synchronized <D extends WebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
         if (getDriver() == null) {
-            setDriver(DriverFactory.create(DeviceType.BROWSER, capabilities));
-        }
-        return getDriver();
-    }
-
-    public synchronized <D extends WebDriver> D createWinDriver(Capabilities... capabilities) {
-        if (getDriver() == null) {
-            setDriver(DriverFactory.create(DeviceType.DESKTOP, capabilities));
-        }
-        return getDriver();
-    }
-
-    public synchronized <D extends WebDriver> D createMobileDriver(Capabilities... capabilities) {
-        if (getDriver() == null) {
-            setDriver(DriverFactory.create(DeviceType.MOBILE, capabilities));
+            setDriver(DriverFactory.create(deviceType, capabilities));
         }
         return getDriver();
     }

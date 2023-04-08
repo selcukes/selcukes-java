@@ -60,7 +60,7 @@ public class DriverFactory {
      * @throws DriverSetupException if a driver session cannot be created for
      *                              the given device type
      */
-    public synchronized WebDriver create(DeviceType deviceType, Capabilities... capabilities) throws DriverSetupException {
+    public synchronized WebDriver create(DeviceType deviceType, Capabilities... capabilities) {
         // Set user options if any are provided
         Arrays.stream(capabilities).findAny().ifPresent(AppiumOptions::setUserOptions);
 
