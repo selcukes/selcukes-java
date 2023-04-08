@@ -31,7 +31,7 @@ import static io.github.selcukes.core.driver.RunMode.isLocalAppium;
 import static java.util.Optional.ofNullable;
 
 @CustomLog
-public class AppiumManager implements RemoteManager {
+class AppiumManager implements RemoteManager {
 
     @Override
     public WebDriver createDriver() {

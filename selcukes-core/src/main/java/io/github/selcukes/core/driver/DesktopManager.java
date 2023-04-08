@@ -28,7 +28,7 @@ import java.util.Objects;
 import static java.util.Optional.ofNullable;
 
 @CustomLog
-public class DesktopManager extends AppiumManager {
+class DesktopManager extends AppiumManager {
 
     @Override
     public synchronized WebDriver createDriver() {

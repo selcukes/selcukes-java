@@ -16,25 +16,18 @@
 
 package io.github.selcukes.core.driver;
 
-import io.appium.java_client.windows.WindowsDriver;
-import io.github.selcukes.commons.exception.DriverSetupException;
 import io.github.selcukes.commons.fixture.DriverFixture;
 import io.github.selcukes.core.enums.DeviceType;
-import io.github.selcukes.core.listener.EventCapture;
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WrapsDriver;
-import org.openqa.selenium.support.events.EventFiringDecorator;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Supplier;
 
 import static java.lang.String.format;
-import static java.util.Optional.ofNullable;
 
 @CustomLog
 @UtilityClass
@@ -43,22 +36,23 @@ public class DriverManager {
     private static final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
     private static final Map<Integer, Object> STORED_DRIVER = new ConcurrentHashMap<>();
 
-    public synchronized <D extends WebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
-        Arrays.stream(capabilities).findAny().ifPresent(AppiumOptions::setUserOptions);
+    public synchronized <D extends WebDriver> D createWebDriver(Capabilities... capabilities) {
         if (getDriver() == null) {
-            logger.info(() -> format("Creating new %s session...", deviceType));
-            Map<DeviceType, Supplier<RemoteManager>> driverManagerMap = Map.of(
-                DeviceType.BROWSER, WebManager::new,
-                DeviceType.DESKTOP, DesktopManager::new,
-                DeviceType.MOBILE, AppiumManager::new);
-            var remoteManager = ofNullable(driverManagerMap.get(deviceType))
-                    .map(Supplier::get)
-                    .orElseThrow(
-                        () -> new DriverSetupException(
-                            "Unable to create new driver session for Driver Type[" + deviceType + "]"));
-            var webDriver = remoteManager.createDriver();
-            setDriver(webDriver instanceof WindowsDriver ? webDriver
-                    : new EventFiringDecorator<>(new EventCapture()).decorate(webDriver));
+            setDriver(DriverFactory.create(DeviceType.BROWSER, capabilities));
+        }
+        return getDriver();
+    }
+
+    public synchronized <D extends WebDriver> D createWinDriver(Capabilities... capabilities) {
+        if (getDriver() == null) {
+            setDriver(DriverFactory.create(DeviceType.DESKTOP, capabilities));
+        }
+        return getDriver();
+    }
+
+    public synchronized <D extends WebDriver> D createMobileDriver(Capabilities... capabilities) {
+        if (getDriver() == null) {
+            setDriver(DriverFactory.create(DeviceType.MOBILE, capabilities));
         }
         return getDriver();
     }

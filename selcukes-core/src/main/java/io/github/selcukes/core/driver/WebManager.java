@@ -30,7 +30,7 @@ import static io.github.selcukes.core.driver.RunMode.isLocalBrowser;
 import static java.util.Optional.ofNullable;
 
 @CustomLog
-public class WebManager implements RemoteManager {
+class WebManager implements RemoteManager {
 
     public synchronized WebDriver createDriver() {
         String browser = ConfigFactory.getConfig().getWeb().getBrowser().toUpperCase();

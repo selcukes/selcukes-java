@@ -18,11 +18,9 @@ package io.github.selcukes.core.tests.mobile;
 
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.github.selcukes.commons.annotation.Lifecycle;
-import io.github.selcukes.core.driver.DriverManager;
-import io.github.selcukes.core.enums.DeviceType;
 import io.github.selcukes.core.page.MobilePage;
+import io.github.selcukes.core.page.Pages;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -34,13 +32,12 @@ public class AndroidCalculatorTest {
 
     @BeforeMethod
     void beforeTest() {
-        UiAutomator2Options options = new UiAutomator2Options();
+        var options = new UiAutomator2Options();
         options.setAppPackage("com.android.calculator2");
         options.setAppActivity("com.android.calculator2.Calculator");
         options.setNewCommandTimeout(Duration.ofSeconds(11));
         options.setFullReset(false);
-        WebDriver driver = DriverManager.createDriver(DeviceType.MOBILE, options);
-        page = new MobilePage(driver);
+        page = Pages.mobilePage(options);
     }
 
     @Test(enabled = false)
