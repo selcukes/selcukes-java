@@ -20,7 +20,6 @@ import io.appium.java_client.windows.WindowsDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 
 import java.net.URL;
@@ -36,8 +35,8 @@ public class DesktopManager extends AppiumManager {
 
         logger.debug(() -> "Initiating New Desktop Session...");
         String app = ConfigFactory.getConfig().getWindows().getApp();
-        URL serviceUrl = Objects.requireNonNull(getServiceUrl());
-        Capabilities capabilities = ofNullable(AppiumOptions.getUserOptions())
+        var serviceUrl = Objects.requireNonNull(getServiceUrl());
+        var capabilities = ofNullable(AppiumOptions.getUserOptions())
                 .orElse(AppiumOptions.getWinAppOptions(app));
         return new WindowsDriver(serviceUrl, capabilities);
     }

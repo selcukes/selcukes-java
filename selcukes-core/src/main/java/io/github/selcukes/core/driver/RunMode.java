@@ -20,13 +20,13 @@ import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.os.Platform;
 import lombok.experimental.UtilityClass;
 
-import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
+import static io.github.selcukes.databind.utils.StringHelper.isNonEmpty;
 
 @UtilityClass
 public class RunMode {
     static boolean isCloudAppium() {
         String cloud = ConfigFactory.getConfig().getMobile().getCloud();
-        return !isNullOrEmpty(cloud);
+        return isNonEmpty(cloud);
     }
 
     static boolean isLocalAppium() {
@@ -39,7 +39,7 @@ public class RunMode {
 
     static boolean isCloudBrowser() {
         String cloud = ConfigFactory.getConfig().getWeb().getCloud();
-        return !isNullOrEmpty(cloud);
+        return isNonEmpty(cloud);
     }
 
     boolean isHeadless() {

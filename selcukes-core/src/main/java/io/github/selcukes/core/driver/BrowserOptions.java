@@ -22,14 +22,11 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.Browser;
 
 import static org.openqa.selenium.remote.Browser.CHROME;
 import static org.openqa.selenium.remote.Browser.EDGE;
 import static org.openqa.selenium.remote.Browser.FIREFOX;
-import static org.openqa.selenium.remote.Browser.IE;
 
 @UtilityClass
 public class BrowserOptions {
@@ -38,7 +35,7 @@ public class BrowserOptions {
     public static Capabilities getBrowserOptions(Browser browser, String platform) {
         boolean isHeadless = RunMode.isHeadless();
         if (EDGE.equals(browser)) {
-            EdgeOptions edgeOptions = new EdgeOptions();
+            var edgeOptions = new EdgeOptions();
             if (isHeadless) {
                 edgeOptions.addArguments(HEADLESS);
             }
@@ -47,21 +44,13 @@ public class BrowserOptions {
             }
             return edgeOptions;
         } else if (FIREFOX.equals(browser)) {
-            FirefoxOptions firefoxOptions = new FirefoxOptions();
+            var firefoxOptions = new FirefoxOptions();
             if (isHeadless) {
                 firefoxOptions.addArguments(HEADLESS);
             }
             return firefoxOptions;
-        } else if (IE.equals(browser)) {
-            InternetExplorerOptions ieOptions = new InternetExplorerOptions().requireWindowFocus();
-            ieOptions.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-            ieOptions.setCapability(InternetExplorerDriver.IGNORE_ZOOM_SETTING, true);
-            ieOptions.setCapability("ignoreProtectedModeSettings", true);
-            ieOptions.setCapability("disable-popup-blocking", true);
-            ieOptions.setCapability("enablePersistentHover", true);
-            return ieOptions;
         }
-        ChromeOptions chromeOptions = new ChromeOptions();
+        var chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--remote-allow-origins=*");
         if (isHeadless) {
             chromeOptions.addArguments(HEADLESS);
@@ -76,8 +65,6 @@ public class BrowserOptions {
     public Browser valueOf(String browserName) {
         if (browserName.equalsIgnoreCase("MicroSoftEdge")) {
             return EDGE;
-        } else if (browserName.equalsIgnoreCase("internet explorer")) {
-            return IE;
         } else if (browserName.equalsIgnoreCase("Firefox")) {
             return FIREFOX;
         } else {

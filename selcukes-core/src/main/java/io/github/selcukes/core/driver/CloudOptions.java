@@ -63,9 +63,9 @@ public class CloudOptions {
 
     @Data
     @DataFile
-    static class BrowserStack {
-        String url;
-        Map<String, String> capabilities;
-        Map<String, String> environments;
+    private static class BrowserStack {
+        private String url;
+        private Map<String, String> capabilities;
+        private Map<String, String> environments;
     }
 }
