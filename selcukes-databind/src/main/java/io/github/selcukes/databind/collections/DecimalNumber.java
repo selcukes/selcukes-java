@@ -26,10 +26,14 @@ import java.text.ParseException;
 import java.util.Locale;
 
 /**
- * Utility class for parsing and formatting decimal numbers using a specified
- * pattern. This class uses a {@link DecimalFormat} object to perform the
- * parsing and formatting. The default pattern used by the class is "#,##0.00",
- * which formats numbers with thousands separators and two decimal places.
+ * This class provides functionality for parsing and formatting decimal numbers
+ * using a specified pattern.
+ * <p>
+ * It uses a {@link DecimalFormat} object to perform the parsing and formatting
+ * operations.
+ * <p>
+ * By default, the class uses the pattern "#,##0.00" to format numbers with
+ * thousands separators and two decimal places.
  */
 public final class DecimalNumber {
 
