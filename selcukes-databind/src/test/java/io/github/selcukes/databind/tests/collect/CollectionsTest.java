@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.tests;
+package io.github.selcukes.databind.tests.collect;
 
 import io.github.selcukes.databind.collections.Lists;
 import io.github.selcukes.databind.collections.Streams;
