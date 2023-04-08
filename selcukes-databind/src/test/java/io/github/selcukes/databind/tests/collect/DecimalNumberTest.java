@@ -111,7 +111,7 @@ public class DecimalNumberTest {
     public void testSetLocale() {
         decimalNumber.setLocale(Locale.FRANCE);
         String actual = decimalNumber.format(new BigDecimal("100000.50"));
-        String expected = "100 000,50";
+        String expected = "100 000,50";
         assertEquals(actual, expected);
     }
 
