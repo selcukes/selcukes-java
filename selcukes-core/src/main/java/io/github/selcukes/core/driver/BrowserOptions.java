@@ -16,7 +16,6 @@
 
 package io.github.selcukes.core.driver;
 
-import io.github.selcukes.databind.utils.StringHelper;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -24,6 +23,7 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.Browser;
 
+import static io.github.selcukes.databind.utils.StringHelper.isNonEmpty;
 import static org.openqa.selenium.remote.Browser.CHROME;
 import static org.openqa.selenium.remote.Browser.EDGE;
 import static org.openqa.selenium.remote.Browser.FIREFOX;
@@ -39,7 +39,7 @@ public class BrowserOptions {
             if (isHeadless) {
                 edgeOptions.addArguments(HEADLESS);
             }
-            if (!StringHelper.isNullOrEmpty(platform)) {
+            if (isNonEmpty(platform)) {
                 edgeOptions.setPlatformName(platform);
             }
             return edgeOptions;
@@ -55,7 +55,7 @@ public class BrowserOptions {
         if (isHeadless) {
             chromeOptions.addArguments(HEADLESS);
         }
-        if (!StringHelper.isNullOrEmpty(platform)) {
+        if (isNonEmpty(platform)) {
             chromeOptions.setPlatformName(platform);
         }
         return chromeOptions;
