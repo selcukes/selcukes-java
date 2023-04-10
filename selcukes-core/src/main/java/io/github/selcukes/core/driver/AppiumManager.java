@@ -52,9 +52,12 @@ class AppiumManager implements RemoteManager {
     }
 
     private String serviceUrl() {
-        return isLocalAppium() ? AppiumEngine.getInstance().getServiceUrl().toString()
-                : isCloudAppium() ? CloudOptions.browserStackUrl()
-                        : ConfigFactory.getConfig().getMobile().getServiceUrl();
+        if (isLocalAppium()) {
+            return AppiumEngine.getInstance().getServiceUrl().toString();
+        } else if (isCloudAppium()) {
+            return CloudOptions.browserStackUrl();
+        }
+        return ConfigFactory.getConfig().getMobile().getServiceUrl();
     }
 
     public WebDriver createBrowserDriver(Capabilities capabilities, String browser) {
