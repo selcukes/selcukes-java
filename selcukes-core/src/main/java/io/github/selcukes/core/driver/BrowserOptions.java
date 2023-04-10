@@ -50,16 +50,16 @@ public class BrowserOptions {
                 firefoxOptions.addArguments(HEADLESS);
             }
             return firefoxOptions;
+        } else {
+            var chromeOptions = new ChromeOptions();
+            if (isHeadless) {
+                chromeOptions.addArguments(NEW_HEADLESS);
+            }
+            if (isNonEmpty(platform)) {
+                chromeOptions.setPlatformName(platform);
+            }
+            return chromeOptions;
         }
-        var chromeOptions = new ChromeOptions();
-        if (isHeadless) {
-            chromeOptions.addArguments(NEW_HEADLESS);
-        }
-        if (isNonEmpty(platform)) {
-            chromeOptions.setPlatformName(platform);
-        }
-        return chromeOptions;
-
     }
 
     public Browser valueOf(String browserName) {
