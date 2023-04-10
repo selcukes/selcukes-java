@@ -25,11 +25,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -228,4 +229,21 @@ public class Resources {
         }
     }
 
+    /**
+     * Returns a new URI object by parsing the given URI string.
+     *
+     * @param  uriStr                   the URI string to be parsed into a URI
+     *                                  object
+     * @return                          the URI object representing the parsed
+     *                                  URI string
+     * @throws IllegalArgumentException if the URI string is invalid and cannot
+     *                                  be parsed
+     */
+    public URI toURI(String uriStr) {
+        try {
+            return new URI(uriStr);
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException("Invalid URI string: " + uriStr, e);
+        }
+    }
 }

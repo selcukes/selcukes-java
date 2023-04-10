@@ -22,7 +22,6 @@ import lombok.SneakyThrows;
 
 import java.net.InetSocketAddress;
 import java.net.ProxySelector;
-import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
@@ -43,11 +42,10 @@ public class WebClient {
     private HttpRequest.Builder requestBuilder;
     private BodyPublisher bodyPublisher;
 
-    @SneakyThrows
-    public WebClient(final String url) {
+    public WebClient(final String uri) {
         clientBuilder = HttpClient.newBuilder();
         requestBuilder = HttpRequest.newBuilder()
-                .uri(new URI(url));
+                .uri(Resources.toURI(uri));
     }
 
     /**
