@@ -17,6 +17,7 @@
 package io.github.selcukes.core.driver;
 
 import io.github.selcukes.commons.fixture.DriverFixture;
+import io.github.selcukes.commons.helper.SingletonContext;
 import io.github.selcukes.core.enums.DeviceType;
 import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
@@ -25,8 +26,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WrapsDriver;
 
 import java.util.Arrays;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
 
 import static java.lang.String.format;
 
@@ -35,16 +35,22 @@ import static java.lang.String.format;
 public class DriverManager {
 
     private static final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
-    private static final Map<Integer, Object> STORED_DRIVER = new ConcurrentHashMap<>();
+    private static final SingletonContext<DevicePool> DEVICE_POOL = SingletonContext.with(DevicePool::new);
 
     public synchronized <D extends WebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
-        if (capabilities.length > 0) {
-            Arrays.stream(capabilities).forEach(options -> setDriver(DriverFactory.create(deviceType, options)));
-        }
-        if (getDriver() == null) {
-            setDriver(DriverFactory.create(deviceType, null));
-        }
+        createDevice(deviceType, capabilities);
+        setDriver(DEVICE_POOL.get().getDevice(deviceType, 0));
         return getDriver();
+    }
+
+    public synchronized void createDevice(DeviceType deviceType, Capabilities... capabilities) {
+        if (capabilities.length > 0) {
+            Arrays.stream(capabilities).forEach(
+                options -> DEVICE_POOL.get().addDevice(deviceType, DriverFactory.create(deviceType, options)));
+        }
+        if (DEVICE_POOL.get().getDevices(deviceType).isEmpty()) {
+            DEVICE_POOL.get().addDevice(deviceType, DriverFactory.create(deviceType, null));
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -52,10 +58,13 @@ public class DriverManager {
         return (D) DRIVER_THREAD.get();
     }
 
-    public static <D extends WebDriver> void setDriver(D driver) {
+    public static void switchDriver(DeviceType deviceType, int index) {
+        setDriver(DEVICE_POOL.get().getDevice(deviceType, index));
+    }
+
+    public static void setDriver(Object driver) {
         DRIVER_THREAD.set(driver);
         DriverFixture.setDriverFixture(driver);
-        STORED_DRIVER.putIfAbsent(driver.hashCode(), driver);
     }
 
     public static WebDriver getWrappedDriver() {
@@ -68,8 +77,8 @@ public class DriverManager {
     public static synchronized void removeDriver() {
         try {
             if (getDriver() != null) {
-                STORED_DRIVER.remove(getDriver().hashCode());
                 getDriver().quit();
+                DEVICE_POOL.get().removeDevice(getDriver());
             }
         } finally {
             DRIVER_THREAD.remove();
@@ -77,21 +86,22 @@ public class DriverManager {
     }
 
     public static synchronized void removeAllDrivers() {
-        logger.debug(() -> format("Closing [%d] stored drivers..", STORED_DRIVER.size()));
-
-        STORED_DRIVER.values().stream()
+        DEVICE_POOL.get().getAllDevices().values().stream()
+                .flatMap(List::stream)
                 .filter(WebDriver.class::isInstance)
                 .map(WebDriver.class::cast)
                 .forEach(webDriver -> {
                     try {
                         webDriver.quit();
+                        DEVICE_POOL.get().removeDevice(webDriver);
+                        logger.debug(
+                            () -> format("Closed driver %d and removed from DevicePool.", webDriver.hashCode()));
                     } catch (Exception e) {
                         logger.warn(
                             () -> format("Failed to close driver %d: %s", webDriver.hashCode(), e.getMessage()));
                     }
                 });
-
-        STORED_DRIVER.clear();
         DRIVER_THREAD.remove();
     }
+
 }
