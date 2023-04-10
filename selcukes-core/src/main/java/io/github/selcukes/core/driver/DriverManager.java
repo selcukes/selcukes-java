@@ -64,7 +64,7 @@ public class DriverManager {
      *
      * @return the device pool
      */
-    public DevicePool getDevicePool() {
+    public synchronized DevicePool getDevicePool() {
         return DEVICE_POOL.get();
     }
 
@@ -93,7 +93,7 @@ public class DriverManager {
      * @return     the WebDriver instance for the current thread
      */
     @SuppressWarnings("unchecked")
-    public <D extends WebDriver> D getDriver() {
+    public synchronized <D extends WebDriver> D getDriver() {
         return (D) DRIVER_THREAD.get();
     }
 
@@ -132,7 +132,7 @@ public class DriverManager {
      *         current thread, or the current driver instance if it does not
      *         implement {@link WrapsDriver}.
      */
-    public WebDriver getWrappedDriver() {
+    public synchronized WebDriver getWrappedDriver() {
         if (getDriver() instanceof WrapsDriver) {
             return ((WrapsDriver) getDriver()).getWrappedDriver();
         }
