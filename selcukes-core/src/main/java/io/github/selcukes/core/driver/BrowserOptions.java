@@ -30,7 +30,8 @@ import static org.openqa.selenium.remote.Browser.FIREFOX;
 
 @UtilityClass
 public class BrowserOptions {
-    public static final String HEADLESS = "--headless";
+    private static final String HEADLESS = "--headless";
+    private static final String NEW_HEADLESS = "--headless=new";
 
     public static Capabilities getBrowserOptions(Browser browser, String platform) {
         boolean isHeadless = RunMode.isHeadless();
@@ -51,9 +52,8 @@ public class BrowserOptions {
             return firefoxOptions;
         }
         var chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-allow-origins=*");
         if (isHeadless) {
-            chromeOptions.addArguments(HEADLESS);
+            chromeOptions.addArguments(NEW_HEADLESS);
         }
         if (isNonEmpty(platform)) {
             chromeOptions.setPlatformName(platform);
