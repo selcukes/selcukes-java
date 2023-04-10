@@ -63,4 +63,9 @@ public class DevicePool {
             devicesByObject.remove(device);
         }
     }
+
+    public boolean hasDevice(final DeviceType deviceType, final Object device) {
+        return getDevices(deviceType).contains(device);
+    }
+
 }

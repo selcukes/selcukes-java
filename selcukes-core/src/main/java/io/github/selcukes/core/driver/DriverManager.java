@@ -27,7 +27,6 @@ import org.openqa.selenium.WrapsDriver;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.lang.String.format;
@@ -46,14 +45,15 @@ public class DriverManager {
     }
 
     public synchronized void createDevice(DeviceType deviceType, Capabilities... capabilities) {
-        var devices = Stream.ofNullable(capabilities)
+        var devicePool = DEVICE_POOL.get();
+        Stream.ofNullable(capabilities)
                 .flatMap(Arrays::stream)
+                .filter(options -> !devicePool.hasDevice(deviceType, options))
                 .map(options -> DriverFactory.create(deviceType, options))
-                .collect(Collectors.toList());
-        if (devices.isEmpty()) {
-            devices.add(DriverFactory.create(deviceType, null));
+                .forEach(device -> devicePool.addDevice(deviceType, device));
+        if (devicePool.getDevices(deviceType).isEmpty()) {
+            devicePool.addDevice(deviceType, DriverFactory.create(deviceType, null));
         }
-        devices.forEach(device -> DEVICE_POOL.get().addDevice(deviceType, device));
     }
 
     @SuppressWarnings("unchecked")
