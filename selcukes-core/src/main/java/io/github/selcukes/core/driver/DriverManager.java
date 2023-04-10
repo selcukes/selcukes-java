@@ -31,6 +31,11 @@ import java.util.stream.Stream;
 
 import static java.lang.String.format;
 
+/**
+ * The DriverManager class manages a pool of WebDriver instances and provides
+ * methods for creating, switching, and removing WebDriver instances for
+ * different devices and capabilities.
+ */
 @CustomLog
 @UtilityClass
 public class DriverManager {
@@ -38,17 +43,39 @@ public class DriverManager {
     private static final ThreadLocal<Object> DRIVER_THREAD = new InheritableThreadLocal<>();
     private static final SingletonContext<DevicePool> DEVICE_POOL = SingletonContext.with(DevicePool::new);
 
+    /**
+     * Creates a new driver instance for the specified device type and
+     * capabilities, adds it to the DevicePool, sets it as the current driver
+     * for the current thread, and returns it.
+     *
+     * @param  deviceType   the device type for which the driver instance should
+     *                      be created
+     * @param  capabilities the capabilities for the driver instance
+     * @return              the newly created driver instance
+     */
     public synchronized <D extends WebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
         createDevice(deviceType, capabilities);
         setDriver(DEVICE_POOL.get().getDevice(deviceType, 0));
         return getDriver();
     }
 
+    /**
+     * Returns the device pool.
+     *
+     * @return the device pool
+     */
     public DevicePool getDevicePool() {
         return DEVICE_POOL.get();
     }
 
-    public synchronized void createDevice(DeviceType deviceType, Capabilities... capabilities) {
+    /**
+     * Creates a new device with the specified device type and capabilities, and
+     * adds it to the device pool if it does not already exist.
+     *
+     * @param deviceType   the type of device to create
+     * @param capabilities the capabilities to use when creating the device
+     */
+    private synchronized void createDevice(DeviceType deviceType, Capabilities... capabilities) {
         Stream.ofNullable(capabilities)
                 .flatMap(Arrays::stream)
                 .filter(options -> !getDevicePool().hasDevice(deviceType, options))
@@ -59,20 +86,52 @@ public class DriverManager {
         }
     }
 
+    /**
+     * Returns the WebDriver instance for the current thread.
+     *
+     * @param  <D> the type of WebDriver to return
+     * @return     the WebDriver instance for the current thread
+     */
     @SuppressWarnings("unchecked")
     public <D extends WebDriver> D getDriver() {
         return (D) DRIVER_THREAD.get();
     }
 
+    /**
+     * Sets the WebDriver instance for the specified device type and index as
+     * the current driver for the current thread.
+     *
+     * @param deviceType the device type for which the driver instance should be
+     *                   switched
+     * @param index      the zero-based index of the driver instance to be
+     *                   switched
+     */
     public synchronized void switchDriver(DeviceType deviceType, int index) {
         setDriver(getDevicePool().getDevice(deviceType, index));
     }
 
+    /**
+     * Sets the specified WebDriver instance as the current driver for the
+     * current thread.
+     *
+     * @param driver the WebDriver instance to be set as the current driver
+     */
     public synchronized void setDriver(Object driver) {
         DRIVER_THREAD.set(driver);
         DriverFixture.setDriverFixture(driver);
     }
 
+    /**
+     * Returns the underlying WebDriver instance wrapped by any
+     * {@link WrapsDriver} instance currently set as the driver for the current
+     * thread. If the current driver does not implement the {@link WrapsDriver}
+     * interface, the current driver instance is returned.
+     *
+     * @return the underlying WebDriver instance wrapped by any
+     *         {@link WrapsDriver} instance currently set as the driver for the
+     *         current thread, or the current driver instance if it does not
+     *         implement {@link WrapsDriver}.
+     */
     public WebDriver getWrappedDriver() {
         if (getDriver() instanceof WrapsDriver) {
             return ((WrapsDriver) getDriver()).getWrappedDriver();
@@ -80,6 +139,11 @@ public class DriverManager {
         return getDriver();
     }
 
+    /**
+     * Removes the current driver instance from the current thread, closing any
+     * associated WebDriver instances and removing the device from the device
+     * pool.
+     */
     public synchronized void removeDriver() {
         try {
             if (getDriver() != null) {
@@ -91,6 +155,14 @@ public class DriverManager {
         }
     }
 
+    /**
+     * Removes all WebDriver instances from the DevicePool and quits each
+     * driver.
+     * <p>
+     * If a driver fails to quit, a warning message is logged with details of
+     * the driver and the exception that occurred.
+     * </p>
+     */
     public synchronized void removeAllDrivers() {
         getDevicePool().getAllDevices().values().stream()
                 .flatMap(List::stream)
