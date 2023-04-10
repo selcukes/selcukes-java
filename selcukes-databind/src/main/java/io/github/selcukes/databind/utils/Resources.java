@@ -24,9 +24,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -206,4 +209,21 @@ public class Resources {
     public static OutputStream newOutputStream(Path filePath) {
         return Files.newOutputStream(filePath);
     }
+
+    /**
+     * Converts a string representation of a URL to a {@code URL} object.
+     *
+     * @param  urlString the string representation of the URL to convert
+     * @return           an {@code Optional} containing the {@code URL} object,
+     *                   or an empty {@code Optional} if the string is not a
+     *                   valid URL
+     */
+    public Optional<URL> toURL(String urlString) {
+        try {
+            return Optional.of(new URL(urlString));
+        } catch (MalformedURLException e) {
+            return Optional.empty();
+        }
+    }
+
 }

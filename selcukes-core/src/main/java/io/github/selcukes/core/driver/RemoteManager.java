@@ -16,8 +16,9 @@
 
 package io.github.selcukes.core.driver;
 
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 
 public interface RemoteManager {
-    WebDriver createDriver();
+    WebDriver createDriver(Capabilities capabilities);
 }

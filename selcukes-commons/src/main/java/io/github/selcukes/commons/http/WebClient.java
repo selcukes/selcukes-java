@@ -16,11 +16,11 @@
 
 package io.github.selcukes.commons.http;
 
+import io.github.selcukes.databind.utils.Resources;
 import io.github.selcukes.databind.utils.StringHelper;
 import lombok.SneakyThrows;
 
 import java.net.InetSocketAddress;
-import java.net.MalformedURLException;
 import java.net.ProxySelector;
 import java.net.URI;
 import java.net.URL;
@@ -159,14 +159,6 @@ public class WebClient {
         return execute(request);
     }
 
-    private Optional<URL> getProxyUrl(final String proxy) {
-        try {
-            return Optional.of(new URL(proxy));
-        } catch (MalformedURLException e) {
-            return Optional.empty();
-        }
-    }
-
     /**
      * If the proxy parameter is a valid URL, then set the proxy host and port
      * to the host and port of the URL
@@ -175,7 +167,7 @@ public class WebClient {
      * @return       A WebClient object
      */
     public WebClient proxy(final String proxy) {
-        Optional<URL> url = getProxyUrl(proxy);
+        Optional<URL> url = Resources.toURL(proxy);
         url.ifPresent(u -> clientBuilder = clientBuilder
                 .proxy(ProxySelector.of(new InetSocketAddress(u.getHost(),
                     u.getPort() == -1 ? 80 : u.getPort()))));

@@ -17,8 +17,9 @@
 package io.github.selcukes.core.driver;
 
 import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.databind.utils.Resources;
 import lombok.CustomLog;
-import lombok.SneakyThrows;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -32,11 +33,11 @@ import static java.util.Optional.ofNullable;
 @CustomLog
 class WebManager implements RemoteManager {
 
-    public synchronized WebDriver createDriver() {
+    public synchronized WebDriver createDriver(Capabilities customCapabilities) {
         String browser = ConfigFactory.getConfig().getWeb().getBrowser().toUpperCase();
         logger.debug(() -> "Initiating New Browser Session...");
 
-        var capabilities = ofNullable(AppiumOptions.getUserOptions())
+        var capabilities = ofNullable(customCapabilities)
                 .orElseGet(() -> {
                     var driverOptions = BrowserOptions
                             .getBrowserOptions(BrowserOptions.valueOf(browser), "");
@@ -55,21 +56,21 @@ class WebManager implements RemoteManager {
         return driverBuilder.build();
     }
 
-    @SneakyThrows
     public URL getServiceUrl() {
-        URL serviceUrl;
-        if (isCloudBrowser()) {
-            serviceUrl = new URL(CloudOptions.browserStackUrl());
+        var serviceUrl = isCloudBrowser()
+                ? CloudOptions.browserStackUrl()
+                : ConfigFactory.getConfig().getWeb().getServiceUrl();
+
+        if (isSeleniumServerNotRunning()) {
+            logger.warn(() -> "The Selenium server is not running.\n" +
+                    "Please use the 'GridRunner.startSelenium()' method to start it automatically.\n" +
+                    "If you have started it manually or are executing in the cloud, you can ignore this message.");
         } else {
-            serviceUrl = new URL(ConfigFactory.getConfig().getWeb().getServiceUrl());
-            if (isSeleniumServerNotRunning()) {
-                logger.warn(() -> "Selenium server not started...\n" +
-                        "Please use 'GridRunner.startSeleniumServer' method to start automatically.\n" +
-                        " Ignore this message if you have started manually or executing in Cloud...");
-            } else {
-                return GridRunner.getLocalServiceUrl();
-            }
+            return GridRunner.getLocalServiceUrl();
         }
-        return serviceUrl;
+
+        return Resources.toURL(serviceUrl)
+                .orElseThrow(() -> new IllegalStateException("Invalid Service URL " + serviceUrl));
     }
+
 }

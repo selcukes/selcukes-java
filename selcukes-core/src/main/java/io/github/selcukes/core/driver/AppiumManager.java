@@ -18,8 +18,9 @@ package io.github.selcukes.core.driver;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.databind.utils.Resources;
 import lombok.CustomLog;
-import lombok.SneakyThrows;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -34,42 +35,43 @@ import static java.util.Optional.ofNullable;
 class AppiumManager implements RemoteManager {
 
     @Override
-    public WebDriver createDriver() {
+    public WebDriver createDriver(Capabilities customCapabilities) {
         String target = ConfigFactory.getConfig().getMobile().getBrowser().toUpperCase();
-        return target.equals("APP") ? createAppDriver() : createBrowserDriver(target);
+        return target.equals("APP") ? createAppDriver(customCapabilities)
+                : createBrowserDriver(customCapabilities, target);
     }
 
-    @SneakyThrows
     public URL getServiceUrl() {
-        URL serviceUrl;
+        var serviceUrl = ofNullable(serviceUrl())
+                .flatMap(Resources::toURL)
+                .orElseThrow(() -> new IllegalStateException("Service URL is null"));
 
-        if (isLocalAppium()) {
-            serviceUrl = AppiumEngine.getInstance().getServiceUrl();
-        } else if (isCloudAppium()) {
-            serviceUrl = new URL(CloudOptions.browserStackUrl());
-        } else {
-            serviceUrl = new URL(ConfigFactory.getConfig().getMobile().getServiceUrl());
-        }
         logger.debug(() -> String.format("Using ServiceUrl[%s://%s:%s]", serviceUrl.getProtocol(), serviceUrl.getHost(),
             serviceUrl.getPort()));
         return serviceUrl;
     }
 
-    public WebDriver createBrowserDriver(String browser) {
+    private String serviceUrl() {
+        return isLocalAppium() ? AppiumEngine.getInstance().getServiceUrl().toString()
+                : isCloudAppium() ? CloudOptions.browserStackUrl()
+                        : ConfigFactory.getConfig().getMobile().getServiceUrl();
+    }
+
+    public WebDriver createBrowserDriver(Capabilities capabilities, String browser) {
         logger.debug(() -> "Initiating New Mobile Browser Session...");
-        var capabilities = ofNullable(AppiumOptions.getUserOptions())
+        var options = ofNullable(capabilities)
                 .orElseGet(() -> {
                     String platform = ConfigFactory.getConfig().getMobile().getPlatform();
                     var driverOptions = BrowserOptions.getBrowserOptions(BrowserOptions.valueOf(browser), platform);
                     return isCloudAppium() ? driverOptions.merge(CloudOptions.getBrowserStackOptions(false))
                             : driverOptions;
                 });
-        return new RemoteWebDriver(getServiceUrl(), capabilities);
+        return new RemoteWebDriver(getServiceUrl(), options);
     }
 
-    public WebDriver createAppDriver() {
+    public WebDriver createAppDriver(Capabilities capabilities) {
         logger.debug(() -> "Initiating New Mobile App Session...");
-        var capabilities = ofNullable(AppiumOptions.getUserOptions())
+        var options = ofNullable(capabilities)
                 .orElseGet(() -> {
                     if (isCloudAppium()) {
                         return CloudOptions.getBrowserStackOptions(true);
@@ -80,7 +82,7 @@ class AppiumManager implements RemoteManager {
                         return AppiumOptions.getAndroidOptions(appPath);
                     }
                 });
-        return new AndroidDriver(getServiceUrl(), capabilities);
+        return new AndroidDriver(getServiceUrl(), options);
     }
 
 }

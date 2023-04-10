@@ -24,6 +24,7 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WrapsDriver;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -37,8 +38,11 @@ public class DriverManager {
     private static final Map<Integer, Object> STORED_DRIVER = new ConcurrentHashMap<>();
 
     public synchronized <D extends WebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
+        if (capabilities.length > 0) {
+            Arrays.stream(capabilities).forEach(options -> setDriver(DriverFactory.create(deviceType, options)));
+        }
         if (getDriver() == null) {
-            setDriver(DriverFactory.create(deviceType, capabilities));
+            setDriver(DriverFactory.create(deviceType, null));
         }
         return getDriver();
     }

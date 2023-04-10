@@ -26,7 +26,6 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -55,15 +54,12 @@ public class DriverFactory {
      * type and capabilities.
      *
      * @param  deviceType           the type of device to create the driver for
-     * @param  capabilities         the capabilities for the driver
+     * @param  capabilities         the custom capabilities for the driver
      * @return                      the created WebDriver instance
      * @throws DriverSetupException if a driver session cannot be created for
      *                              the given device type
      */
-    public synchronized WebDriver create(DeviceType deviceType, Capabilities... capabilities) {
-        // Set user options if any are provided
-        Arrays.stream(capabilities).findAny().ifPresent(AppiumOptions::setUserOptions);
-
+    public synchronized WebDriver create(DeviceType deviceType, Capabilities capabilities) {
         // Log the creation of a new session
         logger.info(() -> format("Creating new %s session...", deviceType));
 
@@ -74,7 +70,7 @@ public class DriverFactory {
                     "Unable to create new driver session for Driver Type[" + deviceType + "]"));
 
         // Create the WebDriver using the selected driver manager
-        var webDriver = remoteManager.createDriver();
+        var webDriver = remoteManager.createDriver(capabilities);
 
         // Decorate the WebDriver with the EventFiringDecorator and EventCapture
         // if it's not a WindowsDriver
