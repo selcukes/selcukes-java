@@ -60,27 +60,27 @@ public class DriverManager {
     }
 
     @SuppressWarnings("unchecked")
-    public static <D extends WebDriver> D getDriver() {
+    public <D extends WebDriver> D getDriver() {
         return (D) DRIVER_THREAD.get();
     }
 
-    public void switchDriver(DeviceType deviceType, int index) {
+    public synchronized void switchDriver(DeviceType deviceType, int index) {
         setDriver(getDevicePool().getDevice(deviceType, index));
     }
 
-    public static void setDriver(Object driver) {
+    public synchronized void setDriver(Object driver) {
         DRIVER_THREAD.set(driver);
         DriverFixture.setDriverFixture(driver);
     }
 
-    public static WebDriver getWrappedDriver() {
+    public WebDriver getWrappedDriver() {
         if (getDriver() instanceof WrapsDriver) {
             return ((WrapsDriver) getDriver()).getWrappedDriver();
         }
         return getDriver();
     }
 
-    public static synchronized void removeDriver() {
+    public synchronized void removeDriver() {
         try {
             if (getDriver() != null) {
                 getDriver().quit();
@@ -91,7 +91,7 @@ public class DriverManager {
         }
     }
 
-    public static synchronized void removeAllDrivers() {
+    public synchronized void removeAllDrivers() {
         getDevicePool().getAllDevices().values().stream()
                 .flatMap(List::stream)
                 .filter(WebDriver.class::isInstance)
