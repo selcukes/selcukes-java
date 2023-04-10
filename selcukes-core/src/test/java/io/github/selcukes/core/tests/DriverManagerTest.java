@@ -17,6 +17,7 @@
 package io.github.selcukes.core.tests;
 
 import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.core.driver.BrowserOptions;
 import io.github.selcukes.core.driver.DevicePool;
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.enums.DeviceType;
@@ -24,6 +25,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.remote.Browser;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -33,7 +35,9 @@ public class DriverManagerTest {
     @Test
     public void testCustomOptions() {
         ConfigFactory.getConfig().getWeb().setRemote(false);
-        DriverManager.createDriver(DeviceType.BROWSER, new ChromeOptions(), new EdgeOptions());
+        var chromeOptions = BrowserOptions.getBrowserOptions(Browser.CHROME, "");
+        var edgeOptions = BrowserOptions.getBrowserOptions(Browser.EDGE, "");
+        DriverManager.createDriver(DeviceType.BROWSER, chromeOptions, edgeOptions);
         assertTrue(DriverManager.getWrappedDriver() instanceof ChromeDriver);
         DriverManager.switchDriver(DeviceType.BROWSER, 1);
         assertTrue(DriverManager.getWrappedDriver() instanceof EdgeDriver);
