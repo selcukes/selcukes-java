@@ -16,6 +16,7 @@
 
 package io.github.selcukes.core.tests;
 
+import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.core.driver.DevicePool;
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.enums.DeviceType;
@@ -31,6 +32,7 @@ import static org.testng.Assert.assertTrue;
 public class DriverManagerTest {
     @Test
     public void testCustomOptions() {
+        ConfigFactory.getConfig().getWeb().setRemote(false);
         DriverManager.createDriver(DeviceType.BROWSER, new ChromeOptions(), new EdgeOptions());
         assertTrue(DriverManager.getWrappedDriver() instanceof ChromeDriver);
         DriverManager.switchDriver(DeviceType.BROWSER, 1);
