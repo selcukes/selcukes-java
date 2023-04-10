@@ -31,6 +31,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -226,6 +227,23 @@ public class Resources {
             return new URL(urlStr);
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Invalid URL string: " + urlStr, e);
+        }
+    }
+
+    /**
+     * Returns an Optional containing a new URL object by parsing the given URL
+     * string, or an empty Optional if the URL string is invalid.
+     *
+     * @param  urlStr the URL string to be parsed into a URL object
+     * @return        an Optional containing the URL object representing the
+     *                parsed URL string, or an empty Optional if the URL string
+     *                is invalid
+     */
+    public Optional<URL> tryURL(String urlStr) {
+        try {
+            return Optional.of(new URL(urlStr));
+        } catch (MalformedURLException e) {
+            return Optional.empty();
         }
     }
 

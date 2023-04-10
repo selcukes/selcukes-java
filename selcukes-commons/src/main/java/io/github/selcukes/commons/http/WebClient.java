@@ -30,7 +30,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 import static java.net.http.HttpRequest.BodyPublisher;
@@ -164,7 +163,7 @@ public class WebClient {
      * @return       A WebClient object
      */
     public WebClient proxy(final String proxy) {
-        var url = Optional.of(Resources.toURL(proxy));
+        var url = Resources.tryURL(proxy);
         url.ifPresent(u -> clientBuilder = clientBuilder
                 .proxy(ProxySelector.of(new InetSocketAddress(u.getHost(),
                     u.getPort() == -1 ? 80 : u.getPort()))));
