@@ -24,8 +24,6 @@ import org.openqa.selenium.MutableCapabilities;
 
 @UtilityClass
 public class AppiumOptions {
-    Capabilities caps;
-
     public Capabilities setAppTopLevelWindow(String windowId) {
         return setCapability("appTopLevelWindow", windowId);
     }
@@ -54,14 +52,6 @@ public class AppiumOptions {
 
     private MutableCapabilities merge(Capabilities capabilities) {
         return newCapabilities().merge(capabilities);
-    }
-
-    public Capabilities getUserOptions() {
-        return caps;
-    }
-
-    public void setUserOptions(Capabilities capabilities) {
-        caps = capabilities;
     }
 
     private MutableCapabilities newCapabilities() {
