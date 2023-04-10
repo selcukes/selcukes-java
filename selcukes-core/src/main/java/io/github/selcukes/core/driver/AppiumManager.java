@@ -42,22 +42,18 @@ class AppiumManager implements RemoteManager {
     }
 
     public URL getServiceUrl() {
-        var serviceUrl = ofNullable(serviceUrl())
-                .flatMap(Resources::toURL)
-                .orElseThrow(() -> new IllegalStateException("Service URL is null"));
-
-        logger.debug(() -> String.format("Using ServiceUrl[%s://%s:%s]", serviceUrl.getProtocol(), serviceUrl.getHost(),
-            serviceUrl.getPort()));
-        return serviceUrl;
-    }
-
-    private String serviceUrl() {
+        String serviceUrl;
         if (isLocalAppium()) {
-            return AppiumEngine.getInstance().getServiceUrl().toString();
+            serviceUrl = AppiumEngine.getInstance().getServiceUrl().toString();
         } else if (isCloudAppium()) {
-            return CloudOptions.browserStackUrl();
+            serviceUrl = CloudOptions.browserStackUrl();
+        } else {
+            serviceUrl = ConfigFactory.getConfig().getMobile().getServiceUrl();
         }
-        return ConfigFactory.getConfig().getMobile().getServiceUrl();
+        var url = Resources.toURL(serviceUrl);
+        logger.debug(() -> String.format("Using ServiceUrl[%s://%s:%s]", url.getProtocol(), url.getHost(),
+            url.getPort()));
+        return url;
     }
 
     public WebDriver createBrowserDriver(Capabilities capabilities, String browser) {

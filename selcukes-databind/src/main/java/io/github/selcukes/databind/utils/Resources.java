@@ -211,18 +211,20 @@ public class Resources {
     }
 
     /**
-     * Converts a string representation of a URL to a {@code URL} object.
+     * Returns a new URL object by parsing the given URL string.
      *
-     * @param  urlString the string representation of the URL to convert
-     * @return           an {@code Optional} containing the {@code URL} object,
-     *                   or an empty {@code Optional} if the string is not a
-     *                   valid URL
+     * @param  urlStr                   the URL string to be parsed into a URL
+     *                                  object
+     * @return                          the URL object representing the parsed
+     *                                  URL string
+     * @throws IllegalArgumentException if the URL string is invalid and cannot
+     *                                  be parsed
      */
-    public Optional<URL> toURL(String urlString) {
+    public URL toURL(String urlStr) {
         try {
-            return Optional.of(new URL(urlString));
+            return new URL(urlStr);
         } catch (MalformedURLException e) {
-            return Optional.empty();
+            throw new IllegalArgumentException("Invalid URL string: " + urlStr, e);
         }
     }
 

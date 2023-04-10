@@ -69,8 +69,7 @@ class WebManager implements RemoteManager {
             return GridRunner.getLocalServiceUrl();
         }
 
-        return Resources.toURL(serviceUrl)
-                .orElseThrow(() -> new IllegalStateException("Invalid Service URL " + serviceUrl));
+        return Resources.toURL(serviceUrl);
     }
 
 }

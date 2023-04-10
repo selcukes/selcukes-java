@@ -23,7 +23,6 @@ import lombok.SneakyThrows;
 import java.net.InetSocketAddress;
 import java.net.ProxySelector;
 import java.net.URI;
-import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
@@ -64,7 +63,7 @@ public class WebClient {
     @SneakyThrows
     public Response post(final Object payload) {
         contentType("application/json");
-        HttpRequest request = requestBuilder.POST(bodyPublisher(payload)).build();
+        var request = requestBuilder.POST(bodyPublisher(payload)).build();
         return execute(request);
     }
 
@@ -75,7 +74,7 @@ public class WebClient {
      */
     @SneakyThrows
     public Response post() {
-        HttpRequest request = requestBuilder.POST(bodyPublisher).build();
+        var request = requestBuilder.POST(bodyPublisher).build();
         return execute(request);
     }
 
@@ -85,7 +84,7 @@ public class WebClient {
      * @return A Response object.
      */
     public Response delete() {
-        HttpRequest request = requestBuilder.DELETE().build();
+        var request = requestBuilder.DELETE().build();
         return execute(request);
     }
 
@@ -101,7 +100,7 @@ public class WebClient {
      * @return         A Response object
      */
     public Response put(final Object payload) {
-        HttpRequest request = requestBuilder.PUT(bodyPublisher(payload)).build();
+        var request = requestBuilder.PUT(bodyPublisher(payload)).build();
         return execute(request);
     }
 
@@ -155,7 +154,7 @@ public class WebClient {
      * @return A Response object.
      */
     public Response get() {
-        HttpRequest request = requestBuilder.GET().build();
+        var request = requestBuilder.GET().build();
         return execute(request);
     }
 
@@ -167,7 +166,7 @@ public class WebClient {
      * @return       A WebClient object
      */
     public WebClient proxy(final String proxy) {
-        Optional<URL> url = Resources.toURL(proxy);
+        var url = Optional.of(Resources.toURL(proxy));
         url.ifPresent(u -> clientBuilder = clientBuilder
                 .proxy(ProxySelector.of(new InetSocketAddress(u.getHost(),
                     u.getPort() == -1 ? 80 : u.getPort()))));
