@@ -40,9 +40,26 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * </p>
  */
 public class DevicePool {
+    /**
+     * A map that associates each device type with a list of devices of that
+     * type. The list of devices is stored as a {@code CopyOnWriteArrayList},
+     * which is thread-safe and allows concurrent reads and writes without the
+     * need for explicit synchronization.
+     */
     private final Map<DeviceType, List<Object>> devicesByType;
+    /**
+     * A map that associates each device object with its corresponding device
+     * type. The map is stored as a {@code ConcurrentHashMap}, which is
+     * thread-safe and allows concurrent reads and writes without the need for
+     * explicit synchronization.
+     */
     private final Map<Object, DeviceType> devicesByObject;
 
+    /**
+     * Creates a new instance of the {@code DevicePool} class. Initializes the
+     * {@code devicesByType} and {@code devicesByObject} maps with thread-safe
+     * implementations.
+     */
     public DevicePool() {
         devicesByType = new ConcurrentHashMap<>();
         devicesByObject = new ConcurrentHashMap<>();
@@ -80,12 +97,15 @@ public class DevicePool {
     }
 
     /**
-     * Returns the device of the given type at the specified index in the pool.
+     * Returns the device object at the specified index in the list of devices
+     * of the given type. If the index is out of range, an
+     * {@code IndexOutOfBoundsException} is thrown.
      *
      * @param  deviceType                the type of device being retrieved
-     * @param  index                     the index of the device being retrieved
-     * @return                           the device of the given type at the
-     *                                   specified index in the pool
+     * @param  index                     the index of the device in the list of
+     *                                   devices
+     * @return                           the device object at the specified
+     *                                   index
      * @throws IndexOutOfBoundsException if the index is out of range
      */
     public synchronized Object getDevice(DeviceType deviceType, int index) {
