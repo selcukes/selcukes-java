@@ -44,15 +44,18 @@ public class DriverManager {
         return getDriver();
     }
 
+    public DevicePool getDevicePool() {
+        return DEVICE_POOL.get();
+    }
+
     public synchronized void createDevice(DeviceType deviceType, Capabilities... capabilities) {
-        var devicePool = DEVICE_POOL.get();
         Stream.ofNullable(capabilities)
                 .flatMap(Arrays::stream)
-                .filter(options -> !devicePool.hasDevice(deviceType, options))
+                .filter(options -> !getDevicePool().hasDevice(deviceType, options))
                 .map(options -> DriverFactory.create(deviceType, options))
-                .forEach(device -> devicePool.addDevice(deviceType, device));
-        if (devicePool.getDevices(deviceType).isEmpty()) {
-            devicePool.addDevice(deviceType, DriverFactory.create(deviceType, null));
+                .forEach(device -> getDevicePool().addDevice(deviceType, device));
+        if (getDevicePool().getDevices(deviceType).isEmpty()) {
+            getDevicePool().addDevice(deviceType, DriverFactory.create(deviceType, null));
         }
     }
 
@@ -61,8 +64,8 @@ public class DriverManager {
         return (D) DRIVER_THREAD.get();
     }
 
-    public static void switchDriver(DeviceType deviceType, int index) {
-        setDriver(DEVICE_POOL.get().getDevice(deviceType, index));
+    public void switchDriver(DeviceType deviceType, int index) {
+        setDriver(getDevicePool().getDevice(deviceType, index));
     }
 
     public static void setDriver(Object driver) {
@@ -81,7 +84,7 @@ public class DriverManager {
         try {
             if (getDriver() != null) {
                 getDriver().quit();
-                DEVICE_POOL.get().removeDevice(getDriver());
+                getDevicePool().removeDevice(getDriver());
             }
         } finally {
             DRIVER_THREAD.remove();
@@ -89,14 +92,14 @@ public class DriverManager {
     }
 
     public static synchronized void removeAllDrivers() {
-        DEVICE_POOL.get().getAllDevices().values().stream()
+        getDevicePool().getAllDevices().values().stream()
                 .flatMap(List::stream)
                 .filter(WebDriver.class::isInstance)
                 .map(WebDriver.class::cast)
                 .forEach(webDriver -> {
                     try {
                         webDriver.quit();
-                        DEVICE_POOL.get().removeDevice(webDriver);
+                        getDevicePool().removeDevice(webDriver);
                         logger.debug(
                             () -> format("Closed driver %d and removed from DevicePool.", webDriver.hashCode()));
                     } catch (Exception e) {
