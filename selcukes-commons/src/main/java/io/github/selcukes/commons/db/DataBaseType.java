@@ -16,11 +16,17 @@
 
 package io.github.selcukes.commons.db;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum DataBaseType {
-    MY_SQL,
-    SQL_SERVER,
-    POST_GRE_SQL,
-    ORACLE,
-    ORACLE_SERVICE_NAME,
-    IBM_DB2
+    MY_SQL("jdbc:mysql://{hostName}:{port}/{dataBaseName}"),
+    SQL_SERVER("jdbc:sqlserver://{hostName}:{port};databaseName={dataBaseName}"),
+    POST_GRE_SQL("jdbc:postgresql://{hostName}:{port}/{dataBaseName}"),
+    ORACLE("jdbc:oracle:thin:@{hostName}:{port}:{dataBaseName}"),
+    ORACLE_SERVICE_NAME("jdbc:oracle:thin:@{hostName}:{port}/{dataBaseName}"),
+    IBM_DB2("jdbc:db2://{hostName}:{port}/{dataBaseName}");
+    private final String url;
 }

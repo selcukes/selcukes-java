@@ -17,121 +17,69 @@
 package io.github.selcukes.commons.db;
 
 import io.github.selcukes.commons.exception.SelcukesException;
-import lombok.Builder;
-import lombok.Getter;
+import io.github.selcukes.databind.collections.DataTable;
+import lombok.CustomLog;
+import lombok.SneakyThrows;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
 
-import static java.util.Optional.ofNullable;
-
 /**
- * A class representing a driver for a database.
+ * A class that represents a database driver for connecting to a database and
+ * executing queries.
  * <p>
- * This class allows executing queries on different types of databases.
+ * Provides methods for executing queries and updates, as well as checking if
+ * the database connection is closed.
  */
-@Getter
-@Builder
+@CustomLog
 public class DataBaseDriver {
-    /**
-     * The type of database to connect to.
-     */
-    private DataBaseType dataBaseType;
-    /**
-     * The hostname or IP address of the database server.
-     */
-    private String hostName;
-    /**
-     * The port number to connect to the database.
-     */
-    private String port;
-    /**
-     * The username used to authenticate the connection.
-     */
-    private String username;
-    /**
-     * The password used to authenticate the connection.
-     */
-    private String password;
-    /**
-     * The name of the database to connect to.
-     */
-    private String dataBaseName;
-    /**
-     * The timeout to be used for the connection and statement in minutes.
-     */
-    private int timeout;
-    /**
-     * The connection URL used to connect to the database.
-     */
-    private String connectionUrl;
+    private Connection connection;
+    private final int timeout;
 
     /**
-     * Constructs a connection URL based on the specified database type, host
-     * name, port, and database name.
+     * Constructs a new instance of the DataBaseDriver class with the specified
+     * database configuration.
      *
-     * @return                   the connection URL as a string.
-     * @throws SelcukesException if an invalid database type is specified.
+     * @param dataBaseConfig the configuration of the database to connect to
      */
-    private String getDefaultConnectionUrl() {
-        switch (dataBaseType) {
-            case MY_SQL:
-                return "jdbc:mysql://" + hostName + ":" + port + "/" + dataBaseName;
-            case SQL_SERVER:
-                return "jdbc:sqlserver://" + hostName + ":" + port + ";databaseName=" + dataBaseName;
-            case POST_GRE_SQL:
-                return "jdbc:postgresql://" + hostName + ":" + port + "/" + dataBaseName;
-            case ORACLE:
-                return "jdbc:oracle:thin:@" + hostName + ":" + port + ":" + dataBaseName;
-            case ORACLE_SERVICE_NAME:
-                return "jdbc:oracle:thin:@" + hostName + ":" + port + "/" + dataBaseName;
-            case IBM_DB2:
-                return "jdbc:db2://" + hostName + ":" + port + "/" + dataBaseName;
-            default: {
-                throw new SelcukesException("Database not supported");
-
-            }
-        }
+    public DataBaseDriver(DataBaseConfig dataBaseConfig) {
+        this.timeout = dataBaseConfig.getTimeout();
+        createConnection(dataBaseConfig.getUrl(), dataBaseConfig.getUserName(), dataBaseConfig.getPassword());
     }
 
     /**
-     * Creates a connection to the database using the specified connection URL,
+     * Creates a new connection to the database with the specified URL,
      * username, and password.
      *
-     * @return                   a {@link Connection} object.
-     * @throws SelcukesException if an error occurs while creating the
-     *                           connection.
+     * @param  url               the URL of the database to connect to
+     * @param  username          the username to use for authentication
+     * @param  password          the password to use for authentication
+     * @throws SelcukesException if an error occurs while connecting to the
+     *                           database
      */
-    private Connection createConnection() {
-        Connection connection;
-        var dbUrl = ofNullable(getConnectionUrl()).orElse(getDefaultConnectionUrl());
+    private void createConnection(String url, String username, String password) {
         try {
-            connection = DriverManager.getConnection(dbUrl, username, password);
-            if (!dataBaseType.toString().equals("MY_SQL") && !dataBaseType.toString().equals("POST_GRE_SQL")) {
-                connection.setNetworkTimeout(Executors.newFixedThreadPool(1),
-                    timeout * 60000);
-            }
+            connection = DriverManager.getConnection(url, username, password);
         } catch (Exception e) {
-            throw new SelcukesException("Failed to connect DataBase using url[" + dbUrl + "]");
+            throw new SelcukesException("Failed to connect to database using URL [" + url + "]", e);
         }
-        return connection;
     }
 
     /**
-     * Creates a {@link Statement} object for executing SQL queries on the
-     * specified {@link Connection} object.
+     * Creates a new {@code Statement} object for the specified SQL query and
+     * sets a timeout of seconds.
      *
-     * @param  connection        the {@link Connection} object to create the
-     *                           statement on.
-     * @return                   a {@link Statement} object for executing SQL
-     *                           queries.
-     * @throws SelcukesException if there is an error creating the
-     *                           {@link Statement}.
+     * @return a new {@code Statement} object for the specified query
      */
-    private Statement createStatement(final Connection connection) {
+    private synchronized Statement createStatement() {
         Statement statement;
         try {
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -143,21 +91,101 @@ public class DataBaseDriver {
     }
 
     /**
-     * Executes a query on the database and returns a {@link DataBaseResult}
-     * object.
+     * Executes a query on the connected database and returns a{@link DataTable}
      *
-     * @param  query             the query to be executed.
-     * @return                   a {@link DataBaseResult} object.
-     * @throws SelcukesException if an error occurs while executing the query.
+     * @param  query             the SQL query to execute
+     * @return                   return a new {@link DataTable} object with the
+     *                           query results
+     * @throws SelcukesException if an error occurs while executing the query
      */
-    public DataBaseResult executeQuery(final String query) {
-        try (var connection = createConnection();
-                var statement = createStatement(connection);
+    public synchronized DataTable<String, String> executeQuery(String query) {
+        try (var statement = createStatement();
                 var resultSet = statement.executeQuery(query)) {
-            return new DataBaseResult(resultSet);
+            logger.debug(() -> String.format("Executed query [%s]", query));
+            return asTable(resultSet);
         } catch (Exception e) {
-            throw new SelcukesException("Failed executing query " + query, e);
+            throw new SelcukesException("Failed to execute query [" + query + "]", e);
+        } finally {
+            closeConnection();
         }
     }
 
+    /**
+     * Executes the specified SQL update statement and returns the number of
+     * rows affected.
+     *
+     * @param  query             the SQL update statement to execute
+     * @return                   the number of rows affected by the update
+     *                           statement
+     * @throws SelcukesException if an error occurs while executing the update
+     *                           statement
+     */
+    public synchronized int executeUpdate(String query) {
+        try (var statement = createStatement()) {
+            logger.debug(() -> String.format("Executing Update [%s]", query));
+            return statement.executeUpdate(query);
+        } catch (Exception e) {
+            throw new SelcukesException("Failed to execute update [" + query + "]", e);
+        } finally {
+            closeConnection();
+        }
+    }
+
+    /**
+     * Sets the network timeout for the database connection.
+     *
+     * @param  seconds           the timeout value in seconds
+     * @return                   this instance of {@code DataBaseDriver}
+     * @throws SelcukesException if there is an error setting the timeout
+     */
+    public synchronized DataBaseDriver setNetworkTimeout(int seconds) {
+        try {
+            connection.setNetworkTimeout(Executors.newFixedThreadPool(1), seconds * 1000);
+        } catch (SQLException e) {
+            throw new SelcukesException("Failed to set timeout on database connection", e);
+        }
+        return this;
+    }
+
+    /**
+     * Closes the database connection.
+     */
+    @SneakyThrows
+    private void closeConnection() {
+        if (connection != null) {
+            connection.close();
+        }
+    }
+
+    /**
+     * Converts the underlying ResultSet to a {@link DataTable}.
+     *
+     * @param  resultSet the ResultSet object to create the DataTable from.
+     * @return           a {@code DataTable} object containing the data from the
+     *                   ResultSet.
+     */
+    private DataTable<String, String> asTable(ResultSet resultSet) throws SQLException {
+        var table = new DataTable<String, String>();
+        var meta = resultSet.getMetaData();
+        while (resultSet.next()) {
+            table.addRow(asRow(meta, resultSet));
+        }
+        return table;
+    }
+
+    /**
+     * Converts a row of the underlying ResultSet to a {@link Map} with column
+     * names as keys and column values as values.
+     *
+     * @param  metaData  the metadata for the ResultSet.
+     * @param  resultSet the ResultSet to be converted.
+     * @return           a {@code Map} object representing the row.
+     */
+    private Map<String, String> asRow(final ResultSetMetaData metaData, final ResultSet resultSet) throws SQLException {
+        var map = new LinkedHashMap<String, String>();
+        for (int i = 1; i <= metaData.getColumnCount(); i++) {
+            map.put(metaData.getColumnName(i), resultSet.getString(i));
+        }
+        return Collections.unmodifiableMap(map);
+    }
 }
