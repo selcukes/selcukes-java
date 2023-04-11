@@ -17,12 +17,18 @@
 package io.github.selcukes.commons.db;
 
 import io.github.selcukes.commons.exception.SelcukesException;
+import io.github.selcukes.databind.collections.DataTable;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -83,20 +89,22 @@ public class DataBaseDriver {
     }
 
     /**
-     * Executes the specified SQL query and returns a new DataBaseResult object
-     * with the query results.
+     * Executes the specified SQL query and returns a{@link DataTable} object
+     * containing the query results.
      *
      * @param  query             the SQL query to execute
      * @return                   a new DataBaseResult object with the query
      *                           results
      * @throws SelcukesException if an error occurs while executing the query
      */
-    public DataBaseResult executeQuery(String query) {
-        try {
-            var resultSet = createStatement(query).executeQuery();
-            return new DataBaseResult(resultSet);
+    public DataTable<String, String> executeQuery(String query) {
+        try (var statement = createStatement(query)) {
+            var resultSet = statement.executeQuery();
+            return asTable(resultSet);
         } catch (Exception e) {
             throw new SelcukesException("Failed to execute query [" + query + "]", e);
+        } finally {
+            closeConnection();
         }
     }
 
@@ -111,10 +119,12 @@ public class DataBaseDriver {
      *                           statement
      */
     public int executeUpdate(String query) {
-        try {
-            return createStatement(query).executeUpdate();
+        try (var statement = createStatement(query)) {
+            return statement.executeUpdate();
         } catch (Exception e) {
             throw new SelcukesException("Failed to execute update [" + query + "]", e);
+        } finally {
+            closeConnection();
         }
     }
 
@@ -122,9 +132,43 @@ public class DataBaseDriver {
      * Closes the database connection.
      */
     @SneakyThrows
-    public void closeConnection() {
+    private void closeConnection() {
         if (connection != null) {
             connection.close();
         }
+    }
+
+    /**
+     * Converts the underlying ResultSet to a {@link DataTable}.
+     *
+     * @param  resultSet the ResultSet object to create the DataTable from.
+     * @return           a {@code DataTable} object containing the data from the
+     *                   ResultSet.
+     */
+    @SneakyThrows
+    private DataTable<String, String> asTable(ResultSet resultSet) {
+        var table = new DataTable<String, String>();
+        var meta = resultSet.getMetaData();
+        while (resultSet.next()) {
+            table.addRow(asRow(meta, resultSet));
+        }
+        return table;
+    }
+
+    /**
+     * Converts a row of the underlying ResultSet to a {@link Map} with column
+     * names as keys and column values as values.
+     *
+     * @param  metaData  the metadata for the ResultSet.
+     * @param  resultSet the ResultSet to be converted.
+     * @return           a {@code Map} object representing the row.
+     */
+    @SneakyThrows
+    private Map<String, String> asRow(final ResultSetMetaData metaData, final ResultSet resultSet) {
+        var map = new LinkedHashMap<String, String>();
+        for (int i = 1; i <= metaData.getColumnCount(); i++) {
+            map.put(metaData.getColumnName(i), resultSet.getString(i));
+        }
+        return Collections.unmodifiableMap(map);
     }
 }
