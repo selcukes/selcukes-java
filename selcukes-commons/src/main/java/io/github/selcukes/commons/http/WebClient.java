@@ -16,14 +16,12 @@
 
 package io.github.selcukes.commons.http;
 
+import io.github.selcukes.databind.utils.Resources;
 import io.github.selcukes.databind.utils.StringHelper;
 import lombok.SneakyThrows;
 
 import java.net.InetSocketAddress;
-import java.net.MalformedURLException;
 import java.net.ProxySelector;
-import java.net.URI;
-import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
@@ -32,7 +30,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 import static java.net.http.HttpRequest.BodyPublisher;
@@ -44,11 +41,10 @@ public class WebClient {
     private HttpRequest.Builder requestBuilder;
     private BodyPublisher bodyPublisher;
 
-    @SneakyThrows
-    public WebClient(final String url) {
+    public WebClient(final String uri) {
         clientBuilder = HttpClient.newBuilder();
         requestBuilder = HttpRequest.newBuilder()
-                .uri(new URI(url));
+                .uri(Resources.toURI(uri));
     }
 
     /**
@@ -64,7 +60,7 @@ public class WebClient {
     @SneakyThrows
     public Response post(final Object payload) {
         contentType("application/json");
-        HttpRequest request = requestBuilder.POST(bodyPublisher(payload)).build();
+        var request = requestBuilder.POST(bodyPublisher(payload)).build();
         return execute(request);
     }
 
@@ -75,7 +71,7 @@ public class WebClient {
      */
     @SneakyThrows
     public Response post() {
-        HttpRequest request = requestBuilder.POST(bodyPublisher).build();
+        var request = requestBuilder.POST(bodyPublisher).build();
         return execute(request);
     }
 
@@ -85,7 +81,7 @@ public class WebClient {
      * @return A Response object.
      */
     public Response delete() {
-        HttpRequest request = requestBuilder.DELETE().build();
+        var request = requestBuilder.DELETE().build();
         return execute(request);
     }
 
@@ -101,7 +97,7 @@ public class WebClient {
      * @return         A Response object
      */
     public Response put(final Object payload) {
-        HttpRequest request = requestBuilder.PUT(bodyPublisher(payload)).build();
+        var request = requestBuilder.PUT(bodyPublisher(payload)).build();
         return execute(request);
     }
 
@@ -155,16 +151,8 @@ public class WebClient {
      * @return A Response object.
      */
     public Response get() {
-        HttpRequest request = requestBuilder.GET().build();
+        var request = requestBuilder.GET().build();
         return execute(request);
-    }
-
-    private Optional<URL> getProxyUrl(final String proxy) {
-        try {
-            return Optional.of(new URL(proxy));
-        } catch (MalformedURLException e) {
-            return Optional.empty();
-        }
     }
 
     /**
@@ -175,7 +163,7 @@ public class WebClient {
      * @return       A WebClient object
      */
     public WebClient proxy(final String proxy) {
-        Optional<URL> url = getProxyUrl(proxy);
+        var url = Resources.tryURL(proxy);
         url.ifPresent(u -> clientBuilder = clientBuilder
                 .proxy(ProxySelector.of(new InetSocketAddress(u.getHost(),
                     u.getPort() == -1 ? 80 : u.getPort()))));

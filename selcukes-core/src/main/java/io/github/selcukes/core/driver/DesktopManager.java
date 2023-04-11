@@ -29,17 +29,17 @@ import java.util.Objects;
 import static java.util.Optional.ofNullable;
 
 @CustomLog
-public class DesktopManager extends AppiumManager {
+class DesktopManager extends AppiumManager {
 
     @Override
-    public synchronized WebDriver createDriver() {
+    public synchronized WebDriver createDriver(Capabilities customCapabilities) {
 
         logger.debug(() -> "Initiating New Desktop Session...");
         String app = ConfigFactory.getConfig().getWindows().getApp();
-        URL serviceUrl = Objects.requireNonNull(getServiceUrl());
-        Capabilities capabilities = ofNullable(AppiumOptions.getUserOptions())
+        var serviceUrl = Objects.requireNonNull(getServiceUrl());
+        var options = ofNullable(customCapabilities)
                 .orElse(AppiumOptions.getWinAppOptions(app));
-        return new WindowsDriver(serviceUrl, capabilities);
+        return new WindowsDriver(serviceUrl, options);
     }
 
     @SneakyThrows

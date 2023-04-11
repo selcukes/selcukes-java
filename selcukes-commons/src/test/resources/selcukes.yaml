@@ -5,9 +5,10 @@ env: Dev
 proxy: false
 baseUrl:
 excel:
-  runner:
-  filePath: ""
-  suiteName: "smoke"
+  runner: fase
+  suiteFile: ""
+  dataFile: ""
+  suiteName: "Smoke"
 cucumber:
   module: google
   features: src/test/resources/features/${module}
@@ -16,13 +17,21 @@ cucumber:
   plugin:
 web:
   remote: false
+  cloud:
   browser: CHROME
   headLess: true
-  serviceUrl: "http://127.0.0.1:8080"
+  serviceUrl: "http://127.0.0.1:4444"
 windows:
   serviceUrl: "http://127.0.0.1:4723"
+  app: "C:\\Windows\\System32\\notepad.exe"
 mobile:
+  remote: false
+  cloud: BROWSER_STACK
+  platform: Android
+  browser: CHROME
+  headLess: true
   serviceUrl: "http://127.0.0.1:4723"
+  app: "src/test/resources/android-app.apk"
 reports:
   emailReport: true
   htmlReport: true
@@ -34,7 +43,7 @@ video:
   watermark: false
 notifier:
   notification: false
-  type: slack
+  type: Teams
   webhookToken: WEBHOOKXXXX
   apiToken: APIXXXX
   channel: selcukes

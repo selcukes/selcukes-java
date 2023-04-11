@@ -17,6 +17,7 @@
 package io.github.selcukes.core.driver;
 
 import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.windows.options.WindowsOptions;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Capabilities;
@@ -24,8 +25,6 @@ import org.openqa.selenium.MutableCapabilities;
 
 @UtilityClass
 public class AppiumOptions {
-    Capabilities caps;
-
     public Capabilities setAppTopLevelWindow(String windowId) {
         return setCapability("appTopLevelWindow", windowId);
     }
@@ -35,33 +34,34 @@ public class AppiumOptions {
     }
 
     public MutableCapabilities getWinAppOptions(String app) {
-        WindowsOptions windowsOptions = new WindowsOptions();
-        windowsOptions.setApp(app);
-        return merge(windowsOptions);
+        var options = new WindowsOptions();
+        options.setApp(app);
+        return merge(options);
     }
 
     public MutableCapabilities getAndroidOptions(String app) {
-        UiAutomator2Options uiAutomator2Options = new UiAutomator2Options();
-        uiAutomator2Options.setApp(app);
-        return merge(uiAutomator2Options);
+        var options = new UiAutomator2Options();
+        options.setApp(app);
+        return merge(options);
     }
 
     public MutableCapabilities setCapability(String capabilityName, String value) {
-        MutableCapabilities capabilities = new MutableCapabilities();
-        capabilities.setCapability(capabilityName, value);
+        var capabilities = newCapabilities();
+        newCapabilities().setCapability(capabilityName, value);
         return capabilities;
     }
 
     private MutableCapabilities merge(Capabilities capabilities) {
-        return new MutableCapabilities().merge(capabilities);
+        return newCapabilities().merge(capabilities);
     }
 
-    public Capabilities getUserOptions() {
-        return caps;
+    private MutableCapabilities newCapabilities() {
+        return new MutableCapabilities();
     }
 
-    public void setUserOptions(Capabilities capabilities) {
-        caps = capabilities;
+    public MutableCapabilities getIOSOptions(final String app) {
+        var options = new XCUITestOptions();
+        options.setApp(app);
+        return merge(options);
     }
-
 }

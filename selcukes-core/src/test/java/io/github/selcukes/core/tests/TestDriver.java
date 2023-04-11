@@ -26,7 +26,6 @@ public class TestDriver {
     public static WebDriver getChromeDriver() {
         var options = new ChromeOptions();
         options.addArguments("--headless");
-        options.addArguments("--remote-allow-origins=*");
         return new ChromeDriver(options);
     }
 }

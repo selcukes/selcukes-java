@@ -24,9 +24,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -205,5 +210,58 @@ public class Resources {
     @SneakyThrows
     public static OutputStream newOutputStream(Path filePath) {
         return Files.newOutputStream(filePath);
+    }
+
+    /**
+     * Returns a new URL object by parsing the given URL string.
+     *
+     * @param  urlStr                   the URL string to be parsed into a URL
+     *                                  object
+     * @return                          the URL object representing the parsed
+     *                                  URL string
+     * @throws IllegalArgumentException if the URL string is invalid and cannot
+     *                                  be parsed
+     */
+    public URL toURL(String urlStr) {
+        try {
+            return new URL(urlStr);
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException("Invalid URL string: " + urlStr, e);
+        }
+    }
+
+    /**
+     * Returns an Optional containing a new URL object by parsing the given URL
+     * string, or an empty Optional if the URL string is invalid.
+     *
+     * @param  urlStr the URL string to be parsed into a URL object
+     * @return        an Optional containing the URL object representing the
+     *                parsed URL string, or an empty Optional if the URL string
+     *                is invalid
+     */
+    public Optional<URL> tryURL(String urlStr) {
+        try {
+            return Optional.of(new URL(urlStr));
+        } catch (MalformedURLException e) {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Returns a new URI object by parsing the given URI string.
+     *
+     * @param  uriStr                   the URI string to be parsed into a URI
+     *                                  object
+     * @return                          the URI object representing the parsed
+     *                                  URI string
+     * @throws IllegalArgumentException if the URI string is invalid and cannot
+     *                                  be parsed
+     */
+    public URI toURI(String uriStr) {
+        try {
+            return new URI(uriStr);
+        } catch (URISyntaxException e) {
+            throw new IllegalArgumentException("Invalid URI string: " + uriStr, e);
+        }
     }
 }

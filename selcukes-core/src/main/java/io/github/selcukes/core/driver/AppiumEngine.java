@@ -20,20 +20,17 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.github.selcukes.commons.exception.DriverSetupException;
+import io.github.selcukes.commons.helper.Singleton;
 import lombok.CustomLog;
 
 import java.net.URL;
 
 @CustomLog
 class AppiumEngine {
-    private static AppiumEngine appiumEngine;
     private AppiumDriverLocalService service;
 
     public static AppiumEngine getInstance() {
-        if (appiumEngine == null) {
-            appiumEngine = new AppiumEngine();
-        }
-        return appiumEngine;
+        return Singleton.instanceOf(AppiumEngine.class);
     }
 
     URL getServiceUrl() {

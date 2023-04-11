@@ -18,5 +18,6 @@ mobile:
   cloud: BROWSER_STACK
   platform: Android
   browser: CHROME
+  headLess: true
   serviceUrl: "http://127.0.0.1:4723"
   app: "src/test/resources/android-app.apk"
