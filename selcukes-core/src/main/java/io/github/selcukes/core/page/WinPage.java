@@ -45,7 +45,7 @@ public class WinPage implements Page {
         Preconditions.checkArgument(!appTopLevelWindow.isEmpty(),
             "The found window does not have NativeWindowHandle property");
         String windowIdToHex = StringHelper.toHex(appTopLevelWindow);
-        logger.info(() -> "Window Id: " + appTopLevelWindow + "After: " + windowIdToHex);
+        logger.debug(() -> "Window Id: " + appTopLevelWindow + "After: " + windowIdToHex);
         driver = DriverManager.createDriver(DeviceType.DESKTOP, AppiumOptions.setAppTopLevelWindow(windowIdToHex));
         driver.switchTo().activeElement();
         return this;
