@@ -70,28 +70,25 @@ class AppiumManager implements RemoteManager {
     }
 
     public WebDriver createAppDriver(Capabilities capabilities) {
-        var platform = ConfigFactory.getConfig().getMobile().getPlatform();
-        if (platform.equalsIgnoreCase("IOS")) {
-            logger.debug(() -> "Creating New IOS App Session...");
-            var options = getAppiumAppOptions(capabilities, true);
-            return new IOSDriver(getServiceUrl(), options);
-        } else {
-            logger.debug(() -> "Creating New ANDROID App Session...");
-            var options = getAppiumAppOptions(capabilities, false);
-            return new AndroidDriver(getServiceUrl(), options);
-        }
+        var options = getAppiumAppOptions(capabilities);
+        var platform = options.getPlatformName().toString();
+        logger.debug(() -> String.format("Creating New %s App Session...", platform));
+        return platform.equalsIgnoreCase("IOS") ? new IOSDriver(getServiceUrl(), options)
+                : new AndroidDriver(getServiceUrl(), options);
+
     }
 
-    private Capabilities getAppiumAppOptions(Capabilities capabilities, boolean isIOS) {
+    private Capabilities getAppiumAppOptions(Capabilities capabilities) {
         return ofNullable(capabilities)
                 .orElseGet(() -> {
                     if (isCloudAppium()) {
                         return CloudOptions.getBrowserStackOptions(true);
                     } else {
+                        var platform = ConfigFactory.getConfig().getMobile().getPlatform();
                         var app = ConfigFactory.getConfig().getMobile().getApp();
                         String appPath = Path.of(app).toAbsolutePath().toString();
                         logger.debug(() -> "Using APP: " + appPath);
-                        return isIOS ? AppiumOptions.getIOSOptions(appPath)
+                        return platform.equalsIgnoreCase("ios") ? AppiumOptions.getIOSOptions(appPath)
                                 : AppiumOptions.getAndroidOptions(appPath);
                     }
                 });
