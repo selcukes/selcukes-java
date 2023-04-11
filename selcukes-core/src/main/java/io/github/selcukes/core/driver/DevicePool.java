@@ -71,11 +71,6 @@ public class DevicePool {
      * The device is represented as an {@code Object}, which can be a
      * {@code WebDriver} instance or any other type of device object. The device
      * is added to the end of the list of devices for the specified device type.
-     * </p>
-     * <p>
-     * This method is synchronized to ensure that only one thread can add a
-     * device to the pool at a time.
-     * </p>
      *
      * @param deviceType the device type of the device to be added
      * @param device     the device object to be added
