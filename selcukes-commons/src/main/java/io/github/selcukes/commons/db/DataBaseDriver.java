@@ -136,16 +136,17 @@ public class DataBaseDriver {
     /**
      * Sets the network timeout for the database connection.
      *
-     * @param  seconds           The number of seconds to set as the timeout.
-     * @throws SelcukesException If an error occurs while setting the timeout on
-     *                           the database connection.
+     * @param  seconds           the timeout value in seconds
+     * @return                   this instance of {@code DataBaseDriver}
+     * @throws SelcukesException if there is an error setting the timeout
      */
-    public synchronized void setTimeout(int seconds) {
+    public synchronized DataBaseDriver setTimeout(int seconds) {
         try {
             connection.setNetworkTimeout(Executors.newFixedThreadPool(1), seconds * 1000);
         } catch (SQLException e) {
             throw new SelcukesException("Failed to set timeout on database connection", e);
         }
+        return this;
     }
 
     /**
