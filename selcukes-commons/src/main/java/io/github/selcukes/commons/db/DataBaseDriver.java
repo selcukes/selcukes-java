@@ -79,7 +79,7 @@ public class DataBaseDriver {
      *
      * @return a new {@code Statement} object for the specified query
      */
-    private Statement createStatement() {
+    private synchronized Statement createStatement() {
         Statement statement;
         try {
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -99,7 +99,7 @@ public class DataBaseDriver {
      *                           query results
      * @throws SelcukesException if an error occurs while executing the query
      */
-    public DataTable<String, String> executeQuery(String query) {
+    public synchronized DataTable<String, String> executeQuery(String query) {
         try (var statement = createStatement();
                 var resultSet = statement.executeQuery(query)) {
             return asTable(resultSet);
@@ -120,7 +120,7 @@ public class DataBaseDriver {
      * @throws SelcukesException if an error occurs while executing the update
      *                           statement
      */
-    public int executeUpdate(String query) {
+    public synchronized int executeUpdate(String query) {
         try (var statement = createStatement()) {
             return statement.executeUpdate(query);
         } catch (Exception e) {
