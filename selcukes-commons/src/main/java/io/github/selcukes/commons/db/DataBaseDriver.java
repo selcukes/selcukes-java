@@ -17,13 +17,13 @@
 package io.github.selcukes.commons.db;
 
 import io.github.selcukes.commons.exception.SelcukesException;
-import io.github.selcukes.commons.helper.Preconditions;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.util.Objects;
 
 /**
  * A class that represents a database driver for connecting to a database and
@@ -76,7 +76,7 @@ public class DataBaseDriver {
      */
     @SneakyThrows
     private PreparedStatement createStatement(String query) {
-        Preconditions.checkArgument(!isClosed(), "Database connection closed.");
+        Objects.requireNonNull(connection, "Database connection is closed.");
         var statement = connection.prepareStatement(query);
         statement.setQueryTimeout(TIMEOUT_SECONDS);
         return statement;
@@ -119,20 +119,12 @@ public class DataBaseDriver {
     }
 
     /**
-     * Returns whether the database connection is closed or not.
-     *
-     * @return true if the connection is closed, false otherwise
-     */
-    @SneakyThrows
-    public boolean isClosed() {
-        return connection == null || connection.isClosed();
-    }
-
-    /**
      * Closes the database connection.
      */
     @SneakyThrows
-    public void close() {
-        connection.close();
+    public void closeConnection() {
+        if (connection != null) {
+            connection.close();
+        }
     }
 }
