@@ -45,15 +45,25 @@ public class DataBaseDriver {
     private Connection connection;
 
     /**
-     * Constructs a new instance of the DataBaseDriver class with the specified
-     * URL, username, and password.
+     * Constructs a new instance of the {@code DataBaseDriver} class using the
+     * specified database configuration.
+     * <p>
+     * The database configuration must contain the following properties:
+     * <ul>
+     * <li>{@code url}: the URL of the database to connect to</li>
+     * <li>{@code userName}: the username to use for authentication</li>
+     * <li>{@code password}: the password to use for authentication</li>
+     * </ul>
+     * </p>
      *
-     * @param url      the URL of the database to connect to
-     * @param username the username to use for authentication
-     * @param password the password to use for authentication
+     * @param  dataBaseConfig           the {@code DataBaseConfig} object that
+     *                                  contains the configuration details of
+     *                                  the database to connect to
+     * @throws IllegalArgumentException if the database configuration is missing
+     *                                  any required property
      */
-    public DataBaseDriver(String url, String username, String password) {
-        createConnection(url, username, password);
+    public DataBaseDriver(DataBaseConfig dataBaseConfig) {
+        createConnection(dataBaseConfig.getUrl(), dataBaseConfig.getUserName(), dataBaseConfig.getPassword());
     }
 
     /**
