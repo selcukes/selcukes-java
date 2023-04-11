@@ -85,7 +85,9 @@ public class DataBaseDriver {
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.setQueryTimeout(timeout);
         } catch (Exception e) {
-            throw new SelcukesException("Failed to create a statement with this string " + connection);
+            throw new SelcukesException("Failed to create a statement with this connection: " + connection
+                    + ". Error message: " + e.getMessage());
+
         }
         return statement;
     }
