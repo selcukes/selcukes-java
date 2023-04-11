@@ -23,14 +23,13 @@ import lombok.SneakyThrows;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * A class that represents a database driver for connecting to a database and
@@ -75,27 +74,20 @@ public class DataBaseDriver {
     }
 
     /**
-     * Creates a new {@code PreparedStatement} object for the specified SQL
-     * query and sets a timeout of {@code TIMEOUT_SECONDS} seconds.
+     * Creates a new {@code Statement} object for the specified SQL query and
+     * sets a timeout of {@code TIMEOUT_SECONDS} seconds.
      *
-     * @param  query        the SQL query to prepare
-     * @return              a new {@code PreparedStatement} object for the
-     *                      specified query
-     * @throws SQLException if an error occurs while preparing the statement
+     * @return a new {@code Statement} object for the specified query
      */
-    private PreparedStatement createStatement(String query) throws SQLException {
-        Objects.requireNonNull(connection, "Database connection is closed.");
-        PreparedStatement statement = null;
+    private Statement createStatement() {
+        Statement statement;
         try {
-            statement = connection.prepareStatement(query);
+            statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.setQueryTimeout(TIMEOUT_SECONDS);
-            return statement;
-        } catch (SQLException e) {
-            if (statement != null) {
-                statement.close();
-            }
-            throw e;
+        } catch (Exception e) {
+            throw new SelcukesException("Failed to create a statement with this string " + connection);
         }
+        return statement;
     }
 
     /**
@@ -108,8 +100,8 @@ public class DataBaseDriver {
      * @throws SelcukesException if an error occurs while executing the query
      */
     public DataTable<String, String> executeQuery(String query) {
-        try (var statement = createStatement(query);
-                var resultSet = statement.executeQuery()) {
+        try (var statement = createStatement();
+                var resultSet = statement.executeQuery(query)) {
             return asTable(resultSet);
         } catch (Exception e) {
             throw new SelcukesException("Failed to execute query [" + query + "]", e);
@@ -129,8 +121,8 @@ public class DataBaseDriver {
      *                           statement
      */
     public int executeUpdate(String query) {
-        try (var statement = createStatement(query)) {
-            return statement.executeUpdate();
+        try (var statement = createStatement()) {
+            return statement.executeUpdate(query);
         } catch (Exception e) {
             throw new SelcukesException("Failed to execute update [" + query + "]", e);
         } finally {
