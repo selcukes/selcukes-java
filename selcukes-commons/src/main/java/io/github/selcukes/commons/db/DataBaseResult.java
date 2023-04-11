@@ -50,8 +50,7 @@ import java.util.Map;
  *
  * }
  * </pre>
- * 
- * 1.0
+ * <p>
  */
 public class DataBaseResult {
     /**
@@ -76,11 +75,13 @@ public class DataBaseResult {
      *         table.
      */
     @SneakyThrows
-    public DataTable<String, Object> asTable() {
-        var table = new DataTable<String, Object>();
-        ResultSetMetaData meta = resultSet.getMetaData();
-        while (resultSet.next()) {
-            table.addRow(asRow(meta, resultSet));
+    public DataTable<String, String> asTable() {
+        var table = new DataTable<String, String>();
+        try (resultSet) {
+            var meta = resultSet.getMetaData();
+            while (resultSet.next()) {
+                table.addRow(asRow(meta, resultSet));
+            }
         }
         return table;
     }
@@ -103,8 +104,8 @@ public class DataBaseResult {
      * @return           a {@code Map} object representing the row.
      */
     @SneakyThrows
-    private Map<String, Object> asRow(final ResultSetMetaData metaData, final ResultSet resultSet) {
-        var map = new LinkedHashMap<String, Object>();
+    private Map<String, String> asRow(final ResultSetMetaData metaData, final ResultSet resultSet) {
+        var map = new LinkedHashMap<String, String>();
         for (int i = 1; i <= metaData.getColumnCount(); i++) {
             map.put(metaData.getColumnName(i), resultSet.getString(i));
         }
