@@ -267,4 +267,19 @@ public class StringHelper {
                 .anyMatch(word -> label.toLowerCase().contains(word.toLowerCase()));
     }
 
+    /**
+     * Converts the given string representation of an integer to its hexadecimal
+     * string representation.
+     *
+     * @param  decimalString         the string representation of an integer to
+     *                               convert
+     * @return                       the hexadecimal string representation of
+     *                               the given integer
+     * @throws NumberFormatException if the input string is not a valid integer
+     */
+    public String toHex(String decimalString) {
+        int decimal = Integer.parseInt(decimalString);
+        return Integer.toHexString(decimal);
+    }
+
 }

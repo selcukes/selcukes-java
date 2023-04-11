@@ -78,7 +78,6 @@ public class DriverManager {
     private synchronized void createDevice(DeviceType deviceType, Capabilities... capabilities) {
         Stream.ofNullable(capabilities)
                 .flatMap(Arrays::stream)
-                .filter(options -> !getDevicePool().hasDevice(deviceType, options))
                 .map(options -> DriverFactory.create(deviceType, options))
                 .forEach(device -> getDevicePool().addDevice(deviceType, device));
         if (getDevicePool().getDevices(deviceType).isEmpty()) {
