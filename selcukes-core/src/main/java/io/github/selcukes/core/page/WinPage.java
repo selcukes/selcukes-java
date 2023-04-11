@@ -42,7 +42,7 @@ public class WinPage implements Page {
     public WinPage switchToWindowBy(Object locator) {
         WebElement newWindowElement = find(locator);
         String appTopLevelWindow = newWindowElement.getAttribute("NativeWindowHandle");
-        Preconditions.checkArgument(appTopLevelWindow.isEmpty(),
+        Preconditions.checkArgument(!appTopLevelWindow.isEmpty(),
             "The found window does not have NativeWindowHandle property");
         String windowIdToHex = StringHelper.toHex(appTopLevelWindow);
         logger.info(() -> "Window Id: " + appTopLevelWindow + "After: " + windowIdToHex);
