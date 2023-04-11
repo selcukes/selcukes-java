@@ -23,6 +23,8 @@ import org.testng.annotations.Test;
 import static org.testng.Assert.assertEquals;
 
 public class DataBaseConfigTest {
+    private static final String CONNECTION_URL = "jdbc:mysql://localhost:3306/mydb;integratedSecurity=true";
+
     @Test
     public void dbConfigTest() {
         var config = DataBaseConfig.builder()
@@ -35,6 +37,17 @@ public class DataBaseConfigTest {
                 .timeout(200)
                 .integratedSecurity(true)
                 .build();
-        assertEquals(config.getUrl(), "jdbc:mysql://localhost:3306/mydb;integratedSecurity=true");
+        assertEquals(config.getUrl(), CONNECTION_URL);
+    }
+
+    @Test
+    public void customConnectionUrlTest() {
+        var config = DataBaseConfig.builder()
+                .connectionUrl(CONNECTION_URL)
+                .userName("myuser")
+                .password("mypassword")
+                .timeout(300)
+                .build();
+        assertEquals(config.getUrl(), CONNECTION_URL);
     }
 }

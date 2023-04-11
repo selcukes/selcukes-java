@@ -45,7 +45,8 @@ public class DataBaseDriver {
     private final int timeout;
 
     /**
-     * Constructs a new instance of the DataBaseDriver class with the specified database configuration.
+     * Constructs a new instance of the DataBaseDriver class with the specified
+     * database configuration.
      *
      * @param dataBaseConfig the configuration of the database to connect to
      */

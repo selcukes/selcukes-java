@@ -19,6 +19,8 @@ package io.github.selcukes.commons.db;
 import lombok.Builder;
 import lombok.Getter;
 
+import static java.util.Optional.ofNullable;
+
 @Getter
 @Builder
 public class DataBaseConfig {
@@ -31,6 +33,7 @@ public class DataBaseConfig {
     @Builder.Default
     private final int timeout = 600;
     private final boolean integratedSecurity;
+    private final String connectionUrl;
 
     /**
      * Returns the URL to connect to the database based on the configuration
@@ -39,13 +42,16 @@ public class DataBaseConfig {
      * @return the URL to connect to the database
      */
     public String getUrl() {
-        String url = dataBaseType.getUrl()
-                .replace("{hostName}", hostName)
-                .replace("{port}", String.valueOf(port))
-                .replace("{dataBaseName}", dataBaseName);
-        if (integratedSecurity) {
-            url += ";integratedSecurity=true";
-        }
-        return url;
+        return ofNullable(getConnectionUrl())
+                .orElseGet(() -> {
+                    String url = dataBaseType.getUrl()
+                            .replace("{hostName}", hostName)
+                            .replace("{port}", String.valueOf(port))
+                            .replace("{dataBaseName}", dataBaseName);
+                    if (integratedSecurity) {
+                        url += ";integratedSecurity=true";
+                    }
+                    return url;
+                });
     }
 }
