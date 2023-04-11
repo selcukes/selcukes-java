@@ -23,7 +23,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum DataBaseType {
     MY_SQL("jdbc:mysql://{hostName}:{port}/{dataBaseName}"),
-    SQL_SERVER("jdbc:sqlserver://{hostName}:{port};databaseName={dataBaseName}{integratedSecurity}"),
+    SQL_SERVER("jdbc:sqlserver://{hostName}:{port};databaseName={dataBaseName}"),
     POST_GRE_SQL("jdbc:postgresql://{hostName}:{port}/{dataBaseName}"),
     ORACLE("jdbc:oracle:thin:@{hostName}:{port}:{dataBaseName}"),
     ORACLE_SERVICE_NAME("jdbc:oracle:thin:@{hostName}:{port}/{dataBaseName}"),
