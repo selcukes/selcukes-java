@@ -17,6 +17,7 @@
 package io.github.selcukes.core.driver;
 
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.databind.utils.Resources;
 import lombok.CustomLog;
@@ -57,7 +58,7 @@ class AppiumManager implements RemoteManager {
     }
 
     public WebDriver createBrowserDriver(Capabilities capabilities, String browser) {
-        logger.debug(() -> "Initiating New Mobile Browser Session...");
+        logger.debug(() -> "Creating New Mobile Browser Session...");
         var options = ofNullable(capabilities)
                 .orElseGet(() -> {
                     String platform = ConfigFactory.getConfig().getMobile().getPlatform();
@@ -69,19 +70,31 @@ class AppiumManager implements RemoteManager {
     }
 
     public WebDriver createAppDriver(Capabilities capabilities) {
-        logger.debug(() -> "Initiating New Mobile App Session...");
-        var options = ofNullable(capabilities)
+        var platform = ConfigFactory.getConfig().getMobile().getPlatform();
+        if (platform.equalsIgnoreCase("IOS")) {
+            logger.debug(() -> "Creating New IOS App Session...");
+            var options = getAppiumAppOptions(capabilities, true);
+            return new IOSDriver(getServiceUrl(), options);
+        } else {
+            logger.debug(() -> "Creating New ANDROID App Session...");
+            var options = getAppiumAppOptions(capabilities, false);
+            return new AndroidDriver(getServiceUrl(), options);
+        }
+    }
+
+    private Capabilities getAppiumAppOptions(Capabilities capabilities, boolean isIOS) {
+        return ofNullable(capabilities)
                 .orElseGet(() -> {
                     if (isCloudAppium()) {
                         return CloudOptions.getBrowserStackOptions(true);
                     } else {
                         var app = ConfigFactory.getConfig().getMobile().getApp();
                         String appPath = Path.of(app).toAbsolutePath().toString();
-                        logger.info(() -> "Using APP: " + appPath);
-                        return AppiumOptions.getAndroidOptions(appPath);
+                        logger.debug(() -> "Using APP: " + appPath);
+                        return isIOS ? AppiumOptions.getIOSOptions(appPath)
+                                : AppiumOptions.getAndroidOptions(appPath);
                     }
                 });
-        return new AndroidDriver(getServiceUrl(), options);
     }
 
 }

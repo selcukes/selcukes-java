@@ -17,6 +17,7 @@
 package io.github.selcukes.core.driver;
 
 import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.windows.options.WindowsOptions;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Capabilities;
@@ -58,4 +59,9 @@ public class AppiumOptions {
         return new MutableCapabilities();
     }
 
+    public MutableCapabilities getIOSOptions(final String app) {
+        var options = new XCUITestOptions();
+        options.setApp(app);
+        return merge(options);
+    }
 }
