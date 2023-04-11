@@ -30,6 +30,7 @@ import java.sql.Statement;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.Executors;
 
 /**
  * A class that represents a database driver for connecting to a database and
@@ -102,6 +103,7 @@ public class DataBaseDriver {
     public synchronized DataTable<String, String> executeQuery(String query) {
         try (var statement = createStatement();
                 var resultSet = statement.executeQuery(query)) {
+            logger.debug(() -> String.format("Executed query [%s]", query));
             return asTable(resultSet);
         } catch (Exception e) {
             throw new SelcukesException("Failed to execute query [" + query + "]", e);
@@ -122,11 +124,27 @@ public class DataBaseDriver {
      */
     public synchronized int executeUpdate(String query) {
         try (var statement = createStatement()) {
+            logger.debug(() -> String.format("Executing Update [%s]", query));
             return statement.executeUpdate(query);
         } catch (Exception e) {
             throw new SelcukesException("Failed to execute update [" + query + "]", e);
         } finally {
             closeConnection();
+        }
+    }
+
+    /**
+     * Sets the network timeout for the database connection.
+     *
+     * @param  seconds           The number of seconds to set as the timeout.
+     * @throws SelcukesException If an error occurs while setting the timeout on
+     *                           the database connection.
+     */
+    public synchronized void setTimeout(int seconds) {
+        try {
+            connection.setNetworkTimeout(Executors.newFixedThreadPool(1), seconds * 1000);
+        } catch (SQLException e) {
+            throw new SelcukesException("Failed to set timeout on database connection", e);
         }
     }
 
