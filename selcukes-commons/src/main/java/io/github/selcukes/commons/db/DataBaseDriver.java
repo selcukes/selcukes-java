@@ -17,6 +17,7 @@
 package io.github.selcukes.commons.db;
 
 import io.github.selcukes.commons.exception.SelcukesException;
+import io.github.selcukes.commons.helper.Preconditions;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 
@@ -70,17 +71,13 @@ public class DataBaseDriver {
      * Creates a new PreparedStatement for the specified query and sets a
      * timeout of TIMEOUT_SECONDS seconds.
      *
-     * @param  query             the SQL query to prepare
-     * @return                   a new PreparedStatement object for the
-     *                           specified query
-     * @throws SelcukesException if the database connection is closed
+     * @param  query the SQL query to prepare
+     * @return       a new PreparedStatement object for the specified query
      */
     @SneakyThrows
     private PreparedStatement createStatement(String query) {
-        if (isClosed()) {
-            throw new SelcukesException("Database connection closed.");
-        }
-        PreparedStatement statement = connection.prepareStatement(query);
+        Preconditions.checkArgument(!isClosed(), "Database connection closed.");
+        var statement = connection.prepareStatement(query);
         statement.setQueryTimeout(TIMEOUT_SECONDS);
         return statement;
     }
