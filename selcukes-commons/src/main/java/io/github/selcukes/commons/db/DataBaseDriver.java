@@ -41,8 +41,8 @@ import java.util.concurrent.Executors;
  */
 @CustomLog
 public class DataBaseDriver {
-    private static final int TIMEOUT_SECONDS = 600;
     private Connection connection;
+    private final int timeout;
 
     /**
      * Constructs a new instance of the {@code DataBaseDriver} class using the
@@ -63,6 +63,7 @@ public class DataBaseDriver {
      *                                  any required property
      */
     public DataBaseDriver(DataBaseConfig dataBaseConfig) {
+        this.timeout = dataBaseConfig.getTimeout();
         createConnection(dataBaseConfig.getUrl(), dataBaseConfig.getUserName(), dataBaseConfig.getPassword());
     }
 
@@ -86,7 +87,7 @@ public class DataBaseDriver {
 
     /**
      * Creates a new {@code Statement} object for the specified SQL query and
-     * sets a timeout of {@code TIMEOUT_SECONDS} seconds.
+     * sets a timeout of seconds.
      *
      * @return a new {@code Statement} object for the specified query
      */
@@ -94,7 +95,7 @@ public class DataBaseDriver {
         Statement statement;
         try {
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            statement.setQueryTimeout(TIMEOUT_SECONDS);
+            statement.setQueryTimeout(timeout);
         } catch (Exception e) {
             throw new SelcukesException("Failed to create a statement with this string " + connection);
         }
@@ -150,7 +151,7 @@ public class DataBaseDriver {
      * @return                   this instance of {@code DataBaseDriver}
      * @throws SelcukesException if there is an error setting the timeout
      */
-    public synchronized DataBaseDriver setTimeout(int seconds) {
+    public synchronized DataBaseDriver setNetworkTimeout(int seconds) {
         try {
             connection.setNetworkTimeout(Executors.newFixedThreadPool(1), seconds * 1000);
         } catch (SQLException e) {

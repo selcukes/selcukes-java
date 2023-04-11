@@ -32,6 +32,7 @@ public class DataBaseConfigTest {
                 .dataBaseName("mydb")
                 .userName("myuser")
                 .password("mypassword")
+                .timeout(200)
                 .integratedSecurity(true)
                 .build();
         assertEquals(config.getUrl(), "jdbc:mysql://localhost:3306/mydb;integratedSecurity=true");

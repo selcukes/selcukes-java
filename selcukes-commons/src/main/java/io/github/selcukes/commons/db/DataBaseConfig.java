@@ -28,10 +28,13 @@ public class DataBaseConfig {
     private final String dataBaseName;
     private final String userName;
     private final String password;
+    @Builder.Default
+    private final int timeout = 600;
     private final boolean integratedSecurity;
 
     /**
-     * Returns the URL to connect to the database based on the configuration properties.
+     * Returns the URL to connect to the database based on the configuration
+     * properties.
      *
      * @return the URL to connect to the database
      */
