@@ -45,22 +45,9 @@ public class DataBaseDriver {
     private final int timeout;
 
     /**
-     * Constructs a new instance of the {@code DataBaseDriver} class using the
-     * specified database configuration.
-     * <p>
-     * The database configuration must contain the following properties:
-     * <ul>
-     * <li>{@code url}: the URL of the database to connect to</li>
-     * <li>{@code userName}: the username to use for authentication</li>
-     * <li>{@code password}: the password to use for authentication</li>
-     * </ul>
-     * </p>
+     * Constructs a new instance of the DataBaseDriver class with the specified database configuration.
      *
-     * @param  dataBaseConfig           the {@code DataBaseConfig} object that
-     *                                  contains the configuration details of
-     *                                  the database to connect to
-     * @throws IllegalArgumentException if the database configuration is missing
-     *                                  any required property
+     * @param dataBaseConfig the configuration of the database to connect to
      */
     public DataBaseDriver(DataBaseConfig dataBaseConfig) {
         this.timeout = dataBaseConfig.getTimeout();
@@ -103,8 +90,7 @@ public class DataBaseDriver {
     }
 
     /**
-     * Executes the specified SQL query and returns a{@link DataTable} object
-     * containing the query results.
+     * Executes a query on the connected database and returns a{@link DataTable}
      *
      * @param  query             the SQL query to execute
      * @return                   return a new {@link DataTable} object with the
