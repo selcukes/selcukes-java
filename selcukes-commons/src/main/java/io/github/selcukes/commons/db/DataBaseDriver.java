@@ -93,8 +93,8 @@ public class DataBaseDriver {
      * containing the query results.
      *
      * @param  query             the SQL query to execute
-     * @return                   a new DataBaseResult object with the query
-     *                           results
+     * @return                   return a new {@link DataTable} object with the
+     *                           query results
      * @throws SelcukesException if an error occurs while executing the query
      */
     public DataTable<String, String> executeQuery(String query) {
