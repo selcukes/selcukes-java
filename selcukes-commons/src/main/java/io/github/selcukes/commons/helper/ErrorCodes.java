@@ -39,6 +39,7 @@ public class ErrorCodes {
      * @return      The error message associated with the error code.
      */
     public String findSolution(final String code) {
-        return this.errors.getOrDefault(code, "Solution not found in error_codes.yaml file.");
+        return this.errors.getOrDefault(code,
+            "No solution found in error_codes.yaml. Please add a solution for this error code.");
     }
 }
