@@ -231,8 +231,9 @@ public class Response {
     private void logIfError() {
         int responseCode = statusCode();
         if (responseCode >= 400) {
-            throw new SelcukesException(String.format("HttpResponseException : Response Code[%s] Reason Phrase[%s]",
-                responseCode, getReasonPhrase(responseCode)));
+            throw new SelcukesException(
+                String.format("Received an unsuccessful HTTP response with status code [%d] [%s]", responseCode,
+                    getReasonPhrase(responseCode)));
         }
     }
 }
