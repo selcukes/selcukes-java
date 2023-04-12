@@ -33,3 +33,6 @@ errors:
   NoSuchFrameException: |
     * The Frame is not available in current page. 
     Please verify the frame availability.
+  ExcelConfigException: |
+    * Please make sure that the test data file for the scenario is present in the correct location and has the correct file name.
+    * Please make sure the test name should be in the format 'FeatureName::ScenarioName'.

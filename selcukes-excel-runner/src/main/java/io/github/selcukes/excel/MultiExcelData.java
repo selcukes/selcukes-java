@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
+import static java.util.Optional.ofNullable;
 
 @CustomLog
 class MultiExcelData extends AbstractExcelDataProvider {
@@ -38,7 +39,9 @@ class MultiExcelData extends AbstractExcelDataProvider {
         var filePath = ConfigFactory.getConfig().getExcel().get("suiteFile");
         var excelData = ExcelMapper.parse(filePath);
         var suiteName = ConfigFactory.getConfig().getExcel().get("suiteName");
-        excelSuite = excelData.get(suiteName);
+        excelSuite = ofNullable(excelData.get(suiteName))
+                .orElseThrow(
+                    () -> new ExcelConfigException(format("The Excel suite name [%s] is invalid or empty", suiteName)));
         modifyFirstColumnData(excelSuite, "Screen", "");
     }
 

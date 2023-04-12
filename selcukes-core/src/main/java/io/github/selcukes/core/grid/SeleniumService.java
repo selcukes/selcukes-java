@@ -133,7 +133,7 @@ class SeleniumService {
     @SneakyThrows
     public String getServerJar() {
         var serverJarUrl = new URL(
-            "https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.8.0/selenium-server-4.8.1.jar");
+            "https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.8.0/selenium-server-4.8.3.jar");
         Path serverJarPath = Resources.of("target/selenium-server.jar");
         FileHelper.download(serverJarUrl, serverJarPath.toFile());
         return serverJarPath.toAbsolutePath().toString();

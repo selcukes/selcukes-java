@@ -31,20 +31,24 @@ import static io.github.selcukes.commons.properties.SelcukesTestProperties.EXCEL
 
 @CustomLog
 public class ExcelTestRunner extends SelcukesTestNGRunner {
-    private List<String> runScenarios = new ArrayList<>();
+    private final List<String> runScenarios = new ArrayList<>();
 
     @BeforeClass(alwaysRun = true)
     public void setUpExcel(ITestContext context) {
         var testProperties = new SelcukesTestProperties();
         ExcelDataFactory.getInstance().init();
         if (testProperties.getExcelProperty(EXCEL_RUNNER).equalsIgnoreCase("true")) {
-            runScenarios = ExcelDataFactory.getInstance().getScenariosToRun();
+            runScenarios.addAll(ExcelDataFactory.getInstance().getScenariosToRun());
+            if (runScenarios.isEmpty()) {
+                logger.debug(() -> "No scenario is selected to execute.");
+            }
         }
     }
 
     @Override
     public Object[][] filter(Object[][] scenarios, Predicate<Pickle> accept) {
         var filteredScenarios = super.filter(scenarios, accept);
-        return SingleExcelData.filteredScenarios(filteredScenarios, runScenarios);
+        return runScenarios.isEmpty() ? filteredScenarios
+                : SingleExcelData.filteredScenarios(filteredScenarios, runScenarios);
     }
 }

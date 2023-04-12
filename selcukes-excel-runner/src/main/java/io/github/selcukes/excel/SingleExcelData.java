@@ -17,6 +17,7 @@
 package io.github.selcukes.excel;
 
 import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.commons.exception.ExcelConfigException;
 import io.github.selcukes.commons.helper.Preconditions;
 import io.github.selcukes.databind.collections.DataTable;
 import io.github.selcukes.databind.collections.Lists;
@@ -44,6 +45,10 @@ class SingleExcelData extends AbstractExcelDataProvider {
     public void init() {
         var filePath = ConfigFactory.getConfig().getExcel().get("dataFile");
         excelData = ExcelMapper.parse(filePath);
+        if (!excelData.containsKey(TEST_SUITE_RUNNER_SHEET)) {
+            throw new ExcelConfigException(
+                format("The Excel suite name [%s] is invalid or empty", TEST_SUITE_RUNNER_SHEET));
+        }
         IGNORE_SHEETS.remove(TEST_SUITE_RUNNER_SHEET);
         logger.debug(() -> "Using excel runner sheet : " + TEST_SUITE_RUNNER_SHEET);
 
@@ -94,17 +99,12 @@ class SingleExcelData extends AbstractExcelDataProvider {
     }
 
     static Object[][] filteredScenarios(Object[][] cucumberScenarios, List<String> runScenarios) {
-        if (runScenarios.isEmpty()) {
-            logger.info(() -> "No scenario is selected to execute.");
-            return cucumberScenarios;
-        } else {
-            var scenarioMap = Stream.of(cucumberScenarios)
-                    .collect(Maps.ofIgnoreCase(s -> s[0].toString().replace("\"", ""), s -> s));
-            return runScenarios.stream()
-                    .map(s -> s.split(NAME_SEPARATOR)[1])
-                    .map(scenarioMap::get)
-                    .filter(Objects::nonNull)
-                    .toArray(Object[][]::new);
-        }
+        var scenarioMap = Stream.of(cucumberScenarios)
+                .collect(Maps.ofIgnoreCase(s -> s[0].toString().replace("\"", ""), s -> s));
+        return runScenarios.stream()
+                .map(s -> s.split(NAME_SEPARATOR)[1])
+                .map(scenarioMap::get)
+                .filter(Objects::nonNull)
+                .toArray(Object[][]::new);
     }
 }
