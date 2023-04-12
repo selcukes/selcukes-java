@@ -16,7 +16,7 @@
 
 package io.github.selcukes.core.driver;
 
-import io.github.selcukes.commons.exception.DriverSetupException;
+import io.github.selcukes.commons.exception.DriverConnectionException;
 import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.utils.StringHelper;
@@ -39,7 +39,7 @@ public class CloudOptions {
             try {
                 browserStack = DataMapper.parse(BrowserStack.class);
             } catch (Exception e) {
-                throw new DriverSetupException(
+                throw new DriverConnectionException(
                     "Failed loading BrowserStackOptions. Please make sure 'browser_stack.yaml or json' file is placed in test resource file.");
             }
         }

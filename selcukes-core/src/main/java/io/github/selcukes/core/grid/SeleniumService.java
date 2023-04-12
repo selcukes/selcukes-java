@@ -16,7 +16,7 @@
 
 package io.github.selcukes.core.grid;
 
-import io.github.selcukes.commons.exception.DriverSetupException;
+import io.github.selcukes.commons.exception.DriverConnectionException;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.databind.utils.Resources;
 import lombok.CustomLog;
@@ -51,15 +51,15 @@ class SeleniumService {
     /**
      * Creates Selenium Server process.
      *
-     * @param  mode                 server mode to start
-     * @param  extraFlags           extra flags to start the server with
-     * @return                      the new selenium server instance
-     * @throws DriverSetupException if server is already started or fails to
-     *                              start
+     * @param  mode                      server mode to start
+     * @param  extraFlags                extra flags to start the server with
+     * @return                           the new selenium server instance
+     * @throws DriverConnectionException if server is already started or fails
+     *                                   to start
      */
     public SeleniumService start(String mode, String... extraFlags) {
         if (command != null) {
-            throw new DriverSetupException("Server already started");
+            throw new DriverConnectionException("Server already started");
         }
 
         String serverJar = getServerJar();
@@ -94,9 +94,9 @@ class SeleniumService {
             logger.error(() -> "Server failed to start: " + e.getMessage());
             command.destroy();
             command = null;
-            throw new DriverSetupException(e);
+            throw new DriverConnectionException(e);
         } catch (MalformedURLException e) {
-            throw new DriverSetupException(e);
+            throw new DriverConnectionException(e);
         }
 
         SHUTDOWN_ACTIONS.add(this::stop);

@@ -16,22 +16,22 @@
 
 package io.github.selcukes.commons.exception;
 
-public class DriverSetupException extends SelcukesException {
+public class DriverConnectionException extends SelcukesException {
     private static final long serialVersionUID = 1L;
 
-    public DriverSetupException() {
+    public DriverConnectionException() {
         super();
     }
 
-    public DriverSetupException(String message, Throwable cause) {
+    public DriverConnectionException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public DriverSetupException(String message) {
+    public DriverConnectionException(String message) {
         super(message);
     }
 
-    public DriverSetupException(Throwable cause) {
+    public DriverConnectionException(Throwable cause) {
         super(cause);
     }
 

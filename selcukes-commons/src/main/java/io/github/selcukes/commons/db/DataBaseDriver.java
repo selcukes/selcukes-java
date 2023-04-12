@@ -16,7 +16,7 @@
 
 package io.github.selcukes.commons.db;
 
-import io.github.selcukes.commons.exception.SelcukesException;
+import io.github.selcukes.commons.exception.DriverConnectionException;
 import io.github.selcukes.databind.collections.DataTable;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
@@ -59,17 +59,17 @@ public class DataBaseDriver {
      * Creates a new connection to the database with the specified URL,
      * username, and password.
      *
-     * @param  url               the URL of the database to connect to
-     * @param  username          the username to use for authentication
-     * @param  password          the password to use for authentication
-     * @throws SelcukesException if an error occurs while connecting to the
-     *                           database
+     * @param  url                       the URL of the database to connect to
+     * @param  username                  the username to use for authentication
+     * @param  password                  the password to use for authentication
+     * @throws DriverConnectionException if an error occurs while connecting to
+     *                                   the database
      */
     private void createConnection(String url, String username, String password) {
         try {
             connection = DriverManager.getConnection(url, username, password);
         } catch (Exception e) {
-            throw new SelcukesException("Failed to connect to database using URL [" + url + "]", e);
+            throw new DriverConnectionException("Failed to connect to database using URL [" + url + "]", e);
         }
     }
 
@@ -85,7 +85,7 @@ public class DataBaseDriver {
             statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement.setQueryTimeout(timeout);
         } catch (Exception e) {
-            throw new SelcukesException("Failed to create a statement with this connection: " + connection
+            throw new DriverConnectionException("Failed to create a statement with this connection: " + connection
                     + ". Error message: " + e.getMessage());
 
         }
@@ -95,10 +95,11 @@ public class DataBaseDriver {
     /**
      * Executes a query on the connected database and returns a{@link DataTable}
      *
-     * @param  query             the SQL query to execute
-     * @return                   return a new {@link DataTable} object with the
-     *                           query results
-     * @throws SelcukesException if an error occurs while executing the query
+     * @param  query                     the SQL query to execute
+     * @return                           return a new {@link DataTable} object
+     *                                   with the query results
+     * @throws DriverConnectionException if an error occurs while executing the
+     *                                   query
      */
     public synchronized DataTable<String, String> executeQuery(String query) {
         try (var statement = createStatement();
@@ -106,7 +107,7 @@ public class DataBaseDriver {
             logger.debug(() -> String.format("Executed query [%s]", query));
             return asTable(resultSet);
         } catch (Exception e) {
-            throw new SelcukesException("Failed to execute query [" + query + "]", e);
+            throw new DriverConnectionException("Failed to execute query [" + query + "]", e);
         } finally {
             closeConnection();
         }
@@ -116,18 +117,18 @@ public class DataBaseDriver {
      * Executes the specified SQL update statement and returns the number of
      * rows affected.
      *
-     * @param  query             the SQL update statement to execute
-     * @return                   the number of rows affected by the update
-     *                           statement
-     * @throws SelcukesException if an error occurs while executing the update
-     *                           statement
+     * @param  query                     the SQL update statement to execute
+     * @return                           the number of rows affected by the
+     *                                   update statement
+     * @throws DriverConnectionException if an error occurs while executing the
+     *                                   update statement
      */
     public synchronized int executeUpdate(String query) {
         try (var statement = createStatement()) {
             logger.debug(() -> String.format("Executing Update [%s]", query));
             return statement.executeUpdate(query);
         } catch (Exception e) {
-            throw new SelcukesException("Failed to execute update [" + query + "]", e);
+            throw new DriverConnectionException("Failed to execute update [" + query + "]", e);
         } finally {
             closeConnection();
         }
@@ -136,15 +137,16 @@ public class DataBaseDriver {
     /**
      * Sets the network timeout for the database connection.
      *
-     * @param  seconds           the timeout value in seconds
-     * @return                   this instance of {@code DataBaseDriver}
-     * @throws SelcukesException if there is an error setting the timeout
+     * @param  seconds                   the timeout value in seconds
+     * @return                           this instance of {@code DataBaseDriver}
+     * @throws DriverConnectionException if there is an error setting the
+     *                                   timeout
      */
     public synchronized DataBaseDriver setNetworkTimeout(int seconds) {
         try {
             connection.setNetworkTimeout(Executors.newFixedThreadPool(1), seconds * 1000);
         } catch (SQLException e) {
-            throw new SelcukesException("Failed to set timeout on database connection", e);
+            throw new DriverConnectionException("Failed to set timeout on database connection", e);
         }
         return this;
     }

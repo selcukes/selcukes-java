@@ -16,7 +16,7 @@
 
 package io.github.selcukes.commons.helper;
 
-import io.github.selcukes.commons.exception.SelcukesException;
+import io.github.selcukes.commons.exception.ConfigurationException;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FileUtils;
@@ -77,7 +77,7 @@ public class FileHelper {
             permissions.add(PosixFilePermission.OWNER_EXECUTE);
             Files.setPosixFilePermissions(Paths.get(filePath), permissions);
         } catch (Exception e) {
-            throw new SelcukesException("Unable to set file as executable..");
+            throw new ConfigurationException("Unable to set file as executable..");
         }
     }
 
@@ -116,11 +116,11 @@ public class FileHelper {
     public void createDirectory(final File directory) {
         if (directory.exists()) {
             if (!directory.isDirectory()) {
-                throw new SelcukesException(
+                throw new ConfigurationException(
                     "File " + directory + " exists and is not a directory. Unable to create directory.");
             }
         } else if (!directory.mkdirs() && !directory.isDirectory()) {
-            throw new SelcukesException("Unable to create directory " + directory);
+            throw new ConfigurationException("Unable to create directory " + directory);
         }
     }
 
@@ -135,7 +135,7 @@ public class FileHelper {
             Path path = Paths.get(directory);
             return Files.createDirectories(path);
         } catch (IOException e) {
-            throw new SelcukesException("Unable to create directory : " + directory, e);
+            throw new ConfigurationException("Unable to create directory : " + directory, e);
         }
     }
 
@@ -148,7 +148,7 @@ public class FileHelper {
         try {
             FileUtils.cleanDirectory(dirName);
         } catch (IOException e) {
-            throw new SelcukesException("'" + dirName + "' is not a directory or a file to delete.", e);
+            throw new ConfigurationException("'" + dirName + "' is not a directory or a file to delete.", e);
         }
     }
 
@@ -171,7 +171,7 @@ public class FileHelper {
      */
     public void renameFile(final File from, final File to) {
         if (!from.renameTo(to)) {
-            throw new SelcukesException("Failed to rename " + from + " to " + to);
+            throw new ConfigurationException("Failed to rename " + from + " to " + to);
         }
     }
 
@@ -185,7 +185,7 @@ public class FileHelper {
         try {
             return Files.createTempDirectory(null);
         } catch (IOException e) {
-            throw new SelcukesException("Unable to create temp directory : ", e);
+            throw new ConfigurationException("Unable to create temp directory : ", e);
         }
     }
 
@@ -201,7 +201,7 @@ public class FileHelper {
             tempFile.deleteOnExit();
             return tempFile;
         } catch (IOException e) {
-            throw new SelcukesException("Unable to create temp file : ", e);
+            throw new ConfigurationException("Unable to create temp file : ", e);
         }
     }
 
@@ -214,7 +214,7 @@ public class FileHelper {
         try {
             return Files.readAllBytes(Paths.get(filePath));
         } catch (IOException e) {
-            throw new SelcukesException("Unable to convert file to ByteArray  : ", e);
+            throw new ConfigurationException("Unable to convert file to ByteArray  : ", e);
         }
     }
 
@@ -327,7 +327,7 @@ public class FileHelper {
                 var fileOutputStream = new FileOutputStream(destination)) {
             fileOutputStream.getChannel().transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
         } catch (Exception e) {
-            throw new SelcukesException(String.format("Unable to download a file from URL [%s]", source));
+            throw new ConfigurationException(String.format("Unable to download a file from URL [%s]", source));
         }
     }
 
@@ -371,7 +371,7 @@ public class FileHelper {
         try {
             return new String(loadResourceFromJar(filePath).readAllBytes(), StandardCharsets.UTF_8);
         } catch (Exception e) {
-            throw new SelcukesException(String.format("Cannot load [%s] from classpath", filePath));
+            throw new ConfigurationException(String.format("Cannot load [%s] from classpath", filePath));
         }
     }
 }

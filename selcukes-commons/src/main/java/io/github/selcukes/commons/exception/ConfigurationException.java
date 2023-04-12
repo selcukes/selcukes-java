@@ -27,9 +27,8 @@ public class ConfigurationException extends SelcukesException {
         super(message, cause);
     }
 
-    public ConfigurationException(String configurationType) {
-
-        super("Configuration section for {" + configurationType + "} was not found.");
+    public ConfigurationException(String message) {
+        super(message);
     }
 
     public ConfigurationException(Throwable cause) {

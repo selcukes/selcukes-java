@@ -19,7 +19,7 @@ package io.github.selcukes.core.driver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
-import io.github.selcukes.commons.exception.DriverSetupException;
+import io.github.selcukes.commons.exception.DriverConnectionException;
 import io.github.selcukes.commons.helper.Singleton;
 import lombok.CustomLog;
 
@@ -52,7 +52,7 @@ class AppiumEngine {
             service.start();
             logger.debug(() -> String.format("Using Local ServiceUrl[%s]", service.getUrl()));
         } catch (Exception e) {
-            throw new DriverSetupException("Failed starting Appium Server..", e);
+            throw new DriverConnectionException("Failed starting Appium Server..", e);
         }
     }
 

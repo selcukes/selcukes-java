@@ -23,9 +23,8 @@ import io.github.selcukes.commons.helper.ExceptionHelper;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.util.concurrent.TimeoutException;
 
-public class BusinessExceptionTest {
+public class ExceptionHelperTest {
     public void createException() {
         try {
             throw new IOException("Something Wrong");
