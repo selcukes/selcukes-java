@@ -17,7 +17,7 @@
 package io.github.selcukes.core.validation;
 
 import io.appium.java_client.AppiumBy;
-import io.github.selcukes.commons.http.Response;
+import io.github.selcukes.commons.http.WebResponse;
 import io.github.selcukes.core.page.Page;
 import lombok.CustomLog;
 import org.openqa.selenium.By;
@@ -77,7 +77,7 @@ public class PageValidations {
         return new ElementValidation(isSoft, element);
     }
 
-    public ResponseValidation response(Response response) {
+    public ResponseValidation response(WebResponse response) {
         return new ResponseValidation(isSoft, response);
     }
 

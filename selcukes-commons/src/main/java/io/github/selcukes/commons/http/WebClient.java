@@ -58,7 +58,7 @@ public class WebClient {
      * @return         A Response object
      */
     @SneakyThrows
-    public Response post(final Object payload) {
+    public WebResponse post(final Object payload) {
         contentType("application/json");
         var request = requestBuilder.POST(bodyPublisher(payload)).build();
         return execute(request);
@@ -70,7 +70,7 @@ public class WebClient {
      * @return A Response object.
      */
     @SneakyThrows
-    public Response post() {
+    public WebResponse post() {
         var request = requestBuilder.POST(bodyPublisher).build();
         return execute(request);
     }
@@ -80,7 +80,7 @@ public class WebClient {
      *
      * @return A Response object.
      */
-    public Response delete() {
+    public WebResponse delete() {
         var request = requestBuilder.DELETE().build();
         return execute(request);
     }
@@ -96,7 +96,7 @@ public class WebClient {
      * @param  payload The payload to be sent to the server.
      * @return         A Response object
      */
-    public Response put(final Object payload) {
+    public WebResponse put(final Object payload) {
         var request = requestBuilder.PUT(bodyPublisher(payload)).build();
         return execute(request);
     }
@@ -141,8 +141,8 @@ public class WebClient {
     }
 
     @SneakyThrows
-    private Response execute(final HttpRequest request) {
-        return new Response(clientBuilder.build().send(request, ofString()));
+    private WebResponse execute(final HttpRequest request) {
+        return new WebResponse(clientBuilder.build().send(request, ofString()));
     }
 
     /**
@@ -150,7 +150,7 @@ public class WebClient {
      *
      * @return A Response object.
      */
-    public Response get() {
+    public WebResponse get() {
         var request = requestBuilder.GET().build();
         return execute(request);
     }

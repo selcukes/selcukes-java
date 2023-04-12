@@ -16,7 +16,7 @@
 
 package io.github.selcukes.core.tests.api;
 
-import io.github.selcukes.commons.http.Response;
+import io.github.selcukes.commons.http.WebResponse;
 import io.github.selcukes.core.page.ApiPage;
 import io.github.selcukes.core.page.Pages;
 import lombok.CustomLog;
@@ -32,7 +32,7 @@ public class ApiTest {
                 "    \"password\": \"admin\"\n" +
                 "}";
         ApiPage page = Pages.apiPage();
-        Response response = page.request("https://reqres.in/api/register")
+        WebResponse response = page.request("https://reqres.in/api/register")
                 .post(user);
         page.assertThat().response(response).isOk();
         logger.info(() -> "Token is: " + response.bodyAs(ResponseBody.class).getToken());

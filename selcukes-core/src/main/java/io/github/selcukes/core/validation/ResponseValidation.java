@@ -16,19 +16,19 @@
 
 package io.github.selcukes.core.validation;
 
-import io.github.selcukes.commons.http.Response;
+import io.github.selcukes.commons.http.WebResponse;
 import lombok.CustomLog;
 
-import static io.github.selcukes.commons.http.Response.getReasonPhrase;
+import static io.github.selcukes.commons.http.WebResponse.getReasonPhrase;
 import static io.github.selcukes.core.validation.Validation.failWithMessage;
 
 @CustomLog
 public class ResponseValidation {
-    private final Response response;
+    private final WebResponse response;
     private final boolean isSoft;
     private final String responseBody;
 
-    public ResponseValidation(boolean isSoft, Response response) {
+    public ResponseValidation(boolean isSoft, WebResponse response) {
         this.response = response;
         responseBody = response.body();
         this.isSoft = isSoft;

@@ -16,8 +16,8 @@
 
 package io.github.selcukes.wdb.util;
 
-import io.github.selcukes.commons.http.Response;
 import io.github.selcukes.commons.http.WebClient;
+import io.github.selcukes.commons.http.WebResponse;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,7 +34,7 @@ public class VersionHelper {
 
     }
 
-    public static Response sendRequest(String binaryDownloadUrl, String proxy) {
+    public static WebResponse sendRequest(String binaryDownloadUrl, String proxy) {
         return new WebClient(binaryDownloadUrl).proxy(proxy).get();
     }
 
