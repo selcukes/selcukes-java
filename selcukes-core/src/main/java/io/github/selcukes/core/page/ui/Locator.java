@@ -17,7 +17,6 @@
 package io.github.selcukes.core.page.ui;
 
 import io.appium.java_client.AppiumBy;
-import io.github.selcukes.commons.exception.ConfigurationException;
 import io.github.selcukes.commons.helper.Preconditions;
 import io.github.selcukes.databind.utils.StringHelper;
 import lombok.experimental.UtilityClass;
@@ -84,7 +83,7 @@ public class Locator {
             case "partiallink":
                 return By.partialLinkText(locatorValue);
             default:
-                throw new ConfigurationException("Unknown Locator type " + locatorType);
+                throw new IllegalArgumentException("Unknown Locator type " + locatorType);
         }
     }
 }
