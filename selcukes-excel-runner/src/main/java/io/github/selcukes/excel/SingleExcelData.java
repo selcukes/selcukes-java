@@ -21,7 +21,6 @@ import io.github.selcukes.commons.exception.ExcelConfigException;
 import io.github.selcukes.commons.helper.Preconditions;
 import io.github.selcukes.databind.collections.DataTable;
 import io.github.selcukes.databind.collections.Lists;
-import io.github.selcukes.databind.collections.Maps;
 import io.github.selcukes.databind.excel.ExcelMapper;
 import lombok.CustomLog;
 
@@ -29,8 +28,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Stream;
 
 import static java.lang.String.format;
 
@@ -96,15 +93,5 @@ class SingleExcelData extends AbstractExcelDataProvider {
             String scenarioName = name + HYPHEN + EXAMPLE;
             return testName.startsWith(scenarioName) || testName.equalsIgnoreCase(name);
         });
-    }
-
-    static Object[][] filteredScenarios(Object[][] cucumberScenarios, List<String> runScenarios) {
-        var scenarioMap = Stream.of(cucumberScenarios)
-                .collect(Maps.ofIgnoreCase(s -> s[0].toString().replace("\"", ""), s -> s));
-        return runScenarios.stream()
-                .map(s -> s.split(NAME_SEPARATOR)[1])
-                .map(scenarioMap::get)
-                .filter(Objects::nonNull)
-                .toArray(Object[][]::new);
     }
 }
