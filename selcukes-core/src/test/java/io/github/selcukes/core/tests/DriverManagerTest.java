@@ -38,9 +38,9 @@ public class DriverManagerTest {
         var chromeOptions = BrowserOptions.getBrowserOptions(Browser.CHROME, "");
         var edgeOptions = BrowserOptions.getBrowserOptions(Browser.EDGE, "");
         DriverManager.createDriver(DeviceType.BROWSER, chromeOptions, edgeOptions);
-        assertTrue(DriverManager.getWrappedDriver() instanceof ChromeDriver);
-        DriverManager.switchDriver(DeviceType.BROWSER, 1);
         assertTrue(DriverManager.getWrappedDriver() instanceof EdgeDriver);
+        DriverManager.switchDriver(DeviceType.BROWSER, 0);
+        assertTrue(DriverManager.getWrappedDriver() instanceof ChromeDriver);
     }
 
     @Test(enabled = false)

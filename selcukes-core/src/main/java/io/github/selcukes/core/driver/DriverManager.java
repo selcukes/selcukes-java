@@ -16,6 +16,7 @@
 
 package io.github.selcukes.core.driver;
 
+import io.github.selcukes.commons.exception.DriverConnectionException;
 import io.github.selcukes.commons.fixture.DriverFixture;
 import io.github.selcukes.commons.helper.SingletonContext;
 import io.github.selcukes.core.enums.DeviceType;
@@ -55,7 +56,12 @@ public class DriverManager {
      */
     public synchronized <D extends WebDriver> D createDriver(DeviceType deviceType, Capabilities... capabilities) {
         createDevice(deviceType, capabilities);
-        setDriver(DEVICE_POOL.get().getDevice(deviceType, 0));
+        var devices = getDevicePool().getDevices(deviceType);
+        if (devices.isEmpty()) {
+            throw new DriverConnectionException("No devices available for " + deviceType);
+        }
+        int deviceIndex = devices.size() - 1;
+        setDriver(getDevicePool().getDevice(deviceType, deviceIndex));
         return getDriver();
     }
 

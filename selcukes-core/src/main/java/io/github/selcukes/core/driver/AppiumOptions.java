@@ -19,18 +19,23 @@ package io.github.selcukes.core.driver;
 import io.appium.java_client.android.options.UiAutomator2Options;
 import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.windows.options.WindowsOptions;
+import io.github.selcukes.commons.helper.Preconditions;
+import io.github.selcukes.databind.utils.StringHelper;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.WebElement;
 
 @UtilityClass
 public class AppiumOptions {
-    public Capabilities setAppTopLevelWindow(String windowId) {
-        return setCapability("appTopLevelWindow", windowId);
-    }
-
-    public Capabilities appRoot() {
-        return setCapability("app", "Root");
+    public MutableCapabilities getWinAppOptions(WebElement element) {
+        String appTopLevelWindow = element.getAttribute("NativeWindowHandle");
+        Preconditions.checkArgument(!appTopLevelWindow.isEmpty(),
+            "The found window does not have NativeWindowHandle property");
+        String windowIdToHex = StringHelper.toHex(appTopLevelWindow);
+        var options = new WindowsOptions();
+        options.setAppTopLevelWindow(windowIdToHex);
+        return merge(options);
     }
 
     public MutableCapabilities getWinAppOptions(String app) {
