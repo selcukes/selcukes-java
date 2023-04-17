@@ -16,7 +16,7 @@
 
 ### Added
 
-*[DataBind] Added DecimalNumber ([#244](https://github.com/selcukes/selcukes-java/pull/244))
+* [DataBind] Added `DecimalNumber` ([#244](https://github.com/selcukes/selcukes-java/pull/244))
 
 * [Core] Add support for executing tests on multiple devices simultaneously using custom capabilities ([#245](https://github.com/selcukes/selcukes-java/pull/245))
 
