@@ -11,10 +11,31 @@
 ### Fixed
 
 ### Removed
+
+## [2.2.9] (17-04-2023)
+
+### Added
+
+*[DataBind] Added DecimalNumber ([#244](https://github.com/selcukes/selcukes-java/pull/244))
+
+* [Core] Add support for executing tests on multiple devices simultaneously using custom capabilities ([#245](https://github.com/selcukes/selcukes-java/pull/245))
+
+### Changed
+
+* [Commons] Renamed `Response` class to `WebResponse`
+* [Commons] Refactored DataBaseDriver to use DataBaseConfig builder to initiate
+  connections([#246](https://github.com/selcukes/selcukes-java/pull/246))
+
+### Fixed
+
+* [Core] Fixed issue with desktop switch window ([#247](https://github.com/selcukes/selcukes-java/pull/247))
+
 ## [2.2.8] (04-04-2023)
 
 ### Changed
-* [Internal Changes] Conducted a thorough code cleanup and refactoring to improve the code quality and readability. No changes were made to the functionality or features of the software
+
+* [Internal Changes] Conducted a thorough code cleanup and refactoring to improve the code quality and readability. No
+  changes were made to the functionality or features of the software
 
 ## [2.2.7] (30-03-2023)
 
