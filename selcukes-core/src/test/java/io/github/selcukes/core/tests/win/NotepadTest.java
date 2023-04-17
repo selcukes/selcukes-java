@@ -17,6 +17,7 @@
 package io.github.selcukes.core.tests.win;
 
 import io.github.selcukes.commons.annotation.Lifecycle;
+import io.github.selcukes.core.driver.AppiumOptions;
 import io.github.selcukes.core.page.Pages;
 import io.github.selcukes.core.page.WinPage;
 import org.openqa.selenium.By;
@@ -28,8 +29,19 @@ public class NotepadTest {
 
     @Test(enabled = false)
     public void notepadTest() {
-
         WinPage page = Pages.winPage();
+        fillNotepad(page);
+    }
+
+    @Test(enabled = false)
+    public void switchToNotepadTest() {
+        String title = "Untitled - Notepad";
+        WinPage page = Pages.winPage(AppiumOptions.getWinAppOptions("Root"));
+        page.switchToWindowByTitle(title);
+        fillNotepad(page);
+    }
+
+    private void fillNotepad(WinPage page) {
         By edit = By.className("Edit");
         page.enter(edit, "Welcome to Selcukes !!!")
                 .enter(edit, Keys.ENTER)
@@ -39,5 +51,4 @@ public class NotepadTest {
                 .enter(edit, Keys.CONTROL + "w" + Keys.CONTROL)
                 .click(By.name("Don't Save"));
     }
-
 }

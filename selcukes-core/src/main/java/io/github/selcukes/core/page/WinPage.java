@@ -17,12 +17,11 @@
 package io.github.selcukes.core.page;
 
 import io.appium.java_client.windows.WindowsDriver;
-import io.github.selcukes.commons.helper.Preconditions;
 import io.github.selcukes.core.driver.AppiumOptions;
 import io.github.selcukes.core.driver.DriverManager;
 import io.github.selcukes.core.enums.DeviceType;
-import io.github.selcukes.databind.utils.StringHelper;
 import lombok.CustomLog;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -39,15 +38,10 @@ public class WinPage implements Page {
         return driver;
     }
 
-    public WinPage switchToWindowBy(Object locator) {
-        WebElement newWindowElement = find(locator);
-        String appTopLevelWindow = newWindowElement.getAttribute("NativeWindowHandle");
-        Preconditions.checkArgument(!appTopLevelWindow.isEmpty(),
-            "The found window does not have NativeWindowHandle property");
-        String windowIdToHex = StringHelper.toHex(appTopLevelWindow);
-        logger.debug(() -> "Window Id: " + appTopLevelWindow + "After: " + windowIdToHex);
-        driver = DriverManager.createDriver(DeviceType.DESKTOP, AppiumOptions.setAppTopLevelWindow(windowIdToHex));
-        driver.switchTo().activeElement();
+    public WinPage switchToWindowByTitle(String appTitle) {
+        WebElement newWindowElement = find(By.name(appTitle));
+        driver = DriverManager.createDriver(DeviceType.DESKTOP,
+            AppiumOptions.getWinAppOptions(newWindowElement));
         return this;
     }
 }
