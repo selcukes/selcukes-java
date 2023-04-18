@@ -178,6 +178,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      */
     public void updateCell(int rowIndex, @NonNull K key, @NonNull V value) {
         checkRowIndex(rowIndex);
+        checkColumnIndex(key);
         var updatedRow = new LinkedHashMap<>(get(rowIndex));
         updatedRow.put(key, value);
         set(rowIndex, updatedRow);
