@@ -174,7 +174,8 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @param  rowIndex           the index of the row to update
      * @param  key                the key of the column to update
      * @param  value              the new value for the cell
-     * @throws DataTableException if the row index is invalid
+     * @throws DataTableException if the row index is invalid or the column key
+     *                            is not found in the table
      */
     public void updateCell(int rowIndex, @NonNull K key, @NonNull V value) {
         checkRowIndex(rowIndex);
