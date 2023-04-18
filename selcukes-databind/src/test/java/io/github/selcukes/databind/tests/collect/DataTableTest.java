@@ -297,4 +297,20 @@ public class DataTableTest {
         table.findFirst(row -> row.get("Type").equalsIgnoreCase("Credit"))
                 .ifPresent(row -> assertEquals(row.get("id"), "3"));
     }
+
+    @Test
+    public void testPrettyTable() {
+        var table = DataTable.of(
+            Map.of("name", "John Doe", "age", "30"),
+            Map.of("name", "Jane Smith", "age", "25"),
+            Map.of("name", "Bob Johnson", "age", "40"));
+        String expectedOutput = "+-------------+-----+\n" +
+                "| name        | age |\n" +
+                "+-------------+-----+\n" +
+                "| John Doe    | 30  |\n" +
+                "| Jane Smith  | 25  |\n" +
+                "| Bob Johnson | 40  |\n" +
+                "+-------------+-----+\n";
+        Assert.assertEquals(table.prettyTable(), expectedOutput);
+    }
 }

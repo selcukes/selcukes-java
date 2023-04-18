@@ -25,6 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.function.BiFunction;
@@ -93,7 +94,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
 
     /**
      * Returns a Stream of maps filtered by the given predicate.
-     * 
+     *
      * @param  predicate a predicate to filter the maps by
      * @return           a Stream of maps that satisfy the given predicate
      */
@@ -387,6 +388,48 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
                     Collectors.mapping(
                         row -> row.get(columnName),
                         Collectors.reducing(null, (a, b) -> (a == null) ? b : valueMapper.apply(a, b)))));
+    }
+
+    /**
+     * Returns a string representation of a {@link DataTable}. The output table
+     * is formatted to align columns and provide a separator line between the
+     * header and data rows. The width of each column is determined by the
+     * length of the longest data value for that column.
+     *
+     * @return a string representation of the {@code DataTable}
+     */
+    public String prettyTable() {
+        var columnWidths = stream()
+                .flatMap(row -> row.keySet().stream())
+                .distinct()
+                .collect(Maps.of(
+                    key -> key,
+                    key -> Math.max(
+                        key.toString().length(),
+                        stream()
+                                .map(row -> row.get(key))
+                                .filter(Objects::nonNull)
+                                .map(Object::toString)
+                                .map(String::length)
+                                .max(Integer::compareTo)
+                                .orElse(0))));
+
+        var header = columnWidths.keySet().stream()
+                .map(key -> String.format("| %-" + columnWidths.get(key) + "s ", key))
+                .collect(Collectors.joining());
+
+        var separator = "+-" + columnWidths.values().stream()
+                .map("-"::repeat)
+                .collect(Collectors.joining("-+-")) + "-+";
+
+        var rows = stream()
+                .map(row -> columnWidths.keySet().stream()
+                        .map(key -> String.format("| %-" + columnWidths.get(key) + "s ", row.get(key)))
+                        .collect(Collectors.joining()))
+                .map(row -> row + "|")
+                .collect(Collectors.joining("\n"));
+
+        return separator + "\n" + header + "|\n" + separator + "\n" + rows + "\n" + separator + "\n";
     }
 
     /**
