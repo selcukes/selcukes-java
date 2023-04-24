@@ -23,9 +23,11 @@ import io.github.selcukes.databind.collections.Streams;
 import io.github.selcukes.databind.converters.Converter;
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.Resources;
+import lombok.SneakyThrows;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.nio.file.Path;
@@ -50,10 +52,9 @@ class ExcelParser<T> {
     }
 
     public Stream<T> parse(Path filePath) {
-        try (var workbook = WorkbookFactory.create(Resources.fileStream(filePath.toString()))) {
+        try (var workbook = ExcelParser.getWorkbook(filePath.toString())) {
             var startIndex = 0;
             var skip = 1;
-            ExcelCell.setFormulaEvaluator(workbook.getCreationHelper().createFormulaEvaluator());
 
             var sheet = ofNullable(entityClass.getDeclaredAnnotation(DataFile.class))
                     .map(annotation -> workbook.getSheet(annotation.sheetName()))
@@ -101,6 +102,13 @@ class ExcelParser<T> {
                 .collect(Maps.of(cell -> cell.getSheet().getRow(0)
                         .getCell(cell.getColumnIndex()).getStringCellValue(),
                     ExcelCell::getCellData));
+    }
+
+    @SneakyThrows
+    public static Workbook getWorkbook(String filePath) {
+        var workbook = WorkbookFactory.create(Resources.fileStream(filePath));
+        ExcelCell.setFormulaEvaluator(workbook.getCreationHelper().createFormulaEvaluator());
+        return workbook;
     }
 
 }

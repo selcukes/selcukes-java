@@ -70,8 +70,7 @@ public class ExcelMapper {
      * @throws DataMapperException if there is an error parsing the Excel file
      */
     public static Map<String, DataTable<String, String>> parse(final String filePath) {
-        try (var workbook = WorkbookFactory.create(Resources.fileStream(filePath))) {
-            ExcelCell.setFormulaEvaluator(workbook.getCreationHelper().createFormulaEvaluator());
+        try (var workbook = ExcelParser.getWorkbook(filePath)) {
             return Streams.of(workbook.iterator())
                     .collect(Maps.of(Sheet::getSheetName, ExcelParser::parseSheet));
         } catch (Exception e) {
@@ -94,8 +93,7 @@ public class ExcelMapper {
      *                             Excel file
      */
     public static DataTable<String, String> parse(final String filePath, final String sheetName) {
-        try (var workbook = WorkbookFactory.create(Resources.fileStream(filePath))) {
-            ExcelCell.setFormulaEvaluator(workbook.getCreationHelper().createFormulaEvaluator());
+        try (var workbook = ExcelParser.getWorkbook(filePath)) {
             return ExcelParser.parseSheet(workbook.getSheet(sheetName));
         } catch (Exception e) {
             throw new DataMapperException("Unable to parse sheet " + sheetName + " in Excel file " + filePath, e);
