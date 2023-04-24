@@ -299,12 +299,18 @@ public class DataTableTest {
                 .ifPresent(row -> assertEquals(row.get("id"), "3"));
     }
 
-    @Test(enabled = false)
+    @Test
     public void testPrettyTable() {
-        var table = DataTable.of(
-            new LinkedHashMap<>(Map.of("name", "John Doe", "age", "30")),
-            new LinkedHashMap<>(Map.of("name", "Jane Smith", "age", "25")),
-            new LinkedHashMap<>(Map.of("name", "Bob Johnson", "age", "40")));
+        var rowA = new LinkedHashMap<String, String>();
+        rowA.put("name", "John Doe");
+        rowA.put("age", "30");
+        var rowB = new LinkedHashMap<String, String>();
+        rowB.put("name", "Jane Smith");
+        rowB.put("age", "25");
+        var rowC = new LinkedHashMap<String, String>();
+        rowC.put("name", "Bob Johnson");
+        rowC.put("age", "40");
+        var table = DataTable.of(rowA, rowB, rowC);
         String expectedOutput = "+-------------+-----+\n" +
                 "| name        | age |\n" +
                 "+-------------+-----+\n" +
