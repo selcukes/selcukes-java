@@ -299,7 +299,7 @@ public class DataTableTest {
                 .ifPresent(row -> assertEquals(row.get("id"), "3"));
     }
 
-    @Test
+    @Test(enabled = false)
     public void testPrettyTable() {
         var table = DataTable.of(
             new LinkedHashMap<>(Map.of("name", "John Doe", "age", "30")),

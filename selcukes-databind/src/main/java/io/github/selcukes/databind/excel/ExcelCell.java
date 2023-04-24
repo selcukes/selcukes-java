@@ -39,9 +39,7 @@ class ExcelCell<T> extends DataField<T> {
     private final int index;
 
     static {
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            List.of(DATA_FORMATTER, FORMULA_EVALUATOR).forEach(ThreadLocal::remove);
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(ExcelCell::cleanup));
     }
 
     public ExcelCell(
@@ -81,5 +79,14 @@ class ExcelCell<T> extends DataField<T> {
                 ? DATA_FORMATTER.get().formatCellValue(cell, FORMULA_EVALUATOR.get())
                 : DATA_FORMATTER.get().formatCellValue(cell);
         return cellData.trim();
+    }
+
+    private static void cleanup() {
+        if (DATA_FORMATTER.get() != null) {
+            DATA_FORMATTER.remove();
+        }
+        if (FORMULA_EVALUATOR.get() != null) {
+            FORMULA_EVALUATOR.remove();
+        }
     }
 }
