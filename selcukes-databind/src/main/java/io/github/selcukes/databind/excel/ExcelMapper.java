@@ -22,13 +22,11 @@ import io.github.selcukes.databind.collections.Streams;
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.DataFileHelper;
 import io.github.selcukes.databind.utils.Resources;
+import lombok.NonNull;
 import lombok.experimental.UtilityClass;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -70,25 +68,57 @@ public class ExcelMapper {
      *                             of column names to cell values
      * @throws DataMapperException if there is an error parsing the Excel file
      */
-    public static Map<String, DataTable<String, String>> parse(String filePath) {
-        try (var workbook = WorkbookFactory.create(Resources.fileStream(filePath))) {
-            ExcelCell.setFormulaEvaluator(workbook.getCreationHelper().createFormulaEvaluator());
-
+    public static Map<String, DataTable<String, String>> parse(final String filePath) {
+        try (var workbook = ExcelParser.getWorkbook(filePath)) {
             return Streams.of(workbook.iterator())
-                    .collect(Maps.of(Sheet::getSheetName, sheet -> Streams.of(sheet.iterator())
-                            .skip(1)
-                            .map(ExcelMapper::readRow)
-                            .collect(Collectors.toCollection(DataTable::new))));
+                    .collect(Maps.of(Sheet::getSheetName, ExcelParser::parseSheet));
         } catch (Exception e) {
             throw new DataMapperException("Unable to parse Excel file " + filePath, e);
         }
-
     }
 
-    private static Map<String, String> readRow(Row row) {
-        return Streams.of(row.cellIterator())
-                .collect(Maps.of(cell -> cell.getSheet().getRow(0)
-                        .getCell(cell.getColumnIndex()).getStringCellValue(),
-                    ExcelCell::getCellData));
+    /**
+     * Parses an Excel file at the given file path and creates a
+     * {@code DataTable} of column names to cell values for the specified sheet.
+     * The first row of the sheet is assumed to contain column headers, and is
+     * skipped in the output. The remaining rows are parsed and stored in the
+     * output {@code DataTable}.
+     *
+     * @param  filePath            the path of the Excel file to be parsed
+     * @param  sheetName           the name of the sheet to be parsed
+     * @return                     a {@code DataTable} of column names to cell
+     *                             values for the specified sheet
+     * @throws DataMapperException if there is an error parsing the sheet in the
+     *                             Excel file
+     */
+    public static DataTable<String, String> parse(final String filePath, final String sheetName) {
+        try (var workbook = ExcelParser.getWorkbook(filePath)) {
+            return ExcelParser.parseSheet(workbook.getSheet(sheetName));
+        } catch (Exception e) {
+            throw new DataMapperException("Unable to parse sheet " + sheetName + " in Excel file " + filePath, e);
+        }
+    }
+
+    /**
+     * Writes a {@code DataTable} to the specified sheet of an Excel file at the
+     * given file path. If the file already exists, it is opened and updated;
+     * otherwise, a new file is created. The first row of the sheet is assumed
+     * to contain column headers, and is populated with the column names of the
+     * DataTable. The remaining rows are populated with the cell values of the
+     * DataTable in the corresponding columns.
+     *
+     * @param  dataTable           the DataTable to be written to the Excel file
+     * @param  filePath            the path of the Excel file to be written
+     * @param  sheetName           the name of the sheet to write to
+     * @throws DataMapperException if there is an error writing to the Excel
+     *                             file
+     */
+    public static <T> void write(
+            @NonNull DataTable<String, T> dataTable,
+            @NonNull String filePath,
+            @NonNull String sheetName
+    ) {
+        var writer = new ExcelWriter();
+        writer.write(dataTable, Resources.of(filePath), sheetName);
     }
 }

@@ -17,16 +17,22 @@
 package io.github.selcukes.databind.excel;
 
 import io.github.selcukes.databind.annotation.DataFile;
+import io.github.selcukes.databind.collections.DataTable;
 import io.github.selcukes.databind.collections.Maps;
 import io.github.selcukes.databind.collections.Streams;
 import io.github.selcukes.databind.converters.Converter;
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.Resources;
+import lombok.SneakyThrows;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -46,10 +52,9 @@ class ExcelParser<T> {
     }
 
     public Stream<T> parse(Path filePath) {
-        try (var workbook = WorkbookFactory.create(Resources.fileStream(filePath.toString()))) {
+        try (var workbook = ExcelParser.getWorkbook(filePath.toString())) {
             var startIndex = 0;
             var skip = 1;
-            ExcelCell.setFormulaEvaluator(workbook.getCreationHelper().createFormulaEvaluator());
 
             var sheet = ofNullable(entityClass.getDeclaredAnnotation(DataFile.class))
                     .map(annotation -> workbook.getSheet(annotation.sheetName()))
@@ -84,4 +89,26 @@ class ExcelParser<T> {
 
         return entity;
     }
+
+    public static DataTable<String, String> parseSheet(Sheet sheet) {
+        return Streams.of(sheet.iterator())
+                .skip(1)
+                .map(ExcelParser::readRow)
+                .collect(Collectors.toCollection(DataTable::new));
+    }
+
+    public static Map<String, String> readRow(Row row) {
+        return Streams.of(row.cellIterator())
+                .collect(Maps.of(cell -> cell.getSheet().getRow(0)
+                        .getCell(cell.getColumnIndex()).getStringCellValue(),
+                    ExcelCell::getCellData));
+    }
+
+    @SneakyThrows
+    public static Workbook getWorkbook(String filePath) {
+        var workbook = WorkbookFactory.create(Resources.fileStream(filePath));
+        ExcelCell.setFormulaEvaluator(workbook.getCreationHelper().createFormulaEvaluator());
+        return workbook;
+    }
+
 }

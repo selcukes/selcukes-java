@@ -25,6 +25,7 @@ import org.testng.annotations.Test;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -296,5 +297,27 @@ public class DataTableTest {
                 .ifPresent(row -> assertEquals(row.get("id"), "4"));
         table.findFirst(row -> row.get("Type").equalsIgnoreCase("Credit"))
                 .ifPresent(row -> assertEquals(row.get("id"), "3"));
+    }
+
+    @Test
+    public void testPrettyTable() {
+        var rowA = new LinkedHashMap<String, String>();
+        rowA.put("name", "John Doe");
+        rowA.put("age", "30");
+        var rowB = new LinkedHashMap<String, String>();
+        rowB.put("name", "Jane Smith");
+        rowB.put("age", "25");
+        var rowC = new LinkedHashMap<String, String>();
+        rowC.put("name", "Bob Johnson");
+        rowC.put("age", "40");
+        var table = DataTable.of(rowA, rowB, rowC);
+        String expectedOutput = "+-------------+-----+\n" +
+                "| name        | age |\n" +
+                "+-------------+-----+\n" +
+                "| John Doe    | 30  |\n" +
+                "| Jane Smith  | 25  |\n" +
+                "| Bob Johnson | 40  |\n" +
+                "+-------------+-----+\n";
+        assertEquals(table.prettyTable(), expectedOutput);
     }
 }
