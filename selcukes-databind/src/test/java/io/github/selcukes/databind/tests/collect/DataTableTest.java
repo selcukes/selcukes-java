@@ -311,6 +311,6 @@ public class DataTableTest {
                 "| Jane Smith  | 25  |\n" +
                 "| Bob Johnson | 40  |\n" +
                 "+-------------+-----+\n";
-        Assert.assertEquals(table.prettyTable(), expectedOutput);
+        assertEquals(table.prettyTable(), expectedOutput);
     }
 }
