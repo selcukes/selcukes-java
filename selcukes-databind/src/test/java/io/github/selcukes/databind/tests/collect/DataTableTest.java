@@ -25,6 +25,7 @@ import org.testng.annotations.Test;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -298,12 +299,12 @@ public class DataTableTest {
                 .ifPresent(row -> assertEquals(row.get("id"), "3"));
     }
 
-    @Test(enabled = false)
+    @Test
     public void testPrettyTable() {
         var table = DataTable.of(
-            Map.of("name", "John Doe", "age", "30"),
-            Map.of("name", "Jane Smith", "age", "25"),
-            Map.of("name", "Bob Johnson", "age", "40"));
+            new LinkedHashMap<>(Map.of("name", "John Doe", "age", "30")),
+            new LinkedHashMap<>(Map.of("name", "Jane Smith", "age", "25")),
+            new LinkedHashMap<>(Map.of("name", "Bob Johnson", "age", "40")));
         String expectedOutput = "+-------------+-----+\n" +
                 "| name        | age |\n" +
                 "+-------------+-----+\n" +

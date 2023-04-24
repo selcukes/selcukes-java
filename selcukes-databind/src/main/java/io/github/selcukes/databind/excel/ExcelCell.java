@@ -39,7 +39,9 @@ class ExcelCell<T> extends DataField<T> {
     private final int index;
 
     static {
-        Runtime.getRuntime().addShutdownHook(new Thread(FORMULA_EVALUATOR::remove));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            List.of(DATA_FORMATTER, FORMULA_EVALUATOR).forEach(ThreadLocal::remove);
+        }));
     }
 
     public ExcelCell(
