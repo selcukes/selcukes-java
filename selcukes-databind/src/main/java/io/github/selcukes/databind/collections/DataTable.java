@@ -400,6 +400,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      *
      * @return a string representation of the {@code DataTable}
      */
+    @SuppressWarnings("squid:S3457")
     public String prettyTable() {
         var columnWidths = stream()
                 .flatMap(row -> row.keySet().stream())
