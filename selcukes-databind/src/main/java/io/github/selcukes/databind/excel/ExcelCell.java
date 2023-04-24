@@ -19,7 +19,6 @@ package io.github.selcukes.databind.excel;
 import io.github.selcukes.databind.DataField;
 import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.converters.Converter;
-import lombok.Setter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -35,10 +34,13 @@ import static java.util.Optional.ofNullable;
 import static org.apache.poi.ss.usermodel.Row.MissingCellPolicy.RETURN_BLANK_AS_NULL;
 
 class ExcelCell<T> extends DataField<T> {
-    private static final DataFormatter DATA_FORMATTER = new DataFormatter();
-    @Setter
-    private static FormulaEvaluator formulaEvaluator;
+    private static final ThreadLocal<DataFormatter> DATA_FORMATTER = ThreadLocal.withInitial(DataFormatter::new);
+    private static final ThreadLocal<FormulaEvaluator> FORMULA_EVALUATOR = new ThreadLocal<>();
     private final int index;
+
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread(FORMULA_EVALUATOR::remove));
+    }
 
     public ExcelCell(
             final Field field,
@@ -68,10 +70,14 @@ class ExcelCell<T> extends DataField<T> {
                 .orElseThrow(() -> new IllegalArgumentException(format("Column %s not found", getFieldName())));
     }
 
+    public static void setFormulaEvaluator(FormulaEvaluator formulaEvaluator) {
+        FORMULA_EVALUATOR.set(formulaEvaluator);
+    }
+
     protected static String getCellData(Cell cell) {
         var cellData = cell.getCellType().equals(CellType.FORMULA)
-                ? DATA_FORMATTER.formatCellValue(cell, formulaEvaluator)
-                : DATA_FORMATTER.formatCellValue(cell);
+                ? DATA_FORMATTER.get().formatCellValue(cell, FORMULA_EVALUATOR.get())
+                : DATA_FORMATTER.get().formatCellValue(cell);
         return cellData.trim();
     }
 }
