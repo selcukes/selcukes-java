@@ -141,8 +141,10 @@
             </dependency>
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
-                <artifactId>selenium-java</artifactId>
+                <artifactId>selenium-bom</artifactId>
                 <version>${selenium.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>io.appium</groupId>
