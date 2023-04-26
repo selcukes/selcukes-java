@@ -36,7 +36,7 @@
         <selenium.version>4.9.0</selenium.version>
         <appium.version>8.3.0</appium.version>
         <testng.version>7.7.1</testng.version>
-        <junit.version>5.9.2</junit.version>
+        <junit.version>5.9.3</junit.version>
 
         <lombok.version>1.18.26</lombok.version>
         <jackson.version>2.15.0</jackson.version>
