@@ -21,8 +21,10 @@ import io.github.selcukes.databind.annotation.Interpolate;
 import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.properties.PropertiesMapper;
 import io.github.selcukes.databind.substitute.StringSubstitutor;
+import io.github.selcukes.databind.utils.Clocks;
 import lombok.Data;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -32,15 +34,15 @@ public class PropertiesMapperTest {
     @Test
     public void testProperties() {
         var testConfig = PropertiesMapper.parse(TestConfig.class);
-        System.out.println(testConfig.getUserName());
-        if (testConfig.isTest()) {
-            System.out.println(testConfig.getDate());
-        }
-        System.out.println(testConfig.getOsName());
-        System.out.println(testConfig.getJim());
-        System.out.println(testConfig.getMass());
-        System.out.println(testConfig.getHelloDate());
-
+        var softAssert = new SoftAssert();
+        softAssert.assertEquals(testConfig.getUserName(), "Ramesh");
+        softAssert.assertEquals(testConfig.getPassword(), "cred");
+        softAssert.assertTrue(testConfig.isTest());
+        softAssert.assertEquals(testConfig.getOsName(), System.getProperty("os.name"));
+        softAssert.assertEquals(testConfig.getDate(), Clocks.dateNow());
+        softAssert.assertEquals(testConfig.getSampleDate(), Clocks.parseDate("12/12/2022", ""));
+        softAssert.assertEquals(testConfig.getElements(), List.of("ele1", "ele2"));
+        softAssert.assertAll();
     }
 
     @Interpolate(substitutor = StringSubstitutor.class)
@@ -52,12 +54,12 @@ public class PropertiesMapperTest {
         boolean isTest;
         String osName;
         LocalDate date;
-        @Key(name = "helloDate", format = "MM/dd/yyyy")
-        LocalDate helloDate;
-        @Key(name = "selcukes.jim")
-        int jim;
-        @Key(name = "mass", converter = ListStringConverter.class)
-        List<String> mass;
+        @Key(name = "sampleDate", format = "MM/dd/yyyy")
+        LocalDate sampleDate;
+        @Key(name = "test.count")
+        int count;
+        @Key(name = "elements", converter = ListStringConverter.class)
+        List<String> elements;
     }
 
 }

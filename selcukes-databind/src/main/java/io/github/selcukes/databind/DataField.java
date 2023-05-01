@@ -71,10 +71,11 @@ public class DataField<T> {
         return ofNullable(field.getDeclaredAnnotation(Key.class));
     }
 
-    @SuppressWarnings("unchecked")
     private Optional<Interpolate> getInterpolate() {
-        Class<T> entityClass = (Class<T>) field.getDeclaringClass();
-        return ofNullable(entityClass.getDeclaredAnnotation(Interpolate.class));
+        var entityClass = field.getDeclaringClass();
+        var classInterpolate = ofNullable(entityClass.getDeclaredAnnotation(Interpolate.class));
+        var fieldInterpolate = ofNullable(field.getDeclaredAnnotation(Interpolate.class));
+        return fieldInterpolate.isPresent() ? fieldInterpolate : classInterpolate;
     }
 
     public Substitutor getSubstitutor() {

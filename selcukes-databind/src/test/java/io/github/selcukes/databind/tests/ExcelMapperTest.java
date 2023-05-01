@@ -22,8 +22,12 @@ import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.excel.ExcelMapper;
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.substitute.StringSubstitutor;
+import io.github.selcukes.databind.utils.Clocks;
 import lombok.Data;
+import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
 
 public class ExcelMapperTest {
 
@@ -36,7 +40,10 @@ public class ExcelMapperTest {
     @Test
     public void interpolateExcelMapperTest() {
         var excelStream = ExcelMapper.parse(SampleExcel1.class);
-        excelStream.forEach(System.out::println);
+        excelStream.forEach(row -> {
+            assertEquals(row.getDate(), Clocks.date(""));
+            System.out.println(row);
+        });
     }
 
     @Test(expectedExceptions = DataMapperException.class)
@@ -56,7 +63,6 @@ public class ExcelMapperTest {
         private String run;
     }
 
-    @Interpolate(substitutor = StringSubstitutor.class)
     @Data
     @DataFile(fileName = "TestData.xlsx", sheetName = "Yahoo")
     static class SampleExcel1 {
@@ -65,6 +71,7 @@ public class ExcelMapperTest {
         @Key(name = "Last Name")
         String lastName;
         String location;
+        @Interpolate(substitutor = StringSubstitutor.class)
         String date;
     }
 
