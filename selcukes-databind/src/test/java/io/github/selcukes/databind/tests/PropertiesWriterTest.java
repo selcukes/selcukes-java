@@ -60,5 +60,6 @@ public class PropertiesWriterTest {
         assertTrue(Files.exists(Resources.ofTest("test_config1.properties")));
         var config1 = PropertiesMapper.parse(TestConfig.class);
         assertEquals(config1.getDate(), Clocks.dateNow());
+        assertEquals(config1.getElements(), List.of("ele1", "ele2"));
     }
 }

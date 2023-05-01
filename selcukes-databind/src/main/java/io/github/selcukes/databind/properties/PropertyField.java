@@ -25,6 +25,7 @@ import java.lang.reflect.Field;
 import java.time.temporal.Temporal;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import static io.github.selcukes.databind.utils.Reflections.getFieldValue;
 
@@ -65,6 +66,11 @@ class PropertyField<T> extends DataField<T> {
         var value = getFieldValue(object, getFieldName());
         if (value instanceof Temporal) {
             return Clocks.format((Temporal) value, format);
+        } else if (value instanceof List) {
+            var list = (List<?>) value;
+            return list.stream()
+                    .map(Object::toString)
+                    .collect(Collectors.joining(","));
         } else {
             return value.toString();
         }
