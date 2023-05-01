@@ -65,6 +65,22 @@ public class PropertiesMapper {
         return Maps.of(PropertiesLoader.getProperties(filePath));
     }
 
+    @SuppressWarnings("unchecked")
+    public <T> void write(final T value) {
+        final var dataFile = (DataFileHelper<T>) DataFileHelper.getInstance(value.getClass());
+        dataFile.setNewFile(true);
+        final String fileName = dataFile.getFileName();
+        int extensionIndex = fileName.lastIndexOf('.');
+        final String extension = fileName.substring(extensionIndex + 1);
+        if (!extension.equalsIgnoreCase("properties")) {
+            throw new DataMapperException(String.format("Invalid file extension for file '%s'. " +
+                    "The file extension must be 'properties' ",
+                fileName));
+        }
+        var propertiesParser = new PropertiesParser<>(value.getClass());
+        propertiesParser.write(dataFile.newFilePath(fileName), value);
+    }
+
     /**
      * > This function writes the dataMap to the propertyFile
      *

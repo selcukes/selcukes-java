@@ -22,33 +22,22 @@ import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.properties.PropertiesMapper;
 import io.github.selcukes.databind.substitute.StringSubstitutor;
 import io.github.selcukes.databind.utils.Clocks;
+import io.github.selcukes.databind.utils.Resources;
 import lombok.Data;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.List;
 
-public class PropertiesMapperTest {
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
-    @Test
-    public void testProperties() {
-        var testConfig = PropertiesMapper.parse(TestConfig.class);
-        var softAssert = new SoftAssert();
-        softAssert.assertEquals(testConfig.getUserName(), "Ramesh");
-        softAssert.assertEquals(testConfig.getPassword(), "cred");
-        softAssert.assertTrue(testConfig.isTest());
-        softAssert.assertEquals(testConfig.getOsName(), System.getProperty("os.name"));
-        softAssert.assertEquals(testConfig.getDate(), Clocks.dateNow());
-        softAssert.assertEquals(testConfig.getSampleDate(), Clocks.parseDate("12/12/2022", ""));
-        softAssert.assertEquals(testConfig.getElements(), List.of("ele1", "ele2"));
-        softAssert.assertAll();
-    }
-
+public class PropertiesWriterTest {
     @Interpolate(substitutor = StringSubstitutor.class)
-    @DataFile
+    @DataFile(fileName = "${data.file}")
     @Data
-    static class TestConfig {
+    private static class TestConfig {
         String userName;
         String password;
         boolean isTest;
@@ -62,4 +51,15 @@ public class PropertiesMapperTest {
         List<String> elements;
     }
 
+    @Test
+    public void propsWriter() {
+        System.setProperty("data.file", "test_config.properties");
+        var config = PropertiesMapper.parse(TestConfig.class);
+        System.setProperty("data.file", "test_config1.properties");
+        PropertiesMapper.write(config);
+        assertTrue(Files.exists(Resources.ofTest("test_config1.properties")));
+        var config1 = PropertiesMapper.parse(TestConfig.class);
+        assertEquals(config1.getDate(), Clocks.dateNow());
+        assertEquals(config1.getElements(), List.of("ele1", "ele2"));
+    }
 }

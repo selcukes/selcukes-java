@@ -19,6 +19,7 @@ package io.github.selcukes.databind.utils;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 
 /**
@@ -37,7 +38,7 @@ public class Reflections {
      * @throws IllegalArgumentException if an error occurs while creating the
      *                                  instance
      */
-    @SuppressWarnings("all")
+    @SuppressWarnings("java:S3011")
     public static <T> T newInstance(final Class<T> clazz, final Object... initArgs) {
         try {
             var constructor = clazz.getDeclaredConstructor(getClasses(initArgs));
@@ -59,17 +60,42 @@ public class Reflections {
      * @throws IllegalArgumentException if an error occurs while setting the
      *                                  field
      */
-    @SuppressWarnings("squid:S3011")
-    public static void setField(final Object object, final String fieldName, final Object value) {
+    @SuppressWarnings("java:S3011")
+    public static void setFieldValue(final Object object, final String fieldName, final Object value) {
         try {
-            var clazz = object == null ? Object.class : object.getClass();
-            var field = clazz.getDeclaredField(fieldName);
-            field.setAccessible(true);
-            field.set(object, value);
+            getField(object, fieldName).set(object, value);
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
         }
+    }
 
+    /**
+     * Returns the value of the specified field of the given object using
+     * reflection.
+     *
+     * @param  object                   the object to get the field value from
+     * @param  fieldName                the name of the field to get the value
+     *                                  from
+     * @return                          the value of the specified field
+     * @throws IllegalArgumentException if the object is null or if the field
+     *                                  cannot be accessed
+     */
+    @SuppressWarnings("java:S3011")
+    public static Object getFieldValue(final Object object, final String fieldName) {
+        try {
+            return getField(object, fieldName).get(object);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    @SneakyThrows
+    @SuppressWarnings("squid:S3011")
+    private static Field getField(final Object object, final String fieldName) {
+        var clazz = object == null ? Object.class : object.getClass();
+        var field = clazz.getDeclaredField(fieldName);
+        field.setAccessible(true);
+        return field;
     }
 
     /**
@@ -91,7 +117,7 @@ public class Reflections {
     /**
      * Invokes a static method with the specified parameters on the specified
      * class.
-     * 
+     *
      * @param  clazz      the class containing the static method
      * @param  methodName the name of the static method to invoke
      * @param  param      the parameters to pass to the method
