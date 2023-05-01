@@ -60,6 +60,7 @@ public class Reflections {
      * @throws IllegalArgumentException if an error occurs while setting the
      *                                  field
      */
+    @SuppressWarnings("java:S3011")
     public static void setFieldValue(final Object object, final String fieldName, final Object value) {
         try {
             getField(object, fieldName).set(object, value);
@@ -79,6 +80,7 @@ public class Reflections {
      * @throws IllegalArgumentException if the object is null or if the field
      *                                  cannot be accessed
      */
+    @SuppressWarnings("java:S3011")
     public static Object getFieldValue(final Object object, final String fieldName) {
         try {
             return getField(object, fieldName).get(object);
