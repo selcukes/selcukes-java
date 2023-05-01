@@ -16,8 +16,12 @@
 
 package io.github.selcukes.databind.properties;
 
+import io.github.selcukes.databind.exception.DataMapperException;
+import io.github.selcukes.databind.utils.Resources;
+
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -42,7 +46,18 @@ class PropertiesParser<T> {
                 .map(PropertyField::parse)
                 .collect(Collectors.toList());
         return initEntity(fields);
+    }
 
+    public void write(Path filePath, Object object) {
+        var properties = new Properties();
+        Stream.of(object.getClass().getDeclaredFields())
+                .map(field -> new PropertyField<>(field, properties, defaultConverters()))
+                .forEach(field -> properties.setProperty(field.getKeyName(), field.getFormattedValue(object)));
+        try (var output = Resources.newOutputStream(filePath)) {
+            properties.store(output, "Generated from " + object.getClass().getSimpleName());
+        } catch (Exception e) {
+            throw new DataMapperException("Failed to write properties to file: " + filePath, e);
+        }
     }
 
     public T initEntity(final List<PropertyField<T>> mappers) {
