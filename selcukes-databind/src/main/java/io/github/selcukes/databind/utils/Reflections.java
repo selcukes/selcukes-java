@@ -89,15 +89,13 @@ public class Reflections {
         }
     }
 
+    @SneakyThrows
+    @SuppressWarnings("squid:S3011")
     private static Field getField(final Object object, final String fieldName) {
-        try {
-            var clazz = object == null ? Object.class : object.getClass();
-            var field = clazz.getDeclaredField(fieldName);
-            field.setAccessible(true);
-            return field;
-        } catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
+        var clazz = object == null ? Object.class : object.getClass();
+        var field = clazz.getDeclaredField(fieldName);
+        field.setAccessible(true);
+        return field;
     }
 
     /**
