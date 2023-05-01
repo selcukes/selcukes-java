@@ -38,7 +38,7 @@ public class Reflections {
      * @throws IllegalArgumentException if an error occurs while creating the
      *                                  instance
      */
-    @SuppressWarnings("all")
+    @SuppressWarnings("java:S3011")
     public static <T> T newInstance(final Class<T> clazz, final Object... initArgs) {
         try {
             var constructor = clazz.getDeclaredConstructor(getClasses(initArgs));
