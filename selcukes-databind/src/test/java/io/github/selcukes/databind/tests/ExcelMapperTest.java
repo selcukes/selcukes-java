@@ -24,7 +24,6 @@ import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.substitute.StringSubstitutor;
 import io.github.selcukes.databind.utils.Clocks;
 import lombok.Data;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
