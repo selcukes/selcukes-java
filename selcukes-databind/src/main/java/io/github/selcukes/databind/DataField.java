@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static io.github.selcukes.databind.utils.Reflections.newInstance;
-import static io.github.selcukes.databind.utils.Reflections.setField;
+import static io.github.selcukes.databind.utils.Reflections.setFieldValue;
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 
@@ -56,7 +56,7 @@ public class DataField<T> {
 
     public <R> void assignValue(final R instance) {
         ofNullable(convertedValue)
-                .ifPresent(value -> setField(instance, getFieldName(), value));
+                .ifPresent(value -> setFieldValue(instance, getFieldName(), value));
     }
 
     public String getFieldName() {

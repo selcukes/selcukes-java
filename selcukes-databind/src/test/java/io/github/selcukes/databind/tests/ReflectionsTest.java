@@ -44,7 +44,7 @@ public class ReflectionsTest {
                 "mobilePhone", "+15168978000",
                 "title", "QA",
                 "workPhone", "+19087253000"));
-        Reflections.setField(memberInfo, "contactPersonList", persons);
+        Reflections.setFieldValue(memberInfo, "contactPersonList", persons);
         Assert.assertEquals(memberInfo.getContactPersonList(), persons);
     }
 

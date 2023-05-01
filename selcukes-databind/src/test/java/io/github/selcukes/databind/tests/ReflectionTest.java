@@ -56,7 +56,7 @@ public class ReflectionTest {
     @Test
     public void testSetField() {
         var myObject = new MyClass("initial value");
-        Reflections.setField(myObject, "value", "test");
+        Reflections.setFieldValue(myObject, "value", "test");
         assertEquals(myObject.getValue(), "test");
     }
 }
