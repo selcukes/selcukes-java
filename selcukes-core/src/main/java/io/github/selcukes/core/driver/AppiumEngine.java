@@ -19,11 +19,15 @@ package io.github.selcukes.core.driver;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
+import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.DriverConnectionException;
 import io.github.selcukes.commons.helper.Singleton;
 import lombok.CustomLog;
 
 import java.net.URL;
+import java.nio.file.Path;
+
+import static java.util.Optional.ofNullable;
 
 @CustomLog
 class AppiumEngine {
@@ -42,15 +46,18 @@ class AppiumEngine {
 
     void startLocalServer() {
         try {
+            var reportsPath = ofNullable(ConfigFactory.getConfig().getReports())
+                    .map(reports -> reports.get("reportsPath")).orElse("target");
+            var logFilePath = Path.of(reportsPath, "appium-server.log");
             service = new AppiumServiceBuilder()
                     .withIPAddress("127.0.0.1")
                     .usingAnyFreePort()
                     .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                     .withArgument(GeneralServerFlag.BASEPATH, "/wd/")
+                    .withLogFile(logFilePath.toFile())
                     .build();
             logger.info(() -> "Starting Appium server...");
             service.start();
-            logger.debug(() -> String.format("Using Local ServiceUrl[%s]", service.getUrl()));
         } catch (Exception e) {
             throw new DriverConnectionException("Failed starting Appium Server..", e);
         }
