@@ -105,11 +105,9 @@ public class DataFileHelper<T> {
             return StringHelper.interpolate(name,
                 matcher -> systemProperties().getProperty(matcher));
         } catch (Exception e) {
-            throw new DataMapperException(
-                String.format("Failed to substitute system property %s. " +
-                        "Please ensure that the property is defined.",
-                    name),
-                e);
+            throw new DataMapperException(format("Failed to substitute system property %s. " +
+                    "Please ensure that the property is defined.",
+                name), e);
         }
     }
 }
