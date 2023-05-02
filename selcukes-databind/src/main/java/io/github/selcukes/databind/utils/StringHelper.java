@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static io.github.selcukes.databind.properties.PropertiesMapper.systemProperties;
+import static java.lang.String.format;
 
 /**
  * This class contains a bunch of static methods that help you manipulate
@@ -248,7 +249,8 @@ public class StringHelper {
      */
     public static Optional<String> findPattern(String pattern, String text) {
         var compiledPattern = Pattern.compile(pattern);
-        return Optional.ofNullable(text).map(compiledPattern::matcher)
+        return Optional.ofNullable(text)
+                .map(compiledPattern::matcher)
                 .filter(Matcher::find)
                 .map(matcher -> matcher.group(1));
     }
@@ -282,4 +284,35 @@ public class StringHelper {
         return Integer.toHexString(decimal);
     }
 
+    /**
+     * Substitutes any placeholders in the given string with the values of the
+     * corresponding system properties.
+     * <p>
+     * Example usage:
+     * 
+     * <pre>{@code
+     * String name = "${user.name}";
+     * String resolvedName = StringHelper.substituteSystemPropertyValues(name);
+     * }</pre>
+     * <p>
+     * If the system property "user.name" is set to "Ramesh", the resulting
+     * value of `resolvedName` will be "Ramesh".
+     *
+     * @param  name                the input string containing placeholders for
+     *                             system properties
+     * @return                     the input string with placeholders replaced
+     *                             by system property values
+     * @throws DataMapperException if the substitution fails, for example
+     *                             because a required system property is not
+     *                             defined
+     */
+    public String substituteSystemProperty(String name) {
+        try {
+            return interpolate(name, matcher -> systemProperties().getProperty(matcher));
+        } catch (Exception e) {
+            throw new DataMapperException(format("Failed to substitute system property %s. " +
+                    "Please ensure that the property is defined.",
+                name), e);
+        }
+    }
 }

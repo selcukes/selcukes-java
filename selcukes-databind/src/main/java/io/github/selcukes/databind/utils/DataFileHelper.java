@@ -25,7 +25,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 
-import static io.github.selcukes.databind.properties.PropertiesMapper.systemProperties;
 import static io.github.selcukes.databind.utils.Resources.TEST_RESOURCES;
 import static io.github.selcukes.databind.utils.Resources.findFile;
 import static java.lang.String.format;
@@ -53,7 +52,7 @@ public class DataFileHelper<T> {
 
     public String getFileName() {
         if (!this.dataFile.fileName().isEmpty()) {
-            return substitute(this.dataFile.fileName());
+            return StringHelper.substituteSystemProperty(this.dataFile.fileName());
         }
         if (isStream()) {
             throw new DataMapperException("Please provide fileName to perform stream loader");
@@ -75,7 +74,7 @@ public class DataFileHelper<T> {
     private Path getFolder() {
         var folder = Optional.of(this.dataFile.folderPath())
                 .filter(StringHelper::isNonEmpty)
-                .map(this::substitute)
+                .map(StringHelper::substituteSystemProperty)
                 .filter(StringHelper::isNonEmpty)
                 .orElse(TEST_RESOURCES);
         return Resources.isDirectory(folder);
@@ -98,16 +97,5 @@ public class DataFileHelper<T> {
         var newFileName = fileName.contains(".") ? fileName : fileName + ".json";
         var newFilePath = folder.resolve(newFileName);
         return Resources.createFile(newFilePath);
-    }
-
-    private String substitute(String name) {
-        try {
-            return StringHelper.interpolate(name,
-                matcher -> systemProperties().getProperty(matcher));
-        } catch (Exception e) {
-            throw new DataMapperException(format("Failed to substitute system property %s. " +
-                    "Please ensure that the property is defined.",
-                name), e);
-        }
     }
 }
