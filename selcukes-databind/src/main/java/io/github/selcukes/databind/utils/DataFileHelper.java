@@ -23,6 +23,7 @@ import io.github.selcukes.databind.exception.DataMapperException;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 
 import static io.github.selcukes.databind.properties.PropertiesMapper.systemProperties;
 import static io.github.selcukes.databind.utils.Resources.TEST_RESOURCES;
@@ -52,8 +53,7 @@ public class DataFileHelper<T> {
 
     public String getFileName() {
         if (!this.dataFile.fileName().isEmpty()) {
-            return StringHelper.interpolate(this.dataFile.fileName(),
-                matcher -> systemProperties().getProperty(matcher));
+            return substitute(this.dataFile.fileName());
         }
         if (isStream()) {
             throw new DataMapperException("Please provide fileName to perform stream loader");
@@ -73,10 +73,11 @@ public class DataFileHelper<T> {
     }
 
     private Path getFolder() {
-        var folder = this.dataFile.folderPath();
-        if (folder.isEmpty()) {
-            folder = TEST_RESOURCES;
-        }
+        var folder = Optional.of(this.dataFile.folderPath())
+                .filter(StringHelper::isNonEmpty)
+                .map(this::substitute)
+                .filter(StringHelper::isNonEmpty)
+                .orElse(TEST_RESOURCES);
         return Resources.isDirectory(folder);
     }
 
@@ -85,11 +86,11 @@ public class DataFileHelper<T> {
     }
 
     public Path getPath(String fileName) {
-        var filePath = getFolder().resolve(fileName);
+        var filePath = newFilePath(fileName);
         if (Files.exists(filePath)) {
             return filePath;
         } else {
-            throw new DataMapperException(format("File [%s] not found.", fileName));
+            throw new DataMapperException(format("File [%s] not found at path [%s].", fileName, filePath));
         }
     }
 
@@ -97,5 +98,18 @@ public class DataFileHelper<T> {
         var newFileName = fileName.contains(".") ? fileName : fileName + ".json";
         var newFilePath = folder.resolve(newFileName);
         return Resources.createFile(newFilePath);
+    }
+
+    private String substitute(String name) {
+        try {
+            return StringHelper.interpolate(name,
+                matcher -> systemProperties().getProperty(matcher));
+        } catch (Exception e) {
+            throw new DataMapperException(
+                String.format("Failed to substitute system property %s. " +
+                        "Please ensure that the property is defined.",
+                    name),
+                e);
+        }
     }
 }

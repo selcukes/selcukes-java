@@ -35,7 +35,7 @@ import static org.testng.Assert.assertTrue;
 
 public class PropertiesWriterTest {
     @Interpolate(substitutor = StringSubstitutor.class)
-    @DataFile(fileName = "${data.file}")
+    @DataFile(fileName = "test_config.properties", folderPath = "${dataFile.location}")
     @Data
     private static class TestConfig {
         String userName;
@@ -53,11 +53,11 @@ public class PropertiesWriterTest {
 
     @Test
     public void propsWriter() {
-        System.setProperty("data.file", "test_config.properties");
+        System.setProperty("dataFile.location", "");
         var config = PropertiesMapper.parse(TestConfig.class);
-        System.setProperty("data.file", "test_config1.properties");
+        System.setProperty("dataFile.location", "target");
         PropertiesMapper.write(config);
-        assertTrue(Files.exists(Resources.ofTest("test_config1.properties")));
+        assertTrue(Files.exists(Resources.of("target/test_config.properties")));
         var config1 = PropertiesMapper.parse(TestConfig.class);
         assertEquals(config1.getDate(), Clocks.dateNow());
         assertEquals(config1.getElements(), List.of("ele1", "ele2"));
