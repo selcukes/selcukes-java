@@ -12,6 +12,21 @@
 
 ### Removed
 
+## [2.2.10] (In Git)
+
+### Added
+
+* [DataBind] Added support for writing `DataTable` to excel ([#249](https://github.com/selcukes/selcukes-java/pull/249))
+* [DataBind] Add support for writing POJOs to Java Properties files and field-level interpolation ([#253](https://github.com/selcukes/selcukes-java/pull/253))
+* [DataBind] Added support for reading the folder path from the System property.
+
+### Changed
+
+* Update selenium.version to v4.9.0 ([#248](https://github.com/selcukes/selcukes-java/pull/248))
+* Update dependency com.fasterxml.jackson:jackson-bom to v2.15.0  ([#250](https://github.com/selcukes/selcukes-java/pull/250))
+* Update dependency org.junit:junit-bom to v5.9.3 ([#251](https://github.com/selcukes/selcukes-java/pull/251))
+* Update dependency io.cucumber:cucumber-bom to v7.12.0 ([#252](https://github.com/selcukes/selcukes-java/pull/252))
+
 ## [2.2.9] (17-04-2023)
 
 ### Added
