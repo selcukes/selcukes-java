@@ -292,7 +292,7 @@ public class StringHelper {
      * 
      * <pre>{@code
      * String name = "${user.name}";
-     * String resolvedName = StringHelper.substituteSystemPropertyValues(name);
+     * String resolvedName = StringHelper.substituteSystemProperty(name);
      * }</pre>
      * <p>
      * If the system property "user.name" is set to "Ramesh", the resulting
