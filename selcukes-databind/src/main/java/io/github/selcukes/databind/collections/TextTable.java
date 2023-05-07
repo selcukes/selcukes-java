@@ -31,6 +31,7 @@ class TextTable<K, V> {
         return new TextTable<>(table);
     }
 
+    @SuppressWarnings("squid:S3457")
     public String printTable() {
         var columnWidths = table.stream()
                 .flatMap(row -> row.keySet().stream())
