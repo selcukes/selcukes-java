@@ -12,18 +12,32 @@
 
 ### Removed
 
+## [2.2.11] (07-05-2023)
+
+### Added
+
+* [DataBind] Added support to convert `DataTable` to HTML table for
+  reporting ([#256](https://github.com/selcukes/selcukes-java/pull/256))
+
+### Changed
+
+* Update dependency io.appium:java-client to v8.4.0 ([#255](https://github.com/selcukes/selcukes-java/pull/255))
+* Update dependency org.apache.maven.plugins:maven-gpg-plugin to v3.1.0 ([#254](https://github.com/selcukes/selcukes-java/pull/254))
+
 ## [2.2.10] (07-05-2023)
 
 ### Added
 
 * [DataBind] Added support for writing `DataTable` to excel ([#249](https://github.com/selcukes/selcukes-java/pull/249))
-* [DataBind] Add support for writing POJOs to Java Properties files and field-level interpolation ([#253](https://github.com/selcukes/selcukes-java/pull/253))
+* [DataBind] Add support for writing POJOs to Java Properties files and field-level
+  interpolation ([#253](https://github.com/selcukes/selcukes-java/pull/253))
 * [DataBind] Added support for reading the folder path from the System property.
 
 ### Changed
 
 * Update selenium.version to v4.9.0 ([#248](https://github.com/selcukes/selcukes-java/pull/248))
-* Update dependency com.fasterxml.jackson:jackson-bom to v2.15.0  ([#250](https://github.com/selcukes/selcukes-java/pull/250))
+* Update dependency com.fasterxml.jackson:jackson-bom to
+  v2.15.0  ([#250](https://github.com/selcukes/selcukes-java/pull/250))
 * Update dependency org.junit:junit-bom to v5.9.3 ([#251](https://github.com/selcukes/selcukes-java/pull/251))
 * Update dependency io.cucumber:cucumber-bom to v7.12.0 ([#252](https://github.com/selcukes/selcukes-java/pull/252))
 
@@ -33,7 +47,8 @@
 
 * [DataBind] Added `DecimalNumber` ([#244](https://github.com/selcukes/selcukes-java/pull/244))
 
-* [Core] Add support for executing tests on multiple devices simultaneously using custom capabilities ([#245](https://github.com/selcukes/selcukes-java/pull/245))
+* [Core] Add support for executing tests on multiple devices simultaneously using custom
+  capabilities ([#245](https://github.com/selcukes/selcukes-java/pull/245))
 
 ### Changed
 
