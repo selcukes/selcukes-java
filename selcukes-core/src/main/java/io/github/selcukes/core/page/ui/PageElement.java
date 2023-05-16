@@ -16,7 +16,7 @@
 
 package io.github.selcukes.core.page.ui;
 
-import io.github.selcukes.databind.utils.StringHelper;
+import io.github.selcukes.collections.StringHelper;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;

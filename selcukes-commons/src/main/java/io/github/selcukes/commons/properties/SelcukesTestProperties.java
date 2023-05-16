@@ -16,9 +16,9 @@
 
 package io.github.selcukes.commons.properties;
 
+import io.github.selcukes.collections.StringHelper;
 import io.github.selcukes.commons.config.Config;
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.databind.utils.StringHelper;
 import lombok.CustomLog;
 
 import java.util.Map;

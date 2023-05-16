@@ -16,9 +16,9 @@
 
 package io.github.selcukes.excel;
 
+import io.github.selcukes.collections.StringHelper;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.helper.Singleton;
-import io.github.selcukes.databind.utils.StringHelper;
 
 public class ExcelDataFactory {
     private ExcelDataFactory() {

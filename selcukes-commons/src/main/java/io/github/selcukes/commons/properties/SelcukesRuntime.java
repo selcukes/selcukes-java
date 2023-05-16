@@ -23,6 +23,7 @@ import lombok.CustomLog;
 import lombok.experimental.UtilityClass;
 
 import static io.github.selcukes.collections.Clocks.DATE_TIME_FILE_FORMAT;
+import static io.github.selcukes.collections.StringHelper.isNonEmpty;
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.EMAIL_REPORT;
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.FEATURES;
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.GLUE;
@@ -32,7 +33,6 @@ import static io.github.selcukes.commons.properties.SelcukesTestProperties.REPOR
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.TAGS;
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.TIMESTAMP_REPORT;
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.setSystemProperty;
-import static io.github.selcukes.databind.utils.StringHelper.isNonEmpty;
 
 @CustomLog
 @UtilityClass

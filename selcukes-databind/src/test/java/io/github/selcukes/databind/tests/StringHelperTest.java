@@ -16,7 +16,8 @@
 
 package io.github.selcukes.databind.tests;
 
-import io.github.selcukes.databind.utils.StringHelper;
+import io.github.selcukes.collections.StringHelper;
+import io.github.selcukes.databind.utils.JsonUtils;
 import org.testng.annotations.Test;
 
 import java.util.LinkedHashMap;
@@ -50,7 +51,7 @@ public class StringHelperTest {
         map.put("b", "2");
         map.put("c", "3");
         String expected = "{\"a\":\"1\",\"b\":\"2\",\"c\":\"3\"}";
-        assertEquals(StringHelper.toJson(map), expected);
+        assertEquals(JsonUtils.toJson(map), expected);
     }
 
     @Test

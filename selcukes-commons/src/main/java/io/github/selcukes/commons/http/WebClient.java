@@ -17,7 +17,7 @@
 package io.github.selcukes.commons.http;
 
 import io.github.selcukes.collections.Resources;
-import io.github.selcukes.databind.utils.StringHelper;
+import io.github.selcukes.databind.utils.JsonUtils;
 import lombok.SneakyThrows;
 
 import java.net.InetSocketAddress;
@@ -108,7 +108,7 @@ public class WebClient {
         } else if (payload instanceof Path) {
             bodyPublisher = BodyPublishers.ofFile((Path) payload);
         } else {
-            bodyPublisher = BodyPublishers.ofString(StringHelper.toJson(payload));
+            bodyPublisher = BodyPublishers.ofString(JsonUtils.toJson(payload));
         }
         return bodyPublisher;
     }

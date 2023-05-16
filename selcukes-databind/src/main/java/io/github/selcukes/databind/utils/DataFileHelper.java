@@ -17,6 +17,7 @@
 package io.github.selcukes.databind.utils;
 
 import io.github.selcukes.collections.Resources;
+import io.github.selcukes.collections.StringHelper;
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.exception.DataMapperException;
 
@@ -51,7 +52,7 @@ public class DataFileHelper<T> {
 
     public String getFileName() {
         if (!this.dataFile.fileName().isEmpty()) {
-            return StringHelper.substituteSystemProperty(this.dataFile.fileName());
+            return DataSubstitutor.substituteSystemProperty(this.dataFile.fileName());
         }
         if (isStream()) {
             throw new DataMapperException("Please provide fileName to perform stream loader");
@@ -73,7 +74,7 @@ public class DataFileHelper<T> {
     private Path getFolder() {
         var folder = Optional.of(this.dataFile.folderPath())
                 .filter(StringHelper::isNonEmpty)
-                .map(StringHelper::substituteSystemProperty)
+                .map(DataSubstitutor::substituteSystemProperty)
                 .filter(StringHelper::isNonEmpty)
                 .orElse(TEST_RESOURCES);
         return Resources.isDirectory(folder);

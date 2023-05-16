@@ -67,7 +67,7 @@ public class Maps {
      */
     public <T> Map<String, T> of(List<String> keys, List<T> values, T defaultValue) {
         return Streams.of(keys).boxed()
-                .filter(i -> Strings.isNonEmpty(keys.get(i)))
+                .filter(i -> StringHelper.isNonEmpty(keys.get(i)))
                 .collect(of(keys::get, i -> i < values.size() && values.get(i) != null ? values.get(i) : defaultValue));
     }
 

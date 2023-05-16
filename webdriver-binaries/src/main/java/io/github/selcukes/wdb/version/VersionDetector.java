@@ -16,12 +16,12 @@
 
 package io.github.selcukes.wdb.version;
 
+import io.github.selcukes.collections.StringHelper;
 import io.github.selcukes.commons.exec.ExecResults;
 import io.github.selcukes.commons.exec.Shell;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.os.Platform;
-import io.github.selcukes.databind.utils.StringHelper;
 
 import java.util.List;
 import java.util.Map;

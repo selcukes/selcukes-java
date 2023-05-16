@@ -94,7 +94,7 @@ public class Lists {
         if (value instanceof Object[]) {
             return ((Object[]) value).length > 0;
         }
-        return Strings.isNonEmpty(value.toString());
+        return StringHelper.isNonEmpty(value.toString());
     }
 
     /**

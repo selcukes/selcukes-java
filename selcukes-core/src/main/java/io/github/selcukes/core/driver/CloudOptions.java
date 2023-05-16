@@ -16,10 +16,10 @@
 
 package io.github.selcukes.core.driver;
 
+import io.github.selcukes.collections.StringHelper;
 import io.github.selcukes.commons.exception.DriverConnectionException;
 import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.annotation.DataFile;
-import io.github.selcukes.databind.utils.StringHelper;
 import lombok.CustomLog;
 import lombok.Data;
 import lombok.SneakyThrows;

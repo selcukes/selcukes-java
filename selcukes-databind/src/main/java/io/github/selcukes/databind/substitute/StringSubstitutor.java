@@ -16,7 +16,8 @@
 
 package io.github.selcukes.databind.substitute;
 
-import io.github.selcukes.databind.utils.StringHelper;
+import io.github.selcukes.collections.StringHelper;
+import io.github.selcukes.databind.utils.DataSubstitutor;
 
 import java.util.Properties;
 
@@ -29,12 +30,12 @@ public class StringSubstitutor extends DefaultSubstitutor {
     @Override
     public String replace(final Properties variables, final String key, final String format) {
         String value = variables.getProperty(key);
-        return StringHelper.interpolate(value, matcher -> StringHelper.substitute(matcher, format));
+        return StringHelper.interpolate(value, matcher -> DataSubstitutor.substitute(matcher, format));
     }
 
     @Override
     public String replace(final String strToReplace, final String format) {
-        return StringHelper.interpolate(strToReplace, matcher -> StringHelper.substitute(matcher, format));
+        return StringHelper.interpolate(strToReplace, matcher -> DataSubstitutor.substitute(matcher, format));
     }
 
 }

@@ -29,7 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.stream.Collectors;
 
-import static io.github.selcukes.databind.utils.StringHelper.isEmpty;
+import static io.github.selcukes.collections.StringHelper.isEmpty;
 
 public class Reporter {
     private static final SingletonContext<Reporter> REPORTER_CONTEXT = SingletonContext.with(Reporter::new);

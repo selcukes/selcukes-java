@@ -14,14 +14,8 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.utils;
+package io.github.selcukes.collections;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.selcukes.collections.Clocks;
-import io.github.selcukes.collections.Lists;
-import io.github.selcukes.databind.exception.DataMapperException;
-import io.github.selcukes.databind.properties.PropertiesMapper;
 import lombok.experimental.UtilityClass;
 
 import java.util.Arrays;
@@ -32,8 +26,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import static java.lang.String.format;
 
 /**
  * This class contains a bunch of static methods that help you manipulate
@@ -148,70 +140,6 @@ public class StringHelper {
     }
 
     /**
-     * Convert a POJO to a JSON string.
-     *
-     * @param  object The object to be converted to JSON
-     * @return        A JSON string
-     */
-    public String toJson(final Object object) {
-        try {
-            return new ObjectMapper().writeValueAsString(object);
-        } catch (Exception e) {
-            throw new DataMapperException("Failed parsing JSON string from POJO[%s]" + object.getClass().getName(), e);
-        }
-    }
-
-    /**
-     * It takes an object and returns a pretty JSON string
-     *
-     * @param  object The object to be converted to JSON
-     * @return        A JSON string
-     */
-    public String toPrettyJson(final Object object) {
-        try {
-            return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(object);
-        } catch (Exception e) {
-            throw new DataMapperException("Failed parsing JSON string from POJO[%s]" + object.getClass().getName(), e);
-        }
-    }
-
-    /**
-     * It takes a string and returns a JsonNode
-     *
-     * @param  content The string to be parsed into a JsonNode
-     * @return         A JsonNode object
-     */
-    public JsonNode toJson(final String content) {
-        try {
-            var mapper = new ObjectMapper();
-            var factory = mapper.getFactory();
-            var parser = factory.createParser(content);
-            return mapper.readTree(parser);
-        } catch (Exception e) {
-            throw new DataMapperException("Failed parsing string to JsonNode:\n" + content, e);
-        }
-    }
-
-    /**
-     * If the value is "date" or "datetime", then return the current date or
-     * date/time in the specified format. Otherwise, return the value of the
-     * system property with the specified name
-     *
-     * @param  value  The value to be substituted.
-     * @param  format The format of the date/time.
-     * @return        The value of the system property with the given name.
-     */
-    public String substitute(final String value, final String format) {
-        if (value.equalsIgnoreCase("date")) {
-            return Clocks.date(format);
-        } else if (value.equalsIgnoreCase("datetime")) {
-            return Clocks.dateTime(format);
-        } else {
-            return PropertiesMapper.systemProperties().getProperty(value);
-        }
-    }
-
-    /**
      * It replaces all non-breaking spaces, carriage returns, and line feeds
      * with a single space, and then trims the result
      *
@@ -281,37 +209,5 @@ public class StringHelper {
     public String toHex(String decimalString) {
         int decimal = Integer.parseInt(decimalString);
         return Integer.toHexString(decimal);
-    }
-
-    /**
-     * Substitutes any placeholders in the given string with the values of the
-     * corresponding system properties.
-     * <p>
-     * Example usage:
-     * 
-     * <pre>{@code
-     * String name = "${user.name}";
-     * String resolvedName = StringHelper.substituteSystemProperty(name);
-     * }</pre>
-     * <p>
-     * If the system property "user.name" is set to "Ramesh", the resulting
-     * value of `resolvedName` will be "Ramesh".
-     *
-     * @param  name                the input string containing placeholders for
-     *                             system properties
-     * @return                     the input string with placeholders replaced
-     *                             by system property values
-     * @throws DataMapperException if the substitution fails, for example
-     *                             because a required system property is not
-     *                             defined
-     */
-    public String substituteSystemProperty(String name) {
-        try {
-            return interpolate(name, matcher -> PropertiesMapper.systemProperties().getProperty(matcher));
-        } catch (Exception e) {
-            throw new DataMapperException(format("Failed to substitute system property %s. " +
-                    "Please ensure that the property is defined.",
-                name), e);
-        }
     }
 }

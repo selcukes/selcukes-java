@@ -17,8 +17,8 @@
 package io.github.selcukes.core.page.ui;
 
 import io.appium.java_client.AppiumBy;
+import io.github.selcukes.collections.StringHelper;
 import io.github.selcukes.commons.helper.Preconditions;
-import io.github.selcukes.databind.utils.StringHelper;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
