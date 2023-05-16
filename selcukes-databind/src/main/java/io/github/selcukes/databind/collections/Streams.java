@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.function.BiFunction;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -107,6 +108,30 @@ public class Streams {
      */
     public IntStream of(int start, int end) {
         return IntStream.range(start, end);
+    }
+
+    /**
+     * Merges two lists by applying a specified function to corresponding
+     * elements of the two lists. The resulting stream contains the results of
+     * these function applications in order. The length of the resulting stream
+     * is equal to the length of the shorter of the two input lists.
+     *
+     * @param  first  the first list to be zipped
+     * @param  second the second list to be zipped
+     * @param  zipper a function that combines the elements of the two lists
+     * @param  <T>    the type of elements in the first list
+     * @param  <U>    the type of elements in the second list
+     * @param  <R>    the type of elements in the resulting stream
+     * @return        a stream of the results of applying the given function to
+     *                corresponding elements of the two lists
+     */
+    public static <T, U, R> Stream<R> zip(List<T> first, List<U> second, BiFunction<T, U, R> zipper) {
+        return IntStream.range(0, Math.min(first.size(), second.size()))
+                .mapToObj(i -> {
+                    var firstValue = i < first.size() ? first.get(i) : null;
+                    var secondValue = i < second.size() ? second.get(i) : null;
+                    return zipper.apply(firstValue, secondValue);
+                });
     }
 
     /**

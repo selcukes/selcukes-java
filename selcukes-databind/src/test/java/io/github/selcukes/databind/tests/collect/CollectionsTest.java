@@ -28,11 +28,33 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class CollectionsTest {
+
+    @Test
+    public void testZipWithMultipleElementLists() {
+        var first = List.of("a", "b", "c");
+        var second = List.of(1, 2, 3);
+
+        var result = Streams.zip(first, second, (s, i) -> s + i).collect(Collectors.toList());
+
+        assertEquals(result.size(), 3);
+        assertEquals(result.get(0), "a1");
+        assertEquals(result.get(1), "b2");
+        assertEquals(result.get(2), "c3");
+    }
+
+    @Test
+    public void testSortWithNulls() {
+        var listWithNulls = Lists.of("John", "Mary", null, "Alice", "Bob", null, "Charlie");
+        var sortedList = Lists.sortWithNulls(listWithNulls);
+        var expectedSortedList = Lists.of("Alice", "Bob", "Charlie", "John", "Mary", null, null);
+        assertEquals(sortedList, expectedSortedList);
+    }
 
     @Test
     public void listIgnoreCaseTest() {

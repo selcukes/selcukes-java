@@ -25,6 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.function.BiFunction;
@@ -100,6 +101,20 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     public Stream<Map<K, V>> filter(Predicate<Map<K, V>> predicate) {
         return rows()
                 .filter(predicate);
+    }
+
+    /**
+     * Checks if a row with the specified column value exists in the given
+     * {@code DataTable}.
+     *
+     * @param  columnName  the key of the column to check for the value
+     * @param  columnValue the value to search for in the specified column
+     * @return             true if a row exists with the specified column value,
+     *                     false otherwise
+     */
+    public boolean isRowExists(@NonNull K columnName, V columnValue) {
+        return rows()
+                .anyMatch(row -> Objects.equals(columnValue, row.get(columnName)));
     }
 
     /**
@@ -364,7 +379,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     ) {
         return rows()
                 .flatMap(row -> otherTable
-                        .filter(otherRow -> row.get(joinColumn).equals(otherRow.get(joinColumn)))
+                        .filter(otherRow -> Objects.equals(row.get(joinColumn), otherRow.get(joinColumn)))
                         .map(matchingRow -> joinFunction.apply(row, matchingRow)))
                 .collect(Collectors.toCollection(DataTable::new));
     }

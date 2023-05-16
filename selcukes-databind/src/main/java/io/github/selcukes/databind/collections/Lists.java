@@ -24,6 +24,7 @@ import lombok.experimental.UtilityClass;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -36,7 +37,7 @@ import java.util.stream.Stream;
 public class Lists {
 
     /**
-     * Creates a new {@code LinkedList} instance containing the specified
+     * Returns a new {@code LinkedList} instance containing the specified
      * elements in the same order as they appear in the input array. This method
      * is annotated with {@code @SafeVarargs} to suppress unchecked warnings
      * that would otherwise occur due to the use of a varargs parameter.
@@ -45,8 +46,6 @@ public class Lists {
      * @param    elements                 the elements to include in the list
      * @return                            a new {@code LinkedList} containing
      *                                    the specified elements
-     * @throws   NullPointerException     if the specified array is {@code null}
-     *                                    or contains {@code null} elements
      * @throws   IllegalArgumentException if the specified array is empty
      * @implNote                          This method does not modify the input
      *                                    array or expose it to external code,
@@ -54,10 +53,14 @@ public class Lists {
      *                                    {@code @SafeVarargs} safe in this
      *                                    context.
      * @see                               List#of(Object[])
+     * @see                               Arrays#asList(Object[])
      */
     @SafeVarargs
     public <E> List<E> of(E... elements) {
-        return new LinkedList<>(List.of(elements));
+        if (elements.length == 0) {
+            throw new IllegalArgumentException("Input array must not be empty");
+        }
+        return new LinkedList<>(Arrays.asList(elements));
     }
 
     /**
@@ -123,6 +126,18 @@ public class Lists {
         return list.stream()
                 .filter(predicate)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Sorts a given list of elements with nulls appearing last.
+     *
+     * @param  list the list of elements to be sorted
+     * @param  <T>  the type of elements in the list, must extend the Comparable
+     *              interface
+     * @return      a new sorted list with nulls appearing last
+     */
+    public <T extends Comparable<? super T>> List<T> sortWithNulls(List<T> list) {
+        return list.stream().sorted(Comparator.nullsLast(Comparator.naturalOrder())).collect(Collectors.toList());
     }
 
     /**

@@ -297,6 +297,7 @@ public class DataTableTest {
                 .ifPresent(row -> assertEquals(row.get("id"), "4"));
         table.findFirst(row -> row.get("Type").equalsIgnoreCase("Credit"))
                 .ifPresent(row -> assertEquals(row.get("id"), "3"));
+        assertTrue(table.isRowExists("Amount", "120,000.00"));
     }
 
     @Test
