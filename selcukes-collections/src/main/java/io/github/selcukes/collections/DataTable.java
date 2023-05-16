@@ -113,8 +113,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      *                     false otherwise
      */
     public boolean isRowExists(@NonNull K columnName, V columnValue) {
-        return rows()
-                .anyMatch(row -> Objects.equals(columnValue, row.get(columnName)));
+        return anyMatch(row -> Objects.equals(columnValue, row.get(columnName)));
     }
 
     /**
@@ -149,6 +148,39 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      */
     public Stream<Map<K, V>> rows() {
         return stream();
+    }
+
+    /**
+     * Returns whether any row in the DataTable matches the specified predicate.
+     *
+     * @param  predicate the predicate to apply to each row
+     * @return           {@code true} if any row matches the predicate,
+     *                   {@code false} otherwise
+     */
+    public boolean anyMatch(Predicate<Map<K, V>> predicate) {
+        return rows().anyMatch(predicate);
+    }
+
+    /**
+     * Returns whether all rows in the DataTable match the specified predicate.
+     *
+     * @param  predicate the predicate to apply to each row
+     * @return           {@code true} if all rows match the predicate,
+     *                   {@code false} otherwise
+     */
+    public boolean allMatch(Predicate<Map<K, V>> predicate) {
+        return rows().allMatch(predicate);
+    }
+
+    /**
+     * Returns whether no rows in the DataTable match the specified predicate.
+     *
+     * @param  predicate the predicate to apply to each row
+     * @return           {@code true} if no rows match the predicate,
+     *                   {@code false} otherwise
+     */
+    public boolean noneMatch(Predicate<Map<K, V>> predicate) {
+        return rows().noneMatch(predicate);
     }
 
     /**
@@ -252,7 +284,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @throws NullPointerException if the expected row is null
      */
     public boolean contains(@NonNull Map<K, V> expectedRow) {
-        return rows().anyMatch(actualRow -> expectedRow.entrySet().containsAll(actualRow.entrySet()));
+        return anyMatch(actualRow -> expectedRow.entrySet().containsAll(actualRow.entrySet()));
     }
 
     /**

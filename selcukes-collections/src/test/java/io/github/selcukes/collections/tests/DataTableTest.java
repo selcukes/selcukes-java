@@ -70,16 +70,14 @@ public class DataTableTest {
 
     @Test(testName = "Test getRows")
     void testGetRows() {
-        var rows = dataTable.rows().collect(Collectors.toList());
+        assertEquals(dataTable.size(), 2);
 
-        assertEquals(rows.size(), 2);
-
-        Map<String, String> row1 = rows.get(0);
+        Map<String, String> row1 = dataTable.get(0);
         assertEquals(row1.get("Name"), "Alice");
         assertEquals(row1.get("Age"), "25");
         assertEquals(row1.get("Country"), "USA");
 
-        Map<String, String> row2 = rows.get(1);
+        Map<String, String> row2 = dataTable.get(1);
         assertEquals(row2.get("Name"), "Bob");
         assertEquals(row2.get("Age"), "35");
         assertEquals(row2.get("Country"), "Canada");
