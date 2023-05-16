@@ -331,7 +331,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      *
      * @param index The index of the row to remove
      */
-    public void removeRow(int index) {
+    public synchronized void removeRow(int index) {
         checkRowIndex(index);
         remove(index);
     }
