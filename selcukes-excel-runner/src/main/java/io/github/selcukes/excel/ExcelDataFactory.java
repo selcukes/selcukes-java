@@ -34,7 +34,7 @@ public class ExcelDataFactory {
      */
     public static ExcelDataProvider getInstance() {
         String suiteFile = ConfigFactory.getConfig().getExcel().get("suiteFile");
-        return StringHelper.isNullOrEmpty(suiteFile) ? Singleton.instanceOf(SingleExcelData.class)
+        return StringHelper.isEmpty(suiteFile) ? Singleton.instanceOf(SingleExcelData.class)
                 : Singleton.instanceOf(MultiExcelData.class);
     }
 }

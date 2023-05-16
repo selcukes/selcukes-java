@@ -64,7 +64,7 @@ public class StringHelper {
      * @return      true if the string is null, empty, or contains only
      *              whitespace characters, false otherwise
      */
-    public boolean isNullOrEmpty(final String text) {
+    public boolean isEmpty(final String text) {
         return text == null || text.isBlank();
     }
 
@@ -77,7 +77,7 @@ public class StringHelper {
      *              only whitespace characters, false otherwise
      */
     public boolean isNonEmpty(final String text) {
-        return !isNullOrEmpty(text);
+        return !isEmpty(text);
     }
 
     /**
