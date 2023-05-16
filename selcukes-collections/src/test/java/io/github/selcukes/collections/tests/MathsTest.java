@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.tests.collect;
+package io.github.selcukes.collections.tests;
 
 import io.github.selcukes.collections.Maths;
 import org.testng.Assert;

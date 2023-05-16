@@ -14,10 +14,10 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.tests;
+package io.github.selcukes.collections.tests;
 
 import io.github.selcukes.collections.Try;
-import io.github.selcukes.databind.exception.DataMapperException;
+import io.github.selcukes.collections.exception.DataStreamException;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -36,11 +36,11 @@ public class TryTest {
         }).orElseThrow();
     }
 
-    @Test(expectedExceptions = DataMapperException.class)
+    @Test(expectedExceptions = DataStreamException.class)
     public void testCheckedExceptionAs() {
         Try.of(() -> {
             throw new InterruptedException("Test exception");
-        }).orElseThrow(DataMapperException::new);
+        }).orElseThrow(DataStreamException::new);
     }
 
     @Test

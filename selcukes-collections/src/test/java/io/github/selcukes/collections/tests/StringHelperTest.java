@@ -14,13 +14,11 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.tests;
+package io.github.selcukes.collections.tests;
 
 import io.github.selcukes.collections.StringHelper;
-import io.github.selcukes.databind.utils.JsonUtils;
 import org.testng.annotations.Test;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,16 +40,6 @@ public class StringHelperTest {
         String snakeCase = "hello_world";
         assertEquals(StringHelper.toCamelCase(snakeCase), camelCase);
         assertEquals(StringHelper.toSnakeCase(camelCase), snakeCase);
-    }
-
-    @Test
-    public void jsonTest() {
-        var map = new LinkedHashMap<>();
-        map.put("a", "1");
-        map.put("b", "2");
-        map.put("c", "3");
-        String expected = "{\"a\":\"1\",\"b\":\"2\",\"c\":\"3\"}";
-        assertEquals(JsonUtils.toJson(map), expected);
     }
 
     @Test
