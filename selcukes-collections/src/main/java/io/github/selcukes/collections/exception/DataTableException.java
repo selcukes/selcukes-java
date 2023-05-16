@@ -14,26 +14,25 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.converters;
+package io.github.selcukes.collections.exception;
 
-import io.github.selcukes.collections.Clocks;
+public class DataTableException extends RuntimeException {
 
-import java.time.LocalDate;
+    private static final long serialVersionUID = 1L;
 
-import static io.github.selcukes.collections.Clocks.DATE_FORMAT;
-import static java.time.LocalDate.parse;
-
-/**
- * It converts a string to a `LocalDate` object
- */
-public class LocalDateConverter extends DefaultConverter<LocalDate> {
-    @Override
-    public LocalDate convert(final String value) {
-        return convert(value, DATE_FORMAT);
+    public DataTableException() {
+        super();
     }
 
-    @Override
-    public LocalDate convert(final String value, final String format) {
-        return parse(value, Clocks.dateTimeFormatter(format, DATE_FORMAT));
+    public DataTableException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public DataTableException(String message) {
+        super(message);
+    }
+
+    public DataTableException(Throwable cause) {
+        super(cause);
     }
 }

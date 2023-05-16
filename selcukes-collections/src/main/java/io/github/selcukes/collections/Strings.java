@@ -14,26 +14,17 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.converters;
+package io.github.selcukes.collections;
 
-import io.github.selcukes.collections.Clocks;
+import lombok.experimental.UtilityClass;
 
-import java.time.LocalDate;
-
-import static io.github.selcukes.collections.Clocks.DATE_FORMAT;
-import static java.time.LocalDate.parse;
-
-/**
- * It converts a string to a `LocalDate` object
- */
-public class LocalDateConverter extends DefaultConverter<LocalDate> {
-    @Override
-    public LocalDate convert(final String value) {
-        return convert(value, DATE_FORMAT);
+@UtilityClass
+class Strings {
+    public boolean isEmpty(final String text) {
+        return text == null || text.isBlank();
     }
 
-    @Override
-    public LocalDate convert(final String value, final String format) {
-        return parse(value, Clocks.dateTimeFormatter(format, DATE_FORMAT));
+    public boolean isNonEmpty(final String text) {
+        return !isEmpty(text);
     }
 }

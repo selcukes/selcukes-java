@@ -19,7 +19,7 @@ package io.github.selcukes.commons.helper;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static io.github.selcukes.databind.utils.Reflections.newInstance;
+import static io.github.selcukes.collections.Reflections.newInstance;
 
 /**
  * The `Singleton` class provides a thread-safe way to create a single instance

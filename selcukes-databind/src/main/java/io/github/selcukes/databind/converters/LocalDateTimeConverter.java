@@ -16,11 +16,11 @@
 
 package io.github.selcukes.databind.converters;
 
-import io.github.selcukes.databind.utils.Clocks;
+import io.github.selcukes.collections.Clocks;
 
 import java.time.LocalDateTime;
 
-import static io.github.selcukes.databind.utils.Clocks.DATE_TIME_FORMAT;
+import static io.github.selcukes.collections.Clocks.DATE_TIME_FORMAT;
 import static java.time.LocalDateTime.parse;
 
 /**

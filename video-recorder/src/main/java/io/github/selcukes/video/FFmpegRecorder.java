@@ -16,6 +16,7 @@
 
 package io.github.selcukes.video;
 
+import io.github.selcukes.collections.Clocks;
 import io.github.selcukes.commons.Await;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.RecorderException;
@@ -25,14 +26,13 @@ import io.github.selcukes.commons.helper.Preconditions;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.os.Platform;
-import io.github.selcukes.databind.utils.Clocks;
 import io.github.selcukes.video.config.DefaultVideoOptions;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
 
-import static io.github.selcukes.databind.utils.Clocks.DATE_TIME_FILE_FORMAT;
+import static io.github.selcukes.collections.Clocks.DATE_TIME_FILE_FORMAT;
 
 class FFmpegRecorder implements VideoRecorder {
     private static final Logger logger = LoggerFactory.getLogger(FFmpegRecorder.class);

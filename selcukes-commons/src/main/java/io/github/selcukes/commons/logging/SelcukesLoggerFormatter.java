@@ -16,8 +16,8 @@
 
 package io.github.selcukes.commons.logging;
 
+import io.github.selcukes.collections.Clocks;
 import io.github.selcukes.commons.helper.ExceptionHelper;
-import io.github.selcukes.databind.utils.Clocks;
 
 import java.util.Map;
 import java.util.logging.Formatter;

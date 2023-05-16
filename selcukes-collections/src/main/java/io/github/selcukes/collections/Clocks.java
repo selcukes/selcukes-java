@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.utils;
+package io.github.selcukes.collections;
 
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
@@ -119,7 +119,7 @@ public final class Clocks {
         try {
             return LocalDate.parse(date, dateTimeFormatter);
         } catch (DateTimeParseException e) {
-            String newFormat = StringHelper.isNullOrEmpty(format) ? DATE_FORMAT : format;
+            String newFormat = Strings.isEmpty(format) ? DATE_FORMAT : format;
             throw new DateTimeParseException("Failed to parse date : "
                     + date + " with format: " + newFormat,
                 e.getParsedString(), e.getErrorIndex());
@@ -166,7 +166,7 @@ public final class Clocks {
         try {
             return dateTimeFormatter(format, DATE_TIME_FORMAT).parse(dateTime);
         } catch (DateTimeParseException e) {
-            String newFormat = StringHelper.isNullOrEmpty(format) ? DATE_TIME_FORMAT : format;
+            String newFormat = Strings.isEmpty(format) ? DATE_TIME_FORMAT : format;
             throw new DateTimeParseException("Failed to parse date-time : "
                     + dateTime + " with format: " + newFormat,
                 e.getParsedString(), e.getErrorIndex());

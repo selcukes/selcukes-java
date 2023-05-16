@@ -16,9 +16,9 @@
 
 package io.github.selcukes.databind.tests.collect;
 
-import io.github.selcukes.databind.collections.Lists;
-import io.github.selcukes.databind.collections.Streams;
-import io.github.selcukes.databind.utils.Clocks;
+import io.github.selcukes.collections.Clocks;
+import io.github.selcukes.collections.Lists;
+import io.github.selcukes.collections.Streams;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

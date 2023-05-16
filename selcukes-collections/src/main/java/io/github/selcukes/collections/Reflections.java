@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.utils;
+package io.github.selcukes.collections;
 
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;

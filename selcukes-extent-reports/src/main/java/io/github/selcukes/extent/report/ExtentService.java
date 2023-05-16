@@ -23,10 +23,10 @@ import com.aventstack.extentreports.observer.ExtentObserver;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.ReporterConfigurable;
 import com.aventstack.extentreports.reporter.configuration.ViewName;
-import io.github.selcukes.databind.collections.Maps;
+import io.github.selcukes.collections.Clocks;
+import io.github.selcukes.collections.Maps;
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.databind.properties.PropertiesMapper;
-import io.github.selcukes.databind.utils.Clocks;
-import io.github.selcukes.databind.utils.Resources;
 import io.github.selcukes.databind.utils.StringHelper;
 
 import java.io.IOException;
@@ -35,9 +35,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static io.github.selcukes.collections.Clocks.DATE_TIME_FILE_FORMAT;
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.THUMBNAIL_REPORT;
 import static io.github.selcukes.commons.properties.SelcukesTestProperties.TIMESTAMP_REPORT;
-import static io.github.selcukes.databind.utils.Clocks.DATE_TIME_FILE_FORMAT;
 import static io.github.selcukes.databind.utils.StringHelper.isNonEmpty;
 import static java.util.Optional.ofNullable;
 

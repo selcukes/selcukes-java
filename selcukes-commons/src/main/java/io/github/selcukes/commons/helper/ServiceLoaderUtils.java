@@ -16,8 +16,8 @@
 
 package io.github.selcukes.commons.helper;
 
+import io.github.selcukes.collections.Streams;
 import io.github.selcukes.commons.exception.ConfigurationException;
-import io.github.selcukes.databind.collections.Streams;
 import lombok.experimental.UtilityClass;
 
 import java.util.List;

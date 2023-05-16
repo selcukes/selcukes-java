@@ -16,7 +16,7 @@
 
 package io.github.selcukes.databind.tests.collect;
 
-import io.github.selcukes.databind.collections.DecimalNumber;
+import io.github.selcukes.collections.DecimalNumber;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

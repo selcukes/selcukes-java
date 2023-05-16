@@ -16,9 +16,9 @@
 
 package io.github.selcukes.core.grid;
 
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.commons.exception.DriverConnectionException;
 import io.github.selcukes.commons.helper.FileHelper;
-import io.github.selcukes.databind.utils.Resources;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.Platform;

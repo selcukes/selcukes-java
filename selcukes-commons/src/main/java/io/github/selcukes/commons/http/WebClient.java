@@ -16,7 +16,7 @@
 
 package io.github.selcukes.commons.http;
 
-import io.github.selcukes.databind.utils.Resources;
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.databind.utils.StringHelper;
 import lombok.SneakyThrows;
 

@@ -16,8 +16,8 @@
 
 package io.github.selcukes.commons.db;
 
+import io.github.selcukes.collections.DataTable;
 import io.github.selcukes.commons.exception.DriverConnectionException;
-import io.github.selcukes.databind.collections.DataTable;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 

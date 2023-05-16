@@ -16,8 +16,8 @@
 
 package io.github.selcukes.databind.tests;
 
+import io.github.selcukes.collections.Reflections;
 import io.github.selcukes.databind.DataMapper;
-import io.github.selcukes.databind.utils.Reflections;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

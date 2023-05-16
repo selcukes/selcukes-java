@@ -1,5 +1,4 @@
 /*
- *
  *  Copyright (c) Ramesh Babu Prudhvi.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,11 +12,11 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
 
 package io.github.selcukes.databind.utils;
 
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.exception.DataMapperException;
 
@@ -25,8 +24,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 
-import static io.github.selcukes.databind.utils.Resources.TEST_RESOURCES;
-import static io.github.selcukes.databind.utils.Resources.findFile;
+import static io.github.selcukes.collections.Resources.TEST_RESOURCES;
+import static io.github.selcukes.collections.Resources.findFile;
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 

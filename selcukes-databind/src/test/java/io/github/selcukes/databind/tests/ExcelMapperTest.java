@@ -16,13 +16,13 @@
 
 package io.github.selcukes.databind.tests;
 
+import io.github.selcukes.collections.Clocks;
 import io.github.selcukes.databind.annotation.DataFile;
 import io.github.selcukes.databind.annotation.Interpolate;
 import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.excel.ExcelMapper;
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.substitute.StringSubstitutor;
-import io.github.selcukes.databind.utils.Clocks;
 import lombok.Data;
 import org.testng.annotations.Test;
 

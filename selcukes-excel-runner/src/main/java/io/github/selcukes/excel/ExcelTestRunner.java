@@ -17,8 +17,8 @@
 package io.github.selcukes.excel;
 
 import io.cucumber.testng.Pickle;
+import io.github.selcukes.collections.Maps;
 import io.github.selcukes.commons.properties.SelcukesTestProperties;
-import io.github.selcukes.databind.collections.Maps;
 import io.github.selcukes.testng.SelcukesTestNGRunner;
 import lombok.CustomLog;
 import org.testng.ITestContext;

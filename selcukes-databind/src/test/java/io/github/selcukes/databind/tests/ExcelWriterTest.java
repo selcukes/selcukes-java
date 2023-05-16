@@ -16,9 +16,9 @@
 
 package io.github.selcukes.databind.tests;
 
-import io.github.selcukes.databind.collections.DataTable;
+import io.github.selcukes.collections.DataTable;
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.databind.excel.ExcelMapper;
-import io.github.selcukes.databind.utils.Resources;
 import org.testng.annotations.Test;
 
 import java.util.LinkedHashMap;

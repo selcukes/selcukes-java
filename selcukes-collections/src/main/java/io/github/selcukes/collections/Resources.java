@@ -14,9 +14,9 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.utils;
+package io.github.selcukes.collections;
 
-import io.github.selcukes.databind.exception.DataMapperException;
+import io.github.selcukes.collections.exception.DataStreamException;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
@@ -69,7 +69,7 @@ public class Resources {
     public Path isDirectory(final String folder) {
         var folderPath = of(folder);
         if (!Files.isDirectory(folderPath)) {
-            throw new DataMapperException(format("%s is not a directory.", folder));
+            throw new DataStreamException(format("%s is not a directory.", folder));
         }
         return folderPath;
     }
@@ -84,7 +84,7 @@ public class Resources {
         try {
             return Files.createFile(filePath).getFileName().toString();
         } catch (IOException e) {
-            throw new DataMapperException("Failed to create new File : " + filePath.getFileName().toString());
+            throw new DataStreamException("Failed to create new File : " + filePath.getFileName().toString());
         }
     }
 
@@ -93,13 +93,13 @@ public class Resources {
      *
      * @param  sourceFile          the path of the file to copy
      * @param  destinationFile     the path to copy the file to
-     * @throws DataMapperException if an error occurs while copying the file
+     * @throws DataStreamException if an error occurs while copying the file
      */
     public void copyFile(final Path sourceFile, final Path destinationFile) {
         try {
             Files.copy(sourceFile, destinationFile, REPLACE_EXISTING);
         } catch (IOException e) {
-            throw new DataMapperException(format("Failed to copy file from [%s] to [%s]: %s",
+            throw new DataStreamException(format("Failed to copy file from [%s] to [%s]: %s",
                 sourceFile.toAbsolutePath(), destinationFile.toAbsolutePath(), e.getMessage()));
         }
     }
@@ -149,7 +149,7 @@ public class Resources {
      *
      * @param  filePath            the path to the file to read from
      * @return                     an input stream for the file
-     * @throws DataMapperException if the file cannot be loaded from any of the
+     * @throws DataStreamException if the file cannot be loaded from any of the
      *                             locations or an error occurs while opening
      *                             the stream
      */
@@ -164,7 +164,7 @@ public class Resources {
                 .filter(Objects::nonNull)
                 .findFirst()
                 .orElseThrow(
-                    () -> new DataMapperException(format("Failed to load file [%s] as a stream. " +
+                    () -> new DataStreamException(format("Failed to load file [%s] as a stream. " +
                             "Make sure the file exists and is accessible.",
                         filePath)));
     }

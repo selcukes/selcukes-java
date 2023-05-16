@@ -16,8 +16,8 @@
 
 package io.github.selcukes.databind.tests.collect;
 
-import io.github.selcukes.databind.collections.DataTable;
-import io.github.selcukes.databind.collections.Maths;
+import io.github.selcukes.collections.DataTable;
+import io.github.selcukes.collections.Maths;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

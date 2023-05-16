@@ -16,10 +16,10 @@
 
 package io.github.selcukes.commons;
 
+import io.github.selcukes.collections.Try;
 import io.github.selcukes.commons.exception.SelcukesException;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.databind.utils.Try;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;

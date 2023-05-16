@@ -14,25 +14,25 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.exception;
+package io.github.selcukes.collections.exception;
 
-public class DataTableException extends RuntimeException {
+public class DataStreamException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public DataTableException() {
+    public DataStreamException() {
         super();
     }
 
-    public DataTableException(String message, Throwable cause) {
+    public DataStreamException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public DataTableException(String message) {
+    public DataStreamException(String message) {
         super(message);
     }
 
-    public DataTableException(Throwable cause) {
+    public DataStreamException(Throwable cause) {
         super(cause);
     }
 }

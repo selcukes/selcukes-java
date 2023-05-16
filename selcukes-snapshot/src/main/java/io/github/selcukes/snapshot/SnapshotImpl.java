@@ -16,11 +16,11 @@
 
 package io.github.selcukes.snapshot;
 
+import io.github.selcukes.collections.Clocks;
 import io.github.selcukes.commons.exception.SnapshotException;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
-import io.github.selcukes.databind.utils.Clocks;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static io.github.selcukes.databind.utils.Clocks.DATE_TIME_FILE_FORMAT;
+import static io.github.selcukes.collections.Clocks.DATE_TIME_FILE_FORMAT;
 
 public class SnapshotImpl extends PageSnapshot implements Snapshot {
     private final Logger logger = LoggerFactory.getLogger(SnapshotImpl.class);

@@ -16,8 +16,8 @@
 
 package io.github.selcukes.excel;
 
+import io.github.selcukes.collections.DataTable;
 import io.github.selcukes.commons.exception.ExcelConfigException;
-import io.github.selcukes.databind.collections.DataTable;
 import io.github.selcukes.databind.excel.ExcelMapper;
 import io.github.selcukes.databind.utils.StringHelper;
 

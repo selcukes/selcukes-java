@@ -16,7 +16,7 @@
 
 package io.github.selcukes.databind.tests;
 
-import io.github.selcukes.databind.utils.Clocks;
+import io.github.selcukes.collections.Clocks;
 import org.testng.annotations.Test;
 
 import java.time.LocalDate;

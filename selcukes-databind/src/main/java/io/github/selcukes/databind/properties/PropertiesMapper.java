@@ -16,10 +16,10 @@
 
 package io.github.selcukes.databind.properties;
 
-import io.github.selcukes.databind.collections.Maps;
+import io.github.selcukes.collections.Maps;
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.DataFileHelper;
-import io.github.selcukes.databind.utils.Resources;
 import lombok.experimental.UtilityClass;
 
 import java.nio.file.Path;

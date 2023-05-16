@@ -1,5 +1,4 @@
 /*
- *
  *  Copyright (c) Ramesh Babu Prudhvi.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,15 +12,16 @@
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
- *
  */
 
 package io.github.selcukes.databind.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.selcukes.databind.collections.Lists;
+import io.github.selcukes.collections.Clocks;
+import io.github.selcukes.collections.Lists;
 import io.github.selcukes.databind.exception.DataMapperException;
+import io.github.selcukes.databind.properties.PropertiesMapper;
 import lombok.experimental.UtilityClass;
 
 import java.util.Arrays;
@@ -33,7 +33,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static io.github.selcukes.databind.properties.PropertiesMapper.systemProperties;
 import static java.lang.String.format;
 
 /**
@@ -66,7 +65,7 @@ public class StringHelper {
      *              whitespace characters, false otherwise
      */
     public boolean isNullOrEmpty(final String text) {
-        return text == null || text.isEmpty() || text.isBlank();
+        return text == null || text.isBlank();
     }
 
     /**
@@ -208,7 +207,7 @@ public class StringHelper {
         } else if (value.equalsIgnoreCase("datetime")) {
             return Clocks.dateTime(format);
         } else {
-            return systemProperties().getProperty(value);
+            return PropertiesMapper.systemProperties().getProperty(value);
         }
     }
 
@@ -308,7 +307,7 @@ public class StringHelper {
      */
     public String substituteSystemProperty(String name) {
         try {
-            return interpolate(name, matcher -> systemProperties().getProperty(matcher));
+            return interpolate(name, matcher -> PropertiesMapper.systemProperties().getProperty(matcher));
         } catch (Exception e) {
             throw new DataMapperException(format("Failed to substitute system property %s. " +
                     "Please ensure that the property is defined.",

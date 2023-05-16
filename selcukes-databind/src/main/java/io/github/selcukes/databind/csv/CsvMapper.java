@@ -16,9 +16,9 @@
 
 package io.github.selcukes.databind.csv;
 
-import io.github.selcukes.databind.collections.DataTable;
-import io.github.selcukes.databind.collections.Lists;
-import io.github.selcukes.databind.collections.Streams;
+import io.github.selcukes.collections.DataTable;
+import io.github.selcukes.collections.Lists;
+import io.github.selcukes.collections.Streams;
 import io.github.selcukes.databind.exception.DataMapperException;
 import lombok.experimental.UtilityClass;
 

@@ -16,9 +16,9 @@
 
 package io.github.selcukes.video;
 
+import io.github.selcukes.collections.Clocks;
 import io.github.selcukes.commons.exception.RecorderException;
 import io.github.selcukes.commons.helper.FileHelper;
-import io.github.selcukes.databind.utils.Clocks;
 import lombok.Builder;
 import org.monte.media.Format;
 import org.monte.media.Registry;
@@ -30,7 +30,7 @@ import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 
-import static io.github.selcukes.databind.utils.Clocks.DATE_TIME_FILE_FORMAT;
+import static io.github.selcukes.collections.Clocks.DATE_TIME_FILE_FORMAT;
 
 class MonteRecorderBuilder extends ScreenRecorder {
 

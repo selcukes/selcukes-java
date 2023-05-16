@@ -14,9 +14,9 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.collections;
+package io.github.selcukes.collections;
 
-import io.github.selcukes.databind.exception.DataTableException;
+import io.github.selcukes.collections.exception.DataTableException;
 import lombok.NonNull;
 
 import java.util.Collections;

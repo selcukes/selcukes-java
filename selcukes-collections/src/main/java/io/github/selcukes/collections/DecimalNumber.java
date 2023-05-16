@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.collections;
+package io.github.selcukes.collections;
 
 import lombok.NonNull;
 

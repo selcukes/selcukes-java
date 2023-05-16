@@ -14,9 +14,8 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.collections;
+package io.github.selcukes.collections;
 
-import io.github.selcukes.databind.utils.StringHelper;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
@@ -95,7 +94,7 @@ public class Lists {
         if (value instanceof Object[]) {
             return ((Object[]) value).length > 0;
         }
-        return !StringHelper.isNullOrEmpty(value.toString());
+        return Strings.isNonEmpty(value.toString());
     }
 
     /**

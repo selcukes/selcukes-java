@@ -16,11 +16,11 @@
 
 package io.github.selcukes.commons.tests;
 
+import io.github.selcukes.collections.Clocks;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.properties.SelcukesTestProperties;
 import io.github.selcukes.databind.properties.PropertiesMapper;
-import io.github.selcukes.databind.utils.Clocks;
 import org.testng.annotations.Test;
 
 import java.nio.file.Path;

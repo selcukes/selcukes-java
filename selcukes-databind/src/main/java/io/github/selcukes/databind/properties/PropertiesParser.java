@@ -16,8 +16,8 @@
 
 package io.github.selcukes.databind.properties;
 
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.databind.exception.DataMapperException;
-import io.github.selcukes.databind.utils.Resources;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -25,9 +25,9 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static io.github.selcukes.collections.Reflections.newInstance;
 import static io.github.selcukes.databind.converters.Converters.defaultConverters;
 import static io.github.selcukes.databind.properties.PropertiesLoader.getProperties;
-import static io.github.selcukes.databind.utils.Reflections.newInstance;
 import static java.lang.String.format;
 
 class PropertiesParser<T> {

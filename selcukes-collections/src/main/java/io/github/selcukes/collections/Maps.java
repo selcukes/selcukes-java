@@ -14,9 +14,8 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.databind.collections;
+package io.github.selcukes.collections;
 
-import io.github.selcukes.databind.utils.StringHelper;
 import lombok.experimental.UtilityClass;
 
 import java.util.LinkedHashMap;
@@ -68,7 +67,7 @@ public class Maps {
      */
     public <T> Map<String, T> of(List<String> keys, List<T> values, T defaultValue) {
         return Streams.of(keys).boxed()
-                .filter(i -> !StringHelper.isNullOrEmpty(keys.get(i)))
+                .filter(i -> Strings.isNonEmpty(keys.get(i)))
                 .collect(of(keys::get, i -> i < values.size() && values.get(i) != null ? values.get(i) : defaultValue));
     }
 

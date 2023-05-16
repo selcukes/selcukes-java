@@ -16,7 +16,7 @@
 
 package io.github.selcukes.databind.tests;
 
-import io.github.selcukes.databind.utils.Reflections;
+import io.github.selcukes.collections.Reflections;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.testng.annotations.Test;

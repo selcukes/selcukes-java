@@ -16,8 +16,8 @@
 
 package io.github.selcukes.databind.tests;
 
+import io.github.selcukes.collections.Try;
 import io.github.selcukes.databind.exception.DataMapperException;
-import io.github.selcukes.databind.utils.Try;
 import org.testng.annotations.Test;
 
 import java.io.IOException;

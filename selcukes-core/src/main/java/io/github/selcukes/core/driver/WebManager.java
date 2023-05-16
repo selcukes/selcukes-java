@@ -16,8 +16,8 @@
 
 package io.github.selcukes.core.driver;
 
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.databind.utils.Resources;
 import lombok.CustomLog;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;

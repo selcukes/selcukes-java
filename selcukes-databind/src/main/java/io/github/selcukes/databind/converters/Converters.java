@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static io.github.selcukes.databind.utils.Reflections.newInstance;
+import static io.github.selcukes.collections.Reflections.newInstance;
 
 @UtilityClass
 public class Converters {
