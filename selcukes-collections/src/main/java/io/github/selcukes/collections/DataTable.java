@@ -187,15 +187,15 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * Groups the rows of the DataTable based on the values of the specified
      * column key.
      *
-     * @param  key                  the key of the column to group by
+     * @param  columnName           the key of the column to group by
      * @return                      a map containing the unique column values as
      *                              keys and DataTables containing the
      *                              corresponding rows as values
      * @throws NullPointerException if key is null
      */
-    public Map<V, DataTable<K, V>> groupByColumn(@NonNull K key) {
-        return filter(map -> map.containsKey(key))
-                .collect(Collectors.groupingBy(row -> row.get(key),
+    public Map<V, DataTable<K, V>> groupByColumn(@NonNull K columnName) {
+        return filter(map -> map.containsKey(columnName))
+                .collect(Collectors.groupingBy(row -> row.get(columnName),
                     Collectors.toCollection(DataTable::new)));
     }
 
@@ -218,16 +218,16 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * Updates the value in the cell at the given row index and column key.
      *
      * @param  rowIndex           the index of the row to update
-     * @param  key                the key of the column to update
+     * @param  columnName         the key of the column to update
      * @param  value              the new value for the cell
      * @throws DataTableException if the row index is invalid or the column key
      *                            is not found in the table
      */
-    public void updateCell(int rowIndex, @NonNull K key, @NonNull V value) {
+    public void updateCell(int rowIndex, @NonNull K columnName, @NonNull V value) {
         checkRowIndex(rowIndex);
-        checkColumnIndex(key);
+        checkColumnIndex(columnName);
         var updatedRow = new LinkedHashMap<>(get(rowIndex));
-        updatedRow.put(key, value);
+        updatedRow.put(columnName, value);
         set(rowIndex, updatedRow);
     }
 
