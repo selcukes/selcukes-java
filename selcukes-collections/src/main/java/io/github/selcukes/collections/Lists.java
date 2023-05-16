@@ -41,24 +41,12 @@ public class Lists {
      * is annotated with {@code @SafeVarargs} to suppress unchecked warnings
      * that would otherwise occur due to the use of a varargs parameter.
      *
-     * @param    <E>                      the type of elements in the list
-     * @param    elements                 the elements to include in the list
-     * @return                            a new {@code LinkedList} containing
-     *                                    the specified elements
-     * @throws   IllegalArgumentException if the specified array is empty
-     * @implNote                          This method does not modify the input
-     *                                    array or expose it to external code,
-     *                                    which makes the use of
-     *                                    {@code @SafeVarargs} safe in this
-     *                                    context.
-     * @see                               List#of(Object[])
-     * @see                               Arrays#asList(Object[])
+     * @param  <E>      the type of elements in the list
+     * @param  elements the elements to be added to the list
+     * @return          a new LinkedList containing the specified elements
      */
     @SafeVarargs
     public <E> List<E> of(E... elements) {
-        if (elements.length == 0) {
-            throw new IllegalArgumentException("Input array must not be empty");
-        }
         return new LinkedList<>(Arrays.asList(elements));
     }
 
@@ -105,7 +93,7 @@ public class Lists {
      *                  elements
      */
     public List<String> ofIgnoreCase(String... elements) {
-        var stringList = Arrays.asList(elements);
+        var stringList = of(elements);
         return new CaseInsensitiveList(stringList);
     }
 
