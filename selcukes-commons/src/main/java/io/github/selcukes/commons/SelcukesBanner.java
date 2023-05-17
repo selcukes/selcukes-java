@@ -16,8 +16,8 @@
 
 package io.github.selcukes.commons;
 
+import io.github.selcukes.collections.Try;
 import io.github.selcukes.commons.helper.FileHelper;
-import io.github.selcukes.databind.utils.Try;
 import lombok.experimental.UtilityClass;
 
 import java.util.StringJoiner;

@@ -16,9 +16,9 @@
 
 package io.github.selcukes.excel;
 
+import io.github.selcukes.collections.StringHelper;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.helper.Singleton;
-import io.github.selcukes.databind.utils.StringHelper;
 
 public class ExcelDataFactory {
     private ExcelDataFactory() {
@@ -34,7 +34,7 @@ public class ExcelDataFactory {
      */
     public static ExcelDataProvider getInstance() {
         String suiteFile = ConfigFactory.getConfig().getExcel().get("suiteFile");
-        return StringHelper.isNullOrEmpty(suiteFile) ? Singleton.instanceOf(SingleExcelData.class)
+        return StringHelper.isEmpty(suiteFile) ? Singleton.instanceOf(SingleExcelData.class)
                 : Singleton.instanceOf(MultiExcelData.class);
     }
 }

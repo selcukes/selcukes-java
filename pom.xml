@@ -24,6 +24,7 @@
         <module>video-recorder</module>
         <module>selcukes-java</module>
         <module>selcukes-bom</module>
+        <module>selcukes-collections</module>
     </modules>
 
     <name>selcukes-framework</name>

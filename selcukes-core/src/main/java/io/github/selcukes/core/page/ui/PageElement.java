@@ -16,7 +16,7 @@
 
 package io.github.selcukes.core.page.ui;
 
-import io.github.selcukes.databind.utils.StringHelper;
+import io.github.selcukes.collections.StringHelper;
 import lombok.experimental.UtilityClass;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -35,7 +35,7 @@ public final class PageElement {
 
     static {
         String attribute = System.getProperty(FILED_ATTRIBUTE_PROPERTY);
-        FIELD_ATTRIBUTE = StringHelper.isNullOrEmpty(attribute) ? DEFAULT_FIELD_ATTRIBUTE : attribute;
+        FIELD_ATTRIBUTE = StringHelper.isEmpty(attribute) ? DEFAULT_FIELD_ATTRIBUTE : attribute;
         String ignoreLabels = ofNullable(System.getProperty(IGNORE_FIELDS_PROPERTY))
                 .orElse("password");
         SENSITIVE_FIELDS = List.of(ignoreLabels.split(","));

@@ -16,10 +16,10 @@
 
 package io.github.selcukes.excel;
 
+import io.github.selcukes.collections.DataTable;
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.ExcelConfigException;
 import io.github.selcukes.commons.helper.Preconditions;
-import io.github.selcukes.databind.collections.DataTable;
 import io.github.selcukes.databind.excel.ExcelMapper;
 import lombok.CustomLog;
 

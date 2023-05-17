@@ -16,10 +16,10 @@
 
 package io.github.selcukes.excel;
 
+import io.github.selcukes.collections.DataTable;
+import io.github.selcukes.collections.StringHelper;
 import io.github.selcukes.commons.exception.ExcelConfigException;
-import io.github.selcukes.databind.collections.DataTable;
 import io.github.selcukes.databind.excel.ExcelMapper;
-import io.github.selcukes.databind.utils.StringHelper;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -54,9 +54,9 @@ abstract class AbstractExcelDataProvider implements ExcelDataProvider {
         Map<String, String> previousRow = new LinkedHashMap<>();
         for (var row : sheetData) {
             var currentTestName = row.get(firstColumn);
-            if (StringHelper.isNullOrEmpty(currentTestName)) {
+            if (StringHelper.isEmpty(currentTestName)) {
                 var newTestName = testName;
-                if (!StringHelper.isNullOrEmpty(secondColumn)) {
+                if (!StringHelper.isEmpty(secondColumn)) {
                     if (!previousRow.isEmpty()
                             && !previousRow.get(firstColumn).startsWith(testName + HYPHEN + EXAMPLE)) {
                         previousRow.replace(firstColumn,

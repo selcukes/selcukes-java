@@ -16,10 +16,10 @@
 
 package io.github.selcukes.databind.properties;
 
+import io.github.selcukes.collections.Clocks;
 import io.github.selcukes.databind.DataField;
 import io.github.selcukes.databind.annotation.Key;
 import io.github.selcukes.databind.converters.Converter;
-import io.github.selcukes.databind.utils.Clocks;
 
 import java.lang.reflect.Field;
 import java.time.temporal.Temporal;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-import static io.github.selcukes.databind.utils.Reflections.getFieldValue;
+import static io.github.selcukes.collections.Reflections.getFieldValue;
 
 class PropertyField<T> extends DataField<T> {
     private final Properties properties;

@@ -16,9 +16,9 @@
 
 package io.github.selcukes.databind.tests;
 
+import io.github.selcukes.collections.Clocks;
 import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.annotation.DataFile;
-import io.github.selcukes.databind.utils.Clocks;
 import lombok.Data;
 import org.testng.annotations.Test;
 

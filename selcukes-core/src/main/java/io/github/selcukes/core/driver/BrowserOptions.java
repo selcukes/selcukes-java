@@ -23,7 +23,7 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.Browser;
 
-import static io.github.selcukes.databind.utils.StringHelper.isNonEmpty;
+import static io.github.selcukes.collections.StringHelper.isNonEmpty;
 import static org.openqa.selenium.remote.Browser.CHROME;
 import static org.openqa.selenium.remote.Browser.EDGE;
 import static org.openqa.selenium.remote.Browser.FIREFOX;

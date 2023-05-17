@@ -19,9 +19,9 @@
 package io.github.selcukes.databind;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.databind.exception.DataMapperException;
 import io.github.selcukes.databind.utils.DataFileHelper;
-import io.github.selcukes.databind.utils.Resources;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 

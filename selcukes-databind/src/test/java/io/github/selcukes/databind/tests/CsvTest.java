@@ -16,8 +16,8 @@
 
 package io.github.selcukes.databind.tests;
 
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.databind.csv.CsvMapper;
-import io.github.selcukes.databind.utils.Resources;
 import org.testng.annotations.Test;
 
 import java.util.Map;

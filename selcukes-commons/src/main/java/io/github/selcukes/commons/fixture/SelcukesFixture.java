@@ -16,7 +16,7 @@
 
 package io.github.selcukes.commons.fixture;
 
-import io.github.selcukes.databind.utils.Reflections;
+import io.github.selcukes.collections.Reflections;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;

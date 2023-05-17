@@ -26,6 +26,10 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
+            <groupId>io.github.selcukes</groupId>
+            <artifactId>selcukes-collections</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
         </dependency>

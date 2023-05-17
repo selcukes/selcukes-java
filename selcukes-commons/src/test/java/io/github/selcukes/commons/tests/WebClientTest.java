@@ -18,8 +18,8 @@
 
 package io.github.selcukes.commons.tests;
 
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.commons.http.WebClient;
-import io.github.selcukes.databind.utils.Resources;
 import org.testng.annotations.Test;
 
 import java.util.Map;

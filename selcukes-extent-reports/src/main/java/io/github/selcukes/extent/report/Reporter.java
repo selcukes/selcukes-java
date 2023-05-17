@@ -29,7 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.stream.Collectors;
 
-import static io.github.selcukes.databind.utils.StringHelper.isNullOrEmpty;
+import static io.github.selcukes.collections.StringHelper.isEmpty;
 
 public class Reporter {
     private static final SingletonContext<Reporter> REPORTER_CONTEXT = SingletonContext.with(Reporter::new);
@@ -37,7 +37,7 @@ public class Reporter {
     private LogRecordListener logRecordListener;
 
     public static void log(String message) {
-        if (!isNullOrEmpty(message)) {
+        if (!isEmpty(message)) {
             SelcukesExtentAdapter.addTestStepLog(message);
         }
     }
@@ -60,7 +60,7 @@ public class Reporter {
         if (logRecordListener != null) {
             return logRecordListener.getLogRecords()
                     .filter(logRecord -> logRecord.getLevel() == Level.INFO || logRecord.getLevel() == Level.SEVERE)
-                    .filter(logRecord -> !isNullOrEmpty(logRecord.getMessage()))
+                    .filter(logRecord -> !isEmpty(logRecord.getMessage()))
                     .map(this::mapLogMessage)
                     .collect(Collectors.joining("</li><li>", "<ul><li> ", "</li></ul><br/>"));
         }

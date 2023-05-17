@@ -16,10 +16,10 @@
 
 package io.github.selcukes.commons.helper;
 
+import io.github.selcukes.collections.StringHelper;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.databind.DataMapper;
-import io.github.selcukes.databind.utils.StringHelper;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 

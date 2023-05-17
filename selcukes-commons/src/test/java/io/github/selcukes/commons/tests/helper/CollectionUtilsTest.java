@@ -16,8 +16,8 @@
 
 package io.github.selcukes.commons.tests.helper;
 
-import io.github.selcukes.databind.collections.Maps;
-import io.github.selcukes.databind.collections.Streams;
+import io.github.selcukes.collections.Maps;
+import io.github.selcukes.collections.Streams;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

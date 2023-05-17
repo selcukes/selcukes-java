@@ -18,7 +18,7 @@ package io.github.selcukes.reports.cucumber;
 
 import io.github.selcukes.commons.http.WebClient;
 import io.github.selcukes.commons.http.WebResponse;
-import io.github.selcukes.databind.utils.StringHelper;
+import io.github.selcukes.databind.utils.JsonUtils;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -28,7 +28,7 @@ import lombok.experimental.UtilityClass;
 public class LiveReportHelper {
     @SneakyThrows
     public void publishResults(Object object, String key) {
-        logger.debug(() -> StringHelper.toPrettyJson(object));
+        logger.debug(() -> JsonUtils.toPrettyJson(object));
         String url = "http://localhost:9200/%s/results";
         WebClient client = new WebClient(String.format(url, key));
         WebResponse response = client.post(object);

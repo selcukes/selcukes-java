@@ -16,11 +16,11 @@
 
 package io.github.selcukes.core.tests.web;
 
+import io.github.selcukes.collections.Clocks;
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.core.listener.EventCapture;
 import io.github.selcukes.core.page.WebPage;
-import io.github.selcukes.databind.utils.Clocks;
-import io.github.selcukes.databind.utils.Resources;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
 import org.openqa.selenium.By;
@@ -34,9 +34,9 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.nio.file.Paths;
 
+import static io.github.selcukes.collections.Clocks.DATE_TIME_FILE_FORMAT;
 import static io.github.selcukes.core.page.ui.PageElement.FILED_ATTRIBUTE_PROPERTY;
 import static io.github.selcukes.core.tests.TestDriver.getChromeDriver;
-import static io.github.selcukes.databind.utils.Clocks.DATE_TIME_FILE_FORMAT;
 
 @CustomLog
 public class EventDriverTest {

@@ -16,13 +16,13 @@
 
 package io.github.selcukes.databind.excel;
 
+import io.github.selcukes.collections.DataTable;
+import io.github.selcukes.collections.Maps;
+import io.github.selcukes.collections.Resources;
+import io.github.selcukes.collections.Streams;
 import io.github.selcukes.databind.annotation.DataFile;
-import io.github.selcukes.databind.collections.DataTable;
-import io.github.selcukes.databind.collections.Maps;
-import io.github.selcukes.databind.collections.Streams;
 import io.github.selcukes.databind.converters.Converter;
 import io.github.selcukes.databind.exception.DataMapperException;
-import io.github.selcukes.databind.utils.Resources;
 import lombok.SneakyThrows;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -36,8 +36,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static io.github.selcukes.collections.Reflections.newInstance;
 import static io.github.selcukes.databind.converters.Converters.defaultConverters;
-import static io.github.selcukes.databind.utils.Reflections.newInstance;
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 

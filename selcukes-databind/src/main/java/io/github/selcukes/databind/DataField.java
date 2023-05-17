@@ -16,13 +16,13 @@
 
 package io.github.selcukes.databind;
 
+import io.github.selcukes.collections.Reflections;
+import io.github.selcukes.collections.Streams;
 import io.github.selcukes.databind.annotation.Interpolate;
 import io.github.selcukes.databind.annotation.Key;
-import io.github.selcukes.databind.collections.Streams;
 import io.github.selcukes.databind.converters.Converter;
 import io.github.selcukes.databind.substitute.DefaultSubstitutor;
 import io.github.selcukes.databind.substitute.Substitutor;
-import io.github.selcukes.databind.utils.Reflections;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,8 +31,8 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 
-import static io.github.selcukes.databind.utils.Reflections.newInstance;
-import static io.github.selcukes.databind.utils.Reflections.setFieldValue;
+import static io.github.selcukes.collections.Reflections.newInstance;
+import static io.github.selcukes.collections.Reflections.setFieldValue;
 import static java.lang.String.format;
 import static java.util.Optional.ofNullable;
 
