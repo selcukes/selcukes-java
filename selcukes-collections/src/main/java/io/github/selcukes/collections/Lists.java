@@ -116,12 +116,11 @@ public class Lists {
     }
 
     /**
-     * Sorts a list of elements with proper handling of null values.
+     * Sorts a given list of elements with nulls appearing last.
      *
      * @param  list the list of elements to be sorted
      * @param  <T>  the type of elements in the list
-     * @return      a new list containing the sorted elements with nulls placed
-     *              at the end
+     * @return      a new sorted list with nulls placed at the end
      */
     public <T> List<T> sortWithNulls(List<T> list) {
         return list.stream()
