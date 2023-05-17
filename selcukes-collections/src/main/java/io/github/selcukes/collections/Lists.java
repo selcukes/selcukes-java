@@ -116,16 +116,16 @@ public class Lists {
     }
 
     /**
-     * Sorts a given list of elements with nulls appearing last.
+     * Sorts a list of elements with proper handling of null values.
      *
      * @param  list the list of elements to be sorted
-     * @param  <T>  the type of elements in the list, must extend the Comparable
-     *              interface
-     * @return      a new sorted list with nulls appearing last
+     * @param  <T>  the type of elements in the list
+     * @return      a new list containing the sorted elements with nulls placed
+     *              at the end
      */
-    public <T extends Comparable<? super T>> List<T> sortWithNulls(List<T> list) {
+    public <T> List<T> sortWithNulls(List<T> list) {
         return list.stream()
-                .sorted(Comparator.nullsLast(Comparator.naturalOrder()))
+                .sorted(Comparator.comparing(Object::toString, Comparator.nullsLast(Comparator.naturalOrder())))
                 .collect(Collectors.toList());
     }
 

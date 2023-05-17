@@ -129,7 +129,7 @@ public class DataComparator {
      * @return          a DataTable containing the differences between the two
      *                  input lists
      */
-    public static <T extends Comparable<? super T>, V extends T> DataTable<String, String> diff(
+    public static <V> DataTable<String, String> diff(
             final List<V> expected, final List<V> actual
     ) {
         List<V> sortedExpected = Lists.sortWithNulls(expected);
