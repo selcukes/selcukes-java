@@ -25,7 +25,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.testng.annotations.Test;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -51,9 +50,9 @@ public class CollectionsTest {
 
     @Test
     public void testSortWithNulls() {
-        var listWithNulls = Lists.of("Hello", null, 123, true, 3.14, 'A');
+        List<Object> listWithNulls = Lists.of("Hello", null, 123, true, 3.14, 'A');
         var sortedList = Lists.sortWithNulls(listWithNulls);
-        var expectedSortedList = Lists.of(123, 3.14, 'A', "Hello", true, null);
+        List<Object> expectedSortedList = Lists.of(123, 3.14, 'A', "Hello", true, null);
         assertEquals(sortedList, expectedSortedList);
     }
 
