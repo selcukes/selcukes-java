@@ -125,7 +125,7 @@ public class Lists {
      */
     public <T> List<T> sortWithNulls(List<T> list) {
         return list.stream()
-                .sorted(Comparator.comparing(Object::toString, Comparator.nullsLast(Comparator.naturalOrder())))
+                .sorted(Comparator.nullsLast(Comparator.comparing(Object::toString, Comparator.naturalOrder())))
                 .collect(Collectors.toList());
     }
 
