@@ -124,7 +124,9 @@ public class Lists {
      * @return      a new sorted list with nulls appearing last
      */
     public <T extends Comparable<? super T>> List<T> sortWithNulls(List<T> list) {
-        return list.stream().sorted(Comparator.nullsLast(Comparator.naturalOrder())).collect(Collectors.toList());
+        return list.stream()
+                .sorted(Comparator.nullsLast(Comparator.naturalOrder()))
+                .collect(Collectors.toList());
     }
 
     /**
