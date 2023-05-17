@@ -27,7 +27,7 @@ import static io.github.selcukes.commons.fixture.SelcukesFixture.fail;
 @UtilityClass
 @CustomLog
 public class Validation {
-    private static final ThreadLocal<List<String>> ERROR_MESSAGES = InheritableThreadLocal
+    private static final ThreadLocal<List<String>> ERROR_MESSAGES = ThreadLocal
             .withInitial(CopyOnWriteArrayList::new);
 
     public static void failWithMessage(boolean isSoft, String errorMessage, Object... args) {

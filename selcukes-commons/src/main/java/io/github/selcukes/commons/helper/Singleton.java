@@ -27,6 +27,7 @@ import static io.github.selcukes.collections.Reflections.newInstance;
  * that only one instance is created for a given class and constructor
  * arguments.
  */
+@SuppressWarnings("java:S6548")
 public class Singleton {
 
     private Singleton() {
