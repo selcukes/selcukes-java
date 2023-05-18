@@ -12,6 +12,19 @@
 
 ### Removed
 
+## [2.3.0] (18-05-2023)
+
+### Added
+
+* [Collections] Added new module `selcukes-collections` ([#259](https://github.com/selcukes/selcukes-java/pull/259))
+* [Collections] Added `DataComparator` class provides utility methods to compare data in tables and rows, and generate
+  tables of differences between expected and actual data ([#261](https://github.com/selcukes/selcukes-java/pull/261))
+
+### Changed
+* Update dependency com.fasterxml.jackson:jackson-bom to v2.15.1 ([#260](https://github.com/selcukes/selcukes-java/pull/260))
+* Update dependency io.appium:java-client to v8.5.0 ([#258](https://github.com/selcukes/selcukes-java/pull/258))
+* Update dependency org.seleniumhq.selenium:selenium-bom to v4.9.1 ([#257](https://github.com/selcukes/selcukes-java/pull/257))
+
 ## [2.2.11] (07-05-2023)
 
 ### Added
@@ -22,7 +35,8 @@
 ### Changed
 
 * Update dependency io.appium:java-client to v8.4.0 ([#255](https://github.com/selcukes/selcukes-java/pull/255))
-* Update dependency org.apache.maven.plugins:maven-gpg-plugin to v3.1.0 ([#254](https://github.com/selcukes/selcukes-java/pull/254))
+* Update dependency org.apache.maven.plugins:maven-gpg-plugin to
+  v3.1.0 ([#254](https://github.com/selcukes/selcukes-java/pull/254))
 
 ## [2.2.10] (07-05-2023)
 
