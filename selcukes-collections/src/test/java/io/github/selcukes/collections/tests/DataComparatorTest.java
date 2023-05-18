@@ -21,7 +21,7 @@ import io.github.selcukes.collections.DataTable;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
@@ -48,11 +48,11 @@ public class DataComparatorTest {
 
     @Test
     public void testCheckTableData() {
-        var differences = DataComparator.diff(expected, actual, "id", Collections.singletonList("Type"));
-        assertEquals(12, differences.size());
+        var differences = DataComparator.diff(expected, actual, "id", List.of("Type"));
+        assertEquals(differences.size(), 12);
         assertFalse(isFailed(differences));
         var differences1 = DataComparator.diff(expected, actual, "id");
-        assertEquals(12, differences.size());
+        assertEquals(differences.size(), 12);
         assertTrue(isFailed(differences1));
         System.out.println(differences1.prettyTable());
     }
@@ -74,13 +74,13 @@ public class DataComparatorTest {
 
         var differences = DataComparator.diff(expectedColumn, actualColumn);
         assertFalse(isFailed(differences));
-        assertEquals(4, differences.size());
+        assertEquals(differences.size(), 4);
         System.out.println(differences.prettyTable());
         expectedColumn.add("Hello");
         actualColumn.add(null);
         var differences1 = DataComparator.diff(expectedColumn, actualColumn);
         assertTrue(isFailed(differences1));
-        assertEquals(5, differences1.size());
+        assertEquals(differences1.size(), 5);
         System.out.println(differences1.prettyTable());
     }
 
