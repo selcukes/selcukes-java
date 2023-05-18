@@ -50,9 +50,9 @@ public class CollectionsTest {
 
     @Test
     public void testSortWithNulls() {
-        var listWithNulls = Lists.of("John", "Mary", null, "Alice", "Bob", null, "Charlie");
+        List<Object> listWithNulls = Lists.of("Hello", null, 123, true, 3.14, 'A');
         var sortedList = Lists.sortWithNulls(listWithNulls);
-        var expectedSortedList = Lists.of("Alice", "Bob", "Charlie", "John", "Mary", null, null);
+        List<Object> expectedSortedList = Lists.of(123, 3.14, 'A', "Hello", true, null);
         assertEquals(sortedList, expectedSortedList);
     }
 
