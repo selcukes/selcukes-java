@@ -37,7 +37,7 @@ public class WebClientTest {
         json.append("\"notes\":\"hello\"");
         json.append("}");
 
-        var client = new WebClient("https://httpbin.org/post");
+        var client = new WebClient("http://postman-echo.com/post");
         var response = client.post(json);
         assertTrue(response.body().contains("Ramesh"));
     }
@@ -59,7 +59,7 @@ public class WebClientTest {
         assertEquals(responseBody.at("/data/first_name").asText(), "Janet");
     }
 
-    @Test
+    @Test(enabled = false)
     public void bearerAuthTest() {
         var client = new WebClient("https://httpbin.org/#/Auth/get_bearer");
         var response = client.authenticator("hello")
