@@ -104,6 +104,14 @@ public class DataTableTest {
         assertTrue(age25Rows.contains(rowE));
     }
 
+    @Test
+    public void testDistinctByColumn() {
+        var newRow = Map.of("Name", "Charlie", "Age", "30", "Country", "USA");
+        dataTable.addRow(newRow);
+        var newTable = dataTable.distinctByColumn("Country");
+        assertFalse(newTable.contains(newRow));
+    }
+
     @Test(testName = "Test getColumns")
     public void testGetColumns() {
         assertEquals(Set.copyOf(dataTable.getColumns()), columns);
