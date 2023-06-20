@@ -395,6 +395,21 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
     }
 
     /**
+     * Returns a new DataTable containing distinct rows based on the specified
+     * column.
+     *
+     * @param  columnName The name of the column used to identify and extract
+     *                    distinct rows.
+     * @return            A new DataTable containing only the distinct rows
+     *                    based on the specified column.
+     */
+    public DataTable<K, V> distinctByColumn(K columnName) {
+        return rows()
+                .collect(Collectors.toMap(row -> row.get(columnName), row -> row, (a, b) -> a))
+                .values().stream().collect(Collectors.toCollection(DataTable::new));
+    }
+
+    /**
      * Joins the current DataTable with another DataTable on the specified join
      * column and returns a new DataTable with the combined rows.
      *

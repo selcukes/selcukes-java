@@ -16,20 +16,50 @@
 
 package io.github.selcukes.collections;
 
-import lombok.experimental.UtilityClass;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
 
-@UtilityClass
 public class DataComparator {
+    private final BiPredicate<Object, Object> valueComparator;
+    /**
+     * Constructs a DataComparator with the specified value comparator.
+     *
+     * @param valueComparator the value comparator to be used for comparing
+     *                        values.
+     */
+    private DataComparator(BiPredicate<Object, Object> valueComparator) {
+        this.valueComparator = valueComparator;
+    }
+
+    /**
+     * Creates a new DataComparator with the default value comparator that uses
+     * the {@link Objects#equals} method.
+     *
+     * @return a new DataComparator instance.
+     */
+    public static DataComparator create() {
+        return new DataComparator(Objects::equals);
+    }
+
+    /**
+     * Creates a new DataComparator with the specified value comparator.
+     *
+     * @param  valueComparator the new value comparator to be used for comparing
+     *                         values.
+     * @return                 a new DataComparator instance with the updated
+     *                         value comparator.
+     */
+    public static DataComparator create(BiPredicate<Object, Object> valueComparator) {
+        return new DataComparator(valueComparator);
+    }
 
     /**
      * Compares the data in two tables and returns a table of differences.
@@ -43,7 +73,7 @@ public class DataComparator {
      * @return               a table of differences between the expected and
      *                       actual tables
      */
-    public static <K, V> DataTable<String, String> diff(
+    public <K, V> DataTable<String, String> diff(
             final DataTable<K, V> expected, final DataTable<K, V> actual, final K foreignKey,
             final List<K> ignoreColumns
     ) {
@@ -72,7 +102,7 @@ public class DataComparator {
      * @return            a table of differences between the expected and actual
      *                    tables
      */
-    public static <K, V> DataTable<String, String> diff(
+    public <K, V> DataTable<String, String> diff(
             DataTable<K, V> expected, DataTable<K, V> actual, K foreignKey
     ) {
         return diff(expected, actual, foreignKey, Collections.emptyList());
@@ -89,7 +119,7 @@ public class DataComparator {
      * @return               a table of differences between the expected and
      *                       actual rows
      */
-    public static <K, V> DataTable<String, String> diff(
+    public <K, V> DataTable<String, String> diff(
             final Map<K, V> expected, final Map<K, V> actual, final List<K> ignoreColumns
     ) {
         return expected.entrySet().stream()
@@ -97,7 +127,7 @@ public class DataComparator {
                 .map(entry -> {
                     var expectedValue = entry.getValue();
                     var actualValue = actual.get(entry.getKey());
-                    String status = Objects.equals(expectedValue, actualValue) ? "Pass" : "Fail";
+                    String status = valueComparator.test(expectedValue, actualValue) ? "Pass" : "Fail";
                     return rowStatus(entry.getKey().toString(), expectedValue.toString(),
                         actualValue != null ? actualValue.toString() : "", status);
                 })
@@ -115,7 +145,7 @@ public class DataComparator {
      * @return          a table of differences between the expected and actual
      *                  rows
      */
-    public static <K, V> DataTable<String, String> diff(Map<K, V> expected, Map<K, V> actual) {
+    public <K, V> DataTable<String, String> diff(Map<K, V> expected, Map<K, V> actual) {
         return diff(expected, actual, Collections.emptyList());
     }
 
@@ -129,7 +159,7 @@ public class DataComparator {
      * @return          a DataTable containing the differences between the two
      *                  input lists
      */
-    public static <V> DataTable<String, String> diff(
+    public <V> DataTable<String, String> diff(
             final List<V> expected, final List<V> actual
     ) {
         List<V> sortedExpected = Lists.sortWithNulls(expected);
@@ -139,7 +169,7 @@ public class DataComparator {
                 .mapToObj(i -> {
                     var expectedValue = i < sortedExpected.size() ? sortedExpected.get(i) : null;
                     var actualValue = i < sortedActual.size() ? sortedActual.get(i) : null;
-                    String status = Objects.equals(expectedValue, actualValue) ? "Pass" : "Fail";
+                    String status = valueComparator.test(expectedValue, actualValue) ? "Pass" : "Fail";
                     return rowStatus("Row " + i, expectedValue != null ? expectedValue.toString() : "",
                         actualValue != null ? actualValue.toString() : "", status);
                 })

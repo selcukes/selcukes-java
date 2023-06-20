@@ -18,6 +18,7 @@ package io.github.selcukes.collections.tests;
 
 import io.github.selcukes.collections.DataComparator;
 import io.github.selcukes.collections.DataTable;
+import io.github.selcukes.collections.Lists;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -47,11 +48,22 @@ public class DataComparatorTest {
     }
 
     @Test
+    public void testWithCustomValueComparator() {
+        var comparator = DataComparator.create(
+            (expectedValue, actualValue) -> expectedValue.toString().equalsIgnoreCase(actualValue.toString()));
+
+        var one = Lists.of("John", "New York");
+        var two = Lists.of("JOHN", "New York");
+        var differences = comparator.diff(one, two);
+        System.out.println(differences.prettyTable());
+    }
+
+    @Test
     public void testCheckTableData() {
-        var differences = DataComparator.diff(expected, actual, "id", List.of("Type"));
+        var differences = DataComparator.create().diff(expected, actual, "id", List.of("Type"));
         assertEquals(differences.size(), 12);
         assertFalse(isFailed(differences));
-        var differences1 = DataComparator.diff(expected, actual, "id");
+        var differences1 = DataComparator.create().diff(expected, actual, "id");
         assertEquals(differences.size(), 12);
         assertTrue(isFailed(differences1));
         System.out.println(differences1.prettyTable());
@@ -62,7 +74,7 @@ public class DataComparatorTest {
         var expectedRow = Map.of("id", "1", "Name", "Alice", "Amount", "120,000.00", "Type", "Credit");
         var actualRow = Map.of("id", "1", "Name", "Bob", "Amount", "120,000.00", "Type", "Credit");
 
-        var differences = DataComparator.diff(expectedRow, actualRow);
+        var differences = DataComparator.create().diff(expectedRow, actualRow);
         assertTrue(isFailed(differences));
         System.out.println(differences.prettyTable());
     }
@@ -72,13 +84,13 @@ public class DataComparatorTest {
         var expectedColumn = expected.getColumnEntries("Name");
         var actualColumn = actual.getColumnEntries("Name");
 
-        var differences = DataComparator.diff(expectedColumn, actualColumn);
+        var differences = DataComparator.create().diff(expectedColumn, actualColumn);
         assertFalse(isFailed(differences));
         assertEquals(differences.size(), 4);
         System.out.println(differences.prettyTable());
         expectedColumn.add("Hello");
         actualColumn.add(null);
-        var differences1 = DataComparator.diff(expectedColumn, actualColumn);
+        var differences1 = DataComparator.create().diff(expectedColumn, actualColumn);
         assertTrue(isFailed(differences1));
         assertEquals(differences1.size(), 5);
         System.out.println(differences1.prettyTable());
