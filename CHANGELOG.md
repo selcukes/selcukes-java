@@ -12,6 +12,29 @@
 
 ### Removed
 
+## [2.3.1] (22-06-2023)
+
+### Added
+
+* [Collections] Added support for `distinctByColumn` method in
+  DataTable ([#269](https://github.com/selcukes/selcukes-java/pull/269))
+* [Collections] Added support to compare with CustomValueComparator
+  in `DataComparator` ([#269](https://github.com/selcukes/selcukes-java/pull/269))
+
+### Changed
+
+* Update dependency org.testng:testng to v7.8.0 ([#262](https://github.com/selcukes/selcukes-java/pull/262))
+* Update dependency org.apache.maven.plugins:maven-source-plugin to
+  v3.3.0 ([#263](https://github.com/selcukes/selcukes-java/pull/263))
+* Update dependency org.projectlombok:lombok to v1.18.28 ([#264](https://github.com/selcukes/selcukes-java/pull/264))
+* Update dependency com.fasterxml.jackson:jackson-bom to
+  v2.15.2 ([#265](https://github.com/selcukes/selcukes-java/pull/265))
+* Update dependency io.cucumber:cucumber-bom to v7.12.1 ([#266](https://github.com/selcukes/selcukes-java/pull/266))
+* Update dependency io.appium:java-client to v8.5.1 ([#267](https://github.com/selcukes/selcukes-java/pull/267))
+* Update dependency org.seleniumhq.selenium:selenium-bom to
+  v4.10.0 ([#268](https://github.com/selcukes/selcukes-java/pull/268))
+* Update dependency selcukes-faker to v0.0.2 ([#269](https://github.com/selcukes/selcukes-java/pull/269))
+
 ## [2.3.0] (18-05-2023)
 
 ### Added
@@ -21,9 +44,12 @@
   tables of differences between expected and actual data ([#261](https://github.com/selcukes/selcukes-java/pull/261))
 
 ### Changed
-* Update dependency com.fasterxml.jackson:jackson-bom to v2.15.1 ([#260](https://github.com/selcukes/selcukes-java/pull/260))
+
+* Update dependency com.fasterxml.jackson:jackson-bom to
+  v2.15.1 ([#260](https://github.com/selcukes/selcukes-java/pull/260))
 * Update dependency io.appium:java-client to v8.5.0 ([#258](https://github.com/selcukes/selcukes-java/pull/258))
-* Update dependency org.seleniumhq.selenium:selenium-bom to v4.9.1 ([#257](https://github.com/selcukes/selcukes-java/pull/257))
+* Update dependency org.seleniumhq.selenium:selenium-bom to
+  v4.9.1 ([#257](https://github.com/selcukes/selcukes-java/pull/257))
 
 ## [2.2.11] (07-05-2023)
 
