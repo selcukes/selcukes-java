@@ -43,7 +43,7 @@
         <jackson.version>2.15.2</jackson.version>
 
         <poi.version>5.2.3</poi.version>
-        <cucumber-reporting.version>5.7.5</cucumber-reporting.version>
+        <cucumber-reporting.version>5.7.6</cucumber-reporting.version>
         <extentreports.version>5.0.9</extentreports.version>
         <recorder.version>0.7.7.0</recorder.version>
         <slfj4.version>2.20.0</slfj4.version>
