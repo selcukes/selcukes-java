@@ -17,7 +17,7 @@
 package io.github.selcukes.wdb.util;
 
 public class UrlHelper {
-    public static final String CHROMEDRIVER_URL = "https://chromedriver.storage.googleapis.com";
+    public static final String CHROMEDRIVER_URL = "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing";
     public static final String CHROMEDRIVER_LATEST_RELEASE_URL = "https://chromedriver.storage.googleapis.com/LATEST_RELEASE";
 
     public static final String GECKODRIVER_URL = "https://github.com/mozilla/geckodriver/releases/download";

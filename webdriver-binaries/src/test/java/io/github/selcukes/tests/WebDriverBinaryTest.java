@@ -30,7 +30,7 @@ public class WebDriverBinaryTest {
 
     @Test
     public void chromeDriverTest() {
-        BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().setup();
+        BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().version("115.0.5790.102").setup();
         String binProp = binaryInfo.getBinaryProperty();
         assertEquals(binProp, "webdriver.chrome.driver");
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
