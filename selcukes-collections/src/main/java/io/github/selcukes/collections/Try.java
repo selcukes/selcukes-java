@@ -243,7 +243,7 @@ public class Try<T> {
     @FunctionalInterface
     public interface CheckedFunction<T, R> {
         @SuppressWarnings("squid:S112")
-        R apply(T t);
+        R apply(T t) throws Exception;
     }
 
     /**
@@ -255,7 +255,7 @@ public class Try<T> {
     @FunctionalInterface
     public interface CheckedSupplier<T> {
         @SuppressWarnings("squid:S112")
-        T get();
+        T get() throws Exception;
     }
 
     /**
