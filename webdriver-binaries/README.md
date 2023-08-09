@@ -1,4 +1,4 @@
-# WebDriver Binaries
+# WebDriver Binaries (DEPRECATED)
 
 WebDriver Binaries automatically downloads and configures the binary drivers (e.g. chromedriver, geckodriver, etc.)
 required by Selenium WebDriver.

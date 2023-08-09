@@ -65,7 +65,7 @@ class SeleniumService {
         String serverJar = getServerJar();
         int port = PortProber.findFreePort();
         String localAddress = new NetworkUtils().getPrivateLocalAddress();
-        baseUrl = String.format("https://%s:%d", localAddress, port);
+        baseUrl = String.format("http://%s:%d", localAddress, port);
 
         Stream<String> javaFlags = System.getProperties().entrySet().stream()
                 .filter(entry -> {
