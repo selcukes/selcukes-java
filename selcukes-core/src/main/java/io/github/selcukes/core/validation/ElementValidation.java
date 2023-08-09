@@ -27,7 +27,7 @@ public class ElementValidation {
 
     private final WebElement element;
     private final String elementLocator;
-    boolean isSoft;
+    final boolean isSoft;
 
     public ElementValidation(boolean isSoft, WebElement element) {
 

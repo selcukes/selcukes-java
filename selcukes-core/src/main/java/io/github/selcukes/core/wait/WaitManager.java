@@ -25,7 +25,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class WaitManager {
-    Page page;
+    final Page page;
 
     public WaitManager(Page page) {
         this.page = page;

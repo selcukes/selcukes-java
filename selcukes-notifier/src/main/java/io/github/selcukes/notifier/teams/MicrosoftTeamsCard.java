@@ -34,7 +34,7 @@ public class MicrosoftTeamsCard {
     private final List<Section> sections;
     @Builder.Default
     @JsonProperty("@context")
-    private String context = "http://schema.org/extensions";
+    private String context = "https://schema.org/extensions";
     @JsonProperty("@type")
     private String type;
     @JsonProperty("themeColor")
