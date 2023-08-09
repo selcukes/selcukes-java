@@ -86,8 +86,8 @@ public class Maps {
     }
 
     /**
-     * "Collects the elements of a stream into a TreeMap whose keys are case
-     * insensitive."
+     * "Collects the elements of a stream into a TreeMap whose keys are
+     * case-insensitive."
      * <p>
      * The first two parameters are the same as the ones for the `toMap`
      * collector. The third parameter is a function that takes two values and

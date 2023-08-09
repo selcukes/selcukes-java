@@ -27,8 +27,8 @@ import static io.github.selcukes.core.validation.Validation.failWithMessage;
 
 @CustomLog
 public class PageValidations {
-    Page page;
-    boolean isSoft;
+    final Page page;
+    final boolean isSoft;
 
     public PageValidations(Page page, boolean isSoft) {
         this.page = page;

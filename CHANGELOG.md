@@ -416,7 +416,7 @@ using inbuilt Selenium Manager ([#219](https://github.com/selcukes/selcukes-java
 
 * [Video Recorder] Added support to generate MONTE recorder as MP4
   video ([#109](https://github.com/selcukes/selcukes-java/pull/109))
-* [Selcukes Reports] Real-time reporting for cucumber tests using Elastic Search and
+* [Selcukes Reports] Real-time reporting for cucumber tests using Elasticsearch and
   Kibana ([#119](https://github.com/selcukes/selcukes-java/pull/119))
 * [Core] Added Page Validations and Wait Wrappers ([#113](https://github.com/selcukes/selcukes-java/pull/113))
 * [Core] Added Alert and Frame Actions to Page ([#122](https://github.com/selcukes/selcukes-java/pull/122))

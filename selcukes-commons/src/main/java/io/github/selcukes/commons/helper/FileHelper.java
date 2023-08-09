@@ -73,9 +73,10 @@ public class FileHelper {
      */
     public void setFileExecutable(final String filePath) {
         try {
-            final Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(Paths.get(filePath));
+            var path = Paths.get(filePath);
+            final Set<PosixFilePermission> permissions = Files.getPosixFilePermissions(path);
             permissions.add(PosixFilePermission.OWNER_EXECUTE);
-            Files.setPosixFilePermissions(Paths.get(filePath), permissions);
+            Files.setPosixFilePermissions(path, permissions);
         } catch (Exception e) {
             throw new ConfigurationException("Unable to set file as executable..");
         }
