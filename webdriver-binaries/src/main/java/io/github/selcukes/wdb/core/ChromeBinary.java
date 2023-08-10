@@ -26,7 +26,6 @@ import io.github.selcukes.wdb.util.UrlHelper;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
-import java.util.Optional;
 
 import static io.github.selcukes.wdb.util.VersionHelper.sendRequest;
 

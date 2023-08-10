@@ -57,7 +57,7 @@ public class VersionDetector {
             String queryResult = shell.runCommand(command).getOutput().get(0);
             String browserVersion = StringHelper.extractVersionNumber(queryResult);
             logger.info(() -> "Browser Version Number: " + browserVersion);
-            return getCompatibleBinaryVersion(browserVersion);
+            return browserVersion;
         } else {
             return getBrowserVersionFromCommand(getQuery());
         }
@@ -84,10 +84,10 @@ public class VersionDetector {
 
         logger.info(() -> "Browser Version Number: " + browserVersion);
 
-        return getCompatibleBinaryVersion(browserVersion);
+        return browserVersion;
     }
 
-    public String getCompatibleBinaryVersion(String browserVersion) {
+    /*public String getCompatibleBinaryVersion(String browserVersion) {
         logger.info(
             () -> String.format("Identifying Compatible %s version for Browser [%s] ", driverName, browserVersion));
         String matcher = this.driverName + "_" + this.osNameAndArch;
@@ -123,5 +123,5 @@ public class VersionDetector {
         CacheManager.createCache(driverName, compatibleVersion);
         return compatibleVersion;
     }
-
+*/
 }
