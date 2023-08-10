@@ -98,7 +98,7 @@ public class VersionDetector {
         }
         List<String> versions = versionsList(this.binaryDownloadUrl, expression, matcher);
         if (versions.isEmpty()) {
-            logger.warn(() -> "Failed Identifying Compatible Version. Downloading Latest version.");
+            logger.warn(() -> "Failed Identifying Compatible Version. Downloading Stable version.");
             return "";
         }
         String browserVersionPrefix = browserVersion.split("\\.")[0];
