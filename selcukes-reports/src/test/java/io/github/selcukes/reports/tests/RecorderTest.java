@@ -41,7 +41,9 @@ public class RecorderTest {
 
     @BeforeTest
     public void beforeTest() {
-        driver = new ChromeDriver(new ChromeOptions());
+        var options = new ChromeOptions();
+        options.addArguments("--headless");
+        driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         screenPlay = ScreenPlayBuilder
                 .getScreenPlay(driver)
