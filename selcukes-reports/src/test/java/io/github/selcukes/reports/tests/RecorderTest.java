@@ -22,17 +22,16 @@ import io.github.selcukes.notifier.enums.NotifierType;
 import io.github.selcukes.reports.screen.ScreenPlay;
 import io.github.selcukes.reports.screen.ScreenPlayBuilder;
 import io.github.selcukes.video.enums.RecorderType;
-import io.github.selcukes.wdb.driver.LocalDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
-import static io.github.selcukes.wdb.enums.DriverType.CHROME;
 
 @Test(enabled = false)
 public class RecorderTest {
@@ -42,7 +41,7 @@ public class RecorderTest {
 
     @BeforeTest
     public void beforeTest() {
-        driver = new LocalDriver().createWebDriver(CHROME);
+        driver = new ChromeDriver(new ChromeOptions());
         driver.manage().window().maximize();
         screenPlay = ScreenPlayBuilder
                 .getScreenPlay(driver)
