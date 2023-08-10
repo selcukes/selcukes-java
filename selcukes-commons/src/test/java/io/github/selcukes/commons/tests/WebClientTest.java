@@ -29,7 +29,7 @@ import static org.testng.Assert.assertTrue;
 
 public class WebClientTest {
 
-    @Test
+    @Test(enabled = false)
     public void postTest() {
         StringBuilder json = new StringBuilder();
         json.append("{");
@@ -42,7 +42,7 @@ public class WebClientTest {
         assertTrue(response.body().contains("Ramesh"));
     }
 
-    @Test
+    @Test(enabled = false)
     public void uploadFileTest() {
         var file = Resources.ofTest("sample.csv");
         var client = new WebClient("http://postman-echo.com/post");

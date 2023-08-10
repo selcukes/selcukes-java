@@ -26,10 +26,11 @@ import io.github.selcukes.wdb.util.UrlHelper;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
-import java.util.Optional;
+
+import static io.github.selcukes.wdb.util.VersionHelper.sendRequest;
 
 public class ChromeBinary extends AbstractBinary {
-    private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/chromedriver_%s.zip";
+    private static final String BINARY_DOWNLOAD_URL_PATTERN = "%s/%s/%s/chromedriver-%s.zip";
 
     @Override
     public URL getDownloadURL() {
@@ -38,6 +39,7 @@ public class ChromeBinary extends AbstractBinary {
                 BINARY_DOWNLOAD_URL_PATTERN,
                 UrlHelper.CHROMEDRIVER_URL,
                 getBinaryVersion(),
+                getBinaryEnvironment().getOsNameAndArch(),
                 getBinaryEnvironment().getOsNameAndArch()));
 
         } catch (MalformedURLException e) {
@@ -47,8 +49,8 @@ public class ChromeBinary extends AbstractBinary {
 
     @Override
     public Platform getBinaryEnvironment() {
-        Platform platform = Platform.getPlatform();
-        Optional<Architecture> arch = getTargetArch();
+        var platform = Platform.getPlatform();
+        var arch = getTargetArch();
         if (arch.isPresent()) {
             platform.setArchitecture(arch.get().getValue());
         } else if (Objects.equals(platform.getOSType(), OsType.WIN)) {
@@ -76,6 +78,7 @@ public class ChromeBinary extends AbstractBinary {
 
     @Override
     protected String getLatestRelease() {
-        return getVersionNumberFromXml(UrlHelper.CHROMEDRIVER_LATEST_RELEASE_URL);
+        var responseBody = sendRequest(UrlHelper.CHROMEDRIVER_LATEST_RELEASE_URL, getProxy()).bodyJson();
+        return responseBody.at("/channels/Stable/version").asText();
     }
 }

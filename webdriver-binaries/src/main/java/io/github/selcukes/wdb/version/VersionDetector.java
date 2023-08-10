@@ -23,7 +23,6 @@ import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.os.Platform;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -31,6 +30,7 @@ import static io.github.selcukes.wdb.util.VersionHelper.versionsList;
 
 public class VersionDetector {
     private final Logger logger = LoggerFactory.getLogger(getClass());
+    private static final String CHROME = "chrome";
     private final String driverName;
     private final String osNameAndArch;
     private final String binaryDownloadUrl;
@@ -52,7 +52,7 @@ public class VersionDetector {
         }
         if (Platform.isLinux()) {
             Shell shell = new Shell();
-            String browserName = driverName.contains("chrome") ? "google-chrome" : "microsoft-edge";
+            String browserName = driverName.contains(CHROME) ? "google-chrome" : "microsoft-edge";
             String command = browserName + " --version";
             String queryResult = shell.runCommand(command).getOutput().get(0);
             String browserVersion = StringHelper.extractVersionNumber(queryResult);
@@ -76,7 +76,7 @@ public class VersionDetector {
     private String getBrowserVersionFromCommand(String regQuery) {
         Shell shell = new Shell();
         ExecResults execResults = shell.runCommand(regQuery);
-        if (driverName.contains("chrome") && execResults.getOutput().get(2).isEmpty()) {
+        if (driverName.contains(CHROME) && execResults.getOutput().get(2).isEmpty()) {
             execResults = shell.runCommand(regQuery.replace(" (x86)", ""));
         }
         String[] words = execResults.getOutput().get(2).split(" ");
@@ -92,13 +92,16 @@ public class VersionDetector {
             () -> String.format("Identifying Compatible %s version for Browser [%s] ", driverName, browserVersion));
         String matcher = this.driverName + "_" + this.osNameAndArch;
         String expression = "//Key";
+        String checkUrl = this.binaryDownloadUrl;
         if (this.driverName.contains("edge")) {
             expression = "//Blob/Name";
             matcher = matcher.substring(2);
+            checkUrl = checkUrl.concat("?restype=container&comp=list");
         }
-        List<String> versions = versionsList(this.binaryDownloadUrl, expression, matcher);
+        var versions = this.driverName.contains(CHROME) ? versionsList()
+                : versionsList(checkUrl, expression, matcher);
         if (versions.isEmpty()) {
-            logger.warn(() -> "Failed Identifying Compatible Version. Downloading Latest version.");
+            logger.warn(() -> "Failed Identifying Compatible Version. Downloading Stable version.");
             return "";
         }
         String browserVersionPrefix = browserVersion.split("\\.")[0];

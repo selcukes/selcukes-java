@@ -112,7 +112,7 @@ public class WebDriverBinaryUtil {
                 FileHelper.setFileExecutable(getWebDriverBinary().getAbsolutePath());
             } catch (Exception ignored) {
                 logger.warn(
-                    () -> String.format("Unable to WebDriver Binary file[%s] as executable..",
+                    () -> String.format("Unable to set WebDriver Binary file[%s] as executable..",
                         getWebDriverBinary().getAbsolutePath()));
             }
 
