@@ -30,7 +30,7 @@ import static io.github.selcukes.wdb.util.VersionHelper.versionsList;
 
 public class VersionDetector {
     private final Logger logger = LoggerFactory.getLogger(getClass());
-    private static final String CHROME="chrome";
+    private static final String CHROME = "chrome";
     private final String driverName;
     private final String osNameAndArch;
     private final String binaryDownloadUrl;
