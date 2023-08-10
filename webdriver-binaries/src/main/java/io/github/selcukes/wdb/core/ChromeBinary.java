@@ -36,11 +36,11 @@ public class ChromeBinary extends AbstractBinary {
     public URL getDownloadURL() {
         try {
             return new URL(String.format(
-                    BINARY_DOWNLOAD_URL_PATTERN,
-                    UrlHelper.CHROMEDRIVER_URL,
-                    getBinaryVersion(),
-                    getBinaryEnvironment().getOsNameAndArch(),
-                    getBinaryEnvironment().getOsNameAndArch()));
+                BINARY_DOWNLOAD_URL_PATTERN,
+                UrlHelper.CHROMEDRIVER_URL,
+                getBinaryVersion(),
+                getBinaryEnvironment().getOsNameAndArch(),
+                getBinaryEnvironment().getOsNameAndArch()));
 
         } catch (MalformedURLException e) {
             throw new WebDriverBinaryException(e);
@@ -78,7 +78,7 @@ public class ChromeBinary extends AbstractBinary {
 
     @Override
     protected String getLatestRelease() {
-        var responseBody =  sendRequest(UrlHelper.CHROMEDRIVER_LATEST_RELEASE_URL, getProxy()).bodyJson();
+        var responseBody = sendRequest(UrlHelper.CHROMEDRIVER_LATEST_RELEASE_URL, getProxy()).bodyJson();
         return responseBody.at("/channels/Stable/version").asText();
     }
 }

@@ -16,6 +16,7 @@
 
 package io.github.selcukes.wdb.util;
 
+import io.github.selcukes.collections.Streams;
 import io.github.selcukes.commons.http.WebClient;
 import io.github.selcukes.commons.http.WebResponse;
 
@@ -58,6 +59,18 @@ public class VersionHelper {
     public static List<String> versionsList(String url, String expression, String matcher) {
         try {
             return new ArrayList<>(versionsMap(url, expression, matcher).keySet());
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
+    }
+
+    public static List<String> versionsList() {
+        try {
+            var responseBody = sendRequest(UrlHelper.CHROMEDRIVER_VERSIONS, null)
+                    .bodyJson();
+            return Streams.of(responseBody.get("versions").elements())
+                    .map(ele -> ele.get("version").asText())
+                    .collect(Collectors.toList());
         } catch (Exception e) {
             return Collections.emptyList();
         }

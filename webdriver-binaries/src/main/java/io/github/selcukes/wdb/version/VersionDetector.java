@@ -23,7 +23,6 @@ import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.commons.os.Platform;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -57,7 +56,7 @@ public class VersionDetector {
             String queryResult = shell.runCommand(command).getOutput().get(0);
             String browserVersion = StringHelper.extractVersionNumber(queryResult);
             logger.info(() -> "Browser Version Number: " + browserVersion);
-            return browserVersion;
+            return getCompatibleBinaryVersion(browserVersion);
         } else {
             return getBrowserVersionFromCommand(getQuery());
         }
@@ -84,19 +83,22 @@ public class VersionDetector {
 
         logger.info(() -> "Browser Version Number: " + browserVersion);
 
-        return browserVersion;
+        return getCompatibleBinaryVersion(browserVersion);
     }
 
-    /*public String getCompatibleBinaryVersion(String browserVersion) {
+    public String getCompatibleBinaryVersion(String browserVersion) {
         logger.info(
             () -> String.format("Identifying Compatible %s version for Browser [%s] ", driverName, browserVersion));
         String matcher = this.driverName + "_" + this.osNameAndArch;
         String expression = "//Key";
+        String checkUrl = this.binaryDownloadUrl;
         if (this.driverName.contains("edge")) {
             expression = "//Blob/Name";
             matcher = matcher.substring(2);
+            checkUrl = checkUrl.concat("?restype=container&comp=list");
         }
-        List<String> versions = versionsList(this.binaryDownloadUrl, expression, matcher);
+        var versions = this.driverName.contains("chrome") ? versionsList()
+                : versionsList(checkUrl, expression, matcher);
         if (versions.isEmpty()) {
             logger.warn(() -> "Failed Identifying Compatible Version. Downloading Stable version.");
             return "";
@@ -123,5 +125,5 @@ public class VersionDetector {
         CacheManager.createCache(driverName, compatibleVersion);
         return compatibleVersion;
     }
-*/
+
 }
