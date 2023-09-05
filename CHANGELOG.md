@@ -12,6 +12,20 @@
 
 ### Removed
 
+## [2.3.2] (05-09-2023)
+
+### Changed
+
+* Update dependency org.seleniumhq.selenium:selenium-bom to
+  v4.12.1 ([#279](https://github.com/selcukes/selcukes-java/pull/279))
+* Update dependency com.aventstack:extentreports to v5.1.0 [#274](https://github.com/selcukes/selcukes-java/pull/274))
+* Update dependency org.junit:junit-bom to v5.10.0 [#272](https://github.com/selcukes/selcukes-java/pull/272))
+* Update dependency io.cucumber:cucumber-bom to v7.13.0 [#271](https://github.com/selcukes/selcukes-java/pull/271))
+* Update dependency net.masterthought:cucumber-reporting to v5.7.6 [#270](https://github.com/selcukes/selcukes-java/pull/270))
+### Fixed
+
+* [WebDriver Binaries] Updated Chrome-for-testing endpoints ([#276](https://github.com/selcukes/selcukes-java/pull/276))
+
 ## [2.3.1] (22-06-2023)
 
 ### Added
