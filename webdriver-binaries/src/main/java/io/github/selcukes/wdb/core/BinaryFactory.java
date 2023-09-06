@@ -52,7 +52,8 @@ public interface BinaryFactory {
     }
 
     default String getBinaryDirectory() {
-        return getBinaryDriverName().toLowerCase() + "_" + getBinaryVersion();
+        return getBinaryDriverName().toLowerCase() + "_" + getBinaryVersion() + File.separator
+                + getBinaryDriverName().toLowerCase() + "-" + getBinaryEnvironment().getOsNameAndArch();
     }
 
     String getBinaryDriverName();
