@@ -47,7 +47,7 @@ class AppiumEngine {
     void startLocalServer() {
         try {
             var reportsPath = ofNullable(ConfigFactory.getConfig().getReports())
-                    .map(reports -> reports.get("reportsPath")).orElse("target");
+                    .map(reports -> reports.get("path")).orElse("target");
             var logFilePath = Path.of(reportsPath, "appium-server.log");
             service = new AppiumServiceBuilder()
                     .withIPAddress("127.0.0.1")
