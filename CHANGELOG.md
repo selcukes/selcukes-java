@@ -12,6 +12,15 @@
 
 ### Removed
 
+## [2.3.4] (19-09-2023)
+
+### Changed
+* Update dependency org.apache.maven.plugins:maven-javadoc-plugin to v3.6.0 ([#282](https://github.com/selcukes/selcukes-java/pull/282))
+* Update dependency io.cucumber:cucumber-bom to v7.13.0 [#280](https://github.com/selcukes/selcukes-java/pull/280))
+### Fixed
+
+* [Core] Fixed Reports path issue ([#281](https://github.com/selcukes/selcukes-java/pull/281))
+
 ## [2.3.3] (06-09-2023)
 
 ### Fixed
