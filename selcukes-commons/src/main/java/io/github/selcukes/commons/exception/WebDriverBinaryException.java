@@ -30,6 +30,6 @@ public class WebDriverBinaryException extends SelcukesException {
     }
 
     public WebDriverBinaryException(String message, Throwable cause) {
-        super(message,cause);
+        super(message, cause);
     }
 }
