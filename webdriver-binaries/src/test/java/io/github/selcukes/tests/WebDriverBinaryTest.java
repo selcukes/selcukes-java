@@ -31,7 +31,7 @@ import static org.testng.Assert.assertEquals;
 public class WebDriverBinaryTest {
     private final Logger logger = LoggerFactory.getLogger(WebDriverBinaryTest.class);
 
-    @Test(enabled = false)
+    @Test
     public void chromeDriverTest() {
         BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().setup();
         String binProp = binaryInfo.getBinaryProperty();
@@ -39,6 +39,8 @@ public class WebDriverBinaryTest {
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
         var options = new ChromeOptions();
         options.addArguments("--headless=new");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
         WebDriver driver = new ChromeDriver();
         driver.get("https://www.google.com/");
         driver.quit();
