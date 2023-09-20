@@ -16,6 +16,8 @@
 
 package io.github.selcukes.commons.exception;
 
+import java.io.IOException;
+
 public class WebDriverBinaryException extends SelcukesException {
     private static final long serialVersionUID = 1L;
 
@@ -25,5 +27,9 @@ public class WebDriverBinaryException extends SelcukesException {
 
     public WebDriverBinaryException(String message) {
         super(message);
+    }
+
+    public WebDriverBinaryException(String message, Throwable cause) {
+        super(message,cause);
     }
 }
