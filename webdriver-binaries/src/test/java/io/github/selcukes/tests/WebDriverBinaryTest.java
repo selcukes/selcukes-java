@@ -38,7 +38,7 @@ public class WebDriverBinaryTest {
         assertEquals(binProp, "webdriver.chrome.driver");
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
         var options = new ChromeOptions();
-        options.addArguments("--headless");
+        options.addArguments("--headless=new");
         WebDriver driver = new ChromeDriver();
         driver.get("https://www.google.com/");
         driver.quit();
