@@ -51,10 +51,10 @@ public final class FileExtractUtil {
         } catch (IOException e) {
             if (e instanceof NoSuchFileException) {
                 throw new WebDriverBinaryException(
-                        "The destination folder does not exist: " + extractedFile.toAbsolutePath(), e);
+                        "The destination folder does not exist: " + destination, e);
             } else {
                 throw new WebDriverBinaryException(
-                        "Error occurred while checking the destination folder: " + extractedFile.toAbsolutePath(), e);
+                        "Error occurred while checking the destination folder: " + destination, e);
             }
         }
         logger.debug(() -> "Deleting compressed file:" + source.toAbsolutePath());
