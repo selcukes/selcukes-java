@@ -12,6 +12,18 @@
 
 ### Removed
 
+## [2.3.5] (21-09-2023)
+
+### Changed
+
+* Update dependency com.aventstack:extentreports to v5.1.1 ([#285](https://github.com/selcukes/selcukes-java/pull/283))
+* Update dependency org.projectlombok:lombok to v1.18.30 [#283](https://github.com/selcukes/selcukes-java/pull/283))
+
+### Fixed
+
+* [WebdriverBinaries] Fixed exporting webdriver binaries and refactored File
+  extraction ([#281](https://github.com/selcukes/selcukes-java/pull/281))
+
 ## [2.3.4] (19-09-2023)
 
 ### Changed
