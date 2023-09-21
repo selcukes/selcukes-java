@@ -48,14 +48,12 @@ public final class FileExtractUtil {
             if (filesInDirectory.findAny().isEmpty() || extractedFile == null) {
                 throw new WebDriverBinaryException("No files were extracted to: " + destination);
             }
+        } catch (NoSuchFileException e) {
+            throw new WebDriverBinaryException(
+                "The destination folder does not exist: " + destination, e);
         } catch (IOException e) {
-            if (e instanceof NoSuchFileException) {
-                throw new WebDriverBinaryException(
-                    "The destination folder does not exist: " + destination, e);
-            } else {
-                throw new WebDriverBinaryException(
-                    "Error occurred while checking the destination folder: " + destination, e);
-            }
+            throw new WebDriverBinaryException(
+                "Error occurred while checking the destination folder: " + destination, e);
         }
         logger.debug(() -> "Deleting compressed file:" + source.toAbsolutePath());
         source.toFile().deleteOnExit();
