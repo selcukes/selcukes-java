@@ -51,10 +51,10 @@ public final class FileExtractUtil {
         } catch (IOException e) {
             if (e instanceof NoSuchFileException) {
                 throw new WebDriverBinaryException(
-                        "The destination folder does not exist: " + destination, e);
+                    "The destination folder does not exist: " + destination, e);
             } else {
                 throw new WebDriverBinaryException(
-                        "Error occurred while checking the destination folder: " + destination, e);
+                    "Error occurred while checking the destination folder: " + destination, e);
             }
         }
         logger.debug(() -> "Deleting compressed file:" + source.toAbsolutePath());
@@ -64,7 +64,7 @@ public final class FileExtractUtil {
     private static Path unZipFile(Path source, Path destination) {
         Path entryDestination = null;
         try (var fis = Files.newInputStream(source, StandardOpenOption.READ);
-             var zis = new ZipArchiveInputStream(fis)) {
+                var zis = new ZipArchiveInputStream(fis)) {
             ZipArchiveEntry entry;
             while ((entry = zis.getNextZipEntry()) != null) {
                 if (!entry.getName().toUpperCase().contains("LICENSE")) {
@@ -80,8 +80,8 @@ public final class FileExtractUtil {
     private static Path unTarFile(Path source, Path destination) {
         Path entryDestination = null;
         try (var fis = Files.newInputStream(source, StandardOpenOption.READ);
-             var gZIPInputStream = new GZIPInputStream(fis);
-             final var tis = new TarArchiveInputStream(gZIPInputStream)) {
+                var gZIPInputStream = new GZIPInputStream(fis);
+                final var tis = new TarArchiveInputStream(gZIPInputStream)) {
             TarArchiveEntry entry;
             while ((entry = tis.getNextTarEntry()) != null) {
                 if (!entry.getName().toUpperCase().contains("LICENSE")) {
@@ -99,7 +99,7 @@ public final class FileExtractUtil {
         String fileName = entry.getName();
         var entryDestination = destination.resolve(fileName);
         logger.info(() -> String.format("Uncompressing {%s} (size: {%d} KB, compressed size: {%d} KB)",
-                fileName, entry.getSize(), entry.getSize()));
+            fileName, entry.getSize(), entry.getSize()));
 
         if (entry.isDirectory()) {
             Files.createDirectories(entryDestination);

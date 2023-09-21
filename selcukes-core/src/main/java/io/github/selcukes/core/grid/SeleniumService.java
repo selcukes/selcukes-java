@@ -40,7 +40,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 @CustomLog
 class SeleniumService {
     private static final List<Runnable> SHUTDOWN_ACTIONS = new LinkedList<>();
-
+    private static final String SELENIUM_VERSION = "4.12.1";
     private String baseUrl;
     private CommandLine command;
 
@@ -132,8 +132,9 @@ class SeleniumService {
 
     @SneakyThrows
     public String getServerJar() {
-        var serverJarUrl = new URL(
-            "https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.12.0/selenium-server-4.12.0.jar");
+        var serverJarUrl = new URL(String.format(
+            "https://github.com/SeleniumHQ/selenium/releases/download/selenium-%s/selenium-server-%s.jar",
+            SELENIUM_VERSION, SELENIUM_VERSION));
         Path serverJarPath = Resources.of("target/selenium-server.jar");
         FileHelper.download(serverJarUrl, serverJarPath.toFile());
         return serverJarPath.toAbsolutePath().toString();
