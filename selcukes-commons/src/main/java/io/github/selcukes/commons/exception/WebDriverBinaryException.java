@@ -26,4 +26,8 @@ public class WebDriverBinaryException extends SelcukesException {
     public WebDriverBinaryException(String message) {
         super(message);
     }
+
+    public WebDriverBinaryException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

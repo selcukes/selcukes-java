@@ -20,6 +20,9 @@ import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.wdb.BinaryInfo;
 import io.github.selcukes.wdb.WebDriverBinary;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.Test;
 
 import static java.lang.System.getProperty;
@@ -34,6 +37,11 @@ public class WebDriverBinaryTest {
         String binProp = binaryInfo.getBinaryProperty();
         assertEquals(binProp, "webdriver.chrome.driver");
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
+        var options = new ChromeOptions();
+        options.addArguments("--headless=new");
+        WebDriver driver = new ChromeDriver(options);
+        driver.get("https://www.google.com/");
+        driver.quit();
     }
 
     @Test
