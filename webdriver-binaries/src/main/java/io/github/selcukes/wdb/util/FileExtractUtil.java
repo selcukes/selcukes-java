@@ -17,7 +17,6 @@
 package io.github.selcukes.wdb.util;
 
 import io.github.selcukes.commons.exception.WebDriverBinaryException;
-import io.github.selcukes.commons.helper.FileHelper;
 import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.wdb.enums.DownloaderType;
@@ -26,13 +25,10 @@ import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
-import org.apache.commons.io.IOUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.*;
 import java.util.zip.GZIPInputStream;
 
 public final class FileExtractUtil {
@@ -43,29 +39,35 @@ public final class FileExtractUtil {
 
     }
 
-    public static File extractFile(File source, File destination, DownloaderType compressedBinaryType) {
+    public static void extractFile(Path source, Path destination, DownloaderType compressedBinaryType) {
         logger.info(() -> String.format("Extracting binary from compressed file %s", source));
-        final File extractedFile = compressedBinaryType.equals(DownloaderType.ZIP) ? unZipFile(source, destination)
+        final var extractedFile = compressedBinaryType.equals(DownloaderType.ZIP) ? unZipFile(source, destination)
                 : unTarFile(source, destination);
 
-        final File[] directoryContents = (extractedFile != null) ? extractedFile.listFiles() : new File[0];
-
-        if (directoryContents != null && directoryContents.length == 0) {
-            throw new WebDriverBinaryException("The file unpacking failed for: " + source.getAbsolutePath());
+        try (var filesInDirectory = Files.list(destination)) {
+            if (filesInDirectory.findAny().isEmpty() || extractedFile == null) {
+                throw new WebDriverBinaryException("No files were extracted to: " + destination);
+            }
+        } catch (NoSuchFileException e) {
+            throw new WebDriverBinaryException(
+                "The destination folder does not exist: " + destination, e);
+        } catch (IOException e) {
+            throw new WebDriverBinaryException(
+                "Error occurred while checking the destination folder: " + destination, e);
         }
-        logger.debug(() -> "Deleting compressed file:" + source.getAbsolutePath());
-        source.deleteOnExit();
-
-        return extractedFile;
+        logger.debug(() -> "Deleting compressed file:" + source.toAbsolutePath());
+        source.toFile().deleteOnExit();
     }
 
-    private static File unZipFile(File source, File destination) {
-        File entryDestination = null;
-        try (FileInputStream fis = new FileInputStream(source);
-                ZipArchiveInputStream zis = new ZipArchiveInputStream(fis)) {
+    private static Path unZipFile(Path source, Path destination) {
+        Path entryDestination = null;
+        try (var fis = Files.newInputStream(source, StandardOpenOption.READ);
+                var zis = new ZipArchiveInputStream(fis)) {
             ZipArchiveEntry entry;
             while ((entry = zis.getNextZipEntry()) != null) {
-                entryDestination = uncompress(zis, destination, entry);
+                if (!entry.getName().toUpperCase().contains("LICENSE")) {
+                    entryDestination = uncompress(zis, destination, entry);
+                }
             }
         } catch (IOException e) {
             throw new WebDriverBinaryException(e);
@@ -73,15 +75,17 @@ public final class FileExtractUtil {
         return entryDestination;
     }
 
-    private static File unTarFile(File source, File destination) {
-        File entryDestination = null;
-        try (FileInputStream fis = new FileInputStream(source);
-                GZIPInputStream gZIPInputStream = new GZIPInputStream(fis);
-                final TarArchiveInputStream tis = new TarArchiveInputStream(gZIPInputStream)) {
+    private static Path unTarFile(Path source, Path destination) {
+        Path entryDestination = null;
+        try (var fis = Files.newInputStream(source, StandardOpenOption.READ);
+                var gZIPInputStream = new GZIPInputStream(fis);
+                final var tis = new TarArchiveInputStream(gZIPInputStream)) {
             TarArchiveEntry entry;
-
             while ((entry = tis.getNextTarEntry()) != null) {
-                entryDestination = uncompress(tis, destination, entry);
+                if (!entry.getName().toUpperCase().contains("LICENSE")) {
+                    entryDestination = uncompress(tis, destination, entry);
+                }
+
             }
         } catch (IOException ex) {
             throw new WebDriverBinaryException(ex);
@@ -89,40 +93,19 @@ public final class FileExtractUtil {
         return entryDestination;
     }
 
-    private static File uncompress(InputStream inputStream, File destination, ArchiveEntry entry) throws IOException {
+    private static Path uncompress(InputStream inputStream, Path destination, ArchiveEntry entry) throws IOException {
         String fileName = entry.getName();
-        long size = entry.getSize();
-        long compressedSize = entry.getSize();
+        var entryDestination = destination.resolve(fileName);
         logger.info(() -> String.format("Uncompressing {%s} (size: {%d} KB, compressed size: {%d} KB)",
-            fileName, size, compressedSize));
-        File entryDestination = newFile(destination, entry);
+            fileName, entry.getSize(), entry.getSize()));
+
         if (entry.isDirectory()) {
-            FileHelper.createDirectory(entryDestination);
+            Files.createDirectories(entryDestination);
         } else {
-            if (entryDestination.getParent() != null) {
-                FileHelper.createDirectory(entryDestination.getParentFile());
-            }
-
-            try (FileOutputStream fos = new FileOutputStream(entryDestination)) {
-                IOUtils.copy(inputStream, fos);
-            } catch (Exception e) {
-                throw new WebDriverBinaryException(e);
-            }
-
+            Files.createDirectories(entryDestination.getParent());
+            Files.copy(inputStream, entryDestination, StandardCopyOption.REPLACE_EXISTING);
+            return entryDestination;
         }
         return entryDestination;
-    }
-
-    private static File newFile(File destinationDir, ArchiveEntry entry) throws IOException {
-        File destFile = new File(destinationDir, entry.getName());
-
-        String destDirPath = destinationDir.getCanonicalPath();
-        String destFilePath = destFile.getCanonicalPath();
-
-        if (!destFilePath.startsWith(destDirPath + File.separator)) {
-            throw new IOException("Entry is outside of the target dir: " + entry.getName());
-        }
-
-        return destFile;
     }
 }
