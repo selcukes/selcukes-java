@@ -40,7 +40,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 @CustomLog
 class SeleniumService {
     private static final List<Runnable> SHUTDOWN_ACTIONS = new LinkedList<>();
-    private static final String SELENIUM_SERVER_JAR_URL = "https://github.com/SeleniumHQ/selenium/releases/download/nightly/selenium-server-4.12.1.jar";
+    private static final String SELENIUM_SERVER_JAR_URL = "https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.13.0/selenium-server-4.13.0.jar";
     private String baseUrl;
     private CommandLine command;
 
