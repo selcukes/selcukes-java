@@ -17,6 +17,7 @@
 package io.github.selcukes.core.grid;
 
 import io.github.selcukes.collections.Resources;
+import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.DriverConnectionException;
 import io.github.selcukes.commons.helper.FileHelper;
 import lombok.CustomLog;
@@ -40,7 +41,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 @CustomLog
 class SeleniumService {
     private static final List<Runnable> SHUTDOWN_ACTIONS = new LinkedList<>();
-    private static final String SELENIUM_SERVER_JAR_URL = "https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.13.0/selenium-server-4.13.0.jar";
     private String baseUrl;
     private CommandLine command;
 
@@ -132,7 +132,8 @@ class SeleniumService {
 
     @SneakyThrows
     public String getServerJar() {
-        var serverJarUrl = new URL(SELENIUM_SERVER_JAR_URL);
+        var seleniumServerJar= ConfigFactory.getConfig().getWeb().getServerJar();
+        var serverJarUrl = new URL(seleniumServerJar);
         Path serverJarPath = Resources.of("target/selenium-server.jar");
         FileHelper.download(serverJarUrl, serverJarPath.toFile());
         return serverJarPath.toAbsolutePath().toString();

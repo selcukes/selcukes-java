@@ -53,6 +53,7 @@ public class Config {
         String browser;
         boolean headLess;
         String serviceUrl;
+        String serverJar;
         String app;
     }
 
