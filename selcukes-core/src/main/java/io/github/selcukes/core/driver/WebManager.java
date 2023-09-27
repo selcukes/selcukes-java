@@ -40,7 +40,7 @@ class WebManager implements RemoteManager {
         var capabilities = ofNullable(customCapabilities)
                 .orElseGet(() -> {
                     var driverOptions = BrowserOptions
-                            .getBrowserOptions(BrowserOptions.valueOf(browser), "");
+                            .getBrowserOptions(BrowserOptions.valueOf(browser), "", RunMode.isHeadlessWeb());
                     return isCloudBrowser() ? driverOptions
                             .merge(CloudOptions.getBrowserStackOptions(false)) : driverOptions;
                 });

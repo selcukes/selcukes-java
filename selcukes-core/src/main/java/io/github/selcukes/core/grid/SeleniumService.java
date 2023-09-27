@@ -17,6 +17,7 @@
 package io.github.selcukes.core.grid;
 
 import io.github.selcukes.collections.Resources;
+import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.DriverConnectionException;
 import io.github.selcukes.commons.helper.FileHelper;
 import lombok.CustomLog;
@@ -30,17 +31,16 @@ import org.openqa.selenium.os.CommandLine;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static java.util.Optional.ofNullable;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 @CustomLog
 class SeleniumService {
     private static final List<Runnable> SHUTDOWN_ACTIONS = new LinkedList<>();
-    private static final String SELENIUM_SERVER_JAR_URL = "https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.13.0/selenium-server-4.13.0.jar";
     private String baseUrl;
     private CommandLine command;
 
@@ -132,8 +132,11 @@ class SeleniumService {
 
     @SneakyThrows
     public String getServerJar() {
-        var serverJarUrl = new URL(SELENIUM_SERVER_JAR_URL);
-        Path serverJarPath = Resources.of("target/selenium-server.jar");
+        var seleniumServerJar = ConfigFactory.getConfig().getWeb().getServerJar();
+        var serverJarUrl = new URL(seleniumServerJar);
+        var reportsPath = ofNullable(ConfigFactory.getConfig().getReports())
+                .map(reports -> reports.get("path")).orElse("target");
+        var serverJarPath = Resources.of(reportsPath + "/selenium-server.jar");
         FileHelper.download(serverJarUrl, serverJarPath.toFile());
         return serverJarPath.toAbsolutePath().toString();
     }

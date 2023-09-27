@@ -62,7 +62,8 @@ class AppiumManager implements RemoteManager {
         var options = ofNullable(capabilities)
                 .orElseGet(() -> {
                     String platform = ConfigFactory.getConfig().getMobile().getPlatform();
-                    var driverOptions = BrowserOptions.getBrowserOptions(BrowserOptions.valueOf(browser), platform);
+                    var driverOptions = BrowserOptions.getBrowserOptions(BrowserOptions.valueOf(browser), platform,
+                        RunMode.isHeadlessMobile());
                     return isCloudAppium() ? driverOptions.merge(CloudOptions.getBrowserStackOptions(false))
                             : driverOptions;
                 });
