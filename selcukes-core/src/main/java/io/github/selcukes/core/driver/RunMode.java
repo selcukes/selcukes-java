@@ -17,7 +17,6 @@
 package io.github.selcukes.core.driver;
 
 import io.github.selcukes.commons.config.ConfigFactory;
-import io.github.selcukes.commons.os.Platform;
 import lombok.experimental.UtilityClass;
 
 import static io.github.selcukes.collections.StringHelper.isNonEmpty;
