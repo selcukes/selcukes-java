@@ -31,11 +31,11 @@ import org.openqa.selenium.os.CommandLine;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static java.util.Optional.ofNullable;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 @CustomLog
@@ -134,7 +134,9 @@ class SeleniumService {
     public String getServerJar() {
         var seleniumServerJar = ConfigFactory.getConfig().getWeb().getServerJar();
         var serverJarUrl = new URL(seleniumServerJar);
-        Path serverJarPath = Resources.of("target/selenium-server.jar");
+        var reportsPath = ofNullable(ConfigFactory.getConfig().getReports())
+                .map(reports -> reports.get("path")).orElse("target");
+        var serverJarPath = Resources.of(reportsPath + "/selenium-server.jar");
         FileHelper.download(serverJarUrl, serverJarPath.toFile());
         return serverJarPath.toAbsolutePath().toString();
     }

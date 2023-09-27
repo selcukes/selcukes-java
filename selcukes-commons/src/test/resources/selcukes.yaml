@@ -35,7 +35,7 @@ mobile:
 reports:
   emailReport: true
   htmlReport: true
-  reportsPath:
+  path:
 video:
   recording: false
   type: FFMPEG
