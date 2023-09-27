@@ -17,6 +17,7 @@
 package io.github.selcukes.core.tests;
 
 import io.github.selcukes.commons.config.ConfigFactory;
+import io.github.selcukes.commons.os.Platform;
 import io.github.selcukes.core.driver.BrowserOptions;
 import io.github.selcukes.core.driver.DevicePool;
 import io.github.selcukes.core.driver.DriverManager;
@@ -35,8 +36,8 @@ public class DriverManagerTest {
     @Test
     public void testCustomOptions() {
         ConfigFactory.getConfig().getWeb().setRemote(false);
-        var chromeOptions = BrowserOptions.getBrowserOptions(Browser.CHROME, "");
-        var edgeOptions = BrowserOptions.getBrowserOptions(Browser.EDGE, "");
+        var chromeOptions = BrowserOptions.getBrowserOptions(Browser.CHROME, "", Platform.isLinux());
+        var edgeOptions = BrowserOptions.getBrowserOptions(Browser.EDGE, "", Platform.isLinux());
         DriverManager.createDriver(DeviceType.BROWSER, chromeOptions, edgeOptions);
         assertTrue(DriverManager.getWrappedDriver() instanceof EdgeDriver);
         DriverManager.switchDriver(DeviceType.BROWSER, 0);

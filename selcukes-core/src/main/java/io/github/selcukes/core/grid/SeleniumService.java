@@ -132,7 +132,7 @@ class SeleniumService {
 
     @SneakyThrows
     public String getServerJar() {
-        var seleniumServerJar= ConfigFactory.getConfig().getWeb().getServerJar();
+        var seleniumServerJar = ConfigFactory.getConfig().getWeb().getServerJar();
         var serverJarUrl = new URL(seleniumServerJar);
         Path serverJarPath = Resources.of("target/selenium-server.jar");
         FileHelper.download(serverJarUrl, serverJarPath.toFile());

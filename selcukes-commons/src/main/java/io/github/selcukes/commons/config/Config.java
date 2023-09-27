@@ -42,6 +42,7 @@ public class Config {
         String cloud;
         String platform;
         String browser;
+        boolean headLess;
         String serviceUrl;
         String app;
     }

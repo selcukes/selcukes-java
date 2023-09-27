@@ -33,8 +33,7 @@ public class BrowserOptions {
     private static final String HEADLESS = "--headless";
     private static final String NEW_HEADLESS = "--headless=new";
 
-    public static Capabilities getBrowserOptions(Browser browser, String platform) {
-        boolean isHeadless = RunMode.isHeadless();
+    public static Capabilities getBrowserOptions(Browser browser, String platform, boolean isHeadless) {
         if (EDGE.equals(browser)) {
             var edgeOptions = new EdgeOptions();
             if (isHeadless) {
