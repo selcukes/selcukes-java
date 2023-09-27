@@ -12,6 +12,18 @@
 
 ### Removed
 
+## [2.3.6] (27-09-2023)
+
+### Changed
+
+* Update dependency org.seleniumhq.selenium:selenium-bom to
+  v4.13.0 ([#286](https://github.com/selcukes/selcukes-java/pull/286))
+
+### Fixed
+
+* [Core] Updated Selenium Server Jar url to read from Config([#287](https://github.com/selcukes/selcukes-java/pull/287))
+*
+
 ## [2.3.5] (21-09-2023)
 
 ### Changed
