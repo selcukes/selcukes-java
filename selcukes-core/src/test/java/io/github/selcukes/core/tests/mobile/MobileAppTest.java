@@ -16,7 +16,6 @@
 
 package io.github.selcukes.core.tests.mobile;
 
-import io.appium.java_client.android.Activity;
 import io.appium.java_client.android.AndroidDriver;
 import io.github.selcukes.commons.annotation.Lifecycle;
 import io.github.selcukes.core.driver.DriverManager;
@@ -26,6 +25,8 @@ import io.github.selcukes.core.wait.WaitCondition;
 import org.openqa.selenium.By;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.Map;
 
 import static io.github.selcukes.core.enums.SwipeDirection.DOWN;
 import static io.github.selcukes.core.enums.SwipeDirection.UP;
@@ -75,8 +76,9 @@ public class MobileAppTest {
 
     @Test(enabled = false)
     public void alertTest() {
-        ((AndroidDriver) DriverManager.getWrappedDriver())
-                .startActivity(new Activity("io.appium.android.apis", ".app.AlertDialogSamples"));
+        ((AndroidDriver) DriverManager.getWrappedDriver()).executeScript("mobile: startActivity",
+            Map.of(
+                "component", String.format("%s/%s", "io.appium.android.apis", ".app.AlertDialogSamples")));
 
         page.click(By.id("io.appium.android.apis:id/two_buttons"))
                 .click(By.id("android:id/button1"));
@@ -95,8 +97,9 @@ public class MobileAppTest {
 
     @Test(enabled = false)
     public void searchTest() {
-        ((AndroidDriver) DriverManager.getWrappedDriver())
-                .startActivity(new Activity("io.appium.android.apis", ".app.SearchInvoke"));
+        ((AndroidDriver) DriverManager.getWrappedDriver()).executeScript("mobile: startActivity",
+            Map.of(
+                "component", String.format("%s/%s", "io.appium.android.apis", ".app.SearchInvoke")));
         page.enter(By.id("txt_query_prefill"), "Hello world!")
                 .click(By.id("btn_start_search"));
     }
