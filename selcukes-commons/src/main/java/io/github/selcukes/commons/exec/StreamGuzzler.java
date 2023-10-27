@@ -17,6 +17,7 @@
 package io.github.selcukes.commons.exec;
 
 import io.github.selcukes.commons.exception.CommandException;
+import lombok.Getter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,15 +36,12 @@ import java.util.stream.Collectors;
  * of {@link StreamGuzzler} for consuming stream will trigger errors.
  */
 public class StreamGuzzler implements Runnable {
+    @Getter
     private final List<String> content = new LinkedList<>();
     private InputStream stream;
 
     public StreamGuzzler(final InputStream stream) {
         this.stream = stream;
-    }
-
-    public List<String> getContent() {
-        return content;
     }
 
     @Override
