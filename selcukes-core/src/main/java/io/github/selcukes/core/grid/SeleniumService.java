@@ -26,13 +26,14 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.net.NetworkUtils;
 import org.openqa.selenium.net.PortProber;
 import org.openqa.selenium.net.UrlChecker;
-import org.openqa.selenium.os.CommandLine;
+import org.openqa.selenium.os.ExternalProcess;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Optional.ofNullable;
@@ -42,7 +43,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 class SeleniumService {
     private static final List<Runnable> SHUTDOWN_ACTIONS = new LinkedList<>();
     private String baseUrl;
-    private CommandLine command;
+    private ExternalProcess process;
 
     static {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> SHUTDOWN_ACTIONS.forEach(Runnable::run)));
@@ -58,7 +59,7 @@ class SeleniumService {
      *                                   to start
      */
     public SeleniumService start(String mode, String... extraFlags) {
-        if (command != null) {
+        if (process != null) {
             throw new DriverConnectionException("Server already started");
         }
 
@@ -67,33 +68,34 @@ class SeleniumService {
         String localAddress = new NetworkUtils().getPrivateLocalAddress();
         baseUrl = String.format("http://%s:%d", localAddress, port);
 
-        Stream<String> javaFlags = System.getProperties().entrySet().stream()
+        var javaFlags = System.getProperties().entrySet().stream()
                 .filter(entry -> {
                     String key = String.valueOf(entry.getKey());
                     return key.startsWith("selenium") || key.startsWith("webdriver");
                 })
                 .map(entry -> "-D" + entry.getKey() + "=" + entry.getValue());
 
-        command = new CommandLine("java", Stream.concat(javaFlags, Stream.concat(
+        var builder = ExternalProcess.builder().command("java", Stream.concat(javaFlags, Stream.concat(
             Stream.of("-jar", serverJar, mode, "--port", String.valueOf(port)),
-            Stream.of(extraFlags))).toArray(String[]::new));
+            Stream.of(extraFlags))).collect(Collectors.toList()))
+                .copyOutputTo(System.err);
 
         if (Platform.getCurrent().is(Platform.WINDOWS)) {
-            File workingDir = new File(".");
-            command.setWorkingDirectory(workingDir.getAbsolutePath());
+            var workingDir = new File(".");
+            builder.directory(workingDir.getAbsolutePath());
         }
-        command.copyOutputTo(System.err);
-        logger.info(() -> "Starting selenium server: " + command.toString());
-        command.executeAsync();
+
+        logger.info(() -> "Starting selenium server: " + builder.command());
+        process = builder.start();
 
         try {
-            URL url = new URL(baseUrl + "/status");
+            var url = new URL(baseUrl + "/status");
             new UrlChecker().waitUntilAvailable(10, SECONDS, url);
             logger.info(() -> "Selenium Server is ready...");
         } catch (UrlChecker.TimeoutException e) {
             logger.error(() -> "Server failed to start: " + e.getMessage());
-            command.destroy();
-            command = null;
+            process.shutdown();
+            process = null;
             throw new DriverConnectionException(e);
         } catch (MalformedURLException e) {
             throw new DriverConnectionException(e);
@@ -107,10 +109,10 @@ class SeleniumService {
      * Stops the selenium server instance.
      */
     public void stop() {
-        if (command != null) {
-            command.destroy();
+        if (process != null) {
+            process.shutdown();
             logger.info(() -> "Selenium Server stopped.");
-            command = null;
+            process = null;
         }
     }
 
