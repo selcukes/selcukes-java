@@ -12,6 +12,23 @@
 
 ### Removed
 
+## [2.3.7] (02-11-2023)
+
+### Changed
+
+* Update dependency org.apache.poi:poi-ooxml to v5.2.4 ([#288](https://github.com/selcukes/selcukes-java/pull/288))
+* Update dependency net.masterthought:cucumber-reporting to
+  v5.7.7 ([#289](https://github.com/selcukes/selcukes-java/pull/289))
+* Update dependency com.fasterxml.jackson:jackson-bom to
+  v2.15.3 ([#293](https://github.com/selcukes/selcukes-java/pull/293))
+* Update dependency io.appium:java-client to v9 ([#295](https://github.com/selcukes/selcukes-java/pull/295))
+* Update dependency org.seleniumhq.selenium:selenium-bom to
+  v4.15.0 ([#299](https://github.com/selcukes/selcukes-java/pull/299))
+* Update dependency org.apache.logging.log4j:log4j-slf4j-impl to
+  v2.21.1 ([#297](https://github.com/selcukes/selcukes-java/pull/297))
+* [Core] Refactored the deprecated Selenium `CommandLine` Class to use the `ExternalProcess`
+  Class ([#298](https://github.com/selcukes/selcukes-java/pull/298))
+
 ## [2.3.6] (27-09-2023)
 
 ### Changed
@@ -22,7 +39,6 @@
 ### Fixed
 
 * [Core] Updated Selenium Server Jar url to read from Config([#287](https://github.com/selcukes/selcukes-java/pull/287))
-*
 
 ## [2.3.5] (21-09-2023)
 
