@@ -46,7 +46,7 @@
         <cucumber-reporting.version>5.7.7</cucumber-reporting.version>
         <extentreports.version>5.1.1</extentreports.version>
         <recorder.version>0.7.7.0</recorder.version>
-        <slfj4.version>2.21.1</slfj4.version>
+        <slfj4.version>2.22.0</slfj4.version>
 
         <!-- sonar -->
         <sonar.organization>selcukes</sonar.organization>
