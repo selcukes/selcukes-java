@@ -34,7 +34,7 @@ public class SeleniumServer {
         }
         hub = new SeleniumService().start(mode, extraFlags);
 
-        WebClient webClient = new WebClient(hub.getServiceUrl().toString() + "/status");
+        var webClient = new WebClient(hub.getServiceUrl().toString() + "/status");
         var wait = new FluentWait<>(webClient)
                 .ignoring(RuntimeException.class)
                 .withTimeout(Duration.ofSeconds(30));

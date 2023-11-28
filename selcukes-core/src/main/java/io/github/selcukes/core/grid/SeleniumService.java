@@ -76,7 +76,7 @@ class SeleniumService {
                 .map(entry -> "-D" + entry.getKey() + "=" + entry.getValue());
 
         var builder = ExternalProcess.builder().command("java", Stream.concat(javaFlags, Stream.concat(
-            Stream.of("-jar", serverJar, mode, "--port", String.valueOf(port)),
+            Stream.of("-jar", serverJar, mode, "--port", String.valueOf(port), "--selenium-manager", "true"),
             Stream.of(extraFlags))).collect(Collectors.toList()))
                 .copyOutputTo(System.err);
 
