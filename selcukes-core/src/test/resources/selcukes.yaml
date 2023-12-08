@@ -10,7 +10,7 @@ web:
   browser: CHROME
   headLess: true
   serviceUrl: "http://127.0.0.1:4444"
-  serverJar: "https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.15.0/selenium-server-4.15.0.jar"
+  serverJar: "https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.16.0/selenium-server-4.16.1.jar"
 windows:
   serviceUrl: "http://127.0.0.1:4723"
   app: "C:\\Windows\\System32\\notepad.exe"
