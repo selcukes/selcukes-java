@@ -40,7 +40,7 @@
         <junit.version>5.10.1</junit.version>
 
         <lombok.version>1.18.30</lombok.version>
-        <jackson.version>2.16.0</jackson.version>
+        <jackson.version>2.16.1</jackson.version>
 
         <poi.version>5.2.5</poi.version>
         <cucumber-reporting.version>5.7.7</cucumber-reporting.version>
