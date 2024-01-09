@@ -53,8 +53,8 @@ public class WebClientTest {
 
     @Test
     public void requestTest() {
-        var client = new WebClient("https://reqres.in/api/users/2");
-        var responseBody = client.get().bodyJson();
+        var client = new WebClient("https://reqres.in/api");
+        var responseBody = client.endpoint("/users/2").get().bodyJson();
         assertEquals(responseBody.at("/data/id").asText(), "2");
         assertEquals(responseBody.at("/data/first_name").asText(), "Janet");
     }
@@ -73,5 +73,30 @@ public class WebClientTest {
         var responseBody = client.authenticator("postman", "password")
                 .get().bodyJson();
         assertTrue(responseBody.at("/authenticated").asBoolean());
+    }
+
+    @Test
+    public void queryParamTest() {
+        var perPage = 20;
+        var client = new WebClient("https://api.github.com");
+        var responseBody = client
+                .queryParams("q", "john")
+                .queryParams("per_page", String.valueOf(perPage))
+                .endpoint("/search/users")
+                .get().bodyJson();
+        var items = responseBody.at("/items");
+        assertTrue(items.isArray());
+        assertEquals(items.size(), perPage);
+
+    }
+
+    @Test
+    public void cookieTest() {
+        var client = new WebClient("https://postman-echo.com/cookies");
+        var responseBody = client
+                .cookie("skill", "1234")
+                .endpoint("/set")
+                .get().bodyJson();
+        assertEquals(responseBody.at("/cookies/skill").asText(), "1234");
     }
 }

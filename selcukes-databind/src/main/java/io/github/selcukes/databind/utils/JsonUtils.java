@@ -30,7 +30,7 @@ public class JsonUtils {
      * @param  object The object to be converted to JSON
      * @return        A JSON string
      */
-    public String toJson(final Object object) {
+    public <T> String toJson(final T object) {
         try {
             return new ObjectMapper().writeValueAsString(object);
         } catch (Exception e) {
@@ -44,7 +44,7 @@ public class JsonUtils {
      * @param  object The object to be converted to JSON
      * @return        A JSON string
      */
-    public String toPrettyJson(final Object object) {
+    public <T> String toPrettyJson(final T object) {
         try {
             return new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(object);
         } catch (Exception e) {

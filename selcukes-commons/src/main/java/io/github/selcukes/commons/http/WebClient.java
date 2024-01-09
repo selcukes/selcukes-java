@@ -18,19 +18,21 @@ package io.github.selcukes.commons.http;
 
 import io.github.selcukes.collections.Resources;
 import io.github.selcukes.databind.utils.JsonUtils;
+import lombok.Singular;
 import lombok.SneakyThrows;
 
 import java.net.InetSocketAddress;
 import java.net.ProxySelector;
+import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import static java.net.http.HttpRequest.BodyPublisher;
 import static java.net.http.HttpRequest.BodyPublishers;
@@ -40,11 +42,64 @@ public class WebClient {
     private HttpClient.Builder clientBuilder;
     private HttpRequest.Builder requestBuilder;
     private BodyPublisher bodyPublisher;
+    @Singular
+    private final Map<String, String> cookies;
+    @Singular
+    private final Map<String, String> queryParams;
+    private final String baseUri;
+    private String endpoint;
 
-    public WebClient(final String uri) {
+    public WebClient(String baseUri) {
         clientBuilder = HttpClient.newBuilder();
-        requestBuilder = HttpRequest.newBuilder()
-                .uri(Resources.toURI(uri));
+        requestBuilder = HttpRequest.newBuilder();
+        queryParams = new ConcurrentHashMap<>();
+        cookies = new ConcurrentHashMap<>();
+        this.baseUri = Objects.requireNonNull(baseUri, "baseUri must not be null");
+        this.endpoint = "";
+    }
+
+    /**
+     * Sets the endpoint for the request.
+     *
+     * @param  endpoint The endpoint to set.
+     * @return          The WebClient object.
+     */
+    public WebClient endpoint(String endpoint) {
+        this.endpoint = endpoint;
+        return this;
+    }
+
+    /**
+     * Adds a cookie to the request.
+     *
+     * @param  name  The name of the cookie.
+     * @param  value The value of the cookie.
+     * @return       The WebClient object.
+     */
+    public WebClient cookie(String name, String value) {
+        cookies.put(name, value);
+        return this;
+    }
+
+    /**
+     * Sets the body of the request.
+     *
+     * @param  payload The payload to be set as the request body.
+     * @return         The WebClient object.
+     */
+    public WebClient body(final Object payload) {
+        this.bodyPublisher = bodyPublisher(payload);
+        return this;
+    }
+
+    /**
+     * This function creates a GET request and executes it.
+     *
+     * @return A Response object.
+     */
+    public WebResponse get() {
+        requestBuilder.GET();
+        return execute();
     }
 
     /**
@@ -59,9 +114,10 @@ public class WebClient {
      */
     @SneakyThrows
     public WebResponse post(final Object payload) {
-        contentType("application/json");
-        var request = requestBuilder.POST(bodyPublisher(payload)).build();
-        return execute(request);
+        contentType("application/json")
+                .body(payload);
+        requestBuilder.POST(bodyPublisher);
+        return execute();
     }
 
     /**
@@ -71,8 +127,8 @@ public class WebClient {
      */
     @SneakyThrows
     public WebResponse post() {
-        var request = requestBuilder.POST(bodyPublisher).build();
-        return execute(request);
+        requestBuilder.POST(bodyPublisher);
+        return execute();
     }
 
     /**
@@ -81,8 +137,8 @@ public class WebClient {
      * @return A Response object.
      */
     public WebResponse delete() {
-        var request = requestBuilder.DELETE().build();
-        return execute(request);
+        requestBuilder.DELETE();
+        return execute();
     }
 
     /**
@@ -97,8 +153,9 @@ public class WebClient {
      * @return         A Response object
      */
     public WebResponse put(final Object payload) {
-        var request = requestBuilder.PUT(bodyPublisher(payload)).build();
-        return execute(request);
+        body(payload);
+        requestBuilder.PUT(bodyPublisher);
+        return execute();
     }
 
     @SneakyThrows
@@ -141,18 +198,16 @@ public class WebClient {
     }
 
     @SneakyThrows
-    private WebResponse execute(final HttpRequest request) {
+    private WebResponse execute() {
+        if (!cookies.isEmpty()) {
+            String cookieHeader = cookies.entrySet().stream()
+                    .map(entry -> entry.getKey() + "=" + entry.getValue())
+                    .collect(Collectors.joining("; "));
+            requestBuilder = requestBuilder.header("Cookie", cookieHeader);
+            clientBuilder.followRedirects(HttpClient.Redirect.NORMAL);
+        }
+        var request = requestBuilder.uri(buildUri()).build();
         return new WebResponse(clientBuilder.build().send(request, ofString()));
-    }
-
-    /**
-     * This function creates a GET request and executes it.
-     *
-     * @return A Response object.
-     */
-    public WebResponse get() {
-        var request = requestBuilder.GET().build();
-        return execute(request);
     }
 
     /**
@@ -237,4 +292,31 @@ public class WebClient {
         return this;
     }
 
+    /**
+     * Adds a query parameter to the request.
+     * <p>
+     * This method allows you to include query parameters in your HTTP request.
+     * The provided name and value are encoded and added to the query parameters
+     * map.
+     * </p>
+     *
+     * @param  name  The name of the query parameter.
+     * @param  value The value of the query parameter.
+     * @return       The {@code WebClient} object with the specified query
+     *               parameter added.
+     */
+    public WebClient queryParams(String name, String value) {
+        queryParams.put(encode(name), encode(value));
+        return this;
+    }
+
+    private String encode(String value) {
+        return URLEncoder.encode(value, StandardCharsets.UTF_8);
+    }
+
+    private URI buildUri() {
+        var joiner = new StringJoiner("&");
+        queryParams.forEach((key, value) -> joiner.add(encode(key) + "=" + encode(value)));
+        return Resources.toURI(baseUri + endpoint + (baseUri.contains("?") ? "&" : "?") + joiner);
+    }
 }
