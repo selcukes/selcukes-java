@@ -12,6 +12,27 @@
 
 ### Removed
 
+## [2.3.8] (In Git)
+
+### Added
+
+* [Commons] Introduce support for setting cookies in WebClient
+
+### Changed
+
+* Update dependency org.apache.logging.log4j:log4j-slf4j-impl to
+  v2.22.1 ([#315](https://github.com/selcukes/selcukes-java/pull/315))
+* Update dependency org.testng:testng to v7.9.0 ([#314](https://github.com/selcukes/selcukes-java/pull/314))
+* Update dependency com.fasterxml.jackson:jackson-bom to
+  v2.16.1 ([#313](https://github.com/selcukes/selcukes-java/pull/313))
+* Update dependency net.masterthought:cucumber-reporting to
+  v5.7.8 ([#312](https://github.com/selcukes/selcukes-java/pull/312))
+* Update dependency io.cucumber:cucumber-bom to v7.15.0 ([#310](https://github.com/selcukes/selcukes-java/pull/310))
+* Update dependency org.seleniumhq.selenium:selenium-bom to
+  v4.16.1 ([#309](https://github.com/selcukes/selcukes-java/pull/309))
+* Update dependency org.apache.poi:poi-ooxml to v5.2.5 ([#305](https://github.com/selcukes/selcukes-java/pull/305))
+* Update dependency org.junit:junit-bom to v5.10.1 ([#300](https://github.com/selcukes/selcukes-java/pull/300))
+
 ## [2.3.7] (02-11-2023)
 
 ### Changed
