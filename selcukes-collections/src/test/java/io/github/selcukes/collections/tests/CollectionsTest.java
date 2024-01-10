@@ -18,6 +18,7 @@ package io.github.selcukes.collections.tests;
 
 import io.github.selcukes.collections.Clocks;
 import io.github.selcukes.collections.Lists;
+import io.github.selcukes.collections.Maps;
 import io.github.selcukes.collections.Streams;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -25,6 +26,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.testng.annotations.Test;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -34,6 +36,17 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
 public class CollectionsTest {
+
+    @Test
+    public void mapsTest() {
+        var data = new LinkedHashMap<String, Object>();
+        data.put("name", "John Doe");
+        data.put("age", 30);
+        data.put("isStudent", false);
+        String joinedData = Maps.join(data, "=", "; ");
+        String expected = "name=John Doe; age=30; isStudent=false";
+        assertEquals(joinedData, expected);
+    }
 
     @Test
     public void testZipWithMultipleElementLists() {

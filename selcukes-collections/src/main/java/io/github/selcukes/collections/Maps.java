@@ -18,11 +18,7 @@ package io.github.selcukes.collections;
 
 import lombok.experimental.UtilityClass;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -129,6 +125,35 @@ public class Maps {
         return Collectors.toMap(keyMapper, valueMapper,
             (u, v) -> u,
             LinkedHashMap::new);
+    }
+
+    /**
+     * Joins the key-value pairs of a {@code Map<String, Object>} into a single
+     * string.
+     *
+     * @param   map               The map whose entries are to be joined.
+     * @param   keyValueSeparator The separator to be used between keys and
+     *                            values.
+     * @param   entrySeparator    The separator to be used between entries in
+     *                            the resulting string.
+     * @return                    A string containing the joined key-value
+     *                            pairs, separated by the specified separators.
+     * @example
+     * 
+     *                            <pre>{@code
+     * Map<String, Object> data = Map.of(
+     *     "name", "John Doe",
+     *     "age", 30,
+     *     "isStudent", false
+     * );
+     * String joinedData = join(data, "=", "; ");
+     * System.out.println("Joined Data: " + joinedData);
+     * }</pre>
+     */
+    public static <V> String join(Map<String, V> map, String keyValueSeparator, String entrySeparator) {
+        return map.entrySet().stream()
+                .map(entry -> entry.getKey() + keyValueSeparator + entry.getValue())
+                .collect(Collectors.joining(entrySeparator));
     }
 
 }

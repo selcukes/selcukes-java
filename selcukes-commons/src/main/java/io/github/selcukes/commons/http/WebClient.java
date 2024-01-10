@@ -16,6 +16,7 @@
 
 package io.github.selcukes.commons.http;
 
+import io.github.selcukes.collections.Maps;
 import io.github.selcukes.collections.Resources;
 import io.github.selcukes.databind.utils.JsonUtils;
 import lombok.Singular;
@@ -32,7 +33,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 import static java.net.http.HttpRequest.BodyPublisher;
 import static java.net.http.HttpRequest.BodyPublishers;
@@ -200,9 +200,7 @@ public class WebClient {
     @SneakyThrows
     private WebResponse execute() {
         if (!cookies.isEmpty()) {
-            String cookieHeader = cookies.entrySet().stream()
-                    .map(entry -> entry.getKey() + "=" + entry.getValue())
-                    .collect(Collectors.joining("; "));
+            String cookieHeader = Maps.join(cookies, "=", "; ");
             requestBuilder = requestBuilder.header("Cookie", cookieHeader);
             clientBuilder.followRedirects(HttpClient.Redirect.NORMAL);
         }
