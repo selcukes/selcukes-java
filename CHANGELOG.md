@@ -12,7 +12,7 @@
 
 ### Removed
 
-## [2.3.8] (In Git)
+## [2.3.8] (10-01-2024)
 
 ### Added
 
@@ -32,6 +32,10 @@
   v4.16.1 ([#309](https://github.com/selcukes/selcukes-java/pull/309))
 * Update dependency org.apache.poi:poi-ooxml to v5.2.5 ([#305](https://github.com/selcukes/selcukes-java/pull/305))
 * Update dependency org.junit:junit-bom to v5.10.1 ([#300](https://github.com/selcukes/selcukes-java/pull/300))
+
+### Fixed
+
+[Core] Enabled Selenium Manager for Grid Tests
 
 ## [2.3.7] (02-11-2023)
 
