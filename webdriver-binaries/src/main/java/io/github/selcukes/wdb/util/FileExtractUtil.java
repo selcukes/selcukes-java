@@ -64,7 +64,7 @@ public final class FileExtractUtil {
         try (var fis = Files.newInputStream(source, StandardOpenOption.READ);
                 var zis = new ZipArchiveInputStream(fis)) {
             ZipArchiveEntry entry;
-            while ((entry = zis.getNextZipEntry()) != null) {
+            while ((entry = zis.getNextEntry()) != null) {
                 if (!entry.getName().toUpperCase().contains("LICENSE")) {
                     entryDestination = uncompress(zis, destination, entry);
                 }
@@ -81,7 +81,7 @@ public final class FileExtractUtil {
                 var gZIPInputStream = new GZIPInputStream(fis);
                 final var tis = new TarArchiveInputStream(gZIPInputStream)) {
             TarArchiveEntry entry;
-            while ((entry = tis.getNextTarEntry()) != null) {
+            while ((entry = tis.getNextEntry()) != null) {
                 if (!entry.getName().toUpperCase().contains("LICENSE")) {
                     entryDestination = uncompress(tis, destination, entry);
                 }
