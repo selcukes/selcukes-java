@@ -21,6 +21,7 @@ package io.github.selcukes.notifier.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@Getter
 @AllArgsConstructor
 public enum NotifierEnum {
     PRETEXT("Selcukes Automation Report"),
@@ -37,6 +38,5 @@ public enum NotifierEnum {
     MESSAGE_CARD("MessageCard"),
     TIME_STAMP("Time Stamp"),
     EXCEPTION("Exception");
-    @Getter
     final String value;
 }

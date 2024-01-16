@@ -19,11 +19,11 @@ package io.github.selcukes.commons.os;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@Getter
 @AllArgsConstructor
 public enum Architecture {
     X32(32),
     X64(64);
 
-    @Getter
     final int value;
 }
