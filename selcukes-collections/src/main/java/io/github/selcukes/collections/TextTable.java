@@ -19,6 +19,7 @@ package io.github.selcukes.collections;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class TextTable<K, V> {
     private final DataTable<K, V> table;
@@ -64,6 +65,27 @@ class TextTable<K, V> {
                 .collect(Collectors.joining("\n"));
 
         return separator + "\n" + header + "|\n" + separator + "\n" + rows + "\n" + separator + "\n";
+    }
+
+    public String printCSV() {
+        return Stream.concat(
+            Stream.of(getCSVRow(table.getColumns())),
+            table.stream().map(row -> getCSVRow(row.values())))
+                .collect(Collectors.joining("\n"));
+    }
+
+    private <T> String getCSVRow(Iterable<T> values) {
+        return Streams.of(values)
+                .map(Object::toString)
+                .map(this::escapeCsvValue)
+                .collect(Collectors.joining(","));
+    }
+
+    private String escapeCsvValue(String value) {
+        if (value.contains(",") || value.contains("\"") || value.contains("\n")) {
+            return "\"" + value.replace("\"", "\"\"") + "\"";
+        }
+        return value;
     }
 
     public String printHtmlTable() {

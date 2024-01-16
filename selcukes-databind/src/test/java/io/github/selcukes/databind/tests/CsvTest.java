@@ -42,6 +42,11 @@ public class CsvTest {
             return row;
         });
         table.forEach(System.out::println);
+
+        var filePath1 = Resources.ofTest("employee1.csv");
+        CsvMapper.write(filePath1, table);
+        var table1 = CsvMapper.parse(filePath1, CSV_STRIP_REGEX);
+        table1.forEach(System.out::println);
     }
 
     private String updateID(String phone, String country) {
