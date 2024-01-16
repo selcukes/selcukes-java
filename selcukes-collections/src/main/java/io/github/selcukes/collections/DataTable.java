@@ -455,7 +455,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
 
     /**
      * Returns a string representation of a {@link DataTable}. The output table
-     * is formatted to align columns and provide a separator line between the
+     * is formatted to align columns and provides a separator line between the
      * header and data rows. The width of each column is determined by the
      * length of the longest data value for that column.
      *
@@ -488,5 +488,20 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
         table.add(getColumns().toString());
         forEach(row -> table.add(row.values().toString()));
         return table.toString();
+    }
+
+    /**
+     * Converts the {@link DataTable} to a CSV format.
+     * <p>
+     * This method uses the {@link TextTable} utility class to format the CSV
+     * output. The resulting CSV string represents the DataTable in a
+     * standardized format with aligned columns and a separator line between the
+     * header and data rows. The width of each column is determined by the
+     * length of the longest data value for that column.
+     *
+     * @return a string representing the DataTable in CSV format
+     */
+    public String toCSV() {
+        return TextTable.of(this).printCSV();
     }
 }
