@@ -83,14 +83,11 @@ public class Await {
                 stopwatch += pollTimeout;
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                logger.error(e, () -> "Interrupted while waiting for condition");
                 return false;
             } catch (Exception e) {
-                logger.error(e, () -> "Error while evaluating condition");
                 return false;
             }
         }
-        logger.error(() -> "Condition not met within the given time");
         return false;
     }
 }

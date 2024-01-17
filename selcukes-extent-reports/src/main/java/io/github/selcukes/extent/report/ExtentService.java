@@ -28,6 +28,7 @@ import io.github.selcukes.collections.Maps;
 import io.github.selcukes.collections.Resources;
 import io.github.selcukes.collections.StringHelper;
 import io.github.selcukes.databind.properties.PropertiesMapper;
+import lombok.Getter;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -51,6 +52,7 @@ public class ExtentService {
     private static final String VIEW_ORDER_SPARK_KEY = "extent.reporter.spark.vieworder";
     private static final String REPORT_NAME = "Automation Report";
     private static final String REPORT_TITLE = "Automation Report";
+    @Getter
     private final ExtentReports extentReports;
     private final Map<String, String> propertiesMap;
 
@@ -61,10 +63,6 @@ public class ExtentService {
             initSpark();
         }
         addSystemInfo();
-    }
-
-    public ExtentReports getExtentReports() {
-        return extentReports;
     }
 
     private Map<String, String> initProperties() {

@@ -16,13 +16,13 @@
 
 package io.github.selcukes.wdb.core;
 
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.util.UrlHelper;
 import io.github.selcukes.wdb.util.VersionHelper;
 import io.github.selcukes.wdb.version.VersionComparator;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 import java.util.Optional;
@@ -33,9 +33,9 @@ public class IExplorerBinary extends AbstractBinary {
     @Override
     public URL getDownloadURL() {
         try {
-            return new URL(UrlHelper.IEDRIVER_URL + "/" + latestVersionUrl);
+            return Resources.toURL(UrlHelper.IEDRIVER_URL + "/" + latestVersionUrl);
 
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new WebDriverBinaryException(e);
         }
     }

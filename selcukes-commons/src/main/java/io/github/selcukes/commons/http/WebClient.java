@@ -315,6 +315,6 @@ public class WebClient {
     private URI buildUri() {
         var joiner = new StringJoiner("&");
         queryParams.forEach((key, value) -> joiner.add(encode(key) + "=" + encode(value)));
-        return Resources.toURI(baseUri + endpoint + (baseUri.contains("?") ? "&" : "?") + joiner);
+        return URI.create(baseUri + endpoint + (baseUri.contains("?") ? "&" : "?") + joiner);
     }
 }

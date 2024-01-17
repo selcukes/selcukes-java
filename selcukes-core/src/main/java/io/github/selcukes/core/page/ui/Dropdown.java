@@ -48,15 +48,14 @@ public class Dropdown {
         return type.getRetriever().apply(select);
     }
 
+    @Getter
     @AllArgsConstructor
     enum SelectionType {
         LABEL(Select::selectByVisibleText, select -> select.getFirstSelectedOption().getText()),
         VALUE(Select::selectByValue, select -> select.getFirstSelectedOption().getAttribute(ATTRIBUTE)),
         INDEX((select, value) -> select.selectByIndex(parseInt(value)),
                 select -> select.getOptions().indexOf(select.getFirstSelectedOption()));
-        @Getter
         private final BiConsumer<Select, String> selector;
-        @Getter
         private final Function<Select, Object> retriever;
 
     }

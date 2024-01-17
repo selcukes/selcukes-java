@@ -36,8 +36,8 @@ import java.util.Optional;
  * It takes the HTTP response and provides a number of methods to access the
  * response body, headers, and status code
  */
+@Getter
 public class WebResponse {
-    @Getter
     private final HttpResponse<String> httpResponse;
 
     public WebResponse(final HttpResponse<String> httpResponse) {

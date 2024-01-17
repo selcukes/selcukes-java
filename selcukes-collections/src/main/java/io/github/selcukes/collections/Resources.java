@@ -25,9 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -95,17 +93,37 @@ public class Resources {
      * Writes the provided content to a file at the specified path using UTF-8
      * encoding.
      *
-     * @param  fileContent         The content to be written to the file.
      * @param  filePath            The path of the file to which the content
      *                             will be written.
+     * @param  fileContent         The content to be written to the file.
      * @return                     The path of the file where the content was
      *                             successfully written.
      * @throws DataStreamException If an I/O error occurs while writing the
      *                             content to the file.
      */
-    public Path writeToFile(final @NonNull String fileContent, final Path filePath) {
+    public Path writeToFile(final Path filePath, final @NonNull String fileContent) {
         try {
             return Files.write(filePath, fileContent.getBytes(UTF_8));
+        } catch (IOException e) {
+            throw new DataStreamException("Failed to write content to file: " + filePath.toAbsolutePath(), e);
+        }
+    }
+
+    /**
+     * Writes the provided content to a file at the specified path using UTF-8
+     * encoding.
+     *
+     * @param  filePath            The path of the file to which the content
+     *                             will be written.
+     * @param  fileContent         The content to be written to the file.
+     * @return                     The path of the file where the content was
+     *                             successfully written.
+     * @throws DataStreamException If an I/O error occurs while writing the
+     *                             content to the file.
+     */
+    public Path writeToFile(final Path filePath, final @NonNull Iterable<? extends CharSequence> fileContent) {
+        try {
+            return Files.write(filePath, fileContent, UTF_8);
         } catch (IOException e) {
             throw new DataStreamException("Failed to write content to file: " + filePath.toAbsolutePath(), e);
         }
@@ -246,11 +264,8 @@ public class Resources {
      *                                  be parsed
      */
     public URL toURL(String urlStr) {
-        try {
-            return new URL(urlStr);
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException("Invalid URL string: " + urlStr, e);
-        }
+        return tryURL(urlStr)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid URL string: " + urlStr));
     }
 
     /**
@@ -264,27 +279,9 @@ public class Resources {
      */
     public Optional<URL> tryURL(String urlStr) {
         try {
-            return Optional.of(new URL(urlStr));
-        } catch (MalformedURLException e) {
+            return Optional.of(new URI(urlStr).toURL());
+        } catch (Exception e) {
             return Optional.empty();
-        }
-    }
-
-    /**
-     * Returns a new URI object by parsing the given URI string.
-     *
-     * @param  uriStr                   the URI string to be parsed into a URI
-     *                                  object
-     * @return                          the URI object representing the parsed
-     *                                  URI string
-     * @throws IllegalArgumentException if the URI string is invalid and cannot
-     *                                  be parsed
-     */
-    public URI toURI(String uriStr) {
-        try {
-            return new URI(uriStr);
-        } catch (URISyntaxException e) {
-            throw new IllegalArgumentException("Invalid URI string: " + uriStr, e);
         }
     }
 }

@@ -18,6 +18,7 @@ package io.github.selcukes.databind.csv;
 
 import io.github.selcukes.collections.DataTable;
 import io.github.selcukes.collections.Lists;
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.collections.Streams;
 import io.github.selcukes.databind.exception.DataMapperException;
 import lombok.experimental.UtilityClass;
@@ -63,5 +64,31 @@ public class CsvMapper {
      */
     public DataTable<String, String> parse(Path filePath) {
         return parse(filePath, CSV_REGEX);
+    }
+
+    /**
+     * Writes a DataTable to a CSV file at the specified path.
+     *
+     * @param  filePath            the path to the CSV file
+     * @param  dataTable           the data to be written to the CSV file
+     * @throws DataMapperException if an error occurs while writing to the file
+     */
+    public void write(Path filePath, DataTable<String, String> dataTable) {
+        write(filePath, dataTable.toCSV());
+    }
+
+    /**
+     * Writes a string of CSV data to a CSV file at the specified path.
+     *
+     * @param  filePath            the path to the CSV file
+     * @param  data                the CSV data to be written
+     * @throws DataMapperException if an error occurs while writing to the file
+     */
+    public void write(Path filePath, String data) {
+        try {
+            Resources.writeToFile(filePath, Arrays.asList(data.split("\n")));
+        } catch (Exception e) {
+            throw new DataMapperException("Failed writing to CSV File: ", e);
+        }
     }
 }

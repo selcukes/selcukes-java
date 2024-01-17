@@ -46,6 +46,17 @@ public class Streams {
     }
 
     /**
+     * Converts an Iterable to a Stream.
+     *
+     * @param  iterable The iterable to convert to a stream.
+     * @param  <T>      The type of elements in the iterable.
+     * @return          A stream of the iterable.
+     */
+    public static <T> Stream<T> of(final Iterable<T> iterable) {
+        return StreamSupport.stream(iterable.spliterator(), false);
+    }
+
+    /**
      * Returns an OptionalInt that contains the index of the first element in
      * the list that matches the given predicate, or an empty OptionalInt if no
      * such element exists.

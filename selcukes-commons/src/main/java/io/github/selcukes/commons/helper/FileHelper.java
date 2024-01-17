@@ -16,6 +16,7 @@
 
 package io.github.selcukes.commons.helper;
 
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.commons.exception.ConfigurationException;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -358,7 +359,7 @@ public class FileHelper {
         if (file.exists()) {
             return file.getPath();
         }
-        download(new URL(url), file);
+        download(Resources.toURL(url), file);
         return file.getPath();
     }
 
@@ -369,8 +370,8 @@ public class FileHelper {
      * @return          The content of the file.
      */
     public String readContent(final String filePath) {
-        try {
-            return new String(loadResourceFromJar(filePath).readAllBytes(), StandardCharsets.UTF_8);
+        try (var inputStream = loadResourceFromJar(filePath)) {
+            return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
         } catch (Exception e) {
             throw new ConfigurationException(String.format("Cannot load [%s] from classpath", filePath));
         }

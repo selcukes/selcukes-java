@@ -16,13 +16,13 @@
 
 package io.github.selcukes.wdb.core;
 
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.commons.os.OsType;
 import io.github.selcukes.wdb.enums.DownloaderType;
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.util.UrlHelper;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
 
@@ -32,7 +32,7 @@ public class FirefoxBinary extends AbstractBinary {
     @Override
     public URL getDownloadURL() {
         try {
-            return new URL(String.format(
+            return Resources.toURL(String.format(
                 BINARY_DOWNLOAD_URL_PATTERN,
                 UrlHelper.GECKODRIVER_URL,
                 getBinaryVersion(),
@@ -40,7 +40,7 @@ public class FirefoxBinary extends AbstractBinary {
                 getBinaryEnvironment().getOsNameAndArch(),
                 getCompressedBinaryType().getName()));
 
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new WebDriverBinaryException(e);
         }
     }

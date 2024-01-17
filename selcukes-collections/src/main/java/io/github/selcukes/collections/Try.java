@@ -16,6 +16,8 @@
 
 package io.github.selcukes.collections;
 
+import lombok.Getter;
+
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -30,6 +32,8 @@ import java.util.function.UnaryOperator;
  */
 public class Try<T> {
     private final T result;
+
+    @Getter
     private final Exception exception;
 
     /**
@@ -166,16 +170,6 @@ public class Try<T> {
      */
     public Optional<T> getResult() {
         return Optional.ofNullable(result);
-    }
-
-    /**
-     * Returns the cause of the failure represented by this Try object.
-     *
-     * @return the cause of the failure represented by this Try object, or null
-     *         if this Try object represents a success
-     */
-    public Exception getException() {
-        return exception;
     }
 
     /**

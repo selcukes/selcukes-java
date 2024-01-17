@@ -84,7 +84,6 @@ public class Shell {
             // Wait for all the tasks to complete.
             Await.until(1);
         }
-
         return new ExecResults(output.getContent(), error.getContent(), process.exitValue());
     }
 
