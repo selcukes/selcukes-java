@@ -122,7 +122,7 @@ class SeleniumService {
      */
     @SneakyThrows
     public URL getServiceUrl() {
-        return new URL(baseUrl);
+        return Resources.toURL(baseUrl);
     }
 
     /**
