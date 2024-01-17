@@ -29,7 +29,6 @@ import org.openqa.selenium.net.UrlChecker;
 import org.openqa.selenium.os.ExternalProcess;
 
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
@@ -89,7 +88,7 @@ class SeleniumService {
         process = builder.start();
 
         try {
-            var url = new URL(baseUrl + "/status");
+            var url = Resources.toURL(baseUrl + "/status");
             new UrlChecker().waitUntilAvailable(10, SECONDS, url);
             logger.info(() -> "Selenium Server is ready...");
         } catch (UrlChecker.TimeoutException e) {
@@ -97,7 +96,7 @@ class SeleniumService {
             process.shutdown();
             process = null;
             throw new DriverConnectionException(e);
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new DriverConnectionException(e);
         }
 
@@ -135,10 +134,10 @@ class SeleniumService {
     @SneakyThrows
     public String getServerJar() {
         var seleniumServerJar = ConfigFactory.getConfig().getWeb().getServerJar();
-        var serverJarUrl = new URL(seleniumServerJar);
-        var reportsPath = ofNullable(ConfigFactory.getConfig().getReports())
+        var serverJarUrl = Resources.toURL(seleniumServerJar);
+        var reportPath = ofNullable(ConfigFactory.getConfig().getReports())
                 .map(reports -> reports.get("path")).orElse("target");
-        var serverJarPath = Resources.of(reportsPath + "/selenium-server.jar");
+        var serverJarPath = Resources.of(reportPath + "/selenium-server.jar");
         FileHelper.download(serverJarUrl, serverJarPath.toFile());
         return serverJarPath.toAbsolutePath().toString();
     }

@@ -16,11 +16,11 @@
 
 package io.github.selcukes.wdb.core;
 
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.commons.exception.WebDriverBinaryException;
 import io.github.selcukes.wdb.enums.DriverType;
 import io.github.selcukes.wdb.util.UrlHelper;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class OperaBinary extends AbstractBinary {
@@ -29,13 +29,13 @@ public class OperaBinary extends AbstractBinary {
     @Override
     public URL getDownloadURL() {
         try {
-            return new URL(String.format(
+            return Resources.toURL(String.format(
                 BINARY_DOWNLOAD_URL_PATTERN,
                 UrlHelper.OPERA_DRIVER_URL,
                 getBinaryVersion(),
                 getBinaryEnvironment().getOsNameAndArch(),
                 getCompressedBinaryType().getName()));
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             throw new WebDriverBinaryException(e);
         }
     }

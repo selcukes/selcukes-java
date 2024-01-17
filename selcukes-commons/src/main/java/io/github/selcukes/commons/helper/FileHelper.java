@@ -16,6 +16,7 @@
 
 package io.github.selcukes.commons.helper;
 
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.commons.exception.ConfigurationException;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -358,7 +359,7 @@ public class FileHelper {
         if (file.exists()) {
             return file.getPath();
         }
-        download(new URL(url), file);
+        download(Resources.toURL(url), file);
         return file.getPath();
     }
 
