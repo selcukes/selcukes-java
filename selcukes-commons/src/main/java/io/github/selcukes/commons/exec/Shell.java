@@ -76,14 +76,13 @@ public class Shell {
         }
         var output = new StreamGuzzler(process.getInputStream());
         var error = new StreamGuzzler(process.getErrorStream());
-        try (var executors = Executors.newFixedThreadPool(2)) {
-            executors.submit(error);
-            executors.submit(output);
-            executors.shutdown();
-            while (!executors.isTerminated()) {
-                // Wait for all the tasks to complete.
-                Await.until(1);
-            }
+        var executors = Executors.newFixedThreadPool(2);
+        executors.submit(error);
+        executors.submit(output);
+        executors.shutdown();
+        while (!executors.isTerminated()) {
+            // Wait for all the tasks to complete.
+            Await.until(1);
         }
 
         return new ExecResults(output.getContent(), error.getContent(), process.exitValue());
