@@ -32,13 +32,7 @@ import java.util.function.UnaryOperator;
  */
 public class Try<T> {
     private final T result;
-    /**
-     * -- GETTER --
-     *  Returns the cause of the failure represented by this Try object.
-     *
-     * @return the cause of the failure represented by this Try object, or null
-     *         if this Try object represents a success
-     */
+
     @Getter
     private final Exception exception;
 
