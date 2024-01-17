@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 public final class TestSourcesModel {
 
     private final Map<URI, TestSourceRead> pathToReadEventMap = new HashMap<>();

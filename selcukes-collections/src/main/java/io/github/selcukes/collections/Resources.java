@@ -266,11 +266,8 @@ public class Resources {
      *                                  be parsed
      */
     public URL toURL(String urlStr) {
-        try {
-            return new URL(urlStr);
-        } catch (MalformedURLException e) {
-            throw new IllegalArgumentException("Invalid URL string: " + urlStr, e);
-        }
+        return tryURL(urlStr)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid URL string: " + urlStr));
     }
 
     /**
@@ -284,27 +281,9 @@ public class Resources {
      */
     public Optional<URL> tryURL(String urlStr) {
         try {
-            return Optional.of(new URL(urlStr));
-        } catch (MalformedURLException e) {
+            return Optional.of(new URI(urlStr).toURL());
+        } catch (MalformedURLException | URISyntaxException e) {
             return Optional.empty();
-        }
-    }
-
-    /**
-     * Returns a new URI object by parsing the given URI string.
-     *
-     * @param  uriStr                   the URI string to be parsed into a URI
-     *                                  object
-     * @return                          the URI object representing the parsed
-     *                                  URI string
-     * @throws IllegalArgumentException if the URI string is invalid and cannot
-     *                                  be parsed
-     */
-    public URI toURI(String uriStr) {
-        try {
-            return new URI(uriStr);
-        } catch (URISyntaxException e) {
-            throw new IllegalArgumentException("Invalid URI string: " + uriStr, e);
         }
     }
 }

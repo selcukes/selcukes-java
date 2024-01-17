@@ -96,13 +96,11 @@ class TextTable<K, V> {
     private static class HtmlTable<K, V> {
 
         public String buildTable(DataTable<K, V> table) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("<table>\n");
-            sb.append(buildHeaderRow(table.getFirst()));
-            sb.append(buildDataRows(table));
-            sb.append("</table>");
 
-            return sb.toString();
+            return "<table>\n" +
+                    buildHeaderRow(table.getFirst()) +
+                    buildDataRows(table) +
+                    "</table>";
         }
 
         private String buildHeaderRow(Map<K, V> row) {
