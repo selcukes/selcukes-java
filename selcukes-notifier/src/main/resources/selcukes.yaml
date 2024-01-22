@@ -3,6 +3,7 @@
 projectName: Selcukes Automation Report
 env: QA01
 notifier:
+  notification: false
   type: teams
   webhookToken: WEBXXX
   apiToken: APIXXXX
@@ -11,7 +12,10 @@ notifier:
   mail:
     host: smtp.gmail.com
     port: 465
-    username: test@gmail.com
+    username: rprudhvi.office@gmail.com
     password: rkxynldqlpxdxota
-    from: test@gmail.com
-    to: test@gmail.com
+    from: rprudhvi.office@gmail.com
+    to: rprudhvi.office@gmail.com
+    cc: rprudhvi.office@gmail.com
+    bcc: rprudhvi.office@gmail.com
+

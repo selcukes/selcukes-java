@@ -19,19 +19,8 @@ package io.github.selcukes.commons.exception;
 public class ExcelConfigException extends SelcukesException {
     private static final long serialVersionUID = 1L;
 
-    public ExcelConfigException() {
-        super();
-    }
-
-    public ExcelConfigException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
     public ExcelConfigException(String message) {
         super(message);
     }
 
-    public ExcelConfigException(Throwable cause) {
-        super(cause);
-    }
 }

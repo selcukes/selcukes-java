@@ -26,5 +26,13 @@ public class EmailTest {
         String body = "This is the body of the test report.";
         NotifierFactory.emailNotifier()
                 .sendMail(subject, body, "src/test/resources/employee.csv");
+        /*
+         * EmailNotifier1.builder() .toRecipient("rprudhvi.office@gmail.com")
+         * .toRecipient("rprudhvi@altimetrik.com")
+         * .ccRecipient("rprudhvi@altimetrik.com")
+         * .attachment("src/test/resources/employee.csv") .subject(subject)
+         * .body(body) .build().sendMail();
+         */
+
     }
 }

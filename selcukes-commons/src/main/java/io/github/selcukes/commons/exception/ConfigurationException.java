@@ -19,10 +19,6 @@ package io.github.selcukes.commons.exception;
 public class ConfigurationException extends SelcukesException {
     private static final long serialVersionUID = 1L;
 
-    public ConfigurationException() {
-        super();
-    }
-
     public ConfigurationException(String message, Throwable cause) {
         super(message, cause);
     }
@@ -31,7 +27,4 @@ public class ConfigurationException extends SelcukesException {
         super(message);
     }
 
-    public ConfigurationException(Throwable cause) {
-        super(cause);
-    }
 }

@@ -83,6 +83,8 @@ public class Config {
         String password;
         String from;
         String to;
+        String cc;
+        String bcc;
     }
 
     @Data
