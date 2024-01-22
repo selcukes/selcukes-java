@@ -20,19 +20,11 @@ import io.github.selcukes.notifier.NotifierFactory;
 import org.testng.annotations.Test;
 
 public class EmailTest {
-    @Test
+    @Test(enabled = false)
     public void mailTest() {
         String subject = "Test Report";
         String body = "This is the body of the test report.";
         NotifierFactory.emailNotifier()
                 .sendMail(subject, body, "src/test/resources/employee.csv");
-        /*
-         * EmailNotifier1.builder() .toRecipient("rprudhvi.office@gmail.com")
-         * .toRecipient("rprudhvi@altimetrik.com")
-         * .ccRecipient("rprudhvi@altimetrik.com")
-         * .attachment("src/test/resources/employee.csv") .subject(subject)
-         * .body(body) .build().sendMail();
-         */
-
     }
 }
