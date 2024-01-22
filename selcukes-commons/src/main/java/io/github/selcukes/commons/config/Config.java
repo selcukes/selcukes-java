@@ -72,6 +72,17 @@ public class Config {
         String apiToken;
         String channel;
         String authorIcon;
+        MailConfig mail;
+    }
+
+    @Data
+    public static class MailConfig {
+        String host;
+        int port;
+        String username;
+        String password;
+        String from;
+        String to;
     }
 
     @Data
