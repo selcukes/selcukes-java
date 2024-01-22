@@ -21,7 +21,6 @@ import io.github.selcukes.commons.exception.SelcukesException;
 import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.utils.JsonUtils;
 import io.github.selcukes.databind.xml.XmlMapper;
-import lombok.Getter;
 import org.w3c.dom.Document;
 
 import java.io.ByteArrayInputStream;
@@ -36,7 +35,6 @@ import java.util.Optional;
  * It takes the HTTP response and provides a number of methods to access the
  * response body, headers, and status code
  */
-@Getter
 public record WebResponse(HttpResponse<String> httpResponse) {
     public WebResponse(final HttpResponse<String> httpResponse) {
         this.httpResponse = httpResponse;
@@ -46,8 +44,8 @@ public record WebResponse(HttpResponse<String> httpResponse) {
     /**
      * It returns the reason phrase for a given HTTP status code
      *
-     * @param statusCode The HTTP status code.
-     * @return The reason phrase for the given status code.
+     * @param  statusCode The HTTP status code.
+     * @return            The reason phrase for the given status code.
      */
     public static String getReasonPhrase(final int statusCode) {
         return switch (statusCode) {
@@ -153,8 +151,8 @@ public record WebResponse(HttpResponse<String> httpResponse) {
      * The function is generic, so it can be used to parse the response body
      * into any type of object
      *
-     * @param responseType The type of the response body.
-     * @return The body of the response as a string.
+     * @param  responseType The type of the response body.
+     * @return              The body of the response as a string.
      */
     public <T> T bodyAs(final Class<T> responseType) {
         return DataMapper.parse(body(), responseType);
@@ -172,8 +170,8 @@ public record WebResponse(HttpResponse<String> httpResponse) {
     /**
      * If the header exists, return it, otherwise return an empty string.
      *
-     * @param name The name of the header to retrieve.
-     * @return The value of the header with the given name.
+     * @param  name The name of the header to retrieve.
+     * @return      The value of the header with the given name.
      */
     public String header(final String name) {
         Optional<String> token = httpResponse.headers().firstValue(name);
@@ -184,8 +182,8 @@ public record WebResponse(HttpResponse<String> httpResponse) {
         int responseCode = statusCode();
         if (responseCode >= 400) {
             throw new SelcukesException(
-                    String.format("Received an unsuccessful HTTP response with status code [%d] [%s]", responseCode,
-                            getReasonPhrase(responseCode)));
+                String.format("Received an unsuccessful HTTP response with status code [%d] [%s]", responseCode,
+                    getReasonPhrase(responseCode)));
         }
     }
 }
