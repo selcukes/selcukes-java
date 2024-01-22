@@ -80,11 +80,11 @@ public class SelcukesRuntime {
 
             logger.debug(() -> String
                     .format("""
-                                    Using Runtime Cucumber Options:
-                                    Features : [%s]
-                                    Glue     : [%s]
-                                    Tags     : [%s]\s
-                                    \s""",
+                            Using Runtime Cucumber Options:
+                            Features : [%s]
+                            Glue     : [%s]
+                            Tags     : [%s]\s
+                            \s""",
                         features, glue, tag));
         } catch (Exception exception) {
             logger.warn(() -> "Failed to load selcukes properties. Using default CucumberOptions to execute...");
