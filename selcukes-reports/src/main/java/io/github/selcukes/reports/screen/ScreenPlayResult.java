@@ -44,8 +44,7 @@ class ScreenPlayResult {
             status = ((Scenario) result).getStatus().toString();
             testType = TestType.CUCUMBER;
             failed = ((Scenario) result).isFailed();
-        } else if (result instanceof TestResult) {
-            var testResult = ((TestResult) result);
+        } else if (result instanceof TestResult testResult) {
             testName = testResult.getName().replace(" ", "_");
             status = testResult.getStatus();
             testType = TestType.TESTNG;

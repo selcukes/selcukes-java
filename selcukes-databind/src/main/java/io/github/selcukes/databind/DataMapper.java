@@ -85,17 +85,12 @@ public class DataMapper {
     }
 
     private DataBind lookup(final String extension) {
-        switch (extension.toLowerCase()) {
-            case "yaml":
-            case "yml":
-                return new YamlData();
-            case "json":
-                return new JsonData();
-            case "xml":
-                return new XmlData();
-            default:
-                throw new DataMapperException(String.format("File Type[%s] not supported...", extension));
-        }
+        return switch (extension.toLowerCase()) {
+            case "yaml", "yml" -> new YamlData();
+            case "json" -> new JsonData();
+            case "xml" -> new XmlData();
+            default -> throw new DataMapperException(String.format("File Type[%s] not supported...", extension));
+        };
 
     }
 }

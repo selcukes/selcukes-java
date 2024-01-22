@@ -62,9 +62,10 @@ class WebManager implements RemoteManager {
                 : ConfigFactory.getConfig().getWeb().getServiceUrl();
 
         if (isSeleniumServerNotRunning()) {
-            logger.warn(() -> "The Selenium server is not running.\n" +
-                    "Please use the 'GridRunner.startSelenium()' method to start it automatically.\n" +
-                    "If you have started it manually or are executing in the cloud, you can ignore this message.");
+            logger.warn(() -> """
+                    The Selenium server is not running.
+                    Please use the 'GridRunner.startSelenium()' method to start it automatically.
+                    If you have started it manually or are executing in the cloud, you can ignore this message.""");
         } else {
             return GridRunner.getLocalServiceUrl();
         }

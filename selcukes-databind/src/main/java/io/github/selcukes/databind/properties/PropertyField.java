@@ -66,8 +66,7 @@ class PropertyField<T> extends DataField<T> {
         var value = getFieldValue(object, getFieldName());
         if (value instanceof Temporal) {
             return Clocks.format((Temporal) value, format);
-        } else if (value instanceof List) {
-            var list = (List<?>) value;
+        } else if (value instanceof List<?> list) {
             return list.stream()
                     .map(Object::toString)
                     .collect(Collectors.joining(","));
