@@ -12,10 +12,10 @@ notifier:
   mail:
     host: smtp.gmail.com
     port: 465
-    username: rprudhvi.office@gmail.com
+    username: test@gmail.com
     password: rkxynldqlpxdxota
-    from: rprudhvi.office@gmail.com
-    to: rprudhvi.office@gmail.com
-    cc: rprudhvi.office@gmail.com
-    bcc: rprudhvi.office@gmail.com
+    from: test@gmail.com
+    to: test@gmail.com
+    cc: test@gmail.com
+    bcc: test@gmail.com
 
