@@ -20,7 +20,12 @@ import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.commons.exception.NotifierException;
 import jakarta.activation.DataHandler;
 import jakarta.activation.FileDataSource;
-import jakarta.mail.*;
+import jakarta.mail.Authenticator;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
@@ -60,9 +65,9 @@ class EmailNotifierImpl implements EmailNotifier {
         var properties = new Properties();
         properties.putAll(defaultEmailConfig());
         try {
-            Session session = createMailSession(properties);
+            var session = createMailSession(properties);
 
-            MimeMessage message = new MimeMessage(session);
+            var message = new MimeMessage(session);
             setMailMessageDetails(message, subject, body);
 
             Stream.of(attachments)
