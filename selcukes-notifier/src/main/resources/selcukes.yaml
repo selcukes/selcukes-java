@@ -3,8 +3,19 @@
 projectName: Selcukes Automation Report
 env: QA01
 notifier:
+  notification: false
   type: teams
   webhookToken: WEBXXX
   apiToken: APIXXXX
   channel: selcukes
   authorIcon: https://avatars0.githubusercontent.com/u/2510294?s=400&u=5d6412ba1dd13052992ff66317ae28d007a971d3&v=4
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: test@gmail.com
+    password: rkxynldqlpxdxota
+    from: test@gmail.com
+    to: test@gmail.com
+    cc: test@gmail.com
+    bcc: test@gmail.com
+

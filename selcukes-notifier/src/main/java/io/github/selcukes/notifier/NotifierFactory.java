@@ -18,6 +18,7 @@ package io.github.selcukes.notifier;
 
 import io.github.selcukes.commons.config.ConfigFactory;
 import io.github.selcukes.notifier.enums.NotifierType;
+import io.github.selcukes.notifier.mail.EmailNotifier;
 import io.github.selcukes.notifier.slack.Slack;
 import io.github.selcukes.notifier.teams.MicrosoftTeams;
 import lombok.experimental.UtilityClass;
@@ -44,6 +45,35 @@ public class NotifierFactory {
     public synchronized Notifier getNotifier() {
         return ConfigFactory.getConfig().getNotifier().getType().equalsIgnoreCase("SLACK") ? new Slack()
                 : new MicrosoftTeams();
+    }
+
+    /**
+     * Returns a singleton instance of the default implementation of
+     * {@code EmailNotifier}.
+     * <p>
+     * The default implementation is provided by the {@code EmailNotifierImpl}
+     * class.
+     * </p>
+     * <p>
+     * This method serves as a factory method to obtain an instance of
+     * {@code EmailNotifier}. It ensures that a single instance is shared across
+     * the application.
+     * </p>
+     * <p>
+     * Usage example:
+     * </p>
+     * 
+     * <pre>
+     * {@code
+     * var emailNotifier = NotifierFactory.email();
+     * emailNotifier.sendMail("Subject", "Body", "attachment1.txt", "attachment2.pdf");
+     * }
+     * </pre>
+     *
+     * @return A singleton instance of {@code EmailNotifier}.
+     */
+    public static synchronized EmailNotifier emailNotifier() {
+        return EmailNotifier.emailNotifier();
     }
 
 }

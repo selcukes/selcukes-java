@@ -19,10 +19,6 @@ package io.github.selcukes.commons.exception;
 public class DriverConnectionException extends SelcukesException {
     private static final long serialVersionUID = 1L;
 
-    public DriverConnectionException() {
-        super();
-    }
-
     public DriverConnectionException(String message, Throwable cause) {
         super(message, cause);
     }

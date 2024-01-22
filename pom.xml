@@ -46,6 +46,7 @@
         <cucumber-reporting.version>5.7.8</cucumber-reporting.version>
         <extentreports.version>5.1.1</extentreports.version>
         <recorder.version>0.7.7.0</recorder.version>
+        <mail.version>2.0.1</mail.version>
         <slfj4.version>2.22.1</slfj4.version>
 
         <!-- sonar -->
@@ -193,6 +194,11 @@
                 <artifactId>log4j-slf4j-impl</artifactId>
                 <version>${slfj4.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>jakarta.mail</artifactId>
+                <version>${mail.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <profiles>
@@ -276,7 +282,7 @@
                     </configuration>
                 </plugin>
 
-                <!-- Check code format -->
+                <!-- Check a code format -->
                 <plugin>
                     <groupId>com.diffplug.spotless</groupId>
                     <artifactId>spotless-maven-plugin</artifactId>

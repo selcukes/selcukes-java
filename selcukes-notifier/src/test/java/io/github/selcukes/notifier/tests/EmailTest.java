@@ -14,13 +14,17 @@
  *  limitations under the License.
  */
 
-package io.github.selcukes.commons.exception;
+package io.github.selcukes.notifier.tests;
 
-public class ExcelConfigException extends SelcukesException {
-    private static final long serialVersionUID = 1L;
+import io.github.selcukes.notifier.NotifierFactory;
+import org.testng.annotations.Test;
 
-    public ExcelConfigException(String message) {
-        super(message);
+public class EmailTest {
+    @Test(enabled = false)
+    public void mailTest() {
+        String subject = "Test Report";
+        String body = "This is the body of the test report.";
+        NotifierFactory.emailNotifier()
+                .sendMail(subject, body, "src/test/resources/employee.csv");
     }
-
 }

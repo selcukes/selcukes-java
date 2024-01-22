@@ -16,16 +16,10 @@
 
 package io.github.selcukes.commons.exception;
 
-public class RecorderException extends SelcukesException {
-
+public class NotifierException extends SelcukesException {
     private static final long serialVersionUID = 1L;
 
-    public RecorderException(String message) {
-        super(message);
+    public NotifierException(String message, Throwable cause) {
+        super(message, cause);
     }
-
-    public RecorderException(Throwable cause) {
-        super(cause);
-    }
-
 }

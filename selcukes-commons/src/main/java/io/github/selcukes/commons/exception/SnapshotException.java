@@ -20,20 +20,8 @@ public class SnapshotException extends SelcukesException {
 
     private static final long serialVersionUID = 1L;
 
-    public SnapshotException() {
-        super();
-    }
-
     public SnapshotException(String message, Throwable cause) {
         super(message, cause);
-    }
-
-    public SnapshotException(String message) {
-        super(message);
-    }
-
-    public SnapshotException(Throwable cause) {
-        super(cause);
     }
 
 }
