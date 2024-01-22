@@ -15,7 +15,7 @@
     <name>Selcukes: Bill of Materials</name>
 
     <properties>
-        <faker.version>0.0.2</faker.version>
+        <faker.version>1.0.0</faker.version>
     </properties>
 
     <dependencyManagement>
