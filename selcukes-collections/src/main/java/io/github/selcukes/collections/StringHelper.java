@@ -110,7 +110,7 @@ public class StringHelper {
      */
     public static String toFieldName(final String text) {
         final String fieldName = text.replaceAll(CAMEL_CASE_REGEX, "");
-        return fieldName.length() > 0 ? fieldName.substring(0, 1).toLowerCase() + fieldName.substring(1) : null;
+        return !fieldName.isEmpty() ? fieldName.substring(0, 1).toLowerCase() + fieldName.substring(1) : null;
     }
 
     /**
