@@ -34,7 +34,7 @@ public class WebDriverBinaryTest {
     @Test
     public void chromeDriverTest() {
         BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().setup();
-        String binProp = binaryInfo.getBinaryProperty();
+        String binProp = binaryInfo.binaryProperty();
         assertEquals(binProp, "webdriver.chrome.driver");
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
         var options = new ChromeOptions();
@@ -47,7 +47,7 @@ public class WebDriverBinaryTest {
     @Test
     public void firefoxDriverTest() {
         BinaryInfo binaryInfo = WebDriverBinary.firefoxDriver().version("v0.26.0").arch64().setup();
-        String binProp = binaryInfo.getBinaryProperty();
+        String binProp = binaryInfo.binaryProperty();
         assertEquals(binProp, "webdriver.gecko.driver");
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
     }
@@ -55,7 +55,7 @@ public class WebDriverBinaryTest {
     @Test
     public void ieDriverTest() {
         BinaryInfo binaryInfo = WebDriverBinary.ieDriver().arch32().setup();
-        String binProp = binaryInfo.getBinaryProperty();
+        String binProp = binaryInfo.binaryProperty();
         assertEquals(binProp, "webdriver.ie.driver");
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
     }
@@ -64,7 +64,7 @@ public class WebDriverBinaryTest {
     public void edgeDriverTest() {
 
         BinaryInfo binaryInfo = WebDriverBinary.edgeDriver().setup();
-        String binProp = binaryInfo.getBinaryProperty();
+        String binProp = binaryInfo.binaryProperty();
         assertEquals(binProp, "webdriver.edge.driver");
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
     }
@@ -73,7 +73,7 @@ public class WebDriverBinaryTest {
     public void operaDriverTest() {
 
         BinaryInfo binaryInfo = WebDriverBinary.operaDriver().setup();
-        String binProp = binaryInfo.getBinaryProperty();
+        String binProp = binaryInfo.binaryProperty();
         assertEquals(binProp, "webdriver.opera.driver");
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + getProperty(binProp) + "}");
     }
@@ -81,12 +81,12 @@ public class WebDriverBinaryTest {
     @Test
     public void reuseDownloadedBinaryTest() {
         BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().setup();
-        String binProp = binaryInfo.getBinaryProperty();
-        String binaryDownloadedPath = binaryInfo.getBinaryPath();
+        String binProp = binaryInfo.binaryProperty();
+        String binaryDownloadedPath = binaryInfo.binaryPath();
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + binaryDownloadedPath + "}");
 
         BinaryInfo binaryInfo1 = WebDriverBinary.chromeDriver().setup();
-        String binaryDownloadedPath1 = binaryInfo1.getBinaryPath();
+        String binaryDownloadedPath1 = binaryInfo1.binaryPath();
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + binaryDownloadedPath1 + "}");
         assertEquals(binaryDownloadedPath, binaryDownloadedPath1);
 
@@ -95,24 +95,24 @@ public class WebDriverBinaryTest {
     @Test
     public void strictDownloadTest() {
         BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().strictDownload().setup();
-        String binProp = binaryInfo.getBinaryProperty();
-        String binaryDownloadedPath = binaryInfo.getBinaryPath();
+        String binProp = binaryInfo.binaryProperty();
+        String binaryDownloadedPath = binaryInfo.binaryPath();
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + binaryDownloadedPath + "}");
     }
 
     @Test
     public void disableAutoBrowserVersionCheckTest() {
         BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().disableAutoCheck().setup();
-        String binProp = binaryInfo.getBinaryProperty();
-        String binaryDownloadedPath = binaryInfo.getBinaryPath();
+        String binProp = binaryInfo.binaryProperty();
+        String binaryDownloadedPath = binaryInfo.binaryPath();
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + binaryDownloadedPath + "}");
     }
 
     @Test(priority = 1000)
     public void cleanBinaryCacheTest() {
         BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().clearBinaryCache().setup();
-        String binProp = binaryInfo.getBinaryProperty();
-        String binaryDownloadedPath = binaryInfo.getBinaryPath();
+        String binProp = binaryInfo.binaryProperty();
+        String binaryDownloadedPath = binaryInfo.binaryPath();
         logger.debug(() -> "Binary path for { " + binProp + "} is {" + binaryDownloadedPath + "}");
     }
 }

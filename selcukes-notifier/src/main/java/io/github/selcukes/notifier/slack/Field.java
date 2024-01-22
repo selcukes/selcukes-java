@@ -27,10 +27,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @ToString
-@Builder(builderClassName = "Builder")
-class Field implements Serializable {
-    private final String title;
-    private final String value;
-    @JsonProperty("short")
-    private final Boolean shortValue;
+@Builder
+record Field(String title, String value, @JsonProperty("short") Boolean shortValue) implements Serializable {
 }

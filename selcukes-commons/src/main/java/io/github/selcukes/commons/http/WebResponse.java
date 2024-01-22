@@ -37,9 +37,7 @@ import java.util.Optional;
  * response body, headers, and status code
  */
 @Getter
-public class WebResponse {
-    private final HttpResponse<String> httpResponse;
-
+public record WebResponse(HttpResponse<String> httpResponse) {
     public WebResponse(final HttpResponse<String> httpResponse) {
         this.httpResponse = httpResponse;
         logIfError();
@@ -48,8 +46,8 @@ public class WebResponse {
     /**
      * It returns the reason phrase for a given HTTP status code
      *
-     * @param  statusCode The HTTP status code.
-     * @return            The reason phrase for the given status code.
+     * @param statusCode The HTTP status code.
+     * @return The reason phrase for the given status code.
      */
     public static String getReasonPhrase(final int statusCode) {
         return switch (statusCode) {
@@ -155,8 +153,8 @@ public class WebResponse {
      * The function is generic, so it can be used to parse the response body
      * into any type of object
      *
-     * @param  responseType The type of the response body.
-     * @return              The body of the response as a string.
+     * @param responseType The type of the response body.
+     * @return The body of the response as a string.
      */
     public <T> T bodyAs(final Class<T> responseType) {
         return DataMapper.parse(body(), responseType);
@@ -174,8 +172,8 @@ public class WebResponse {
     /**
      * If the header exists, return it, otherwise return an empty string.
      *
-     * @param  name The name of the header to retrieve.
-     * @return      The value of the header with the given name.
+     * @param name The name of the header to retrieve.
+     * @return The value of the header with the given name.
      */
     public String header(final String name) {
         Optional<String> token = httpResponse.headers().firstValue(name);
@@ -186,8 +184,8 @@ public class WebResponse {
         int responseCode = statusCode();
         if (responseCode >= 400) {
             throw new SelcukesException(
-                String.format("Received an unsuccessful HTTP response with status code [%d] [%s]", responseCode,
-                    getReasonPhrase(responseCode)));
+                    String.format("Received an unsuccessful HTTP response with status code [%d] [%s]", responseCode,
+                            getReasonPhrase(responseCode)));
         }
     }
 }
