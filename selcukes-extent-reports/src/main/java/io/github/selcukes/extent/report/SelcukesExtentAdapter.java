@@ -194,6 +194,9 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
                     stepTestThreadLocal.get().pass("");
                 }
             }
+            default -> {
+               //do nothing
+            }
         }
     }
 
