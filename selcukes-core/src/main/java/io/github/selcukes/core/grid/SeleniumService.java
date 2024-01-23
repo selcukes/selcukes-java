@@ -53,8 +53,8 @@ class SeleniumService {
      * @param  mode                      server mode to start
      * @param  extraFlags                extra flags to start the server with
      * @return                           the new selenium server instance
-     * @throws DriverConnectionException if the server is already started or fails
-     *                                   to start
+     * @throws DriverConnectionException if the server is already started or
+     *                                   fails to start
      */
     public SeleniumService start(String mode, String... extraFlags) {
         if (process != null) {

@@ -60,6 +60,7 @@ public class Config {
 
     @Data
     public static class WindowsConfig {
+        boolean remote;
         String serviceUrl;
         String app;
     }

@@ -17,6 +17,7 @@
 package io.github.selcukes.core.driver;
 
 import io.appium.java_client.windows.WindowsDriver;
+import io.github.selcukes.collections.Resources;
 import io.github.selcukes.commons.config.ConfigFactory;
 import lombok.CustomLog;
 import lombok.SneakyThrows;
@@ -45,6 +46,8 @@ class DesktopManager extends AppiumManager {
     @SneakyThrows
     @Override
     public URL getServiceUrl() {
-        return AppiumEngine.getInstance().getServiceUrl();
+        var winConfig = ConfigFactory.getConfig().getWindows();
+        var url = ConfigFactory.getConfig().getWindows().getServiceUrl();
+        return (winConfig.isRemote()) ? Resources.toURL(url) : AppiumEngine.getInstance().getServiceUrl();
     }
 }
