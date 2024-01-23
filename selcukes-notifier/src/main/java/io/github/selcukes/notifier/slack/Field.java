@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 
 import java.io.Serializable;
+
 @Builder
 record Field(String title, String value, @JsonProperty("short") Boolean shortValue) implements Serializable {
 }
