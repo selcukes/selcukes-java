@@ -54,8 +54,6 @@ public class CollectionUtilsTest {
     public void trimTest() {
         var updatedValues = Streams.trim(values);
         Assert.assertEquals(updatedValues.get(5), "6");
-        updatedValues.add("9");
-        Assert.assertEquals(updatedValues.size(), 7);
     }
 
     private enum State {

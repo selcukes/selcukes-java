@@ -317,13 +317,15 @@ public class DataTableTest {
         rowC.put("name", "Bob Johnson");
         rowC.put("age", "40");
         var table = DataTable.of(rowA, rowB, rowC);
-        String expectedOutput = "+-------------+-----+\n" +
-                "| name        | age |\n" +
-                "+-------------+-----+\n" +
-                "| John Doe    | 30  |\n" +
-                "| Jane Smith  | 25  |\n" +
-                "| Bob Johnson | 40  |\n" +
-                "+-------------+-----+\n";
+        String expectedOutput = """
+                +-------------+-----+
+                | name        | age |
+                +-------------+-----+
+                | John Doe    | 30  |
+                | Jane Smith  | 25  |
+                | Bob Johnson | 40  |
+                +-------------+-----+
+                """;
         assertEquals(table.prettyTable(), expectedOutput);
     }
 }
