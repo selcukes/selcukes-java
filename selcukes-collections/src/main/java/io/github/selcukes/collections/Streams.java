@@ -157,7 +157,7 @@ public class Streams {
      * @return       the resulting {@code DataTable<String, String>}
      */
     public <T> DataTable<String, String> toTable(List<? extends List<T>> cells) {
-        List<String> headers = Lists.toString(cells.get(0));
+        var headers = Lists.toString(cells.get(0));
         return cells.stream()
                 .skip(1)
                 .map(row -> Maps.of(headers, Lists.toString(row), ""))
@@ -166,7 +166,7 @@ public class Streams {
 
     /**
      * Convert a List of Maps into a Map of Lists, where the keys of each Map in
-     * the input List become the keys of the output Map and the values of each
+     * the input List become the keys of the output Map, and the values of each
      * Map in the input List are added to the corresponding List in the output
      * Map.
      *
@@ -205,7 +205,7 @@ public class Streams {
     public List<String> trim(final List<String> list) {
         return list.stream()
                 .map(String::trim)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**

@@ -44,7 +44,7 @@ class PropertiesParser<T> {
         var fields = Stream.of(entityClass.getDeclaredFields())
                 .map(field -> new PropertyField<T>(field, properties, defaultConverters()))
                 .map(PropertyField::parse)
-                .collect(Collectors.toList());
+                .toList();
         return initEntity(fields);
     }
 

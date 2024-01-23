@@ -35,7 +35,7 @@ public class CollectionUtilsTest {
 
     @Test
     public void enumTest() {
-        Assert.assertEquals(Streams.of(State.class).collect(Collectors.toList()), headers);
+        Assert.assertEquals(Streams.of(State.class).toList(), headers);
     }
 
     @Test

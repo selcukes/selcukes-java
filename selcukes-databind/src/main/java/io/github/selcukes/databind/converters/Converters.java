@@ -43,6 +43,6 @@ public class Converters {
             LocalDateConverter.class,
             LocalDateTimeConverter.class)
                 .map(cls -> (Converter<T>) newInstance(cls))
-                .collect(Collectors.toList());
+                .toList();
     }
 }

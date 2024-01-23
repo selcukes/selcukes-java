@@ -47,7 +47,7 @@ public class CsvMapper {
         try (var lines = Files.lines(filePath)) {
             var linesOnWords = Lists.of(lines, line -> Arrays.stream(line.split(regex))
                     .map(field -> field.replaceAll(DOUBLE_QUOTES_REGEX, ""))
-                    .collect(Collectors.toList()));
+                    .toList());
             return Streams.toTable(linesOnWords);
         } catch (Exception e) {
             throw new DataMapperException("Failed parsing CSV File: ", e);

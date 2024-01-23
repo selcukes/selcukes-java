@@ -108,7 +108,7 @@ public class ExtentService {
             var viewOrder = Arrays.stream(getProperty(VIEW_ORDER_SPARK_KEY).split(","))
                     .map(String::toUpperCase)
                     .map(ViewName::valueOf)
-                    .collect(Collectors.toList());
+                    .toList();
             spark.viewConfigurer().viewOrder().as(viewOrder).apply();
         } catch (Exception ignored) {
             // Gobble exception

@@ -112,7 +112,7 @@ public class Lists {
     public <T> List<T> retainIf(@NonNull List<T> list, Predicate<T> predicate) {
         return list.stream()
                 .filter(predicate)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -125,7 +125,7 @@ public class Lists {
     public <T> List<T> sortWithNulls(List<T> list) {
         return list.stream()
                 .sorted(Comparator.nullsLast(Comparator.comparing(Object::toString, Comparator.naturalOrder())))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -141,7 +141,7 @@ public class Lists {
     public <T> List<String> toString(@NonNull List<T> list) {
         return list.stream()
                 .map(Objects::toString)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @NoArgsConstructor

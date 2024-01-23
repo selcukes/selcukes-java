@@ -67,6 +67,6 @@ public class ServiceLoaderUtils {
      */
     public <T> List<T> load(final Class<T> type, final ClassLoader classLoader) {
         return Streams.of(ServiceLoader.load(type, classLoader).iterator())
-                .collect(Collectors.toList());
+                .toList();
     }
 }

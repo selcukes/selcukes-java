@@ -50,7 +50,7 @@ class MultiExcelData extends AbstractExcelDataProvider {
         return excelSuite
                 .filter(map -> map.get(RUN).equalsIgnoreCase("yes"))
                 .map(map -> map.get("Feature") + NAME_SEPARATOR + map.get(TEST))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
