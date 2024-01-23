@@ -275,10 +275,10 @@ public class Try<T> {
      * @throws Error     if the Throwable object is an instance of Error
      */
     private static RuntimeException wrapAsRuntimeException(Throwable throwable) {
-        if (throwable instanceof RuntimeException) {
-            return (RuntimeException) throwable;
-        } else if (throwable instanceof Error) {
-            throw (Error) throwable;
+        if (throwable instanceof RuntimeException runtimeException) {
+            return runtimeException;
+        } else if (throwable instanceof Error error) {
+            throw error;
         } else {
             return new RuntimeException(throwable);
         }

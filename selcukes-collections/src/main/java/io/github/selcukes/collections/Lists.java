@@ -76,11 +76,11 @@ public class Lists {
      * @return       true if the value is not empty, false otherwise
      */
     public <T> boolean nonEmpty(T value) {
-        if (value instanceof Collection) {
-            return !((Collection<?>) value).isEmpty();
+        if (value instanceof Collection<?> collection) {
+            return !collection.isEmpty();
         }
-        if (value instanceof Object[]) {
-            return ((Object[]) value).length > 0;
+        if (value instanceof Object[] objects) {
+            return objects.length > 0;
         }
         return StringHelper.isNonEmpty(value.toString());
     }
@@ -112,7 +112,7 @@ public class Lists {
     public <T> List<T> retainIf(@NonNull List<T> list, Predicate<T> predicate) {
         return list.stream()
                 .filter(predicate)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -125,23 +125,20 @@ public class Lists {
     public <T> List<T> sortWithNulls(List<T> list) {
         return list.stream()
                 .sorted(Comparator.nullsLast(Comparator.comparing(Object::toString, Comparator.naturalOrder())))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
-     * Returns a list of string representations of the objects in the given
-     * list.
+     * Returns a list of string objects in the given list.
      *
-     * @param  list                 the list of objects to convert to strings
-     * @param  <T>                  the type of object in the list
-     * @return                      a list of string representations of the
-     *                              objects in the given list.
-     * @throws NullPointerException if the given list is {@code null}.
+     * @param  list the list of objects to convert to strings
+     * @param  <T>  the type of object in the list
+     * @return      a list of string objects in the given list.
      */
     public <T> List<String> toString(@NonNull List<T> list) {
         return list.stream()
                 .map(Objects::toString)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @NoArgsConstructor

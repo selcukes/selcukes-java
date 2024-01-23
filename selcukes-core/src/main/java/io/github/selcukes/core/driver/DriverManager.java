@@ -138,8 +138,8 @@ public class DriverManager {
      *         implement {@link WrapsDriver}.
      */
     public synchronized WebDriver getWrappedDriver() {
-        if (getDriver() instanceof WrapsDriver) {
-            return ((WrapsDriver) getDriver()).getWrappedDriver();
+        if (getDriver() instanceof WrapsDriver wrapsDriver) {
+            return wrapsDriver.getWrappedDriver();
         }
         return getDriver();
     }

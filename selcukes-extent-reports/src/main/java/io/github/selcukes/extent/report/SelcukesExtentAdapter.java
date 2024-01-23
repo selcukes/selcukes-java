@@ -142,15 +142,14 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
         getReporter().attachAndRestart();
         isHookThreadLocal.set(false);
 
-        if (event.getTestStep() instanceof HookTestStep) {
+        if (event.getTestStep() instanceof HookTestStep hookTestStep) {
             ExtentTest t = scenarioThreadLocal.get().createNode(Asterisk.class, event.getTestStep().getCodeLocation(),
-                (((HookTestStep) event.getTestStep()).getHookType()).toString().toUpperCase());
+                hookTestStep.getHookType().toString().toUpperCase());
             stepTestThreadLocal.set(t);
             isHookThreadLocal.set(true);
         }
 
-        if (event.getTestStep() instanceof PickleStepTestStep) {
-            PickleStepTestStep testStep = (PickleStepTestStep) event.getTestStep();
+        if (event.getTestStep() instanceof PickleStepTestStep testStep) {
             createTestStep(testStep);
         }
     }
@@ -167,14 +166,9 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     private synchronized void updateResult(Result result) {
         Test test = stepTestThreadLocal.get().getModel();
         switch (result.getStatus().name().toLowerCase()) {
-            case "failed":
-            case "pending":
-                stepTestThreadLocal.get().fail(result.getError());
-                break;
-            case "undefined":
-                stepTestThreadLocal.get().fail("Step undefined");
-                break;
-            case "skipped":
+            case "failed", "pending" -> stepTestThreadLocal.get().fail(result.getError());
+            case "undefined" -> stepTestThreadLocal.get().fail("Step undefined");
+            case "skipped" -> {
                 if (isHookThreadLocal.get().equals(Boolean.TRUE)) {
                     extentService.getExtentReports().removeTest(stepTestThreadLocal.get());
                     break;
@@ -188,8 +182,8 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
                     String details = result.getError() == null ? "Step skipped" : result.getError().getMessage();
                     stepTestThreadLocal.get().skip(details);
                 }
-                break;
-            case "passed":
+            }
+            case "passed" -> {
                 if (stepTestThreadLocal.get() != null) {
                     if (isHookThreadLocal.get().equals(Boolean.TRUE)) {
                         boolean mediaLogs = test.getLogs().stream().anyMatch(l -> l.getMedia() != null);
@@ -199,9 +193,10 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
                     }
                     stepTestThreadLocal.get().pass("");
                 }
-                break;
-            default:
-                break;
+            }
+            default -> {
+               //do nothing
+            }
         }
     }
 
@@ -383,12 +378,12 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
         }
         StepArgument argument = testStep.getStep().getArgument();
         if (argument != null) {
-            if (argument instanceof DocStringArgument) {
+            if (argument instanceof DocStringArgument docStringArgument) {
                 stepTestThreadLocal.get()
-                        .pass(MarkupHelper.createCodeBlock(((DocStringArgument) argument).getContent()));
-            } else if (argument instanceof DataTableArgument) {
+                        .pass(MarkupHelper.createCodeBlock(docStringArgument.getContent()));
+            } else if (argument instanceof DataTableArgument dataTableArgument) {
                 stepTestThreadLocal.get()
-                        .pass(MarkupHelper.createTable(createDataTableList((DataTableArgument) argument)));
+                        .pass(MarkupHelper.createTable(createDataTableList(dataTableArgument)));
             }
         }
     }

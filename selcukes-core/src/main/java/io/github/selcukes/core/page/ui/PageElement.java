@@ -69,8 +69,8 @@ public final class PageElement {
     }
 
     public String toLogMessage(WebElement element, CharSequence key) {
-        if (key instanceof Keys) {
-            return "Pressing Key " + ((Keys) key).name();
+        if (key instanceof Keys keys) {
+            return "Pressing Key " + keys.name();
         } else {
             String labelName = PageElement.labelName(element);
             String elementValue = PageElement.elementValue(labelName, key.toString());

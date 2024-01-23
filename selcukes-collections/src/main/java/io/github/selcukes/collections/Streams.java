@@ -135,12 +135,13 @@ public class Streams {
     }
 
     /**
-     * Converts a list of lists of values into a {@link DataTable}.
+     * Converts a list of lists of values into a {@link DataTable}, using the
+     * first row as headers.
      * <p>
-     * The first row in the list represents the headers and is skipped. For each
-     * subsequent row, a map is created with keys corresponding to the headers
-     * and values corresponding to the cell values in the row. If a cell value
-     * is missing, an empty string is used as the default value.
+     * This method transforms a nested list structure into a structured
+     * {@link DataTable}, facilitating data manipulation and analysis with
+     * tabular data. It handles missing values gracefully by using empty strings
+     * as defaults.
      *
      * @param  cells the list of lists of values to convert
      * @return       the resulting {@code DataTable<String, String>}
@@ -154,10 +155,9 @@ public class Streams {
     }
 
     /**
-     * Convert a List of Maps into a Map of Lists, where the keys of each Map in
-     * the input List become the keys of the output Map, and the values of each
-     * Map in the input List are added to the corresponding List in the output
-     * Map.
+     * Converts a List of Maps into a Map of Lists, where keys from the input
+     * Maps are grouped together, and their corresponding values are aggregated
+     * into Lists.
      *
      * @param  listMap A List of Maps to be converted into a Map of Lists.
      * @return         A Map of Lists where each key is mapped to a List of
@@ -174,7 +174,7 @@ public class Streams {
     }
 
     /**
-     * Convert a list of lists of strings into a 2D array of strings.
+     * Converts a list of lists of strings into a 2D array of strings.
      *
      * @param  cells The list of lists of strings to convert to a 2D array.
      * @return       A 2D array of Strings
@@ -198,12 +198,11 @@ public class Streams {
     }
 
     /**
-     * Returns a stream of string representations of the constants of the given
+     * Returns a stream of string representations for the constants of the given
      * enum class.
      *
      * @param  enumData The enum class whose constants are to be streamed.
-     * @return          A stream of string representations of the enum
-     *                  constants.
+     * @return          A stream of string.
      */
     public Stream<String> of(final Class<? extends Enum<?>> enumData) {
         return Stream.of(enumData.getEnumConstants()).map(Enum::toString);
