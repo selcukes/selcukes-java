@@ -21,7 +21,6 @@ import io.github.selcukes.commons.exception.SelcukesException;
 import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.utils.JsonUtils;
 import io.github.selcukes.databind.xml.XmlMapper;
-import lombok.Getter;
 import org.w3c.dom.Document;
 
 import java.io.ByteArrayInputStream;
