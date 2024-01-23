@@ -48,12 +48,12 @@ class SeleniumService {
     }
 
     /**
-     * Creates Selenium Server process.
+     * Creates a Selenium Server process.
      *
      * @param  mode                      server mode to start
      * @param  extraFlags                extra flags to start the server with
      * @return                           the new selenium server instance
-     * @throws DriverConnectionException if server is already started or fails
+     * @throws DriverConnectionException if the server is already started or fails
      *                                   to start
      */
     public SeleniumService start(String mode, String... extraFlags) {
@@ -88,7 +88,7 @@ class SeleniumService {
 
         try {
             var url = Resources.toURL(baseUrl + "/status");
-            new UrlChecker().waitUntilAvailable(10, SECONDS, url);
+            new UrlChecker().waitUntilAvailable(15, SECONDS, url);
             logger.info(() -> "Selenium Server is ready...");
         } catch (UrlChecker.TimeoutException e) {
             logger.error(() -> "Server failed to start: " + e.getMessage());
