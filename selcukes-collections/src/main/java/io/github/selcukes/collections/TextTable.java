@@ -121,7 +121,8 @@ class TextTable<K, V> {
             return "<tr>\n" +
                     values.stream()
                             .map(value -> String.format("%s%s%s", tag, value, tag))
-                            .collect(Collectors.joining("\n")) +
+                            .collect(Collectors.joining("\n"))
+                    +
                     "</tr>\n";
         }
     }

@@ -129,12 +129,11 @@ public class Lists {
     }
 
     /**
-     * Returns a list of string objects in the given
-     * list.
+     * Returns a list of string objects in the given list.
      *
-     * @param  list                 the list of objects to convert to strings
-     * @param  <T>                  the type of object in the list
-     * @return                      a list of string objects in the given list.
+     * @param  list the list of objects to convert to strings
+     * @param  <T>  the type of object in the list
+     * @return      a list of string objects in the given list.
      */
     public <T> List<String> toString(@NonNull List<T> list) {
         return list.stream()
