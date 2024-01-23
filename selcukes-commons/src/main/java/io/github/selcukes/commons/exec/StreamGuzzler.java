@@ -26,7 +26,6 @@ import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * A simple thread based utility that consumes {@link InputStream} and provides

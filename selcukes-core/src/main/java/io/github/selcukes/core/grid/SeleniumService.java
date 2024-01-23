@@ -32,7 +32,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Optional.ofNullable;

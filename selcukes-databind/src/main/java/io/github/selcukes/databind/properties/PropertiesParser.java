@@ -22,7 +22,6 @@ import io.github.selcukes.databind.exception.DataMapperException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Properties;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static io.github.selcukes.collections.Reflections.newInstance;

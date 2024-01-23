@@ -19,7 +19,6 @@ package io.github.selcukes.databind.converters;
 import lombok.experimental.UtilityClass;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static io.github.selcukes.collections.Reflections.newInstance;

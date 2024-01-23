@@ -22,7 +22,6 @@ import lombok.experimental.UtilityClass;
 
 import java.util.List;
 import java.util.ServiceLoader;
-import java.util.stream.Collectors;
 
 /**
  * "Load the first service of the given type from the given class loader."
