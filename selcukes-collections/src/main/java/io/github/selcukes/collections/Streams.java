@@ -205,7 +205,7 @@ public class Streams {
     public List<String> trim(final List<String> list) {
         return list.stream()
                 .map(String::trim)
-                .toList();
+                .collect(Collectors.toList());
     }
 
     /**
