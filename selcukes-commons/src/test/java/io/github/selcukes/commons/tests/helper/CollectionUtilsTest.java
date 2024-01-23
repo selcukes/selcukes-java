@@ -52,7 +52,10 @@ public class CollectionUtilsTest {
 
     @Test
     public void trimTest() {
-        Assert.assertEquals(Streams.trim(values).get(5), "6");
+        var updatedValues=Streams.trim(values);
+        Assert.assertEquals(updatedValues.get(5), "6");
+        updatedValues.add("9");
+        Assert.assertEquals(updatedValues.size(), 7);
     }
 
     private enum State {
