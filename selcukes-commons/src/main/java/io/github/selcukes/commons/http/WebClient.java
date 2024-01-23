@@ -31,7 +31,12 @@ import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Map;
+import java.util.Objects;
+import java.util.StringJoiner;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static java.net.http.HttpRequest.BodyPublisher;
@@ -160,10 +165,10 @@ public class WebClient {
 
     @SneakyThrows
     private BodyPublisher bodyPublisher(final Object payload) {
-        if (payload instanceof String) {
-            bodyPublisher = BodyPublishers.ofString(payload.toString());
-        } else if (payload instanceof Path) {
-            bodyPublisher = BodyPublishers.ofFile((Path) payload);
+        if (payload instanceof String payloadString) {
+            bodyPublisher = BodyPublishers.ofString(payloadString);
+        } else if (payload instanceof Path filePath) {
+            bodyPublisher = BodyPublishers.ofFile(filePath);
         } else {
             bodyPublisher = BodyPublishers.ofString(JsonUtils.toJson(payload));
         }
@@ -179,8 +184,7 @@ public class WebClient {
         for (var entry : data.entrySet()) {
             byteArrays.add(separator);
 
-            if (entry.getValue() instanceof Path) {
-                var path = (Path) entry.getValue();
+            if (entry.getValue() instanceof Path path) {
                 String mimeType = Files.probeContentType(path);
                 byteArrays.add(("\"" + entry.getKey() + "\"; filename=\""
                         + path.getFileName() + "\"\r\nContent-Type: " + mimeType
@@ -205,7 +209,10 @@ public class WebClient {
             clientBuilder.followRedirects(HttpClient.Redirect.NORMAL);
         }
         var request = requestBuilder.uri(buildUri()).build();
-        return new WebResponse(clientBuilder.build().send(request, ofString()));
+        var httpResponse = clientBuilder.build().send(request, ofString());
+        var response = new WebResponse(httpResponse);
+        response.logIfError();
+        return response;
     }
 
     /**

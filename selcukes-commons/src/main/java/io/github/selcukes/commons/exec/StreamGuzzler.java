@@ -26,7 +26,6 @@ import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * A simple thread based utility that consumes {@link InputStream} and provides
@@ -48,7 +47,7 @@ public class StreamGuzzler implements Runnable {
     public void run() {
         Objects.requireNonNull(stream, "Cannot guzzle an empty/null stream.");
         try (var reader = new BufferedReader(new InputStreamReader(stream))) {
-            content.addAll(reader.lines().collect(Collectors.toList()));
+            content.addAll(reader.lines().toList());
         } catch (IOException exception) {
             throw new CommandException(exception);
         } finally {

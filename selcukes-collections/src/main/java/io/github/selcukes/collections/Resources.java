@@ -103,7 +103,7 @@ public class Resources {
      */
     public Path writeToFile(final Path filePath, final @NonNull String fileContent) {
         try {
-            return Files.write(filePath, fileContent.getBytes(UTF_8));
+            return Files.writeString(filePath, fileContent);
         } catch (IOException e) {
             throw new DataStreamException("Failed to write content to file: " + filePath.toAbsolutePath(), e);
         }

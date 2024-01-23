@@ -22,7 +22,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class CollectionUtilsTest {
     private final List<String> headers = List.of("NEW",
@@ -35,7 +34,7 @@ public class CollectionUtilsTest {
 
     @Test
     public void enumTest() {
-        Assert.assertEquals(Streams.of(State.class).collect(Collectors.toList()), headers);
+        Assert.assertEquals(Streams.of(State.class).toList(), headers);
     }
 
     @Test
@@ -53,7 +52,8 @@ public class CollectionUtilsTest {
 
     @Test
     public void trimTest() {
-        Assert.assertEquals(Streams.trim(values).get(5), "6");
+        var updatedValues = Streams.trim(values);
+        Assert.assertEquals(updatedValues.get(5), "6");
     }
 
     private enum State {

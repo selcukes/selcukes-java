@@ -73,8 +73,7 @@ public class CucumberListener implements ConcurrentEventListener {
 
     private void afterStep(TestStepFinished event) {
         StringBuilder stepsReport = new StringBuilder();
-        if (event.getTestStep() instanceof PickleStepTestStep) {
-            PickleStepTestStep testStep = (PickleStepTestStep) event.getTestStep();
+        if (event.getTestStep() instanceof PickleStepTestStep testStep) {
             stepsReport.append("Cucumber Step Failed : ")
                     .append(testStep.getStep().getText()).append("  [")
                     .append(testStep.getStep().getLine()).append("] ");

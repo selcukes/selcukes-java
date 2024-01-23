@@ -27,7 +27,7 @@ import java.net.URL;
 
 import static io.github.selcukes.core.driver.GridRunner.isSeleniumServerNotRunning;
 import static io.github.selcukes.core.driver.RunMode.isCloudBrowser;
-import static io.github.selcukes.core.driver.RunMode.isLocalBrowser;
+import static io.github.selcukes.core.driver.RunMode.isRemoteBrowser;
 import static java.util.Optional.ofNullable;
 
 @CustomLog
@@ -46,7 +46,7 @@ class WebManager implements RemoteManager {
                 });
 
         var driverBuilder = RemoteWebDriver.builder().oneOf(capabilities);
-        if (!isLocalBrowser()) {
+        if (isRemoteBrowser()) {
             logger.info(() -> "Starting Remote WebDriver session...");
             driverBuilder.address(getServiceUrl());
         } else {
@@ -62,9 +62,10 @@ class WebManager implements RemoteManager {
                 : ConfigFactory.getConfig().getWeb().getServiceUrl();
 
         if (isSeleniumServerNotRunning()) {
-            logger.warn(() -> "The Selenium server is not running.\n" +
-                    "Please use the 'GridRunner.startSelenium()' method to start it automatically.\n" +
-                    "If you have started it manually or are executing in the cloud, you can ignore this message.");
+            logger.warn(() -> """
+                    The Selenium server is not running.
+                    Please use the 'GridRunner.startSelenium()' method to start it automatically.
+                    If you have started it manually or are executing in the cloud, you can ignore this message.""");
         } else {
             return GridRunner.getLocalServiceUrl();
         }

@@ -85,8 +85,7 @@ public class CucumberLiveReportAdapter implements ConcurrentEventListener {
     }
 
     private synchronized void afterStep(TestStepFinished event) {
-        if (event.getTestStep() instanceof PickleStepTestStep) {
-            PickleStepTestStep testStep = (PickleStepTestStep) event.getTestStep();
+        if (event.getTestStep() instanceof PickleStepTestStep testStep) {
             StepContext stepContext = StepContext.builder()
                     .stepName(testStep.getStep().getText())
                     .status(event.getResult().getStatus().name())

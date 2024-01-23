@@ -37,7 +37,7 @@ public class VersionComparator implements Comparator<Object> {
                 do {
                     number1 = tokenizer1.getNumber();
                     suffix1 = tokenizer1.getSuffix();
-                    if (number1 != 0 || suffix1.length() != 0) {
+                    if (number1 != 0 || !suffix1.isEmpty()) {
                         // Version one is longer than number two, and non-zero
                         return 1;
                     }
@@ -61,8 +61,8 @@ public class VersionComparator implements Comparator<Object> {
                 return 1;
             }
 
-            boolean empty1 = suffix1.length() == 0;
-            boolean empty2 = suffix2.length() == 0;
+            boolean empty1 = suffix1.isEmpty();
+            boolean empty2 = suffix2.isEmpty();
 
             if (empty1 && empty2) {
                 continue; // No suffixes
@@ -85,7 +85,7 @@ public class VersionComparator implements Comparator<Object> {
             do {
                 number2 = tokenizer2.getNumber();
                 suffix2 = tokenizer2.getSuffix();
-                if (number2 != 0 || suffix2.length() != 0) {
+                if (number2 != 0 || !suffix2.isEmpty()) {
                     // Version one is longer than version two, and non-zero
                     return -1;
                 }

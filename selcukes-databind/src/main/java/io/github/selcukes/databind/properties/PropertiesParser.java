@@ -22,7 +22,6 @@ import io.github.selcukes.databind.exception.DataMapperException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Properties;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static io.github.selcukes.collections.Reflections.newInstance;
@@ -44,7 +43,7 @@ class PropertiesParser<T> {
         var fields = Stream.of(entityClass.getDeclaredFields())
                 .map(field -> new PropertyField<T>(field, properties, defaultConverters()))
                 .map(PropertyField::parse)
-                .collect(Collectors.toList());
+                .toList();
         return initEntity(fields);
     }
 

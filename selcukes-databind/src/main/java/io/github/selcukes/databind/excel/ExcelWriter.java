@@ -31,7 +31,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.InputStream;
 import java.nio.file.Path;
-import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
 
@@ -55,7 +54,7 @@ class ExcelWriter {
                 var cell = headerRow.createCell(i);
                 cell.setCellValue(columns.get(i));
             });
-            var rows = dataTable.rows().collect(Collectors.toList());
+            var rows = dataTable.rows().toList();
             Streams.of(rows).forEach(i -> {
                 var rowData = rows.get(i);
                 var row = getOrCreateRow(sheet, i + 1);

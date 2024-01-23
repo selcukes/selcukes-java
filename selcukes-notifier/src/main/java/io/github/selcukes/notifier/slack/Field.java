@@ -17,20 +17,10 @@
 package io.github.selcukes.notifier.slack;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
 
 import java.io.Serializable;
 
-@AllArgsConstructor
-@Getter
-@ToString
-@Builder(builderClassName = "Builder")
-class Field implements Serializable {
-    private final String title;
-    private final String value;
-    @JsonProperty("short")
-    private final Boolean shortValue;
+@Builder
+record Field(String title, String value, @JsonProperty("short") Boolean shortValue) implements Serializable {
 }

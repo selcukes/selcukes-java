@@ -25,7 +25,7 @@ import java.net.URL;
 
 import static io.github.selcukes.core.driver.RunMode.isCloudAppium;
 import static io.github.selcukes.core.driver.RunMode.isCloudBrowser;
-import static io.github.selcukes.core.driver.RunMode.isLocalBrowser;
+import static io.github.selcukes.core.driver.RunMode.isRemoteBrowser;
 
 @CustomLog
 @UtilityClass
@@ -35,7 +35,7 @@ public class GridRunner {
     private static boolean isRunning = false;
 
     public synchronized void startSelenium() {
-        if (!isCloudBrowser() || !isLocalBrowser()) {
+        if (!isCloudBrowser() || isRemoteBrowser()) {
             logger.info(() -> "Starting Selenium Server ...");
             if (isSeleniumServerNotRunning()) {
                 localServiceUrl = SeleniumServer.start("standalone");
@@ -46,7 +46,7 @@ public class GridRunner {
     }
 
     static boolean isSeleniumServerNotRunning() {
-        return !isLocalBrowser() && !GridRunner.isRunning;
+        return isRemoteBrowser() && !GridRunner.isRunning;
     }
 
     public static void startAppium() {

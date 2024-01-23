@@ -16,6 +16,7 @@
 
 package io.github.selcukes.collections;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -74,8 +75,8 @@ class TextTable<K, V> {
                 .collect(Collectors.joining("\n"));
     }
 
-    private <T> String getCSVRow(Iterable<T> values) {
-        return Streams.of(values)
+    private <T> String getCSVRow(Collection<T> values) {
+        return values.stream()
                 .map(Object::toString)
                 .map(this::escapeCsvValue)
                 .collect(Collectors.joining(","));
@@ -96,7 +97,6 @@ class TextTable<K, V> {
     private static class HtmlTable<K, V> {
 
         public String buildTable(DataTable<K, V> table) {
-
             return "<table>\n" +
                     buildHeaderRow(table.getFirst()) +
                     buildDataRows(table) +
@@ -104,27 +104,25 @@ class TextTable<K, V> {
         }
 
         private String buildHeaderRow(Map<K, V> row) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("<tr>\n");
-            row.keySet().forEach(key -> sb.append("<th>").append(key).append("</th>\n"));
-            sb.append("</tr>\n");
-            return sb.toString();
+            return buildRow(row.keySet(), "<th>");
         }
 
         private String buildDataRows(DataTable<K, V> table) {
-            StringBuilder sb = new StringBuilder();
-            table.rows()
+            return table.rows()
                     .map(this::buildDataRow)
-                    .forEach(sb::append);
-            return sb.toString();
+                    .collect(Collectors.joining());
         }
 
         private String buildDataRow(Map<K, V> row) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("<tr>\n");
-            row.values().forEach(value -> sb.append("<td>").append(value).append("</td>\n"));
-            sb.append("</tr>\n");
-            return sb.toString();
+            return buildRow(row.values(), "<td>");
+        }
+
+        private <T> String buildRow(Collection<T> values, String tag) {
+            return "<tr>\n" +
+                    values.stream()
+                            .map(value -> String.format("%s%s%s", tag, value, tag))
+                            .collect(Collectors.joining("\n")) +
+                    "</tr>\n";
         }
     }
 }

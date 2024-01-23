@@ -37,7 +37,7 @@ public class Locator {
      * @return         A By object
      */
     public static By resolve(Object locator) {
-        return (locator instanceof String) ? parse((String) locator) : (By) locator;
+        return (locator instanceof String locatorString) ? parse(locatorString) : (By) locator;
     }
 
     /**
@@ -57,33 +57,17 @@ public class Locator {
         String[] output = locator.split(LOCATOR_SEPARATOR);
         String locatorType = output[0].toLowerCase();
         String locatorValue = output[1];
-        switch (locatorType) {
-            case "id":
-                return By.id(locatorValue);
-            case "name":
-                return By.name(locatorValue);
-            case "css":
-            case "cssselector":
-                return By.cssSelector(locatorValue);
-            case "classname":
-            case "class":
-                return By.className(locatorValue);
-            case "tagname":
-            case "tag":
-                return By.tagName(locatorValue);
-            case "xpath":
-                return By.xpath(locatorValue);
-            case "accessibilityid":
-            case "aid":
-                return AppiumBy.accessibilityId(locatorValue);
-            case "linktext":
-            case "link":
-                return By.linkText(locatorValue);
-            case "partiallinktext":
-            case "partiallink":
-                return By.partialLinkText(locatorValue);
-            default:
-                throw new IllegalArgumentException("Unknown Locator type " + locatorType);
-        }
+        return switch (locatorType) {
+            case "id" -> By.id(locatorValue);
+            case "name" -> By.name(locatorValue);
+            case "css", "cssselector" -> By.cssSelector(locatorValue);
+            case "classname", "class" -> By.className(locatorValue);
+            case "tagname", "tag" -> By.tagName(locatorValue);
+            case "xpath" -> By.xpath(locatorValue);
+            case "accessibilityid", "aid" -> AppiumBy.accessibilityId(locatorValue);
+            case "linktext", "link" -> By.linkText(locatorValue);
+            case "partiallinktext", "partiallink" -> By.partialLinkText(locatorValue);
+            default -> throw new IllegalArgumentException("Unknown Locator type " + locatorType);
+        };
     }
 }

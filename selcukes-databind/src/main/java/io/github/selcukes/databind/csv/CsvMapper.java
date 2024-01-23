@@ -26,7 +26,6 @@ import lombok.experimental.UtilityClass;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 @UtilityClass
 public class CsvMapper {
@@ -47,7 +46,7 @@ public class CsvMapper {
         try (var lines = Files.lines(filePath)) {
             var linesOnWords = Lists.of(lines, line -> Arrays.stream(line.split(regex))
                     .map(field -> field.replaceAll(DOUBLE_QUOTES_REGEX, ""))
-                    .collect(Collectors.toList()));
+                    .toList());
             return Streams.toTable(linesOnWords);
         } catch (Exception e) {
             throw new DataMapperException("Failed parsing CSV File: ", e);

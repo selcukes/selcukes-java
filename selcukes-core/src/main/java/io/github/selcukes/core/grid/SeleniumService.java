@@ -32,7 +32,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Optional.ofNullable;
@@ -76,7 +75,7 @@ class SeleniumService {
 
         var builder = ExternalProcess.builder().command("java", Stream.concat(javaFlags, Stream.concat(
             Stream.of("-jar", serverJar, mode, "--port", String.valueOf(port), "--selenium-manager", "true"),
-            Stream.of(extraFlags))).collect(Collectors.toList()))
+            Stream.of(extraFlags))).toList())
                 .copyOutputTo(System.err);
 
         if (Platform.getCurrent().is(Platform.WINDOWS)) {

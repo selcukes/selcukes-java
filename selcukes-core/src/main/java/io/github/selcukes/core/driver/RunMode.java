@@ -32,8 +32,8 @@ public class RunMode {
         return !ConfigFactory.getConfig().getMobile().isRemote();
     }
 
-    static boolean isLocalBrowser() {
-        return !ConfigFactory.getConfig().getWeb().isRemote();
+    static boolean isRemoteBrowser() {
+        return ConfigFactory.getConfig().getWeb().isRemote();
     }
 
     static boolean isCloudBrowser() {

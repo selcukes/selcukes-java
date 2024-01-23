@@ -34,7 +34,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static io.github.selcukes.collections.Clocks.DATE_TIME_FILE_FORMAT;
 import static io.github.selcukes.collections.StringHelper.isNonEmpty;
@@ -108,7 +107,7 @@ public class ExtentService {
             var viewOrder = Arrays.stream(getProperty(VIEW_ORDER_SPARK_KEY).split(","))
                     .map(String::toUpperCase)
                     .map(ViewName::valueOf)
-                    .collect(Collectors.toList());
+                    .toList();
             spark.viewConfigurer().viewOrder().as(viewOrder).apply();
         } catch (Exception ignored) {
             // Gobble exception

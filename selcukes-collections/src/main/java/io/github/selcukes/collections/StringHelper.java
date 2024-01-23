@@ -110,7 +110,7 @@ public class StringHelper {
      */
     public static String toFieldName(final String text) {
         final String fieldName = text.replaceAll(CAMEL_CASE_REGEX, "");
-        return fieldName.length() > 0 ? fieldName.substring(0, 1).toLowerCase() + fieldName.substring(1) : null;
+        return !fieldName.isEmpty() ? fieldName.substring(0, 1).toLowerCase() + fieldName.substring(1) : null;
     }
 
     /**
@@ -165,14 +165,15 @@ public class StringHelper {
     }
 
     /**
-     * Returns the first group of the match if the text is not null and the
+     * Returns the first group of the matches if the text is not null and the
      * compiled pattern matches. Note: This function compiles the pattern only
      * once, so subsequent calls with the same pattern are faster.
      *
      * @param  pattern The regular expression pattern to match.
      * @param  text    The text to search for the pattern.
      * @return         An Optional String containing the first group of the
-     *                 match, or empty if no match is found or the text is null.
+     *                 matches, or empty if no match is found or the text is
+     *                 null.
      */
     public static Optional<String> findPattern(String pattern, String text) {
         var compiledPattern = Pattern.compile(pattern);

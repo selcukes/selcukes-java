@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -92,7 +93,7 @@ public class FileHelper {
      *                  system.
      */
     public String systemFilePath(final String filePath) {
-        String fileSeparator = System.getProperty("file.separator");
+        String fileSeparator = FileSystems.getDefault().getSeparator();
 
         if (!fileSeparator.isEmpty() && "\\".equals(fileSeparator)) {
             int beginIndex = 0;

@@ -44,7 +44,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static io.github.selcukes.core.page.ui.Locator.resolve;
 import static io.github.selcukes.core.wait.WaitCondition.CLICKABLE;
@@ -722,7 +721,7 @@ public interface Page {
     }
 
     private List<String> getValues(Object locator, Function<WebElement, String> function) {
-        return findAll(locator).stream().map(function).collect(Collectors.toList());
+        return findAll(locator).stream().map(function).toList();
     }
 
     /**
@@ -818,7 +817,7 @@ public interface Page {
         return getDriver().manage().getCookies()
                 .stream()
                 .map(Cookie::getName)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
