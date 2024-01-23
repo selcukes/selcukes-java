@@ -37,8 +37,15 @@ public class SeleniumServer {
         var webClient = new WebClient(hub.getServiceUrl().toString() + "/status");
         var wait = new FluentWait<>(webClient)
                 .ignoring(RuntimeException.class)
+                .pollingEvery(Duration.ofSeconds(1))
                 .withTimeout(Duration.ofSeconds(30));
-        wait.until(client -> client.get().bodyJson().at("/value/ready").asBoolean());
+        wait.until(client -> {
+            try {
+                return client.get().bodyJson().at("/value/ready").asBoolean();
+            } catch (Exception e) {
+                return false;
+            }
+        });
 
         started = true;
         return hub.getServiceUrl();
