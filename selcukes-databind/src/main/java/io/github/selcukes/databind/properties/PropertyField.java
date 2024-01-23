@@ -64,8 +64,8 @@ class PropertyField<T> extends DataField<T> {
     public String getFormattedValue(Object object) {
         var format = getFormat();
         var value = getFieldValue(object, getFieldName());
-        if (value instanceof Temporal) {
-            return Clocks.format((Temporal) value, format);
+        if (value instanceof Temporal temporal) {
+            return Clocks.format(temporal, format);
         } else if (value instanceof List<?> list) {
             return list.stream()
                     .map(Object::toString)

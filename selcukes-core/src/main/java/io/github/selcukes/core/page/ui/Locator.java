@@ -37,7 +37,7 @@ public class Locator {
      * @return         A By object
      */
     public static By resolve(Object locator) {
-        return (locator instanceof String) ? parse((String) locator) : (By) locator;
+        return (locator instanceof String locatorString) ? parse(locatorString) : (By) locator;
     }
 
     /**

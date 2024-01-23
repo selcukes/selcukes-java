@@ -39,11 +39,11 @@ class ScreenPlayResult {
     }
 
     private <T> void extractResult(T result) {
-        if (result instanceof Scenario) {
-            testName = ((Scenario) result).getName().replace(" ", "_");
-            status = ((Scenario) result).getStatus().toString();
+        if (result instanceof Scenario scenario) {
+            testName = scenario.getName().replace(" ", "_");
+            status = scenario.getStatus().toString();
             testType = TestType.CUCUMBER;
-            failed = ((Scenario) result).isFailed();
+            failed = scenario.isFailed();
         } else if (result instanceof TestResult testResult) {
             testName = testResult.getName().replace(" ", "_");
             status = testResult.getStatus();

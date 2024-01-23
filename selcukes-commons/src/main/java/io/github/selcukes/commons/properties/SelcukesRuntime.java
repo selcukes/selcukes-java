@@ -77,15 +77,13 @@ public class SelcukesRuntime {
             setSystemProperty("cucumber.filter.tags", tag);
             setSystemProperty("cucumber.glue", glue);
             setSystemProperty("cucumber.publish.quiet", "true");
-
-            logger.debug(() -> String
-                    .format("""
-                            Using Runtime Cucumber Options:
-                            Features : [%s]
-                            Glue     : [%s]
-                            Tags     : [%s]\s
-                            \s""",
-                        features, glue, tag));
+            String logText = """
+                    Using Runtime CucumberOptions:
+                    Features : [%s]
+                    Glue     : [%s]
+                    Tags     : [%s]
+                    """;
+            logger.debug(() -> String.format(logText, features, glue, tag));
         } catch (Exception exception) {
             logger.warn(() -> "Failed to load selcukes properties. Using default CucumberOptions to execute...");
         }

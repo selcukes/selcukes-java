@@ -21,6 +21,7 @@ import io.github.selcukes.commons.exception.SelcukesException;
 import io.github.selcukes.databind.DataMapper;
 import io.github.selcukes.databind.utils.JsonUtils;
 import io.github.selcukes.databind.xml.XmlMapper;
+import lombok.Getter;
 import org.w3c.dom.Document;
 
 import java.io.ByteArrayInputStream;
@@ -35,11 +36,8 @@ import java.util.Optional;
  * It takes the HTTP response and provides a number of methods to access the
  * response body, headers, and status code
  */
+// @Getter
 public record WebResponse(HttpResponse<String> httpResponse) {
-    public WebResponse(final HttpResponse<String> httpResponse) {
-        this.httpResponse = httpResponse;
-        logIfError();
-    }
 
     /**
      * It returns the reason phrase for a given HTTP status code
@@ -47,6 +45,7 @@ public record WebResponse(HttpResponse<String> httpResponse) {
      * @param  statusCode The HTTP status code.
      * @return            The reason phrase for the given status code.
      */
+    @SuppressWarnings("java:S1479")
     public static String getReasonPhrase(final int statusCode) {
         return switch (statusCode) {
             case (200) -> "OK";
@@ -178,7 +177,7 @@ public record WebResponse(HttpResponse<String> httpResponse) {
         return token.orElse("");
     }
 
-    private void logIfError() {
+    void logIfError() {
         int responseCode = statusCode();
         if (responseCode >= 400) {
             throw new SelcukesException(
