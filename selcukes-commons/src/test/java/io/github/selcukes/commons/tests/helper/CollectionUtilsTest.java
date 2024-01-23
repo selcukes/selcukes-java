@@ -52,7 +52,7 @@ public class CollectionUtilsTest {
 
     @Test
     public void trimTest() {
-        var updatedValues=Streams.trim(values);
+        var updatedValues = Streams.trim(values);
         Assert.assertEquals(updatedValues.get(5), "6");
         updatedValues.add("9");
         Assert.assertEquals(updatedValues.size(), 7);
