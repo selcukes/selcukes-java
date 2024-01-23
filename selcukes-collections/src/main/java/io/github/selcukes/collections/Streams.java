@@ -37,8 +37,8 @@ public class Streams {
     /**
      * It takes an iterator and returns a stream.
      *
-     * @param  iterator The iterator to convert to a stream.
-     * @return          A stream of the iterator.
+     * @param iterator The iterator to convert to a stream.
+     * @return A stream of the iterator.
      */
     public <T> Stream<T> of(final Iterator<? extends T> iterator) {
         return StreamSupport
@@ -56,11 +56,11 @@ public class Streams {
      * method. If no element matches the predicate, an empty OptionalInt is
      * returned.
      *
-     * @param  elements  the list of elements to search through
-     * @param  predicate the predicate to apply to the elements
-     * @return           an OptionalInt containing the index of the first
-     *                   matching element, or an empty OptionalInt if no such
-     *                   element exists
+     * @param elements  the list of elements to search through
+     * @param predicate the predicate to apply to the elements
+     * @return an OptionalInt containing the index of the first
+     * matching element, or an empty OptionalInt if no such
+     * element exists
      */
     public <T> OptionalInt indexOf(List<T> elements, Predicate<T> predicate) {
         return of(elements).parallel()
@@ -73,14 +73,14 @@ public class Streams {
      * that matches the given predicate, or an empty {@code Optional} if no such
      * element is found.
      *
-     * @param  elements             the list of elements to search for a
-     *                              matching element
-     * @param  predicate            the predicate to apply to each element in
-     *                              the list
-     * @param  <T>                  the type of the elements in the list
-     * @return                      an {@code Optional} describing the first
-     *                              matching element, or an empty
-     *                              {@code Optional} if no such element is found
+     * @param elements  the list of elements to search for a
+     *                  matching element
+     * @param predicate the predicate to apply to each element in
+     *                  the list
+     * @param <T>       the type of the elements in the list
+     * @return an {@code Optional} describing the first
+     * matching element, or an empty
+     * {@code Optional} if no such element is found
      * @throws NullPointerException if the specified list or predicate is null
      */
     public <T> Optional<T> findFirst(List<T> elements, Predicate<T> predicate) {
@@ -92,8 +92,8 @@ public class Streams {
     /**
      * It returns an IntStream of the indices of the elements in the given list.
      *
-     * @param  elements The list of elements to iterate over.
-     * @return          An IntStream of the indexes of the elements in the list.
+     * @param elements The list of elements to iterate over.
+     * @return An IntStream of the indexes of the elements in the list.
      */
     public <T> IntStream of(List<T> elements) {
         return of(0, elements.size());
@@ -102,9 +102,9 @@ public class Streams {
     /**
      * Returns an IntStream of the numbers between start and end, inclusive.
      *
-     * @param  start The starting value of the range.
-     * @param  end   The end value (exclusive) for the range to be created
-     * @return       IntStream
+     * @param start The starting value of the range.
+     * @param end   The end value (exclusive) for the range to be created
+     * @return IntStream
      */
     public IntStream of(int start, int end) {
         return IntStream.range(start, end);
@@ -116,14 +116,14 @@ public class Streams {
      * these function applications in order. The length of the resulting stream
      * is equal to the length of the shorter of the two input lists.
      *
-     * @param  first  the first list to be zipped
-     * @param  second the second list to be zipped
-     * @param  zipper a function that combines the elements of the two lists
-     * @param  <T>    the type of elements in the first list
-     * @param  <U>    the type of elements in the second list
-     * @param  <R>    the type of elements in the resulting stream
-     * @return        a stream of the results of applying the given function to
-     *                corresponding elements of the two lists
+     * @param first  the first list to be zipped
+     * @param second the second list to be zipped
+     * @param zipper a function that combines the elements of the two lists
+     * @param <T>    the type of elements in the first list
+     * @param <U>    the type of elements in the second list
+     * @param <R>    the type of elements in the resulting stream
+     * @return a stream of the results of applying the given function to
+     * corresponding elements of the two lists
      */
     public static <T, U, R> Stream<R> zip(List<T> first, List<U> second, BiFunction<T, U, R> zipper) {
         return IntStream.range(0, Math.min(first.size(), second.size()))
@@ -135,15 +135,14 @@ public class Streams {
     }
 
     /**
-     * Converts a list of lists of values into a {@link DataTable}.
-     * <p>
-     * The first row in the list represents the headers and is skipped. For each
-     * subsequent row, a map is created with keys corresponding to the headers
-     * and values corresponding to the cell values in the row. If a cell value
-     * is missing, an empty string is used as the default value.
+     * Converts a list of lists of values into a {@link DataTable}, using the first row as headers.
      *
-     * @param  cells the list of lists of values to convert
-     * @return       the resulting {@code DataTable<String, String>}
+     * <p>This method transforms a nested list structure into a structured {@link DataTable},
+     * facilitating data manipulation and analysis with tabular data. It handles missing values
+     * gracefully by using empty strings as defaults.
+     *
+     * @param cells the list of lists of values to convert
+     * @return the resulting {@code DataTable<String, String>}
      */
     public <T> DataTable<String, String> toTable(List<? extends List<T>> cells) {
         var headers = Lists.toString(cells.get(0));
@@ -154,30 +153,28 @@ public class Streams {
     }
 
     /**
-     * Convert a List of Maps into a Map of Lists, where the keys of each Map in
-     * the input List become the keys of the output Map, and the values of each
-     * Map in the input List are added to the corresponding List in the output
-     * Map.
+     * Converts a List of Maps into a Map of Lists, where keys from the input Maps
+     * are grouped together, and their corresponding values are aggregated into Lists.
      *
-     * @param  listMap A List of Maps to be converted into a Map of Lists.
-     * @return         A Map of Lists where each key is mapped to a List of
-     *                 values from the input List.
+     * @param listMap A List of Maps to be converted into a Map of Lists.
+     * @return A Map of Lists where each key is mapped to a List of
+     * values from the input List.
      */
     public <K, V> Map<K, List<V>> toMapOfList(List<Map<K, V>> listMap) {
         return listMap.stream()
                 .flatMap(map -> map.entrySet().stream())
                 .collect(Collectors.groupingBy(
-                    Map.Entry::getKey,
-                    Collectors.mapping(
-                        Map.Entry::getValue,
-                        Collectors.toList())));
+                        Map.Entry::getKey,
+                        Collectors.mapping(
+                                Map.Entry::getValue,
+                                Collectors.toList())));
     }
 
     /**
-     * Convert a list of lists of strings into a 2D array of strings.
+     * Converts a list of lists of strings into a 2D array of strings.
      *
-     * @param  cells The list of lists of strings to convert to a 2D array.
-     * @return       A 2D array of Strings
+     * @param cells The list of lists of strings to convert to a 2D array.
+     * @return A 2D array of Strings
      */
     public String[][] toArray(final List<List<String>> cells) {
         return cells.stream()
@@ -188,8 +185,8 @@ public class Streams {
     /**
      * Return a list of trimmed strings from the given list of strings.
      *
-     * @param  list The list to trim.
-     * @return      A list of strings that have been trimmed.
+     * @param list The list to trim.
+     * @return A list of strings that have been trimmed.
      */
     public List<String> trim(final List<String> list) {
         return list.stream()
@@ -198,12 +195,10 @@ public class Streams {
     }
 
     /**
-     * Returns a stream of string representations of the constants of the given
-     * enum class.
+     * Returns a stream of string representations for the constants of the given enum class.
      *
-     * @param  enumData The enum class whose constants are to be streamed.
-     * @return          A stream of string representations of the enum
-     *                  constants.
+     * @param enumData The enum class whose constants are to be streamed.
+     * @return A stream of string.
      */
     public Stream<String> of(final Class<? extends Enum<?>> enumData) {
         return Stream.of(enumData.getEnumConstants()).map(Enum::toString);

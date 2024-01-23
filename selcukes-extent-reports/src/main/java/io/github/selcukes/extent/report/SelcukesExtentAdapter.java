@@ -70,12 +70,12 @@ import static io.github.selcukes.extent.report.Reporter.getReporter;
 public class SelcukesExtentAdapter implements ConcurrentEventListener {
 
     private static final Map<String, String> MIME_TYPES_EXTENSIONS = Map.of(
-        "image/bmp", "bmp",
-        "image/gif", "gif",
-        "image/jpeg", "jpeg",
-        "image/jpg", "jpg",
-        "image/png", "png",
-        "image/svg+xml", "svg");
+            "image/bmp", "bmp",
+            "image/gif", "gif",
+            "image/jpeg", "jpeg",
+            "image/jpg", "jpg",
+            "image/png", "png",
+            "image/svg+xml", "svg");
 
     private static final Map<String, ExtentTest> featureMap = new ConcurrentHashMap<>();
     private static final ThreadLocal<ExtentTest> featureTestThreadLocal = new InheritableThreadLocal<>();
@@ -142,15 +142,14 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
         getReporter().attachAndRestart();
         isHookThreadLocal.set(false);
 
-        if (event.getTestStep() instanceof HookTestStep) {
+        if (event.getTestStep() instanceof HookTestStep hookTestStep) {
             ExtentTest t = scenarioThreadLocal.get().createNode(Asterisk.class, event.getTestStep().getCodeLocation(),
-                (((HookTestStep) event.getTestStep()).getHookType()).toString().toUpperCase());
+                    hookTestStep.getHookType().toString().toUpperCase());
             stepTestThreadLocal.set(t);
             isHookThreadLocal.set(true);
         }
 
-        if (event.getTestStep() instanceof PickleStepTestStep) {
-            PickleStepTestStep testStep = (PickleStepTestStep) event.getTestStep();
+        if (event.getTestStep() instanceof PickleStepTestStep testStep) {
             createTestStep(testStep);
         }
     }
@@ -167,14 +166,9 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     private synchronized void updateResult(Result result) {
         Test test = stepTestThreadLocal.get().getModel();
         switch (result.getStatus().name().toLowerCase()) {
-            case "failed":
-            case "pending":
-                stepTestThreadLocal.get().fail(result.getError());
-                break;
-            case "undefined":
-                stepTestThreadLocal.get().fail("Step undefined");
-                break;
-            case "skipped":
+            case "failed", "pending" -> stepTestThreadLocal.get().fail(result.getError());
+            case "undefined" -> stepTestThreadLocal.get().fail("Step undefined");
+            case "skipped" -> {
                 if (isHookThreadLocal.get().equals(Boolean.TRUE)) {
                     extentService.getExtentReports().removeTest(stepTestThreadLocal.get());
                     break;
@@ -188,8 +182,8 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
                     String details = result.getError() == null ? "Step skipped" : result.getError().getMessage();
                     stepTestThreadLocal.get().skip(details);
                 }
-                break;
-            case "passed":
+            }
+            case "passed" -> {
                 if (stepTestThreadLocal.get() != null) {
                     if (isHookThreadLocal.get().equals(Boolean.TRUE)) {
                         boolean mediaLogs = test.getLogs().stream().anyMatch(l -> l.getMedia() != null);
@@ -199,9 +193,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
                     }
                     stepTestThreadLocal.get().pass("");
                 }
-                break;
-            default:
-                break;
+            }
         }
     }
 
@@ -270,8 +262,8 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
             return;
         }
         ExtentTest t = extentService.getExtentReports().createTest(
-            com.aventstack.extentreports.gherkin.model.Feature.class, feature.getName(),
-            feature.getDescription());
+                com.aventstack.extentreports.gherkin.model.Feature.class, feature.getName(),
+                feature.getDescription());
         featureTestThreadLocal.set(t);
         featureMap.put(feature.getName(), t);
 
@@ -282,7 +274,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
 
     private synchronized void handleScenarioOutline(TestCase testCase) {
         TestSourcesModel.AstNode astNode = testSources.getAstNode(currentFeatureFile.get(),
-            testCase.getLocation().getLine());
+                testCase.getLocation().getLine());
         Scenario scenarioDefinition = TestSourcesModel.getScenarioDefinition(astNode);
 
         if (Objects.requireNonNull(scenarioDefinition).getKeyword().equals("Scenario Outline")) {
@@ -311,8 +303,8 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
         }
         if (scenarioOutlineThreadLocal.get() == null) {
             ExtentTest t = featureTestThreadLocal.get().createNode(
-                com.aventstack.extentreports.gherkin.model.ScenarioOutline.class, scenarioOutline.getName(),
-                scenarioOutline.getDescription());
+                    com.aventstack.extentreports.gherkin.model.ScenarioOutline.class, scenarioOutline.getName(),
+                    scenarioOutline.getDescription());
             scenarioOutlineThreadLocal.set(t);
             scenarioOutlineMap.put(scenarioOutline.getName(), t);
 
@@ -337,19 +329,19 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
 
     private String[][] getTable(List<TableRow> rows) {
         return rows.stream().map(row -> row.getCells().stream()
-                .map(TableCell::getValue).toArray(String[]::new))
+                        .map(TableCell::getValue).toArray(String[]::new))
                 .toArray(String[][]::new);
     }
 
     private synchronized void createTestCase(TestCase testCase) {
         TestSourcesModel.AstNode astNode = testSources.getAstNode(currentFeatureFile.get(),
-            testCase.getLocation().getLine());
+                testCase.getLocation().getLine());
         if (astNode != null) {
             Scenario scenarioDefinition = TestSourcesModel.getScenarioDefinition(astNode);
             ExtentTest parent = scenarioOutlineThreadLocal.get() != null ? scenarioOutlineThreadLocal.get()
                     : featureTestThreadLocal.get();
             ExtentTest t = parent.createNode(com.aventstack.extentreports.gherkin.model.Scenario.class,
-                testCase.getName(), Objects.requireNonNull(scenarioDefinition).getDescription());
+                    testCase.getName(), Objects.requireNonNull(scenarioDefinition).getDescription());
             scenarioThreadLocal.set(t);
         }
         if (!testCase.getTags().isEmpty()) {
@@ -369,7 +361,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     private synchronized void createTestStep(PickleStepTestStep testStep) {
         String stepName = testStep.getStep().getText();
         TestSourcesModel.AstNode astNode = testSources.getAstNode(currentFeatureFile.get(),
-            testStep.getStep().getLine());
+                testStep.getStep().getLine());
         if (astNode != null) {
             Step step = (Step) astNode.node;
 
@@ -377,18 +369,18 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
                     ? step.getText().replace("<", "&lt;").replace(">", "&gt;")
                     : stepName;
             ExtentTest t = scenarioThreadLocal.get().createNode(new GherkinKeyword(step.getKeyword().trim()),
-                "<b>" + step.getKeyword() + name + "</b>", testStep.getCodeLocation());
+                    "<b>" + step.getKeyword() + name + "</b>", testStep.getCodeLocation());
             stepTestThreadLocal.set(t);
 
         }
         StepArgument argument = testStep.getStep().getArgument();
         if (argument != null) {
-            if (argument instanceof DocStringArgument) {
+            if (argument instanceof DocStringArgument docStringArgument) {
                 stepTestThreadLocal.get()
-                        .pass(MarkupHelper.createCodeBlock(((DocStringArgument) argument).getContent()));
-            } else if (argument instanceof DataTableArgument) {
+                        .pass(MarkupHelper.createCodeBlock(docStringArgument.getContent()));
+            } else if (argument instanceof DataTableArgument dataTableArgument) {
                 stepTestThreadLocal.get()
-                        .pass(MarkupHelper.createTable(createDataTableList((DataTableArgument) argument)));
+                        .pass(MarkupHelper.createTable(createDataTableList(dataTableArgument)));
             }
         }
     }

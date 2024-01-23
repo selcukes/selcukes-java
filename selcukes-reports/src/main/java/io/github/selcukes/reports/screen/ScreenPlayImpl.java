@@ -119,13 +119,13 @@ class ScreenPlayImpl implements ScreenPlay {
     }
 
     private void startNativeVideo() {
-        if (driver instanceof AndroidDriver) {
-            ((AndroidDriver) driver)
+        if (driver instanceof AndroidDriver androidDriver) {
+            androidDriver
                     .startRecordingScreen(new AndroidStartScreenRecordingOptions()
                             .withVideoSize("540x960").withBitRate(2000000)
                             .withTimeLimit(Duration.ofMinutes(30)));
-        } else if (driver instanceof IOSDriver) {
-            ((IOSDriver) driver)
+        } else if (driver instanceof IOSDriver iosDriver) {
+            iosDriver
                     .startRecordingScreen(new IOSStartScreenRecordingOptions()
                             .withVideoType("libx264")
                             .withVideoQuality(IOSStartScreenRecordingOptions.VideoQuality.MEDIUM)
@@ -143,10 +143,10 @@ class ScreenPlayImpl implements ScreenPlay {
 
     private File stopAndSaveNativeVideo(String fileName) {
         String encodedVideo = "";
-        if (driver instanceof AndroidDriver) {
-            encodedVideo = ((AndroidDriver) driver).stopRecordingScreen();
-        } else if (driver instanceof IOSDriver) {
-            encodedVideo = ((IOSDriver) driver).stopRecordingScreen();
+        if (driver instanceof AndroidDriver androidDriver) {
+            encodedVideo = androidDriver.stopRecordingScreen();
+        } else if (driver instanceof IOSDriver iosDriver) {
+            encodedVideo = iosDriver.stopRecordingScreen();
         }
         String path = "video-report/" + fileName + ".mp4";
         File video = FileHelper.createFile(encodedVideo, path);
@@ -219,8 +219,8 @@ class ScreenPlayImpl implements ScreenPlay {
     @Override
     public <T> ScreenPlay withResult(T scenario) {
         result = new ScreenPlayResult(scenario);
-        if (scenario instanceof Scenario) {
-            this.scenario = (Scenario) scenario;
+        if (scenario instanceof Scenario scenarioResult) {
+            this.scenario = scenarioResult;
 
         }
         return this;
