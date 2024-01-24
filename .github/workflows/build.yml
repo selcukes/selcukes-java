@@ -47,7 +47,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=selcukes_selcukes-java -Dbrowserstack.user=${{ secrets.BROWSERSTACK_USERNAME }} -Dbrowserstack.key=${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          mvn -B clean javadoc:jar verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=selcukes_selcukes-java -Dbrowserstack.user=${{ secrets.BROWSERSTACK_USERNAME }} -Dbrowserstack.key=${{ secrets.BROWSERSTACK_ACCESS_KEY }}
           
           for module in $(find . -name "target" -type d -exec dirname {} \;); do
             cp -R $module/site/apidocs/* docs/
