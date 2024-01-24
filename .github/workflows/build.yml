@@ -54,7 +54,7 @@ jobs:
           done
 
       - name: Deploy to GitHub Pages
-        if: success()
+        if: always() 
         uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: gh-pages
