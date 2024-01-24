@@ -47,9 +47,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          mvn -B clean install org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=selcukes_selcukes-java -Dbrowserstack.user=${{ secrets.BROWSERSTACK_USERNAME }} -Dbrowserstack.key=${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          mvn -B clean install org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=selcukes_selcukes-java -Dbrowserstack.user=${{ secrets.BROWSERSTACK_USERNAME }} -Dbrowserstack.key=${{ secrets.BROWSERSTACK_ACCESS_KEY }} -Daggregate.javadoc.links=true
 
           # Copy JavaDocs from each module to a common directory
+          mkdir -p docs
           for module in $(find . -name "target" -type d -exec dirname {} \;); do
             if [ -d "$module/target/site/apidocs/" ]; then
               cp -R $module/target/site/apidocs/* docs/
