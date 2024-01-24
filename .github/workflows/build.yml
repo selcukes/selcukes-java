@@ -52,8 +52,8 @@ jobs:
           # Copy JavaDocs from each module to a common directory
           mkdir -p docs
           for module in $(find . -name "target" -type d -exec dirname {} \;); do
-            if [ -d "$module/target/site/apidocs/" ]; then
-              cp -R $module/target/site/apidocs/* docs/
+            if [ -d "$module/target/" ]; then
+              cp -R $module/target/* docs/
             fi
           done
       - name: Check docs contents
@@ -65,7 +65,7 @@ jobs:
         uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: gh-pages
-          build_dir: docs/
+          build_dir: docs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
