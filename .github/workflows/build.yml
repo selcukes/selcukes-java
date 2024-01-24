@@ -48,13 +48,20 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn -B clean javadoc:jar verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=selcukes_selcukes-java -Dbrowserstack.user=${{ secrets.BROWSERSTACK_USERNAME }} -Dbrowserstack.key=${{ secrets.BROWSERSTACK_ACCESS_KEY }}
-          
+
+          # Copy JavaDocs from each module to a common directory
           for module in $(find . -name "target" -type d -exec dirname {} \;); do
-            cp -R $module/site/apidocs/* docs/
+            if [ -d "$module/target/site/apidocs/" ]; then
+              cp -R $module/target/site/apidocs/* docs/
+            fi
           done
 
+      - name: Check docs contents
+        run: |
+          ls -lR docs/     
+
       - name: Deploy to GitHub Pages
-        if: always() 
+        if: always()
         uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: gh-pages
