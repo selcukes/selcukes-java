@@ -1,0 +1,3 @@
+io.github.selcukes.collections.StringHelper#isNonEmpty(Ljava/lang/String;)Z
+==
+isEmpty io.github.selcukes.collections.StringHelper#isEmpty(Ljava/lang/String;)Z

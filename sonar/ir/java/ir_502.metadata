@@ -1,0 +1,4 @@
+io.github.selcukes.collections.Lists#of([Ljava/lang/Object;)Ljava/util/List;
+java.util.LinkedList#instance-init#
+java.util.Arrays#asList([Ljava/lang/Object;)Ljava/util/List;
+java.util.LinkedList#<init>(Ljava/util/Collection;)V

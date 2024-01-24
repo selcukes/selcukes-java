@@ -1,0 +1,3 @@
+io.github.selcukes.core.validation.PageValidations#object(Ljava/lang/Object;)Lio/github/selcukes/core/validation/ObjectValidation;
+io.github.selcukes.core.validation.ObjectValidation#<init>(ZLjava/lang/Object;)V
+io.github.selcukes.core.validation.ObjectValidation#instance-init#

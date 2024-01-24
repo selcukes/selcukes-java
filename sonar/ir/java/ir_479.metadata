@@ -1,0 +1,7 @@
+io.github.selcukes.collections.Maps#join(Ljava/util/Map;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+java.util.stream.Collectors#joining(Ljava/lang/CharSequence;)Ljava/util/stream/Collector;
+==
+entrySet java.util.Map#entrySet()Ljava/util/Set;
+collect java.util.stream.Stream#collect(Ljava/util/stream/Collector;)Ljava/lang/Object;
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;

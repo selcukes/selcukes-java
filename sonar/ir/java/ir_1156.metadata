@@ -1,0 +1,2 @@
+io.github.selcukes.video.VideoRecorder#videoConfig()Lio/github/selcukes/video/config/DefaultVideoOptions;
+io.github.selcukes.commons.os.Platform#isLinux()Z

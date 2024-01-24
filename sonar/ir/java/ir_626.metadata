@@ -1,0 +1,8 @@
+io.github.selcukes.commons.helper.ExceptionHelper#logError(Ljava/lang/Throwable;)V
+io.github.selcukes.commons.helper.ExceptionHelper#getErrorCodes()Lio/github/selcukes/commons/helper/ErrorCodes;
+java.lang.Object#getClass()Ljava/lang/Class;
+java.lang.Class#getSimpleName()Ljava/lang/String;
+==
+getMessage java.lang.Throwable#getMessage()Ljava/lang/String;
+findSolution io.github.selcukes.commons.helper.ErrorCodes#findSolution(Ljava/lang/String;)Ljava/lang/String;
+error io.github.selcukes.commons.logging.Logger#error(Ljava/lang/Throwable;Ljava/util/function/Supplier;)V

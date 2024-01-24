@@ -1,0 +1,5 @@
+io.github.selcukes.collections.Resources#of(Ljava/lang/String;)Ljava/nio/file/Path;
+java.nio.file.Path#of(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;
+==
+isAbsolute java.nio.file.Path#isAbsolute()Z
+resolve java.nio.file.Path#resolve(Ljava/lang/String;)Ljava/nio/file/Path;

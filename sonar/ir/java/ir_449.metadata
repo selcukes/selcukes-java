@@ -1,0 +1,4 @@
+io.github.selcukes.collections.DataComparator#diff(Ljava/util/Map;Ljava/util/Map;)Lio/github/selcukes/collections/DataTable;
+java.util.Collections#emptyList()Ljava/util/List;
+==
+diff io.github.selcukes.collections.DataComparator#diff(Ljava/util/Map;Ljava/util/Map;Ljava/util/List;)Lio/github/selcukes/collections/DataTable;

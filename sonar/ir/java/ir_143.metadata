@@ -1,0 +1,9 @@
+io.github.selcukes.core.driver.DesktopManager#getServiceUrl()Ljava/net/URL;
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+io.github.selcukes.collections.Resources#toURL(Ljava/lang/String;)Ljava/net/URL;
+io.github.selcukes.core.driver.AppiumEngine#getInstance()Lio/github/selcukes/core/driver/AppiumEngine;
+==
+getServiceUrl io.github.selcukes.commons.config.Config$WindowsConfig#getServiceUrl()Ljava/lang/String;
+getServiceUrl io.github.selcukes.core.driver.AppiumEngine#getServiceUrl()Ljava/net/URL;
+isRemote io.github.selcukes.commons.config.Config$WindowsConfig#isRemote()Z
+getWindows io.github.selcukes.commons.config.Config#getWindows()Lio/github/selcukes/commons/config/Config$WindowsConfig;

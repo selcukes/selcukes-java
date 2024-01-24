@@ -1,0 +1,4 @@
+io.github.selcukes.excel.SingleExcelData#anyMatch(Ljava/util/List;Ljava/lang/String;)Z
+==
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+anyMatch java.util.stream.Stream#anyMatch(Ljava/util/function/Predicate;)Z

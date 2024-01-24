@@ -1,0 +1,19 @@
+io.github.selcukes.notifier.teams.MicrosoftTeamsBuilder#sendMessage(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+java.util.ArrayList#instance-init#
+java.util.ArrayList#<init>(Ljava/util/Collection;)V
+io.github.selcukes.notifier.NotifierHelper#getThemeColor(Ljava/lang/String;)Ljava/lang/String;
+java.lang.String#endsWith(Ljava/lang/String;)Z
+java.util.List#of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/List;
+io.github.selcukes.notifier.IncomingWebHookRequest#forUrl(Ljava/lang/String;)Lio/github/selcukes/commons/http/WebClient;
+java.util.Collections#singletonList(Ljava/lang/Object;)Ljava/util/List;
+io.github.selcukes.collections.Clocks#timeStamp()Ljava/lang/String;
+java.lang.String#equalsIgnoreCase(Ljava/lang/String;)Z
+==
+getAuthorIcon io.github.selcukes.commons.config.Config$NotifierConfig#getAuthorIcon()Ljava/lang/String;
+post io.github.selcukes.commons.http.WebClient#post(Ljava/lang/Object;)Lio/github/selcukes/commons/http/WebResponse;
+getEnv io.github.selcukes.commons.config.Config#getEnv()Ljava/lang/String;
+add java.util.List#add(Ljava/lang/Object;)Z
+getNotifier io.github.selcukes.commons.config.Config#getNotifier()Lio/github/selcukes/commons/config/Config$NotifierConfig;
+getWebhookToken io.github.selcukes.commons.config.Config$NotifierConfig#getWebhookToken()Ljava/lang/String;
+getProjectName io.github.selcukes.commons.config.Config#getProjectName()Ljava/lang/String;

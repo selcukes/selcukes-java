@@ -1,0 +1,17 @@
+io.github.selcukes.extent.report.SelcukesExtentAdapter#createExamples(Lio/cucumber/messages/types/Examples;)V
+java.util.ArrayList#<init>()V
+io.cucumber.messages.types.Examples#getName()Ljava/lang/String;
+io.cucumber.messages.types.Examples#getTableBody()Ljava/util/List;
+java.util.ArrayList#instance-init#
+io.github.selcukes.extent.report.SelcukesExtentAdapter#getTable(Ljava/util/List;)[[Ljava/lang/String;
+java.lang.String#isEmpty()Z
+io.cucumber.messages.types.Examples#getTableHeader()Ljava/util/Optional;
+java.util.Optional#ifPresent(Ljava/util/function/Consumer;)V
+com.aventstack.extentreports.markuputils.MarkupHelper#createTable([[Ljava/lang/String;)Lcom/aventstack/extentreports/markuputils/Markup;
+com.aventstack.extentreports.model.Test#setDescription(Ljava/lang/String;)V
+com.aventstack.extentreports.model.Test#getDescription()Ljava/lang/String;
+==
+getMarkup com.aventstack.extentreports.markuputils.Markup#getMarkup()Ljava/lang/String;
+addAll java.util.List#addAll(Ljava/util/Collection;)Z
+get java.lang.ThreadLocal#get()Ljava/lang/Object;
+getModel com.aventstack.extentreports.ExtentTest#getModel()Lcom/aventstack/extentreports/model/Test;

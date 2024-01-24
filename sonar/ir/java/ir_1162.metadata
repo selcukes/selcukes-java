@@ -1,0 +1,7 @@
+io.github.selcukes.video.FFmpegRecorder#stop()V
+io.github.selcukes.commons.Await#until(I)V
+io.github.selcukes.commons.os.Platform#isWindows()Z
+==
+runCommand io.github.selcukes.commons.exec.Shell#runCommand(Ljava/lang/String;)Lio/github/selcukes/commons/exec/ExecResults;
+sendCtrlC io.github.selcukes.commons.exec.Shell#sendCtrlC(Ljava/lang/String;)V
+info io.github.selcukes.commons.logging.Logger#info(Ljava/util/function/Supplier;)V

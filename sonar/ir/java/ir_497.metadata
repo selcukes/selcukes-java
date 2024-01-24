@@ -1,0 +1,2 @@
+io.github.selcukes.collections.Clocks#previous(Ljava/time/temporal/Temporal;ILjava/lang/String;)Ljava/time/temporal/Temporal;
+io.github.selcukes.collections.Clocks#performOperation(Ljava/time/temporal/Temporal;ILjava/lang/String;Lio/github/selcukes/collections/Clocks$TemporalFunction;)Ljava/time/temporal/Temporal;

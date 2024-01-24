@@ -1,0 +1,13 @@
+io.github.selcukes.core.driver.BrowserOptions#getBrowserOptions(Lorg/openqa/selenium/remote/Browser;Ljava/lang/String;Z)Lorg/openqa/selenium/Capabilities;
+org.openqa.selenium.chrome.ChromeOptions#<init>()V
+org.openqa.selenium.edge.EdgeOptions#<init>()V
+io.github.selcukes.collections.StringHelper#isNonEmpty(Ljava/lang/String;)Z
+org.openqa.selenium.edge.EdgeOptions#instance-init#
+org.openqa.selenium.firefox.FirefoxOptions#instance-init#
+org.openqa.selenium.chrome.ChromeOptions#instance-init#
+org.openqa.selenium.firefox.FirefoxOptions#<init>()V
+==
+addArguments org.openqa.selenium.chromium.ChromiumOptions#addArguments([Ljava/lang/String;)Lorg/openqa/selenium/chromium/ChromiumOptions;
+addArguments org.openqa.selenium.firefox.FirefoxOptions#addArguments([Ljava/lang/String;)Lorg/openqa/selenium/firefox/FirefoxOptions;
+setPlatformName org.openqa.selenium.remote.AbstractDriverOptions#setPlatformName(Ljava/lang/String;)Lorg/openqa/selenium/remote/AbstractDriverOptions;
+equals java.lang.Object#equals(Ljava/lang/Object;)Z

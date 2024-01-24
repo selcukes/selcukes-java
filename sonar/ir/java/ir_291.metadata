@@ -1,0 +1,4 @@
+io.github.selcukes.core.driver.GridRunner#stopAppium()V
+io.github.selcukes.core.driver.AppiumEngine#getInstance()Lio/github/selcukes/core/driver/AppiumEngine;
+==
+stopServer io.github.selcukes.core.driver.AppiumEngine#stopServer()V

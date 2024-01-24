@@ -1,0 +1,7 @@
+io.github.selcukes.collections.DataTable#aggregateByColumn(Ljava/lang/Object;Ljava/lang/Object;Ljava/util/function/BinaryOperator;)Ljava/util/Map;
+java.util.stream.Collectors#groupingBy(Ljava/util/function/Function;Ljava/util/stream/Collector;)Ljava/util/stream/Collector;
+java.util.stream.Collectors#reducing(Ljava/lang/Object;Ljava/util/function/BinaryOperator;)Ljava/util/stream/Collector;
+java.util.stream.Collectors#mapping(Ljava/util/function/Function;Ljava/util/stream/Collector;)Ljava/util/stream/Collector;
+==
+filter io.github.selcukes.collections.DataTable#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+collect java.util.stream.Stream#collect(Ljava/util/stream/Collector;)Ljava/lang/Object;

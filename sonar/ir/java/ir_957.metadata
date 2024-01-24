@@ -1,0 +1,8 @@
+io.github.selcukes.extent.report.SelcukesExtentAdapter#handleStartOfFeature(Lio/cucumber/plugin/event/TestCase;)V
+java.util.Objects#requireNonNull(Ljava/lang/Object;)Ljava/lang/Object;
+java.net.URI#equals(Ljava/lang/Object;)Z
+io.github.selcukes.extent.report.SelcukesExtentAdapter#createFeature(Lio/cucumber/plugin/event/TestCase;)V
+==
+getUri io.cucumber.plugin.event.TestCase#getUri()Ljava/net/URI;
+get java.lang.ThreadLocal#get()Ljava/lang/Object;
+set java.lang.ThreadLocal#set(Ljava/lang/Object;)V

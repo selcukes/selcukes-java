@@ -1,0 +1,5 @@
+io.github.selcukes.core.validation.PageValidations#title(Ljava/lang/String;)V
+io.github.selcukes.core.validation.Validation#failWithMessage(ZLjava/lang/String;[Ljava/lang/Object;)V
+java.lang.String#equalsIgnoreCase(Ljava/lang/String;)Z
+==
+title io.github.selcukes.core.page.Page#title()Ljava/lang/String;

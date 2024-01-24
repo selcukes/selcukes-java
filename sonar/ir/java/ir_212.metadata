@@ -1,0 +1,4 @@
+io.github.selcukes.core.page.Page#acceptAlert()Lio/github/selcukes/core/page/Page;
+==
+accept org.openqa.selenium.Alert#accept()V
+alert io.github.selcukes.core.page.Page#alert()Lorg/openqa/selenium/Alert;

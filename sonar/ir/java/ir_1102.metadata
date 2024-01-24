@@ -1,0 +1,2 @@
+io.github.selcukes.notifier.NotifierFactory#emailNotifier()Lio/github/selcukes/notifier/mail/EmailNotifier;
+io.github.selcukes.notifier.mail.EmailNotifier#emailNotifier()Lio/github/selcukes/notifier/mail/EmailNotifier;

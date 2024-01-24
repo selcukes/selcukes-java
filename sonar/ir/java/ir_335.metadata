@@ -1,0 +1,5 @@
+io.github.selcukes.reports.screen.ScreenPlayImpl#start()Lio/github/selcukes/reports/screen/ScreenPlay;
+io.github.selcukes.reports.screen.ScreenPlayImpl#startNativeVideo()V
+==
+start io.github.selcukes.video.Recorder#start()V
+withRecorder io.github.selcukes.reports.screen.ScreenPlayImpl#withRecorder(Lio/github/selcukes/video/enums/RecorderType;)Lio/github/selcukes/reports/screen/ScreenPlay;

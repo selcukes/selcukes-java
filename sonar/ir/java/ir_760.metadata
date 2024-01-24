@@ -1,0 +1,3 @@
+io.github.selcukes.commons.http.WebClient#proxy(Ljava/lang/String;)Lio/github/selcukes/commons/http/WebClient;
+io.github.selcukes.collections.Resources#tryURL(Ljava/lang/String;)Ljava/util/Optional;
+java.util.Optional#ifPresent(Ljava/util/function/Consumer;)V

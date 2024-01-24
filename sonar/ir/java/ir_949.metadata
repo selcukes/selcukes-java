@@ -1,0 +1,8 @@
+io.github.selcukes.extent.report.SelcukesExtentAdapter#handleTestCaseStarted(Lio/cucumber/plugin/event/TestCaseStarted;)V
+io.github.selcukes.extent.report.SelcukesExtentAdapter#handleScenarioOutline(Lio/cucumber/plugin/event/TestCase;)V
+io.github.selcukes.extent.report.SelcukesExtentAdapter#createTestCase(Lio/cucumber/plugin/event/TestCase;)V
+io.github.selcukes.extent.report.SelcukesExtentAdapter#handleStartOfFeature(Lio/cucumber/plugin/event/TestCase;)V
+io.cucumber.plugin.event.TestCaseStarted#getTestCase()Lio/cucumber/plugin/event/TestCase;
+io.github.selcukes.extent.report.Reporter#getReporter()Lio/github/selcukes/extent/report/Reporter;
+==
+start io.github.selcukes.extent.report.Reporter#start()Lio/github/selcukes/extent/report/Reporter;

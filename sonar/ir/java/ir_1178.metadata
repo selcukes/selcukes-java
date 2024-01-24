@@ -1,0 +1,4 @@
+io.github.selcukes.video.config.DefaultVideoOptions#instance-init#
+java.awt.Toolkit#getDefaultToolkit()Ljava/awt/Toolkit;
+==
+getScreenSize java.awt.Toolkit#getScreenSize()Ljava/awt/Dimension;

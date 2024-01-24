@@ -1,0 +1,3 @@
+io.github.selcukes.databind.converters.DefaultConverter#<init>([Ljava/lang/Object;)V
+java.lang.Object#getClass()Ljava/lang/Class;
+java.lang.Class#getComponentType()Ljava/lang/Class;

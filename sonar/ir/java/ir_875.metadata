@@ -1,0 +1,4 @@
+io.github.selcukes.databind.xml.XmlMapper#filterElements(Ljava/util/stream/Stream;Ljava/lang/String;)Ljava/util/stream/Stream;
+==
+filter java.util.stream.Stream#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;

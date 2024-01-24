@@ -1,0 +1,4 @@
+io.github.selcukes.commons.security.StringEncryptor#encrypt(Ljava/lang/String;)Ljava/lang/String;
+io.github.selcukes.commons.security.StringEncryptor#getCryptoKey()Ljava/lang/String;
+==
+encrypt io.github.selcukes.commons.security.StringEncryptor#encrypt(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;

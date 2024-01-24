@@ -1,0 +1,4 @@
+io.github.selcukes.databind.excel.ExcelCell#<init>(Ljava/lang/reflect/Field;Ljava/util/Map;Ljava/util/List;)V
+io.github.selcukes.databind.excel.ExcelCell#getIndex(Ljava/util/Map;)I
+==
+<init> io.github.selcukes.databind.DataField#<init>(Ljava/lang/reflect/Field;Ljava/util/List;)V

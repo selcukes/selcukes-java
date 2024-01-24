@@ -1,0 +1,13 @@
+io.github.selcukes.commons.http.WebClient#multiPartBody(Ljava/util/Map;Ljava/lang/String;)Ljava/net/http/HttpRequest$BodyPublisher;
+java.util.ArrayList#<init>()V
+java.lang.String#getBytes(Ljava/nio/charset/Charset;)[B
+java.net.http.HttpRequest$BodyPublishers#ofByteArrays(Ljava/lang/Iterable;)Ljava/net/http/HttpRequest$BodyPublisher;
+java.util.ArrayList#instance-init#
+java.nio.file.Files#probeContentType(Ljava/nio/file/Path;)Ljava/lang/String;
+java.nio.file.Files#readAllBytes(Ljava/nio/file/Path;)[B
+==
+add java.util.ArrayList#add(Ljava/lang/Object;)Z
+entrySet java.util.Map#entrySet()Ljava/util/Set;
+getValue java.util.Map$Entry#getValue()Ljava/lang/Object;
+getKey java.util.Map$Entry#getKey()Ljava/lang/Object;
+getFileName java.nio.file.Path#getFileName()Ljava/nio/file/Path;

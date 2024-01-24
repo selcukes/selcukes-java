@@ -1,0 +1,6 @@
+io.github.selcukes.core.driver.RunMode#isCloudAppium()Z
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+io.github.selcukes.collections.StringHelper#isNonEmpty(Ljava/lang/String;)Z
+==
+getMobile io.github.selcukes.commons.config.Config#getMobile()Lio/github/selcukes/commons/config/Config$MobileConfig;
+getCloud io.github.selcukes.commons.config.Config$MobileConfig#getCloud()Ljava/lang/String;

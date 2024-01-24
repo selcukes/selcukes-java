@@ -1,0 +1,12 @@
+io.github.selcukes.wdb.version.CacheManager#resolveVersion(Ljava/lang/String;)Ljava/util/Optional;
+io.github.selcukes.databind.properties.PropertiesMapper#parse(Ljava/nio/file/Path;)Ljava/util/Map;
+java.time.LocalDateTime#isBefore(Ljava/time/chrono/ChronoLocalDateTime;)Z
+java.util.Optional#empty()Ljava/util/Optional;
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+java.time.LocalDateTime#parse(Ljava/lang/CharSequence;)Ljava/time/LocalDateTime;
+java.time.LocalDateTime#now()Ljava/time/LocalDateTime;
+io.github.selcukes.commons.helper.FileHelper#deleteFile(Ljava/io/File;)V
+==
+get java.util.Map#get(Ljava/lang/Object;)Ljava/lang/Object;
+exists java.io.File#exists()Z
+toFile java.nio.file.Path#toFile()Ljava/io/File;

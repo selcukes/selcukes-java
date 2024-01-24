@@ -1,0 +1,7 @@
+io.github.selcukes.databind.utils.DataSubstitutor#substitute(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+io.github.selcukes.databind.properties.PropertiesMapper#systemProperties()Ljava/util/Properties;
+io.github.selcukes.collections.Clocks#date(Ljava/lang/String;)Ljava/lang/String;
+io.github.selcukes.collections.Clocks#dateTime(Ljava/lang/String;)Ljava/lang/String;
+java.lang.String#equalsIgnoreCase(Ljava/lang/String;)Z
+==
+getProperty java.util.Properties#getProperty(Ljava/lang/String;)Ljava/lang/String;

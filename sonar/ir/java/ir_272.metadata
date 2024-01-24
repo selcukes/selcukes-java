@@ -1,0 +1,5 @@
+io.github.selcukes.core.driver.DevicePool#removeDevice(Ljava/lang/Object;)V
+==
+get java.util.Map#get(Ljava/lang/Object;)Ljava/lang/Object;
+remove java.util.List#remove(Ljava/lang/Object;)Z
+remove java.util.Map#remove(Ljava/lang/Object;)Ljava/lang/Object;

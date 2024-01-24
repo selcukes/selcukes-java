@@ -1,0 +1,5 @@
+io.github.selcukes.extent.report.SelcukesExtentAdapter#getTable(Ljava/util/List;)[[Ljava/lang/String;
+==
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+toArray java.util.stream.Stream#toArray(Ljava/util/function/IntFunction;)[Ljava/lang/Object;

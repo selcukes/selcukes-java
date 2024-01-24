@@ -1,0 +1,5 @@
+io.github.selcukes.extent.report.SelcukesExtentAdapter#<init>()V
+io.github.selcukes.extent.report.ExtentService#<init>(Lcom/aventstack/extentreports/ExtentReports;)V
+io.github.selcukes.extent.report.ExtentService#instance-init#
+com.aventstack.extentreports.ExtentReports#<init>()V
+com.aventstack.extentreports.ExtentReports#instance-init#

@@ -1,0 +1,5 @@
+io.github.selcukes.reports.screen.ScreenPlayImpl#stop()Ljava/io/File;
+io.github.selcukes.reports.screen.ScreenPlayImpl#stopAndSaveNativeVideo(Ljava/lang/String;)Ljava/io/File;
+java.util.Objects#requireNonNull(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
+==
+stopAndSave io.github.selcukes.video.Recorder#stopAndSave(Ljava/lang/String;)Ljava/io/File;

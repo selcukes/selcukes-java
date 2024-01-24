@@ -1,0 +1,5 @@
+io.github.selcukes.core.page.Page#actions()Lorg/openqa/selenium/interactions/Actions;
+org.openqa.selenium.interactions.Actions#instance-init#
+org.openqa.selenium.interactions.Actions#<init>(Lorg/openqa/selenium/WebDriver;)V
+==
+getDriver io.github.selcukes.core.page.Page#getDriver()Lorg/openqa/selenium/WebDriver;

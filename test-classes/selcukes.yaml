@@ -1,0 +1,25 @@
+# Selcukes Environment Properties
+---
+projectName: Selcukes
+env: Dev
+proxy: false
+baseUrl:
+web:
+  remote: true
+  cloud:
+  browser: CHROME
+  headLess: true
+  serviceUrl: "http://127.0.0.1:4444"
+  serverJar: "https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.17.0/selenium-server-4.17.0.jar"
+windows:
+  remote: true
+  serviceUrl: "http://127.0.0.1:4723"
+  app: "C:\\Windows\\System32\\notepad.exe"
+mobile:
+  remote: true
+  cloud: BROWSER_STACK
+  platform: Android
+  browser: CHROME
+  headLess: true
+  serviceUrl: "http://127.0.0.1:4723"
+  app: "src/test/resources/android-app.apk"

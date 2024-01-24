@@ -1,0 +1,4 @@
+io.github.selcukes.commons.helper.ExceptionHelper#getStackTrace(Ljava/lang/Throwable;)Ljava/lang/String;
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+java.util.Optional#orElse(Ljava/lang/Object;)Ljava/lang/Object;
+java.util.Optional#map(Ljava/util/function/Function;)Ljava/util/Optional;

@@ -1,0 +1,3 @@
+io.github.selcukes.commons.http.WebResponse#bodyXml()Lorg/w3c/dom/Document;
+io.github.selcukes.commons.http.WebResponse#bodyStream()Ljava/io/InputStream;
+io.github.selcukes.databind.xml.XmlMapper#parse(Ljava/io/InputStream;)Lorg/w3c/dom/Document;

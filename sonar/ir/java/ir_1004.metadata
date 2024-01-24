@@ -1,0 +1,2 @@
+io.github.selcukes.wdb.version.CacheManager#setTargetPath(Ljava/lang/String;)V
+java.nio.file.Paths#get(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;

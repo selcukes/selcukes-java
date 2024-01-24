@@ -1,0 +1,5 @@
+io.github.selcukes.video.MonteRecorder#getGraphicConfig()Ljava/awt/GraphicsConfiguration;
+java.awt.GraphicsEnvironment#getLocalGraphicsEnvironment()Ljava/awt/GraphicsEnvironment;
+==
+getDefaultConfiguration java.awt.GraphicsDevice#getDefaultConfiguration()Ljava/awt/GraphicsConfiguration;
+getDefaultScreenDevice java.awt.GraphicsEnvironment#getDefaultScreenDevice()Ljava/awt/GraphicsDevice;

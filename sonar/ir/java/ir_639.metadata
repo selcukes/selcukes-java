@@ -1,0 +1,6 @@
+io.github.selcukes.commons.http.WebResponse#logIfError()V
+io.github.selcukes.commons.exception.SelcukesException#instance-init#
+io.github.selcukes.commons.http.WebResponse#statusCode()I
+io.github.selcukes.commons.http.WebResponse#getReasonPhrase(I)Ljava/lang/String;
+io.github.selcukes.commons.exception.SelcukesException#<init>(Ljava/lang/String;)V
+java.lang.String#format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;

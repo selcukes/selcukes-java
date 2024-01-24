@@ -1,0 +1,6 @@
+io.github.selcukes.databind.DataMapper#parse(Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
+com.fasterxml.jackson.databind.ObjectMapper#<init>()V
+com.fasterxml.jackson.databind.ObjectMapper#instance-init#
+==
+readValue com.fasterxml.jackson.databind.ObjectMapper#readValue(Ljava/lang/String;Ljava/lang/Class;)Ljava/lang/Object;
+setPropertyNamingStrategy com.fasterxml.jackson.databind.ObjectMapper#setPropertyNamingStrategy(Lcom/fasterxml/jackson/databind/PropertyNamingStrategy;)Lcom/fasterxml/jackson/databind/ObjectMapper;

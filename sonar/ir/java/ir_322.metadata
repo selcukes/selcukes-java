@@ -1,0 +1,3 @@
+io.github.selcukes.reports.cucumber.CucumberLiveReportAdapter#getTestSourceReadHandler(Lio/cucumber/plugin/event/TestSourceRead;)V
+io.cucumber.plugin.event.TestSourceRead#getUri()Ljava/net/URI;
+io.github.selcukes.extent.report.TestSourcesModel#addTestSourceReadEvent(Ljava/net/URI;Lio/cucumber/plugin/event/TestSourceRead;)V

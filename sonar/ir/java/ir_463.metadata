@@ -1,0 +1,5 @@
+io.github.selcukes.collections.Streams#trim(Ljava/util/List;)Ljava/util/List;
+==
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+toList java.util.stream.Stream#toList()Ljava/util/List;

@@ -1,0 +1,5 @@
+io.github.selcukes.core.validation.ElementValidation#containsText(Ljava/lang/String;)Lio/github/selcukes/core/validation/ElementValidation;
+java.lang.String#contains(Ljava/lang/CharSequence;)Z
+io.github.selcukes.core.validation.Validation#failWithMessage(ZLjava/lang/String;[Ljava/lang/Object;)V
+==
+getText org.openqa.selenium.WebElement#getText()Ljava/lang/String;

@@ -1,0 +1,6 @@
+io.github.selcukes.collections.Lists#of(Ljava/util/stream/Stream;Ljava/util/function/Function;)Ljava/util/List;
+java.util.stream.Collectors#toCollection(Ljava/util/function/Supplier;)Ljava/util/stream/Collector;
+==
+filter java.util.stream.Stream#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+parallel java.util.stream.BaseStream#parallel()Ljava/util/stream/BaseStream;

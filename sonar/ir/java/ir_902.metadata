@@ -1,0 +1,6 @@
+io.github.selcukes.databind.DataField#findMatchingConverter()Lio/github/selcukes/databind/converters/Converter;
+java.util.Optional#orElseGet(Ljava/util/function/Supplier;)Ljava/lang/Object;
+java.util.Optional#map(Ljava/util/function/Function;)Ljava/util/Optional;
+java.util.Optional#filter(Ljava/util/function/Predicate;)Ljava/util/Optional;
+==
+getColumn io.github.selcukes.databind.DataField#getColumn()Ljava/util/Optional;

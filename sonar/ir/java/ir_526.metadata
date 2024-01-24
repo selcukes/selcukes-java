@@ -1,0 +1,7 @@
+io.github.selcukes.collections.Resources#isDirectory(Ljava/lang/String;)Ljava/nio/file/Path;
+java.nio.file.Files#isDirectory(Ljava/nio/file/Path;[Ljava/nio/file/LinkOption;)Z
+java.lang.String#format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+io.github.selcukes.collections.exception.DataStreamException#<init>(Ljava/lang/String;)V
+io.github.selcukes.collections.exception.DataStreamException#instance-init#
+==
+of io.github.selcukes.collections.Resources#of(Ljava/lang/String;)Ljava/nio/file/Path;

@@ -1,0 +1,3 @@
+io.github.selcukes.commons.http.WebClient#header(Ljava/lang/String;Ljava/lang/String;)Lio/github/selcukes/commons/http/WebClient;
+==
+header java.net.http.HttpRequest$Builder#header(Ljava/lang/String;Ljava/lang/String;)Ljava/net/http/HttpRequest$Builder;

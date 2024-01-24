@@ -1,0 +1,6 @@
+io.github.selcukes.collections.DataTable#checkColumnIndex(Ljava/lang/Object;)V
+io.github.selcukes.collections.exception.DataTableException#<init>(Ljava/lang/String;)V
+io.github.selcukes.collections.exception.DataTableException#instance-init#
+==
+getColumns io.github.selcukes.collections.DataTable#getColumns()Ljava/util/List;
+indexOf java.util.List#indexOf(Ljava/lang/Object;)I

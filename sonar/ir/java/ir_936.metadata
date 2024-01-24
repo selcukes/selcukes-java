@@ -1,0 +1,4 @@
+io.github.selcukes.databind.excel.ExcelWriter#getOrCreateWorkbook(Ljava/io/InputStream;)Lorg/apache/poi/ss/usermodel/Workbook;
+org.apache.poi.xssf.usermodel.XSSFWorkbook#<init>()V
+org.apache.poi.ss.usermodel.WorkbookFactory#create(Ljava/io/InputStream;)Lorg/apache/poi/ss/usermodel/Workbook;
+org.apache.poi.xssf.usermodel.XSSFWorkbook#instance-init#

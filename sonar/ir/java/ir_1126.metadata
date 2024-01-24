@@ -1,0 +1,2 @@
+io.github.selcukes.notifier.mail.EmailNotifierImpl#createMailSession(Ljava/util/Properties;)Ljakarta/mail/Session;
+jakarta.mail.Session#getInstance(Ljava/util/Properties;Ljakarta/mail/Authenticator;)Ljakarta/mail/Session;

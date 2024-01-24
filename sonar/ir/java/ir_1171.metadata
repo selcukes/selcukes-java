@@ -1,0 +1,5 @@
+io.github.selcukes.video.MonteRecorder#stopAndDelete()V
+io.github.selcukes.video.MonteRecorder#writeVideo(Ljava/lang/String;)Ljava/io/File;
+==
+deleteOnExit java.io.File#deleteOnExit()V
+info io.github.selcukes.commons.logging.Logger#info(Ljava/util/function/Supplier;)V

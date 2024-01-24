@@ -1,0 +1,2 @@
+io.github.selcukes.collections.Clocks#dateNow()Ljava/time/LocalDate;
+java.time.LocalDate#now()Ljava/time/LocalDate;

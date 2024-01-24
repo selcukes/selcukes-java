@@ -1,0 +1,5 @@
+io.github.selcukes.databind.properties.PropertiesMapper#systemProperties()Ljava/util/Properties;
+java.lang.System#getProperties()Ljava/util/Properties;
+java.lang.System#getenv()Ljava/util/Map;
+==
+putAll java.util.Properties#putAll(Ljava/util/Map;)V

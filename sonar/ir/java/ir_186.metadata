@@ -1,0 +1,4 @@
+io.github.selcukes.core.validation.ElementValidation#isSelected()Lio/github/selcukes/core/validation/ElementValidation;
+io.github.selcukes.core.validation.Validation#failWithMessage(ZLjava/lang/String;[Ljava/lang/Object;)V
+==
+isSelected org.openqa.selenium.WebElement#isSelected()Z

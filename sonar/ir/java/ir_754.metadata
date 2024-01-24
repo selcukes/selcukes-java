@@ -1,0 +1,4 @@
+io.github.selcukes.commons.http.WebClient#post()Lio/github/selcukes/commons/http/WebResponse;
+io.github.selcukes.commons.http.WebClient#execute()Lio/github/selcukes/commons/http/WebResponse;
+==
+POST java.net.http.HttpRequest$Builder#POST(Ljava/net/http/HttpRequest$BodyPublisher;)Ljava/net/http/HttpRequest$Builder;

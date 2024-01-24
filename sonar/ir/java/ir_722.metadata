@@ -1,0 +1,2 @@
+io.github.selcukes.commons.exec.Shell#runCommandAsync(Ljava/lang/String;)Ljava/util/concurrent/CompletableFuture;
+java.util.concurrent.CompletableFuture#supplyAsync(Ljava/util/function/Supplier;)Ljava/util/concurrent/CompletableFuture;

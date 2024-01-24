@@ -1,0 +1,4 @@
+io.github.selcukes.video.MonteRecorder#start()V
+==
+start io.github.selcukes.video.MonteRecorderBuilder#start()V
+info io.github.selcukes.commons.logging.Logger#info(Ljava/util/function/Supplier;)V

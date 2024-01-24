@@ -1,0 +1,3 @@
+io.github.selcukes.core.validation.ElementValidation#valueAs(Ljava/lang/String;)Lio/github/selcukes/core/validation/ElementValidation;
+==
+attributeValueAs io.github.selcukes.core.validation.ElementValidation#attributeValueAs(Ljava/lang/String;Ljava/lang/String;)Lio/github/selcukes/core/validation/ElementValidation;

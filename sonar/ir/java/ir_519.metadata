@@ -1,0 +1,4 @@
+io.github.selcukes.collections.Reflections#getField(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/reflect/Field;
+java.lang.Object#getClass()Ljava/lang/Class;
+java.lang.reflect.Field#setAccessible(Z)V
+java.lang.Class#getDeclaredField(Ljava/lang/String;)Ljava/lang/reflect/Field;

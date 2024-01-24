@@ -1,0 +1,6 @@
+io.github.selcukes.core.driver.AppiumOptions#getIOSOptions(Ljava/lang/String;)Lorg/openqa/selenium/MutableCapabilities;
+io.appium.java_client.ios.options.XCUITestOptions#<init>()V
+io.github.selcukes.core.driver.AppiumOptions#merge(Lorg/openqa/selenium/Capabilities;)Lorg/openqa/selenium/MutableCapabilities;
+io.appium.java_client.ios.options.XCUITestOptions#instance-init#
+==
+setApp io.appium.java_client.remote.options.SupportsAppOption#setApp(Ljava/lang/String;)Lio/appium/java_client/remote/options/BaseOptions;

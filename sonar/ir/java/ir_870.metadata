@@ -1,0 +1,6 @@
+io.github.selcukes.databind.properties.PropertyField#getKeyName()Ljava/lang/String;
+java.util.Optional#orElse(Ljava/lang/Object;)Ljava/lang/Object;
+java.util.Optional#map(Ljava/util/function/Function;)Ljava/util/Optional;
+==
+getColumn io.github.selcukes.databind.DataField#getColumn()Ljava/util/Optional;
+getFieldName io.github.selcukes.databind.DataField#getFieldName()Ljava/lang/String;

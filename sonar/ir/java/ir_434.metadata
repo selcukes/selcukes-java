@@ -1,0 +1,4 @@
+io.github.selcukes.collections.Try#orElseThrow()Ljava/lang/Object;
+io.github.selcukes.collections.Try#wrapAsRuntimeException(Ljava/lang/Throwable;)Ljava/lang/RuntimeException;
+==
+isFailure io.github.selcukes.collections.Try#isFailure()Z

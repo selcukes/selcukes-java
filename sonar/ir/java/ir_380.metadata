@@ -1,0 +1,7 @@
+io.github.selcukes.collections.DataTable#getColumns()Ljava/util/List;
+java.util.Optional#orElseThrow(Ljava/util/function/Supplier;)Ljava/lang/Object;
+java.util.Optional#map(Ljava/util/function/Function;)Ljava/util/Optional;
+java.util.Collections#unmodifiableList(Ljava/util/List;)Ljava/util/List;
+==
+rows io.github.selcukes.collections.DataTable#rows()Ljava/util/stream/Stream;
+findFirst java.util.stream.Stream#findFirst()Ljava/util/Optional;

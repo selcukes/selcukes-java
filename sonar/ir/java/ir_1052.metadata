@@ -1,0 +1,10 @@
+io.github.selcukes.wdb.core.ChromeBinary#getBinaryEnvironment()Lio/github/selcukes/commons/os/Platform;
+java.util.Optional#isPresent()Z
+io.github.selcukes.commons.os.Architecture#getValue()I
+java.util.Objects#equals(Ljava/lang/Object;Ljava/lang/Object;)Z
+java.util.Optional#get()Ljava/lang/Object;
+io.github.selcukes.commons.os.Platform#getPlatform()Lio/github/selcukes/commons/os/Platform;
+==
+getOSType io.github.selcukes.commons.os.Platform#getOSType()Lio/github/selcukes/commons/os/OsType;
+getTargetArch io.github.selcukes.wdb.core.AbstractBinary#getTargetArch()Ljava/util/Optional;
+setArchitecture io.github.selcukes.commons.os.Platform#setArchitecture(I)V

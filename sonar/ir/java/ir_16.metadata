@@ -1,0 +1,5 @@
+io.github.selcukes.testng.SelcukesTestNGRunner#serialScenarios()[[Ljava/lang/Object;
+io.cucumber.testng.TestNGCucumberRunner#provideScenarios()[[Ljava/lang/Object;
+==
+negate java.util.function.Predicate#negate()Ljava/util/function/Predicate;
+filter io.github.selcukes.testng.SelcukesTestNGRunner#filter([[Ljava/lang/Object;Ljava/util/function/Predicate;)[[Ljava/lang/Object;

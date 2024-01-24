@@ -1,0 +1,3 @@
+io.github.selcukes.reports.screen.ScreenPlayImpl#withResult(Ljava/lang/Object;)Lio/github/selcukes/reports/screen/ScreenPlay;
+io.github.selcukes.reports.screen.ScreenPlayResult#<init>(Ljava/lang/Object;)V
+io.github.selcukes.reports.screen.ScreenPlayResult#instance-init#

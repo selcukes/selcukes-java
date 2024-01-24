@@ -1,0 +1,3 @@
+io.github.selcukes.core.validation.PageValidations#response(Lio/github/selcukes/commons/http/WebResponse;)Lio/github/selcukes/core/validation/ResponseValidation;
+io.github.selcukes.core.validation.ResponseValidation#instance-init#
+io.github.selcukes.core.validation.ResponseValidation#<init>(ZLio/github/selcukes/commons/http/WebResponse;)V

@@ -1,0 +1,5 @@
+io.github.selcukes.collections.Clocks#dateTimeFormatter(Ljava/lang/String;Ljava/lang/String;)Ljava/time/format/DateTimeFormatter;
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+java.util.Optional#orElse(Ljava/lang/Object;)Ljava/lang/Object;
+java.util.Optional#filter(Ljava/util/function/Predicate;)Ljava/util/Optional;
+java.time.format.DateTimeFormatter#ofPattern(Ljava/lang/String;)Ljava/time/format/DateTimeFormatter;

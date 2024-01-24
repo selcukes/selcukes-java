@@ -1,0 +1,5 @@
+io.github.selcukes.notifier.mail.EmailNotifierImpl#<init>()V
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+==
+getNotifier io.github.selcukes.commons.config.Config#getNotifier()Lio/github/selcukes/commons/config/Config$NotifierConfig;
+getMail io.github.selcukes.commons.config.Config$NotifierConfig#getMail()Lio/github/selcukes/commons/config/Config$MailConfig;

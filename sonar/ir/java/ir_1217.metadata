@@ -1,0 +1,3 @@
+io.github.selcukes.snapshot.SnapshotImpl#<init>(Lorg/openqa/selenium/WebDriver;)V
+==
+<init> io.github.selcukes.snapshot.PageSnapshot#<init>(Lorg/openqa/selenium/WebDriver;)V

@@ -1,0 +1,7 @@
+io.github.selcukes.commons.SelcukesLifecycle#getDefaultLifecycle()Lio/github/selcukes/commons/listener/LifecycleManager;
+io.github.selcukes.commons.listener.LifecycleManager#instance-init#
+io.github.selcukes.commons.listener.LifecycleManager#<init>(Ljava/util/List;)V
+java.lang.Thread#currentThread()Ljava/lang/Thread;
+==
+getContextClassLoader java.lang.Thread#getContextClassLoader()Ljava/lang/ClassLoader;
+load io.github.selcukes.commons.helper.ServiceLoaderUtils#load(Ljava/lang/Class;Ljava/lang/ClassLoader;)Ljava/util/List;

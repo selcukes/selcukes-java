@@ -1,0 +1,4 @@
+io.github.selcukes.core.page.Page#waitFor(Lorg/openqa/selenium/support/ui/ExpectedCondition;I)Ljava/lang/Object;
+==
+waiter io.github.selcukes.core.page.Page#waiter(I)Lorg/openqa/selenium/support/ui/WebDriverWait;
+until org.openqa.selenium.support.ui.FluentWait#until(Ljava/util/function/Function;)Ljava/lang/Object;

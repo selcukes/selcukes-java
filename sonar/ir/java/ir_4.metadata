@@ -1,0 +1,13 @@
+io.github.selcukes.testng.listeners.SelcukesListener#beforeInvocation(Lorg/testng/IInvokedMethod;Lorg/testng/ITestResult;)V
+io.github.selcukes.commons.SelcukesLifecycle#getLifecycleType(Ljava/lang/Class;)Lio/github/selcukes/commons/annotation/Lifecycle$Type;
+io.github.selcukes.testng.listeners.SelcukesListener#getTestStatus(Lorg/testng/ITestResult;)Ljava/lang/String;
+io.github.selcukes.commons.fixture.TestResult#builder()Lio/github/selcukes/commons/fixture/TestResult$TestResultBuilder;
+==
+getTestMethod org.testng.IInvokedMethod#getTestMethod()Lorg/testng/ITestNGMethod;
+name io.github.selcukes.commons.fixture.TestResult$TestResultBuilder#name(Ljava/lang/String;)Lio/github/selcukes/commons/fixture/TestResult$TestResultBuilder;
+build io.github.selcukes.commons.fixture.TestResult$TestResultBuilder#build()Lio/github/selcukes/commons/fixture/TestResult;
+getRealClass org.testng.ITestNGMethod#getRealClass()Ljava/lang/Class;
+isConfigurationMethod org.testng.IInvokedMethod#isConfigurationMethod()Z
+getMethodName org.testng.ITestNGMethod#getMethodName()Ljava/lang/String;
+beforeTest io.github.selcukes.commons.listener.LifecycleManager#beforeTest(Lio/github/selcukes/commons/fixture/TestResult;)V
+status io.github.selcukes.commons.fixture.TestResult$TestResultBuilder#status(Ljava/lang/String;)Lio/github/selcukes/commons/fixture/TestResult$TestResultBuilder;

@@ -1,0 +1,6 @@
+io.github.selcukes.commons.helper.SingletonContext#removeAll()V
+java.lang.Thread#currentThread()Ljava/lang/Thread;
+==
+get java.lang.ThreadLocal#get()Ljava/lang/Object;
+getId java.lang.Thread#getId()J
+remove java.util.Map#remove(Ljava/lang/Object;)Ljava/lang/Object;

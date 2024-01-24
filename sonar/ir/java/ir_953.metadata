@@ -1,0 +1,15 @@
+io.github.selcukes.extent.report.SelcukesExtentAdapter#handleEmbed(Lio/cucumber/plugin/event/EmbedEvent;)V
+io.cucumber.plugin.event.EmbedEvent#getMediaType()Ljava/lang/String;
+java.util.Base64#getEncoder()Ljava/util/Base64$Encoder;
+io.cucumber.plugin.event.EmbedEvent#getData()[B
+io.cucumber.plugin.event.EmbedEvent#getName()Ljava/lang/String;
+com.aventstack.extentreports.MediaEntityBuilder#createScreenCaptureFromBase64String(Ljava/lang/String;)Lcom/aventstack/extentreports/MediaEntityBuilder;
+java.lang.String#startsWith(Ljava/lang/String;)Z
+==
+get java.lang.ThreadLocal#get()Ljava/lang/Object;
+get java.util.Map#get(Ljava/lang/Object;)Ljava/lang/Object;
+build com.aventstack.extentreports.MediaEntityBuilder#build()Lcom/aventstack/extentreports/model/Media;
+info com.aventstack.extentreports.ExtentTest#info(Ljava/lang/String;Lcom/aventstack/extentreports/model/Media;)Lcom/aventstack/extentreports/ExtentTest;
+set java.lang.ThreadLocal#set(Ljava/lang/Object;)V
+createNode com.aventstack.extentreports.ExtentTest#createNode(Ljava/lang/Class;Ljava/lang/String;)Lcom/aventstack/extentreports/ExtentTest;
+encodeToString java.util.Base64$Encoder#encodeToString([B)Ljava/lang/String;

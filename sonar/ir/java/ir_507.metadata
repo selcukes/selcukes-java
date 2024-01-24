@@ -1,0 +1,8 @@
+io.github.selcukes.collections.Lists#sortWithNulls(Ljava/util/List;)Ljava/util/List;
+java.util.Comparator#nullsLast(Ljava/util/Comparator;)Ljava/util/Comparator;
+java.util.Comparator#comparing(Ljava/util/function/Function;Ljava/util/Comparator;)Ljava/util/Comparator;
+java.util.Comparator#naturalOrder()Ljava/util/Comparator;
+==
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+toList java.util.stream.Stream#toList()Ljava/util/List;
+sorted java.util.stream.Stream#sorted(Ljava/util/Comparator;)Ljava/util/stream/Stream;

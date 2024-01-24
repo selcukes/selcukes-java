@@ -1,0 +1,2 @@
+io.github.selcukes.extent.report.Reporter#removeReporter()V
+io.github.selcukes.commons.helper.SingletonContext#remove()V

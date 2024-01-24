@@ -1,0 +1,2 @@
+io.github.selcukes.core.validation.ElementValidation#<init>(ZLorg/openqa/selenium/WebElement;)V
+io.github.selcukes.core.page.ui.Locator#of(Lorg/openqa/selenium/WebElement;)Ljava/lang/String;

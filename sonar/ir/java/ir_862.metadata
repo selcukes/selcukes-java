@@ -1,0 +1,4 @@
+io.github.selcukes.databind.properties.PropertiesMapper#write(Ljava/nio/file/Path;Ljava/util/Map;)V
+java.util.Properties#instance-init#
+java.util.Properties#<init>()V
+io.github.selcukes.databind.properties.PropertiesMapper#write(Ljava/nio/file/Path;Ljava/util/Properties;Ljava/util/Map;)V

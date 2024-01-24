@@ -1,0 +1,4 @@
+io.github.selcukes.core.validation.ResponseValidation#isOk()Lio/github/selcukes/core/validation/ResponseValidation;
+io.github.selcukes.commons.http.WebResponse#statusCode()I
+io.github.selcukes.commons.http.WebResponse#getReasonPhrase(I)Ljava/lang/String;
+io.github.selcukes.core.validation.Validation#failWithMessage(ZLjava/lang/String;[Ljava/lang/Object;)V

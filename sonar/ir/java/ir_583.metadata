@@ -1,0 +1,6 @@
+io.github.selcukes.commons.security.ByteEncryptor#doCipher(I[BLjavax/crypto/SecretKey;[B)[B
+javax.crypto.Cipher#getInstance(Ljava/lang/String;)Ljavax/crypto/Cipher;
+javax.crypto.spec.GCMParameterSpec#<init>(I[B)V
+javax.crypto.Cipher#doFinal([B)[B
+javax.crypto.Cipher#init(ILjava/security/Key;Ljava/security/spec/AlgorithmParameterSpec;)V
+javax.crypto.spec.GCMParameterSpec#instance-init#

@@ -1,0 +1,5 @@
+io.github.selcukes.core.page.Page#dragAndDrop(Lorg/openqa/selenium/WebElement;Lorg/openqa/selenium/WebElement;)Lio/github/selcukes/core/page/Page;
+==
+dragAndDrop org.openqa.selenium.interactions.Actions#dragAndDrop(Lorg/openqa/selenium/WebElement;Lorg/openqa/selenium/WebElement;)Lorg/openqa/selenium/interactions/Actions;
+actions io.github.selcukes.core.page.Page#actions()Lorg/openqa/selenium/interactions/Actions;
+perform org.openqa.selenium.interactions.Actions#perform()V

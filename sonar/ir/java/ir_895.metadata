@@ -1,0 +1,2 @@
+io.github.selcukes.databind.DataField#<init>(Ljava/lang/reflect/Field;Ljava/util/List;)V
+io.github.selcukes.databind.DataField#findMatchingConverter()Lio/github/selcukes/databind/converters/Converter;

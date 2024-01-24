@@ -1,0 +1,7 @@
+io.github.selcukes.commons.http.WebClient#buildUri()Ljava/net/URI;
+java.util.StringJoiner#instance-init#
+java.net.URI#create(Ljava/lang/String;)Ljava/net/URI;
+java.lang.String#contains(Ljava/lang/CharSequence;)Z
+java.util.StringJoiner#<init>(Ljava/lang/CharSequence;)V
+==
+forEach java.util.Map#forEach(Ljava/util/function/BiConsumer;)V

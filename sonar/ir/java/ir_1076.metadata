@@ -1,0 +1,9 @@
+io.github.selcukes.wdb.util.FileExtractUtil#uncompress(Ljava/io/InputStream;Ljava/nio/file/Path;Lorg/apache/commons/compress/archivers/ArchiveEntry;)Ljava/nio/file/Path;
+java.nio.file.Files#createDirectories(Ljava/nio/file/Path;[Ljava/nio/file/attribute/FileAttribute;)Ljava/nio/file/Path;
+java.nio.file.Files#copy(Ljava/io/InputStream;Ljava/nio/file/Path;[Ljava/nio/file/CopyOption;)J
+==
+resolve java.nio.file.Path#resolve(Ljava/lang/String;)Ljava/nio/file/Path;
+isDirectory org.apache.commons.compress.archivers.ArchiveEntry#isDirectory()Z
+getParent java.nio.file.Path#getParent()Ljava/nio/file/Path;
+getName org.apache.commons.compress.archivers.ArchiveEntry#getName()Ljava/lang/String;
+info io.github.selcukes.commons.logging.Logger#info(Ljava/util/function/Supplier;)V

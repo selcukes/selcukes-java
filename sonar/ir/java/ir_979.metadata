@@ -1,0 +1,4 @@
+io.github.selcukes.extent.report.Reporter#attachScreenshot()V
+io.github.selcukes.extent.report.SelcukesExtentAdapter#attachScreenshot([B)V
+==
+shootPageAsBytes io.github.selcukes.snapshot.Snapshot#shootPageAsBytes()[B

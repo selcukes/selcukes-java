@@ -1,0 +1,6 @@
+io.github.selcukes.commons.helper.ServiceLoaderUtils#load(Ljava/lang/Class;Ljava/lang/ClassLoader;)Ljava/util/List;
+java.util.ServiceLoader#load(Ljava/lang/Class;Ljava/lang/ClassLoader;)Ljava/util/ServiceLoader;
+io.github.selcukes.collections.Streams#of(Ljava/util/Iterator;)Ljava/util/stream/Stream;
+java.util.ServiceLoader#iterator()Ljava/util/Iterator;
+==
+toList java.util.stream.Stream#toList()Ljava/util/List;

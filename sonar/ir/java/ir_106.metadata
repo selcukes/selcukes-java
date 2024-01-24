@@ -1,0 +1,5 @@
+io.github.selcukes.core.validation.PageValidations#urlContains(Ljava/lang/String;)V
+java.lang.String#contains(Ljava/lang/CharSequence;)Z
+io.github.selcukes.core.validation.Validation#failWithMessage(ZLjava/lang/String;[Ljava/lang/Object;)V
+==
+currentUrl io.github.selcukes.core.page.Page#currentUrl()Ljava/lang/String;

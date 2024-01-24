@@ -1,0 +1,5 @@
+io.github.selcukes.core.driver.RunMode#isHeadlessWeb()Z
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+==
+isHeadLess io.github.selcukes.commons.config.Config$WebConfig#isHeadLess()Z
+getWeb io.github.selcukes.commons.config.Config#getWeb()Lio/github/selcukes/commons/config/Config$WebConfig;

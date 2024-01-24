@@ -1,0 +1,2 @@
+io.github.selcukes.reports.screen.ScreenPlayImpl#withRecorder(Lio/github/selcukes/video/enums/RecorderType;)Lio/github/selcukes/reports/screen/ScreenPlay;
+io.github.selcukes.video.RecorderFactory#getRecorder(Lio/github/selcukes/video/enums/RecorderType;)Lio/github/selcukes/video/Recorder;

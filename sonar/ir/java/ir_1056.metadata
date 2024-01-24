@@ -1,0 +1,7 @@
+io.github.selcukes.wdb.core.ChromeBinary#getLatestRelease()Ljava/lang/String;
+com.fasterxml.jackson.databind.JsonNode#at(Ljava/lang/String;)Lcom/fasterxml/jackson/databind/JsonNode;
+io.github.selcukes.wdb.util.VersionHelper#sendRequest(Ljava/lang/String;Ljava/lang/String;)Lio/github/selcukes/commons/http/WebResponse;
+io.github.selcukes.commons.http.WebResponse#bodyJson()Lcom/fasterxml/jackson/databind/JsonNode;
+==
+asText com.fasterxml.jackson.databind.JsonNode#asText()Ljava/lang/String;
+getProxy io.github.selcukes.wdb.core.AbstractBinary#getProxy()Ljava/lang/String;

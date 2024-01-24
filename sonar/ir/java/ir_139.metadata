@@ -1,0 +1,16 @@
+io.github.selcukes.core.grid.SeleniumServer#start(Ljava/lang/String;[Ljava/lang/String;)Ljava/net/URL;
+org.openqa.selenium.support.ui.FluentWait#<init>(Ljava/lang/Object;)V
+java.net.URL#toString()Ljava/lang/String;
+io.github.selcukes.commons.http.WebClient#instance-init#
+io.github.selcukes.core.grid.SeleniumService#<init>()V
+java.time.Duration#ofSeconds(J)Ljava/time/Duration;
+org.openqa.selenium.support.ui.FluentWait#instance-init#
+io.github.selcukes.core.grid.SeleniumService#instance-init#
+io.github.selcukes.commons.http.WebClient#<init>(Ljava/lang/String;)V
+==
+until org.openqa.selenium.support.ui.FluentWait#until(Ljava/util/function/Function;)Ljava/lang/Object;
+getServiceUrl io.github.selcukes.core.grid.SeleniumService#getServiceUrl()Ljava/net/URL;
+ignoring org.openqa.selenium.support.ui.FluentWait#ignoring(Ljava/lang/Class;)Lorg/openqa/selenium/support/ui/FluentWait;
+withTimeout org.openqa.selenium.support.ui.FluentWait#withTimeout(Ljava/time/Duration;)Lorg/openqa/selenium/support/ui/FluentWait;
+pollingEvery org.openqa.selenium.support.ui.FluentWait#pollingEvery(Ljava/time/Duration;)Lorg/openqa/selenium/support/ui/FluentWait;
+start io.github.selcukes.core.grid.SeleniumService#start(Ljava/lang/String;[Ljava/lang/String;)Lio/github/selcukes/core/grid/SeleniumService;

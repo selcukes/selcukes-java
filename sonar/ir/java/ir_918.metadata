@@ -1,0 +1,4 @@
+io.github.selcukes.databind.utils.DataFileHelper#newFilePath(Ljava/lang/String;)Ljava/nio/file/Path;
+io.github.selcukes.databind.utils.DataFileHelper#getFolder()Ljava/nio/file/Path;
+==
+resolve java.nio.file.Path#resolve(Ljava/lang/String;)Ljava/nio/file/Path;

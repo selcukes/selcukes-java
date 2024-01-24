@@ -1,0 +1,6 @@
+io.github.selcukes.databind.excel.ExcelMapper#write(Lio/github/selcukes/collections/DataTable;Ljava/lang/String;Ljava/lang/String;)V
+io.github.selcukes.collections.Resources#of(Ljava/lang/String;)Ljava/nio/file/Path;
+io.github.selcukes.databind.excel.ExcelWriter#<init>()V
+io.github.selcukes.databind.excel.ExcelWriter#instance-init#
+==
+write io.github.selcukes.databind.excel.ExcelWriter#write(Lio/github/selcukes/collections/DataTable;Ljava/nio/file/Path;Ljava/lang/String;)V

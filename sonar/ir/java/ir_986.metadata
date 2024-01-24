@@ -1,0 +1,15 @@
+io.github.selcukes.extent.report.ExtentService#initSpark()V
+io.github.selcukes.collections.Clocks#dateTime(Ljava/lang/String;)Ljava/lang/String;
+com.aventstack.extentreports.reporter.ExtentSparkReporter#<init>(Ljava/lang/String;)V
+java.lang.String#replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+io.github.selcukes.extent.report.ExtentService#getOutputPath()Ljava/lang/String;
+io.github.selcukes.extent.report.ExtentService#attach(Lcom/aventstack/extentreports/reporter/ReporterConfigurable;)V
+java.util.Objects#requireNonNull(Ljava/lang/Object;)Ljava/lang/Object;
+io.github.selcukes.extent.report.ExtentService#sparkReportViewOrder(Lcom/aventstack/extentreports/reporter/ExtentSparkReporter;)V
+io.github.selcukes.extent.report.ExtentService#getBooleanProperty(Ljava/lang/String;)Z
+com.aventstack.extentreports.reporter.ExtentSparkReporter#instance-init#
+==
+thumbnailForBase64 com.aventstack.extentreports.reporter.configuration.ExtentSparkReporterConfig#thumbnailForBase64(Ljava/lang/Boolean;)Lcom/aventstack/extentreports/reporter/configuration/ExtentSparkReporterConfig;
+config com.aventstack.extentreports.reporter.ExtentSparkReporter#config()Lcom/aventstack/extentreports/reporter/configuration/ExtentSparkReporterConfig;
+setReportName com.aventstack.extentreports.reporter.configuration.AbstractConfiguration#setReportName(Ljava/lang/String;)V
+setDocumentTitle com.aventstack.extentreports.reporter.configuration.FileReporterConfig#setDocumentTitle(Ljava/lang/String;)V

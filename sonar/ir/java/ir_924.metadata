@@ -1,0 +1,3 @@
+io.github.selcukes.databind.converters.LocalDateTimeConverter#convert(Ljava/lang/String;Ljava/lang/String;)Ljava/time/LocalDateTime;
+io.github.selcukes.collections.Clocks#dateTimeFormatter(Ljava/lang/String;Ljava/lang/String;)Ljava/time/format/DateTimeFormatter;
+java.time.LocalDateTime#parse(Ljava/lang/CharSequence;Ljava/time/format/DateTimeFormatter;)Ljava/time/LocalDateTime;

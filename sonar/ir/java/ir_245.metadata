@@ -1,0 +1,10 @@
+io.github.selcukes.core.page.Page#waitFor(Ljava/lang/Object;Ljava/lang/Object;Lio/github/selcukes/core/wait/WaitCondition;)Ljava/lang/Object;
+java.time.Duration#ofMillis(J)Ljava/time/Duration;
+io.github.selcukes.core.wait.WaitCondition#getType()Ljava/util/function/BiFunction;
+java.util.List#of(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/List;
+==
+until org.openqa.selenium.support.ui.FluentWait#until(Ljava/util/function/Function;)Ljava/lang/Object;
+ignoreAll org.openqa.selenium.support.ui.FluentWait#ignoreAll(Ljava/util/Collection;)Lorg/openqa/selenium/support/ui/FluentWait;
+waiter io.github.selcukes.core.page.Page#waiter()Lorg/openqa/selenium/support/ui/WebDriverWait;
+pollingEvery org.openqa.selenium.support.ui.FluentWait#pollingEvery(Ljava/time/Duration;)Lorg/openqa/selenium/support/ui/FluentWait;
+apply java.util.function.BiFunction#apply(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;

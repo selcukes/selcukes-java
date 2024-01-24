@@ -1,0 +1,4 @@
+io.github.selcukes.core.driver.AppiumOptions#merge(Lorg/openqa/selenium/Capabilities;)Lorg/openqa/selenium/MutableCapabilities;
+io.github.selcukes.core.driver.AppiumOptions#newCapabilities()Lorg/openqa/selenium/MutableCapabilities;
+==
+merge org.openqa.selenium.MutableCapabilities#merge(Lorg/openqa/selenium/Capabilities;)Lorg/openqa/selenium/MutableCapabilities;

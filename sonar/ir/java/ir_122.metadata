@@ -1,0 +1,8 @@
+io.github.selcukes.core.page.WebPage#printPage(Ljava/lang/String;)V
+io.github.selcukes.commons.helper.FileHelper#createFile(Ljava/lang/String;Ljava/lang/String;)Ljava/io/File;
+org.openqa.selenium.print.PrintOptions#instance-init#
+org.openqa.selenium.print.PrintOptions#<init>()V
+==
+getContent org.openqa.selenium.Pdf#getContent()Ljava/lang/String;
+print org.openqa.selenium.PrintsPage#print(Lorg/openqa/selenium/print/PrintOptions;)Lorg/openqa/selenium/Pdf;
+getDriver io.github.selcukes.core.page.WebPage#getDriver()Lorg/openqa/selenium/WebDriver;

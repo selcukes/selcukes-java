@@ -1,0 +1,2 @@
+io.github.selcukes.commons.http.WebClient#body(Ljava/lang/Object;)Lio/github/selcukes/commons/http/WebClient;
+io.github.selcukes.commons.http.WebClient#bodyPublisher(Ljava/lang/Object;)Ljava/net/http/HttpRequest$BodyPublisher;

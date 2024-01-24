@@ -1,0 +1,5 @@
+io.github.selcukes.commons.exec.Shell#extractPidOf(Ljava/lang/Process;)V
+java.lang.Long#toString(J)Ljava/lang/String;
+==
+pid java.lang.Process#pid()J
+debug io.github.selcukes.commons.logging.Logger#debug(Ljava/util/function/Supplier;)V

@@ -1,0 +1,3 @@
+io.github.selcukes.core.wait.WaitManager#<init>(Lio/github/selcukes/core/page/Page;)V
+io.github.selcukes.core.wait.WaitManager#waitForJQueryLoadIfDefined()V
+io.github.selcukes.core.wait.WaitManager#waitForAngularIfDefined()V

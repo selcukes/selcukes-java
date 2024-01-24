@@ -1,0 +1,4 @@
+io.github.selcukes.core.driver.DevicePool#hasDevice(Lio/github/selcukes/core/enums/DeviceType;Ljava/lang/Object;)Z
+==
+contains java.util.List#contains(Ljava/lang/Object;)Z
+getDevices io.github.selcukes.core.driver.DevicePool#getDevices(Lio/github/selcukes/core/enums/DeviceType;)Ljava/util/List;

@@ -1,0 +1,5 @@
+io.github.selcukes.collections.Lists#nonEmpty(Ljava/lang/Object;)Z
+==
+isNonEmpty io.github.selcukes.collections.StringHelper#isNonEmpty(Ljava/lang/String;)Z
+toString java.lang.Object#toString()Ljava/lang/String;
+isEmpty java.util.Collection#isEmpty()Z

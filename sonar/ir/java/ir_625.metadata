@@ -1,0 +1,2 @@
+io.github.selcukes.commons.helper.ExceptionHelper#getErrorCodes()Lio/github/selcukes/commons/helper/ErrorCodes;
+io.github.selcukes.databind.DataMapper#parse(Ljava/lang/Class;)Ljava/lang/Object;

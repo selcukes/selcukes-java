@@ -1,0 +1,5 @@
+io.github.selcukes.wdb.core.AbstractBinary#getBinaryVersion()Ljava/lang/String;
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+java.util.Optional#orElse(Ljava/lang/Object;)Ljava/lang/Object;
+==
+getLatestRelease io.github.selcukes.wdb.core.AbstractBinary#getLatestRelease()Ljava/lang/String;

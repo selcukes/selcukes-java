@@ -1,0 +1,4 @@
+io.github.selcukes.commons.os.Platform#getOSType()Lio/github/selcukes/commons/os/OsType;
+io.github.selcukes.commons.os.Platform#isWindows()Z
+io.github.selcukes.commons.os.Platform#isLinux()Z
+io.github.selcukes.commons.os.Platform#isMac()Z

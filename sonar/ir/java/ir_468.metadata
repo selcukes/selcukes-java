@@ -1,0 +1,4 @@
+io.github.selcukes.collections.DecimalNumber#parseDouble(Ljava/lang/String;)D
+io.github.selcukes.collections.DecimalNumber#parseBigDecimal(Ljava/lang/String;)Ljava/math/BigDecimal;
+==
+doubleValue java.math.BigDecimal#doubleValue()D

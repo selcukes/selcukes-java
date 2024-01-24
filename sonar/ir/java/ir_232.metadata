@@ -1,0 +1,4 @@
+io.github.selcukes.core.page.Page#findAll(Ljava/lang/Object;Lio/github/selcukes/core/wait/WaitCondition;)Ljava/util/List;
+io.github.selcukes.core.page.ui.Locator#resolve(Ljava/lang/Object;)Lorg/openqa/selenium/By;
+==
+waitFor io.github.selcukes.core.page.Page#waitFor(Ljava/lang/Object;Ljava/lang/Object;Lio/github/selcukes/core/wait/WaitCondition;)Ljava/lang/Object;

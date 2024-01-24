@@ -1,0 +1,9 @@
+io.github.selcukes.commons.db.DataBaseDriver#asRow(Ljava/sql/ResultSetMetaData;Ljava/sql/ResultSet;)Ljava/util/Map;
+java.util.LinkedHashMap#instance-init#
+java.util.LinkedHashMap#<init>()V
+java.util.Collections#unmodifiableMap(Ljava/util/Map;)Ljava/util/Map;
+==
+getColumnName java.sql.ResultSetMetaData#getColumnName(I)Ljava/lang/String;
+getString java.sql.ResultSet#getString(I)Ljava/lang/String;
+getColumnCount java.sql.ResultSetMetaData#getColumnCount()I
+put java.util.HashMap#put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;

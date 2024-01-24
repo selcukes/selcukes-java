@@ -1,0 +1,4 @@
+io.github.selcukes.extent.report.SelcukesExtentAdapter#addTestStepLog(Ljava/lang/String;)V
+==
+get java.lang.ThreadLocal#get()Ljava/lang/Object;
+info com.aventstack.extentreports.ExtentTest#info(Ljava/lang/String;)Lcom/aventstack/extentreports/ExtentTest;

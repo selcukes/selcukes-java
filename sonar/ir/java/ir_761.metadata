@@ -1,0 +1,6 @@
+io.github.selcukes.commons.http.WebClient#authenticator(Ljava/lang/String;Ljava/lang/String;)Lio/github/selcukes/commons/http/WebClient;
+java.lang.String#getBytes(Ljava/nio/charset/Charset;)[B
+java.util.Base64#getEncoder()Ljava/util/Base64$Encoder;
+==
+header io.github.selcukes.commons.http.WebClient#header(Ljava/lang/String;Ljava/lang/String;)Lio/github/selcukes/commons/http/WebClient;
+encodeToString java.util.Base64$Encoder#encodeToString([B)Ljava/lang/String;

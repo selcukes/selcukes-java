@@ -1,0 +1,5 @@
+io.github.selcukes.core.page.Page#openNewWindow()Lio/github/selcukes/core/page/Page;
+==
+getDriver io.github.selcukes.core.page.Page#getDriver()Lorg/openqa/selenium/WebDriver;
+newWindow org.openqa.selenium.WebDriver$TargetLocator#newWindow(Lorg/openqa/selenium/WindowType;)Lorg/openqa/selenium/WebDriver;
+switchTo org.openqa.selenium.WebDriver#switchTo()Lorg/openqa/selenium/WebDriver$TargetLocator;

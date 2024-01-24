@@ -1,0 +1,2 @@
+io.github.selcukes.core.page.ui.Locator#resolve(Ljava/lang/Object;)Lorg/openqa/selenium/By;
+io.github.selcukes.core.page.ui.Locator#parse(Ljava/lang/String;)Lorg/openqa/selenium/By;

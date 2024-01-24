@@ -1,0 +1,4 @@
+io.github.selcukes.databind.DataField#getSubstitutor()Lio/github/selcukes/databind/substitute/Substitutor;
+java.util.Optional#orElseGet(Ljava/util/function/Supplier;)Ljava/lang/Object;
+io.github.selcukes.databind.DataField#getInterpolate()Ljava/util/Optional;
+java.util.Optional#map(Ljava/util/function/Function;)Ljava/util/Optional;

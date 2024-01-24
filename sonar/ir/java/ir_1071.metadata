@@ -1,0 +1,5 @@
+io.github.selcukes.wdb.version.VersionDetector#getQuery()Ljava/lang/String;
+java.lang.String#format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+java.util.Map#of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;
+==
+get java.util.Map#get(Ljava/lang/Object;)Ljava/lang/Object;

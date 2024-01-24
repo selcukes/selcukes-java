@@ -1,0 +1,3 @@
+io.github.selcukes.extent.report.SelcukesExtentAdapter#setEventPublisher(Lio/cucumber/plugin/event/EventPublisher;)V
+==
+registerHandlerFor io.cucumber.plugin.event.EventPublisher#registerHandlerFor(Ljava/lang/Class;Lio/cucumber/plugin/event/EventHandler;)V

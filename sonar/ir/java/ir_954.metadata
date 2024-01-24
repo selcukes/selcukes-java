@@ -1,0 +1,6 @@
+io.github.selcukes.extent.report.SelcukesExtentAdapter#handleWrite(Lio/cucumber/plugin/event/WriteEvent;)V
+io.cucumber.plugin.event.WriteEvent#getText()Ljava/lang/String;
+java.lang.String#isEmpty()Z
+==
+get java.lang.ThreadLocal#get()Ljava/lang/Object;
+info com.aventstack.extentreports.ExtentTest#info(Ljava/lang/String;)Lcom/aventstack/extentreports/ExtentTest;

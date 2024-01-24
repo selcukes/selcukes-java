@@ -1,0 +1,4 @@
+io.github.selcukes.commons.helper.FileHelper#deleteFile(Ljava/io/File;)V
+org.apache.commons.io.FileUtils#deleteQuietly(Ljava/io/File;)Z
+==
+exists java.io.File#exists()Z

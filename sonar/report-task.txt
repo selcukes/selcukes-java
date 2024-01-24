@@ -1,0 +1,7 @@
+organization=selcukes
+projectKey=selcukes_selcukes-java
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.52135
+dashboardUrl=https://sonarcloud.io/dashboard?id=selcukes_selcukes-java&pullRequest=324
+ceTaskId=AY08LP73gBT3KyPm66Ea
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AY08LP73gBT3KyPm66Ea

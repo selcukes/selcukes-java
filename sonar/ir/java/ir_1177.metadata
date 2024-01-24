@@ -1,0 +1,4 @@
+io.github.selcukes.video.MonteRecorderBuilder#getDestinationFile(Ljava/lang/String;)Ljava/io/File;
+io.github.selcukes.collections.Clocks#dateTime(Ljava/lang/String;)Ljava/lang/String;
+java.io.File#<init>(Ljava/lang/String;)V
+java.io.File#instance-init#

@@ -1,0 +1,3 @@
+io.github.selcukes.commons.http.WebResponse#body()Ljava/lang/String;
+==
+body java.net.http.HttpResponse#body()Ljava/lang/Object;

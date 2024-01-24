@@ -1,0 +1,4 @@
+io.github.selcukes.extent.report.SelcukesExtentAdapter#createDataTableList(Lio/cucumber/plugin/event/DataTableArgument;)[[Ljava/lang/String;
+io.github.selcukes.collections.Streams#toArray(Ljava/util/List;)[[Ljava/lang/String;
+==
+cells io.cucumber.plugin.event.DataTableArgument#cells()Ljava/util/List;

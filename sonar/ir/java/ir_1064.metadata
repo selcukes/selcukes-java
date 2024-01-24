@@ -1,0 +1,22 @@
+io.github.selcukes.wdb.core.IExplorerBinary#getLatestRelease()Ljava/lang/String;
+io.github.selcukes.wdb.version.VersionComparator#<init>()V
+java.util.Optional#isEmpty()Z
+io.github.selcukes.wdb.util.VersionHelper#versionsMap(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/util/Map;
+java.util.Optional#map(Ljava/util/function/Function;)Ljava/util/Optional;
+java.lang.String#substring(II)Ljava/lang/String;
+java.util.Optional#get()Ljava/lang/Object;
+io.github.selcukes.commons.exception.WebDriverBinaryException#<init>(Ljava/lang/String;)V
+java.lang.String#substring(I)Ljava/lang/String;
+java.lang.String#length()I
+java.lang.String#replaceAll(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+io.github.selcukes.commons.exception.WebDriverBinaryException#instance-init#
+java.lang.String#indexOf(I)I
+io.github.selcukes.wdb.version.VersionComparator#instance-init#
+==
+reduce java.util.stream.Stream#reduce(Ljava/util/function/BinaryOperator;)Ljava/util/Optional;
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+getArchitecture io.github.selcukes.commons.os.Platform#getArchitecture()I
+getBinaryDriverName io.github.selcukes.wdb.core.IExplorerBinary#getBinaryDriverName()Ljava/lang/String;
+keySet java.util.Map#keySet()Ljava/util/Set;
+sorted java.util.stream.Stream#sorted(Ljava/util/Comparator;)Ljava/util/stream/Stream;
+getBinaryEnvironment io.github.selcukes.wdb.core.AbstractBinary#getBinaryEnvironment()Lio/github/selcukes/commons/os/Platform;

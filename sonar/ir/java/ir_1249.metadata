@@ -1,0 +1,6 @@
+io.github.selcukes.excel.SingleExcelData#getScenariosToRun()Ljava/util/List;
+java.util.ArrayList#<init>()V
+io.github.selcukes.collections.Lists#retainIf(Ljava/util/List;Ljava/util/function/Predicate;)Ljava/util/List;
+java.util.ArrayList#instance-init#
+==
+forEach java.util.Map#forEach(Ljava/util/function/BiConsumer;)V

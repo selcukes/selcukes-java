@@ -1,0 +1,4 @@
+io.github.selcukes.core.page.Page#open(Ljava/lang/String;)Lio/github/selcukes/core/page/Page;
+==
+getDriver io.github.selcukes.core.page.Page#getDriver()Lorg/openqa/selenium/WebDriver;
+get org.openqa.selenium.WebDriver#get(Ljava/lang/String;)V

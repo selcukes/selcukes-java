@@ -1,0 +1,12 @@
+io.github.selcukes.core.driver.DesktopManager#createDriver(Lorg/openqa/selenium/Capabilities;)Lorg/openqa/selenium/WebDriver;
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+io.github.selcukes.core.driver.AppiumOptions#getWinAppOptions(Ljava/lang/String;)Lorg/openqa/selenium/MutableCapabilities;
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+java.util.Optional#orElse(Ljava/lang/Object;)Ljava/lang/Object;
+java.util.Objects#requireNonNull(Ljava/lang/Object;)Ljava/lang/Object;
+io.appium.java_client.windows.WindowsDriver#instance-init#
+io.appium.java_client.windows.WindowsDriver#<init>(Ljava/net/URL;Lorg/openqa/selenium/Capabilities;)V
+==
+getServiceUrl io.github.selcukes.core.driver.DesktopManager#getServiceUrl()Ljava/net/URL;
+getApp io.github.selcukes.commons.config.Config$WindowsConfig#getApp()Ljava/lang/String;
+getWindows io.github.selcukes.commons.config.Config#getWindows()Lio/github/selcukes/commons/config/Config$WindowsConfig;

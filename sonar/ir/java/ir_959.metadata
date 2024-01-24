@@ -1,0 +1,16 @@
+io.github.selcukes.extent.report.SelcukesExtentAdapter#handleScenarioOutline(Lio/cucumber/plugin/event/TestCase;)V
+io.cucumber.plugin.event.Location#getLine()I
+io.cucumber.messages.types.Scenario#getName()Ljava/lang/String;
+io.github.selcukes.extent.report.SelcukesExtentAdapter#createScenarioOutline(Lio/cucumber/messages/types/Scenario;)V
+io.cucumber.messages.types.Examples#equals(Ljava/lang/Object;)Z
+java.lang.String#equals(Ljava/lang/Object;)Z
+io.github.selcukes.extent.report.TestSourcesModel#getScenarioDefinition(Lio/github/selcukes/extent/report/TestSourcesModel$AstNode;)Lio/cucumber/messages/types/Scenario;
+io.github.selcukes.extent.report.TestSourcesModel#getAstNode(Ljava/net/URI;I)Lio/github/selcukes/extent/report/TestSourcesModel$AstNode;
+java.util.Objects#requireNonNull(Ljava/lang/Object;)Ljava/lang/Object;
+io.github.selcukes.extent.report.SelcukesExtentAdapter#createExamples(Lio/cucumber/messages/types/Examples;)V
+io.cucumber.messages.types.Scenario#getKeyword()Ljava/lang/String;
+==
+getLocation io.cucumber.plugin.event.TestCase#getLocation()Lio/cucumber/plugin/event/Location;
+remove java.lang.ThreadLocal#remove()V
+get java.lang.ThreadLocal#get()Ljava/lang/Object;
+set java.lang.ThreadLocal#set(Ljava/lang/Object;)V

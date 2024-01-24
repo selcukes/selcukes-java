@@ -1,0 +1,2 @@
+io.github.selcukes.databind.converters.BooleanConverter#convert(Ljava/lang/String;)Ljava/lang/Boolean;
+java.lang.Boolean#parseBoolean(Ljava/lang/String;)Z

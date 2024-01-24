@@ -1,0 +1,5 @@
+io.github.selcukes.wdb.util.WebDriverBinaryUtil#getBinaryDownloadDirectory(Ljava/lang/String;Z)Ljava/io/File;
+java.io.File#<init>(Ljava/lang/String;)V
+io.github.selcukes.commons.helper.FileHelper#createDirectory(Ljava/io/File;)V
+java.io.File#instance-init#
+io.github.selcukes.commons.helper.FileHelper#deleteFilesInDirectory(Ljava/io/File;)V

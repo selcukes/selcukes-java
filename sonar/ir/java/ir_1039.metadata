@@ -1,0 +1,5 @@
+io.github.selcukes.wdb.core.AbstractBinary#getBinaryEnvironment()Lio/github/selcukes/commons/os/Platform;
+java.util.Optional#ifPresent(Ljava/util/function/Consumer;)V
+io.github.selcukes.commons.os.Platform#getPlatform()Lio/github/selcukes/commons/os/Platform;
+==
+getTargetArch io.github.selcukes.wdb.core.AbstractBinary#getTargetArch()Ljava/util/Optional;

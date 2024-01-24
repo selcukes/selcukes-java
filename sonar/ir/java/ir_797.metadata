@@ -1,0 +1,3 @@
+io.github.selcukes.databind.exception.DataMapperException#<init>(Ljava/lang/String;Ljava/lang/Throwable;)V
+==
+<init> java.lang.RuntimeException#<init>(Ljava/lang/String;Ljava/lang/Throwable;)V

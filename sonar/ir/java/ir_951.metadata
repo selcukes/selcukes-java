@@ -1,0 +1,10 @@
+io.github.selcukes.extent.report.SelcukesExtentAdapter#handleTestStepFinished(Lio/cucumber/plugin/event/TestStepFinished;)V
+io.cucumber.plugin.event.Result#getError()Ljava/lang/Throwable;
+io.github.selcukes.extent.report.SelcukesExtentAdapter#updateResult(Lio/cucumber/plugin/event/Result;)V
+io.github.selcukes.commons.helper.ExceptionHelper#logError(Ljava/lang/Throwable;)V
+io.cucumber.plugin.event.Result#getStatus()Lio/cucumber/plugin/event/Status;
+io.cucumber.plugin.event.Status#isOk()Z
+io.cucumber.plugin.event.TestStepFinished#getResult()Lio/cucumber/plugin/event/Result;
+io.github.selcukes.extent.report.Reporter#getReporter()Lio/github/selcukes/extent/report/Reporter;
+==
+attachAndRestart io.github.selcukes.extent.report.Reporter#attachAndRestart()V

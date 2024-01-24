@@ -1,0 +1,8 @@
+io.github.selcukes.commons.helper.RandomUtils#randomAlphaNumeric(I)Ljava/lang/String;
+io.github.selcukes.commons.helper.RandomUtils#random()Ljava/security/SecureRandom;
+java.lang.StringBuilder#toString()Ljava/lang/String;
+==
+limit java.util.stream.IntStream#limit(J)Ljava/util/stream/IntStream;
+ints java.util.Random#ints(II)Ljava/util/stream/IntStream;
+filter java.util.stream.IntStream#filter(Ljava/util/function/IntPredicate;)Ljava/util/stream/IntStream;
+collect java.util.stream.IntStream#collect(Ljava/util/function/Supplier;Ljava/util/function/ObjIntConsumer;Ljava/util/function/BiConsumer;)Ljava/lang/Object;

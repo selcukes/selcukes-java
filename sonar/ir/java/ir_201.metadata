@@ -1,0 +1,5 @@
+io.github.selcukes.core.page.Page#select(Ljava/lang/Object;)Lorg/openqa/selenium/support/ui/Select;
+org.openqa.selenium.support.ui.Select#<init>(Lorg/openqa/selenium/WebElement;)V
+org.openqa.selenium.support.ui.Select#instance-init#
+==
+find io.github.selcukes.core.page.Page#find(Ljava/lang/Object;)Lorg/openqa/selenium/WebElement;

@@ -1,0 +1,4 @@
+io.github.selcukes.commons.http.WebResponse#bodyJson()Lcom/fasterxml/jackson/databind/JsonNode;
+io.github.selcukes.databind.utils.JsonUtils#toJson(Ljava/lang/String;)Lcom/fasterxml/jackson/databind/JsonNode;
+==
+body java.net.http.HttpResponse#body()Ljava/lang/Object;

@@ -1,0 +1,5 @@
+io.github.selcukes.reports.cucumber.CucumberListener#setEventPublisher(Lio/cucumber/plugin/event/EventPublisher;)V
+io.github.selcukes.reports.cucumber.CucumberListener#getWriteEventHandler()Lio/cucumber/plugin/event/EventHandler;
+io.github.selcukes.reports.cucumber.CucumberListener#getEmbedEventHandler()Lio/cucumber/plugin/event/EventHandler;
+==
+registerHandlerFor io.cucumber.plugin.event.EventPublisher#registerHandlerFor(Ljava/lang/Class;Lio/cucumber/plugin/event/EventHandler;)V

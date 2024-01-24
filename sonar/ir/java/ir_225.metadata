@@ -1,0 +1,5 @@
+io.github.selcukes.core.page.Page#back()Lio/github/selcukes/core/page/Page;
+==
+getDriver io.github.selcukes.core.page.Page#getDriver()Lorg/openqa/selenium/WebDriver;
+back org.openqa.selenium.WebDriver$Navigation#back()V
+navigate org.openqa.selenium.WebDriver#navigate()Lorg/openqa/selenium/WebDriver$Navigation;

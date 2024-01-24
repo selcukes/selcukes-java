@@ -1,0 +1,4 @@
+io.github.selcukes.collections.DataTable#findFirst(Ljava/util/function/Predicate;)Ljava/util/Optional;
+==
+filter io.github.selcukes.collections.DataTable#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+findFirst java.util.stream.Stream#findFirst()Ljava/util/Optional;

@@ -1,0 +1,2 @@
+io.github.selcukes.collections.Clocks#isWeekend(Ljava/time/temporal/TemporalAccessor;)Z
+java.time.DayOfWeek#from(Ljava/time/temporal/TemporalAccessor;)Ljava/time/DayOfWeek;

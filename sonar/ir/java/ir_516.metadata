@@ -1,0 +1,5 @@
+io.github.selcukes.collections.TextTable#printHtmlTable()Ljava/lang/String;
+io.github.selcukes.collections.TextTable$HtmlTable#<init>()V
+io.github.selcukes.collections.TextTable$HtmlTable#instance-init#
+==
+buildTable io.github.selcukes.collections.TextTable$HtmlTable#buildTable(Lio/github/selcukes/collections/DataTable;)Ljava/lang/String;

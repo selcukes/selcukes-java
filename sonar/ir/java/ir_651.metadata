@@ -1,0 +1,9 @@
+io.github.selcukes.commons.helper.FileHelper#systemFilePath(Ljava/lang/String;)Ljava/lang/String;
+java.lang.String#replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+java.lang.String#substring(I)Ljava/lang/String;
+java.nio.file.FileSystems#getDefault()Ljava/nio/file/FileSystem;
+java.lang.String#equals(Ljava/lang/Object;)Z
+java.lang.String#isEmpty()Z
+java.lang.String#startsWith(Ljava/lang/String;)Z
+==
+getSeparator java.nio.file.FileSystem#getSeparator()Ljava/lang/String;

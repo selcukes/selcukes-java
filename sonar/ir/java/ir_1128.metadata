@@ -1,0 +1,3 @@
+io.github.selcukes.notifier.mail.EmailNotifierImpl#addBodyPartToMessage(Ljakarta/mail/internet/MimeMessage;)Ljava/util/function/Consumer;
+==
+getContent jakarta.mail.internet.MimeMessage#getContent()Ljava/lang/Object;

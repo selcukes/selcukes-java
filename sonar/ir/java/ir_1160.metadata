@@ -1,0 +1,8 @@
+io.github.selcukes.video.FFmpegRecorder#<init>()V
+io.github.selcukes.commons.exec.Shell#<init>()V
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+io.github.selcukes.commons.exec.Shell#instance-init#
+io.github.selcukes.video.VideoRecorder#videoConfig()Lio/github/selcukes/video/config/DefaultVideoOptions;
+==
+getFfmpegPath io.github.selcukes.commons.config.Config$VideoConfig#getFfmpegPath()Ljava/lang/String;
+getVideo io.github.selcukes.commons.config.Config#getVideo()Lio/github/selcukes/commons/config/Config$VideoConfig;

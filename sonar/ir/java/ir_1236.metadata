@@ -1,0 +1,12 @@
+io.github.selcukes.excel.MultiExcelData#getScenarioData(Ljava/lang/String;)Ljava/util/Map;
+java.lang.String#split(Ljava/lang/String;)[Ljava/lang/String;
+java.util.Optional#orElseThrow(Ljava/util/function/Supplier;)Ljava/lang/Object;
+java.lang.String#contains(Ljava/lang/CharSequence;)Z
+io.github.selcukes.commons.helper.Preconditions#checkArgument(ZLjava/lang/String;)V
+java.util.Optional#map(Ljava/util/function/Function;)Ljava/util/Optional;
+java.lang.String#format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+==
+get java.util.Map#get(Ljava/lang/Object;)Ljava/lang/Object;
+getCachedTestData io.github.selcukes.excel.AbstractExcelDataProvider#getCachedTestData(Ljava/lang/String;)Ljava/util/Map;
+getTestData io.github.selcukes.excel.AbstractExcelDataProvider#getTestData(Ljava/lang/String;Lio/github/selcukes/collections/DataTable;)Ljava/util/Map;
+findFirst io.github.selcukes.collections.DataTable#findFirst(Ljava/util/function/Predicate;)Ljava/util/Optional;

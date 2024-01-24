@@ -1,0 +1,14 @@
+io.github.selcukes.reports.screen.ScreenPlayImpl#startNativeVideo()V
+io.appium.java_client.android.AndroidStartScreenRecordingOptions#instance-init#
+io.appium.java_client.ios.IOSStartScreenRecordingOptions#<init>()V
+io.appium.java_client.ios.IOSStartScreenRecordingOptions#instance-init#
+io.appium.java_client.android.AndroidStartScreenRecordingOptions#<init>()V
+java.time.Duration#ofMinutes(J)Ljava/time/Duration;
+==
+withVideoSize io.appium.java_client.android.AndroidStartScreenRecordingOptions#withVideoSize(Ljava/lang/String;)Lio/appium/java_client/android/AndroidStartScreenRecordingOptions;
+withBitRate io.appium.java_client.android.AndroidStartScreenRecordingOptions#withBitRate(I)Lio/appium/java_client/android/AndroidStartScreenRecordingOptions;
+withVideoQuality io.appium.java_client.ios.IOSStartScreenRecordingOptions#withVideoQuality(Lio/appium/java_client/ios/IOSStartScreenRecordingOptions$VideoQuality;)Lio/appium/java_client/ios/IOSStartScreenRecordingOptions;
+withTimeLimit io.appium.java_client.ios.IOSStartScreenRecordingOptions#withTimeLimit(Ljava/time/Duration;)Lio/appium/java_client/ios/IOSStartScreenRecordingOptions;
+withTimeLimit io.appium.java_client.android.AndroidStartScreenRecordingOptions#withTimeLimit(Ljava/time/Duration;)Lio/appium/java_client/android/AndroidStartScreenRecordingOptions;
+startRecordingScreen io.appium.java_client.screenrecording.CanRecordScreen#startRecordingScreen(Lio/appium/java_client/screenrecording/BaseStartScreenRecordingOptions;)Ljava/lang/String;
+withVideoType io.appium.java_client.ios.IOSStartScreenRecordingOptions#withVideoType(Ljava/lang/String;)Lio/appium/java_client/ios/IOSStartScreenRecordingOptions;

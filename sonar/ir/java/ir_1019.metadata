@@ -1,0 +1,6 @@
+io.github.selcukes.wdb.util.WebDriverBinaryUtil#setBinaryInfo(Ljava/lang/String;)Lio/github/selcukes/wdb/BinaryInfo;
+io.github.selcukes.wdb.util.WebDriverBinaryUtil#getWebDriverBinary()Ljava/io/File;
+io.github.selcukes.wdb.BinaryInfo#instance-init#
+io.github.selcukes.wdb.BinaryInfo#<init>(Ljava/lang/String;Ljava/lang/String;)V
+==
+getAbsolutePath java.io.File#getAbsolutePath()Ljava/lang/String;

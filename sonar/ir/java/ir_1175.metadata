@@ -1,0 +1,5 @@
+io.github.selcukes.video.MonteRecorderBuilder#createMovieFile(Lorg/monte/media/Format;)Ljava/io/File;
+org.monte.media.Registry#getInstance()Lorg/monte/media/Registry;
+==
+getExtension org.monte.media.Registry#getExtension(Lorg/monte/media/Format;)Ljava/lang/String;
+createMovieFile org.monte.screenrecorder.ScreenRecorder#createMovieFile(Lorg/monte/media/Format;)Ljava/io/File;

@@ -1,0 +1,7 @@
+io.github.selcukes.extent.report.ExtentService#addSystemInfo()V
+==
+entrySet java.util.Map#entrySet()Ljava/util/Set;
+filter java.util.stream.Stream#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+forEach java.util.stream.Stream#forEach(Ljava/util/function/Consumer;)V

@@ -1,0 +1,6 @@
+io.github.selcukes.reports.cucumber.CucumberAdapter#beforeScenario()V
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+==
+isRecording io.github.selcukes.commons.config.Config$VideoConfig#isRecording()Z
+start io.github.selcukes.reports.screen.ScreenPlay#start()Lio/github/selcukes/reports/screen/ScreenPlay;
+getVideo io.github.selcukes.commons.config.Config#getVideo()Lio/github/selcukes/commons/config/Config$VideoConfig;

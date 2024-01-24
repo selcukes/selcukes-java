@@ -1,0 +1,6 @@
+io.github.selcukes.reports.cucumber.CucumberAdapter#afterScenario(Ljava/lang/String;Lio/cucumber/plugin/event/Status;)V
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+==
+isRecording io.github.selcukes.commons.config.Config$VideoConfig#isRecording()Z
+attachVideo io.github.selcukes.reports.screen.ScreenPlay#attachVideo()Lio/github/selcukes/reports/screen/ScreenPlay;
+getVideo io.github.selcukes.commons.config.Config#getVideo()Lio/github/selcukes/commons/config/Config$VideoConfig;

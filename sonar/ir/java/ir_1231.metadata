@@ -1,0 +1,4 @@
+io.github.selcukes.excel.ExcelDataProvider#getScenarioData()Ljava/util/Map;
+==
+getScenarioData io.github.selcukes.excel.ExcelDataProvider#getScenarioData(Ljava/lang/String;)Ljava/util/Map;
+getTestName io.github.selcukes.excel.ScenarioContext#getTestName()Ljava/lang/String;

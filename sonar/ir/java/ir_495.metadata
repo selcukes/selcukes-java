@@ -1,0 +1,4 @@
+io.github.selcukes.collections.Clocks#difference(Ljava/time/temporal/Temporal;Ljava/time/temporal/Temporal;Ljava/lang/String;)J
+java.lang.String#toUpperCase()Ljava/lang/String;
+java.time.temporal.ChronoUnit#valueOf(Ljava/lang/String;)Ljava/time/temporal/ChronoUnit;
+java.time.temporal.ChronoUnit#between(Ljava/time/temporal/Temporal;Ljava/time/temporal/Temporal;)J

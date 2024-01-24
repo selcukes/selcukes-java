@@ -1,0 +1,13 @@
+io.github.selcukes.wdb.version.VersionDetector#getBrowserVersionFromCommand(Ljava/lang/String;)Ljava/lang/String;
+java.lang.String#split(Ljava/lang/String;)[Ljava/lang/String;
+io.github.selcukes.commons.exec.Shell#<init>()V
+java.lang.String#replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+io.github.selcukes.commons.exec.Shell#instance-init#
+java.lang.String#contains(Ljava/lang/CharSequence;)Z
+java.lang.String#isEmpty()Z
+==
+runCommand io.github.selcukes.commons.exec.Shell#runCommand(Ljava/lang/String;)Lio/github/selcukes/commons/exec/ExecResults;
+getCompatibleBinaryVersion io.github.selcukes.wdb.version.VersionDetector#getCompatibleBinaryVersion(Ljava/lang/String;)Ljava/lang/String;
+get java.util.List#get(I)Ljava/lang/Object;
+getOutput io.github.selcukes.commons.exec.ExecResults#getOutput()Ljava/util/List;
+info io.github.selcukes.commons.logging.Logger#info(Ljava/util/function/Supplier;)V

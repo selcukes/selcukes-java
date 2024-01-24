@@ -1,0 +1,7 @@
+io.github.selcukes.collections.Maps#of(Ljava/util/List;Ljava/util/List;Ljava/lang/Object;)Ljava/util/Map;
+==
+boxed java.util.stream.IntStream#boxed()Ljava/util/stream/Stream;
+of io.github.selcukes.collections.Maps#of(Ljava/util/function/Function;Ljava/util/function/Function;)Ljava/util/stream/Collector;
+collect java.util.stream.Stream#collect(Ljava/util/stream/Collector;)Ljava/lang/Object;
+filter java.util.stream.Stream#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+of io.github.selcukes.collections.Streams#of(Ljava/util/List;)Ljava/util/stream/IntStream;

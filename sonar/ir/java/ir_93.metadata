@@ -1,0 +1,7 @@
+io.github.selcukes.core.validation.Validation#failAll()V
+io.github.selcukes.core.validation.Validation#getErrorMessages()Ljava/util/List;
+java.lang.String#join(Ljava/lang/CharSequence;Ljava/lang/Iterable;)Ljava/lang/String;
+io.github.selcukes.commons.fixture.SelcukesFixture#fail(Ljava/lang/String;)V
+==
+remove java.lang.ThreadLocal#remove()V
+isEmpty java.util.List#isEmpty()Z

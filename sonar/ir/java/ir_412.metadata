@@ -1,0 +1,4 @@
+io.github.selcukes.collections.DataTable#prettyHtmlTable()Ljava/lang/String;
+io.github.selcukes.collections.TextTable#of(Lio/github/selcukes/collections/DataTable;)Lio/github/selcukes/collections/TextTable;
+==
+printHtmlTable io.github.selcukes.collections.TextTable#printHtmlTable()Ljava/lang/String;

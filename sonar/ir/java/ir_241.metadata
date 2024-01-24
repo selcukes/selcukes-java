@@ -1,0 +1,6 @@
+io.github.selcukes.core.page.Page#waiter(I)Lorg/openqa/selenium/support/ui/WebDriverWait;
+org.openqa.selenium.support.ui.WebDriverWait#instance-init#
+org.openqa.selenium.support.ui.WebDriverWait#<init>(Lorg/openqa/selenium/WebDriver;Ljava/time/Duration;)V
+java.time.Duration#ofSeconds(J)Ljava/time/Duration;
+==
+getDriver io.github.selcukes.core.page.Page#getDriver()Lorg/openqa/selenium/WebDriver;

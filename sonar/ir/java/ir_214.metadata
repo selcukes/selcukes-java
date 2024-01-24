@@ -1,0 +1,4 @@
+io.github.selcukes.core.page.Page#getAlertText()Ljava/lang/String;
+==
+getText org.openqa.selenium.Alert#getText()Ljava/lang/String;
+alert io.github.selcukes.core.page.Page#alert()Lorg/openqa/selenium/Alert;

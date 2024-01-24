@@ -1,0 +1,11 @@
+io.github.selcukes.excel.ExcelTestRunner#setupExcel(Lorg/testng/ITestContext;)V
+io.github.selcukes.commons.properties.SelcukesTestProperties#<init>()V
+io.github.selcukes.excel.ExcelDataFactory#getInstance()Lio/github/selcukes/excel/ExcelDataProvider;
+io.github.selcukes.commons.properties.SelcukesTestProperties#instance-init#
+java.lang.String#equalsIgnoreCase(Ljava/lang/String;)Z
+==
+addAll java.util.List#addAll(Ljava/util/Collection;)Z
+isEmpty java.util.List#isEmpty()Z
+getScenariosToRun io.github.selcukes.excel.ExcelDataProvider#getScenariosToRun()Ljava/util/List;
+init io.github.selcukes.excel.ExcelDataProvider#init()V
+getExcelProperty io.github.selcukes.commons.properties.SelcukesTestProperties#getExcelProperty(Ljava/lang/String;)Ljava/lang/String;

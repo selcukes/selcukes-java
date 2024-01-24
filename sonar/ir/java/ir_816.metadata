@@ -1,0 +1,5 @@
+io.github.selcukes.databind.AbstractDataBind#write(Ljava/nio/file/Path;Ljava/lang/Object;)V
+==
+writerWithDefaultPrettyPrinter com.fasterxml.jackson.databind.ObjectMapper#writerWithDefaultPrettyPrinter()Lcom/fasterxml/jackson/databind/ObjectWriter;
+writeValue com.fasterxml.jackson.databind.ObjectWriter#writeValue(Ljava/io/File;Ljava/lang/Object;)V
+toFile java.nio.file.Path#toFile()Ljava/io/File;

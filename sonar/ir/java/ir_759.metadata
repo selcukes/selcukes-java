@@ -1,0 +1,15 @@
+io.github.selcukes.commons.http.WebClient#execute()Lio/github/selcukes/commons/http/WebResponse;
+io.github.selcukes.commons.http.WebResponse#instance-init#
+io.github.selcukes.collections.Maps#join(Ljava/util/Map;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+io.github.selcukes.commons.http.WebClient#buildUri()Ljava/net/URI;
+io.github.selcukes.commons.http.WebResponse#<init>(Ljava/net/http/HttpResponse;)V
+io.github.selcukes.commons.http.WebResponse#logIfError()V
+java.net.http.HttpResponse$BodyHandlers#ofString()Ljava/net/http/HttpResponse$BodyHandler;
+==
+followRedirects java.net.http.HttpClient$Builder#followRedirects(Ljava/net/http/HttpClient$Redirect;)Ljava/net/http/HttpClient$Builder;
+isEmpty java.util.Map#isEmpty()Z
+build java.net.http.HttpRequest$Builder#build()Ljava/net/http/HttpRequest;
+build java.net.http.HttpClient$Builder#build()Ljava/net/http/HttpClient;
+send java.net.http.HttpClient#send(Ljava/net/http/HttpRequest;Ljava/net/http/HttpResponse$BodyHandler;)Ljava/net/http/HttpResponse;
+header java.net.http.HttpRequest$Builder#header(Ljava/lang/String;Ljava/lang/String;)Ljava/net/http/HttpRequest$Builder;
+uri java.net.http.HttpRequest$Builder#uri(Ljava/net/URI;)Ljava/net/http/HttpRequest$Builder;

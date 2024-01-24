@@ -1,0 +1,10 @@
+io.github.selcukes.wdb.core.BinaryFactory#getCompressedBinaryFile()Ljava/io/File;
+java.io.File#<init>(Ljava/lang/String;)V
+io.github.selcukes.commons.helper.FileHelper#getTempDir()Ljava/lang/String;
+java.io.File#instance-init#
+io.github.selcukes.wdb.enums.DownloaderType#getName()Ljava/lang/String;
+java.lang.String#toLowerCase()Ljava/lang/String;
+==
+getCompressedBinaryType io.github.selcukes.wdb.core.BinaryFactory#getCompressedBinaryType()Lio/github/selcukes/wdb/enums/DownloaderType;
+getBinaryDriverName io.github.selcukes.wdb.core.BinaryFactory#getBinaryDriverName()Ljava/lang/String;
+getBinaryVersion io.github.selcukes.wdb.core.BinaryFactory#getBinaryVersion()Ljava/lang/String;

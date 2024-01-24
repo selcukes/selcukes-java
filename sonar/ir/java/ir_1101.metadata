@@ -1,0 +1,10 @@
+io.github.selcukes.notifier.NotifierFactory#getNotifier()Lio/github/selcukes/notifier/Notifier;
+io.github.selcukes.notifier.teams.MicrosoftTeams#<init>()V
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+io.github.selcukes.notifier.slack.Slack#instance-init#
+io.github.selcukes.notifier.teams.MicrosoftTeams#instance-init#
+io.github.selcukes.notifier.slack.Slack#<init>()V
+java.lang.String#equalsIgnoreCase(Ljava/lang/String;)Z
+==
+getNotifier io.github.selcukes.commons.config.Config#getNotifier()Lio/github/selcukes/commons/config/Config$NotifierConfig;
+getType io.github.selcukes.commons.config.Config$NotifierConfig#getType()Ljava/lang/String;

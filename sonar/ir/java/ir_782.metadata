@@ -1,0 +1,3 @@
+io.github.selcukes.commons.logging.LogRecordListener#cleanUp()V
+==
+remove java.lang.ThreadLocal#remove()V

@@ -1,0 +1,4 @@
+io.github.selcukes.wdb.util.WebDriverBinaryUtil#downloadAndSetupBinaryPath()Lio/github/selcukes/wdb/BinaryInfo;
+io.github.selcukes.wdb.util.WebDriverBinaryUtil#setBinaryInfo(Ljava/lang/String;)Lio/github/selcukes/wdb/BinaryInfo;
+io.github.selcukes.wdb.util.WebDriverBinaryUtil#downloadAndExtract()Lio/github/selcukes/wdb/util/WebDriverBinaryUtil;
+io.github.selcukes.wdb.util.WebDriverBinaryUtil#configureBinary()Ljava/lang/String;

@@ -1,0 +1,2 @@
+io.github.selcukes.collections.Streams#of(II)Ljava/util/stream/IntStream;
+java.util.stream.IntStream#range(II)Ljava/util/stream/IntStream;

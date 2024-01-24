@@ -1,0 +1,7 @@
+io.github.selcukes.reports.cucumber.CucumberListener#afterScenario(Lio/cucumber/plugin/event/TestCaseFinished;)V
+io.cucumber.plugin.event.TestCaseFinished#getResult()Lio/cucumber/plugin/event/Result;
+io.cucumber.plugin.event.TestCaseFinished#getTestCase()Lio/cucumber/plugin/event/TestCase;
+io.cucumber.plugin.event.Result#getStatus()Lio/cucumber/plugin/event/Status;
+==
+getName io.cucumber.plugin.event.TestCase#getName()Ljava/lang/String;
+afterScenario io.github.selcukes.reports.cucumber.CucumberService#afterScenario(Ljava/lang/String;Lio/cucumber/plugin/event/Status;)V

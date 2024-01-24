@@ -1,0 +1,12 @@
+io.github.selcukes.commons.security.ByteEncryptor#encryptData(Ljava/lang/String;[B)[B
+java.security.SecureRandom#<init>()V
+io.github.selcukes.commons.security.ByteEncryptor#doCipher(I[BLjavax/crypto/SecretKey;[B)[B
+java.nio.ByteBuffer#allocate(I)Ljava/nio/ByteBuffer;
+io.github.selcukes.commons.security.ByteEncryptor#newIV(I)[B
+java.security.SecureRandom#instance-init#
+java.nio.ByteBuffer#put([B)Ljava/nio/ByteBuffer;
+java.nio.ByteBuffer#array()[B
+==
+nextBytes java.security.SecureRandom#nextBytes([B)V
+putInt java.nio.ByteBuffer#putInt(I)Ljava/nio/ByteBuffer;
+generateSecretKey io.github.selcukes.commons.security.ByteEncryptor#generateSecretKey(Ljava/lang/String;[B)Ljavax/crypto/SecretKey;

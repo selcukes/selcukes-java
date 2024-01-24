@@ -1,0 +1,2 @@
+io.github.selcukes.collections.Clocks#timeStamp()Ljava/lang/String;
+io.github.selcukes.collections.Clocks#dateTime(Ljava/lang/String;)Ljava/lang/String;

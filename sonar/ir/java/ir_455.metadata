@@ -1,0 +1,6 @@
+io.github.selcukes.collections.Streams#indexOf(Ljava/util/List;Ljava/util/function/Predicate;)Ljava/util/OptionalInt;
+==
+of io.github.selcukes.collections.Streams#of(Ljava/util/List;)Ljava/util/stream/IntStream;
+filter java.util.stream.IntStream#filter(Ljava/util/function/IntPredicate;)Ljava/util/stream/IntStream;
+parallel java.util.stream.IntStream#parallel()Ljava/util/stream/IntStream;
+findFirst java.util.stream.IntStream#findFirst()Ljava/util/OptionalInt;

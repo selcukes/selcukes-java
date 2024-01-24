@@ -1,0 +1,2 @@
+io.github.selcukes.reports.screen.ScreenPlayImpl#withNotifier(Lio/github/selcukes/notifier/enums/NotifierType;)Lio/github/selcukes/reports/screen/ScreenPlay;
+io.github.selcukes.notifier.NotifierFactory#getNotifier(Lio/github/selcukes/notifier/enums/NotifierType;)Lio/github/selcukes/notifier/Notifier;

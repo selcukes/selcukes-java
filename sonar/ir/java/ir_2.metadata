@@ -1,0 +1,10 @@
+io.github.selcukes.testng.listeners.SelcukesListener#onStart(Lorg/testng/ISuite;)V
+io.github.selcukes.commons.fixture.SelcukesFixture#setReporter(Ljava/lang/Class;)V
+io.github.selcukes.commons.SelcukesLifecycle#getDefaultLifecycle()Lio/github/selcukes/commons/listener/LifecycleManager;
+io.github.selcukes.commons.fixture.SelcukesFixture#setValidator(Ljava/lang/String;)V
+io.github.selcukes.commons.fixture.TestResult#builder()Lio/github/selcukes/commons/fixture/TestResult$TestResultBuilder;
+==
+getName org.testng.ISuite#getName()Ljava/lang/String;
+name io.github.selcukes.commons.fixture.TestResult$TestResultBuilder#name(Ljava/lang/String;)Lio/github/selcukes/commons/fixture/TestResult$TestResultBuilder;
+build io.github.selcukes.commons.fixture.TestResult$TestResultBuilder#build()Lio/github/selcukes/commons/fixture/TestResult;
+beforeSuite io.github.selcukes.commons.listener.LifecycleManager#beforeSuite(Lio/github/selcukes/commons/fixture/TestResult;)V

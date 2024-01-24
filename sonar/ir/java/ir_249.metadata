@@ -1,0 +1,2 @@
+io.github.selcukes.core.page.Page#attributeValues(Ljava/lang/Object;Ljava/lang/String;)Ljava/util/List;
+io.github.selcukes.core.page.Page#getValues(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/util/List;

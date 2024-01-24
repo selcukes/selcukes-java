@@ -1,0 +1,6 @@
+io.github.selcukes.databind.excel.ExcelParser#readRow(Lorg/apache/poi/ss/usermodel/Row;)Ljava/util/Map;
+io.github.selcukes.collections.Streams#of(Ljava/util/Iterator;)Ljava/util/stream/Stream;
+io.github.selcukes.collections.Maps#of(Ljava/util/function/Function;Ljava/util/function/Function;)Ljava/util/stream/Collector;
+==
+cellIterator org.apache.poi.ss.usermodel.Row#cellIterator()Ljava/util/Iterator;
+collect java.util.stream.Stream#collect(Ljava/util/stream/Collector;)Ljava/lang/Object;

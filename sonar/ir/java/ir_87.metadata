@@ -1,0 +1,9 @@
+io.github.selcukes.core.page.MobilePage#swipe(Ljava/lang/Object;Ljava/lang/Object;Lio/github/selcukes/core/enums/SwipeDirection;)Lio/github/selcukes/core/page/MobilePage;
+io.github.selcukes.core.page.MobilePage#attemptToScroll(Lio/github/selcukes/core/enums/SwipeDirection;Lorg/openqa/selenium/By;)Z
+java.lang.Boolean#equals(Ljava/lang/Object;)Z
+io.github.selcukes.core.page.ui.Locator#resolve(Ljava/lang/Object;)Lorg/openqa/selenium/By;
+==
+isEmpty java.util.List#isEmpty()Z
+isDisplayed org.openqa.selenium.WebElement#isDisplayed()Z
+find io.github.selcukes.core.page.Page#find(Ljava/lang/Object;)Lorg/openqa/selenium/WebElement;
+findAll io.github.selcukes.core.page.Page#findAll(Ljava/lang/Object;)Ljava/util/List;

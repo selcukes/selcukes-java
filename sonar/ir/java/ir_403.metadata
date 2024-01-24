@@ -1,0 +1,5 @@
+io.github.selcukes.collections.DataTable#sortByColumn(Ljava/lang/Object;Ljava/util/Comparator;)V
+io.github.selcukes.collections.DataTable#checkColumnIndex(Ljava/lang/Object;)V
+java.util.Comparator#comparing(Ljava/util/function/Function;Ljava/util/Comparator;)Ljava/util/Comparator;
+==
+sort java.util.List#sort(Ljava/util/Comparator;)V

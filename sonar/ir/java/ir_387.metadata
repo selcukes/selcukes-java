@@ -1,0 +1,6 @@
+io.github.selcukes.collections.DataTable#findLast(Ljava/util/function/Predicate;)Ljava/util/Optional;
+==
+filter java.util.stream.Stream#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+findFirst java.util.stream.Stream#findFirst()Ljava/util/Optional;
+of io.github.selcukes.collections.Streams#of(Ljava/util/Iterator;)Ljava/util/stream/Stream;
+descendingIterator java.util.LinkedList#descendingIterator()Ljava/util/Iterator;

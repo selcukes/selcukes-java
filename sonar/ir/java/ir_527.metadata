@@ -1,0 +1,8 @@
+io.github.selcukes.collections.Resources#fileStream(Ljava/lang/String;)Ljava/io/InputStream;
+java.util.stream.Stream#of([Ljava/lang/Object;)Ljava/util/stream/Stream;
+java.util.Optional#orElseThrow(Ljava/util/function/Supplier;)Ljava/lang/Object;
+==
+filter java.util.stream.Stream#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+findFirst java.util.stream.Stream#findFirst()Ljava/util/Optional;
+parallel java.util.stream.BaseStream#parallel()Ljava/util/stream/BaseStream;

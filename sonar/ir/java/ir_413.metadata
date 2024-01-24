@@ -1,0 +1,9 @@
+io.github.selcukes.collections.DataTable#toString()Ljava/lang/String;
+java.util.StringJoiner#instance-init#
+java.util.StringJoiner#add(Ljava/lang/CharSequence;)Ljava/util/StringJoiner;
+java.util.StringJoiner#toString()Ljava/lang/String;
+java.util.StringJoiner#<init>(Ljava/lang/CharSequence;)V
+==
+getColumns io.github.selcukes.collections.DataTable#getColumns()Ljava/util/List;
+forEach java.lang.Iterable#forEach(Ljava/util/function/Consumer;)V
+toString java.lang.Object#toString()Ljava/lang/String;

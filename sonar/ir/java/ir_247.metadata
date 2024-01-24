@@ -1,0 +1,6 @@
+io.github.selcukes.core.page.Page#getValues(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/util/List;
+==
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+toList java.util.stream.Stream#toList()Ljava/util/List;
+findAll io.github.selcukes.core.page.Page#findAll(Ljava/lang/Object;)Ljava/util/List;

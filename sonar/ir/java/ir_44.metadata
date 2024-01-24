@@ -1,0 +1,5 @@
+io.github.selcukes.core.driver.RunMode#isLocalAppium()Z
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+==
+getMobile io.github.selcukes.commons.config.Config#getMobile()Lio/github/selcukes/commons/config/Config$MobileConfig;
+isRemote io.github.selcukes.commons.config.Config$MobileConfig#isRemote()Z

@@ -1,0 +1,4 @@
+io.github.selcukes.extent.report.ExtentService#getBooleanProperty(Ljava/lang/String;)Z
+io.github.selcukes.extent.report.ExtentService#getProperty(Ljava/lang/String;)Ljava/lang/String;
+io.github.selcukes.collections.StringHelper#isNonEmpty(Ljava/lang/String;)Z
+java.lang.String#equalsIgnoreCase(Ljava/lang/String;)Z

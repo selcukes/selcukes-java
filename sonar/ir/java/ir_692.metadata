@@ -1,0 +1,2 @@
+io.github.selcukes.commons.os.Platform#getArchitecture()I
+io.github.selcukes.commons.os.Platform#getPlatformArch()I

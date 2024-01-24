@@ -1,0 +1,13 @@
+io.github.selcukes.commons.helper.ImageUtil#generateImageWithText(Ljava/lang/String;II)Ljava/awt/image/BufferedImage;
+java.awt.Color#instance-init#
+java.awt.Color#<init>(III)V
+io.github.selcukes.commons.helper.ImageUtil#drawMultiLineString(Ljava/awt/Graphics;Ljava/lang/String;I)V
+java.awt.image.BufferedImage#instance-init#
+java.awt.image.BufferedImage#<init>(III)V
+java.awt.Font#<init>(Ljava/lang/String;II)V
+java.awt.Font#instance-init#
+==
+fillRect java.awt.Graphics#fillRect(IIII)V
+setFont java.awt.Graphics#setFont(Ljava/awt/Font;)V
+getGraphics java.awt.image.BufferedImage#getGraphics()Ljava/awt/Graphics;
+setColor java.awt.Graphics#setColor(Ljava/awt/Color;)V

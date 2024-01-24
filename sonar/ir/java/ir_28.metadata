@@ -1,0 +1,4 @@
+io.github.selcukes.core.driver.AppiumOptions#setCapability(Ljava/lang/String;Ljava/lang/String;)Lorg/openqa/selenium/MutableCapabilities;
+io.github.selcukes.core.driver.AppiumOptions#newCapabilities()Lorg/openqa/selenium/MutableCapabilities;
+==
+setCapability org.openqa.selenium.MutableCapabilities#setCapability(Ljava/lang/String;Ljava/lang/String;)V

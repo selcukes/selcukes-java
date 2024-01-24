@@ -1,0 +1,6 @@
+io.github.selcukes.core.page.ui.Locator#of(Lorg/openqa/selenium/WebElement;)Ljava/lang/String;
+java.util.Optional#orElse(Ljava/lang/Object;)Ljava/lang/Object;
+io.github.selcukes.collections.StringHelper#findPattern(Ljava/lang/String;Ljava/lang/String;)Ljava/util/Optional;
+==
+toString java.lang.Object#toString()Ljava/lang/String;
+getText org.openqa.selenium.WebElement#getText()Ljava/lang/String;

@@ -1,0 +1,5 @@
+io.github.selcukes.commons.helper.ImageUtil#generateAddressBarImageWithLogo(Ljava/awt/image/BufferedImage;)Ljava/awt/image/BufferedImage;
+io.github.selcukes.commons.helper.ImageUtil#generateImageWithText(Ljava/lang/String;II)Ljava/awt/image/BufferedImage;
+io.github.selcukes.commons.helper.ImageUtil#stitchImages(Ljava/awt/image/BufferedImage;Ljava/awt/image/BufferedImage;Z)Ljava/awt/image/BufferedImage;
+==
+getWidth java.awt.image.BufferedImage#getWidth()I

@@ -1,0 +1,3 @@
+io.github.selcukes.commons.helper.Singleton#instanceOf(Ljava/lang/Class;[Ljava/lang/Object;)Ljava/lang/Object;
+==
+getOrCreate io.github.selcukes.commons.helper.Singleton$SingletonHolder#getOrCreate(Ljava/lang/Class;[Ljava/lang/Object;)Ljava/lang/Object;

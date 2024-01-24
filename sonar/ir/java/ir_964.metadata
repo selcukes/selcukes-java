@@ -1,0 +1,23 @@
+io.github.selcukes.extent.report.SelcukesExtentAdapter#createTestStep(Lio/cucumber/plugin/event/PickleStepTestStep;)V
+io.cucumber.messages.types.Step#getText()Ljava/lang/String;
+java.lang.String#replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+com.aventstack.extentreports.GherkinKeyword#<init>(Ljava/lang/String;)V
+com.aventstack.extentreports.GherkinKeyword#instance-init#
+com.aventstack.extentreports.markuputils.MarkupHelper#createCodeBlock(Ljava/lang/String;)Lcom/aventstack/extentreports/markuputils/Markup;
+io.github.selcukes.extent.report.TestSourcesModel#getAstNode(Ljava/net/URI;I)Lio/github/selcukes/extent/report/TestSourcesModel$AstNode;
+java.lang.String#isEmpty()Z
+io.cucumber.messages.types.Step#getKeyword()Ljava/lang/String;
+java.lang.String#trim()Ljava/lang/String;
+io.github.selcukes.extent.report.SelcukesExtentAdapter#createDataTableList(Lio/cucumber/plugin/event/DataTableArgument;)[[Ljava/lang/String;
+com.aventstack.extentreports.markuputils.MarkupHelper#createTable([[Ljava/lang/String;)Lcom/aventstack/extentreports/markuputils/Markup;
+==
+getCodeLocation io.cucumber.plugin.event.TestStep#getCodeLocation()Ljava/lang/String;
+getStep io.cucumber.plugin.event.PickleStepTestStep#getStep()Lio/cucumber/plugin/event/Step;
+get java.lang.ThreadLocal#get()Ljava/lang/Object;
+createNode com.aventstack.extentreports.ExtentTest#createNode(Lcom/aventstack/extentreports/GherkinKeyword;Ljava/lang/String;Ljava/lang/String;)Lcom/aventstack/extentreports/ExtentTest;
+getText io.cucumber.plugin.event.Step#getText()Ljava/lang/String;
+pass com.aventstack.extentreports.ExtentTest#pass(Lcom/aventstack/extentreports/markuputils/Markup;)Lcom/aventstack/extentreports/ExtentTest;
+set java.lang.ThreadLocal#set(Ljava/lang/Object;)V
+getContent io.cucumber.plugin.event.DocStringArgument#getContent()Ljava/lang/String;
+getLine io.cucumber.plugin.event.Step#getLine()I
+getArgument io.cucumber.plugin.event.Step#getArgument()Lio/cucumber/plugin/event/StepArgument;

@@ -1,0 +1,8 @@
+io.github.selcukes.core.page.Page#cookies()Ljava/util/List;
+==
+getDriver io.github.selcukes.core.page.Page#getDriver()Lorg/openqa/selenium/WebDriver;
+getCookies org.openqa.selenium.WebDriver$Options#getCookies()Ljava/util/Set;
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+toList java.util.stream.Stream#toList()Ljava/util/List;
+manage org.openqa.selenium.WebDriver#manage()Lorg/openqa/selenium/WebDriver$Options;

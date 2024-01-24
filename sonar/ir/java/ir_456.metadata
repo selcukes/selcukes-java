@@ -1,0 +1,5 @@
+io.github.selcukes.collections.Streams#findFirst(Ljava/util/List;Ljava/util/function/Predicate;)Ljava/util/Optional;
+==
+parallelStream java.util.Collection#parallelStream()Ljava/util/stream/Stream;
+filter java.util.stream.Stream#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+findFirst java.util.stream.Stream#findFirst()Ljava/util/Optional;

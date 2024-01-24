@@ -1,0 +1,4 @@
+io.github.selcukes.core.page.Page#executeScript(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;
+==
+getDriver io.github.selcukes.core.page.Page#getDriver()Lorg/openqa/selenium/WebDriver;
+executeScript org.openqa.selenium.JavascriptExecutor#executeScript(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;

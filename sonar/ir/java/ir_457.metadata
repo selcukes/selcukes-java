@@ -1,0 +1,4 @@
+io.github.selcukes.collections.Streams#of(Ljava/util/List;)Ljava/util/stream/IntStream;
+==
+of io.github.selcukes.collections.Streams#of(II)Ljava/util/stream/IntStream;
+size java.util.List#size()I

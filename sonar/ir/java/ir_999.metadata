@@ -1,0 +1,5 @@
+io.github.selcukes.wdb.WebDriverBinary#ieDriver()Lio/github/selcukes/wdb/WebDriverBinary$Builder;
+io.github.selcukes.wdb.core.IExplorerBinary#instance-init#
+io.github.selcukes.wdb.WebDriverBinary$Builder#<init>(Lio/github/selcukes/wdb/WebDriverBinary;Lio/github/selcukes/wdb/core/BinaryFactory;)V
+io.github.selcukes.wdb.core.IExplorerBinary#<init>()V
+io.github.selcukes.wdb.WebDriverBinary$Builder#instance-init#

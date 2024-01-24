@@ -1,0 +1,4 @@
+io.github.selcukes.databind.utils.DataFileHelper#<init>(Ljava/lang/Class;)V
+java.lang.Class#getDeclaredAnnotation(Ljava/lang/Class;)Ljava/lang/annotation/Annotation;
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+java.util.Optional#orElseThrow(Ljava/util/function/Supplier;)Ljava/lang/Object;

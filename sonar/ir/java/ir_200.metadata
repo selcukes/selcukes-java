@@ -1,0 +1,4 @@
+io.github.selcukes.core.page.Page#select(Ljava/lang/Object;Ljava/lang/String;)Lio/github/selcukes/core/page/Page;
+==
+select io.github.selcukes.core.page.ui.Dropdown#select(Lorg/openqa/selenium/support/ui/Select;Ljava/lang/String;)V
+select io.github.selcukes.core.page.Page#select(Ljava/lang/Object;)Lorg/openqa/selenium/support/ui/Select;

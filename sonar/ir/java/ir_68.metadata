@@ -1,0 +1,2 @@
+io.github.selcukes.core.driver.DriverManager#getDevicePool()Lio/github/selcukes/core/driver/DevicePool;
+io.github.selcukes.commons.helper.SingletonContext#get()Ljava/lang/Object;

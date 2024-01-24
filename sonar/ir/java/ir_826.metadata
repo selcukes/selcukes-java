@@ -1,0 +1,11 @@
+io.github.selcukes.databind.DataMapper#write(Ljava/lang/Object;)V
+java.lang.Object#getClass()Ljava/lang/Class;
+java.lang.String#substring(I)Ljava/lang/String;
+java.lang.String#lastIndexOf(I)I
+io.github.selcukes.databind.DataMapper#lookup(Ljava/lang/String;)Lio/github/selcukes/databind/DataBind;
+io.github.selcukes.databind.utils.DataFileHelper#getInstance(Ljava/lang/Class;)Lio/github/selcukes/databind/utils/DataFileHelper;
+==
+newFilePath io.github.selcukes.databind.utils.DataFileHelper#newFilePath(Ljava/lang/String;)Ljava/nio/file/Path;
+getFileName io.github.selcukes.databind.utils.DataFileHelper#getFileName()Ljava/lang/String;
+write io.github.selcukes.databind.DataBind#write(Ljava/nio/file/Path;Ljava/lang/Object;)V
+setNewFile io.github.selcukes.databind.utils.DataFileHelper#setNewFile(Z)V

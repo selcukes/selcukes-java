@@ -1,0 +1,5 @@
+io.github.selcukes.core.page.Page#findAll(Ljava/lang/Object;)Ljava/util/List;
+io.github.selcukes.core.page.ui.Locator#resolve(Ljava/lang/Object;)Lorg/openqa/selenium/By;
+==
+getDriver io.github.selcukes.core.page.Page#getDriver()Lorg/openqa/selenium/WebDriver;
+findElements org.openqa.selenium.WebDriver#findElements(Lorg/openqa/selenium/By;)Ljava/util/List;

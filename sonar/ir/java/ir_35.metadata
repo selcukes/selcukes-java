@@ -1,0 +1,5 @@
+io.github.selcukes.core.page.Pages#winPage([Lorg/openqa/selenium/Capabilities;)Lio/github/selcukes/core/page/WinPage;
+io.github.selcukes.core.page.WinPage#<init>(Lio/appium/java_client/windows/WindowsDriver;)V
+io.github.selcukes.core.page.WinPage#instance-init#
+==
+createDriver io.github.selcukes.core.driver.DriverManager#createDriver(Lio/github/selcukes/core/enums/DeviceType;[Lorg/openqa/selenium/Capabilities;)Lorg/openqa/selenium/WebDriver;

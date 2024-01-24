@@ -1,0 +1,5 @@
+io.github.selcukes.commons.http.WebResponse#bodyStream()Ljava/io/InputStream;
+java.lang.String#getBytes(Ljava/nio/charset/Charset;)[B
+java.io.ByteArrayInputStream#instance-init#
+io.github.selcukes.commons.http.WebResponse#body()Ljava/lang/String;
+java.io.ByteArrayInputStream#<init>([B)V

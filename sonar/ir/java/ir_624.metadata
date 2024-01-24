@@ -1,0 +1,5 @@
+io.github.selcukes.commons.helper.ExceptionHelper#getExceptionTitle(Ljava/lang/Throwable;)Ljava/lang/String;
+java.util.Optional#orElse(Ljava/lang/Object;)Ljava/lang/Object;
+io.github.selcukes.collections.StringHelper#findPattern(Ljava/lang/String;Ljava/lang/String;)Ljava/util/Optional;
+==
+getStackTrace io.github.selcukes.commons.helper.ExceptionHelper#getStackTrace(Ljava/lang/Throwable;)Ljava/lang/String;

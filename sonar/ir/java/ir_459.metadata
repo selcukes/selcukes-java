@@ -1,0 +1,6 @@
+io.github.selcukes.collections.Streams#zip(Ljava/util/List;Ljava/util/List;Ljava/util/function/BiFunction;)Ljava/util/stream/Stream;
+java.util.stream.IntStream#range(II)Ljava/util/stream/IntStream;
+java.lang.Math#min(II)I
+==
+mapToObj java.util.stream.IntStream#mapToObj(Ljava/util/function/IntFunction;)Ljava/util/stream/Stream;
+size java.util.List#size()I

@@ -1,0 +1,8 @@
+io.github.selcukes.reports.cucumber.CucumberAdapter#afterStep(Ljava/lang/String;Z)V
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+==
+sendNotification io.github.selcukes.reports.screen.ScreenPlay#sendNotification(Ljava/lang/String;)Lio/github/selcukes/reports/screen/ScreenPlay;
+getNotifier io.github.selcukes.commons.config.Config#getNotifier()Lio/github/selcukes/commons/config/Config$NotifierConfig;
+withResult io.github.selcukes.reports.screen.ScreenPlay#withResult(Ljava/lang/Object;)Lio/github/selcukes/reports/screen/ScreenPlay;
+attachScreenshot io.github.selcukes.reports.screen.ScreenPlay#attachScreenshot()Lio/github/selcukes/reports/screen/ScreenPlay;
+isNotification io.github.selcukes.commons.config.Config$NotifierConfig#isNotification()Z

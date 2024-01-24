@@ -1,0 +1,6 @@
+io.github.selcukes.core.page.Page#getWindows()Ljava/util/List;
+java.util.ArrayList#instance-init#
+java.util.ArrayList#<init>(Ljava/util/Collection;)V
+==
+getDriver io.github.selcukes.core.page.Page#getDriver()Lorg/openqa/selenium/WebDriver;
+getWindowHandles org.openqa.selenium.WebDriver#getWindowHandles()Ljava/util/Set;

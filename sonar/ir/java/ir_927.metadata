@@ -1,0 +1,9 @@
+io.github.selcukes.databind.excel.ExcelCell#parse(Lorg/apache/poi/ss/usermodel/Row;)Lio/github/selcukes/databind/excel/ExcelCell;
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+java.util.Optional#orElse(Ljava/lang/Object;)Ljava/lang/Object;
+java.util.Optional#map(Ljava/util/function/Function;)Ljava/util/Optional;
+==
+getCell org.apache.poi.ss.usermodel.Row#getCell(ILorg/apache/poi/ss/usermodel/Row$MissingCellPolicy;)Lorg/apache/poi/ss/usermodel/Cell;
+getColumn io.github.selcukes.databind.DataField#getColumn()Ljava/util/Optional;
+getSubstitutor io.github.selcukes.databind.DataField#getSubstitutor()Lio/github/selcukes/databind/substitute/Substitutor;
+replace io.github.selcukes.databind.substitute.Substitutor#replace(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;

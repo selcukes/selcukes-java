@@ -1,0 +1,4 @@
+io.github.selcukes.collections.StringHelper#interpolate(Ljava/lang/String;Ljava/util/function/UnaryOperator;)Ljava/lang/String;
+java.util.regex.Pattern#matcher(Ljava/lang/CharSequence;)Ljava/util/regex/Matcher;
+java.util.regex.Matcher#replaceAll(Ljava/util/function/Function;)Ljava/lang/String;
+java.util.regex.Pattern#compile(Ljava/lang/String;)Ljava/util/regex/Pattern;

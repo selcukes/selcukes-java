@@ -1,0 +1,5 @@
+io.github.selcukes.commons.helper.SingletonContext#remove()V
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+java.util.Optional#ifPresent(Ljava/util/function/Consumer;)V
+==
+get java.lang.ThreadLocal#get()Ljava/lang/Object;

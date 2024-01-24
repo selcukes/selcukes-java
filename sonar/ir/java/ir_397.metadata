@@ -1,0 +1,5 @@
+io.github.selcukes.collections.DataTable#getCellValue(ILjava/lang/Object;)Ljava/lang/Object;
+io.github.selcukes.collections.DataTable#checkRowIndex(I)V
+==
+get java.util.Map#get(Ljava/lang/Object;)Ljava/lang/Object;
+get java.util.LinkedList#get(I)Ljava/lang/Object;

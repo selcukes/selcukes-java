@@ -1,0 +1,4 @@
+io.github.selcukes.snapshot.SnapshotImpl#getScreenshot(Lorg/openqa/selenium/OutputType;)Ljava/lang/Object;
+==
+getFullScreenshotAs io.github.selcukes.snapshot.PageSnapshot#getFullScreenshotAs(Lorg/openqa/selenium/OutputType;)Ljava/lang/Object;
+getScreenshotWithText io.github.selcukes.snapshot.PageSnapshot#getScreenshotWithText(Lorg/openqa/selenium/OutputType;)Ljava/lang/Object;

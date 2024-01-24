@@ -1,0 +1,8 @@
+io.github.selcukes.commons.exec.Shell#killProcess(Ljava/lang/String;)V
+java.util.concurrent.atomic.AtomicInteger#instance-init#
+java.lang.ProcessHandle#allProcesses()Ljava/util/stream/Stream;
+java.util.concurrent.atomic.AtomicInteger#<init>(I)V
+==
+filter java.util.stream.Stream#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+debug io.github.selcukes.commons.logging.Logger#debug(Ljava/util/function/Supplier;)V
+forEach java.util.stream.Stream#forEach(Ljava/util/function/Consumer;)V

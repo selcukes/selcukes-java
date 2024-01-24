@@ -1,0 +1,7 @@
+io.github.selcukes.core.validation.Validation#failWithMessage(ZLjava/lang/String;[Ljava/lang/Object;)V
+io.github.selcukes.core.validation.Validation#getErrorMessages()Ljava/util/List;
+io.github.selcukes.commons.fixture.SelcukesFixture#fail(Ljava/lang/String;)V
+java.lang.String#format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+==
+add java.util.List#add(Ljava/lang/Object;)Z
+set java.lang.ThreadLocal#set(Ljava/lang/Object;)V

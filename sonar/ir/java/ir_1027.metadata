@@ -1,0 +1,4 @@
+io.github.selcukes.wdb.core.EdgeBinary#getLatestRelease()Ljava/lang/String;
+java.lang.String#replaceAll(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+==
+getVersionNumberFromXml io.github.selcukes.wdb.core.AbstractBinary#getVersionNumberFromXml(Ljava/lang/String;)Ljava/lang/String;

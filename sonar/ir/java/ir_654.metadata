@@ -1,0 +1,5 @@
+io.github.selcukes.commons.helper.FileHelper#renameFile(Ljava/io/File;Ljava/io/File;)V
+io.github.selcukes.commons.exception.ConfigurationException#instance-init#
+io.github.selcukes.commons.exception.ConfigurationException#<init>(Ljava/lang/String;)V
+==
+renameTo java.io.File#renameTo(Ljava/io/File;)Z

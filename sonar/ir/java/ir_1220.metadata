@@ -1,0 +1,2 @@
+io.github.selcukes.snapshot.SnapshotImpl#shootPageAsBytes()[B
+io.github.selcukes.snapshot.SnapshotImpl#getScreenshot(Lorg/openqa/selenium/OutputType;)Ljava/lang/Object;

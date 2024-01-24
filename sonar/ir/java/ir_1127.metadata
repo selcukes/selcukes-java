@@ -1,0 +1,13 @@
+io.github.selcukes.notifier.mail.EmailNotifierImpl#createAttachmentBodyPart(Ljava/lang/String;)Ljakarta/mail/internet/MimeBodyPart;
+jakarta.activation.FileDataSource#instance-init#
+java.io.File#<init>(Ljava/lang/String;)V
+jakarta.activation.DataHandler#instance-init#
+jakarta.activation.DataHandler#<init>(Ljakarta/activation/DataSource;)V
+jakarta.mail.internet.MimeBodyPart#<init>()V
+java.io.File#instance-init#
+jakarta.activation.FileDataSource#<init>(Ljava/io/File;)V
+jakarta.mail.internet.MimeBodyPart#instance-init#
+==
+setFileName jakarta.mail.internet.MimeBodyPart#setFileName(Ljava/lang/String;)V
+getName java.io.File#getName()Ljava/lang/String;
+setDataHandler jakarta.mail.internet.MimeBodyPart#setDataHandler(Ljakarta/activation/DataHandler;)V

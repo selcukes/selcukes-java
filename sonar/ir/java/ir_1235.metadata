@@ -1,0 +1,5 @@
+io.github.selcukes.excel.MultiExcelData#getScenariosToRun()Ljava/util/List;
+==
+filter io.github.selcukes.collections.DataTable#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+toList java.util.stream.Stream#toList()Ljava/util/List;

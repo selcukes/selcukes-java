@@ -1,0 +1,4 @@
+io.github.selcukes.core.driver.DriverManager#setDriver(Ljava/lang/Object;)V
+io.github.selcukes.commons.fixture.DriverFixture#setDriverFixture(Ljava/lang/Object;)V
+==
+set java.lang.ThreadLocal#set(Ljava/lang/Object;)V

@@ -1,0 +1,7 @@
+io.github.selcukes.reports.screen.ScreenPlayImpl#attach(Ljava/lang/String;)V
+io.github.selcukes.reports.screen.ScreenPlayImpl#attach([BLjava/lang/String;)V
+io.github.selcukes.commons.fixture.SelcukesFixture#attach(Ljava/lang/String;)V
+java.lang.String#contains(Ljava/lang/CharSequence;)Z
+java.lang.String#getBytes()[B
+==
+isAttachable io.github.selcukes.reports.screen.ScreenPlayImpl#isAttachable()Z

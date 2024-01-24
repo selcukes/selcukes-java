@@ -1,0 +1,6 @@
+io.github.selcukes.snapshot.PageSnapshot#unwrapDriver()V
+org.openqa.selenium.remote.Augmenter#instance-init#
+org.openqa.selenium.remote.Augmenter#<init>()V
+==
+augment org.openqa.selenium.remote.Augmenter#augment(Lorg/openqa/selenium/WebDriver;)Lorg/openqa/selenium/WebDriver;
+getWrappedDriver org.openqa.selenium.WrapsDriver#getWrappedDriver()Lorg/openqa/selenium/WebDriver;

@@ -1,0 +1,3 @@
+io.github.selcukes.wdb.core.OperaBinary#getLatestRelease()Ljava/lang/String;
+==
+getVersionNumberFromGit io.github.selcukes.wdb.core.AbstractBinary#getVersionNumberFromGit(Ljava/lang/String;)Ljava/lang/String;

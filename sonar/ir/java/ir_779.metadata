@@ -1,0 +1,4 @@
+io.github.selcukes.commons.logging.LogRecordListener#logRecordSubmitted(Ljava/util/logging/LogRecord;)V
+==
+get java.lang.ThreadLocal#get()Ljava/lang/Object;
+add java.util.List#add(Ljava/lang/Object;)Z

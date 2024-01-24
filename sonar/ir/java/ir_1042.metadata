@@ -1,0 +1,2 @@
+io.github.selcukes.wdb.core.AbstractBinary#getTargetArch()Ljava/util/Optional;
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;

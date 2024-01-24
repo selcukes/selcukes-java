@@ -1,0 +1,6 @@
+io.github.selcukes.reports.cucumber.CucumberLiveReportAdapter#getFeatureStatus(Ljava/util/List;)Ljava/lang/String;
+java.util.Optional#map(Ljava/util/function/Function;)Ljava/util/Optional;
+==
+filter java.util.stream.Stream#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+findFirst java.util.stream.Stream#findFirst()Ljava/util/Optional;

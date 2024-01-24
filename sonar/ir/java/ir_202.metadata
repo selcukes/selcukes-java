@@ -1,0 +1,4 @@
+io.github.selcukes.core.page.Page#click(Ljava/lang/Object;Lio/github/selcukes/core/wait/WaitCondition;)Lio/github/selcukes/core/page/Page;
+==
+find io.github.selcukes.core.page.Page#find(Ljava/lang/Object;Lio/github/selcukes/core/wait/WaitCondition;)Lorg/openqa/selenium/WebElement;
+click org.openqa.selenium.WebElement#click()V

@@ -1,0 +1,9 @@
+io.github.selcukes.databind.xml.XmlMapper#selectNodes(Lorg/w3c/dom/Document;Ljava/lang/String;)Ljava/util/stream/Stream;
+javax.xml.xpath.XPathFactory#newInstance()Ljavax/xml/xpath/XPathFactory;
+java.util.stream.IntStream#range(II)Ljava/util/stream/IntStream;
+==
+mapToObj java.util.stream.IntStream#mapToObj(Ljava/util/function/IntFunction;)Ljava/util/stream/Stream;
+compile javax.xml.xpath.XPath#compile(Ljava/lang/String;)Ljavax/xml/xpath/XPathExpression;
+evaluate javax.xml.xpath.XPathExpression#evaluate(Ljava/lang/Object;Ljavax/xml/namespace/QName;)Ljava/lang/Object;
+getLength org.w3c.dom.NodeList#getLength()I
+newXPath javax.xml.xpath.XPathFactory#newXPath()Ljavax/xml/xpath/XPath;

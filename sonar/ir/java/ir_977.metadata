@@ -1,0 +1,3 @@
+io.github.selcukes.extent.report.Reporter#attachAndClear()V
+io.github.selcukes.extent.report.Reporter#attachLog()Lio/github/selcukes/extent/report/Reporter;
+io.github.selcukes.extent.report.Reporter#stop()Lio/github/selcukes/extent/report/Reporter;

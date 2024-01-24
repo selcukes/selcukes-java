@@ -1,0 +1,6 @@
+io.github.selcukes.reports.screen.ScreenPlayResult#getError(Lio/github/selcukes/commons/fixture/TestResult;)Ljava/lang/String;
+io.github.selcukes.commons.helper.ExceptionHelper#getExceptionTitle(Ljava/lang/Throwable;)Ljava/lang/String;
+==
+test java.util.function.Predicate#test(Ljava/lang/Object;)Z
+getThrowable io.github.selcukes.commons.fixture.TestResult#getThrowable()Ljava/lang/Throwable;
+getStatus io.github.selcukes.commons.fixture.TestResult#getStatus()Ljava/lang/String;

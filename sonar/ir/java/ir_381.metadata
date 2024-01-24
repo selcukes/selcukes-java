@@ -1,0 +1,3 @@
+io.github.selcukes.collections.DataTable#addColumn(Ljava/lang/Object;Ljava/lang/Object;)V
+==
+updateRows io.github.selcukes.collections.DataTable#updateRows(Ljava/util/function/UnaryOperator;)V

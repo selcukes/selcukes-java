@@ -1,0 +1,6 @@
+io.github.selcukes.core.driver.RunMode#isCloudBrowser()Z
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+io.github.selcukes.collections.StringHelper#isNonEmpty(Ljava/lang/String;)Z
+==
+getCloud io.github.selcukes.commons.config.Config$WebConfig#getCloud()Ljava/lang/String;
+getWeb io.github.selcukes.commons.config.Config#getWeb()Lio/github/selcukes/commons/config/Config$WebConfig;

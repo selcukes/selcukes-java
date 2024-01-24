@@ -1,0 +1,5 @@
+io.github.selcukes.commons.http.WebResponse#header(Ljava/lang/String;)Ljava/lang/String;
+java.net.http.HttpHeaders#firstValue(Ljava/lang/String;)Ljava/util/Optional;
+java.util.Optional#orElse(Ljava/lang/Object;)Ljava/lang/Object;
+==
+headers java.net.http.HttpResponse#headers()Ljava/net/http/HttpHeaders;

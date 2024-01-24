@@ -1,0 +1,3 @@
+io.github.selcukes.video.MonteRecorder#<init>()V
+io.github.selcukes.video.MonteRecorder#getScreenRecorder()Lio/github/selcukes/video/MonteRecorderBuilder;
+io.github.selcukes.video.VideoRecorder#videoConfig()Lio/github/selcukes/video/config/DefaultVideoOptions;

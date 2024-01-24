@@ -1,0 +1,13 @@
+io.github.selcukes.commons.helper.FileHelper#downloadToUsersFolder(Ljava/lang/String;)Ljava/lang/String;
+java.lang.String#split(Ljava/lang/String;)[Ljava/lang/String;
+java.lang.System#getProperty(Ljava/lang/String;)Ljava/lang/String;
+java.nio.file.Paths#get(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;
+io.github.selcukes.collections.Resources#toURL(Ljava/lang/String;)Ljava/net/URL;
+java.util.Arrays#stream([Ljava/lang/Object;)Ljava/util/stream/Stream;
+java.util.Optional#orElse(Ljava/lang/Object;)Ljava/lang/Object;
+==
+download io.github.selcukes.commons.helper.FileHelper#download(Ljava/net/URL;Ljava/io/File;)V
+reduce java.util.stream.Stream#reduce(Ljava/util/function/BinaryOperator;)Ljava/util/Optional;
+exists java.io.File#exists()Z
+getPath java.io.File#getPath()Ljava/lang/String;
+toFile java.nio.file.Path#toFile()Ljava/io/File;

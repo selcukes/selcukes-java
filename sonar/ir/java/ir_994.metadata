@@ -1,0 +1,3 @@
+io.github.selcukes.wdb.version.VersionTokenizer#moveNext()Z
+java.lang.String#charAt(I)C
+java.lang.String#substring(II)Ljava/lang/String;

@@ -1,0 +1,5 @@
+io.github.selcukes.notifier.teams.MicrosoftTeams#pushNotification(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Lio/github/selcukes/notifier/Notifier;
+io.github.selcukes.notifier.teams.MicrosoftTeamsBuilder#instance-init#
+io.github.selcukes.notifier.teams.MicrosoftTeamsBuilder#<init>()V
+==
+sendMessage io.github.selcukes.notifier.teams.MicrosoftTeamsBuilder#sendMessage(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V

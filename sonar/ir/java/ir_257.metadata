@@ -1,0 +1,5 @@
+io.github.selcukes.core.page.Page#addCookie(Lorg/openqa/selenium/Cookie;)V
+==
+getDriver io.github.selcukes.core.page.Page#getDriver()Lorg/openqa/selenium/WebDriver;
+addCookie org.openqa.selenium.WebDriver$Options#addCookie(Lorg/openqa/selenium/Cookie;)V
+manage org.openqa.selenium.WebDriver#manage()Lorg/openqa/selenium/WebDriver$Options;

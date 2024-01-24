@@ -1,0 +1,8 @@
+io.github.selcukes.reports.screen.ScreenPlayImpl#attachVideo()Lio/github/selcukes/reports/screen/ScreenPlay;
+io.github.selcukes.reports.screen.ScreenPlayImpl#attach(Ljava/lang/String;)V
+io.github.selcukes.reports.screen.ScreenPlayImpl#stopAndDeleteVideo()V
+==
+stopAndDelete io.github.selcukes.video.Recorder#stopAndDelete()V
+isAttachable io.github.selcukes.reports.screen.ScreenPlayImpl#isAttachable()Z
+stop io.github.selcukes.reports.screen.ScreenPlayImpl#stop()Ljava/io/File;
+getAbsolutePath java.io.File#getAbsolutePath()Ljava/lang/String;

@@ -1,0 +1,2 @@
+io.github.selcukes.extent.report.Reporter#stop()Lio/github/selcukes/extent/report/Reporter;
+io.github.selcukes.commons.logging.LoggerFactory#removeListener(Lio/github/selcukes/commons/logging/LogRecordListener;)V

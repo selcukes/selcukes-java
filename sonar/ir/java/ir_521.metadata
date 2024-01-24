@@ -1,0 +1,5 @@
+io.github.selcukes.collections.Reflections#invokeStaticMethod(Ljava/lang/Class;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;
+java.lang.reflect.Method#invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+java.lang.reflect.Method#setAccessible(Z)V
+io.github.selcukes.collections.Reflections#getClasses([Ljava/lang/Object;)[Ljava/lang/Class;
+java.lang.Class#getDeclaredMethod(Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;

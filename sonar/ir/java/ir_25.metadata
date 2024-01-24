@@ -1,0 +1,10 @@
+io.github.selcukes.core.driver.AppiumOptions#getWinAppOptions(Lorg/openqa/selenium/WebElement;)Lorg/openqa/selenium/MutableCapabilities;
+io.appium.java_client.windows.options.WindowsOptions#<init>()V
+java.lang.String#isEmpty()Z
+io.github.selcukes.commons.helper.Preconditions#checkArgument(ZLjava/lang/String;)V
+io.github.selcukes.collections.StringHelper#toHex(Ljava/lang/String;)Ljava/lang/String;
+io.appium.java_client.windows.options.WindowsOptions#instance-init#
+io.github.selcukes.core.driver.AppiumOptions#merge(Lorg/openqa/selenium/Capabilities;)Lorg/openqa/selenium/MutableCapabilities;
+==
+getAttribute org.openqa.selenium.WebElement#getAttribute(Ljava/lang/String;)Ljava/lang/String;
+setAppTopLevelWindow io.appium.java_client.windows.options.SupportsAppTopLevelWindowOption#setAppTopLevelWindow(Ljava/lang/String;)Lio/appium/java_client/remote/options/BaseOptions;

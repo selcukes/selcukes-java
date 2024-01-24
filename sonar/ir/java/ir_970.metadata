@@ -1,0 +1,4 @@
+io.github.selcukes.extent.report.Reporter#start()Lio/github/selcukes/extent/report/Reporter;
+io.github.selcukes.commons.logging.LogRecordListener#instance-init#
+io.github.selcukes.commons.logging.LogRecordListener#<init>()V
+io.github.selcukes.commons.logging.LoggerFactory#addListener(Lio/github/selcukes/commons/logging/LogRecordListener;)V

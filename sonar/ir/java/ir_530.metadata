@@ -1,0 +1,4 @@
+io.github.selcukes.collections.Resources#toURL(Ljava/lang/String;)Ljava/net/URL;
+java.util.Optional#orElseThrow(Ljava/util/function/Supplier;)Ljava/lang/Object;
+==
+tryURL io.github.selcukes.collections.Resources#tryURL(Ljava/lang/String;)Ljava/util/Optional;

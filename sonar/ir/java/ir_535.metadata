@@ -1,0 +1,3 @@
+io.github.selcukes.commons.exception.EncryptionException#<init>()V
+==
+<init> io.github.selcukes.commons.exception.SelcukesException#<init>()V

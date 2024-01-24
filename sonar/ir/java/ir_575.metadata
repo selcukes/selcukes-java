@@ -1,0 +1,8 @@
+io.github.selcukes.commons.helper.ImageUtil#drawMultiLineString(Ljava/awt/Graphics;Ljava/lang/String;I)V
+java.lang.String#split(Ljava/lang/String;)[Ljava/lang/String;
+java.lang.String#trim()Ljava/lang/String;
+==
+drawString java.awt.Graphics#drawString(Ljava/lang/String;II)V
+getHeight java.awt.FontMetrics#getHeight()I
+getFontMetrics java.awt.Graphics#getFontMetrics()Ljava/awt/FontMetrics;
+stringWidth java.awt.FontMetrics#stringWidth(Ljava/lang/String;)I

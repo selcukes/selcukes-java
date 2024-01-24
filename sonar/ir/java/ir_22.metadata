@@ -1,0 +1,6 @@
+io.github.selcukes.testng.listeners.TestListener#onStart(Lorg/testng/ITestContext;)V
+io.github.selcukes.commons.properties.SelcukesRuntime#loadOptions()V
+==
+getCurrentXmlTest org.testng.ITestContext#getCurrentXmlTest()Lorg/testng/xml/XmlTest;
+forEach java.util.Map#forEach(Ljava/util/function/BiConsumer;)V
+getAllParameters org.testng.xml.XmlTest#getAllParameters()Ljava/util/Map;

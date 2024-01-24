@@ -1,0 +1,6 @@
+io.github.selcukes.wdb.util.VersionHelper#sendRequest(Ljava/lang/String;Ljava/lang/String;)Lio/github/selcukes/commons/http/WebResponse;
+io.github.selcukes.commons.http.WebClient#instance-init#
+io.github.selcukes.commons.http.WebClient#<init>(Ljava/lang/String;)V
+==
+get io.github.selcukes.commons.http.WebClient#get()Lio/github/selcukes/commons/http/WebResponse;
+proxy io.github.selcukes.commons.http.WebClient#proxy(Ljava/lang/String;)Lio/github/selcukes/commons/http/WebClient;

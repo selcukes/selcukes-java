@@ -1,0 +1,2 @@
+io.github.selcukes.commons.listener.LifecycleManager#afterTest(Lio/github/selcukes/commons/fixture/TestResult;)V
+io.github.selcukes.commons.listener.LifecycleManager#runSafely(Ljava/util/List;Ljava/util/function/BiConsumer;Lio/github/selcukes/commons/fixture/TestResult;)V

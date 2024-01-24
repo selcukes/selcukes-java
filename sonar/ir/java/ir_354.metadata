@@ -1,0 +1,19 @@
+io.github.selcukes.reports.cucumber.CucumberListener#afterStep(Lio/cucumber/plugin/event/TestStepFinished;)V
+java.util.Optional#isPresent()Z
+java.lang.StringBuilder#instance-init#
+io.cucumber.plugin.event.TestStepFinished#getTestStep()Lio/cucumber/plugin/event/TestStep;
+io.cucumber.plugin.event.Status#is(Lio/cucumber/plugin/event/Status;)Z
+java.lang.StringBuilder#append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+java.lang.StringBuilder#append(I)Ljava/lang/StringBuilder;
+java.lang.StringBuilder#<init>()V
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+io.cucumber.plugin.event.Result#getStatus()Lio/cucumber/plugin/event/Status;
+java.lang.StringBuilder#append(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+java.lang.StringBuilder#toString()Ljava/lang/String;
+io.cucumber.plugin.event.TestStepFinished#getResult()Lio/cucumber/plugin/event/Result;
+==
+getStep io.cucumber.plugin.event.PickleStepTestStep#getStep()Lio/cucumber/plugin/event/Step;
+getText io.cucumber.plugin.event.Step#getText()Ljava/lang/String;
+getLine io.cucumber.plugin.event.Step#getLine()I
+afterStep io.github.selcukes.reports.cucumber.CucumberService#afterStep(Ljava/lang/String;Z)V
+getArgument io.cucumber.plugin.event.Step#getArgument()Lio/cucumber/plugin/event/StepArgument;

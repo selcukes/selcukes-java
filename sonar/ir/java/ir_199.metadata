@@ -1,0 +1,4 @@
+io.github.selcukes.core.page.Page#select(Ljava/lang/Object;Ljava/util/function/Consumer;)Lio/github/selcukes/core/page/Page;
+==
+select io.github.selcukes.core.page.Page#select(Ljava/lang/Object;)Lorg/openqa/selenium/support/ui/Select;
+accept java.util.function.Consumer#accept(Ljava/lang/Object;)V

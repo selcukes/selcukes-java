@@ -1,0 +1,10 @@
+io.github.selcukes.video.RecorderFactory#getRecorder()Lio/github/selcukes/video/Recorder;
+io.github.selcukes.video.MonteRecorder#instance-init#
+io.github.selcukes.video.FFmpegRecorder#<init>()V
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+io.github.selcukes.video.FFmpegRecorder#instance-init#
+io.github.selcukes.video.MonteRecorder#<init>()V
+java.lang.String#equalsIgnoreCase(Ljava/lang/String;)Z
+==
+getType io.github.selcukes.commons.config.Config$VideoConfig#getType()Ljava/lang/String;
+getVideo io.github.selcukes.commons.config.Config#getVideo()Lio/github/selcukes/commons/config/Config$VideoConfig;

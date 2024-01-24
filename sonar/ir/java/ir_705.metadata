@@ -1,0 +1,2 @@
+io.github.selcukes.commons.config.ConfigFactory#cleanupConfig()V
+io.github.selcukes.commons.helper.SingletonContext#remove()V

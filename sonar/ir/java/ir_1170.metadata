@@ -1,0 +1,7 @@
+io.github.selcukes.video.MonteRecorder#stopAndSave(Ljava/lang/String;)Ljava/io/File;
+io.github.selcukes.video.MonteRecorder#writeVideo(Ljava/lang/String;)Ljava/io/File;
+io.github.selcukes.video.MonteRecorder#encodeRecording(Ljava/lang/String;)Ljava/io/File;
+==
+getAbsolutePath java.io.File#getAbsolutePath()Ljava/lang/String;
+deleteOnExit java.io.File#deleteOnExit()V
+info io.github.selcukes.commons.logging.Logger#info(Ljava/util/function/Supplier;)V

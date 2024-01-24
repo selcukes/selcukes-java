@@ -1,0 +1,7 @@
+io.github.selcukes.excel.ExcelDataFactory#getInstance()Lio/github/selcukes/excel/ExcelDataProvider;
+io.github.selcukes.collections.StringHelper#isEmpty(Ljava/lang/String;)Z
+io.github.selcukes.commons.helper.Singleton#instanceOf(Ljava/lang/Class;[Ljava/lang/Object;)Ljava/lang/Object;
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+==
+get java.util.Map#get(Ljava/lang/Object;)Ljava/lang/Object;
+getExcel io.github.selcukes.commons.config.Config#getExcel()Ljava/util/Map;

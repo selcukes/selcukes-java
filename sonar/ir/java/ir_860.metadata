@@ -1,0 +1,3 @@
+io.github.selcukes.databind.properties.PropertiesMapper#parse(Ljava/nio/file/Path;)Ljava/util/Map;
+io.github.selcukes.databind.properties.PropertiesLoader#getProperties(Ljava/nio/file/Path;)Ljava/util/Properties;
+io.github.selcukes.collections.Maps#of(Ljava/util/Properties;)Ljava/util/Map;

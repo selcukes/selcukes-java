@@ -1,0 +1,14 @@
+io.github.selcukes.reports.cucumber.CucumberLiveReportAdapter#afterScenario(Lio/cucumber/plugin/event/TestCaseFinished;)V
+io.cucumber.plugin.event.Result#getError()Ljava/lang/Throwable;
+java.time.Duration#toMillis()J
+io.cucumber.plugin.event.Status#is(Lio/cucumber/plugin/event/Status;)Z
+io.cucumber.plugin.event.Result#getDuration()Ljava/time/Duration;
+io.cucumber.plugin.event.TestCaseFinished#getResult()Lio/cucumber/plugin/event/Result;
+java.lang.Enum#name()Ljava/lang/String;
+io.cucumber.plugin.event.TestCaseFinished#getTestCase()Lio/cucumber/plugin/event/TestCase;
+io.cucumber.plugin.event.Result#getStatus()Lio/cucumber/plugin/event/Status;
+==
+publishResults io.github.selcukes.reports.cucumber.LiveReportHelper#publishResults(Ljava/lang/Object;Ljava/lang/String;)V
+get java.lang.ThreadLocal#get()Ljava/lang/Object;
+getMessage java.lang.Throwable#getMessage()Ljava/lang/String;
+getName io.cucumber.plugin.event.TestCase#getName()Ljava/lang/String;

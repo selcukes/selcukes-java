@@ -1,0 +1,11 @@
+io.github.selcukes.excel.ExcelTestRunner#filter([[Ljava/lang/Object;Ljava/util/function/Predicate;)[[Ljava/lang/Object;
+java.util.stream.Stream#of([Ljava/lang/Object;)Ljava/util/stream/Stream;
+io.github.selcukes.collections.Maps#ofIgnoreCase(Ljava/util/function/Function;Ljava/util/function/Function;)Ljava/util/stream/Collector;
+==
+collect java.util.stream.Stream#collect(Ljava/util/stream/Collector;)Ljava/lang/Object;
+filter java.util.stream.Stream#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+isEmpty java.util.List#isEmpty()Z
+filter io.github.selcukes.testng.SelcukesTestNGRunner#filter([[Ljava/lang/Object;Ljava/util/function/Predicate;)[[Ljava/lang/Object;
+toArray java.util.stream.Stream#toArray(Ljava/util/function/IntFunction;)[Ljava/lang/Object;

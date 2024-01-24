@@ -1,0 +1,7 @@
+io.github.selcukes.video.FFmpegRecorder#start()V
+io.github.selcukes.video.FFmpegRecorder#getFile(Ljava/lang/String;)Ljava/io/File;
+io.github.selcukes.video.FFmpegRecorder#getScreenSize()Ljava/lang/String;
+==
+getAbsolutePath java.io.File#getAbsolutePath()Ljava/lang/String;
+runCommandAsync io.github.selcukes.commons.exec.Shell#runCommandAsync(Ljava/lang/String;)Ljava/util/concurrent/CompletableFuture;
+info io.github.selcukes.commons.logging.Logger#info(Ljava/util/function/Supplier;)V

@@ -1,0 +1,6 @@
+io.github.selcukes.commons.http.WebClient#<init>(Ljava/lang/String;)V
+java.util.concurrent.ConcurrentHashMap#<init>()V
+java.util.Objects#requireNonNull(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
+java.net.http.HttpClient#newBuilder()Ljava/net/http/HttpClient$Builder;
+java.net.http.HttpRequest#newBuilder()Ljava/net/http/HttpRequest$Builder;
+java.util.concurrent.ConcurrentHashMap#instance-init#

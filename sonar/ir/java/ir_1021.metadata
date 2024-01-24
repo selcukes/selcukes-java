@@ -1,0 +1,11 @@
+io.github.selcukes.wdb.util.WebDriverBinaryUtil#configureBinary()Ljava/lang/String;
+io.github.selcukes.wdb.util.WebDriverBinaryUtil#getWebDriverBinary()Ljava/io/File;
+java.lang.StringBuilder#instance-init#
+java.lang.System#setProperty(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+java.lang.StringBuilder#append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+io.github.selcukes.wdb.enums.DriverType#getName()Ljava/lang/String;
+java.lang.StringBuilder#<init>()V
+java.lang.StringBuilder#toString()Ljava/lang/String;
+==
+getDriverType io.github.selcukes.wdb.core.BinaryFactory#getDriverType()Lio/github/selcukes/wdb/enums/DriverType;
+getAbsolutePath java.io.File#getAbsolutePath()Ljava/lang/String;

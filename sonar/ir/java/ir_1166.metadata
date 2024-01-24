@@ -1,0 +1,4 @@
+io.github.selcukes.video.FFmpegRecorder#createMovieFolder()Ljava/io/File;
+java.io.File#<init>(Ljava/lang/String;)V
+io.github.selcukes.commons.helper.FileHelper#createDirectory(Ljava/io/File;)V
+java.io.File#instance-init#

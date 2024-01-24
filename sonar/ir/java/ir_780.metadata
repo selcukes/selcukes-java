@@ -1,0 +1,4 @@
+io.github.selcukes.commons.logging.LogRecordListener#getLogRecords()Ljava/util/stream/Stream;
+==
+get java.lang.ThreadLocal#get()Ljava/lang/Object;
+stream java.util.Collection#stream()Ljava/util/stream/Stream;

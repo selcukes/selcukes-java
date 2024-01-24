@@ -1,0 +1,5 @@
+io.github.selcukes.core.page.WebAuthenticator#getVirtualAuthenticator()V
+org.openqa.selenium.virtualauthenticator.VirtualAuthenticatorOptions#<init>()V
+org.openqa.selenium.virtualauthenticator.VirtualAuthenticatorOptions#instance-init#
+==
+addVirtualAuthenticator org.openqa.selenium.virtualauthenticator.HasVirtualAuthenticator#addVirtualAuthenticator(Lorg/openqa/selenium/virtualauthenticator/VirtualAuthenticatorOptions;)Lorg/openqa/selenium/virtualauthenticator/VirtualAuthenticator;

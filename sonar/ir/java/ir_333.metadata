@@ -1,0 +1,6 @@
+io.github.selcukes.reports.screen.ScreenPlayImpl#stopAndDeleteVideo()V
+java.util.UUID#randomUUID()Ljava/util/UUID;
+java.util.UUID#toString()Ljava/lang/String;
+io.github.selcukes.reports.screen.ScreenPlayImpl#stopAndSaveNativeVideo(Ljava/lang/String;)Ljava/io/File;
+==
+deleteOnExit java.io.File#deleteOnExit()V

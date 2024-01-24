@@ -1,0 +1,6 @@
+io.github.selcukes.notifier.NotifierFactory#getNotifier(Lio/github/selcukes/notifier/enums/NotifierType;)Lio/github/selcukes/notifier/Notifier;
+java.lang.Enum#equals(Ljava/lang/Object;)Z
+io.github.selcukes.notifier.teams.MicrosoftTeams#<init>()V
+io.github.selcukes.notifier.slack.Slack#instance-init#
+io.github.selcukes.notifier.teams.MicrosoftTeams#instance-init#
+io.github.selcukes.notifier.slack.Slack#<init>()V

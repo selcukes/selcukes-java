@@ -1,0 +1,3 @@
+io.github.selcukes.collections.DataComparator#create(Ljava/util/function/BiPredicate;)Lio/github/selcukes/collections/DataComparator;
+io.github.selcukes.collections.DataComparator#<init>(Ljava/util/function/BiPredicate;)V
+io.github.selcukes.collections.DataComparator#instance-init#

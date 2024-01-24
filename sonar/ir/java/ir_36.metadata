@@ -1,0 +1,5 @@
+io.github.selcukes.core.page.Pages#mobilePage([Lorg/openqa/selenium/Capabilities;)Lio/github/selcukes/core/page/MobilePage;
+io.github.selcukes.core.page.MobilePage#instance-init#
+io.github.selcukes.core.page.MobilePage#<init>(Lorg/openqa/selenium/WebDriver;)V
+==
+createDriver io.github.selcukes.core.driver.DriverManager#createDriver(Lio/github/selcukes/core/enums/DeviceType;[Lorg/openqa/selenium/Capabilities;)Lorg/openqa/selenium/WebDriver;

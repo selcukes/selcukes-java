@@ -1,0 +1,21 @@
+io.github.selcukes.extent.report.SelcukesExtentAdapter#createFeature(Lio/cucumber/plugin/event/TestCase;)V
+io.github.selcukes.extent.report.TestSourcesModel#getFeature(Ljava/net/URI;)Lio/cucumber/messages/types/Feature;
+java.lang.String#equals(Ljava/lang/Object;)Z
+java.util.Objects#requireNonNull(Ljava/lang/Object;)Ljava/lang/Object;
+java.util.stream.Collectors#toSet()Ljava/util/stream/Collector;
+io.cucumber.messages.types.Feature#getDescription()Ljava/lang/String;
+io.cucumber.messages.types.Feature#getLanguage()Ljava/lang/String;
+io.cucumber.messages.types.Feature#getTags()Ljava/util/List;
+com.aventstack.extentreports.model.Test#getName()Ljava/lang/String;
+io.cucumber.messages.types.Feature#getName()Ljava/lang/String;
+==
+put java.util.Map#put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+getUri io.cucumber.plugin.event.TestCase#getUri()Ljava/net/URI;
+get java.lang.ThreadLocal#get()Ljava/lang/Object;
+collect java.util.stream.Stream#collect(Ljava/util/stream/Collector;)Ljava/lang/Object;
+containsKey java.util.Map#containsKey(Ljava/lang/Object;)Z
+get java.util.Map#get(Ljava/lang/Object;)Ljava/lang/Object;
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+getModel com.aventstack.extentreports.ExtentTest#getModel()Lcom/aventstack/extentreports/model/Test;
+set java.lang.ThreadLocal#set(Ljava/lang/Object;)V

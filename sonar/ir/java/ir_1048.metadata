@@ -1,0 +1,5 @@
+io.github.selcukes.wdb.core.AbstractBinary#getVersionNumberFromXml(Ljava/lang/String;)Ljava/lang/String;
+io.github.selcukes.wdb.util.VersionHelper#sendRequest(Ljava/lang/String;Ljava/lang/String;)Lio/github/selcukes/commons/http/WebResponse;
+io.github.selcukes.commons.http.WebResponse#body()Ljava/lang/String;
+==
+getProxy io.github.selcukes.wdb.core.AbstractBinary#getProxy()Ljava/lang/String;

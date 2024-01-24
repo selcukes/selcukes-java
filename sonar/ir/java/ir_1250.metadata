@@ -1,0 +1,8 @@
+io.github.selcukes.excel.SingleExcelData#getScenarioData(Ljava/lang/String;)Ljava/util/Map;
+java.lang.String#split(Ljava/lang/String;)[Ljava/lang/String;
+java.lang.String#contains(Ljava/lang/CharSequence;)Z
+io.github.selcukes.commons.helper.Preconditions#checkArgument(ZLjava/lang/String;)V
+java.lang.String#format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+==
+get java.util.Map#get(Ljava/lang/Object;)Ljava/lang/Object;
+getTestData io.github.selcukes.excel.AbstractExcelDataProvider#getTestData(Ljava/lang/String;Lio/github/selcukes/collections/DataTable;)Ljava/util/Map;

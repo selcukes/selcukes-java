@@ -1,0 +1,4 @@
+io.github.selcukes.reports.screen.ScreenPlayBuilder#getScreenPlay()Lio/github/selcukes/reports/screen/ScreenPlay;
+io.github.selcukes.reports.screen.ScreenPlayImpl#instance-init#
+io.github.selcukes.commons.fixture.DriverFixture#getDriverFixture()Ljava/lang/Object;
+io.github.selcukes.reports.screen.ScreenPlayImpl#<init>(Lorg/openqa/selenium/WebDriver;)V

@@ -1,0 +1,4 @@
+io.github.selcukes.core.page.WebAuthenticator#basicAuth(Ljava/lang/String;Ljava/lang/String;)V
+org.openqa.selenium.UsernameAndPassword#of(Ljava/lang/String;Ljava/lang/String;)Ljava/util/function/Supplier;
+==
+register org.openqa.selenium.HasAuthentication#register(Ljava/util/function/Supplier;)V

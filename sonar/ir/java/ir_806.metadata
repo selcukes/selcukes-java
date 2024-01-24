@@ -1,0 +1,5 @@
+io.github.selcukes.databind.XmlData#<init>()V
+com.fasterxml.jackson.dataformat.xml.XmlMapper#<init>()V
+com.fasterxml.jackson.dataformat.xml.XmlMapper#instance-init#
+==
+<init> io.github.selcukes.databind.AbstractDataBind#<init>(Lcom/fasterxml/jackson/databind/ObjectMapper;)V

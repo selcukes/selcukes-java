@@ -1,0 +1,4 @@
+io.github.selcukes.commons.helper.FileHelper#loadResourceAsStream(Ljava/lang/String;)Ljava/io/InputStream;
+java.lang.Class#getClassLoader()Ljava/lang/ClassLoader;
+==
+getResourceAsStream java.lang.ClassLoader#getResourceAsStream(Ljava/lang/String;)Ljava/io/InputStream;

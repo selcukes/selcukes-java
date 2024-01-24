@@ -1,0 +1,15 @@
+io.github.selcukes.core.grid.SeleniumService#getServerJar()Ljava/lang/String;
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+io.github.selcukes.collections.Resources#of(Ljava/lang/String;)Ljava/nio/file/Path;
+io.github.selcukes.collections.Resources#toURL(Ljava/lang/String;)Ljava/net/URL;
+io.github.selcukes.commons.helper.FileHelper#download(Ljava/net/URL;Ljava/io/File;)V
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+java.util.Optional#orElse(Ljava/lang/Object;)Ljava/lang/Object;
+java.util.Optional#map(Ljava/util/function/Function;)Ljava/util/Optional;
+==
+getServerJar io.github.selcukes.commons.config.Config$WebConfig#getServerJar()Ljava/lang/String;
+toString java.nio.file.Path#toString()Ljava/lang/String;
+getWeb io.github.selcukes.commons.config.Config#getWeb()Lio/github/selcukes/commons/config/Config$WebConfig;
+getReports io.github.selcukes.commons.config.Config#getReports()Ljava/util/Map;
+toFile java.nio.file.Path#toFile()Ljava/io/File;
+toAbsolutePath java.nio.file.Path#toAbsolutePath()Ljava/nio/file/Path;

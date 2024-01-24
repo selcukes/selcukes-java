@@ -1,0 +1,6 @@
+io.github.selcukes.commons.helper.ExceptionHelper#rethrowRootCause(Ljava/lang/Throwable;)V
+java.util.Optional#orElse(Ljava/lang/Object;)Ljava/lang/Object;
+java.util.stream.Stream#iterate(Ljava/lang/Object;Ljava/util/function/Predicate;Ljava/util/function/UnaryOperator;)Ljava/util/stream/Stream;
+==
+reduce java.util.stream.Stream#reduce(Ljava/util/function/BinaryOperator;)Ljava/util/Optional;
+logError io.github.selcukes.commons.helper.ExceptionHelper#logError(Ljava/lang/Throwable;)V

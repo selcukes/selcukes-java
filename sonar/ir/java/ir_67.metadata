@@ -1,0 +1,12 @@
+io.github.selcukes.core.driver.DriverManager#createDriver(Lio/github/selcukes/core/enums/DeviceType;[Lorg/openqa/selenium/Capabilities;)Lorg/openqa/selenium/WebDriver;
+io.github.selcukes.commons.exception.DriverConnectionException#instance-init#
+io.github.selcukes.commons.exception.DriverConnectionException#<init>(Ljava/lang/String;)V
+io.github.selcukes.core.driver.DriverManager#createDevice(Lio/github/selcukes/core/enums/DeviceType;[Lorg/openqa/selenium/Capabilities;)V
+==
+getDevice io.github.selcukes.core.driver.DevicePool#getDevice(Lio/github/selcukes/core/enums/DeviceType;I)Ljava/lang/Object;
+getDriver io.github.selcukes.core.driver.DriverManager#getDriver()Lorg/openqa/selenium/WebDriver;
+getDevicePool io.github.selcukes.core.driver.DriverManager#getDevicePool()Lio/github/selcukes/core/driver/DevicePool;
+setDriver io.github.selcukes.core.driver.DriverManager#setDriver(Ljava/lang/Object;)V
+getDevices io.github.selcukes.core.driver.DevicePool#getDevices(Lio/github/selcukes/core/enums/DeviceType;)Ljava/util/List;
+isEmpty java.util.List#isEmpty()Z
+size java.util.List#size()I

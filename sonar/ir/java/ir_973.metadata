@@ -1,0 +1,5 @@
+io.github.selcukes.extent.report.Reporter#mapLogMessage(Ljava/util/logging/LogRecord;)Ljava/lang/String;
+java.lang.String#replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+==
+getLevel java.util.logging.LogRecord#getLevel()Ljava/util/logging/Level;
+getMessage java.util.logging.LogRecord#getMessage()Ljava/lang/String;

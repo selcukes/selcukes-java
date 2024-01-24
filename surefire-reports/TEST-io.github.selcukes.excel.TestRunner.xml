@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite tests="4" failures="0" name="io.github.selcukes.excel.TestRunner" time="0.202" errors="0" skipped="0">
+  <properties>
+    <property name="jansi.mode" value="strip"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="java.vm.version" value="17.0.10+7-LTS"/>
+    <property name="sun.boot.library.path" value="/opt/hostedtoolcache/Java_Corretto_jdk/17.0.10-7.1/x64/lib"/>
+    <property name="maven.multiModuleProjectDirectory" value="/home/runner/work/selcukes-java/selcukes-java"/>
+    <property name="java.vm.vendor" value="Amazon.com Inc."/>
+    <property name="java.vendor.url" value="https://aws.amazon.com/corretto/"/>
+    <property name="path.separator" value=":"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.dir" value="/home/runner/work/selcukes-java/selcukes-java"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="java.runtime.version" value="17.0.10+7-LTS"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="line.separator" value="
+"/>
+    <property name="aggregate.javadoc.links" value="true"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="os.name" value="Linux"/>
+    <property name="classworlds.conf" value="/usr/share/apache-maven-3.8.8/bin/m2.conf"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="browserstack.key" value="xq8A9GkKQwKDosdNDYdY"/>
+    <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib"/>
+    <property name="maven.conf" value="/usr/share/apache-maven-3.8.8/conf"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="java.class.version" value="61.0"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="6.2.0-1018-azure"/>
+    <property name="library.jansi.path" value="/usr/share/apache-maven-3.8.8/lib/jansi-native"/>
+    <property name="user.home" value="/home/runner"/>
+    <property name="user.timezone" value="Etc/UTC"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.specification.version" value="17"/>
+    <property name="browserstack.user" value="rprudhvi_YCJkSB"/>
+    <property name="sonar.projectKey" value="selcukes_selcukes-java"/>
+    <property name="java.class.path" value="/usr/share/apache-maven-3.8.8/boot/plexus-classworlds-2.6.0.jar"/>
+    <property name="user.name" value="runner"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -B clean install org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=selcukes_selcukes-java -Dbrowserstack.user=rprudhvi_YCJkSB -Dbrowserstack.key=xq8A9GkKQwKDosdNDYdY -Daggregate.javadoc.links=true"/>
+    <property name="java.home" value="/opt/hostedtoolcache/Java_Corretto_jdk/17.0.10-7.1/x64"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.version" value="17.0.10"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Amazon.com Inc."/>
+    <property name="maven.home" value="/usr/share/apache-maven-3.8.8"/>
+    <property name="file.separator" value="/"/>
+    <property name="java.version.date" value="2024-01-16"/>
+    <property name="java.vendor.url.bug" value="https://github.com/corretto/corretto-17/issues/"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.vendor.version" value="Corretto-17.0.10.7.1"/>
+  </properties>
+  <testcase classname="io.github.selcukes.excel.TestRunner" name="runSerialScenario" time="0.117"/>
+  <testcase classname="io.github.selcukes.excel.TestRunner" name="runSerialScenario" time="0.011"/>
+  <testcase classname="io.github.selcukes.excel.TestRunner" name="runSerialScenario" time="0.008"/>
+  <testcase classname="io.github.selcukes.excel.TestRunner" name="runSerialScenario" time="0.066"/>
+</testsuite>

@@ -1,0 +1,3 @@
+io.github.selcukes.commons.exec.Shell#sendCtrlC(Ljava/lang/String;)V
+==
+runCommand io.github.selcukes.commons.exec.Shell#runCommand(Ljava/lang/String;)Lio/github/selcukes/commons/exec/ExecResults;

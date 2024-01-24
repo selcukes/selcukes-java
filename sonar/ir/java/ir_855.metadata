@@ -1,0 +1,2 @@
+io.github.selcukes.databind.converters.IntegerConverter#convert(Ljava/lang/String;)Ljava/lang/Integer;
+java.lang.Integer#parseInt(Ljava/lang/String;)I

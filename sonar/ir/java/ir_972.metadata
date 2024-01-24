@@ -1,0 +1,7 @@
+io.github.selcukes.extent.report.Reporter#getLogRecords()Ljava/lang/String;
+io.github.selcukes.commons.logging.LogRecordListener#getLogRecords()Ljava/util/stream/Stream;
+java.util.stream.Collectors#joining(Ljava/lang/CharSequence;Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/util/stream/Collector;
+==
+collect java.util.stream.Stream#collect(Ljava/util/stream/Collector;)Ljava/lang/Object;
+filter java.util.stream.Stream#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;

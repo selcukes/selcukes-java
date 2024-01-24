@@ -1,0 +1,3 @@
+io.github.selcukes.core.page.ui.Dropdown#selected(Lorg/openqa/selenium/support/ui/Select;Ljava/lang/String;)Ljava/lang/Object;
+io.github.selcukes.core.page.ui.Dropdown$SelectionType#valueOf(Ljava/lang/String;)Lio/github/selcukes/core/page/ui/Dropdown$SelectionType;
+java.lang.String#toUpperCase()Ljava/lang/String;

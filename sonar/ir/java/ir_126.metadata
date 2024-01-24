@@ -1,0 +1,4 @@
+io.github.selcukes.core.validation.ObjectValidation#isNotEqualTo(Ljava/lang/Object;)Lio/github/selcukes/core/validation/ObjectValidation;
+io.github.selcukes.core.validation.Validation#failWithMessage(ZLjava/lang/String;[Ljava/lang/Object;)V
+==
+equals java.lang.Object#equals(Ljava/lang/Object;)Z

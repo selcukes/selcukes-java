@@ -1,0 +1,12 @@
+io.github.selcukes.core.helper.ApiHelper#getAppUrl(Ljava/nio/file/Path;)Ljava/lang/String;
+io.github.selcukes.commons.http.WebResponse#bodyAs(Ljava/lang/Class;)Ljava/lang/Object;
+java.lang.System#getProperty(Ljava/lang/String;)Ljava/lang/String;
+java.util.Map#of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;
+io.github.selcukes.commons.http.WebClient#instance-init#
+io.github.selcukes.commons.http.WebClient#<init>(Ljava/lang/String;)V
+==
+authenticator io.github.selcukes.commons.http.WebClient#authenticator(Ljava/lang/String;Ljava/lang/String;)Lio/github/selcukes/commons/http/WebClient;
+toString java.nio.file.Path#toString()Ljava/lang/String;
+multiPart io.github.selcukes.commons.http.WebClient#multiPart(Ljava/util/Map;)Lio/github/selcukes/commons/http/WebClient;
+getFileName java.nio.file.Path#getFileName()Ljava/nio/file/Path;
+post io.github.selcukes.commons.http.WebClient#post()Lio/github/selcukes/commons/http/WebResponse;

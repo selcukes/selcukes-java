@@ -1,0 +1,5 @@
+io.github.selcukes.core.validation.PageValidations#titleContains(Ljava/lang/String;)V
+java.lang.String#contains(Ljava/lang/CharSequence;)Z
+io.github.selcukes.core.validation.Validation#failWithMessage(ZLjava/lang/String;[Ljava/lang/Object;)V
+==
+title io.github.selcukes.core.page.Page#title()Ljava/lang/String;

@@ -1,0 +1,10 @@
+io.github.selcukes.commons.security.ByteEncryptor#decryptData(Ljava/lang/String;[B)[B
+java.nio.ByteBuffer#wrap([B)Ljava/nio/ByteBuffer;
+io.github.selcukes.commons.security.ByteEncryptor#doCipher(I[BLjavax/crypto/SecretKey;[B)[B
+io.github.selcukes.commons.security.ByteEncryptor#newIV(I)[B
+java.nio.Buffer#remaining()I
+==
+checkArgument io.github.selcukes.commons.helper.Preconditions#checkArgument(ZLjava/lang/String;)V
+getInt java.nio.ByteBuffer#getInt()I
+get java.nio.ByteBuffer#get([B)Ljava/nio/ByteBuffer;
+generateSecretKey io.github.selcukes.commons.security.ByteEncryptor#generateSecretKey(Ljava/lang/String;[B)Ljavax/crypto/SecretKey;

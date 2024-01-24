@@ -1,0 +1,5 @@
+io.github.selcukes.reports.listeners.ReportServiceProvider#beforeTest(Lio/github/selcukes/commons/fixture/TestResult;)V
+io.github.selcukes.commons.fixture.DriverFixture#getDriverFixture()Ljava/lang/Object;
+io.github.selcukes.reports.screen.ScreenPlayBuilder#getScreenPlay()Lio/github/selcukes/reports/screen/ScreenPlay;
+==
+start io.github.selcukes.reports.screen.ScreenPlay#start()Lio/github/selcukes/reports/screen/ScreenPlay;

@@ -1,0 +1,11 @@
+io.github.selcukes.core.driver.AppiumManager#createAppDriver(Lorg/openqa/selenium/Capabilities;)Lorg/openqa/selenium/WebDriver;
+io.github.selcukes.core.driver.AppiumManager#getAppiumAppOptions(Lorg/openqa/selenium/Capabilities;)Lorg/openqa/selenium/Capabilities;
+io.appium.java_client.ios.IOSDriver#<init>(Ljava/net/URL;Lorg/openqa/selenium/Capabilities;)V
+io.appium.java_client.ios.IOSDriver#instance-init#
+io.appium.java_client.android.AndroidDriver#<init>(Ljava/net/URL;Lorg/openqa/selenium/Capabilities;)V
+java.lang.String#equalsIgnoreCase(Ljava/lang/String;)Z
+io.appium.java_client.android.AndroidDriver#instance-init#
+==
+toString java.lang.Enum#toString()Ljava/lang/String;
+getPlatformName org.openqa.selenium.Capabilities#getPlatformName()Lorg/openqa/selenium/Platform;
+getServiceUrl io.github.selcukes.core.driver.AppiumManager#getServiceUrl()Ljava/net/URL;

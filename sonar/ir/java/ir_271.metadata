@@ -1,0 +1,2 @@
+io.github.selcukes.core.driver.DevicePool#getAllDevices()Ljava/util/Map;
+java.util.Collections#unmodifiableMap(Ljava/util/Map;)Ljava/util/Map;

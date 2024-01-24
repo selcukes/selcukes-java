@@ -1,0 +1,8 @@
+io.github.selcukes.databind.properties.PropertiesParser#parse(Ljava/nio/file/Path;)Ljava/lang/Object;
+java.util.stream.Stream#of([Ljava/lang/Object;)Ljava/util/stream/Stream;
+io.github.selcukes.databind.properties.PropertiesLoader#getProperties(Ljava/nio/file/Path;)Ljava/util/Properties;
+java.lang.Class#getDeclaredFields()[Ljava/lang/reflect/Field;
+==
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+toList java.util.stream.Stream#toList()Ljava/util/List;
+initEntity io.github.selcukes.databind.properties.PropertiesParser#initEntity(Ljava/util/List;)Ljava/lang/Object;

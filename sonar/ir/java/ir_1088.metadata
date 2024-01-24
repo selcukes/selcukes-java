@@ -1,0 +1,10 @@
+io.github.selcukes.notifier.slack.SlackUploader#uploadFile(Ljava/lang/String;)V
+java.lang.String#join(Ljava/lang/CharSequence;[Ljava/lang/CharSequence;)Ljava/lang/String;
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+java.nio.file.Paths#get(Ljava/net/URI;)Ljava/nio/file/Path;
+io.github.selcukes.notifier.IncomingWebHookRequest#forUrl(Ljava/lang/String;)Lio/github/selcukes/commons/http/WebClient;
+==
+post io.github.selcukes.commons.http.WebClient#post(Ljava/lang/Object;)Lio/github/selcukes/commons/http/WebResponse;
+getChannel io.github.selcukes.commons.config.Config$NotifierConfig#getChannel()Ljava/lang/String;
+getNotifier io.github.selcukes.commons.config.Config#getNotifier()Lio/github/selcukes/commons/config/Config$NotifierConfig;
+getApiToken io.github.selcukes.commons.config.Config$NotifierConfig#getApiToken()Ljava/lang/String;

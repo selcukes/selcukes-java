@@ -1,0 +1,17 @@
+io.github.selcukes.commons.exec.Shell#interactWithProcess(Ljava/lang/Process;)Lio/github/selcukes/commons/exec/ExecResults;
+null
+io.github.selcukes.commons.Await#until(I)V
+io.github.selcukes.commons.os.Platform#isWindows()Z
+io.github.selcukes.commons.exec.Shell#extractPidOf(Ljava/lang/Process;)V
+io.github.selcukes.commons.exec.ExecResults#instance-init#
+io.github.selcukes.commons.exec.StreamGuzzler#instance-init#
+java.util.concurrent.Executors#newFixedThreadPool(I)Ljava/util/concurrent/ExecutorService;
+io.github.selcukes.commons.exec.StreamGuzzler#<init>(Ljava/io/InputStream;)V
+==
+exitValue java.lang.Process#exitValue()I
+shutdown java.util.concurrent.ExecutorService#shutdown()V
+submit java.util.concurrent.ExecutorService#submit(Ljava/lang/Runnable;)Ljava/util/concurrent/Future;
+getContent io.github.selcukes.commons.exec.StreamGuzzler#getContent()Ljava/util/List;
+getInputStream java.lang.Process#getInputStream()Ljava/io/InputStream;
+isTerminated java.util.concurrent.ExecutorService#isTerminated()Z
+getErrorStream java.lang.Process#getErrorStream()Ljava/io/InputStream;

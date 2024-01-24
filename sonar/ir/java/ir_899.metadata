@@ -1,0 +1,4 @@
+io.github.selcukes.databind.DataField#getColumn()Ljava/util/Optional;
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+==
+getDeclaredAnnotation java.lang.reflect.AccessibleObject#getDeclaredAnnotation(Ljava/lang/Class;)Ljava/lang/annotation/Annotation;

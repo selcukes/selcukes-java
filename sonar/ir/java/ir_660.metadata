@@ -1,0 +1,2 @@
+io.github.selcukes.commons.helper.FileHelper#loadResourceFromJar(Ljava/lang/String;)Ljava/io/InputStream;
+java.lang.Class#getResourceAsStream(Ljava/lang/String;)Ljava/io/InputStream;

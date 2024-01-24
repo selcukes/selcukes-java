@@ -1,0 +1,24 @@
+io.github.selcukes.reports.html.HtmlReporter#generateReports(Ljava/lang/String;)V
+net.masterthought.cucumber.ReportBuilder#instance-init#
+java.io.File#<init>(Ljava/lang/String;)V
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+net.masterthought.cucumber.Configuration#instance-init#
+java.util.Collections#singleton(Ljava/lang/Object;)Ljava/util/Set;
+net.masterthought.cucumber.ReportBuilder#<init>(Ljava/util/List;Lnet/masterthought/cucumber/Configuration;)V
+java.io.File#instance-init#
+java.util.Collections#singletonList(Ljava/lang/Object;)Ljava/util/List;
+net.masterthought.cucumber.Configuration#<init>(Ljava/io/File;Ljava/lang/String;)V
+io.github.selcukes.commons.helper.RandomUtils#randomNumeric(I)Ljava/lang/String;
+io.github.selcukes.commons.os.Platform#getPlatform()Lio/github/selcukes/commons/os/Platform;
+==
+getEnv io.github.selcukes.commons.config.Config#getEnv()Ljava/lang/String;
+generateReports net.masterthought.cucumber.ReportBuilder#generateReports()Lnet/masterthought/cucumber/Reportable;
+setSortingMethod net.masterthought.cucumber.Configuration#setSortingMethod(Lnet/masterthought/cucumber/sorting/SortingMethod;)V
+get java.util.Map#get(Ljava/lang/Object;)Ljava/lang/Object;
+getOsName io.github.selcukes.commons.os.Platform#getOsName()Ljava/lang/String;
+getReports io.github.selcukes.commons.config.Config#getReports()Ljava/util/Map;
+addPresentationModes net.masterthought.cucumber.Configuration#addPresentationModes(Lnet/masterthought/cucumber/presentation/PresentationMode;)V
+setNotFailingStatuses net.masterthought.cucumber.Configuration#setNotFailingStatuses(Ljava/util/Set;)V
+setBuildNumber net.masterthought.cucumber.Configuration#setBuildNumber(Ljava/lang/String;)V
+getProjectName io.github.selcukes.commons.config.Config#getProjectName()Ljava/lang/String;
+addClassifications net.masterthought.cucumber.Configuration#addClassifications(Ljava/lang/String;Ljava/lang/String;)V

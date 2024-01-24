@@ -1,0 +1,11 @@
+io.github.selcukes.reports.cucumber.CucumberLiveReportAdapter#afterStep(Lio/cucumber/plugin/event/TestStepFinished;)V
+java.time.Duration#toMillis()J
+io.cucumber.plugin.event.TestStepFinished#getTestStep()Lio/cucumber/plugin/event/TestStep;
+io.cucumber.plugin.event.Result#getDuration()Ljava/time/Duration;
+java.lang.Enum#name()Ljava/lang/String;
+io.cucumber.plugin.event.Result#getStatus()Lio/cucumber/plugin/event/Status;
+io.cucumber.plugin.event.TestStepFinished#getResult()Lio/cucumber/plugin/event/Result;
+==
+publishResults io.github.selcukes.reports.cucumber.LiveReportHelper#publishResults(Ljava/lang/Object;Ljava/lang/String;)V
+getStep io.cucumber.plugin.event.PickleStepTestStep#getStep()Lio/cucumber/plugin/event/Step;
+getText io.cucumber.plugin.event.Step#getText()Ljava/lang/String;

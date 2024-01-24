@@ -1,0 +1,7 @@
+io.github.selcukes.collections.DataTable#getColumnEntries(Ljava/lang/Object;)Ljava/util/List;
+java.util.stream.Collectors#toList()Ljava/util/stream/Collector;
+io.github.selcukes.collections.DataTable#checkColumnIndex(Ljava/lang/Object;)V
+==
+rows io.github.selcukes.collections.DataTable#rows()Ljava/util/stream/Stream;
+collect java.util.stream.Stream#collect(Ljava/util/stream/Collector;)Ljava/lang/Object;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;

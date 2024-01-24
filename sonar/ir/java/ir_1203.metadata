@@ -1,0 +1,6 @@
+io.github.selcukes.snapshot.DefaultPageSnapshot#getDefaultPageSnapshot(Lorg/openqa/selenium/OutputType;)Ljava/lang/Object;
+io.github.selcukes.snapshot.DefaultPageSnapshot#defaultPageScreenshot()Ljava/awt/image/BufferedImage;
+io.github.selcukes.commons.helper.ImageUtil#toByteArray(Ljava/awt/image/BufferedImage;)[B
+==
+convertFromPngBytes org.openqa.selenium.OutputType#convertFromPngBytes([B)Ljava/lang/Object;
+getScreenOptions io.github.selcukes.snapshot.DefaultPageSnapshot#getScreenOptions()Ljava/util/Map;

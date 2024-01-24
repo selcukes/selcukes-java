@@ -1,0 +1,4 @@
+io.github.selcukes.core.page.Page#text(Ljava/lang/Object;)Ljava/lang/String;
+==
+find io.github.selcukes.core.page.Page#find(Ljava/lang/Object;)Lorg/openqa/selenium/WebElement;
+getText org.openqa.selenium.WebElement#getText()Ljava/lang/String;

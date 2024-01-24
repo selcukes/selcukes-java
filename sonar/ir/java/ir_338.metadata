@@ -1,0 +1,6 @@
+io.github.selcukes.reports.screen.ScreenPlayImpl#attachLogs()V
+io.github.selcukes.reports.screen.ScreenPlayImpl#write(Ljava/lang/String;)V
+io.github.selcukes.extent.report.Reporter#getReporter()Lio/github/selcukes/extent/report/Reporter;
+==
+isAttachable io.github.selcukes.reports.screen.ScreenPlayImpl#isAttachable()Z
+getLogRecords io.github.selcukes.extent.report.Reporter#getLogRecords()Ljava/lang/String;

@@ -1,0 +1,10 @@
+io.github.selcukes.wdb.core.AbstractBinary#setBrowserVersion(Ljava/lang/String;)V
+io.github.selcukes.wdb.version.VersionDetector#instance-init#
+io.github.selcukes.wdb.version.VersionDetector#<init>(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+java.lang.String#isEmpty()Z
+==
+getVersion io.github.selcukes.wdb.version.VersionDetector#getVersion()Ljava/lang/String;
+getOsNameAndArch io.github.selcukes.commons.os.Platform#getOsNameAndArch()Ljava/lang/String;
+setVersion io.github.selcukes.wdb.core.AbstractBinary#setVersion(Ljava/lang/String;)V
+getBinaryDriverName io.github.selcukes.wdb.core.BinaryFactory#getBinaryDriverName()Ljava/lang/String;
+getBinaryEnvironment io.github.selcukes.wdb.core.AbstractBinary#getBinaryEnvironment()Lio/github/selcukes/commons/os/Platform;

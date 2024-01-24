@@ -1,0 +1,7 @@
+io.github.selcukes.commons.helper.ServiceLoaderUtils#loadFirst(Ljava/lang/Class;Ljava/lang/ClassLoader;)Ljava/lang/Object;
+java.util.ServiceLoader#load(Ljava/lang/Class;Ljava/lang/ClassLoader;)Ljava/util/ServiceLoader;
+io.github.selcukes.collections.Streams#of(Ljava/util/Iterator;)Ljava/util/stream/Stream;
+java.util.Optional#orElseThrow(Ljava/util/function/Supplier;)Ljava/lang/Object;
+java.util.ServiceLoader#iterator()Ljava/util/Iterator;
+==
+findFirst java.util.stream.Stream#findFirst()Ljava/util/Optional;

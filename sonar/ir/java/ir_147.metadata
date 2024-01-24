@@ -1,0 +1,12 @@
+io.github.selcukes.core.driver.AppiumManager#getServiceUrl()Ljava/net/URL;
+java.net.URL#toString()Ljava/lang/String;
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+io.github.selcukes.collections.Resources#toURL(Ljava/lang/String;)Ljava/net/URL;
+io.github.selcukes.core.driver.RunMode#isCloudAppium()Z
+io.github.selcukes.core.driver.AppiumEngine#getInstance()Lio/github/selcukes/core/driver/AppiumEngine;
+io.github.selcukes.core.driver.RunMode#isLocalAppium()Z
+==
+getMobile io.github.selcukes.commons.config.Config#getMobile()Lio/github/selcukes/commons/config/Config$MobileConfig;
+browserStackUrl io.github.selcukes.core.driver.CloudOptions#browserStackUrl()Ljava/lang/String;
+getServiceUrl io.github.selcukes.commons.config.Config$MobileConfig#getServiceUrl()Ljava/lang/String;
+getServiceUrl io.github.selcukes.core.driver.AppiumEngine#getServiceUrl()Ljava/net/URL;

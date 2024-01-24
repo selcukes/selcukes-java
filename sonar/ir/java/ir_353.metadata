@@ -1,0 +1,3 @@
+io.github.selcukes.reports.cucumber.CucumberListener#beforeStep(Lio/cucumber/plugin/event/TestStepStarted;)V
+==
+beforeStep io.github.selcukes.reports.cucumber.CucumberService#beforeStep()V

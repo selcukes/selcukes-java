@@ -1,0 +1,6 @@
+io.github.selcukes.excel.AbstractExcelDataProvider#getTestData(Ljava/lang/String;Lio/github/selcukes/collections/DataTable;)Ljava/util/Map;
+java.util.Optional#orElseThrow(Ljava/util/function/Supplier;)Ljava/lang/Object;
+java.util.Objects#requireNonNull(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
+java.lang.String#format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+==
+findFirst io.github.selcukes.collections.DataTable#findFirst(Ljava/util/function/Predicate;)Ljava/util/Optional;

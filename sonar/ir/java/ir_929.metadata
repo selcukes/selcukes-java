@@ -1,0 +1,3 @@
+io.github.selcukes.databind.excel.ExcelCell#setFormulaEvaluator(Lorg/apache/poi/ss/usermodel/FormulaEvaluator;)V
+==
+set java.lang.ThreadLocal#set(Ljava/lang/Object;)V

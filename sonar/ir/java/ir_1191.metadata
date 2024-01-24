@@ -1,0 +1,2 @@
+io.github.selcukes.junit.listeners.TestListener#executionStarted(Lorg/junit/platform/launcher/TestIdentifier;)V
+org.junit.platform.launcher.TestIdentifier#isTest()Z

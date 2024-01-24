@@ -1,0 +1,6 @@
+io.github.selcukes.core.driver.CloudOptions#getBrowserStackOptions(Z)Lorg/openqa/selenium/Capabilities;
+io.github.selcukes.core.driver.CloudOptions#getBrowserStack()Lio/github/selcukes/core/driver/CloudOptions$BrowserStack;
+org.openqa.selenium.MutableCapabilities#instance-init#
+org.openqa.selenium.MutableCapabilities#<init>()V
+==
+setCapability org.openqa.selenium.MutableCapabilities#setCapability(Ljava/lang/String;Ljava/lang/String;)V

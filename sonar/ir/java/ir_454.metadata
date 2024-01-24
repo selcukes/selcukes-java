@@ -1,0 +1,3 @@
+io.github.selcukes.collections.Streams#of(Ljava/util/Iterator;)Ljava/util/stream/Stream;
+java.util.Spliterators#spliteratorUnknownSize(Ljava/util/Iterator;I)Ljava/util/Spliterator;
+java.util.stream.StreamSupport#stream(Ljava/util/Spliterator;Z)Ljava/util/stream/Stream;

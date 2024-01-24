@@ -1,0 +1,14 @@
+io.github.selcukes.core.driver.WebManager#createDriver(Lorg/openqa/selenium/Capabilities;)Lorg/openqa/selenium/WebDriver;
+java.lang.String#toUpperCase()Ljava/lang/String;
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+java.util.Optional#orElseGet(Ljava/util/function/Supplier;)Ljava/lang/Object;
+org.openqa.selenium.remote.RemoteWebDriver#builder()Lorg/openqa/selenium/remote/RemoteWebDriverBuilder;
+io.github.selcukes.core.driver.RunMode#isRemoteBrowser()Z
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+==
+address org.openqa.selenium.remote.RemoteWebDriverBuilder#address(Ljava/net/URL;)Lorg/openqa/selenium/remote/RemoteWebDriverBuilder;
+getBrowser io.github.selcukes.commons.config.Config$WebConfig#getBrowser()Ljava/lang/String;
+getServiceUrl io.github.selcukes.core.driver.WebManager#getServiceUrl()Ljava/net/URL;
+build org.openqa.selenium.remote.RemoteWebDriverBuilder#build()Lorg/openqa/selenium/WebDriver;
+getWeb io.github.selcukes.commons.config.Config#getWeb()Lio/github/selcukes/commons/config/Config$WebConfig;
+oneOf org.openqa.selenium.remote.RemoteWebDriverBuilder#oneOf(Lorg/openqa/selenium/Capabilities;[Lorg/openqa/selenium/Capabilities;)Lorg/openqa/selenium/remote/RemoteWebDriverBuilder;

@@ -1,0 +1,8 @@
+io.github.selcukes.core.driver.DevicePool#getDevice(Lio/github/selcukes/core/enums/DeviceType;I)Ljava/lang/Object;
+java.lang.IndexOutOfBoundsException#instance-init#
+java.lang.IndexOutOfBoundsException#<init>(Ljava/lang/String;)V
+java.lang.String#format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+==
+getDevices io.github.selcukes.core.driver.DevicePool#getDevices(Lio/github/selcukes/core/enums/DeviceType;)Ljava/util/List;
+get java.util.List#get(I)Ljava/lang/Object;
+size java.util.List#size()I

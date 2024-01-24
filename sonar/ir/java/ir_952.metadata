@@ -1,0 +1,22 @@
+io.github.selcukes.extent.report.SelcukesExtentAdapter#updateResult(Lio/cucumber/plugin/event/Result;)V
+io.cucumber.plugin.event.Result#getError()Ljava/lang/Throwable;
+java.lang.Enum#name()Ljava/lang/String;
+java.lang.Boolean#equals(Ljava/lang/Object;)Z
+io.cucumber.plugin.event.Result#getStatus()Lio/cucumber/plugin/event/Status;
+com.aventstack.extentreports.model.Test#getLogs()Ljava/util/List;
+java.lang.String#toLowerCase()Ljava/lang/String;
+com.aventstack.extentreports.model.Test#hasLog()Z
+==
+getModel com.aventstack.extentreports.ExtentTest#getModel()Lcom/aventstack/extentreports/model/Test;
+get java.util.List#get(I)Ljava/lang/Object;
+anyMatch java.util.stream.Stream#anyMatch(Ljava/util/function/Predicate;)Z
+fail com.aventstack.extentreports.ExtentTest#fail(Ljava/lang/Throwable;)Lcom/aventstack/extentreports/ExtentTest;
+skip com.aventstack.extentreports.ExtentTest#skip(Ljava/lang/String;)Lcom/aventstack/extentreports/ExtentTest;
+getStatus com.aventstack.extentreports.model.Log#getStatus()Lcom/aventstack/extentreports/Status;
+fail com.aventstack.extentreports.ExtentTest#fail(Ljava/lang/String;)Lcom/aventstack/extentreports/ExtentTest;
+get java.lang.ThreadLocal#get()Ljava/lang/Object;
+getMessage java.lang.Throwable#getMessage()Ljava/lang/String;
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+pass com.aventstack.extentreports.ExtentTest#pass(Ljava/lang/String;)Lcom/aventstack/extentreports/ExtentTest;
+size java.util.List#size()I
+skip com.aventstack.extentreports.ExtentTest#skip(Ljava/lang/Throwable;)Lcom/aventstack/extentreports/ExtentTest;

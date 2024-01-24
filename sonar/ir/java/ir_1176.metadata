@@ -1,0 +1,7 @@
+io.github.selcukes.video.MonteRecorderBuilder#saveAs(Ljava/lang/String;)Ljava/io/File;
+io.github.selcukes.commons.helper.FileHelper#renameFile(Ljava/io/File;Ljava/io/File;)V
+io.github.selcukes.video.MonteRecorderBuilder#getDestinationFile(Ljava/lang/String;)Ljava/io/File;
+==
+getCreatedMovieFiles org.monte.screenrecorder.ScreenRecorder#getCreatedMovieFiles()Ljava/util/List;
+stop io.github.selcukes.video.MonteRecorderBuilder#stop()V
+get java.util.List#get(I)Ljava/lang/Object;

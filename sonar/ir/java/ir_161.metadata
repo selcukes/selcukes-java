@@ -1,0 +1,5 @@
+io.github.selcukes.core.listener.ResourceCleanupProvider#afterTest(Lio/github/selcukes/commons/fixture/TestResult;)V
+io.github.selcukes.commons.config.ConfigFactory#cleanupConfig()V
+io.github.selcukes.commons.fixture.DriverFixture#removeDriverFixture()V
+==
+removeDriver io.github.selcukes.core.driver.DriverManager#removeDriver()V

@@ -1,0 +1,4 @@
+io.github.selcukes.commons.db.DataBaseDriver#<init>(Lio/github/selcukes/commons/db/DataBaseConfig;)V
+io.github.selcukes.commons.db.DataBaseDriver#createConnection(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+==
+getUrl io.github.selcukes.commons.db.DataBaseConfig#getUrl()Ljava/lang/String;

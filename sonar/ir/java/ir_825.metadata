@@ -1,0 +1,12 @@
+io.github.selcukes.databind.DataMapper#parse(Ljava/lang/Class;)Ljava/lang/Object;
+java.lang.String#substring(I)Ljava/lang/String;
+io.github.selcukes.collections.Resources#fileStream(Ljava/lang/String;)Ljava/io/InputStream;
+java.lang.String#lastIndexOf(I)I
+io.github.selcukes.databind.DataMapper#lookup(Ljava/lang/String;)Lio/github/selcukes/databind/DataBind;
+io.github.selcukes.databind.utils.DataFileHelper#getInstance(Ljava/lang/Class;)Lio/github/selcukes/databind/utils/DataFileHelper;
+==
+getPath io.github.selcukes.databind.utils.DataFileHelper#getPath(Ljava/lang/String;)Ljava/nio/file/Path;
+getFileName io.github.selcukes.databind.utils.DataFileHelper#getFileName()Ljava/lang/String;
+parse io.github.selcukes.databind.DataBind#parse(Ljava/io/InputStream;Ljava/lang/Class;)Ljava/lang/Object;
+isStream io.github.selcukes.databind.utils.DataFileHelper#isStream()Z
+parse io.github.selcukes.databind.DataBind#parse(Ljava/nio/file/Path;Ljava/lang/Class;)Ljava/lang/Object;

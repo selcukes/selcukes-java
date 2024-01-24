@@ -1,0 +1,5 @@
+io.github.selcukes.commons.http.WebClient#multiPart(Ljava/util/Map;)Lio/github/selcukes/commons/http/WebClient;
+io.github.selcukes.commons.http.WebClient#multiPartBody(Ljava/util/Map;Ljava/lang/String;)Ljava/net/http/HttpRequest$BodyPublisher;
+java.util.UUID#randomUUID()Ljava/util/UUID;
+==
+contentType io.github.selcukes.commons.http.WebClient#contentType(Ljava/lang/String;)Lio/github/selcukes/commons/http/WebClient;

@@ -1,0 +1,4 @@
+io.github.selcukes.collections.DataTable#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+==
+rows io.github.selcukes.collections.DataTable#rows()Ljava/util/stream/Stream;
+filter java.util.stream.Stream#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;

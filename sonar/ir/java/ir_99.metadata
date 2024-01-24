@@ -1,0 +1,7 @@
+io.github.selcukes.core.wait.WaitManager#waitForAngularLoad()V
+java.lang.Boolean#parseBoolean(Ljava/lang/String;)Z
+io.github.selcukes.core.wait.WaitManager#sleep()V
+==
+waitFor io.github.selcukes.core.page.Page#waitFor(Lorg/openqa/selenium/support/ui/ExpectedCondition;I)Ljava/lang/Object;
+executeScript io.github.selcukes.core.page.Page#executeScript(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;
+toString java.lang.Object#toString()Ljava/lang/String;

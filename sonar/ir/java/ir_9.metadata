@@ -1,0 +1,4 @@
+io.github.selcukes.testng.listeners.SelcukesListener#getTestStatus(Lorg/testng/ITestResult;)Ljava/lang/String;
+==
+isSuccess org.testng.ITestResult#isSuccess()Z
+getStatus org.testng.ITestResult#getStatus()I

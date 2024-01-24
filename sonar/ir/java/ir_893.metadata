@@ -1,0 +1,4 @@
+io.github.selcukes.databind.csv.CsvMapper#write(Ljava/nio/file/Path;Lio/github/selcukes/collections/DataTable;)V
+==
+toCSV io.github.selcukes.collections.DataTable#toCSV()Ljava/lang/String;
+write io.github.selcukes.databind.csv.CsvMapper#write(Ljava/nio/file/Path;Ljava/lang/String;)V

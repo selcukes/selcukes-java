@@ -1,0 +1,12 @@
+io.github.selcukes.collections.TextTable#printTable()Ljava/lang/String;
+java.util.stream.Collectors#joining()Ljava/util/stream/Collector;
+java.util.stream.Collectors#joining(Ljava/lang/CharSequence;)Ljava/util/stream/Collector;
+==
+distinct java.util.stream.Stream#distinct()Ljava/util/stream/Stream;
+values java.util.LinkedHashMap#values()Ljava/util/Collection;
+of io.github.selcukes.collections.Maps#of(Ljava/util/function/Function;Ljava/util/function/Function;)Ljava/util/stream/Collector;
+collect java.util.stream.Stream#collect(Ljava/util/stream/Collector;)Ljava/lang/Object;
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+flatMap java.util.stream.Stream#flatMap(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+keySet java.util.LinkedHashMap#keySet()Ljava/util/Set;

@@ -1,0 +1,3 @@
+io.github.selcukes.collections.Clocks#parseDateTime(Ljava/lang/String;Ljava/lang/String;)Ljava/time/LocalDateTime;
+java.time.LocalDateTime#from(Ljava/time/temporal/TemporalAccessor;)Ljava/time/LocalDateTime;
+io.github.selcukes.collections.Clocks#asTemporal(Ljava/lang/String;Ljava/lang/String;)Ljava/time/temporal/TemporalAccessor;

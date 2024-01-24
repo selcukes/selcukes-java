@@ -1,0 +1,2 @@
+io.github.selcukes.snapshot.DefaultPageSnapshot#waitForScrolling()V
+io.github.selcukes.commons.Await#until(Ljava/util/concurrent/TimeUnit;I)V

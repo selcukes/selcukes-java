@@ -1,0 +1,4 @@
+io.github.selcukes.core.page.Page#dragAndDrop(Lorg/openqa/selenium/By;Lorg/openqa/selenium/By;)Lio/github/selcukes/core/page/Page;
+==
+find io.github.selcukes.core.page.Page#find(Ljava/lang/Object;Lio/github/selcukes/core/wait/WaitCondition;)Lorg/openqa/selenium/WebElement;
+dragAndDrop io.github.selcukes.core.page.Page#dragAndDrop(Lorg/openqa/selenium/WebElement;Lorg/openqa/selenium/WebElement;)Lio/github/selcukes/core/page/Page;

@@ -1,0 +1,2 @@
+io.github.selcukes.core.validation.ResponseValidation#<init>(ZLio/github/selcukes/commons/http/WebResponse;)V
+io.github.selcukes.commons.http.WebResponse#body()Ljava/lang/String;

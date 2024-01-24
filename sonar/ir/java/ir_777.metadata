@@ -1,0 +1,2 @@
+io.github.selcukes.commons.logging.LogRecordListener#instance-init#
+java.lang.ThreadLocal#withInitial(Ljava/util/function/Supplier;)Ljava/lang/ThreadLocal;

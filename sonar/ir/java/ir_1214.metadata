@@ -1,0 +1,2 @@
+io.github.selcukes.snapshot.DefaultPageSnapshot#getScreenshotText()Ljava/lang/String;
+io.github.selcukes.snapshot.DefaultPageSnapshot#getCurrentUrl()Ljava/lang/String;

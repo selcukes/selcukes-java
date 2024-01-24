@@ -1,0 +1,3 @@
+io.github.selcukes.core.page.Page#waiter()Lorg/openqa/selenium/support/ui/WebDriverWait;
+==
+waiter io.github.selcukes.core.page.Page#waiter(I)Lorg/openqa/selenium/support/ui/WebDriverWait;

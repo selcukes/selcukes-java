@@ -1,0 +1,4 @@
+io.github.selcukes.reports.cucumber.CucumberListener#beforeTest(Lio/cucumber/plugin/event/TestRunStarted;)V
+io.github.selcukes.reports.cucumber.EventFiringCucumber#getService()Lio/github/selcukes/reports/cucumber/CucumberService;
+==
+beforeTest io.github.selcukes.reports.cucumber.CucumberService#beforeTest()V

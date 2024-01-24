@@ -1,0 +1,3 @@
+io.github.selcukes.collections.Clocks#date(Ljava/lang/String;)Ljava/lang/String;
+io.github.selcukes.collections.Clocks#dateNow()Ljava/time/LocalDate;
+io.github.selcukes.collections.Clocks#format(Ljava/time/temporal/Temporal;Ljava/lang/String;)Ljava/lang/String;

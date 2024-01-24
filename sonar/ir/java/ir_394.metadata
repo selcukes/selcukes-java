@@ -1,0 +1,9 @@
+io.github.selcukes.collections.DataTable#updateCell(ILjava/lang/Object;Ljava/lang/Object;)V
+java.util.LinkedHashMap#<init>(Ljava/util/Map;)V
+io.github.selcukes.collections.DataTable#checkColumnIndex(Ljava/lang/Object;)V
+java.util.LinkedHashMap#instance-init#
+io.github.selcukes.collections.DataTable#checkRowIndex(I)V
+==
+set java.util.LinkedList#set(ILjava/lang/Object;)Ljava/lang/Object;
+get java.util.LinkedList#get(I)Ljava/lang/Object;
+put java.util.HashMap#put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;

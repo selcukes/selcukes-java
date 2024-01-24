@@ -1,0 +1,6 @@
+io.github.selcukes.wdb.core.BinaryFactory#getBinaryFileName()Ljava/lang/String;
+java.util.Objects#equals(Ljava/lang/Object;Ljava/lang/Object;)Z
+==
+getBinaryEnvironment io.github.selcukes.wdb.core.BinaryFactory#getBinaryEnvironment()Lio/github/selcukes/commons/os/Platform;
+getOSType io.github.selcukes.commons.os.Platform#getOSType()Lio/github/selcukes/commons/os/OsType;
+getBinaryDriverName io.github.selcukes.wdb.core.BinaryFactory#getBinaryDriverName()Ljava/lang/String;

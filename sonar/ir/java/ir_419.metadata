@@ -1,0 +1,3 @@
+io.github.selcukes.collections.StringHelper#toSnakeCase(Ljava/lang/String;)Ljava/lang/String;
+java.lang.String#replaceAll(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+java.lang.String#toLowerCase()Ljava/lang/String;

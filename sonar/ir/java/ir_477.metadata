@@ -1,0 +1,2 @@
+io.github.selcukes.collections.Maps#ofIgnoreCase(Ljava/util/function/Function;Ljava/util/function/Function;)Ljava/util/stream/Collector;
+java.util.stream.Collectors#toMap(Ljava/util/function/Function;Ljava/util/function/Function;Ljava/util/function/BinaryOperator;Ljava/util/function/Supplier;)Ljava/util/stream/Collector;

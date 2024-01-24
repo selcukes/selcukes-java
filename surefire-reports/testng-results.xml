@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2024-01-24T15:51:59 UTC" name="io.github.selcukes.snapshot.tests.NativeSnapshotTest" finished-at="2024-01-24T15:52:03 UTC" duration-ms="3910">
+    <groups>
+    </groups>
+    <test started-at="2024-01-24T15:51:59 UTC" name="Command line test" finished-at="2024-01-24T15:52:03 UTC" duration-ms="3910">
+      <class name="io.github.selcukes.snapshot.tests.NativeSnapshotTest">
+        <test-method signature="browserTest(org.openqa.selenium.remote.Browser)[pri:0, instance:io.github.selcukes.snapshot.tests.NativeSnapshotTest@49c43f4e]" started-at="2024-01-24T15:51:59 UTC" name="browserTest" data-provider="driverTypes" finished-at="2024-01-24T15:52:01 UTC" duration-ms="1926" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[org.openqa.selenium.remote.Browser$1@2f177a4b]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- browserTest -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:io.github.selcukes.snapshot.tests.NativeSnapshotTest@49c43f4e]" started-at="2024-01-24T15:52:01 UTC" name="tearDown" finished-at="2024-01-24T15:52:01 UTC" duration-ms="77" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method signature="browserTest(org.openqa.selenium.remote.Browser)[pri:0, instance:io.github.selcukes.snapshot.tests.NativeSnapshotTest@49c43f4e]" started-at="2024-01-24T15:52:01 UTC" name="browserTest" data-provider="driverTypes" finished-at="2024-01-24T15:52:03 UTC" duration-ms="1799" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[org.openqa.selenium.remote.Browser$2@5b07730f]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- browserTest -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:io.github.selcukes.snapshot.tests.NativeSnapshotTest@49c43f4e]" started-at="2024-01-24T15:52:03 UTC" name="tearDown" finished-at="2024-01-24T15:52:03 UTC" duration-ms="72" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method is-config="true" signature="terminate()[pri:0, instance:io.github.selcukes.snapshot.tests.NativeSnapshotTest@49c43f4e]" started-at="2024-01-24T15:52:03 UTC" name="terminate" finished-at="2024-01-24T15:52:03 UTC" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- terminate -->
+      </class> <!-- io.github.selcukes.snapshot.tests.NativeSnapshotTest -->
+    </test> <!-- Command line test -->
+  </suite> <!-- io.github.selcukes.snapshot.tests.NativeSnapshotTest -->
+</testng-results>

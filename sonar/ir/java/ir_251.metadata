@@ -1,0 +1,4 @@
+io.github.selcukes.core.page.Page#removeFocus()Lio/github/selcukes/core/page/Page;
+==
+sendKeys org.openqa.selenium.WebElement#sendKeys([Ljava/lang/CharSequence;)V
+activeElement io.github.selcukes.core.page.Page#activeElement()Lorg/openqa/selenium/WebElement;

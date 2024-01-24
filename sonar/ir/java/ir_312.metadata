@@ -1,0 +1,3 @@
+io.github.selcukes.reports.cucumber.EventFiringCucumber#getService()Lio/github/selcukes/reports/cucumber/CucumberService;
+io.github.selcukes.reports.cucumber.CucumberAdapter#instance-init#
+io.github.selcukes.reports.cucumber.CucumberAdapter#<init>()V

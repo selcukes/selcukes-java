@@ -1,0 +1,3 @@
+io.github.selcukes.core.page.Page#verifyThat()Lio/github/selcukes/core/validation/PageValidations;
+io.github.selcukes.core.validation.PageValidations#<init>(Lio/github/selcukes/core/page/Page;Z)V
+io.github.selcukes.core.validation.PageValidations#instance-init#

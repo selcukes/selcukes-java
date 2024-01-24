@@ -1,0 +1,4 @@
+io.github.selcukes.core.page.Page#enter(Ljava/lang/Object;[Ljava/lang/CharSequence;)Lio/github/selcukes/core/page/Page;
+==
+find io.github.selcukes.core.page.Page#find(Ljava/lang/Object;Lio/github/selcukes/core/wait/WaitCondition;)Lorg/openqa/selenium/WebElement;
+sendKeys org.openqa.selenium.WebElement#sendKeys([Ljava/lang/CharSequence;)V

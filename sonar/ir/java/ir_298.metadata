@@ -1,0 +1,3 @@
+io.github.selcukes.reports.cucumber.CucumberAdapter#beforeTest()V
+==
+getScreenPlay io.github.selcukes.reports.screen.ScreenPlayBuilder#getScreenPlay()Lio/github/selcukes/reports/screen/ScreenPlay;

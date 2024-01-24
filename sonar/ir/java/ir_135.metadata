@@ -1,0 +1,2 @@
+io.github.selcukes.core.page.ui.PageElement#elementValue(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+io.github.selcukes.collections.StringHelper#containsWord(Ljava/lang/String;Ljava/util/List;)Z

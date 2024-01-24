@@ -1,0 +1,5 @@
+io.github.selcukes.core.page.Page#findShadowChild(Lorg/openqa/selenium/By;Lorg/openqa/selenium/By;)Lorg/openqa/selenium/WebElement;
+==
+find io.github.selcukes.core.page.Page#find(Ljava/lang/Object;Lio/github/selcukes/core/wait/WaitCondition;)Lorg/openqa/selenium/WebElement;
+getShadowRoot org.openqa.selenium.WebElement#getShadowRoot()Lorg/openqa/selenium/SearchContext;
+findElement org.openqa.selenium.SearchContext#findElement(Lorg/openqa/selenium/By;)Lorg/openqa/selenium/WebElement;

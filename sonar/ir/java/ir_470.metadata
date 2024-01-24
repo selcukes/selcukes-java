@@ -1,0 +1,3 @@
+io.github.selcukes.collections.DecimalNumber#setRoundingMode(Ljava/math/RoundingMode;)V
+==
+setRoundingMode java.text.DecimalFormat#setRoundingMode(Ljava/math/RoundingMode;)V

@@ -1,0 +1,8 @@
+io.github.selcukes.commons.db.DataBaseDriver#asTable(Ljava/sql/ResultSet;)Lio/github/selcukes/collections/DataTable;
+io.github.selcukes.collections.DataTable#instance-init#
+io.github.selcukes.commons.db.DataBaseDriver#asRow(Ljava/sql/ResultSetMetaData;Ljava/sql/ResultSet;)Ljava/util/Map;
+io.github.selcukes.collections.DataTable#<init>()V
+==
+addRow io.github.selcukes.collections.DataTable#addRow(Ljava/util/Map;)V
+next java.sql.ResultSet#next()Z
+getMetaData java.sql.ResultSet#getMetaData()Ljava/sql/ResultSetMetaData;

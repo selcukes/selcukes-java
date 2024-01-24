@@ -1,0 +1,3 @@
+io.github.selcukes.commons.listener.LifecycleManager#runSafely(Ljava/util/List;Ljava/util/function/BiConsumer;Lio/github/selcukes/commons/fixture/TestResult;)V
+==
+forEach java.lang.Iterable#forEach(Ljava/util/function/Consumer;)V

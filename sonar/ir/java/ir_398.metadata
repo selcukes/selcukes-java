@@ -1,0 +1,3 @@
+io.github.selcukes.collections.DataTable#contains(Ljava/util/Map;)Z
+==
+anyMatch io.github.selcukes.collections.DataTable#anyMatch(Ljava/util/function/Predicate;)Z

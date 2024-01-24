@@ -1,0 +1,4 @@
+io.github.selcukes.core.page.Page#currentUrl()Ljava/lang/String;
+==
+getDriver io.github.selcukes.core.page.Page#getDriver()Lorg/openqa/selenium/WebDriver;
+getCurrentUrl org.openqa.selenium.WebDriver#getCurrentUrl()Ljava/lang/String;

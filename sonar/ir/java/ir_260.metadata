@@ -1,0 +1,4 @@
+io.github.selcukes.core.page.Page#removeLocalStorageItem(Ljava/lang/String;)V
+java.lang.String#format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+==
+executeScript io.github.selcukes.core.page.Page#executeScript(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;

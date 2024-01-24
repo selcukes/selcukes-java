@@ -1,0 +1,5 @@
+io.github.selcukes.collections.Maps#ofIgnoreCase(Ljava/util/Map;)Ljava/util/Map;
+java.util.TreeMap#instance-init#
+java.util.TreeMap#<init>(Ljava/util/Comparator;)V
+==
+putAll java.util.TreeMap#putAll(Ljava/util/Map;)V

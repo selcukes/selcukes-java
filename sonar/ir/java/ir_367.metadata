@@ -1,0 +1,12 @@
+io.github.selcukes.reports.listeners.ReportServiceProvider#beforeAfterTest(Lio/github/selcukes/commons/fixture/TestResult;)V
+io.github.selcukes.commons.fixture.DriverFixture#getDriverFixture()Ljava/lang/Object;
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+==
+sendNotification io.github.selcukes.reports.screen.ScreenPlay#sendNotification(Ljava/lang/String;)Lio/github/selcukes/reports/screen/ScreenPlay;
+getName io.github.selcukes.commons.fixture.TestResult#getName()Ljava/lang/String;
+ignoreCondition io.github.selcukes.reports.screen.ScreenPlay#ignoreCondition()Lio/github/selcukes/reports/screen/ScreenPlay;
+attachVideo io.github.selcukes.reports.screen.ScreenPlay#attachVideo()Lio/github/selcukes/reports/screen/ScreenPlay;
+getNotifier io.github.selcukes.commons.config.Config#getNotifier()Lio/github/selcukes/commons/config/Config$NotifierConfig;
+withResult io.github.selcukes.reports.screen.ScreenPlay#withResult(Ljava/lang/Object;)Lio/github/selcukes/reports/screen/ScreenPlay;
+attachScreenshot io.github.selcukes.reports.screen.ScreenPlay#attachScreenshot()Lio/github/selcukes/reports/screen/ScreenPlay;
+isNotification io.github.selcukes.commons.config.Config$NotifierConfig#isNotification()Z

@@ -1,0 +1,3 @@
+io.github.selcukes.core.page.Page#request(Ljava/lang/String;)Lio/github/selcukes/commons/http/WebClient;
+io.github.selcukes.commons.http.WebClient#instance-init#
+io.github.selcukes.commons.http.WebClient#<init>(Ljava/lang/String;)V

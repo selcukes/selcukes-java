@@ -1,0 +1,11 @@
+io.github.selcukes.databind.properties.PropertiesParser#initEntity(Ljava/util/List;)Ljava/lang/Object;
+java.util.stream.Stream#of([Ljava/lang/Object;)Ljava/util/stream/Stream;
+java.lang.Class#getDeclaredConstructors()[Ljava/lang/reflect/Constructor;
+java.lang.IllegalStateException#instance-init#
+java.lang.Class#getSimpleName()Ljava/lang/String;
+java.lang.IllegalStateException#<init>(Ljava/lang/String;)V
+java.lang.String#format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+io.github.selcukes.collections.Reflections#newInstance(Ljava/lang/Class;[Ljava/lang/Object;)Ljava/lang/Object;
+==
+forEach java.lang.Iterable#forEach(Ljava/util/function/Consumer;)V
+anyMatch java.util.stream.Stream#anyMatch(Ljava/util/function/Predicate;)Z

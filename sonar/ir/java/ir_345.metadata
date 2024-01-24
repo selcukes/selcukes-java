@@ -1,0 +1,3 @@
+io.github.selcukes.reports.screen.ScreenPlayImpl#attach([BLjava/lang/String;)V
+io.cucumber.java.Scenario#attach([BLjava/lang/String;Ljava/lang/String;)V
+io.cucumber.java.Scenario#getName()Ljava/lang/String;

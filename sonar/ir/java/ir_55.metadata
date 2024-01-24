@@ -1,0 +1,3 @@
+io.github.selcukes.core.page.WebAuthenticator#removeVirtualAuthenticator()V
+==
+removeVirtualAuthenticator org.openqa.selenium.virtualauthenticator.HasVirtualAuthenticator#removeVirtualAuthenticator(Lorg/openqa/selenium/virtualauthenticator/VirtualAuthenticator;)V

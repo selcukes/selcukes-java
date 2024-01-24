@@ -1,0 +1,4 @@
+io.github.selcukes.databind.AbstractDataBind#parse(Ljava/nio/file/Path;Ljava/lang/Class;)Ljava/lang/Object;
+==
+readValue com.fasterxml.jackson.databind.ObjectMapper#readValue(Ljava/io/File;Ljava/lang/Class;)Ljava/lang/Object;
+toFile java.nio.file.Path#toFile()Ljava/io/File;

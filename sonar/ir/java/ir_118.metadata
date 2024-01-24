@@ -1,0 +1,2 @@
+io.github.selcukes.core.driver.BrowserOptions#valueOf(Ljava/lang/String;)Lorg/openqa/selenium/remote/Browser;
+java.lang.String#equalsIgnoreCase(Ljava/lang/String;)Z

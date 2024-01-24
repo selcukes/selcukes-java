@@ -1,0 +1,4 @@
+io.github.selcukes.collections.DataComparator#diff(Lio/github/selcukes/collections/DataTable;Lio/github/selcukes/collections/DataTable;Ljava/lang/Object;)Lio/github/selcukes/collections/DataTable;
+java.util.Collections#emptyList()Ljava/util/List;
+==
+diff io.github.selcukes.collections.DataComparator#diff(Lio/github/selcukes/collections/DataTable;Lio/github/selcukes/collections/DataTable;Ljava/lang/Object;Ljava/util/List;)Lio/github/selcukes/collections/DataTable;

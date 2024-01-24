@@ -1,0 +1,4 @@
+io.github.selcukes.commons.helper.FileHelper#getTempDir()Ljava/lang/String;
+==
+getParent java.io.File#getParent()Ljava/lang/String;
+createTempFile io.github.selcukes.commons.helper.FileHelper#createTempFile()Ljava/io/File;

@@ -1,0 +1,6 @@
+io.github.selcukes.extent.report.SelcukesExtentAdapter#handleTestRunFinished(Lio/cucumber/plugin/event/TestRunFinished;)V
+io.github.selcukes.extent.report.SelcukesExtentAdapter#finishReport()V
+io.github.selcukes.extent.report.Reporter#getReporter()Lio/github/selcukes/extent/report/Reporter;
+==
+remove java.lang.ThreadLocal#remove()V
+removeReporter io.github.selcukes.extent.report.Reporter#removeReporter()V

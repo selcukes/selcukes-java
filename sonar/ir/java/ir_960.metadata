@@ -1,0 +1,15 @@
+io.github.selcukes.extent.report.SelcukesExtentAdapter#createScenarioOutline(Lio/cucumber/messages/types/Scenario;)V
+io.cucumber.messages.types.Scenario#getName()Ljava/lang/String;
+java.util.stream.Collectors#toSet()Ljava/util/stream/Collector;
+io.cucumber.messages.types.Scenario#getDescription()Ljava/lang/String;
+io.cucumber.messages.types.Scenario#getTags()Ljava/util/List;
+==
+put java.util.Map#put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+get java.lang.ThreadLocal#get()Ljava/lang/Object;
+collect java.util.stream.Stream#collect(Ljava/util/stream/Collector;)Ljava/lang/Object;
+containsKey java.util.Map#containsKey(Ljava/lang/Object;)Z
+get java.util.Map#get(Ljava/lang/Object;)Ljava/lang/Object;
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+set java.lang.ThreadLocal#set(Ljava/lang/Object;)V
+createNode com.aventstack.extentreports.ExtentTest#createNode(Ljava/lang/Class;Ljava/lang/String;Ljava/lang/String;)Lcom/aventstack/extentreports/ExtentTest;

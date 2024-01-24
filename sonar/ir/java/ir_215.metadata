@@ -1,0 +1,4 @@
+io.github.selcukes.core.page.Page#enterTextInAlert(Ljava/lang/String;)Lio/github/selcukes/core/page/Page;
+==
+sendKeys org.openqa.selenium.Alert#sendKeys(Ljava/lang/String;)V
+alert io.github.selcukes.core.page.Page#alert()Lorg/openqa/selenium/Alert;

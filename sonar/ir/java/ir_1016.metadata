@@ -1,0 +1,6 @@
+io.github.selcukes.wdb.util.WebDriverBinaryUtil#<init>(Lio/github/selcukes/wdb/core/BinaryFactory;Ljava/lang/String;ZZZ)V
+io.github.selcukes.wdb.util.WebDriverBinaryUtil#getBinaryDownloadDirectory(Ljava/lang/String;Z)Ljava/io/File;
+io.github.selcukes.wdb.version.CacheManager#setTargetPath(Ljava/lang/String;)V
+==
+getAbsolutePath java.io.File#getAbsolutePath()Ljava/lang/String;
+browserVersion io.github.selcukes.wdb.core.BinaryFactory#browserVersion(Z)V

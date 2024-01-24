@@ -1,0 +1,6 @@
+io.github.selcukes.commons.logging.LoggerFactory#getLogger(Ljava/lang/Class;)Lio/github/selcukes/commons/logging/Logger;
+io.github.selcukes.commons.logging.LoggerFactory#initialize()V
+java.lang.Class#getName()Ljava/lang/String;
+java.util.Objects#requireNonNull(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
+io.github.selcukes.commons.logging.LoggerFactory$DelegatingLogger#instance-init#
+io.github.selcukes.commons.logging.LoggerFactory$DelegatingLogger#<init>(Ljava/lang/String;)V

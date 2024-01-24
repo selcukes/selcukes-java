@@ -1,0 +1,9 @@
+io.github.selcukes.commons.helper.FileHelper#getWaterMarkFile()Ljava/io/File;
+java.io.File#<init>(Ljava/lang/String;)V
+java.lang.Class#getClassLoader()Ljava/lang/ClassLoader;
+java.util.Objects#requireNonNull(Ljava/lang/Object;)Ljava/lang/Object;
+java.io.File#instance-init#
+==
+download io.github.selcukes.commons.helper.FileHelper#download(Ljava/net/URL;Ljava/io/File;)V
+exists java.io.File#exists()Z
+getResource java.lang.ClassLoader#getResource(Ljava/lang/String;)Ljava/net/URL;

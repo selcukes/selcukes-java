@@ -1,0 +1,6 @@
+io.github.selcukes.reports.cucumber.LiveReportHelper#publishResults(Ljava/lang/Object;Ljava/lang/String;)V
+io.github.selcukes.commons.http.WebClient#instance-init#
+java.lang.String#format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+io.github.selcukes.commons.http.WebClient#<init>(Ljava/lang/String;)V
+==
+post io.github.selcukes.commons.http.WebClient#post(Ljava/lang/Object;)Lio/github/selcukes/commons/http/WebResponse;

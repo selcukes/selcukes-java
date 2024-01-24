@@ -1,0 +1,5 @@
+io.github.selcukes.video.FFmpegRecorder#stopAndDelete()V
+io.github.selcukes.video.FFmpegRecorder#stop()V
+==
+deleteOnExit java.io.File#deleteOnExit()V
+info io.github.selcukes.commons.logging.Logger#info(Ljava/util/function/Supplier;)V

@@ -1,0 +1,5 @@
+io.github.selcukes.core.page.Page#deleteCookie(Ljava/lang/String;)Lio/github/selcukes/core/page/Page;
+==
+getDriver io.github.selcukes.core.page.Page#getDriver()Lorg/openqa/selenium/WebDriver;
+deleteCookieNamed org.openqa.selenium.WebDriver$Options#deleteCookieNamed(Ljava/lang/String;)V
+manage org.openqa.selenium.WebDriver#manage()Lorg/openqa/selenium/WebDriver$Options;

@@ -1,0 +1,6 @@
+io.github.selcukes.databind.converters.DoubleConverter#convert(Ljava/lang/String;)Ljava/lang/Double;
+java.util.Locale#getDefault()Ljava/util/Locale;
+java.text.NumberFormat#getInstance(Ljava/util/Locale;)Ljava/text/NumberFormat;
+==
+doubleValue java.lang.Number#doubleValue()D
+parse java.text.NumberFormat#parse(Ljava/lang/String;)Ljava/lang/Number;

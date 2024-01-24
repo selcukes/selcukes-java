@@ -1,0 +1,6 @@
+io.github.selcukes.core.page.WinPage#switchToWindowByTitle(Ljava/lang/String;)Lio/github/selcukes/core/page/WinPage;
+org.openqa.selenium.By#name(Ljava/lang/String;)Lorg/openqa/selenium/By;
+==
+getWinAppOptions io.github.selcukes.core.driver.AppiumOptions#getWinAppOptions(Lorg/openqa/selenium/WebElement;)Lorg/openqa/selenium/MutableCapabilities;
+find io.github.selcukes.core.page.Page#find(Ljava/lang/Object;)Lorg/openqa/selenium/WebElement;
+createDriver io.github.selcukes.core.driver.DriverManager#createDriver(Lio/github/selcukes/core/enums/DeviceType;[Lorg/openqa/selenium/Capabilities;)Lorg/openqa/selenium/WebDriver;

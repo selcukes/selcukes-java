@@ -1,0 +1,4 @@
+io.github.selcukes.collections.Clocks#dateTimeNow(Ljava/lang/String;)Ljava/time/ZonedDateTime;
+java.time.ZoneId#of(Ljava/lang/String;)Ljava/time/ZoneId;
+java.time.ZonedDateTime#withZoneSameInstant(Ljava/time/ZoneId;)Ljava/time/ZonedDateTime;
+java.time.ZonedDateTime#now()Ljava/time/ZonedDateTime;

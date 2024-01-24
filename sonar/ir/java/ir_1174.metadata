@@ -1,0 +1,3 @@
+io.github.selcukes.video.MonteRecorderBuilder#<init>(Ljava/awt/GraphicsConfiguration;Ljava/awt/Rectangle;Lorg/monte/media/Format;Lorg/monte/media/Format;Lorg/monte/media/Format;Lorg/monte/media/Format;Ljava/io/File;)V
+==
+<init> org.monte.screenrecorder.ScreenRecorder#<init>(Ljava/awt/GraphicsConfiguration;Ljava/awt/Rectangle;Lorg/monte/media/Format;Lorg/monte/media/Format;Lorg/monte/media/Format;Lorg/monte/media/Format;)V

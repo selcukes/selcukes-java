@@ -1,0 +1,10 @@
+io.github.selcukes.commons.logging.SelcukesLoggerFormatter#getLineNumber(Ljava/util/logging/LogRecord;)Ljava/lang/String;
+java.util.stream.Stream#of([Ljava/lang/Object;)Ljava/util/stream/Stream;
+java.lang.Throwable#instance-init#
+java.lang.Throwable#<init>()V
+java.util.Optional#orElse(Ljava/lang/Object;)Ljava/lang/Object;
+java.util.Optional#map(Ljava/util/function/Function;)Ljava/util/Optional;
+==
+filter java.util.stream.Stream#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+getStackTrace java.lang.Throwable#getStackTrace()[Ljava/lang/StackTraceElement;
+findFirst java.util.stream.Stream#findFirst()Ljava/util/Optional;

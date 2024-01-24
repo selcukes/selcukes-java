@@ -1,0 +1,4 @@
+io.github.selcukes.collections.Try#or(Ljava/util/function/Function;Ljava/util/function/Function;)Ljava/lang/Object;
+==
+isFailure io.github.selcukes.collections.Try#isFailure()Z
+apply java.util.function.Function#apply(Ljava/lang/Object;)Ljava/lang/Object;

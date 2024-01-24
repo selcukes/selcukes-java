@@ -1,0 +1,9 @@
+io.github.selcukes.collections.DataComparator#diff(Ljava/util/List;Ljava/util/List;)Lio/github/selcukes/collections/DataTable;
+java.util.stream.Collectors#toCollection(Ljava/util/function/Supplier;)Ljava/util/stream/Collector;
+java.lang.Math#max(II)I
+==
+mapToObj java.util.stream.IntStream#mapToObj(Ljava/util/function/IntFunction;)Ljava/util/stream/Stream;
+collect java.util.stream.Stream#collect(Ljava/util/stream/Collector;)Ljava/lang/Object;
+of io.github.selcukes.collections.Streams#of(II)Ljava/util/stream/IntStream;
+sortWithNulls io.github.selcukes.collections.Lists#sortWithNulls(Ljava/util/List;)Ljava/util/List;
+size java.util.List#size()I

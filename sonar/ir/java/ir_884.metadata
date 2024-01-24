@@ -1,0 +1,8 @@
+io.github.selcukes.databind.excel.ExcelParser#parseSheet(Lorg/apache/poi/ss/usermodel/Sheet;)Lio/github/selcukes/collections/DataTable;
+io.github.selcukes.collections.Streams#of(Ljava/util/Iterator;)Ljava/util/stream/Stream;
+java.util.stream.Collectors#toCollection(Ljava/util/function/Supplier;)Ljava/util/stream/Collector;
+==
+collect java.util.stream.Stream#collect(Ljava/util/stream/Collector;)Ljava/lang/Object;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+iterator org.apache.poi.ss.usermodel.Sheet#iterator()Ljava/util/Iterator;
+skip java.util.stream.Stream#skip(J)Ljava/util/stream/Stream;

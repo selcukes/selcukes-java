@@ -1,0 +1,2 @@
+io.github.selcukes.collections.DecimalNumber#format(Ljava/lang/Number;)Ljava/lang/String;
+java.text.Format#format(Ljava/lang/Object;)Ljava/lang/String;

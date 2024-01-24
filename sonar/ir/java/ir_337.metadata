@@ -1,0 +1,8 @@
+io.github.selcukes.reports.screen.ScreenPlayImpl#sendNotification(Ljava/lang/String;)Lio/github/selcukes/reports/screen/ScreenPlay;
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+java.util.Optional#orElse(Ljava/lang/Object;)Ljava/lang/Object;
+==
+errorMessage io.github.selcukes.notifier.Notifier#errorMessage(Ljava/lang/String;)Lio/github/selcukes/notifier/Notifier;
+withNotifier io.github.selcukes.reports.screen.ScreenPlayImpl#withNotifier(Lio/github/selcukes/notifier/enums/NotifierType;)Lio/github/selcukes/reports/screen/ScreenPlay;
+pushNotification io.github.selcukes.notifier.Notifier#pushNotification()V
+scenarioName io.github.selcukes.notifier.Notifier#scenarioName(Ljava/lang/String;)Lio/github/selcukes/notifier/Notifier;

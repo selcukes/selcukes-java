@@ -1,0 +1,18 @@
+io.github.selcukes.extent.report.SelcukesExtentAdapter#createTestCase(Lio/cucumber/plugin/event/TestCase;)V
+io.cucumber.plugin.event.Location#getLine()I
+com.aventstack.extentreports.model.Test#getParent()Lcom/aventstack/extentreports/model/Test;
+io.github.selcukes.extent.report.TestSourcesModel#getScenarioDefinition(Lio/github/selcukes/extent/report/TestSourcesModel$AstNode;)Lio/cucumber/messages/types/Scenario;
+io.github.selcukes.extent.report.TestSourcesModel#getAstNode(Ljava/net/URI;I)Lio/github/selcukes/extent/report/TestSourcesModel$AstNode;
+java.util.Objects#requireNonNull(Ljava/lang/Object;)Ljava/lang/Object;
+io.cucumber.messages.types.Scenario#getDescription()Ljava/lang/String;
+com.aventstack.extentreports.model.Test#getBddType()Ljava/lang/Class;
+==
+getLocation io.cucumber.plugin.event.TestCase#getLocation()Lio/cucumber/plugin/event/Location;
+getTags io.cucumber.plugin.event.TestCase#getTags()Ljava/util/List;
+get java.lang.ThreadLocal#get()Ljava/lang/Object;
+forEach java.lang.Iterable#forEach(Ljava/util/function/Consumer;)V
+getName io.cucumber.plugin.event.TestCase#getName()Ljava/lang/String;
+isEmpty java.util.List#isEmpty()Z
+getModel com.aventstack.extentreports.ExtentTest#getModel()Lcom/aventstack/extentreports/model/Test;
+createNode com.aventstack.extentreports.ExtentTest#createNode(Ljava/lang/Class;Ljava/lang/String;Ljava/lang/String;)Lcom/aventstack/extentreports/ExtentTest;
+set java.lang.ThreadLocal#set(Ljava/lang/Object;)V

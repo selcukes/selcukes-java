@@ -1,0 +1,10 @@
+io.github.selcukes.excel.AbstractExcelDataProvider#modifyFirstColumnData(Lio/github/selcukes/collections/DataTable;Ljava/lang/String;Ljava/lang/String;)V
+io.github.selcukes.collections.StringHelper#isEmpty(Ljava/lang/String;)Z
+java.util.LinkedHashMap#instance-init#
+java.util.LinkedHashMap#<init>()V
+java.lang.String#startsWith(Ljava/lang/String;)Z
+==
+isEmpty java.util.Map#isEmpty()Z
+get java.util.Map#get(Ljava/lang/Object;)Ljava/lang/Object;
+getOrDefault java.util.Map#getOrDefault(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+replace java.util.Map#replace(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;

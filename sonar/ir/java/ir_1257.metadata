@@ -1,0 +1,3 @@
+io.github.selcukes.excel.ScenarioContext#removeTestName()V
+==
+remove java.lang.ThreadLocal#remove()V

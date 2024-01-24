@@ -1,0 +1,7 @@
+io.github.selcukes.testng.listeners.SelcukesListener#onFinish(Lorg/testng/ISuite;)V
+io.github.selcukes.commons.fixture.TestResult#builder()Lio/github/selcukes/commons/fixture/TestResult$TestResultBuilder;
+==
+getName org.testng.ISuite#getName()Ljava/lang/String;
+name io.github.selcukes.commons.fixture.TestResult$TestResultBuilder#name(Ljava/lang/String;)Lio/github/selcukes/commons/fixture/TestResult$TestResultBuilder;
+build io.github.selcukes.commons.fixture.TestResult$TestResultBuilder#build()Lio/github/selcukes/commons/fixture/TestResult;
+afterSuite io.github.selcukes.commons.listener.LifecycleManager#afterSuite(Lio/github/selcukes/commons/fixture/TestResult;)V

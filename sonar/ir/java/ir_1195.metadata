@@ -1,0 +1,6 @@
+io.github.selcukes.snapshot.PageSnapshot#getFullScreenshotAs(Lorg/openqa/selenium/OutputType;)Ljava/lang/Object;
+io.github.selcukes.snapshot.PageSnapshot#unwrapDriver()V
+io.github.selcukes.snapshot.PageSnapshot#getFullScreenshot(Lorg/openqa/selenium/OutputType;)Ljava/lang/Object;
+==
+getDefaultPageSnapshot io.github.selcukes.snapshot.DefaultPageSnapshot#getDefaultPageSnapshot(Lorg/openqa/selenium/OutputType;)Ljava/lang/Object;
+getFullPageScreenshotAs org.openqa.selenium.firefox.FirefoxDriver#getFullPageScreenshotAs(Lorg/openqa/selenium/OutputType;)Ljava/lang/Object;

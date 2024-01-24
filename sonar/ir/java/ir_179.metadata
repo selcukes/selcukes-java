@@ -1,0 +1,5 @@
+io.github.selcukes.core.validation.ElementValidation#textAs(Ljava/lang/String;)Lio/github/selcukes/core/validation/ElementValidation;
+io.github.selcukes.core.validation.Validation#failWithMessage(ZLjava/lang/String;[Ljava/lang/Object;)V
+java.lang.String#equalsIgnoreCase(Ljava/lang/String;)Z
+==
+getText org.openqa.selenium.WebElement#getText()Ljava/lang/String;

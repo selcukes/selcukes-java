@@ -1,0 +1,4 @@
+io.github.selcukes.collections.DataTable#removeRow(I)V
+io.github.selcukes.collections.DataTable#checkRowIndex(I)V
+==
+remove java.util.LinkedList#remove(I)Ljava/lang/Object;

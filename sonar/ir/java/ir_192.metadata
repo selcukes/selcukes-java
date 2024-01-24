@@ -1,0 +1,7 @@
+io.github.selcukes.core.page.Page#implicitlyWait()Lio/github/selcukes/core/page/Page;
+java.time.Duration#ofSeconds(J)Ljava/time/Duration;
+==
+getDriver io.github.selcukes.core.page.Page#getDriver()Lorg/openqa/selenium/WebDriver;
+timeouts org.openqa.selenium.WebDriver$Options#timeouts()Lorg/openqa/selenium/WebDriver$Timeouts;
+manage org.openqa.selenium.WebDriver#manage()Lorg/openqa/selenium/WebDriver$Options;
+implicitlyWait org.openqa.selenium.WebDriver$Timeouts#implicitlyWait(Ljava/time/Duration;)Lorg/openqa/selenium/WebDriver$Timeouts;

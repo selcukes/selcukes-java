@@ -1,0 +1,2 @@
+io.github.selcukes.core.wait.WaitCondition#<init>(Ljava/lang/String;ILjava/util/function/Function;)V
+io.github.selcukes.core.wait.WaitCondition#<init>(Ljava/lang/String;ILjava/util/function/Function;)V

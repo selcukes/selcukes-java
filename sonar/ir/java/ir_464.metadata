@@ -1,0 +1,5 @@
+io.github.selcukes.collections.Streams#of(Ljava/lang/Class;)Ljava/util/stream/Stream;
+java.util.stream.Stream#of([Ljava/lang/Object;)Ljava/util/stream/Stream;
+java.lang.Class#getEnumConstants()[Ljava/lang/Object;
+==
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;

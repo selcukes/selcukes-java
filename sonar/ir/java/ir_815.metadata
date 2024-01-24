@@ -1,0 +1,3 @@
+io.github.selcukes.databind.AbstractDataBind#parse(Ljava/io/InputStream;Ljava/lang/Class;)Ljava/lang/Object;
+==
+readValue com.fasterxml.jackson.databind.ObjectMapper#readValue(Ljava/io/InputStream;Ljava/lang/Class;)Ljava/lang/Object;

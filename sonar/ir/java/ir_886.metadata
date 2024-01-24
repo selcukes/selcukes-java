@@ -1,0 +1,7 @@
+io.github.selcukes.databind.excel.ExcelParser#getWorkbook(Ljava/lang/String;)Lorg/apache/poi/ss/usermodel/Workbook;
+io.github.selcukes.databind.excel.ExcelCell#setFormulaEvaluator(Lorg/apache/poi/ss/usermodel/FormulaEvaluator;)V
+io.github.selcukes.collections.Resources#fileStream(Ljava/lang/String;)Ljava/io/InputStream;
+org.apache.poi.ss.usermodel.WorkbookFactory#create(Ljava/io/InputStream;)Lorg/apache/poi/ss/usermodel/Workbook;
+==
+getCreationHelper org.apache.poi.ss.usermodel.Workbook#getCreationHelper()Lorg/apache/poi/ss/usermodel/CreationHelper;
+createFormulaEvaluator org.apache.poi.ss.usermodel.CreationHelper#createFormulaEvaluator()Lorg/apache/poi/ss/usermodel/FormulaEvaluator;

@@ -1,0 +1,2 @@
+io.github.selcukes.commons.SelcukesBanner#printBanner()V
+io.github.selcukes.collections.Try#of(Lio/github/selcukes/collections/Try$CheckedRunnable;)Lio/github/selcukes/collections/Try;

@@ -1,0 +1,5 @@
+io.github.selcukes.core.driver.GridRunner#startAppium()V
+io.github.selcukes.core.driver.RunMode#isCloudAppium()Z
+io.github.selcukes.core.driver.AppiumEngine#getInstance()Lio/github/selcukes/core/driver/AppiumEngine;
+==
+startLocalServer io.github.selcukes.core.driver.AppiumEngine#startLocalServer()V

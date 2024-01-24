@@ -1,0 +1,2 @@
+io.github.selcukes.databind.DataField#getFieldType()Ljava/lang/reflect/Type;
+java.lang.reflect.Field#getType()Ljava/lang/Class;

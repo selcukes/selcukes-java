@@ -1,0 +1,5 @@
+io.github.selcukes.collections.Lists#retainIf(Ljava/util/List;Ljava/util/function/Predicate;)Ljava/util/List;
+==
+filter java.util.stream.Stream#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+toList java.util.stream.Stream#toList()Ljava/util/List;

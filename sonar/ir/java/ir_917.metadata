@@ -1,0 +1,7 @@
+io.github.selcukes.databind.utils.DataFileHelper#getFolder()Ljava/nio/file/Path;
+io.github.selcukes.collections.Resources#isDirectory(Ljava/lang/String;)Ljava/nio/file/Path;
+java.util.Optional#of(Ljava/lang/Object;)Ljava/util/Optional;
+java.util.Optional#map(Ljava/util/function/Function;)Ljava/util/Optional;
+java.util.Optional#filter(Ljava/util/function/Predicate;)Ljava/util/Optional;
+==
+folderPath io.github.selcukes.databind.annotation.DataFile#folderPath()Ljava/lang/String;

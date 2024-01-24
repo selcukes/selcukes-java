@@ -1,0 +1,5 @@
+io.github.selcukes.core.validation.PageValidations#element(Lorg/openqa/selenium/By;)Lio/github/selcukes/core/validation/ElementValidation;
+io.github.selcukes.core.validation.ElementValidation#<init>(ZLorg/openqa/selenium/WebElement;)V
+io.github.selcukes.core.validation.ElementValidation#instance-init#
+==
+find io.github.selcukes.core.page.Page#find(Ljava/lang/Object;)Lorg/openqa/selenium/WebElement;

@@ -1,0 +1,24 @@
+io.github.selcukes.core.page.MobilePage#attemptToScroll(Lio/github/selcukes/core/enums/SwipeDirection;Lorg/openqa/selenium/By;)Z
+java.util.Map#of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;
+io.github.selcukes.commons.Await#until(I)V
+java.util.HashMap#<init>()V
+java.util.Map#of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;
+java.util.Map#of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;
+java.util.HashMap#instance-init#
+==
+getDriver io.github.selcukes.core.page.MobilePage#getDriver()Lorg/openqa/selenium/WebDriver;
+toString java.lang.Enum#toString()Ljava/lang/String;
+put java.util.HashMap#put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+executeScript io.github.selcukes.core.page.Page#executeScript(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;
+getHeight org.openqa.selenium.Rectangle#getHeight()I
+window org.openqa.selenium.WebDriver$Options#window()Lorg/openqa/selenium/WebDriver$Window;
+manage org.openqa.selenium.WebDriver#manage()Lorg/openqa/selenium/WebDriver$Options;
+getX org.openqa.selenium.Rectangle#getX()I
+getY org.openqa.selenium.Rectangle#getY()I
+getSize org.openqa.selenium.WebDriver$Window#getSize()Lorg/openqa/selenium/Dimension;
+getRect org.openqa.selenium.WebElement#getRect()Lorg/openqa/selenium/Rectangle;
+getHeight org.openqa.selenium.Dimension#getHeight()I
+find io.github.selcukes.core.page.Page#find(Ljava/lang/Object;)Lorg/openqa/selenium/WebElement;
+putAll java.util.HashMap#putAll(Ljava/util/Map;)V
+getWidth org.openqa.selenium.Rectangle#getWidth()I
+getWidth org.openqa.selenium.Dimension#getWidth()I

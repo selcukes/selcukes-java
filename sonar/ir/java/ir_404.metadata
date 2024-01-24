@@ -1,0 +1,5 @@
+io.github.selcukes.collections.DataTable#checkRowIndex(I)V
+io.github.selcukes.collections.exception.DataTableException#<init>(Ljava/lang/String;)V
+io.github.selcukes.collections.exception.DataTableException#instance-init#
+==
+size java.util.LinkedList#size()I

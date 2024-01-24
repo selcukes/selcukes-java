@@ -1,0 +1,8 @@
+io.github.selcukes.databind.excel.ExcelCell#getCellData(Lorg/apache/poi/ss/usermodel/Cell;)Ljava/lang/String;
+java.lang.Enum#equals(Ljava/lang/Object;)Z
+java.lang.String#trim()Ljava/lang/String;
+==
+getCellType org.apache.poi.ss.usermodel.Cell#getCellType()Lorg/apache/poi/ss/usermodel/CellType;
+formatCellValue org.apache.poi.ss.usermodel.DataFormatter#formatCellValue(Lorg/apache/poi/ss/usermodel/Cell;Lorg/apache/poi/ss/usermodel/FormulaEvaluator;)Ljava/lang/String;
+get java.lang.ThreadLocal#get()Ljava/lang/Object;
+formatCellValue org.apache.poi.ss.usermodel.DataFormatter#formatCellValue(Lorg/apache/poi/ss/usermodel/Cell;)Ljava/lang/String;

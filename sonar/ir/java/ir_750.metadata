@@ -1,0 +1,3 @@
+io.github.selcukes.commons.http.WebClient#cookie(Ljava/lang/String;Ljava/lang/String;)Lio/github/selcukes/commons/http/WebClient;
+==
+put java.util.Map#put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;

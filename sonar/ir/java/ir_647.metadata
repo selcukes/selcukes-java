@@ -1,0 +1,6 @@
+io.github.selcukes.commons.properties.SelcukesTestProperties#getSubstitutedConfigProperty(Ljava/lang/String;)Ljava/lang/String;
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+java.util.Optional#orElse(Ljava/lang/Object;)Ljava/lang/Object;
+io.github.selcukes.collections.StringHelper#interpolate(Ljava/lang/String;Ljava/util/function/UnaryOperator;)Ljava/lang/String;
+==
+getCucumberProperty io.github.selcukes.commons.properties.SelcukesTestProperties#getCucumberProperty(Ljava/lang/String;)Ljava/lang/String;

@@ -1,0 +1,5 @@
+io.github.selcukes.core.page.Page#getColor(Lorg/openqa/selenium/WebElement;)Ljava/lang/String;
+org.openqa.selenium.support.Color#fromString(Ljava/lang/String;)Lorg/openqa/selenium/support/Color;
+==
+getCssValue org.openqa.selenium.WebElement#getCssValue(Ljava/lang/String;)Ljava/lang/String;
+asHex org.openqa.selenium.support.Color#asHex()Ljava/lang/String;

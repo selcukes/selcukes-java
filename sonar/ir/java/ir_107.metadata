@@ -1,0 +1,6 @@
+io.github.selcukes.core.validation.PageValidations#element(Ljava/lang/String;)Lio/github/selcukes/core/validation/ElementValidation;
+io.github.selcukes.core.validation.ElementValidation#<init>(ZLorg/openqa/selenium/WebElement;)V
+io.appium.java_client.AppiumBy#accessibilityId(Ljava/lang/String;)Lorg/openqa/selenium/By;
+io.github.selcukes.core.validation.ElementValidation#instance-init#
+==
+find io.github.selcukes.core.page.Page#find(Ljava/lang/Object;)Lorg/openqa/selenium/WebElement;

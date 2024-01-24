@@ -1,0 +1,12 @@
+io.github.selcukes.reports.cucumber.CucumberLiveReportAdapter#beforeScenario(Lio/cucumber/plugin/event/TestCaseStarted;)V
+io.github.selcukes.reports.cucumber.CucumberLiveReportAdapter#initFeatureContext(Lio/cucumber/messages/types/Feature;)V
+io.github.selcukes.extent.report.TestSourcesModel#getFeature(Ljava/net/URI;)Lio/cucumber/messages/types/Feature;
+java.util.Objects#requireNonNull(Ljava/lang/Object;)Ljava/lang/Object;
+io.github.selcukes.reports.cucumber.CucumberLiveReportAdapter#getFeatureStatus(Ljava/util/List;)Ljava/lang/String;
+io.cucumber.plugin.event.TestCaseStarted#getTestCase()Lio/cucumber/plugin/event/TestCase;
+io.cucumber.messages.types.Feature#getName()Ljava/lang/String;
+==
+remove java.lang.ThreadLocal#remove()V
+publishResults io.github.selcukes.reports.cucumber.LiveReportHelper#publishResults(Ljava/lang/Object;Ljava/lang/String;)V
+getUri io.cucumber.plugin.event.TestCase#getUri()Ljava/net/URI;
+get java.lang.ThreadLocal#get()Ljava/lang/Object;

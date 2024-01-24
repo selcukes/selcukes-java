@@ -1,0 +1,3 @@
+io.github.selcukes.core.driver.CloudOptions#browserStackUrl()Ljava/lang/String;
+io.github.selcukes.core.driver.CloudOptions#getBrowserStack()Lio/github/selcukes/core/driver/CloudOptions$BrowserStack;
+io.github.selcukes.collections.StringHelper#interpolate(Ljava/lang/String;Ljava/util/function/UnaryOperator;)Ljava/lang/String;

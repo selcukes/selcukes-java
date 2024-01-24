@@ -1,0 +1,11 @@
+io.github.selcukes.core.driver.DriverManager#createDevice(Lio/github/selcukes/core/enums/DeviceType;[Lorg/openqa/selenium/Capabilities;)V
+java.util.stream.Stream#ofNullable(Ljava/lang/Object;)Ljava/util/stream/Stream;
+==
+getDevicePool io.github.selcukes.core.driver.DriverManager#getDevicePool()Lio/github/selcukes/core/driver/DevicePool;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+flatMap java.util.stream.Stream#flatMap(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+getDevices io.github.selcukes.core.driver.DevicePool#getDevices(Lio/github/selcukes/core/enums/DeviceType;)Ljava/util/List;
+create io.github.selcukes.core.driver.DriverFactory#create(Lio/github/selcukes/core/enums/DeviceType;Lorg/openqa/selenium/Capabilities;)Lorg/openqa/selenium/WebDriver;
+isEmpty java.util.List#isEmpty()Z
+addDevice io.github.selcukes.core.driver.DevicePool#addDevice(Lio/github/selcukes/core/enums/DeviceType;Ljava/lang/Object;)V
+forEach java.util.stream.Stream#forEach(Ljava/util/function/Consumer;)V

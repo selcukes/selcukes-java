@@ -1,0 +1,5 @@
+io.github.selcukes.notifier.slack.SlackMessageBuilder#getSlackWebHookUrl()Ljava/lang/String;
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+==
+getNotifier io.github.selcukes.commons.config.Config#getNotifier()Lio/github/selcukes/commons/config/Config$NotifierConfig;
+getWebhookToken io.github.selcukes.commons.config.Config$NotifierConfig#getWebhookToken()Ljava/lang/String;

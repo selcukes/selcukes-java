@@ -1,0 +1,4 @@
+io.github.selcukes.collections.DataTable#allMatch(Ljava/util/function/Predicate;)Z
+==
+rows io.github.selcukes.collections.DataTable#rows()Ljava/util/stream/Stream;
+allMatch java.util.stream.Stream#allMatch(Ljava/util/function/Predicate;)Z

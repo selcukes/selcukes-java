@@ -1,0 +1,5 @@
+io.github.selcukes.commons.logging.SelcukesColorFormatter#format(Ljava/util/logging/LogRecord;)Ljava/lang/String;
+io.github.selcukes.commons.logging.SelcukesColorFormatter#getColoredMessage(Ljava/util/logging/Level;Ljava/lang/String;)Ljava/lang/String;
+==
+getLevel java.util.logging.LogRecord#getLevel()Ljava/util/logging/Level;
+format io.github.selcukes.commons.logging.SelcukesLoggerFormatter#format(Ljava/util/logging/LogRecord;)Ljava/lang/String;

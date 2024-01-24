@@ -1,0 +1,9 @@
+io.github.selcukes.core.driver.AppiumManager#createDriver(Lorg/openqa/selenium/Capabilities;)Lorg/openqa/selenium/WebDriver;
+java.lang.String#toUpperCase()Ljava/lang/String;
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+java.lang.String#equals(Ljava/lang/Object;)Z
+==
+getMobile io.github.selcukes.commons.config.Config#getMobile()Lio/github/selcukes/commons/config/Config$MobileConfig;
+createAppDriver io.github.selcukes.core.driver.AppiumManager#createAppDriver(Lorg/openqa/selenium/Capabilities;)Lorg/openqa/selenium/WebDriver;
+createBrowserDriver io.github.selcukes.core.driver.AppiumManager#createBrowserDriver(Lorg/openqa/selenium/Capabilities;Ljava/lang/String;)Lorg/openqa/selenium/WebDriver;
+getBrowser io.github.selcukes.commons.config.Config$MobileConfig#getBrowser()Ljava/lang/String;

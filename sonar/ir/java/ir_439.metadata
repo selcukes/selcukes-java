@@ -1,0 +1,4 @@
+io.github.selcukes.collections.Try#orElse(Ljava/util/function/Supplier;)Ljava/lang/Object;
+java.util.Optional#orElseGet(Ljava/util/function/Supplier;)Ljava/lang/Object;
+==
+getResult io.github.selcukes.collections.Try#getResult()Ljava/util/Optional;

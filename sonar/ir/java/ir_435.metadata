@@ -1,0 +1,4 @@
+io.github.selcukes.collections.Try#orElseThrow(Ljava/util/function/UnaryOperator;)Ljava/lang/Object;
+java.util.function.Function#identity()Ljava/util/function/Function;
+==
+or io.github.selcukes.collections.Try#or(Ljava/util/function/Function;Ljava/util/function/Function;)Ljava/lang/Object;

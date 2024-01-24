@@ -1,0 +1,2 @@
+io.github.selcukes.commons.os.Platform#isWindows()Z
+java.lang.String#contains(Ljava/lang/CharSequence;)Z

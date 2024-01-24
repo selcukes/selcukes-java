@@ -1,0 +1,3 @@
+io.github.selcukes.commons.logging.SelcukesColorFormatter#getColoredMessage(Ljava/util/logging/Level;Ljava/lang/String;)Ljava/lang/String;
+==
+getOrDefault java.util.Map#getOrDefault(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;

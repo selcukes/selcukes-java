@@ -1,0 +1,5 @@
+io.github.selcukes.collections.DataTable#of(Ljava/util/List;)Lio/github/selcukes/collections/DataTable;
+io.github.selcukes.collections.DataTable#instance-init#
+io.github.selcukes.collections.DataTable#<init>()V
+==
+addRows io.github.selcukes.collections.DataTable#addRows(Ljava/util/List;)V

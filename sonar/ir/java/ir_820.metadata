@@ -1,0 +1,7 @@
+io.github.selcukes.databind.YamlData#<init>()V
+com.fasterxml.jackson.dataformat.yaml.YAMLFactory#instance-init#
+com.fasterxml.jackson.databind.ObjectMapper#<init>(Lcom/fasterxml/jackson/core/JsonFactory;)V
+com.fasterxml.jackson.databind.ObjectMapper#instance-init#
+com.fasterxml.jackson.dataformat.yaml.YAMLFactory#<init>()V
+==
+<init> io.github.selcukes.databind.AbstractDataBind#<init>(Lcom/fasterxml/jackson/databind/ObjectMapper;)V

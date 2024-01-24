@@ -1,0 +1,12 @@
+io.github.selcukes.snapshot.PageSnapshot#getScreenshotWithText(Lorg/openqa/selenium/OutputType;)Ljava/lang/Object;
+io.github.selcukes.commons.helper.ImageUtil#toByteArray(Ljava/awt/image/BufferedImage;)[B
+io.github.selcukes.commons.helper.ImageUtil#generateImageWithAddressBar(Ljava/awt/image/BufferedImage;Ljava/awt/image/BufferedImage;)Ljava/awt/image/BufferedImage;
+io.github.selcukes.commons.helper.ImageUtil#generateImageWithLogo(Ljava/lang/String;Ljava/awt/image/BufferedImage;)Ljava/awt/image/BufferedImage;
+io.github.selcukes.commons.os.Platform#isLinux()Z
+io.github.selcukes.commons.helper.ImageUtil#toBufferedImage([B)Ljava/awt/image/BufferedImage;
+==
+getFullScreenshotAs io.github.selcukes.snapshot.PageSnapshot#getFullScreenshotAs(Lorg/openqa/selenium/OutputType;)Ljava/lang/Object;
+convertFromPngBytes org.openqa.selenium.OutputType#convertFromPngBytes([B)Ljava/lang/Object;
+getWidth java.awt.image.BufferedImage#getWidth()I
+captureAddressBar io.github.selcukes.snapshot.DefaultPageSnapshot#captureAddressBar(I)Ljava/awt/image/BufferedImage;
+getScreenshotText io.github.selcukes.snapshot.DefaultPageSnapshot#getScreenshotText()Ljava/lang/String;

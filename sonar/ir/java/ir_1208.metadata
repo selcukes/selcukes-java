@@ -1,0 +1,4 @@
+io.github.selcukes.snapshot.DefaultPageSnapshot#getFullWidth()I
+java.lang.Long#intValue()I
+==
+get java.util.Map#get(Ljava/lang/Object;)Ljava/lang/Object;

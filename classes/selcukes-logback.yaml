@@ -1,0 +1,22 @@
+# To add the FileHandler, use the following line.
+handlers: java.util.logging.FileHandler, java.util.logging.ConsoleHandler
+
+#.level: INFO
+.level: INFO
+
+# For example, set the io.github.selcukes.core logger to only log SEVERE
+io.github.selcukes.level: ALL
+io.github.selcukes.devtools.level: SEVERE
+io.github.selcukes.handler: java.util.logging.ConsoleHandler
+
+# Default file output is in user's home directory.
+java.util.logging.FileHandler.pattern: selcukes.log
+java.util.logging.FileHandler.limit: 50000
+java.util.logging.FileHandler.count: 1
+java.util.logging.FileHandler.formatter: io.github.selcukes.commons.logging.SelcukesLoggerFormatter
+java.util.logging.FileHandler.level: FINE
+
+# Limit the message that are printed on the console to INFO and above.
+java.util.logging.ConsoleHandler.level: FINE
+#java.util.logging.ConsoleHandler.formatter : java.util.logging.SimpleFormatter
+java.util.logging.ConsoleHandler.formatter: io.github.selcukes.commons.logging.SelcukesColorFormatter

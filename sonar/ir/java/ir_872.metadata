@@ -1,0 +1,11 @@
+io.github.selcukes.databind.properties.PropertyField#getFormattedValue(Ljava/lang/Object;)Ljava/lang/String;
+io.github.selcukes.collections.Clocks#format(Ljava/time/temporal/Temporal;Ljava/lang/String;)Ljava/lang/String;
+io.github.selcukes.collections.Reflections#getFieldValue(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/Object;
+java.util.stream.Collectors#joining(Ljava/lang/CharSequence;)Ljava/util/stream/Collector;
+==
+getFormat io.github.selcukes.databind.properties.PropertyField#getFormat()Ljava/lang/String;
+getFieldName io.github.selcukes.databind.DataField#getFieldName()Ljava/lang/String;
+collect java.util.stream.Stream#collect(Ljava/util/stream/Collector;)Ljava/lang/Object;
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+toString java.lang.Object#toString()Ljava/lang/String;

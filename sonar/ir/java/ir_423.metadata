@@ -1,0 +1,2 @@
+io.github.selcukes.collections.StringHelper#extractVersionNumber(Ljava/lang/String;)Ljava/lang/String;
+java.lang.String#replaceAll(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;

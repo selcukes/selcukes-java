@@ -1,0 +1,10 @@
+io.github.selcukes.collections.TextTable#printCSV()Ljava/lang/String;
+io.github.selcukes.collections.TextTable#getCSVRow(Ljava/util/Collection;)Ljava/lang/String;
+java.util.stream.Stream#concat(Ljava/util/stream/Stream;Ljava/util/stream/Stream;)Ljava/util/stream/Stream;
+java.util.stream.Stream#of(Ljava/lang/Object;)Ljava/util/stream/Stream;
+java.util.stream.Collectors#joining(Ljava/lang/CharSequence;)Ljava/util/stream/Collector;
+==
+getColumns io.github.selcukes.collections.DataTable#getColumns()Ljava/util/List;
+collect java.util.stream.Stream#collect(Ljava/util/stream/Collector;)Ljava/lang/Object;
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;

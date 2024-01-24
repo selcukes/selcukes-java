@@ -1,0 +1,15 @@
+io.github.selcukes.databind.utils.DataFileHelper#getFileName()Ljava/lang/String;
+io.github.selcukes.databind.utils.DataFileHelper#getFolder()Ljava/nio/file/Path;
+io.github.selcukes.collections.Resources#findFile(Ljava/nio/file/Path;Ljava/lang/String;)Ljava/nio/file/Path;
+io.github.selcukes.collections.StringHelper#toSnakeCase(Ljava/lang/String;)Ljava/lang/String;
+java.util.Optional#orElseGet(Ljava/util/function/Supplier;)Ljava/lang/Object;
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+java.lang.String#isEmpty()Z
+java.lang.Class#getSimpleName()Ljava/lang/String;
+java.util.Optional#map(Ljava/util/function/Function;)Ljava/util/Optional;
+io.github.selcukes.databind.exception.DataMapperException#instance-init#
+io.github.selcukes.databind.exception.DataMapperException#<init>(Ljava/lang/String;)V
+==
+substituteSystemProperty io.github.selcukes.databind.utils.DataSubstitutor#substituteSystemProperty(Ljava/lang/String;)Ljava/lang/String;
+fileName io.github.selcukes.databind.annotation.DataFile#fileName()Ljava/lang/String;
+isStream io.github.selcukes.databind.utils.DataFileHelper#isStream()Z

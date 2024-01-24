@@ -1,0 +1,10 @@
+io.github.selcukes.commons.security.ByteEncryptor#generateSecretKey(Ljava/lang/String;[B)Ljavax/crypto/SecretKey;
+javax.crypto.SecretKeyFactory#getInstance(Ljava/lang/String;)Ljavax/crypto/SecretKeyFactory;
+javax.crypto.SecretKeyFactory#generateSecret(Ljava/security/spec/KeySpec;)Ljavax/crypto/SecretKey;
+javax.crypto.spec.SecretKeySpec#<init>([BLjava/lang/String;)V
+javax.crypto.spec.SecretKeySpec#instance-init#
+javax.crypto.spec.PBEKeySpec#instance-init#
+java.lang.String#toCharArray()[C
+javax.crypto.spec.PBEKeySpec#<init>([C[BII)V
+==
+getEncoded java.security.Key#getEncoded()[B

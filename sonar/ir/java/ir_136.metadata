@@ -1,0 +1,7 @@
+io.github.selcukes.core.page.ui.PageElement#toLogMessage(Lorg/openqa/selenium/WebElement;Ljava/lang/CharSequence;)Ljava/lang/String;
+io.github.selcukes.core.page.ui.PageElement#elementValue(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+io.github.selcukes.core.page.ui.PageElement#labelName(Lorg/openqa/selenium/WebElement;)Ljava/lang/String;
+java.lang.Enum#name()Ljava/lang/String;
+java.lang.String#format(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+==
+toString java.lang.CharSequence#toString()Ljava/lang/String;

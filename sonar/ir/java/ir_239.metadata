@@ -1,0 +1,3 @@
+io.github.selcukes.core.page.Page#waitForPageLoading()Lio/github/selcukes/core/page/Page;
+io.github.selcukes.core.wait.WaitManager#instance-init#
+io.github.selcukes.core.wait.WaitManager#<init>(Lio/github/selcukes/core/page/Page;)V

@@ -1,0 +1,5 @@
+io.github.selcukes.core.page.Page#findChild(Ljava/lang/Object;Ljava/lang/Object;)Lorg/openqa/selenium/WebElement;
+io.github.selcukes.core.page.ui.Locator#resolve(Ljava/lang/Object;)Lorg/openqa/selenium/By;
+==
+find io.github.selcukes.core.page.Page#find(Ljava/lang/Object;Lio/github/selcukes/core/wait/WaitCondition;)Lorg/openqa/selenium/WebElement;
+findElement org.openqa.selenium.WebElement#findElement(Lorg/openqa/selenium/By;)Lorg/openqa/selenium/WebElement;

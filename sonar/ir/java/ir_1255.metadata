@@ -1,0 +1,5 @@
+io.github.selcukes.excel.ScenarioContext#setTestName(Lio/cucumber/java/Scenario;)V
+io.github.selcukes.excel.ScenarioContext#getFeatureName(Lio/cucumber/java/Scenario;)Ljava/lang/String;
+io.cucumber.java.Scenario#getName()Ljava/lang/String;
+==
+set java.lang.ThreadLocal#set(Ljava/lang/Object;)V

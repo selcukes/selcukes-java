@@ -1,0 +1,2 @@
+io.github.selcukes.collections.Resources#newOutputStream(Ljava/nio/file/Path;)Ljava/io/OutputStream;
+java.nio.file.Files#newOutputStream(Ljava/nio/file/Path;[Ljava/nio/file/OpenOption;)Ljava/io/OutputStream;

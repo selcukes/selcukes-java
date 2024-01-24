@@ -1,0 +1,11 @@
+io.github.selcukes.core.driver.DriverManager#removeAllDrivers()V
+==
+remove java.lang.ThreadLocal#remove()V
+getDevicePool io.github.selcukes.core.driver.DriverManager#getDevicePool()Lio/github/selcukes/core/driver/DevicePool;
+getAllDevices io.github.selcukes.core.driver.DevicePool#getAllDevices()Ljava/util/Map;
+filter java.util.stream.Stream#filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;
+stream java.util.Collection#stream()Ljava/util/stream/Stream;
+map java.util.stream.Stream#map(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+flatMap java.util.stream.Stream#flatMap(Ljava/util/function/Function;)Ljava/util/stream/Stream;
+values java.util.Map#values()Ljava/util/Collection;
+forEach java.util.stream.Stream#forEach(Ljava/util/function/Consumer;)V

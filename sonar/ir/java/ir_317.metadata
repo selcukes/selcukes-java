@@ -1,0 +1,11 @@
+io.github.selcukes.reports.screen.ScreenPlayResult#extractResult(Ljava/lang/Object;)V
+io.github.selcukes.reports.screen.ScreenPlayResult#getError(Lio/github/selcukes/commons/fixture/TestResult;)Ljava/lang/String;
+java.lang.String#replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+io.cucumber.java.Scenario#getStatus()Lio/cucumber/java/Status;
+io.cucumber.java.Scenario#isFailed()Z
+io.cucumber.java.Scenario#getName()Ljava/lang/String;
+==
+test java.util.function.Predicate#test(Ljava/lang/Object;)Z
+getName io.github.selcukes.commons.fixture.TestResult#getName()Ljava/lang/String;
+toString java.lang.Enum#toString()Ljava/lang/String;
+getStatus io.github.selcukes.commons.fixture.TestResult#getStatus()Ljava/lang/String;

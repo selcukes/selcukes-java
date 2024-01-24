@@ -1,0 +1,9 @@
+io.github.selcukes.reports.cucumber.CucumberLiveReportAdapter#initFeatureContext(Lio/cucumber/messages/types/Feature;)V
+java.util.Collections#emptyList()Ljava/util/List;
+java.util.ArrayList#instance-init#
+java.util.ArrayList#<init>(Ljava/util/Collection;)V
+io.cucumber.messages.types.Feature#getDescription()Ljava/lang/String;
+io.cucumber.messages.types.Feature#getName()Ljava/lang/String;
+==
+get java.lang.ThreadLocal#get()Ljava/lang/Object;
+set java.lang.ThreadLocal#set(Ljava/lang/Object;)V

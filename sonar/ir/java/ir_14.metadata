@@ -1,0 +1,4 @@
+io.github.selcukes.testng.SelcukesTestNGRunner#parallelScenarios()[[Ljava/lang/Object;
+io.cucumber.testng.TestNGCucumberRunner#provideScenarios()[[Ljava/lang/Object;
+==
+filter io.github.selcukes.testng.SelcukesTestNGRunner#filter([[Ljava/lang/Object;Ljava/util/function/Predicate;)[[Ljava/lang/Object;

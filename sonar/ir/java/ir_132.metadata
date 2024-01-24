@@ -1,0 +1,3 @@
+io.github.selcukes.core.validation.ResponseValidation#containsText(Ljava/lang/String;)Lio/github/selcukes/core/validation/ResponseValidation;
+java.lang.String#contains(Ljava/lang/CharSequence;)Z
+io.github.selcukes.core.validation.Validation#failWithMessage(ZLjava/lang/String;[Ljava/lang/Object;)V

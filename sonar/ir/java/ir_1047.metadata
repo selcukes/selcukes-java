@@ -1,0 +1,9 @@
+io.github.selcukes.wdb.core.AbstractBinary#getVersionNumberFromGit(Ljava/lang/String;)Ljava/lang/String;
+java.lang.String#length()I
+java.lang.String#substring(I)Ljava/lang/String;
+io.github.selcukes.commons.http.WebResponse#header(Ljava/lang/String;)Ljava/lang/String;
+io.github.selcukes.wdb.util.VersionHelper#sendRequest(Ljava/lang/String;Ljava/lang/String;)Lio/github/selcukes/commons/http/WebResponse;
+java.lang.String#lastIndexOf(I)I
+java.lang.String#contains(Ljava/lang/CharSequence;)Z
+==
+getProxy io.github.selcukes.wdb.core.AbstractBinary#getProxy()Ljava/lang/String;

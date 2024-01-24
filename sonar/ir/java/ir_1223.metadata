@@ -1,0 +1,4 @@
+io.github.selcukes.snapshot.SnapshotImpl#getScreenshotPath()Ljava/nio/file/Path;
+io.github.selcukes.commons.helper.FileHelper#createDirectory(Ljava/lang/String;)Ljava/nio/file/Path;
+io.github.selcukes.collections.Clocks#dateTime(Ljava/lang/String;)Ljava/lang/String;
+java.nio.file.Paths#get(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;

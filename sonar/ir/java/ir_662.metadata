@@ -1,0 +1,8 @@
+io.github.selcukes.commons.helper.FileHelper#createFile(Ljava/lang/String;Ljava/lang/String;)Ljava/io/File;
+java.nio.file.Files#write(Ljava/nio/file/Path;[B[Ljava/nio/file/OpenOption;)Ljava/nio/file/Path;
+java.lang.String#getBytes(Ljava/nio/charset/Charset;)[B
+java.util.Base64#getDecoder()Ljava/util/Base64$Decoder;
+java.nio.file.Paths#get(Ljava/lang/String;[Ljava/lang/String;)Ljava/nio/file/Path;
+==
+toFile java.nio.file.Path#toFile()Ljava/io/File;
+decode java.util.Base64$Decoder#decode([B)[B

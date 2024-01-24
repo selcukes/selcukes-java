@@ -1,0 +1,5 @@
+io.github.selcukes.commons.helper.FileHelper#loadThreadResourceAsStream(Ljava/lang/String;)Ljava/io/InputStream;
+java.lang.Thread#currentThread()Ljava/lang/Thread;
+==
+getResourceAsStream java.lang.ClassLoader#getResourceAsStream(Ljava/lang/String;)Ljava/io/InputStream;
+getContextClassLoader java.lang.Thread#getContextClassLoader()Ljava/lang/ClassLoader;

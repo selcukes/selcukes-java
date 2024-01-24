@@ -1,0 +1,7 @@
+io.github.selcukes.core.page.Page#selectMenu(Lorg/openqa/selenium/By;Lorg/openqa/selenium/By;)Lio/github/selcukes/core/page/Page;
+==
+click io.github.selcukes.core.page.Page#click(Ljava/lang/Object;)Lio/github/selcukes/core/page/Page;
+actions io.github.selcukes.core.page.Page#actions()Lorg/openqa/selenium/interactions/Actions;
+find io.github.selcukes.core.page.Page#find(Ljava/lang/Object;)Lorg/openqa/selenium/WebElement;
+moveToElement org.openqa.selenium.interactions.Actions#moveToElement(Lorg/openqa/selenium/WebElement;)Lorg/openqa/selenium/interactions/Actions;
+perform org.openqa.selenium.interactions.Actions#perform()V

@@ -1,0 +1,11 @@
+io.github.selcukes.snapshot.PageSnapshot#getFullScreenshot(Lorg/openqa/selenium/OutputType;)Ljava/lang/Object;
+java.util.Map#of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;
+java.util.Map#of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;
+==
+getFullWidth io.github.selcukes.snapshot.DefaultPageSnapshot#getFullWidth()I
+getFullHeight io.github.selcukes.snapshot.DefaultPageSnapshot#getFullHeight()I
+isNotViewport io.github.selcukes.snapshot.DefaultPageSnapshot#isNotViewport()Z
+get java.util.Map#get(Ljava/lang/Object;)Ljava/lang/Object;
+getScreenOptions io.github.selcukes.snapshot.DefaultPageSnapshot#getScreenOptions()Ljava/util/Map;
+executeCdpCommand org.openqa.selenium.chromium.HasCdp#executeCdpCommand(Ljava/lang/String;Ljava/util/Map;)Ljava/util/Map;
+convertFromBase64Png org.openqa.selenium.OutputType#convertFromBase64Png(Ljava/lang/String;)Ljava/lang/Object;

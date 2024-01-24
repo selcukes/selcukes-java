@@ -1,0 +1,5 @@
+io.github.selcukes.core.driver.DriverManager#switchDriver(Lio/github/selcukes/core/enums/DeviceType;I)V
+==
+getDevice io.github.selcukes.core.driver.DevicePool#getDevice(Lio/github/selcukes/core/enums/DeviceType;I)Ljava/lang/Object;
+getDevicePool io.github.selcukes.core.driver.DriverManager#getDevicePool()Lio/github/selcukes/core/driver/DevicePool;
+setDriver io.github.selcukes.core.driver.DriverManager#setDriver(Ljava/lang/Object;)V

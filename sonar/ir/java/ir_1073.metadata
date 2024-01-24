@@ -1,0 +1,21 @@
+io.github.selcukes.wdb.version.VersionDetector#getCompatibleBinaryVersion(Ljava/lang/String;)Ljava/lang/String;
+java.lang.String#split(Ljava/lang/String;)[Ljava/lang/String;
+java.lang.String#substring(I)Ljava/lang/String;
+java.lang.String#concat(Ljava/lang/String;)Ljava/lang/String;
+io.github.selcukes.wdb.version.CacheManager#createCache(Ljava/lang/String;Ljava/lang/String;)V
+io.github.selcukes.wdb.version.VersionComparator#<init>()V
+io.github.selcukes.wdb.util.VersionHelper#versionsList()Ljava/util/List;
+java.lang.String#contains(Ljava/lang/CharSequence;)Z
+io.github.selcukes.wdb.util.VersionHelper#versionsList(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/util/List;
+io.github.selcukes.wdb.version.VersionComparator#instance-init#
+java.lang.String#startsWith(Ljava/lang/String;)Z
+==
+contains java.util.List#contains(Ljava/lang/Object;)Z
+indexOf java.util.List#indexOf(Ljava/lang/Object;)I
+warn io.github.selcukes.commons.logging.Logger#warn(Ljava/util/function/Supplier;)V
+add java.util.List#add(Ljava/lang/Object;)Z
+isEmpty java.util.List#isEmpty()Z
+get java.util.List#get(I)Ljava/lang/Object;
+sort java.util.List#sort(Ljava/util/Comparator;)V
+info io.github.selcukes.commons.logging.Logger#info(Ljava/util/function/Supplier;)V
+size java.util.List#size()I

@@ -1,0 +1,7 @@
+io.github.selcukes.extent.report.ExtentService#attach(Lcom/aventstack/extentreports/reporter/ReporterConfigurable;)V
+io.github.selcukes.extent.report.ExtentService#getProperty(Ljava/lang/String;)Ljava/lang/String;
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+java.util.Optional#filter(Ljava/util/function/Predicate;)Ljava/util/Optional;
+java.util.Optional#ifPresent(Ljava/util/function/Consumer;)V
+==
+attachReporter com.aventstack.extentreports.ExtentReports#attachReporter([Lcom/aventstack/extentreports/observer/ExtentObserver;)V

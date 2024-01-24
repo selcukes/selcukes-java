@@ -1,0 +1,3 @@
+io.github.selcukes.databind.DataField#assignValue(Ljava/lang/Object;)V
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+java.util.Optional#ifPresent(Ljava/util/function/Consumer;)V

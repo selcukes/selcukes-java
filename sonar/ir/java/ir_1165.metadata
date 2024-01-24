@@ -1,0 +1,5 @@
+io.github.selcukes.video.FFmpegRecorder#getFile(Ljava/lang/String;)Ljava/io/File;
+io.github.selcukes.collections.Clocks#dateTime(Ljava/lang/String;)Ljava/lang/String;
+java.io.File#<init>(Ljava/lang/String;)V
+io.github.selcukes.video.FFmpegRecorder#createMovieFolder()Ljava/io/File;
+java.io.File#instance-init#

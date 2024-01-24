@@ -1,0 +1,2 @@
+io.github.selcukes.databind.substitute.StringSubstitutor#replace(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+io.github.selcukes.collections.StringHelper#interpolate(Ljava/lang/String;Ljava/util/function/UnaryOperator;)Ljava/lang/String;

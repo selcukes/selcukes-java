@@ -1,0 +1,6 @@
+io.github.selcukes.databind.properties.PropertyField#parse()Lio/github/selcukes/databind/properties/PropertyField;
+==
+getFormat io.github.selcukes.databind.properties.PropertyField#getFormat()Ljava/lang/String;
+getSubstitutor io.github.selcukes.databind.DataField#getSubstitutor()Lio/github/selcukes/databind/substitute/Substitutor;
+replace io.github.selcukes.databind.substitute.Substitutor#replace(Ljava/util/Properties;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+getKeyName io.github.selcukes.databind.properties.PropertyField#getKeyName()Ljava/lang/String;

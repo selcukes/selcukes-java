@@ -1,0 +1,7 @@
+io.github.selcukes.core.driver.AppiumManager#createBrowserDriver(Lorg/openqa/selenium/Capabilities;Ljava/lang/String;)Lorg/openqa/selenium/WebDriver;
+java.util.Optional#orElseGet(Ljava/util/function/Supplier;)Ljava/lang/Object;
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+org.openqa.selenium.remote.RemoteWebDriver#<init>(Ljava/net/URL;Lorg/openqa/selenium/Capabilities;)V
+org.openqa.selenium.remote.RemoteWebDriver#instance-init#
+==
+getServiceUrl io.github.selcukes.core.driver.AppiumManager#getServiceUrl()Ljava/net/URL;

@@ -1,0 +1,17 @@
+io.github.selcukes.snapshot.DefaultPageSnapshot#defaultPageScreenshot()Ljava/awt/image/BufferedImage;
+java.awt.image.BufferedImage#instance-init#
+java.awt.image.BufferedImage#<init>(III)V
+io.github.selcukes.commons.helper.ImageUtil#toBufferedImage([B)Ljava/awt/image/BufferedImage;
+==
+createGraphics java.awt.image.BufferedImage#createGraphics()Ljava/awt/Graphics2D;
+waitForScrolling io.github.selcukes.snapshot.DefaultPageSnapshot#waitForScrolling()V
+drawImage java.awt.Graphics#drawImage(Ljava/awt/Image;IILjava/awt/image/ImageObserver;)Z
+getFullWidth io.github.selcukes.snapshot.DefaultPageSnapshot#getFullWidth()I
+getHeight java.awt.image.BufferedImage#getHeight()I
+getFullHeight io.github.selcukes.snapshot.DefaultPageSnapshot#getFullHeight()I
+dispose java.awt.Graphics#dispose()V
+getWidth java.awt.image.BufferedImage#getWidth()I
+getWindowHeight io.github.selcukes.snapshot.DefaultPageSnapshot#getWindowHeight()I
+executeJS io.github.selcukes.snapshot.DefaultPageSnapshot#executeJS(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;
+takeScreenshot io.github.selcukes.snapshot.DefaultPageSnapshot#takeScreenshot()[B
+getSubimage java.awt.image.BufferedImage#getSubimage(IIII)Ljava/awt/image/BufferedImage;

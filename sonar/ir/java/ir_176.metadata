@@ -1,0 +1,9 @@
+io.github.selcukes.core.driver.WebManager#getServiceUrl()Ljava/net/URL;
+io.github.selcukes.commons.config.ConfigFactory#getConfig()Lio/github/selcukes/commons/config/Config;
+io.github.selcukes.core.driver.GridRunner#isSeleniumServerNotRunning()Z
+io.github.selcukes.collections.Resources#toURL(Ljava/lang/String;)Ljava/net/URL;
+io.github.selcukes.core.driver.RunMode#isCloudBrowser()Z
+==
+browserStackUrl io.github.selcukes.core.driver.CloudOptions#browserStackUrl()Ljava/lang/String;
+getWeb io.github.selcukes.commons.config.Config#getWeb()Lio/github/selcukes/commons/config/Config$WebConfig;
+getServiceUrl io.github.selcukes.commons.config.Config$WebConfig#getServiceUrl()Ljava/lang/String;

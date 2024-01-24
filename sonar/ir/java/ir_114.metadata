@@ -1,0 +1,12 @@
+io.github.selcukes.core.driver.DriverFactory#create(Lio/github/selcukes/core/enums/DeviceType;Lorg/openqa/selenium/Capabilities;)Lorg/openqa/selenium/WebDriver;
+org.openqa.selenium.support.events.EventFiringDecorator#instance-init#
+io.github.selcukes.core.listener.EventCapture#instance-init#
+io.github.selcukes.core.listener.EventCapture#<init>()V
+java.util.Optional#ofNullable(Ljava/lang/Object;)Ljava/util/Optional;
+java.util.Optional#orElseThrow(Ljava/util/function/Supplier;)Ljava/lang/Object;
+java.util.Optional#map(Ljava/util/function/Function;)Ljava/util/Optional;
+org.openqa.selenium.support.events.EventFiringDecorator#<init>([Lorg/openqa/selenium/support/events/WebDriverListener;)V
+org.openqa.selenium.support.decorators.WebDriverDecorator#decorate(Lorg/openqa/selenium/WebDriver;)Lorg/openqa/selenium/WebDriver;
+==
+get java.util.Map#get(Ljava/lang/Object;)Ljava/lang/Object;
+createDriver io.github.selcukes.core.driver.RemoteManager#createDriver(Lorg/openqa/selenium/Capabilities;)Lorg/openqa/selenium/WebDriver;

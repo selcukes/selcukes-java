@@ -1,0 +1,6 @@
+io.github.selcukes.reports.cucumber.CucumberLiveReportAdapter#afterTest(Lio/cucumber/plugin/event/TestRunFinished;)V
+io.github.selcukes.reports.cucumber.CucumberLiveReportAdapter#getFeatureStatus(Ljava/util/List;)Ljava/lang/String;
+==
+remove java.lang.ThreadLocal#remove()V
+publishResults io.github.selcukes.reports.cucumber.LiveReportHelper#publishResults(Ljava/lang/Object;Ljava/lang/String;)V
+get java.lang.ThreadLocal#get()Ljava/lang/Object;

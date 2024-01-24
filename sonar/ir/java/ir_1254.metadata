@@ -1,0 +1,6 @@
+io.github.selcukes.excel.ScenarioContext#getFeatureName(Lio/cucumber/java/Scenario;)Ljava/lang/String;
+io.cucumber.java.Scenario#getUri()Ljava/net/URI;
+java.net.URI#getPath()Ljava/lang/String;
+java.lang.String#substring(II)Ljava/lang/String;
+java.lang.String#indexOf(Ljava/lang/String;)I
+java.lang.String#lastIndexOf(Ljava/lang/String;)I

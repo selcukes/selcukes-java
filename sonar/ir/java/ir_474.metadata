@@ -1,0 +1,6 @@
+io.github.selcukes.collections.Maps#of(Ljava/util/Properties;)Ljava/util/Map;
+==
+entrySet java.util.Properties#entrySet()Ljava/util/Set;
+of io.github.selcukes.collections.Maps#of(Ljava/util/function/Function;Ljava/util/function/Function;)Ljava/util/stream/Collector;
+collect java.util.stream.Stream#collect(Ljava/util/stream/Collector;)Ljava/lang/Object;
+stream java.util.Collection#stream()Ljava/util/stream/Stream;

@@ -1,0 +1,4 @@
+io.github.selcukes.testng.SelcukesTestNGRunner#runParallelScenario(Lio/cucumber/testng/PickleWrapper;Lio/cucumber/testng/FeatureWrapper;)V
+io.cucumber.testng.TestNGCucumberRunner#runScenario(Lio/cucumber/testng/Pickle;)V
+==
+getPickle io.cucumber.testng.PickleWrapper#getPickle()Lio/cucumber/testng/Pickle;

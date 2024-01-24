@@ -1,0 +1,2 @@
+io.github.selcukes.notifier.mail.EmailNotifier#emailNotifier()Lio/github/selcukes/notifier/mail/EmailNotifier;
+io.github.selcukes.commons.helper.Singleton#instanceOf(Ljava/lang/Class;[Ljava/lang/Object;)Ljava/lang/Object;

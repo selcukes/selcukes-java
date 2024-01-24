@@ -1,0 +1,4 @@
+io.github.selcukes.commons.http.WebResponse#getHeaders()Ljava/util/Map;
+java.net.http.HttpHeaders#map()Ljava/util/Map;
+==
+headers java.net.http.HttpResponse#headers()Ljava/net/http/HttpHeaders;

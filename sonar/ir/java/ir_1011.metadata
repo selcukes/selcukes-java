@@ -1,0 +1,5 @@
+io.github.selcukes.wdb.core.FirefoxBinary#getCompressedBinaryType()Lio/github/selcukes/wdb/enums/DownloaderType;
+java.util.Objects#equals(Ljava/lang/Object;Ljava/lang/Object;)Z
+==
+getOSType io.github.selcukes.commons.os.Platform#getOSType()Lio/github/selcukes/commons/os/OsType;
+getBinaryEnvironment io.github.selcukes.wdb.core.AbstractBinary#getBinaryEnvironment()Lio/github/selcukes/commons/os/Platform;

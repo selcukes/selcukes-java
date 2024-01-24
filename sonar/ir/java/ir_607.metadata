@@ -1,0 +1,3 @@
+io.github.selcukes.commons.exception.SelcukesException#<init>()V
+==
+<init> java.lang.RuntimeException#<init>()V

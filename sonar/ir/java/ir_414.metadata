@@ -1,0 +1,4 @@
+io.github.selcukes.collections.DataTable#toCSV()Ljava/lang/String;
+io.github.selcukes.collections.TextTable#of(Lio/github/selcukes/collections/DataTable;)Lio/github/selcukes/collections/TextTable;
+==
+printCSV io.github.selcukes.collections.TextTable#printCSV()Ljava/lang/String;

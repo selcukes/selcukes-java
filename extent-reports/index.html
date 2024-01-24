@@ -1,0 +1,884 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Automation Report</title>
+<link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@b00a2d0486596e73dd7326beacf352c639623a0e/commons/img/logo.png">
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@b00a2d0486596e73dd7326beacf352c639623a0e/commons/img/logo.png">
+<link href="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@ce8b10435bcbae260c334c0d0c6b61d2c19b6168/spark/css/spark-style.css" rel="stylesheet" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@7cc78ce/spark/js/jsontree.js"></script>
+<style type="text/css"></style></head><body class="spa bdd-report standard">
+  <div class="app">
+    <div class="layout">
+<div class="header navbar">
+<div class="vheader">
+<div class="nav-logo">
+<a href="#">
+<div class="logo" style="background-image: url('https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@b00a2d0486596e73dd7326beacf352c639623a0e/commons/img/logo.png')"></div>
+</a>
+</div>
+<ul class="nav-left">
+<li class="search-box">
+<a class="search-toggle" href="#">
+<i class="search-icon fa fa-search"></i>
+<i class="search-icon-close fa fa-close"></i>
+</a>
+</li>
+<li class="search-input"><input id="search-tests" class="form-control" type="text" placeholder="Search..."></li>
+</ul>
+<ul class="nav-right">
+<li class="m-r-10">
+<a href="#"><span class="badge badge-primary">Automation Report</span></a>
+</li>
+<li class="m-r-10">
+<a href="#"><span class="badge badge-primary">Jan 24, 2024 03:52:23 PM</span></a>
+</li>
+</ul>
+</div>
+</div><div class="side-nav">
+<div class="side-nav-inner">
+<ul class="side-nav-menu">
+<li class="nav-item dropdown" onclick="toggleView('dashboard-view')">
+<a id="nav-dashboard" class="dropdown-toggle" href="#">
+<span class="ico"><i class="fa fa-bar-chart"></i></span>
+</a>
+</li>
+<li class="nav-item dropdown" onclick="toggleView('test-view')">
+<a id="nav-test" class="dropdown-toggle" href="#">
+<span class="ico"><i class="fa fa-list"></i></span>
+</a>
+</li>
+<li class="nav-item dropdown" onclick="toggleView('category-view')">
+<a id="nav-category" class="dropdown-toggle" href="#">
+<span class="ico"><i class="fa fa-tag"></i></span>
+</a>
+</li>
+</ul>
+</div>
+</div>      <div class="vcontainer">
+        <div class="main-content">
+<div class="container-fluid p-4 view dashboard-view">
+<div class="row">
+<div class="col-md-3">
+<div class="card"><div class="card-body">
+<p class="m-b-0">Started</p>
+<h3>Jan 24, 2024 03:52:23 PM</h3>
+</div></div>
+</div>
+<div class="col-md-3">
+<div class="card"><div class="card-body">
+<p class="m-b-0">Ended</p>
+<h3>Jan 24, 2024 03:52:36 PM</h3>
+</div></div>
+</div>
+<div class="col-md-3">
+<div class="card"><div class="card-body">
+<p class="m-b-0 text-pass">Features Passed</p>
+<h3>1</h3>
+</div></div>
+</div>
+<div class="col-md-3">
+<div class="card"><div class="card-body">
+<p class="m-b-0 text-fail">Features Failed</p>
+<h3>0</h3>
+</div></div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-4">
+<div class="card">
+<div class="card-header">
+<h6 class="card-title">Features</h6>
+</div>
+<div class="card-body">
+<div class="">
+<canvas id='parent-analysis' width='115' height='90'></canvas>
+</div>
+</div>
+<div class="card-footer">
+<div><small data-tooltip='100%'>
+<b>1</b> features passed
+</small>
+</div>
+<div>
+<small data-tooltip='0%'><b>0</b> features failed,
+<b>0</b> skipped, <b data-tooltip='0%'>0</b> others
+</small>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="card">
+<div class="card-header">
+<h6 class="card-title">Scenarios</h6>
+</div>
+<div class="card-body">
+<div class="">
+<canvas id='child-analysis' width='115' height='90'></canvas>
+</div>
+</div>
+<div class="card-footer">
+<div><small data-tooltip='100%'><b>6</b> scenarios passed</small></div>
+<div>
+<small data-tooltip='0%'><b>0</b> scenarios failed,
+<b>0</b> skipped, <b data-tooltip='%'>0</b> others
+</small>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-4">
+<div class="card">
+<div class="card-header">
+<h6 class="card-title">Steps</h6>
+</div>
+<div class="card-body">
+<div class="">
+<canvas id='grandchild-analysis' width='115' height='90'></canvas>
+</div>
+</div>
+<div class="card-footer">
+<div><small data-tooltip='100%'><b>66</b> steps passed</small></div>
+<div>
+<small data-tooltip='0%'><b>0</b> steps failed,
+<b>0</b> skipped, <b data-tooltip='%'>0</b> others
+</small>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><div class="col-md-12">
+<div class="card"><div class="card-header"><p>Timeline</p></div>
+<div class="card-body pt-0"><div>
+<canvas id="timeline" height="120"></canvas>
+</div></div>
+</div>
+</div></div>
+<script>
+var timeline = {
+"Basic Arithmetic":12.126
+};
+</script>
+<div class="row">
+<div class="col-lg-6 col-md-12 category-container">
+<div class="card">
+<div class="card-header"><p>Tags</p></div>
+<div class="card-body pb-0 pt-0"><table class="table table-sm table-bordered">
+<thead><tr class="bg-gray"><th>Name</th><th>Passed</th><th>Failed</th><th>Skipped</th><th>Others</th><th>Passed %</th></tr></thead><tbody>
+<tr>
+<td>@abc</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>100%</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="col-lg-6 col-md-12 sysenv-container">
+<div class="card">
+<div class="card-header"><p>System/Environment</p></div>
+<div class="card-body pb-0 pt-0"><table class="table table-sm table-bordered">
+<thead><tr class="bg-gray"><th>Name</th><th>Value</th></tr></thead>
+<tbody>
+<tr>
+<td>Environment</td>
+<td>Dev</td>
+</tr>
+<tr>
+<td>Platform</td>
+<td>linux</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+</div>
+<script>
+var statusGroup = {
+parentCount: 5,
+passParent: 1,
+failParent: 0,
+warningParent: 0,
+skipParent: 0,
+childCount: 5,
+passChild: 6,
+failChild: 0,
+warningChild: 0,
+skipChild: 0,
+infoChild: 0,
+grandChildCount: 5,
+passGrandChild: 66,
+failGrandChild: 0,
+warningGrandChild: 0,
+skipGrandChild: 0,
+infoGrandChild: 0,
+eventsCount: 5,
+};
+</script><div class="test-wrapper row view test-view">
+  <div class="test-list">
+    <div class="test-list-tools">
+<ul class="tools pull-left">
+<li><a href="#"><span class="font-size-14">Tests</span></a></li>
+</ul>
+<ul class="tools text-right">
+<li class="dropdown">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-exclamation-circle"></i></a>
+<ul id="status-toggle" class="dropdown-menu dropdown-md p-v-0">
+<a class="dropdown-item" status="pass" href="#"><span>Pass</span><span class="status success"></span></a>
+<div class="dropdown-divider"></div>
+<a status="clear" class="dropdown-item" href="#"><span>Clear</span><span class="pull-right"><i class="fa fa-close"></i></span></a>
+</ul>
+</li>
+<li class="dropdown">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-tag"></i></a>
+<ul id="tag-toggle" class="dropdown-menu dropdown-md p-v-0">
+<a class="dropdown-item" href="#">@abc</a>
+</ul>
+</li>
+</ul>
+</div>    <div class="test-list-wrapper scrollable">
+      <ul class="test-list-item">
+        <li class="test-item"  status="pass" test-id="1"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">Basic Arithmetic</p>
+            <p class="text-sm">
+              <span>3:52:24 PM</span> / <span>00:00:12:126</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">Basic Arithmetic</h5>
+<span class='badge badge-success'>01.24.2024 3:52:24 PM</span>
+<span class='badge badge-danger'>01.24.2024 3:52:36 PM</span>
+<span class='badge badge-default'>00:00:12:126</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=1</span>
+<span title='Skip to the next failed step' class='badge badge-danger pointer float-right ne ml-1'><i class="fa fa-fast-forward"></i></span>
+<span title='Collapse all nodes' class='badge badge-default pointer float-right ct ml-1'><i class="fa fa-compress"></i></span>
+<span title='Expand all nodes' class='badge badge-default pointer float-right et'><i class="fa fa-expand"></i></span>
+</div>
+<div class="m-t-10 m-l-5"></div>
+</div>
+</div>
+<div class="accordion mt-4">
+  <div class="card">
+    <div class="card-header" role="tab">
+      <div class="card-title">
+        <div class="node" id="2"><span class="badge log pass-bg mr-2">Pass</span>Addition</div>
+      </div>
+    </div>
+        <div class="collapse">
+          <div class="card-body">
+              <div class="step pass-bg" title="BEFORE">
+                <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeTest(io.cucumber.java.Scenario)</span>
+      <div><ul><li> Starting Scenario ..Addition</li></ul><br/>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="BEFORE_STEP">
+                <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeStep()</span>
+      <div><ul><li> Before Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="io.github.selcukes.reports.tests.steps.CalculatorSteps.setup()">
+                <span><b>Given a calculator I just turned on</b></span>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="AFTER_STEP">
+                <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterStep()</span>
+      <div><ul><li> After Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="BEFORE_STEP">
+                <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeStep()</span>
+      <div><ul><li> Before Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="io.github.selcukes.reports.tests.steps.CalculatorSteps.add(int,int)">
+                <span><b>When I add 4 and 5</b></span>
+      <div><ul><li> Push: [4]</li><li>Push: [5]</li><li>Operator: [+]</li><li>Push: [9.0]</li></ul><br/>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="AFTER_STEP">
+                <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterStep()</span>
+      <div><ul><li> After Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="BEFORE_STEP">
+                <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeStep()</span>
+      <div><ul><li> Before Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="io.github.selcukes.reports.tests.steps.CalculatorSteps.theResultIs(double)">
+                <span><b>Then the result is 9</b></span>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="AFTER_STEP">
+                <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterStep()</span>
+      <div><ul><li> After Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="AFTER">
+                <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterTest(io.cucumber.java.Scenario)</span>
+      <div><ul><li> Completed Scenario ..Addition</li></ul><br/>
+      </div>
+      <div>
+      </div>
+              </div>
+          </div>
+        </div>
+  </div>
+  <div class="card">
+    <div class="card-header" role="tab">
+      <div class="card-title">
+        <div class="node" id="14"><span class="badge log pass-bg mr-2">Pass</span>Subtraction</div>
+      </div>
+    </div>
+        <div class="collapse">
+          <div class="card-body">
+              <div class="step pass-bg" title="BEFORE">
+                <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeTest(io.cucumber.java.Scenario)</span>
+      <div><ul><li> Starting Scenario ..Subtraction</li></ul><br/>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="BEFORE_STEP">
+                <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeStep()</span>
+      <div><ul><li> Before Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="io.github.selcukes.reports.tests.steps.CalculatorSteps.setup()">
+                <span><b>Given a calculator I just turned on</b></span>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="AFTER_STEP">
+                <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterStep()</span>
+      <div><ul><li> After Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="BEFORE_STEP">
+                <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeStep()</span>
+      <div><ul><li> Before Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="io.github.selcukes.reports.tests.steps.CalculatorSteps.subtract(int,int)">
+                <span><b>When I subtract 7 to 2</b></span>
+      <div><ul><li> Push: [7]</li><li>Push: [2]</li><li>Operator: [-]</li><li>Push: [5.0]</li></ul><br/>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="AFTER_STEP">
+                <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterStep()</span>
+      <div><ul><li> After Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="BEFORE_STEP">
+                <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeStep()</span>
+      <div><ul><li> Before Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="io.github.selcukes.reports.tests.steps.CalculatorSteps.theResultIs(double)">
+                <span><b>Then the result is 5</b></span>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="AFTER_STEP">
+                <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterStep()</span>
+      <div><ul><li> After Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+              </div>
+              <div class="step pass-bg" title="AFTER">
+                <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterTest(io.cucumber.java.Scenario)</span>
+      <div><ul><li> Completed Scenario ..Subtraction</li></ul><br/>
+      </div>
+      <div>
+      </div>
+              </div>
+          </div>
+        </div>
+  </div>
+  <div class="card">
+    <div class="card-header" role="tab">
+      <div class="card-title">
+        <div class="node" id="26"><span class="badge log pass-bg mr-2">Pass</span>Several additions</div>
+      </div>
+    </div>
+        <div class="scenario_outline collapse">
+            <div class="card-body l1">
+              <div class="card-header">
+                <div class="card-title outline-child">
+                  <div class="node" id="27"><span class="badge log pass-bg mr-2">Pass</span>Several additions</div>
+                </div>
+              </div>
+              <div class="card-body mt-3 collapse">
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeTest(io.cucumber.java.Scenario)</span>
+      <div><ul><li> Starting Scenario ..Several additions</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeStep()</span>
+      <div><ul><li> Before Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span><b>Given a calculator I just turned on</b></span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterStep()</span>
+      <div><ul><li> After Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeStep()</span>
+      <div><ul><li> Before Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span><b>When I add 1 and 2</b></span>
+      <div><ul><li> Push: [1]</li><li>Push: [2]</li><li>Operator: [+]</li><li>Push: [3.0]</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterStep()</span>
+      <div><ul><li> After Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeStep()</span>
+      <div><ul><li> Before Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span><b>Then the result is 3</b></span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterStep()</span>
+      <div><ul><li> After Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterTest(io.cucumber.java.Scenario)</span>
+      <div><ul><li> Completed Scenario ..Several additions</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="card-body l1">
+              <div class="card-header">
+                <div class="card-title outline-child">
+                  <div class="node" id="39"><span class="badge log pass-bg mr-2">Pass</span>Several additions</div>
+                </div>
+              </div>
+              <div class="card-body mt-3 collapse">
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeTest(io.cucumber.java.Scenario)</span>
+      <div><ul><li> Starting Scenario ..Several additions</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeStep()</span>
+      <div><ul><li> Before Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span><b>Given a calculator I just turned on</b></span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterStep()</span>
+      <div><ul><li> After Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeStep()</span>
+      <div><ul><li> Before Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span><b>When I add 3 and 7</b></span>
+      <div><ul><li> Push: [3]</li><li>Push: [7]</li><li>Operator: [+]</li><li>Push: [10.0]</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterStep()</span>
+      <div><ul><li> After Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeStep()</span>
+      <div><ul><li> Before Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span><b>Then the result is 10</b></span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterStep()</span>
+      <div><ul><li> After Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterTest(io.cucumber.java.Scenario)</span>
+      <div><ul><li> Completed Scenario ..Several additions</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="card-body l1">
+              <div class="card-header">
+                <div class="card-title outline-child">
+                  <div class="node" id="51"><span class="badge log pass-bg mr-2">Pass</span>Several additions</div>
+                </div>
+              </div>
+              <div class="card-body mt-3 collapse">
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeTest(io.cucumber.java.Scenario)</span>
+      <div><ul><li> Starting Scenario ..Several additions</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeStep()</span>
+      <div><ul><li> Before Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span><b>Given a calculator I just turned on</b></span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterStep()</span>
+      <div><ul><li> After Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeStep()</span>
+      <div><ul><li> Before Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span><b>When I add 6 and 8</b></span>
+      <div><ul><li> Push: [6]</li><li>Push: [8]</li><li>Operator: [+]</li><li>Push: [14.0]</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterStep()</span>
+      <div><ul><li> After Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeStep()</span>
+      <div><ul><li> Before Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span><b>Then the result is 14</b></span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterStep()</span>
+      <div><ul><li> After Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterTest(io.cucumber.java.Scenario)</span>
+      <div><ul><li> Completed Scenario ..Several additions</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="card-body l1">
+              <div class="card-header">
+                <div class="card-title outline-child">
+                  <div class="node" id="63"><span class="badge log pass-bg mr-2">Pass</span>Several additions</div>
+                </div>
+              </div>
+              <div class="card-body mt-3 collapse">
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeTest(io.cucumber.java.Scenario)</span>
+      <div><ul><li> Starting Scenario ..Several additions</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeStep()</span>
+      <div><ul><li> Before Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span><b>Given a calculator I just turned on</b></span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterStep()</span>
+      <div><ul><li> After Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeStep()</span>
+      <div><ul><li> Before Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span><b>When I add 8 and 7</b></span>
+      <div><ul><li> Push: [8]</li><li>Push: [7]</li><li>Operator: [+]</li><li>Push: [15.0]</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterStep()</span>
+      <div><ul><li> After Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.beforeStep()</span>
+      <div><ul><li> Before Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span><b>Then the result is 15</b></span>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterStep()</span>
+      <div><ul><li> After Step</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+                  <div class="step pass-bg">
+                    <span>io.github.selcukes.reports.tests.steps.ReporterHooks.afterTest(io.cucumber.java.Scenario)</span>
+      <div><ul><li> Completed Scenario ..Several additions</li></ul><br/>
+      </div>
+      <div>
+      </div>
+                  </div>
+              </div>
+            </div>
+        </div>
+  </div>
+</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+<div class="test-content scrollable">
+<div class="test-content-tools">
+<ul><li><a class="back-to-test" href="#"><i class="fa fa-arrow-left"></i></a></li></ul>
+</div>
+<div class="test-content-detail"><div class="detail-body"></div></div>
+</div></div>
+<div class="test-wrapper row view category-view attributes-view">
+<div class="test-list">
+<div class="test-list-tools">
+<ul class="tools pull-left"><li><a href=""><span class="font-size-14">Category</span></a></li></ul>
+<ul class="tools text-right"><li><a href="#"><span class="badge badge-primary">1</span></a></li></ul>
+</div>
+<div class="test-list-wrapper scrollable">
+<ul class="test-list-item">
+<li class="test-item">
+<div class="test-detail">
+<span class="meta">
+<span class='badge log pass-bg'>4</span>
+</span>
+<p class="name">@abc</p>
+<p class="duration text-sm">4 tests</p>
+</div>
+<div class="test-contents d-none">
+<div class="info">
+<h4>@abc</h4>
+<span status="pass" class='badge log pass-bg'>4 passed</span>
+</div>
+<table class='table table-sm mt-4'>
+<thead>
+<tr>
+<th class="status-col">Status</th>
+<th class="timestamp-col">Timestamp</th>
+<th>TestName</th>
+</tr>
+</thead>
+<tbody>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>15:52:28 PM</td>
+<td>
+<a href="#" class="linked" test-id='1' id='27'>Several additions</a>
+<div class="">
+<span class="badge badge-default">Basic Arithmetic.Several additions</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>15:52:30 PM</td>
+<td>
+<a href="#" class="linked" test-id='1' id='39'>Several additions</a>
+<div class="">
+<span class="badge badge-default">Basic Arithmetic.Several additions</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>15:52:32 PM</td>
+<td>
+<a href="#" class="linked" test-id='1' id='51'>Several additions</a>
+<div class="">
+<span class="badge badge-default">Basic Arithmetic.Several additions</span>
+</div>
+</td>
+</tr>
+<tr class="tag-test-status" status="pass">
+<td><span class="badge log pass-bg">Pass</span></td>
+<td>15:52:34 PM</td>
+<td>
+<a href="#" class="linked" test-id='1' id='63'>Several additions</a>
+<div class="">
+<span class="badge badge-default">Basic Arithmetic.Several additions</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="test-content scrollable">
+<div class="test-content-detail">
+<div class="detail-body"></div>
+</div>
+</div>
+</div>        </div>
+      </div>
+    </div>
+  </div>
+<script src="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@ce8b10435bcbae260c334c0d0c6b61d2c19b6168/spark/js/spark-script.js"></script>
+<script type="text/javascript"></script></body>
+</html>
