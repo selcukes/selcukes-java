@@ -195,7 +195,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
                 }
             }
             default -> {
-               //do nothing
+                // do nothing
             }
         }
     }
