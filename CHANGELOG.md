@@ -12,6 +12,32 @@
 
 ### Removed
 
+## [2.3.9] (23-02-2024)
+
+### Added
+
+* [DataBind] Added CSV Write Support and Code Maintenance [#316](https://github.com/selcukes/selcukes-java/pull/316)
+* [Notifier] Added Email Notification Support [#318](https://github.com/selcukes/selcukes-java/pull/318)
+* [Core] Add support for a running Desktop driver on remote machines
+
+### Changed
+
+* Upgrade to Java 17 [#320](https://github.com/selcukes/selcukes-java/pull/320)
+* Update dependency org.apache.logging.log4j:log4j-slf4j-impl to
+  v2.23.0 [#330](https://github.com/selcukes/selcukes-java/pull/330)
+* Update dependency org.seleniumhq.selenium:selenium-bom to
+  v4.18.1 [#329](https://github.com/selcukes/selcukes-java/pull/329)
+* Update dependency ws.schild:jave-all-deps to v3.5.0 [#327](https://github.com/selcukes/selcukes-java/pull/327)
+* Update dependency org.junit:junit-bom to v5.10.2 [#326](https://github.com/selcukes/selcukes-java/pull/326)
+* Update dependency io.appium:java-client to v9.1.0 [#325](https://github.com/selcukes/selcukes-java/pull/325)
+
+### Fixed
+
+* [Core] Fixed to start SeleniumServer issue
+* [WebDriverBinaries] Fixed ChromeDriver URL [#328](https://github.com/selcukes/selcukes-java/pull/328)
+
+### Removed
+
 ## [2.3.8] (10-01-2024)
 
 ### Added
