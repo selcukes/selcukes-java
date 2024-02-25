@@ -22,6 +22,8 @@ import io.github.selcukes.databind.utils.JsonUtils;
 import lombok.Singular;
 import lombok.SneakyThrows;
 
+import javax.net.ssl.SSLContext;
+
 import java.net.InetSocketAddress;
 import java.net.ProxySelector;
 import java.net.URI;
@@ -44,22 +46,18 @@ import static java.net.http.HttpRequest.BodyPublishers;
 import static java.net.http.HttpResponse.BodyHandlers.ofString;
 
 public class WebClient {
-    private HttpClient.Builder clientBuilder;
-    private HttpRequest.Builder requestBuilder;
+    private final HttpClient.Builder clientBuilder = HttpClient.newBuilder();
+    private final HttpRequest.Builder requestBuilder = HttpRequest.newBuilder();
     private BodyPublisher bodyPublisher;
     @Singular
-    private final Map<String, String> cookies;
+    private final Map<String, String> cookies = new ConcurrentHashMap<>();
     @Singular
-    private final Map<String, String> queryParams;
+    private final Map<String, String> queryParams = new ConcurrentHashMap<>();
     private final String baseUri;
     private String endpoint;
 
     public WebClient(String baseUri) {
-        clientBuilder = HttpClient.newBuilder();
-        requestBuilder = HttpRequest.newBuilder();
-        queryParams = new ConcurrentHashMap<>();
-        cookies = new ConcurrentHashMap<>();
-        this.baseUri = Objects.requireNonNull(baseUri, "baseUri must not be null");
+        this.baseUri = Objects.requireNonNull(baseUri, "baseUri must not be null").trim();
         this.endpoint = "";
     }
 
@@ -87,6 +85,17 @@ public class WebClient {
     }
 
     /**
+     * Adds cookies to the request.
+     *
+     * @param  cookiesMap The map containing cookies.
+     * @return            The WebClient object.
+     */
+    public WebClient cookies(Map<String, String> cookiesMap) {
+        cookies.putAll(cookiesMap);
+        return this;
+    }
+
+    /**
      * Sets the body of the request.
      *
      * @param  payload The payload to be set as the request body.
@@ -98,9 +107,9 @@ public class WebClient {
     }
 
     /**
-     * This function creates a GET request and executes it.
+     * Executes an HTTP GET request.
      *
-     * @return A Response object.
+     * @return A Response object representing the server's response.
      */
     public WebResponse get() {
         requestBuilder.GET();
@@ -108,16 +117,16 @@ public class WebClient {
     }
 
     /**
-     * "This function takes an object, serializes it to JSON, and sends it to
-     * the server as the body of a POST request."
+     * Executes an HTTP POST request with a JSON payload.
      * <p>
-     * The first line of the function sets the content type of the request to
-     * "application/json". This is a standard content type for JSON data
+     * This method serializes the provided object to JSON and sends it as the
+     * body of a POST request. The content type of the request is set to
+     * "application/json," which is a standard content type for JSON data.
+     * </p>
      *
      * @param  payload The object to be serialized and sent as the request body.
-     * @return         A Response object
+     * @return         A Response object representing the server's response.
      */
-    @SneakyThrows
     public WebResponse post(final Object payload) {
         contentType("application/json")
                 .body(payload);
@@ -126,20 +135,19 @@ public class WebClient {
     }
 
     /**
-     * This function creates a POST request with the given body and executes it.
+     * Executes an HTTP POST request without a specific payload.
      *
-     * @return A Response object.
+     * @return A Response object representing the server's response.
      */
-    @SneakyThrows
     public WebResponse post() {
         requestBuilder.POST(bodyPublisher);
         return execute();
     }
 
     /**
-     * This function builds a DELETE request and executes it.
+     * Executes an HTTP DELETE request.
      *
-     * @return A Response object.
+     * @return A Response object representing the server's response.
      */
     public WebResponse delete() {
         requestBuilder.DELETE();
@@ -160,6 +168,64 @@ public class WebClient {
     public WebResponse put(final Object payload) {
         body(payload);
         requestBuilder.PUT(bodyPublisher);
+        return execute();
+    }
+
+    /**
+     * Creates a PUT request without a specific payload and executes it.
+     * <p>
+     * This method sends a PUT request to the server without attaching a
+     * specific payload.
+     * </p>
+     *
+     * @return A Response object representing the server's response.
+     */
+    public WebResponse put() {
+        requestBuilder.PUT(bodyPublisher);
+        return execute();
+    }
+
+    /**
+     * Creates a PATCH request with the given payload and executes it.
+     * <p>
+     * This method sets the request body with the provided payload and sends a
+     * PATCH request to the server. The payload can be of various types, such as
+     * String, Path, or any object that can be serialized to JSON.
+     * </p>
+     *
+     * @param  payload The payload to be sent to the server.
+     * @return         A Response object representing the server's response.
+     */
+    public WebResponse patch(final Object payload) {
+        body(payload);
+        requestBuilder.method("PATCH", bodyPublisher);
+        return execute();
+    }
+
+    /**
+     * Creates a PATCH request without a specific payload and executes it.
+     * <p>
+     * This method sends a PATCH request to the server without attaching a
+     * specific payload.
+     * </p>
+     *
+     * @return A Response object representing the server's response.
+     */
+    public WebResponse patch() {
+        requestBuilder.method("PATCH", bodyPublisher);
+        return execute();
+    }
+
+    /**
+     * Executes an HTTP OPTIONS request.
+     * <p>
+     * This method sends an HTTP OPTIONS request to the server.
+     * </p>
+     *
+     * @return A Response object representing the server's response.
+     */
+    public WebResponse options() {
+        requestBuilder.method("OPTIONS", bodyPublisher);
         return execute();
     }
 
@@ -205,7 +271,7 @@ public class WebClient {
     private WebResponse execute() {
         if (!cookies.isEmpty()) {
             String cookieHeader = Maps.join(cookies, "=", "; ");
-            requestBuilder = requestBuilder.header("Cookie", cookieHeader);
+            requestBuilder.header("Cookie", cookieHeader);
             clientBuilder.followRedirects(HttpClient.Redirect.NORMAL);
         }
         var request = requestBuilder.uri(buildUri()).build();
@@ -224,7 +290,7 @@ public class WebClient {
      */
     public WebClient proxy(final String proxy) {
         var url = Resources.tryURL(proxy);
-        url.ifPresent(u -> clientBuilder = clientBuilder
+        url.ifPresent(u -> clientBuilder
                 .proxy(ProxySelector.of(new InetSocketAddress(u.getHost(),
                     u.getPort() == -1 ? 80 : u.getPort()))));
         return this;
@@ -265,7 +331,18 @@ public class WebClient {
      * @return       The WebClient object
      */
     public WebClient header(final String name, final String value) {
-        requestBuilder = requestBuilder.header(name, value);
+        requestBuilder.header(name, value);
+        return this;
+    }
+
+    /**
+     * Adds headers to the request.
+     *
+     * @param  headersMap The map containing headers.
+     * @return            The WebClient object.
+     */
+    public WebClient headers(Map<String, String> headersMap) {
+        headersMap.forEach(this::header);
         return this;
     }
 
@@ -315,6 +392,23 @@ public class WebClient {
         return this;
     }
 
+    /**
+     * /** Adds query parameters to the request.
+     * <p>
+     * This method allows you to include multiple query parameters in your HTTP
+     * request. The provided map is processed, and its key-value pairs are
+     * encoded and added to the query parameters map.
+     * </p>
+     *
+     * @param  parameters The map containing query parameters.
+     * @return            The {@code WebClient} object with the specified query
+     *                    parameters added.
+     */
+    public WebClient queryParams(Map<String, String> parameters) {
+        parameters.forEach(this::queryParams);
+        return this;
+    }
+
     private String encode(String value) {
         return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }
@@ -324,4 +418,44 @@ public class WebClient {
         queryParams.forEach((key, value) -> joiner.add(encode(key) + "=" + encode(value)));
         return URI.create(baseUri + endpoint + (baseUri.contains("?") ? "&" : "?") + joiner);
     }
+
+    /**
+     * Executes an HTTP request based on the provided method.
+     *
+     * @param  method   The HTTP method (GET, POST, PUT, DELETE, etc.).
+     * @param  endpoint The API endpoint.
+     * @return          A Response object.
+     */
+    public WebResponse executeRequest(String method, String endpoint) {
+        return switch (method.toUpperCase()) {
+            case "GET" -> endpoint(endpoint).get();
+            case "POST" -> endpoint(endpoint).post();
+            case "PUT" -> endpoint(endpoint).put();
+            case "PATCH" -> endpoint(endpoint).patch();
+            case "OPTIONS" -> endpoint(endpoint).options();
+            case "DELETE" -> endpoint(endpoint).delete();
+            default -> throw new IllegalArgumentException("Unsupported HTTP method: " + method);
+        };
+    }
+
+    /**
+     * Configures the SSLContext for the WebClient.
+     * <p>
+     * This method allows you to set a custom SSLContext for the underlying HTTP
+     * client used by the WebClient. SSLContext is responsible for managing the
+     * SSL/TLS configuration, including certificates and security settings.
+     * </p>
+     *
+     * @param  sslContext               The SSLContext to be set for the
+     *                                  WebClient.
+     * @return                          A reference to the current WebClient
+     *                                  instance to support method chaining.
+     * @throws IllegalArgumentException If the provided SSLContext is null.
+     * @see                             javax.net.ssl.SSLContext
+     */
+    public WebClient sslContext(SSLContext sslContext) {
+        clientBuilder.sslContext(sslContext);
+        return this;
+    }
+
 }

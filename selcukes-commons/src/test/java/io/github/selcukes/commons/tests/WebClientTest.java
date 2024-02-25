@@ -99,4 +99,23 @@ public class WebClientTest {
                 .get().bodyJson();
         assertEquals(responseBody.at("/cookies/skill").asText(), "1234");
     }
+
+    @Test
+    public void patchRequestTest() {
+        String body = """
+                {
+                  "title": "bax"
+                }
+                """;
+        var response = new WebClient("https://jsonplaceholder.typicode.com")
+                .contentType("application/json")
+                .body(body)
+                .endpoint("/posts/1")
+                .patch();
+        var responseBody = response.bodyJson();
+        assertEquals(response.statusCode(), 200);
+        assertEquals(responseBody.at("/userId").asText(), "1");
+        assertEquals(responseBody.at("/id").asText(), "1");
+        assertEquals(responseBody.at("/title").asText(), "bax");
+    }
 }
