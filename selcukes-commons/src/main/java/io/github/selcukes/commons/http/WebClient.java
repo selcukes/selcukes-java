@@ -391,7 +391,7 @@ public class WebClient {
      * @return       The {@code WebClient} object with the specified query
      *               parameter added.
      */
-    public WebClient queryParams(String name, String value) {
+    public WebClient queryParam(String name, String value) {
         queryParams.put(encode(name), encode(value));
         return this;
     }
@@ -409,7 +409,7 @@ public class WebClient {
      *                    parameters added.
      */
     public WebClient queryParams(Map<String, String> parameters) {
-        parameters.forEach(this::queryParams);
+        parameters.forEach(this::queryParam);
         return this;
     }
 

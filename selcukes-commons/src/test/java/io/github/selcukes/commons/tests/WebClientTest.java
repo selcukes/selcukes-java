@@ -80,8 +80,8 @@ public class WebClientTest {
         var perPage = 20;
         var client = new WebClient("https://api.github.com");
         var responseBody = client
-                .queryParams("q", "john")
-                .queryParams("per_page", String.valueOf(perPage))
+                .queryParam("q", "john")
+                .queryParam("per_page", String.valueOf(perPage))
                 .endpoint("/search/users")
                 .get().bodyJson();
         var items = responseBody.at("/items");
