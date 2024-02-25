@@ -19,10 +19,13 @@ package io.github.selcukes.commons.http;
 import io.github.selcukes.collections.Maps;
 import io.github.selcukes.collections.Resources;
 import io.github.selcukes.databind.utils.JsonUtils;
+import lombok.NonNull;
 import lombok.Singular;
 import lombok.SneakyThrows;
 
+import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManagerFactory;
 
 import java.net.InetSocketAddress;
 import java.net.ProxySelector;
@@ -33,6 +36,7 @@ import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Map;
@@ -453,9 +457,55 @@ public class WebClient {
      * @throws IllegalArgumentException If the provided SSLContext is null.
      * @see                             javax.net.ssl.SSLContext
      */
-    public WebClient sslContext(SSLContext sslContext) {
+    public WebClient sslContext(@NonNull SSLContext sslContext) {
         clientBuilder.sslContext(sslContext);
         return this;
     }
 
+    @SneakyThrows
+    private KeyStore loadKeyStore(Path storePath, String password) {
+        try (var storeStream = Files.newInputStream(storePath)) {
+            var keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            keyStore.load(storeStream, password.toCharArray());
+            return keyStore;
+        }
+    }
+
+    /**
+     * Sets a custom SSL context for the WebClient using key and trust stores.
+     *
+     * @param  keyStorePath       The path to the key store file.
+     * @param  keyStorePassword   The password for the key store.
+     * @param  trustStorePath     The path to the trust store file.
+     * @param  trustStorePassword The password for the trust store.
+     * @return                    The WebClient object.
+     */
+    public WebClient ssContextFromStores(
+            Path keyStorePath, String keyStorePassword,
+            Path trustStorePath, String trustStorePassword
+    ) {
+
+        try {
+            var keyStore = loadKeyStore(keyStorePath, keyStorePassword);
+            var trustStore = loadKeyStore(trustStorePath, trustStorePassword);
+
+            var keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            keyManagerFactory.init(keyStore, keyStorePassword.toCharArray());
+
+            var trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            trustManagerFactory.init(trustStore);
+
+            var sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(
+                keyManagerFactory.getKeyManagers(),
+                trustManagerFactory.getTrustManagers(),
+                null);
+
+            sslContext(sslContext);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to configure SSL context with stores", e);
+        }
+
+        return this;
+    }
 }
