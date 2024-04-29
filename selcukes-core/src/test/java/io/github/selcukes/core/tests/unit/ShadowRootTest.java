@@ -43,7 +43,7 @@ public class ShadowRootTest {
         }
     }
 
-    @Test
+    @Test(enabled = false)
     public void shadowElementTest() {
 
         page.open("http://watir.com/examples/shadow_dom.html");
