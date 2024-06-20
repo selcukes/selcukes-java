@@ -34,7 +34,7 @@
 
     <properties>
         <cucumber.version>7.18.0</cucumber.version>
-        <selenium.version>4.21.0</selenium.version>
+        <selenium.version>4.22.0</selenium.version>
         <appium.version>9.2.3</appium.version>
         <testng.version>7.10.2</testng.version>
         <junit.version>5.10.2</junit.version>
