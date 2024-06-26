@@ -44,7 +44,7 @@
 
         <poi.version>5.2.5</poi.version>
         <cucumber-reporting.version>5.8.1</cucumber-reporting.version>
-        <extentreports.version>5.1.1</extentreports.version>
+        <extentreports.version>5.1.2</extentreports.version>
         <recorder.version>0.7.7.0</recorder.version>
         <mail.version>2.0.1</mail.version>
         <slfj4.version>2.23.1</slfj4.version>
