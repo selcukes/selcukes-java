@@ -12,6 +12,34 @@
 
 ### Removed
 
+## [2.3.10] (07-04-2024)
+
+### Changed
+
+* Update dependency org.apache.poi:poi-ooxml to v5.3.0 [#364] (https://github.com/selcukes/selcukes-java/pull/364)
+* update dependency org.projectlombok:lombok to v1.18.34 [#363] (https://github.com/selcukes/selcukes-java/pull/363)
+* Update dependency org.junit:junit-bom to v5.10.3 [#362] (https://github.com/selcukes/selcukes-java/pull/362)
+* Update dependency com.aventstack:extentreports to v5.1.2 [#361] (https://github.com/selcukes/selcukes-java/pull/361)
+* Update dependency org.seleniumhq.selenium:selenium-bom to
+  v4.22.0 [#360] (https://github.com/selcukes/selcukes-java/pull/360)
+* Update dependency net.masterthought:cucumber-reporting to
+  v5.8.1 [#359] (https://github.com/selcukes/selcukes-java/pull/359)
+* Update dependency org.apache.maven.plugins:maven-javadoc-plugin to
+  v3.7.0 [#358] (https://github.com/selcukes/selcukes-java/pull/358)
+* Update dependency io.appium:java-client to v9.2.3 [#357] (https://github.com/selcukes/selcukes-java/pull/357)
+* Update dependency org.sonatype.plugins:nexus-staging-maven-plugin to
+  v1.7.0 [#356] (https://github.com/selcukes/selcukes-java/pull/356)
+* Update dependency io.cucumber:cucumber-bom to v7.18.0 [#355] (https://github.com/selcukes/selcukes-java/pull/355)
+* Update dependency com.fasterxml.jackson:jackson-bom to
+  v2.17.1 [#354] (https://github.com/selcukes/selcukes-java/pull/354)
+* Update dependency org.testng:testng to v7.10.2 [#352] (https://github.com/selcukes/selcukes-java/pull/352)
+* Update dependency org.apache.maven.plugins:maven-gpg-plugin to
+  v3.2.4 [#349] (https://github.com/selcukes/selcukes-java/pull/349)
+* Update dependency org.apache.maven.plugins:maven-source-plugin to
+  v3.3.1 [#346] (https://github.com/selcukes/selcukes-java/pull/346)
+* Update dependency org.apache.logging.log4j:log4j-slf4j-impl to
+  v2.23.1 [#333] (https://github.com/selcukes/selcukes-java/pull/333)
+
 ## [2.3.9] (23-02-2024)
 
 ### Added
