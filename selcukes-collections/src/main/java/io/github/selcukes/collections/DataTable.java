@@ -191,7 +191,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
      * @return                      a map containing the unique column values as
      *                              keys and DataTables containing the
      *                              corresponding rows as values
-     * @throws NullPointerException if key is null
+     * @throws NullPointerException if the key is null
      */
     public Map<V, DataTable<K, V>> groupByColumn(@NonNull K columnName) {
         return filter(map -> map.containsKey(columnName))
@@ -242,7 +242,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
         checkColumnIndex(columnName);
         return rows()
                 .map(row -> row.getOrDefault(columnName, null))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
