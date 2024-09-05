@@ -70,7 +70,7 @@ public class VersionHelper {
                     .bodyJson();
             return Streams.of(responseBody.get("versions").elements())
                     .map(ele -> ele.get("version").asText())
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toCollection(List::of));
         } catch (Exception e) {
             return Collections.emptyList();
         }
