@@ -242,7 +242,7 @@ public class DataTable<K, V> extends LinkedList<Map<K, V>> {
         checkColumnIndex(columnName);
         return rows()
                 .map(row -> row.getOrDefault(columnName, null))
-                .toList();
+                .collect(Collectors.toCollection(Lists::of));
     }
 
     /**
