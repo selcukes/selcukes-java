@@ -108,6 +108,7 @@ public final class FileExtractUtil {
         }
         return entryDestination;
     }
+
     private static String sanitizeFileName(String fileName) {
         fileName = fileName.replaceAll("[^a-zA-Z0-9._-]", "_");
         if (fileName.contains("..") || fileName.startsWith("/") || fileName.startsWith("\\") || fileName.isEmpty()) {
