@@ -33,8 +33,8 @@
     <inceptionYear>2019</inceptionYear>
 
     <properties>
-        <cucumber.version>7.18.1</cucumber.version>
-        <selenium.version>4.24.0</selenium.version>
+        <cucumber.version>7.19.0</cucumber.version>
+        <selenium.version>4.25.0</selenium.version>
         <appium.version>9.3.0</appium.version>
         <testng.version>7.10.2</testng.version>
         <junit.version>5.11.0</junit.version>
@@ -47,7 +47,7 @@
         <extentreports.version>5.1.2</extentreports.version>
         <recorder.version>0.7.7.0</recorder.version>
         <mail.version>2.0.1</mail.version>
-        <slfj4.version>2.23.1</slfj4.version>
+        <slfj4.version>2.24.0</slfj4.version>
 
         <!-- sonar -->
         <sonar.organization>selcukes</sonar.organization>
@@ -66,7 +66,7 @@
         <!-- plugins -->
         <maven-javadoc-plugin.version>3.10.0</maven-javadoc-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
-        <maven-gpg-plugin.version>3.2.5</maven-gpg-plugin.version>
+        <maven-gpg-plugin.version>3.2.6</maven-gpg-plugin.version>
         <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
     </properties>
 
