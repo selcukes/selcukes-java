@@ -94,9 +94,9 @@ public final class FileExtractUtil {
     }
 
     private static Path uncompress(InputStream inputStream, Path destination, ArchiveEntry entry) throws IOException {
-        String fileName = sanitizeFileName(entry.getName());
-        var entryDestination = destination.resolve(fileName).normalize();
-        logger.info(() -> String.format("Uncompressed {%s} (size: {%d} KB, compressed size: {%d} KB)",
+        String fileName = entry.getName();
+        var entryDestination = destination.resolve(fileName);
+        logger.info(() -> String.format("Uncompressing {%s} (size: {%d} KB, compressed size: {%d} KB)",
             fileName, entry.getSize(), entry.getSize()));
 
         if (entry.isDirectory()) {
@@ -107,13 +107,5 @@ public final class FileExtractUtil {
             return entryDestination;
         }
         return entryDestination;
-    }
-
-    private static String sanitizeFileName(String fileName) {
-        fileName = fileName.replaceAll("[^a-zA-Z0-9._-]", "_");
-        if (fileName.contains("..") || fileName.startsWith("/") || fileName.startsWith("\\") || fileName.isEmpty()) {
-            throw new IllegalArgumentException("Invalid file name detected: " + fileName);
-        }
-        return fileName;
     }
 }
