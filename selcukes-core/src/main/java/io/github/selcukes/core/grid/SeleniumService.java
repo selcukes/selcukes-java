@@ -56,6 +56,7 @@ class SeleniumService {
      * @throws DriverConnectionException if the server is already started or
      *                                   fails to start
      */
+    @SuppressWarnings("java:S106")
     public SeleniumService start(String mode, String... extraFlags) {
         if (process != null) {
             throw new DriverConnectionException("Server already started");

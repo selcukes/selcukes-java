@@ -50,12 +50,15 @@ public class StringHelperTest {
 
     @Test
     public void listOfListTest() {
-        String text = "  Name , Email , Phone , Country, State\n" +
-                ",Rajeev Kumar Singh ,rajeevs@example.com,+91-9999999999,India\n" +
-                ",Sachin Tendulkar,sachin@example.com,+91-9999999998,India\n" +
-                ",Barak Obama,barak.obama@example.com,+1-1111111111,United States\n" +
-                ",Donald Trump,donald.trump@example.com,+1-2222222222,United States\n" +
-                ", ,,";
+        String text = """
+                Name , Email , Phone , Country, State
+                Rajeev Kumar Singh ,rajeevs@example.com,+91-9999999999,India
+                Sachin Tendulkar,sachin@example.com,+91-9999999998,India
+                Barak Obama,barak.obama@example.com,+1-1111111111,United States
+                Donald Trump,donald.trump@example.com,+1-2222222222,United States
+                , ,,
+                """;
+
         var data = StringHelper.toListOfList(text.lines(), ",");
         data.forEach(System.out::println);
     }
