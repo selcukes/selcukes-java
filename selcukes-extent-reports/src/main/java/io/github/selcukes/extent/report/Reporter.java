@@ -36,7 +36,7 @@ public class Reporter {
     private static final String EMPTY_LOGS = "<ul><li> </li></ul><br/>";
     private static final String OPEN_TAG = "<ul><li> ";
     private static final String CLOSE_TAG = "</li></ul><br/>";
-    private static final String LOGS_DETAILS = "<details><summary>View Logs</summary><div>%s</div></details><br/>";
+    private static final String LOGS_DETAILS = "<details><summary>View Logs</summary><pre>%s</pre></details><br/>";
 
     private Snapshot snapshot;
     private LogRecordListener logRecordListener;
