@@ -65,17 +65,18 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import static io.github.selcukes.collections.StringHelper.isEmpty;
 import static io.github.selcukes.extent.report.Reporter.getReporter;
 
 public class SelcukesExtentAdapter implements ConcurrentEventListener {
 
     private static final Map<String, String> MIME_TYPES_EXTENSIONS = Map.of(
-        "image/bmp", "bmp",
-        "image/gif", "gif",
-        "image/jpeg", "jpeg",
-        "image/jpg", "jpg",
-        "image/png", "png",
-        "image/svg+xml", "svg");
+            "image/bmp", "bmp",
+            "image/gif", "gif",
+            "image/jpeg", "jpeg",
+            "image/jpg", "jpg",
+            "image/png", "png",
+            "image/svg+xml", "svg");
 
     private static final Map<String, ExtentTest> featureMap = new ConcurrentHashMap<>();
     private static final ThreadLocal<ExtentTest> featureTestThreadLocal = new InheritableThreadLocal<>();
@@ -107,13 +108,18 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     }
 
     public static synchronized void addTestStepLog(final String message) {
-        stepTestThreadLocal.get().info(message);
+        if (!isEmpty(message)) {
+            stepTestThreadLocal.get().info(message);
+        }
+    }
+
+    public static synchronized void attachVideo(byte[] video) {
+        stepTestThreadLocal.get().addVideoFromBase64String(Base64.getEncoder().encodeToString(video));
     }
 
     public static void attachScreenshot(byte[] screenshot) {
-        stepTestThreadLocal.get().info("", MediaEntityBuilder
-                .createScreenCaptureFromBase64String(Base64.getEncoder().encodeToString(screenshot))
-                .build());
+
+        stepTestThreadLocal.get().addScreenCaptureFromBase64String(Base64.getEncoder().encodeToString(screenshot));
     }
 
     @Override
@@ -144,7 +150,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
 
         if (event.getTestStep() instanceof HookTestStep hookTestStep) {
             ExtentTest t = scenarioThreadLocal.get().createNode(Asterisk.class, event.getTestStep().getCodeLocation(),
-                hookTestStep.getHookType().toString().toUpperCase());
+                    hookTestStep.getHookType().toString().toUpperCase());
             stepTestThreadLocal.set(t);
             isHookThreadLocal.set(true);
         }
@@ -165,38 +171,52 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
 
     private synchronized void updateResult(Result result) {
         Test test = stepTestThreadLocal.get().getModel();
-        switch (result.getStatus().name().toLowerCase()) {
-            case "failed", "pending" -> stepTestThreadLocal.get().fail(result.getError());
-            case "undefined" -> stepTestThreadLocal.get().fail("Step undefined");
-            case "skipped" -> {
-                if (isHookThreadLocal.get().equals(Boolean.TRUE)) {
-                    extentService.getExtentReports().removeTest(stepTestThreadLocal.get());
-                    break;
-                }
-                boolean currentEndingEventSkipped = test.hasLog()
-                        && test.getLogs().get(test.getLogs().size() - 1).getStatus() == Status.SKIP;
-                if (result.getError() != null) {
-                    stepTestThreadLocal.get().skip(result.getError());
-                }
-                if (!currentEndingEventSkipped) {
-                    String details = result.getError() == null ? "Step skipped" : result.getError().getMessage();
-                    stepTestThreadLocal.get().skip(details);
-                }
-            }
-            case "passed" -> {
-                if (stepTestThreadLocal.get() != null) {
-                    if (isHookThreadLocal.get().equals(Boolean.TRUE)) {
-                        boolean mediaLogs = test.getLogs().stream().anyMatch(l -> l.getMedia() != null);
-                        if (!test.hasLog() && !mediaLogs) {
-                            extentService.getExtentReports().removeTest(stepTestThreadLocal.get());
-                        }
-                    }
-                    stepTestThreadLocal.get().pass("");
-                }
-            }
+        String status = result.getStatus().name().toLowerCase();
+
+        switch (status) {
+            case "failed", "pending" -> handleFailedOrPendingResult(result);
+            case "undefined" -> handleUndefinedResult();
+            case "skipped" -> handleSkippedResult(result, test);
+            case "passed" -> handlePassedResult(test);
             default -> {
                 // do nothing
             }
+        }
+    }
+
+    private void handleFailedOrPendingResult(Result result) {
+        stepTestThreadLocal.get().fail(result.getError());
+    }
+
+    private void handleUndefinedResult() {
+        stepTestThreadLocal.get().fail("Step undefined");
+    }
+
+    private void handleSkippedResult(Result result, Test test) {
+        if (isHookThreadLocal.get().equals(Boolean.TRUE)) {
+            extentService.getExtentReports().removeTest(stepTestThreadLocal.get());
+            return;
+        }
+
+        boolean currentEndingEventSkipped = test.hasLog() && test.getLogs().get(test.getLogs().size() - 1).getStatus() == Status.SKIP;
+        if (result.getError() != null) {
+            stepTestThreadLocal.get().skip(result.getError());
+        }
+        if (!currentEndingEventSkipped) {
+            String details = result.getError() == null ? "Step skipped" : result.getError().getMessage();
+            stepTestThreadLocal.get().skip(details);
+        }
+    }
+
+    private void handlePassedResult(Test test) {
+        if (stepTestThreadLocal.get() != null) {
+            if (isHookThreadLocal.get().equals(Boolean.TRUE)) {
+                boolean mediaLogs = test.getLogs().stream().anyMatch(l -> l.getMedia() != null);
+                if (!test.hasLog() && !mediaLogs) {
+                    extentService.getExtentReports().removeTest(stepTestThreadLocal.get());
+                }
+            }
+            stepTestThreadLocal.get().pass("");
         }
     }
 
@@ -265,8 +285,8 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
             return;
         }
         ExtentTest t = extentService.getExtentReports().createTest(
-            com.aventstack.extentreports.gherkin.model.Feature.class, feature.getName(),
-            feature.getDescription());
+                com.aventstack.extentreports.gherkin.model.Feature.class, feature.getName(),
+                feature.getDescription());
         featureTestThreadLocal.set(t);
         featureMap.put(feature.getName(), t);
 
@@ -277,7 +297,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
 
     private synchronized void handleScenarioOutline(TestCase testCase) {
         TestSourcesModel.AstNode astNode = testSources.getAstNode(currentFeatureFile.get(),
-            testCase.getLocation().getLine());
+                testCase.getLocation().getLine());
         Scenario scenarioDefinition = TestSourcesModel.getScenarioDefinition(astNode);
 
         if (Objects.requireNonNull(scenarioDefinition).getKeyword().equals("Scenario Outline")) {
@@ -306,8 +326,8 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
         }
         if (scenarioOutlineThreadLocal.get() == null) {
             ExtentTest t = featureTestThreadLocal.get().createNode(
-                com.aventstack.extentreports.gherkin.model.ScenarioOutline.class, scenarioOutline.getName(),
-                scenarioOutline.getDescription());
+                    com.aventstack.extentreports.gherkin.model.ScenarioOutline.class, scenarioOutline.getName(),
+                    scenarioOutline.getDescription());
             scenarioOutlineThreadLocal.set(t);
             scenarioOutlineMap.put(scenarioOutline.getName(), t);
 
@@ -332,19 +352,19 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
 
     private String[][] getTable(List<TableRow> rows) {
         return rows.stream().map(row -> row.getCells().stream()
-                .map(TableCell::getValue).toArray(String[]::new))
+                        .map(TableCell::getValue).toArray(String[]::new))
                 .toArray(String[][]::new);
     }
 
     private synchronized void createTestCase(TestCase testCase) {
         TestSourcesModel.AstNode astNode = testSources.getAstNode(currentFeatureFile.get(),
-            testCase.getLocation().getLine());
+                testCase.getLocation().getLine());
         if (astNode != null) {
             Scenario scenarioDefinition = TestSourcesModel.getScenarioDefinition(astNode);
             ExtentTest parent = scenarioOutlineThreadLocal.get() != null ? scenarioOutlineThreadLocal.get()
                     : featureTestThreadLocal.get();
             ExtentTest t = parent.createNode(com.aventstack.extentreports.gherkin.model.Scenario.class,
-                testCase.getName(), Objects.requireNonNull(scenarioDefinition).getDescription());
+                    testCase.getName(), Objects.requireNonNull(scenarioDefinition).getDescription());
             scenarioThreadLocal.set(t);
         }
         if (!testCase.getTags().isEmpty()) {
@@ -364,7 +384,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     private synchronized void createTestStep(PickleStepTestStep testStep) {
         String stepName = testStep.getStep().getText();
         TestSourcesModel.AstNode astNode = testSources.getAstNode(currentFeatureFile.get(),
-            testStep.getStep().getLine());
+                testStep.getStep().getLine());
         if (astNode != null) {
             Step step = (Step) astNode.node;
 
@@ -372,7 +392,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
                     ? step.getText().replace("<", "&lt;").replace(">", "&gt;")
                     : stepName;
             ExtentTest t = scenarioThreadLocal.get().createNode(new GherkinKeyword(step.getKeyword().trim()),
-                "<b>" + step.getKeyword() + name + "</b>", testStep.getCodeLocation());
+                    "<b>" + step.getKeyword() + name + "</b>", testStep.getCodeLocation());
             stepTestThreadLocal.set(t);
 
         }

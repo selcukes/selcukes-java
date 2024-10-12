@@ -37,16 +37,14 @@ public class Reporter {
     private LogRecordListener logRecordListener;
 
     public static void log(String message) {
-        if (!isEmpty(message)) {
             SelcukesExtentAdapter.addTestStepLog(message);
-        }
     }
 
     public static Reporter getReporter() {
         return REPORTER_CONTEXT.get();
     }
 
-    Reporter start() {
+    protected Reporter start() {
         logRecordListener = new LogRecordListener();
         LoggerFactory.addListener(logRecordListener);
         return this;
@@ -75,7 +73,8 @@ public class Reporter {
     private Reporter attachLog() {
         String infoLogs = getLogRecords();
         if (!infoLogs.equalsIgnoreCase("<ul><li> </li></ul><br/>")) {
-            Reporter.log(infoLogs);
+            var wrappedLogs = "<details><summary>View Logs</summary><div>" + infoLogs + "</div></details><br/>";
+            Reporter.log(wrappedLogs);
         }
         return this;
     }
