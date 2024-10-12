@@ -113,10 +113,10 @@ public class JsonQuery {
      */
     private List<String> extractValuesFromArray(JsonNode currentNode, String[] keys, String key, List<String> values) {
         String arrayKey = extractArrayKey(key);
-        currentNode = currentNode.path(arrayKey);
+        var resultNode = currentNode.path(arrayKey);
 
-        if (currentNode.isArray()) {
-            for (JsonNode node : currentNode) {
+        if (resultNode.isArray()) {
+            for (JsonNode node : resultNode) {
                 processArrayElement(keys, arrayKey, node, values);
             }
         }
