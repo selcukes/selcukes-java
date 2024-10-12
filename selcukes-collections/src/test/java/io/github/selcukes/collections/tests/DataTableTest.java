@@ -126,21 +126,21 @@ public class DataTableTest {
         Map<String, Object> rowA = Map.of("ID", 1, "Name", "John Doe", "Age", 25, "IsEmployed", false);
         Map<String, Object> rowB = Map.of("ID", 2, "Name", "Jane Smith", "Age", 30, "IsEmployed", false);
         Map<String, Object> rowC = Map.of("ID", 3, "Name", "Tom", "Age", 25, "IsEmployed", false);
-        var dataTable = DataTable.of(rowA, rowB, rowC);
-        assertEquals(dataTable.size(), 3);
-        assertTrue(dataTable.contains(rowA));
-        assertTrue(dataTable.contains(rowB));
-        assertTrue(dataTable.contains(rowC));
-        dataTable.updateRows(row -> {
+        var table = DataTable.of(rowA, rowB, rowC);
+        assertEquals(table.size(), 3);
+        assertTrue(table.contains(rowA));
+        assertTrue(table.contains(rowB));
+        assertTrue(table.contains(rowC));
+        table.updateRows(row -> {
             row.put("Age", (int) row.get("Age") + 5);
             row.put("IsEmployed", !(boolean) row.get("IsEmployed"));
             return row;
         });
-        dataTable.getColumnEntries("IsEmployed")
+        table.getColumnEntries("IsEmployed")
                 .stream()
                 .map(value -> (boolean) value)
                 .forEach(Assert::assertTrue);
-        assertEquals(dataTable.get(0).get("Age"), 30);
+        assertEquals(table.get(0).get("Age"), 30);
     }
 
     @Test

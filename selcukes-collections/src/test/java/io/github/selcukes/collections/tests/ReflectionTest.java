@@ -28,7 +28,7 @@ public class ReflectionTest {
     @AllArgsConstructor
     private static class MyClass {
         private String value;
-
+        @SuppressWarnings(" java:S1144")
         private static String printName(String name) {
             return name;
         }

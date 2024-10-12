@@ -33,7 +33,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 public class PropertiesTest {
-    private final static Path PROPS_FILE = Path.of("target/temp.properties");
+    private static final Path PROPS_FILE = Path.of("target/temp.properties");
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Test
