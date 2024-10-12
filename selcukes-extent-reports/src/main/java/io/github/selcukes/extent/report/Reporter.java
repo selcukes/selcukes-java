@@ -29,24 +29,27 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.stream.Collectors;
 
-import static io.github.selcukes.collections.StringHelper.isEmpty;
+import static io.github.selcukes.collections.StringHelper.isNonEmpty;
 
 public class Reporter {
     private static final SingletonContext<Reporter> REPORTER_CONTEXT = SingletonContext.with(Reporter::new);
+    private static final String EMPTY_LOGS = "<ul><li> </li></ul><br/>";
+    private static final String OPEN_TAG = "<ul><li> ";
+    private static final String CLOSE_TAG = "</li></ul><br/>";
+    private static final String LOGS_DETAILS = "<details><summary>View Logs</summary><div>%s</div></details><br/>";
+
     private Snapshot snapshot;
     private LogRecordListener logRecordListener;
 
     public static void log(String message) {
-        if (!isEmpty(message)) {
-            SelcukesExtentAdapter.addTestStepLog(message);
-        }
+        SelcukesExtentAdapter.addTestStepLog(message);
     }
 
     public static Reporter getReporter() {
         return REPORTER_CONTEXT.get();
     }
 
-    Reporter start() {
+    protected Reporter start() {
         logRecordListener = new LogRecordListener();
         LoggerFactory.addListener(logRecordListener);
         return this;
@@ -60,9 +63,9 @@ public class Reporter {
         if (logRecordListener != null) {
             return logRecordListener.getLogRecords()
                     .filter(logRecord -> logRecord.getLevel() == Level.INFO || logRecord.getLevel() == Level.SEVERE)
-                    .filter(logRecord -> !isEmpty(logRecord.getMessage()))
+                    .filter(logRecord -> isNonEmpty(logRecord.getMessage()))
                     .map(this::mapLogMessage)
-                    .collect(Collectors.joining("</li><li>", "<ul><li> ", "</li></ul><br/>"));
+                    .collect(Collectors.joining("</li><li>", OPEN_TAG, CLOSE_TAG));
         }
         return "";
     }
@@ -74,8 +77,8 @@ public class Reporter {
 
     private Reporter attachLog() {
         String infoLogs = getLogRecords();
-        if (!infoLogs.equalsIgnoreCase("<ul><li> </li></ul><br/>")) {
-            Reporter.log(infoLogs);
+        if (!infoLogs.equalsIgnoreCase(EMPTY_LOGS)) {
+            Reporter.log(String.format(LOGS_DETAILS, infoLogs));
         }
         return this;
     }

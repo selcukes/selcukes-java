@@ -65,6 +65,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import static io.github.selcukes.collections.StringHelper.isNonEmpty;
 import static io.github.selcukes.extent.report.Reporter.getReporter;
 
 public class SelcukesExtentAdapter implements ConcurrentEventListener {
@@ -107,13 +108,18 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     }
 
     public static synchronized void addTestStepLog(final String message) {
-        stepTestThreadLocal.get().info(message);
+        if (isNonEmpty(message)) {
+            stepTestThreadLocal.get().info(message);
+        }
+    }
+
+    public static synchronized void attachVideo(byte[] video) {
+        stepTestThreadLocal.get().addVideoFromBase64String(Base64.getEncoder().encodeToString(video));
     }
 
     public static void attachScreenshot(byte[] screenshot) {
-        stepTestThreadLocal.get().info("", MediaEntityBuilder
-                .createScreenCaptureFromBase64String(Base64.getEncoder().encodeToString(screenshot))
-                .build());
+
+        stepTestThreadLocal.get().addScreenCaptureFromBase64String(Base64.getEncoder().encodeToString(screenshot));
     }
 
     @Override
@@ -165,38 +171,53 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
 
     private synchronized void updateResult(Result result) {
         Test test = stepTestThreadLocal.get().getModel();
-        switch (result.getStatus().name().toLowerCase()) {
-            case "failed", "pending" -> stepTestThreadLocal.get().fail(result.getError());
-            case "undefined" -> stepTestThreadLocal.get().fail("Step undefined");
-            case "skipped" -> {
-                if (isHookThreadLocal.get().equals(Boolean.TRUE)) {
-                    extentService.getExtentReports().removeTest(stepTestThreadLocal.get());
-                    break;
-                }
-                boolean currentEndingEventSkipped = test.hasLog()
-                        && test.getLogs().get(test.getLogs().size() - 1).getStatus() == Status.SKIP;
-                if (result.getError() != null) {
-                    stepTestThreadLocal.get().skip(result.getError());
-                }
-                if (!currentEndingEventSkipped) {
-                    String details = result.getError() == null ? "Step skipped" : result.getError().getMessage();
-                    stepTestThreadLocal.get().skip(details);
-                }
-            }
-            case "passed" -> {
-                if (stepTestThreadLocal.get() != null) {
-                    if (isHookThreadLocal.get().equals(Boolean.TRUE)) {
-                        boolean mediaLogs = test.getLogs().stream().anyMatch(l -> l.getMedia() != null);
-                        if (!test.hasLog() && !mediaLogs) {
-                            extentService.getExtentReports().removeTest(stepTestThreadLocal.get());
-                        }
-                    }
-                    stepTestThreadLocal.get().pass("");
-                }
-            }
+        String status = result.getStatus().name().toLowerCase();
+
+        switch (status) {
+            case "failed", "pending" -> handleFailedOrPendingResult(result);
+            case "undefined" -> handleUndefinedResult();
+            case "skipped" -> handleSkippedResult(result, test);
+            case "passed" -> handlePassedResult(test);
             default -> {
                 // do nothing
             }
+        }
+    }
+
+    private void handleFailedOrPendingResult(Result result) {
+        stepTestThreadLocal.get().fail(result.getError());
+    }
+
+    private void handleUndefinedResult() {
+        stepTestThreadLocal.get().fail("Step undefined");
+    }
+
+    private void handleSkippedResult(Result result, Test test) {
+        if (isHookThreadLocal.get().equals(Boolean.TRUE)) {
+            extentService.getExtentReports().removeTest(stepTestThreadLocal.get());
+            return;
+        }
+
+        boolean currentEndingEventSkipped = test.hasLog()
+                && test.getLogs().get(test.getLogs().size() - 1).getStatus() == Status.SKIP;
+        if (result.getError() != null) {
+            stepTestThreadLocal.get().skip(result.getError());
+        }
+        if (!currentEndingEventSkipped) {
+            String details = result.getError() == null ? "Step skipped" : result.getError().getMessage();
+            stepTestThreadLocal.get().skip(details);
+        }
+    }
+
+    private void handlePassedResult(Test test) {
+        if (stepTestThreadLocal.get() != null) {
+            if (isHookThreadLocal.get().equals(Boolean.TRUE)) {
+                boolean mediaLogs = test.getLogs().stream().anyMatch(l -> l.getMedia() != null);
+                if (!test.hasLog() && !mediaLogs) {
+                    extentService.getExtentReports().removeTest(stepTestThreadLocal.get());
+                }
+            }
+            stepTestThreadLocal.get().pass("");
         }
     }
 
