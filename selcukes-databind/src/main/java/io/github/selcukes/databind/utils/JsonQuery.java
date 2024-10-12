@@ -39,8 +39,8 @@ public class JsonQuery {
     /**
      * Factory method to create a JsonQuery instance from a JSON string.
      *
-     * @param json the JSON string
-     * @return a JsonQuery instance
+     * @param  json the JSON string
+     * @return      a JsonQuery instance
      */
     public static JsonQuery from(String json) {
         return new JsonQuery(json);
@@ -49,10 +49,10 @@ public class JsonQuery {
     /**
      * Retrieves a single value from the JSON document at the specified path.
      *
-     * @param path the path to the value
-     * @param type the class type of the value to retrieve
-     * @param <T>  the type of the value
-     * @return the value at the specified path, or null if not found
+     * @param  path the path to the value
+     * @param  type the class type of the value to retrieve
+     * @param  <T>  the type of the value
+     * @return      the value at the specified path, or null if not found
      */
     @SneakyThrows
     public <T> T get(String path, Class<T> type) {
@@ -64,8 +64,8 @@ public class JsonQuery {
      * Retrieves a list of values from the JSON document at the specified
      * wildcard path.
      *
-     * @param path the wildcard path to retrieve values from
-     * @return a list of values found at the specified path
+     * @param  path the wildcard path to retrieve values from
+     * @return      a list of values found at the specified path
      */
     public List<String> getList(String path) {
         List<String> values = new ArrayList<>();
@@ -89,11 +89,11 @@ public class JsonQuery {
     /**
      * Extracts values from arrays using wildcard paths.
      *
-     * @param currentNode the current JSON node
-     * @param keys        the path keys
-     * @param key         the current key being processed
-     * @param values      the list to store extracted values
-     * @return a list of extracted values
+     * @param  currentNode the current JSON node
+     * @param  keys        the path keys
+     * @param  key         the current key being processed
+     * @param  values      the list to store extracted values
+     * @return             a list of extracted values
      */
     private List<String> extractValuesFromArray(JsonNode currentNode, String[] keys, String key, List<String> values) {
         String arrayKey = extractArrayKey(key);
@@ -129,8 +129,8 @@ public class JsonQuery {
     /**
      * Checks if the specified key contains a wildcard.
      *
-     * @param key the key to check
-     * @return true if the key contains a wildcard, false otherwise
+     * @param  key the key to check
+     * @return     true if the key contains a wildcard, false otherwise
      */
     private boolean containsWildcard(String key) {
         return key.contains("[*]");
@@ -139,8 +139,8 @@ public class JsonQuery {
     /**
      * Extracts the key before the wildcard in a given key.
      *
-     * @param key the key containing a wildcard
-     * @return the extracted key before the wildcard
+     * @param  key the key containing a wildcard
+     * @return     the extracted key before the wildcard
      */
     private String extractArrayKey(String key) {
         return key.substring(0, key.indexOf("[*]"));
@@ -149,9 +149,9 @@ public class JsonQuery {
     /**
      * Removes the processed array key part from the path.
      *
-     * @param keys     the path keys
-     * @param arrayKey the current array key
-     * @return the remaining path as a string
+     * @param  keys     the path keys
+     * @param  arrayKey the current array key
+     * @return          the remaining path as a string
      */
     private String removeProcessedArrayKey(String[] keys, String arrayKey) {
         var joinedKeys = String.join(".", keys);
@@ -163,9 +163,9 @@ public class JsonQuery {
     /**
      * Checks if the specified key is the last key in the path.
      *
-     * @param keys the path keys
-     * @param key  the key to check
-     * @return true if it is the last key, false otherwise
+     * @param  keys the path keys
+     * @param  key  the key to check
+     * @return      true if it is the last key, false otherwise
      */
     private boolean isLastKey(String[] keys, String key) {
         return keys[keys.length - 1].equals(key);
@@ -175,9 +175,9 @@ public class JsonQuery {
      * Extracts values from the final node, which may be an array or a single
      * value.
      *
-     * @param currentNode the current JSON node
-     * @param values      the list to store extracted values
-     * @return a list of extracted values
+     * @param  currentNode the current JSON node
+     * @param  values      the list to store extracted values
+     * @return             a list of extracted values
      */
     private List<String> extractFinalValues(JsonNode currentNode, List<String> values) {
         if (currentNode.isArray()) {
@@ -193,9 +193,9 @@ public class JsonQuery {
     /**
      * Retrieves a node from a sub-path within a given JSON node.
      *
-     * @param node    the JSON node to search within
-     * @param subPath the sub-path to search for
-     * @return the resulting JsonNode or null if not found
+     * @param  node    the JSON node to search within
+     * @param  subPath the sub-path to search for
+     * @return         the resulting JsonNode or null if not found
      */
     private JsonNode getNodeFromSubPath(JsonNode node, String subPath) {
         String[] keys = subPath.split("\\.");
@@ -213,9 +213,9 @@ public class JsonQuery {
     /**
      * Navigates to the correct node by parsing the path.
      *
-     * @param currentNode the current JSON node
-     * @param key         the key to navigate
-     * @return the resulting JsonNode
+     * @param  currentNode the current JSON node
+     * @param  key         the key to navigate
+     * @return             the resulting JsonNode
      */
     private JsonNode navigateToNode(JsonNode currentNode, String key) {
         if (isArrayKey(key)) {
@@ -227,8 +227,8 @@ public class JsonQuery {
     /**
      * Checks if the key indicates an array access.
      *
-     * @param key the key to check
-     * @return true if the key indicates an array, false otherwise
+     * @param  key the key to check
+     * @return     true if the key indicates an array, false otherwise
      */
     private boolean isArrayKey(String key) {
         return key.contains("[") && key.contains("]");
@@ -237,9 +237,9 @@ public class JsonQuery {
     /**
      * Retrieves a JsonNode for an array based on the specified key and index.
      *
-     * @param currentNode the current JSON node
-     * @param key         the array key with an index
-     * @return the resulting JsonNode or null if not found
+     * @param  currentNode the current JSON node
+     * @param  key         the array key with an index
+     * @return             the resulting JsonNode or null if not found
      */
     private JsonNode getArrayNode(JsonNode currentNode, String key) {
         String arrayKey = key.substring(0, key.indexOf("["));
@@ -252,8 +252,8 @@ public class JsonQuery {
     /**
      * Extracts the index value from an array key.
      *
-     * @param key the array key containing an index
-     * @return the extracted index
+     * @param  key                   the array key containing an index
+     * @return                       the extracted index
      * @throws NumberFormatException if the index is not a valid integer
      */
     private int extractArrayIndex(String key) {
@@ -263,8 +263,8 @@ public class JsonQuery {
     /**
      * Retrieves a node based on a specified path.
      *
-     * @param path the path to retrieve
-     * @return the resulting JsonNode or null if not found
+     * @param  path the path to retrieve
+     * @return      the resulting JsonNode or null if not found
      */
     private JsonNode getNode(String path) {
         String[] keys = path.split("\\.");

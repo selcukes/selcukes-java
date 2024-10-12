@@ -1,11 +1,11 @@
 package io.github.selcukes.databind.tests;
 
-
 import io.github.selcukes.databind.utils.JsonQuery;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
+import java.util.Map;
 
 public class JsonQueryTest {
     private final String json = """
@@ -70,10 +70,20 @@ public class JsonQueryTest {
     }
 
     @Test
-    public void testGetValueByPath() {
+    public void testGetStringValueByPath() {
         JsonQuery jsonQuery = new JsonQuery(json);
         String author = jsonQuery.get("store.book[0].author", String.class);
         Assert.assertEquals(author, "Nigel Rees", "Author should be Nigel Rees.");
+    }
+
+    @Test
+    public void testGetMapValueByPath() {
+        JsonQuery jsonParser = new JsonQuery(json);
+        var actualBookDetails = jsonParser.get("store.book[3].details", Map.class);
+        System.out.println(actualBookDetails);
+        Map<String, Object> expectedBookDetails = Map.of("publisher", "Publisher D",
+            "year", 2024);
+        Assert.assertEquals(actualBookDetails, expectedBookDetails, "Book details do not match the expected values.");
     }
 
     @Test
@@ -99,6 +109,7 @@ public class JsonQueryTest {
         Assert.assertEquals(color.size(), 1, "Should return 1 color.");
         Assert.assertEquals(color.get(0), "red", "Color should be 'red'.");
     }
+
     @Test
     public void testGetListFromDeeplyNestedStructure() {
         JsonQuery jsonQuery = new JsonQuery(json);
@@ -107,6 +118,7 @@ public class JsonQueryTest {
         Assert.assertTrue(publishers.contains("Publisher A"), "Should contain Publisher A.");
         Assert.assertTrue(publishers.contains("Publisher B"), "Should contain Publisher B.");
     }
+
     @Test
     public void testGetListFromEmptyArray() {
         String emptyJson = "{}"; // Empty JSON
@@ -115,4 +127,3 @@ public class JsonQueryTest {
         Assert.assertTrue(emptyList.isEmpty(), "List should be empty for non-existent array.");
     }
 }
-
