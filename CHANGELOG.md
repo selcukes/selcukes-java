@@ -12,33 +12,56 @@
 
 ### Removed
 
+## [2.3.11] (13-10-2024)
+
+### Added
+
+*[All] Sonar Fixes [#376](https://github.com/selcukes/selcukes-java/pull/376)
+*[DataBind] Added support for viewing logs on expansion [#389](https://github.com/selcukes/selcukes-java/pull/389)
+*[DataBind] Added JsonQuery [#390](https://github.com/selcukes/selcukes-java/pull/390)
+
+### Changed
+
+* Updated com.fasterxml.jackson:jackson-bom to v2.17.2 [#365](https://github.com/selcukes/selcukes-java/pull/365)
+* Updated io.cucumber:cucumber-bom to v7.20.1 [#388](https://github.com/selcukes/selcukes-java/pull/388)
+* Updated net.masterthought:cucumber-reporting to v5.8.2 [#366](https://github.com/selcukes/selcukes-java/pull/366)
+* Updated org.apache.maven.plugins:maven-javadoc-plugin to
+  v3.10.1 [#385](https://github.com/selcukes/selcukes-java/pull/385)
+* Updated org.seleniumhq.selenium:selenium-bom to v4.25.0 [#380](https://github.com/selcukes/selcukes-java/pull/380)
+* Updated io.appium:java-client to v9.3.0 [#370](https://github.com/selcukes/selcukes-java/pull/370)
+* Updated org.apache.maven.plugins:maven-gpg-plugin to
+  v3.2.7 [#383](https://github.com/selcukes/selcukes-java/pull/383)
+* Updated org.apache.logging.log4j:log4j-slf4j-impl to
+  v2.24.1 [#384](https://github.com/selcukes/selcukes-java/pull/384)
+* Updated org.junit:junit-bom to v5.11.2 [#386](https://github.com/selcukes/selcukes-java/pull/386)
+
 ## [2.3.10] (07-04-2024)
 
 ### Changed
 
-* Update dependency org.apache.poi:poi-ooxml to v5.3.0 [#364] (https://github.com/selcukes/selcukes-java/pull/364)
-* update dependency org.projectlombok:lombok to v1.18.34 [#363] (https://github.com/selcukes/selcukes-java/pull/363)
-* Update dependency org.junit:junit-bom to v5.10.3 [#362] (https://github.com/selcukes/selcukes-java/pull/362)
-* Update dependency com.aventstack:extentreports to v5.1.2 [#361] (https://github.com/selcukes/selcukes-java/pull/361)
+* Update dependency org.apache.poi:poi-ooxml to v5.3.0 [#364](https://github.com/selcukes/selcukes-java/pull/364)
+* update dependency org.projectlombok:lombok to v1.18.34 [#363](https://github.com/selcukes/selcukes-java/pull/363)
+* Update dependency org.junit:junit-bom to v5.10.3 [#362](https://github.com/selcukes/selcukes-java/pull/362)
+* Update dependency com.aventstack:extentreports to v5.1.2 [#361](https://github.com/selcukes/selcukes-java/pull/361)
 * Update dependency org.seleniumhq.selenium:selenium-bom to
-  v4.22.0 [#360] (https://github.com/selcukes/selcukes-java/pull/360)
+  v4.22.0 [#360](https://github.com/selcukes/selcukes-java/pull/360)
 * Update dependency net.masterthought:cucumber-reporting to
-  v5.8.1 [#359] (https://github.com/selcukes/selcukes-java/pull/359)
+  v5.8.1 [#359](https://github.com/selcukes/selcukes-java/pull/359)
 * Update dependency org.apache.maven.plugins:maven-javadoc-plugin to
-  v3.7.0 [#358] (https://github.com/selcukes/selcukes-java/pull/358)
-* Update dependency io.appium:java-client to v9.2.3 [#357] (https://github.com/selcukes/selcukes-java/pull/357)
+  v3.7.0 [#358](https://github.com/selcukes/selcukes-java/pull/358)
+* Update dependency io.appium:java-client to v9.2.3 [#357](https://github.com/selcukes/selcukes-java/pull/357)
 * Update dependency org.sonatype.plugins:nexus-staging-maven-plugin to
-  v1.7.0 [#356] (https://github.com/selcukes/selcukes-java/pull/356)
-* Update dependency io.cucumber:cucumber-bom to v7.18.0 [#355] (https://github.com/selcukes/selcukes-java/pull/355)
+  v1.7.0 [#356](https://github.com/selcukes/selcukes-java/pull/356)
+* Update dependency io.cucumber:cucumber-bom to v7.18.0 [#355](https://github.com/selcukes/selcukes-java/pull/355)
 * Update dependency com.fasterxml.jackson:jackson-bom to
-  v2.17.1 [#354] (https://github.com/selcukes/selcukes-java/pull/354)
-* Update dependency org.testng:testng to v7.10.2 [#352] (https://github.com/selcukes/selcukes-java/pull/352)
+  v2.17.1 [#354](https://github.com/selcukes/selcukes-java/pull/354)
+* Update dependency org.testng:testng to v7.10.2 [#352](https://github.com/selcukes/selcukes-java/pull/352)
 * Update dependency org.apache.maven.plugins:maven-gpg-plugin to
-  v3.2.4 [#349] (https://github.com/selcukes/selcukes-java/pull/349)
+  v3.2.4 [#349](https://github.com/selcukes/selcukes-java/pull/349)
 * Update dependency org.apache.maven.plugins:maven-source-plugin to
-  v3.3.1 [#346] (https://github.com/selcukes/selcukes-java/pull/346)
+  v3.3.1 [#346](https://github.com/selcukes/selcukes-java/pull/346)
 * Update dependency org.apache.logging.log4j:log4j-slf4j-impl to
-  v2.23.1 [#333] (https://github.com/selcukes/selcukes-java/pull/333)
+  v2.23.1 [#333](https://github.com/selcukes/selcukes-java/pull/333)
 
 ## [2.3.9] (23-02-2024)
 
