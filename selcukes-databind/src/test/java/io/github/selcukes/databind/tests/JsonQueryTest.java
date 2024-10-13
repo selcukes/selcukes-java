@@ -18,127 +18,144 @@ package io.github.selcukes.databind.tests;
 
 import io.github.selcukes.databind.utils.JsonQuery;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
 import java.util.Map;
 
 public class JsonQueryTest {
-    private final String json = """
-            {
-               "store": {
-                 "book": [
-                   {
-                     "category": "reference",
-                     "author": "Nigel Rees",
-                     "title": "Sayings of the Century",
-                     "price": 8.95,
-                     "details": {
-                       "publisher": "Publisher A",
-                       "year": 2000
-                     }
-                   },
-                   {
-                     "category": "fiction",
-                     "author": "Evelyn Waugh",
-                     "title": "Sword of Honour",
-                     "price": 12.99,
-                     "details": {
-                       "publisher": "Publisher B",
-                       "year": 2005
-                     }
-                   },
-                   {
-                     "category": "fiction",
-                     "author": "Herman Melville",
-                     "title": "Moby Dick",
-                     "isbn": "0-553-21311-3",
-                     "price": 8.99,
-                     "details": {
-                       "publisher": "Publisher C",
-                       "year": 2006
-                     }
-                   },
-                   {
-                     "category": "fiction",
-                     "author": "J. R. R. Tolkien",
-                     "title": "The Lord of the Rings",
-                     "isbn": "0-395-19395-8",
-                     "price": 22.99,
-                     "details": {
-                       "publisher": "Publisher D",
-                       "year": 2024
+
+    private JsonQuery jsonQuery;
+
+    @BeforeMethod
+    public void setUp() {
+        String json = """
+                {
+                   "store": {
+                     "book": [
+                       {
+                         "category": "reference",
+                         "author": "Nigel Rees",
+                         "title": "Sayings of the Century",
+                         "price": 8.95,
+                         "details": {
+                           "publisher": "Publisher A",
+                           "year": 2000
+                         }
+                       },
+                       {
+                         "category": "fiction",
+                         "author": "Evelyn Waugh",
+                         "title": "Sword of Honour",
+                         "price": 12.99,
+                         "details": {
+                           "publisher": "Publisher B",
+                           "year": 2005
+                         }
+                       },
+                       {
+                         "category": "fiction",
+                         "author": "Herman Melville",
+                         "title": "Moby Dick",
+                         "isbn": "0-553-21311-3",
+                         "price": 8.99,
+                         "details": {
+                           "publisher": "Publisher C",
+                           "year": 2006
+                         }
+                       },
+                       {
+                         "category": "fiction",
+                         "author": "J. R. R. Tolkien",
+                         "title": "The Lord of the Rings",
+                         "isbn": "0-395-19395-8",
+                         "price": 22.99,
+                         "details": {
+                           "publisher": "Publisher D",
+                           "year": 2024
+                         }
+                       }
+                     ],
+                     "bicycle": {
+                       "color": "red",
+                       "price": 19.95
                      }
                    }
-                 ],
-                 "bicycle": {
-                   "color": "red",
-                   "price": 19.95
                  }
-               }
-             }
-            """;
+                """;
+        jsonQuery = new JsonQuery(json); // Initialize the JsonQuery object
+                                         // before each test
+    }
 
     @Test
-    public void testJsonQueryConstructionFromString() {
-        JsonQuery jsonQuery = new JsonQuery(json);
+    public void shouldConstructJsonQueryInstanceFromJsonString() {
         Assert.assertNotNull(jsonQuery, "JsonQuery instance should be created from JSON string.");
     }
 
     @Test
-    public void testGetStringValueByPath() {
-        JsonQuery jsonQuery = new JsonQuery(json);
+    public void shouldGetStringValueForAuthorPath() {
         String author = jsonQuery.get("store.book[0].author", String.class);
-        Assert.assertEquals(author, "Nigel Rees", "Author should be Nigel Rees.");
+        Assert.assertEquals(author, "Nigel Rees", "Expected author is 'Nigel Rees'.");
     }
 
     @Test
-    public void testGetMapValueByPath() {
-        JsonQuery jsonParser = new JsonQuery(json);
-        var actualBookDetails = jsonParser.get("store.book[3].details", Map.class);
-        Map<String, Object> expectedBookDetails = Map.of("publisher", "Publisher D",
-            "year", 2024);
-        Assert.assertEquals(actualBookDetails, expectedBookDetails, "Book details do not match the expected values.");
+    public void shouldRetrieveMapValueForDetailsPath() {
+        var actualBookDetails = jsonQuery.get("store.book[3].details", Map.class);
+        Map<String, Object> expectedBookDetails = Map.of("publisher", "Publisher D", "year", 2024);
+        Assert.assertEquals(actualBookDetails, expectedBookDetails,
+            "The book details should match the expected values.");
     }
 
     @Test
-    public void testGetMissingValue() {
-        JsonQuery jsonQuery = new JsonQuery(json);
+    public void shouldReturnNullForMissingValue() {
         String missingValue = jsonQuery.get("store.book[0].publisher", String.class);
         Assert.assertNull(missingValue, "Missing value should return null.");
     }
 
     @Test
-    public void testGetListByPath() {
-        JsonQuery jsonQuery = new JsonQuery(json);
-        List<String> titles = jsonQuery.getList("store.book[*].title");
-        Assert.assertEquals(titles.size(), 4, "Should return 4 book titles.");
-        Assert.assertTrue(titles.contains("Moby Dick"), "Titles should contain 'Moby Dick'.");
-        Assert.assertTrue(titles.contains("The Lord of the Rings"), "Titles should contain 'The Lord of the Rings'.");
+    public void shouldGetListOfBookTitles() {
+        List<String> titles = jsonQuery.getList("store.book[*].title", String.class);
+        Assert.assertEquals(titles.size(), 4, "There should be 4 book titles.");
+        Assert.assertTrue(titles.contains("Moby Dick"), "The list of titles should contain 'Moby Dick'.");
+        Assert.assertTrue(titles.contains("The Lord of the Rings"),
+            "The list of titles should contain 'The Lord of the Rings'.");
     }
 
     @Test
-    public void testGetListFromNonArrayPath() {
-        JsonQuery jsonQuery = new JsonQuery(json);
-        List<String> color = jsonQuery.getList("store.bicycle.color");
-        Assert.assertEquals(color.size(), 1, "Should return 1 color.");
-        Assert.assertEquals(color.get(0), "red", "Color should be 'red'.");
+    public void shouldRetrieveListOfDetailsForAllBooks() {
+        var bookDetails = jsonQuery.getList("store.book[*].details", Map.class);
+        Map<String, Object> expectedDetailsBook1 = Map.of("publisher", "Publisher A", "year", 2000);
+        Map<String, Object> expectedDetailsBook2 = Map.of("publisher", "Publisher B", "year", 2005);
+        Map<String, Object> expectedDetailsBook3 = Map.of("publisher", "Publisher C", "year", 2006);
+        Map<String, Object> expectedDetailsBook4 = Map.of("publisher", "Publisher D", "year", 2024);
+        Assert.assertEquals(bookDetails.size(), 4, "There should be 4 book details.");
+        Assert.assertEquals(bookDetails.get(0), expectedDetailsBook1, "Details for the first book should match.");
+        Assert.assertEquals(bookDetails.get(1), expectedDetailsBook2, "Details for the second book should match.");
+        Assert.assertEquals(bookDetails.get(2), expectedDetailsBook3, "Details for the third book should match.");
+        Assert.assertEquals(bookDetails.get(3), expectedDetailsBook4, "Details for the fourth book should match.");
     }
 
     @Test
-    public void testGetListFromDeeplyNestedStructure() {
-        JsonQuery jsonQuery = new JsonQuery(json);
-        List<String> publishers = jsonQuery.getList("store.book[*].details.publisher");
-        Assert.assertEquals(publishers.size(), 4, "Should return 2 publishers.");
-        Assert.assertTrue(publishers.contains("Publisher A"), "Should contain Publisher A.");
-        Assert.assertTrue(publishers.contains("Publisher B"), "Should contain Publisher B.");
+    public void shouldRetrieveListFromNonArrayPath() {
+        List<String> color = jsonQuery.getList("store.bicycle.color", String.class);
+        Assert.assertEquals(color.size(), 1, "There should be exactly 1 color.");
+        Assert.assertEquals(color.get(0), "red", "The color of the bicycle should be 'red'.");
     }
 
     @Test
-    public void testGetListFromEmptyArray() {
-        String emptyJson = "{}"; // Empty JSON
-        JsonQuery jsonQuery = new JsonQuery(emptyJson);
-        List<String> emptyList = jsonQuery.getList("store.book[*].title");
-        Assert.assertTrue(emptyList.isEmpty(), "List should be empty for non-existent array.");
+    public void shouldRetrievePublishersFromDeeplyNestedStructure() {
+        List<String> publishers = jsonQuery.getList("store.book[*].details.publisher", String.class);
+        Assert.assertEquals(publishers.size(), 4, "There should be 4 publishers.");
+        Assert.assertTrue(publishers.contains("Publisher A"), "Publishers should contain 'Publisher A'.");
+        Assert.assertTrue(publishers.contains("Publisher B"), "Publishers should contain 'Publisher B'.");
+    }
+
+    @Test
+    public void shouldReturnEmptyListForNonExistentArray() {
+        String emptyJson = "{}";
+        JsonQuery emptyJsonQuery = new JsonQuery(emptyJson);
+        List<String> emptyList = emptyJsonQuery.getList("store.book[*].title", String.class);
+        Assert.assertTrue(emptyList.isEmpty(), "The list should be empty for a non-existent array.");
     }
 }

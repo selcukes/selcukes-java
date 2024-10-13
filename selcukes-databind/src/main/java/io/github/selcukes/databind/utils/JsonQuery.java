@@ -76,15 +76,20 @@ public class JsonQuery {
         return (node == null || node.isMissingNode()) ? null : objectMapper.treeToValue(node, type);
     }
 
+    @SneakyThrows
+    public <T> List<T> getList(String path, Class<T> type) {
+        return getList(path).stream().map(node -> objectMapper.convertValue(node, type)).toList();
+    }
+
     /**
-     * Retrieves a list of values from the JSON document at the specified
-     * wildcard path.
+     * Retrieves a list of JsonNode values from the JSON document at the
+     * specified wildcard path.
      *
      * @param  path the wildcard path to retrieve values from
-     * @return      a list of values found at the specified path
+     * @return      a list of JsonNode found at the specified path
      */
-    public List<String> getList(String path) {
-        List<String> values = new ArrayList<>();
+    public List<JsonNode> getList(String path) {
+        List<JsonNode> values = new ArrayList<>(); // Updated to List<JsonNode>
         JsonNode currentNode = rootNode;
 
         String[] keys = path.split("\\.");
@@ -103,15 +108,39 @@ public class JsonQuery {
     }
 
     /**
+     * Retrieves a JsonNode from the specified path.
+     *
+     * @param  path the path to the node
+     * @return      the JsonNode at the specified path, or null if not found
+     */
+    public JsonNode getNode(String path) {
+        JsonNode currentNode = rootNode;
+        String[] keys = path.split("\\.");
+
+        for (String key : keys) {
+            currentNode = navigateToNode(currentNode, key);
+            if (currentNode == null || currentNode.isMissingNode()) {
+                return null;
+            }
+        }
+        return currentNode;
+    }
+
+    /**
      * Extracts values from arrays using wildcard paths.
      *
      * @param  currentNode the current JSON node
      * @param  keys        the path keys
      * @param  key         the current key being processed
      * @param  values      the list to store extracted values
-     * @return             a list of extracted values
+     * @return             a list of extracted JsonNode values
      */
-    private List<String> extractValuesFromArray(JsonNode currentNode, String[] keys, String key, List<String> values) {
+    private List<JsonNode> extractValuesFromArray(
+            JsonNode currentNode,
+            String[] keys,
+            String key,
+            List<JsonNode> values
+    ) {
         String arrayKey = extractArrayKey(key);
         var resultNode = currentNode.path(arrayKey);
 
@@ -131,13 +160,13 @@ public class JsonQuery {
      * @param node     the current JSON node being processed
      * @param values   the list to store extracted values
      */
-    private void processArrayElement(String[] keys, String arrayKey, JsonNode node, List<String> values) {
+    private void processArrayElement(String[] keys, String arrayKey, JsonNode node, List<JsonNode> values) {
         if (isLastKey(keys, arrayKey)) {
-            values.add(node.asText());
+            values.add(node);
         } else {
             JsonNode resultNode = getNodeFromSubPath(node, removeProcessedArrayKey(keys, arrayKey));
-            if (resultNode != null && resultNode.isValueNode()) {
-                values.add(resultNode.asText());
+            if (resultNode != null) {
+                values.add(resultNode);
             }
         }
     }
@@ -193,15 +222,15 @@ public class JsonQuery {
      *
      * @param  currentNode the current JSON node
      * @param  values      the list to store extracted values
-     * @return             a list of extracted values
+     * @return             a list of extracted JsonNode values
      */
-    private List<String> extractFinalValues(JsonNode currentNode, List<String> values) {
+    private List<JsonNode> extractFinalValues(JsonNode currentNode, List<JsonNode> values) {
         if (currentNode.isArray()) {
             for (JsonNode node : currentNode) {
-                values.add(node.asText());
+                values.add(node);
             }
         } else if (currentNode.isValueNode()) {
-            values.add(currentNode.asText());
+            values.add(currentNode);
         }
         return values;
     }
@@ -251,48 +280,37 @@ public class JsonQuery {
     }
 
     /**
-     * Retrieves a JsonNode for an array based on the specified key and index.
+     * Retrieves a JsonNode from an array using the provided key and index.
      *
      * @param  currentNode the current JSON node
-     * @param  key         the array key with an index
-     * @return             the resulting JsonNode or null if not found
+     * @param  key         the key to access the array
+     * @return             the JsonNode at the specified array index
      */
     private JsonNode getArrayNode(JsonNode currentNode, String key) {
         String arrayKey = key.substring(0, key.indexOf("["));
-        int index = extractArrayIndex(key);
-        currentNode = currentNode.path(arrayKey);
-
-        return (currentNode.isArray()) ? currentNode.get(index) : null;
+        int index = Integer.parseInt(key.substring(key.indexOf("[") + 1, key.indexOf("]")));
+        var arrayNode = currentNode.path(arrayKey);
+        return arrayNode.isArray() && arrayNode.size() > index ? arrayNode.get(index) : null;
     }
 
     /**
-     * Extracts the index value from an array key.
+     * Converts a JsonNode to a string representation.
      *
-     * @param  key                   the array key containing an index
-     * @return                       the extracted index
-     * @throws NumberFormatException if the index is not a valid integer
+     * @param  node the JsonNode to convert
+     * @return      the string representation of the JsonNode
      */
-    private int extractArrayIndex(String key) {
-        return Integer.parseInt(key.substring(key.indexOf("[") + 1, key.indexOf("]")));
+    @SneakyThrows
+    public String toString(JsonNode node) {
+        return objectMapper.writeValueAsString(node);
     }
 
     /**
-     * Retrieves a node based on a specified path.
+     * Converts the root node of the JSON to a string representation.
      *
-     * @param  path the path to retrieve
-     * @return      the resulting JsonNode or null if not found
+     * @return the string representation of the root node
      */
-    private JsonNode getNode(String path) {
-        String[] keys = path.split("\\.");
-        JsonNode currentNode = rootNode;
-
-        for (String key : keys) {
-            currentNode = navigateToNode(currentNode, key);
-            if (currentNode == null || currentNode.isMissingNode()) {
-                return null;
-            }
-        }
-        return currentNode;
+    @SneakyThrows
+    public String toString() {
+        return toString(rootNode);
     }
-
 }
