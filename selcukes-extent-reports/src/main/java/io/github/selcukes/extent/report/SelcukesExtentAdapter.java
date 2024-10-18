@@ -108,7 +108,7 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     }
 
     public static synchronized void addTestStepLog(final String message) {
-        if (isNonEmpty(message)) {
+        if (isNonEmpty(message) && stepTestThreadLocal.get() != null) {
             stepTestThreadLocal.get().info(message);
         }
     }
