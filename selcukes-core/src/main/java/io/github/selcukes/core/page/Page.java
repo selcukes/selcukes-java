@@ -753,7 +753,7 @@ public interface Page {
      * @return         A list of strings.
      */
     default List<String> attributeValues(Object locator, String name) {
-        return getValues(locator, e -> e.getAttribute(name));
+        return getValues(locator, e -> e.getDomAttribute(name));
     }
 
     /**

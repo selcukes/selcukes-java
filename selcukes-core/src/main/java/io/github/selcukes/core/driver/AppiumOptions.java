@@ -29,8 +29,8 @@ import org.openqa.selenium.WebElement;
 @UtilityClass
 public class AppiumOptions {
     public MutableCapabilities getWinAppOptions(WebElement element) {
-        String appTopLevelWindow = element.getAttribute("NativeWindowHandle");
-        Preconditions.checkArgument(!appTopLevelWindow.isEmpty(),
+        String appTopLevelWindow = element.getDomAttribute("NativeWindowHandle");
+        Preconditions.checkArgument(StringHelper.isNonEmpty(appTopLevelWindow),
             "The found window does not have NativeWindowHandle property");
         String windowIdToHex = StringHelper.toHex(appTopLevelWindow);
         var options = new WindowsOptions();
