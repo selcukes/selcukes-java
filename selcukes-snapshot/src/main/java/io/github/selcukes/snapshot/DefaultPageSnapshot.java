@@ -45,7 +45,7 @@ class DefaultPageSnapshot {
 
     protected <X> X getDefaultPageSnapshot(OutputType<X> outputType) {
         screenOptions = getScreenOptions();
-        BufferedImage defaultPageScreenshot = defaultPageScreenshot();
+        var defaultPageScreenshot = defaultPageScreenshot();
         return outputType.convertFromPngBytes(ImageUtil.toByteArray(defaultPageScreenshot));
     }
 
@@ -108,8 +108,8 @@ class DefaultPageSnapshot {
         int winH = getWindowHeight();
         int scrollTimes = allH / winH;
         int tail = allH - winH * scrollTimes;
-        BufferedImage finalImage = new BufferedImage(allW, allH, BufferedImage.TYPE_4BYTE_ABGR);
-        Graphics2D graphics = finalImage.createGraphics();
+        var finalImage = new BufferedImage(allW, allH, BufferedImage.TYPE_4BYTE_ABGR);
+        var graphics = finalImage.createGraphics();
         for (int n = 0; n < scrollTimes; n++) {
             executeJS("scrollTo(0, arguments[0])", winH * n);
             waitForScrolling();
@@ -128,9 +128,9 @@ class DefaultPageSnapshot {
     }
 
     public BufferedImage captureAddressBar(int width) {
-        Rectangle screenRectangle = new Rectangle(0, 0, width, 70);
+        var screenRectangle = new Rectangle(0, 0, width, 70);
         try {
-            Robot robot = new Robot();
+            var robot = new Robot();
             return robot.createScreenCapture(screenRectangle);
         } catch (AWTException e) {
             throw new SnapshotException("Failed capturing Browser address bar...", e);
