@@ -114,12 +114,13 @@ public class SelcukesExtentAdapter implements ConcurrentEventListener {
     }
 
     public static synchronized void attachVideo(byte[] video) {
-        stepTestThreadLocal.get().addVideoFromBase64String(Base64.getEncoder().encodeToString(video));
+        stepTestThreadLocal.get().info("", MediaEntityBuilder
+                .createVideoFromBase64String(Base64.getEncoder().encodeToString(video)).build());
     }
 
     public static void attachScreenshot(byte[] screenshot) {
-
-        stepTestThreadLocal.get().addScreenCaptureFromBase64String(Base64.getEncoder().encodeToString(screenshot));
+        stepTestThreadLocal.get().info("", MediaEntityBuilder
+                .createScreenCaptureFromBase64String(Base64.getEncoder().encodeToString(screenshot)).build());
     }
 
     @Override

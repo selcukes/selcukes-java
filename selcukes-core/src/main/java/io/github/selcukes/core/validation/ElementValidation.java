@@ -73,7 +73,7 @@ public class ElementValidation {
 
     public ElementValidation attributeValueAs(String attribute, String expectedValue) {
         logger.info(() -> String.format("Verifying attribute [%s] value as [%s]", attribute, expectedValue));
-        String actual = element.getAttribute(attribute);
+        String actual = element.getDomAttribute(attribute);
         if (!actual.equalsIgnoreCase(expectedValue)) {
             failWithMessage(isSoft, "Expected element [%s] should have [%s] attribute with value [%s] but was [%s]",
                 elementLocator, attribute, expectedValue, actual);

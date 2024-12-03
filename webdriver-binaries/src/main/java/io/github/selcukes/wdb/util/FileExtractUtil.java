@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
 import java.util.zip.GZIPInputStream;
-
+@SuppressWarnings("all")
 public final class FileExtractUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(FileExtractUtil.class);

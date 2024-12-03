@@ -40,8 +40,8 @@ class PageSnapshot extends DefaultPageSnapshot {
         unwrapDriver();
         if (driver instanceof HasCdp) {
             return getFullScreenshot(outputType);
-        } else if (driver instanceof FirefoxDriver) {
-            return ((FirefoxDriver) driver).getFullPageScreenshotAs(outputType);
+        } else if (driver instanceof FirefoxDriver firefoxDriver) {
+            return firefoxDriver.getFullPageScreenshotAs(outputType);
         } else {
             return getDefaultPageSnapshot(outputType);
         }
@@ -74,9 +74,8 @@ class PageSnapshot extends DefaultPageSnapshot {
     }
 
     private void unwrapDriver() {
-        WebDriver webDriver = driver;
-        if (driver instanceof WrapsDriver) {
-            driver = ((WrapsDriver) webDriver).getWrappedDriver();
+        if (driver instanceof WrapsDriver wrapsDriver) {
+            driver = wrapsDriver.getWrappedDriver();
         }
         if (driver instanceof RemoteWebDriver) {
             driver = new Augmenter().augment(driver);
