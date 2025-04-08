@@ -39,7 +39,7 @@
         <testng.version>7.11.0</testng.version>
         <junit.version>5.12.1</junit.version>
 
-        <lombok.version>1.18.36</lombok.version>
+        <lombok.version>1.18.38</lombok.version>
         <jackson.version>2.18.3</jackson.version>
 
         <poi.version>5.4.1</poi.version>
