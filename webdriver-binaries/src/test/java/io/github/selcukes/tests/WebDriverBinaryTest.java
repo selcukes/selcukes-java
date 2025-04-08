@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
 
 import static java.lang.System.getProperty;
 import static org.testng.Assert.assertEquals;
-
+ @SuppressWarnings("all")
 public class WebDriverBinaryTest {
     private final Logger logger = LoggerFactory.getLogger(WebDriverBinaryTest.class);
 
