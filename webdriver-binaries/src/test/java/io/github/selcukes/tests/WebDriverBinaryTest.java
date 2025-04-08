@@ -31,7 +31,7 @@ import static org.testng.Assert.assertEquals;
 public class WebDriverBinaryTest {
     private final Logger logger = LoggerFactory.getLogger(WebDriverBinaryTest.class);
 
-    @Test(
+    @Test
     public void chromeDriverTest() {
         BinaryInfo binaryInfo = WebDriverBinary.chromeDriver().setup();
         String binProp = binaryInfo.binaryProperty();
