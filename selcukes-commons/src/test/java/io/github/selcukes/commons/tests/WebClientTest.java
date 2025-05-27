@@ -51,7 +51,7 @@ public class WebClientTest {
         assertTrue(responseBody.at("/files").has("sample.csv"));
     }
 
-    @Test
+    @Test(enabled = false)
     public void requestTest() {
         var client = new WebClient("https://reqres.in/api");
         var responseBody = client.endpoint("/users/2").get().bodyJson();

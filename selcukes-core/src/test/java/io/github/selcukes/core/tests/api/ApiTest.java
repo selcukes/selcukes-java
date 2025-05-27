@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 
 @CustomLog
 public class ApiTest {
-    @Test
+    @Test(enabled = false)
     public void authTest() {
         String user = "{\n" +
                 "    \"email\": \"eve.holt@reqres.in\",\n" +
