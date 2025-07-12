@@ -5,10 +5,13 @@
     <parent>
         <artifactId>selcukes-parent</artifactId>
         <groupId>io.github.selcukes</groupId>
-        <version>2.3.13-SNAPSHOT</version>
+        <version>2.3.14</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>video-recorder</artifactId>
+    <name>video-recorder</name>
+    <description>Selcukes screen recorder</description>
+
     <dependencyManagement>
         <dependencies>
             <dependency>

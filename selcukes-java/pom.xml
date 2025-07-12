@@ -5,11 +5,13 @@
     <parent>
         <artifactId>selcukes-parent</artifactId>
         <groupId>io.github.selcukes</groupId>
-        <version>2.3.13-SNAPSHOT</version>
+        <version>2.3.14</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>selcukes-java</artifactId>
+    <name>selcukes-java</name>
+    <description>Selcukes Java</description>
     <dependencyManagement>
         <dependencies>
             <dependency>
