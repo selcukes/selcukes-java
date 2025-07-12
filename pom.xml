@@ -67,7 +67,7 @@
         <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
         <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
         <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
-        <central.sonatype>0.8.0</central.sonatype>
+        <central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
     </properties>
 
     <licenses>
@@ -195,7 +195,7 @@
     </dependencyManagement>
     <profiles>
         <profile>
-            <!-- Activate the profile by running e.g. mvn clean deploy -DperformRelease=true -->
+            <!-- Activate the profile by running e.g. mvn clean deploy -P release -DskipTests -->
             <id>release</id>
             <activation>
                 <property>
@@ -259,7 +259,7 @@
                         <!-- Central Publishing Plugin for Maven Central deployment -->
                         <groupId>org.sonatype.central</groupId>
                         <artifactId>central-publishing-maven-plugin</artifactId>
-                        <version>${central.sonatype}</version>
+                        <version>${central-publishing-maven-plugin.version}</version>
                         <extensions>true</extensions>
                         <configuration>
                             <publishingServerId>central</publishingServerId>
