@@ -20,14 +20,12 @@ import io.github.selcukes.commons.logging.Logger;
 import io.github.selcukes.commons.logging.LoggerFactory;
 import io.github.selcukes.wdb.BinaryInfo;
 import io.github.selcukes.wdb.WebDriverBinary;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.Test;
 
 import static java.lang.System.getProperty;
 import static org.testng.Assert.assertEquals;
- @SuppressWarnings("all")
+
+@SuppressWarnings("all")
 public class WebDriverBinaryTest {
     private final Logger logger = LoggerFactory.getLogger(WebDriverBinaryTest.class);
 
