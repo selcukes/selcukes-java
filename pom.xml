@@ -42,7 +42,7 @@
         <lombok.version>1.18.42</lombok.version>
         <jackson.version>2.20.1</jackson.version>
 
-        <poi.version>5.5.0</poi.version>
+        <poi.version>5.5.1</poi.version>
         <cucumber-reporting.version>5.10.1</cucumber-reporting.version>
         <extentreports.version>5.1.2</extentreports.version>
         <recorder.version>0.7.7.0</recorder.version>
