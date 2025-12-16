@@ -47,7 +47,7 @@
         <extentreports.version>5.1.2</extentreports.version>
         <recorder.version>0.7.7.0</recorder.version>
         <mail.version>2.0.2</mail.version>
-        <slfj4.version>2.25.2</slfj4.version>
+        <slfj4.version>2.25.3</slfj4.version>
 
         <!-- sonar -->
         <sonar.organization>selcukes</sonar.organization>
