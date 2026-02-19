@@ -6,34 +6,43 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: read
+  packages: read
+  security-events: write
+
 jobs:
   build:
     name: Build
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
     strategy:
       matrix:
         os: [ ubuntu-latest ]
         java: [ 17, 21 ]
 
     steps:
-      # Pin to immutable SHA to prevent supply chain attacks via compromised tags
+      # actions/checkout latest v6 → v6.0.1
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6.0.1
         with:
           fetch-depth: 0
 
-      # Mask ALL secrets before any step can accidentally expose them
+      # Secrets passed as env vars — never expanded inline in run block
       - name: Mask secrets
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
         run: |
-          echo "::add-mask::${{ secrets.SONAR_TOKEN }}"
-          echo "::add-mask::${{ secrets.BROWSERSTACK_USERNAME }}"
-          echo "::add-mask::${{ secrets.BROWSERSTACK_ACCESS_KEY }}"
+          echo "::add-mask::$SONAR_TOKEN"
+          echo "::add-mask::$BROWSERSTACK_USERNAME"
+          echo "::add-mask::$BROWSERSTACK_ACCESS_KEY"
 
-      # setup-java auto-generates ~/.m2/settings.xml with BrowserStack credentials.
-      # server-username and server-password are env var NAMES (not values),
-      # which Maven resolves at runtime — secrets never appear in any file or log.
+      # actions/setup-java latest v5 → v5.1.0
+      # Auto-generates ~/.m2/settings.xml — no settings.xml needed in repo
       - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e  # v5.1.0
         with:
           distribution: 'corretto'
           java-version: ${{ matrix.java }}
@@ -41,7 +50,7 @@ jobs:
           server-username: BROWSERSTACK_USERNAME
           server-password: BROWSERSTACK_ACCESS_KEY
 
-      # Verify GPG key fingerprint before trusting; fail loudly on mismatch or HTTP error
+      # Verify GPG key fingerprint before trusting — fail loudly on mismatch
       - name: Install Edge on Linux
         if: matrix.os == 'ubuntu-latest'
         run: |
@@ -61,22 +70,22 @@ jobs:
           rm -f microsoft.asc microsoft.gpg
           sudo apt-get update -q && sudo apt-get install -y microsoft-edge-beta
 
+      # actions/cache latest v5 — pin SHA from your repo's release page
       - name: Cache SonarCloud packages
-        uses: actions/cache@v5
+        uses: actions/cache@v5  # TODO: replace with full SHA from github.com/actions/cache/releases
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
       - name: Cache Maven packages
-        uses: actions/cache@v5
+        uses: actions/cache@v5  # TODO: replace with full SHA from github.com/actions/cache/releases
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      # Secrets passed as env vars — Maven resolves them via the auto-generated
-      # settings.xml produced by setup-java above. Nothing passed as CLI -D argument.
+      # Secrets injected as env vars — Maven reads via setup-java auto-generated settings.xml
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
