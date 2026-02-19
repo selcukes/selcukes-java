@@ -1,49 +1,97 @@
 name: Selcukes CI
+
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: read
+  packages: read
+  security-events: write
+
 jobs:
   build:
     name: Build
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
     strategy:
       matrix:
         os: [ ubuntu-latest ]
         java: [ 17, 21 ]
+
     steps:
-      - uses: actions/checkout@v6
+      # Pin to immutable SHA to prevent supply chain attacks via compromised tags
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
           fetch-depth: 0
+
+      # Mask ALL secrets before any step can accidentally expose them
+      - name: Mask secrets
+        run: |
+          echo "::add-mask::${{ secrets.SONAR_TOKEN }}"
+          echo "::add-mask::${{ secrets.BROWSERSTACK_USERNAME }}"
+          echo "::add-mask::${{ secrets.BROWSERSTACK_ACCESS_KEY }}"
+
+      # setup-java auto-generates ~/.m2/settings.xml with BrowserStack credentials.
+      # server-username and server-password are env var NAMES (not values),
+      # which Maven resolves at runtime — secrets never appear in any file or log.
       - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00  # v4.7.1
         with:
           distribution: 'corretto'
           java-version: ${{ matrix.java }}
+          server-id: browserstack
+          server-username: BROWSERSTACK_USERNAME
+          server-password: BROWSERSTACK_ACCESS_KEY
+
+      # Verify GPG key fingerprint before trusting; fail loudly on mismatch or HTTP error
       - name: Install Edge on Linux
         if: matrix.os == 'ubuntu-latest'
         run: |
-          curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+          curl -fsSL https://packages.microsoft.com/keys/microsoft.asc -o microsoft.asc
+          FINGERPRINT=$(gpg --with-colons --import-options show-only --import microsoft.asc \
+            | awk -F: '/^fpr/ { print $10; exit }')
+          EXPECTED="BC528686B50D79E339D3721CEB3E94ADBE1229CF"
+          if [ "$FINGERPRINT" != "$EXPECTED" ]; then
+            echo "ERROR: GPG key fingerprint mismatch! Got $FINGERPRINT, expected $EXPECTED"
+            rm -f microsoft.asc
+            exit 1
+          fi
+          gpg --dearmor < microsoft.asc > microsoft.gpg
           sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
-          sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge-dev.list'
-          sudo rm microsoft.gpg
-          sudo apt update && sudo apt install microsoft-edge-beta
+          sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" \
+            > /etc/apt/sources.list.d/microsoft-edge-dev.list'
+          rm -f microsoft.asc microsoft.gpg
+          sudo apt-get update -q && sudo apt-get install -y microsoft-edge-beta
+
       - name: Cache SonarCloud packages
-        uses: actions/cache@v5
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684  # v4.2.3
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
       - name: Cache Maven packages
-        uses: actions/cache@v5
+        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684  # v4.2.3
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+
+      # Secrets passed as env vars — Maven resolves them via the auto-generated
+      # settings.xml produced by setup-java above. Nothing passed as CLI -D argument.
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=selcukes_selcukes-java -Dbrowserstack.user=${{ secrets.BROWSERSTACK_USERNAME }} -Dbrowserstack.key=${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+        run: |
+          mvn -B \
+            -DtrimStackTrace=true \
+            -q verify \
+            org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            -Dsonar.projectKey=selcukes_selcukes-java
