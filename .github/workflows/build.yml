@@ -50,11 +50,16 @@ jobs:
           server-username: BROWSERSTACK_USERNAME
           server-password: BROWSERSTACK_ACCESS_KEY
 
-      # Verify GPG key fingerprint before trusting — fail loudly on mismatch
+      # HTTPS strictly enforced via --proto and --tlsv1.2 on curl
+      # GPG fingerprint verified before trusting the key
+      # apt-transport-https ensures apt uses HTTPS — prevents HTTP redirects
+      # signed-by= pins the repo to the verified Microsoft key specifically
       - name: Install Edge on Linux
         if: matrix.os == 'ubuntu-latest'
         run: |
-          curl -fsSL https://packages.microsoft.com/keys/microsoft.asc -o microsoft.asc
+          curl -fsSL --proto '=https' --tlsv1.2 \
+            https://packages.microsoft.com/keys/microsoft.asc -o microsoft.asc
+
           FINGERPRINT=$(gpg --with-colons --import-options show-only --import microsoft.asc \
             | awk -F: '/^fpr/ { print $10; exit }')
           EXPECTED="BC528686B50D79E339D3721CEB3E94ADBE1229CF"
@@ -63,14 +68,20 @@ jobs:
             rm -f microsoft.asc
             exit 1
           fi
+
           gpg --dearmor < microsoft.asc > microsoft.gpg
-          sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
-          sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" \
-            > /etc/apt/sources.list.d/microsoft-edge-dev.list'
+          sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
           rm -f microsoft.asc microsoft.gpg
+
+          # Enforce HTTPS transport for apt — prevents redirect to insecure HTTP
+          sudo apt-get install -y apt-transport-https
+
+          # signed-by= ties this repo to the verified Microsoft key only
+          echo "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/microsoft.gpg] https://packages.microsoft.com/repos/edge stable main" \
+            | sudo tee /etc/apt/sources.list.d/microsoft-edge.list > /dev/null
+
           sudo apt-get update -q && sudo apt-get install -y microsoft-edge-beta
 
-      # actions/cache latest v5 — pin SHA from your repo's release page
       - name: Cache SonarCloud packages
         uses: actions/cache@v5  # TODO: replace with full SHA from github.com/actions/cache/releases
         with:
