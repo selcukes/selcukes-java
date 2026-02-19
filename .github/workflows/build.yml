@@ -33,7 +33,7 @@ jobs:
       # server-username and server-password are env var NAMES (not values),
       # which Maven resolves at runtime — secrets never appear in any file or log.
       - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v6
+        uses: actions/setup-java@v5
         with:
           distribution: 'corretto'
           java-version: ${{ matrix.java }}
@@ -62,14 +62,14 @@ jobs:
           sudo apt-get update -q && sudo apt-get install -y microsoft-edge-beta
 
       - name: Cache SonarCloud packages
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684  # v4.2.3
+        uses: actions/cache@v5
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
 
       - name: Cache Maven packages
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684  # v4.2.3
+        uses: actions/cache@v5
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
