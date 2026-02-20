@@ -1,49 +1,111 @@
 name: Selcukes CI
+
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: read
+  packages: read
+  security-events: write
+
 jobs:
   build:
     name: Build
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
     strategy:
       matrix:
         os: [ ubuntu-latest ]
         java: [ 17, 21 ]
+
     steps:
-      - uses: actions/checkout@v6
+      # actions/checkout latest v6 → v6.0.1
+      - name: Checkout repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6.0.1
         with:
           fetch-depth: 0
+
+      # Secrets passed as env vars — never expanded inline in run block
+      - name: Mask secrets
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+        run: |
+          echo "::add-mask::$SONAR_TOKEN"
+          echo "::add-mask::$BROWSERSTACK_USERNAME"
+          echo "::add-mask::$BROWSERSTACK_ACCESS_KEY"
+
+      # actions/setup-java latest v5 → v5.1.0
+      # Auto-generates ~/.m2/settings.xml — no settings.xml needed in repo
       - name: Set up JDK ${{ matrix.java }}
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e  # v5.1.0
         with:
           distribution: 'corretto'
           java-version: ${{ matrix.java }}
+          server-id: browserstack
+          server-username: BROWSERSTACK_USERNAME
+          server-password: BROWSERSTACK_ACCESS_KEY
+
+      # HTTPS strictly enforced via --proto and --tlsv1.2 on curl
+      # GPG fingerprint verified before trusting the key
+      # apt-transport-https ensures apt uses HTTPS — prevents HTTP redirects
+      # signed-by= pins the repo to the verified Microsoft key specifically
       - name: Install Edge on Linux
         if: matrix.os == 'ubuntu-latest'
         run: |
-          curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-          sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
-          sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge-dev.list'
-          sudo rm microsoft.gpg
-          sudo apt update && sudo apt install microsoft-edge-beta
+          curl -fsSL --proto '=https' --tlsv1.2 \
+            https://packages.microsoft.com/keys/microsoft.asc -o microsoft.asc
+
+          FINGERPRINT=$(gpg --with-colons --import-options show-only --import microsoft.asc \
+            | awk -F: '/^fpr/ { print $10; exit }')
+          EXPECTED="BC528686B50D79E339D3721CEB3E94ADBE1229CF"
+          if [ "$FINGERPRINT" != "$EXPECTED" ]; then
+            echo "ERROR: GPG key fingerprint mismatch! Got $FINGERPRINT, expected $EXPECTED"
+            rm -f microsoft.asc
+            exit 1
+          fi
+
+          gpg --dearmor < microsoft.asc > microsoft.gpg
+          sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+          rm -f microsoft.asc microsoft.gpg
+
+          # Enforce HTTPS transport for apt — prevents redirect to insecure HTTP
+          sudo apt-get install -y apt-transport-https
+
+          # signed-by= ties this repo to the verified Microsoft key only
+          echo "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/microsoft.gpg] https://packages.microsoft.com/repos/edge stable main" \
+            | sudo tee /etc/apt/sources.list.d/microsoft-edge.list > /dev/null
+
+          sudo apt-get update -q && sudo apt-get install -y microsoft-edge-beta
+
       - name: Cache SonarCloud packages
-        uses: actions/cache@v5
+        uses: actions/cache@v5  
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
       - name: Cache Maven packages
-        uses: actions/cache@v5
+        uses: actions/cache@v5  
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+
+      # Secrets injected as env vars — Maven reads via setup-java auto-generated settings.xml
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=selcukes_selcukes-java -Dbrowserstack.user=${{ secrets.BROWSERSTACK_USERNAME }} -Dbrowserstack.key=${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+        run: |
+          mvn -B \
+            -DtrimStackTrace=true \
+            -q verify \
+            org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+            -Dsonar.projectKey=selcukes_selcukes-java
