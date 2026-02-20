@@ -16,7 +16,7 @@ jobs:
     continue-on-error: true
     name: Analyze the repo with CodeSee
     steps:
-      - uses: Codesee-io/codesee-action@v2
+      - uses: Codesee-io/codesee-action@db076ce4b205a08da4d95bbefb3e278a958a4799
         with:
           codesee-token: ${{ secrets.CODESEE_ARCH_DIAG_API_TOKEN }}
           codesee-url: https://app.codesee.io
