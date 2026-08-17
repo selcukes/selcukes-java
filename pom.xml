@@ -33,7 +33,7 @@
     <inceptionYear>2019</inceptionYear>
 
     <properties>
-        <cucumber.version>7.34.3</cucumber.version>
+        <cucumber.version>7.34.7</cucumber.version>
         <selenium.version>4.44.0</selenium.version>
         <appium.version>10.1.1</appium.version>
         <testng.version>7.12.0</testng.version>
